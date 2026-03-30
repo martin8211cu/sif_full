@@ -58,6 +58,12 @@
 
             <cfset info = obtenerInformacionCuenta(arguments.cuentaid)>
             <cfset cuenta.info = info>
+            
+            <cfif trim(cuenta.TIPO) eq "D">
+                <cfset cuenta.resumenventas = obtenerResumenTransacciones(arguments.cuentaid)>
+                <cfset cuenta.premioventas = obtenerBonos(qCuenta.Numero, cuenta.CorteCerrado)>
+
+            </cfif>
 
             <cfif cuenta.TIPO eq "TC">
                 <cfset tarjetas = obtenerTarjetas(arguments.cuentaid)>
@@ -285,7 +291,14 @@
                             from CRCMovimientoCuentaCorte 
                             where corte='#rsUltimoCorteCerrado.Corte#' and CRCCuentasid = #rsUltimoCorteCerrado.Cuentaid# and Ecodigo = #this.Ecodigo#;
                     </cfquery>
-                    <cfset newDescuento = getPorcientoDescuento(fechaPago=NewCycleStartDate,categoriaid=rsUltimoCorteCerrado.CRCCategoriaDistid,codigoCorte='#q_CortePago.codigo#')>
+                    <cfset objCuenta = createObject("component","crc.Componentes.CRCCuentas")>
+                    <cfset newDescuento = objCuenta.getPorcientoDescuento(
+                        fechaPago=NewCycleStartDate,
+                        categoriaid=rsUltimoCorteCerrado.CRCCategoriaDistid,
+                        codigoCorte='#q_CortePago.codigo#',
+                        conexion="#this.DSN#",
+                        ecodigo=this.Ecodigo
+                    )>
                     <cfif newDescuento gt Max_Descuento> 
                         <cfset Max_Descuento = newDescuento> 
                     </cfif>
@@ -309,42 +322,74 @@
         </cfif>
 	</cffunction>
 
-	<cffunction name="getPorcientoDescuento" returntype="numeric">
-		<cfargument name="fechaPago" type="date" required="true">
-		<cfargument name="categoriaid" type="integer" required="true">
-		<cfargument name="codigoCorte" type="string" required="true">
+    <cffunction name="obtenerResumenTransacciones" access="public" returntype="array">
+        <cfargument name="cuentaid" required="true" >
+        <cfargument name="meses" required="false" default="3" type="numeric">
+        <cfargument name="tipoTransaccion" required="false" default="VC" type="string">
 
-		<cfquery name="rsCategoria" datasource="#this.DSN#">
-			select DescuentoInicial , PenalizacionDia
-			from CRCCategoriaDist where Ecodigo = #this.Ecodigo# and id = #Arguments.categoriaid#
-		</cfquery>
+        <cfquery name="qResumenTransacciones" datasource="#this.DSN#">
+            DECLARE @CuentaId INT = #Arguments.cuentaid#;
+            DECLARE @Meses   INT = #Arguments.meses#;
+            DECLARE @TipoTran VARCHAR(10) = '#Arguments.tipoTransaccion#';
 
-		<cfquery name="rsCorte" datasource="#this.DSN#">
-			select Codigo, FechaInicio, FechaFin
-			from CRCCortes where Ecodigo = #this.Ecodigo# and codigo = '#arguments.codigoCorte#'
-		</cfquery>
+            DECLARE @InicioMesActual DATE = DATEFROMPARTS(YEAR(GETDATE()), MONTH(GETDATE()), 1);
 
-		<cfif rsCategoria.recordcount eq 0 or rsCorte.recordcount eq 0>
-			<cfreturn 0>
-		</cfif>
+            ;WITH Meses AS (
+                SELECT 0 AS MesOffset, @InicioMesActual AS MesInicio
+                UNION ALL
+                SELECT 
+                    MesOffset + 1,
+                    DATEADD(MONTH, -1, MesInicio)
+                FROM Meses
+                WHERE MesOffset + 1 < @Meses
+            ),
+            TxMes AS (
+                SELECT
+                    A.CRCCuentasid,
+                    DATEFROMPARTS(YEAR(A.Fecha), MONTH(A.Fecha), 1) AS MesInicio,
+                    SUM(A.Monto) AS Monto
+                FROM CRCTransaccion A
+                WHERE A.TipoTransaccion = @TipoTran
+                AND A.CRCCuentasid = @CuentaId
+                AND A.Fecha >= DATEADD(MONTH, -(@Meses - 1), @InicioMesActual)
+                GROUP BY 
+                    A.CRCCuentasid,
+                    DATEFROMPARTS(YEAR(A.Fecha), MONTH(A.Fecha), 1)
+            )
+            SELECT
+                C.id AS CuentaId,
+                CONVERT(char(7), M.MesInicio, 126) AS Mes, -- yyyy-MM
+                ISNULL(T.Monto, 0) AS Monto
+            FROM CRCCuentas C
+            INNER JOIN Meses M ON 1 = 1
+            LEFT JOIN TxMes T
+                ON T.CRCCuentasid = C.id
+            AND T.MesInicio = M.MesInicio
+            WHERE C.id = @CuentaId
+            ORDER BY M.MesInicio DESC
+            OPTION (MAXRECURSION 1000);
+        </cfquery>
 
-		<cfset crcParametros = createobject("component","crc.Componentes.CRCParametros")>
-		<cfset diasPenDesc = crcParametros.GetParametro(codigo='30006101',conexion=this.DSN,ecodigo=this.Ecodigo)>
-		<cfset descIni = rscategoria.DescuentoInicial>
-		<cfset penDia = rscategoria.PenalizacionDia>
-		<cfset fechaFinCorte = dateFormat(rsCorte.FechaFin,"yyyy-mm-dd")>
-		
-		<cfset fechaPago = dateFormat(arguments.fechaPago,"yyyy-mm-dd")>
+        <cfreturn this.db.queryToArray(qResumenTransacciones)>
+    </cffunction>
 
-		<cfset difFecha = datediff("d",fechaPago,fechaFinCorte)+1>
+    <cffunction name="obtenerBonos" access="public" returntype="struct">
+        <cfargument name="Numero" required="true" >
+        <cfargument name="CodCorte" required="true" >
 
-		<cfif difFecha + 1 gte diasPenDesc>
-			<cfreturn descIni>
-		<cfelseif difFecha + 1 eq (diasPenDesc - 1)>
-			<cfreturn descIni - (((diasPenDesc - 1)  - difFecha)*penDia)>
-		<cfelse>
-			<cfreturn 0>
-		</cfif>
+        <cfquery name="q_Corte"  datasource="#this.DSN#">
+            select fechainicio, fechafin, tipo from CRCCortes where codigo = '#arguments.CodCorte#' and ecodigo = #this.Ecodigo#
+        </cfquery>
 
-	</cffunction>
+        <cfquery name="q_bonos" datasource="#this.DSN#">													
+            SELECT Cuenta, SUM(Bono) AS Bono, Mes_Venta 
+            FROM CRC_ReporteBonos
+            WHERE Mes_Venta = '#DateFormat(DateAdd('m', -1, q_Corte.fechafin), "yyyy-MM")#'
+                AND Cuenta = '#arguments.Numero#'
+            GROUP BY Cuenta, Mes_Venta
+        </cfquery>
+        <cfset result = this.db.queryRowToStruct(q_bonos, 1)>
+
+        <cfreturn result>
+    </cffunction>
 </cfcomponent>
