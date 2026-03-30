@@ -57,4 +57,35 @@
 
         <cfcontent type="application/pdf" file="#filePath#" deletefile="false" reset="true">
     </cffunction>
+    
+    <cffunction name="recibosPagos" restPath="/recibos/{corte}/{cuentaid}" access="remote"   httpMethod="GET" returntype="struct" returnformat="JSON" produces="application/json">
+        <cfargument name="corte"  required="true"  type="string" restArgName="corte"  restArgSource="path">
+        <cfargument name="cuentaid"  required="true"  type="string" restArgName="cuentaid"  restArgSource="path">
+
+        <cfset createObject("component","WS.crc.Auth").ValidateApiKey()>
+
+        <cfset codCorte = arguments.corte>
+        <cfset vsPath_R = "#ExpandPath(GetContextRoot())#">
+        <cfset dirPath="#vsPath_R#\DocCortes\#codCorte#\">
+        
+        <cfset fileName="#arguments.corte#_#arguments.cuentaid#RP">
+        <cfset filePath="#dirPath##fileName#.pdf">
+        <cfif !FileExists(filePath)>
+            <cfset objEstadoCuenta = createObject( "component","crc.Componentes.CRCEstadosCuenta")>
+            
+            <cfset pdf = objEstadoCuenta.createReciboPago(
+                    CodigoSelect	= "#arguments.corte#"
+                ,	CuentaId		= "#arguments.cuentaid#"
+                ,	dsn				= dsn
+                ,	ecodigo			= ecodigo
+                ,	saveAs			= "#fileName#"
+                )>
+        </cfif>
+
+        <cfif !FileExists(filePath)>
+            <cfthrow message="El recibo de pago no existe."> 
+        </cfif>
+
+        <cfcontent type="application/pdf" file="#filePath#" deletefile="false" reset="true">
+    </cffunction>
 </cfcomponent>
