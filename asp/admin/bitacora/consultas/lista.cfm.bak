@@ -1,0 +1,92 @@
+﻿<cf_templateheader title="Consulta de Modificaciones">
+<cfinclude template="/home/menu/pNavegacion.cfm">
+
+	<cfparam name="url.filtro_bitacoraid" default="">
+	<cfparam name="url.filtro_fecha" default="">
+	<cfparam name="url.filtro_oper" default="">
+	<cfparam name="url.filtro_tabla" default="">
+	<cfparam name="url.filtro_pk" default="">
+	<cfparam name="url.filtro_ak" default="">
+	<cfparam name="url.filtro_descripcion" default="">
+
+<cfquery datasource="aspmonitor" name="lista">
+	<cf_dbrowcount1 rows = "1000" datasource="aspmonitor">
+	select
+		b.bitacoraid, b.fecha,
+		case b.oper
+			when 'I' then 'insert'
+			when 'U' then 'update'
+			when 'D' then 'delete'
+			else b.oper
+		end as oper,
+		b.tabla,
+		b.pk, b.ak, b.descripcion,
+		b.Usulogin, b.Usucodigo
+	from MonBitacora b
+	where 1=1
+	<cfif Len(url.filtro_bitacoraid)>
+		and cast(b.bitacoraid as varchar) like '%#url.filtro_bitacoraid#%'
+	</cfif>
+	<cfif Len(url.filtro_fecha) and LSIsDate(url.filtro_fecha)>
+		<!--- and <cf_dbfunction name="to_char"	args="b.fecha" 	len="32000"> like '%#url.filtro_fecha#%' --->
+		and <cf_dbfunction name="to_date00" args="b.fecha"> >= #LSParseDateTime(url.filtro_fecha)#
+	<cfelse>
+		<cfset url.filtro_fecha = ''>
+	</cfif>
+	<cfif Len(url.filtro_oper)>
+		and b.oper = <cfqueryparam cfsqltype="cf_sql_varchar" value="#url.filtro_oper#">
+	</cfif>
+	<cfif Len(url.filtro_tabla)>
+		and lower(b.tabla) like <cfqueryparam cfsqltype="cf_sql_varchar" value="%#LCase(url.filtro_tabla)#%">
+	</cfif>
+	<cfif Len(url.filtro_pk)>
+		and b.pk like '%#url.filtro_pk#%'
+	</cfif>
+	<cfif Len(url.filtro_ak)>
+		and b.ak like '%#url.filtro_ak#%'
+	</cfif>
+	<cfif Len(url.filtro_descripcion)>
+		and lower(b.descripcion) like <cfqueryparam cfsqltype="cf_sql_varchar" value="%#LCase(url.filtro_descripcion)#%">
+	</cfif>
+	<cf_dbrowcount2_a rows = "1000" datasource="aspmonitor">
+	order by b.bitacoraid desc
+	<cf_dbrowcount2_b rows = "1000" datasource="aspmonitor">
+</cfquery>
+
+<cfparam name="url.bitacoraid" default="">
+
+<cfif Len(url.bitacoraid)>
+	<cfinclude template="detalle.cfm">
+<cfelse>
+<cfquery name="rsoper" datasource="aspmonitor">
+	select '' as value, '--Todos--' as description from dual
+    union all
+    select 'I' as value, 'Insert' as description from dual
+	union all
+	select 'U' as value, 'Update' as description from dual
+	union all
+	select 'D' as value, 'Delete' as description from dual
+</cfquery>
+
+<cfinvoke component="commons.Componentes.pListas" method="pListaQuery"
+        query			="#lista#"
+        desplegar		="bitacoraid,fecha,oper,tabla,pk,ak,descripcion"
+        etiquetas		="Consecutivo,Fecha,Operación,Tabla,PK,AK,Descripción"
+        formatos		="S,D,S,S,S,S,S"
+        align			="left,left,left,left,left,left,left"
+        ira				="lista.cfm"
+        form_method		="get"
+        mostrar_filtro	="yes"
+        keys			="bitacoraid"
+        conexion 		="aspmonitor"
+        rsoper			="#rsoper#"
+    />
+</cfif>
+<table style="width:100%" cellspacing="0" cellpadding="2" align="center" border="0">
+	<tr>
+		<td align="center">
+			<cfoutput><strong>*La lista muestra un máximo de 1000 registros, debe utilizar los filtros.</strong></cfoutput>
+		</td>
+	</tr>
+</table>
+<cf_templatefooter>

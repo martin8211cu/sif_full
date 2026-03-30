@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+			<LB_Identificacion>Identification</LB_Identificacion>
+			<LB_Nombre>Name</LB_Nombre>	
+			<LB_Titulo>Petty Cash Transactions</LB_Titulo>
+			<LB_NumTransaccion>Transaction Number</LB_NumTransaccion>
+			<LB_CajaChica>Petty Cash</LB_CajaChica>
+			<LB_Transaccion>Transaction</LB_Transaccion>
+			<LB_Moneda>Currency</LB_Moneda>
+			<LB_Monto>Amount</LB_Monto>
+			<LB_Estado>Status</LB_Estado>
+			<LB_Fecha>Date</LB_Fecha>
+	</Idioma>
+</Etiquetas>

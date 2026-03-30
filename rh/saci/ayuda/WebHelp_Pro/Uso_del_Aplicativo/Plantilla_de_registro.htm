@@ -1,0 +1,169 @@
+<!doctype HTML public "-//W3C//DTD HTML 4.0 Frameset//EN">
+
+<html>
+
+<head>
+<title>Plantilla de registro</title>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252">
+<meta name="generator" content="RoboHelp by eHelp Corporation www.ehelp.com">
+<link rel="stylesheet" href="../default_ns.css"><script type="text/javascript" language="JavaScript" title="WebHelpSplitCss">
+<!--
+if (navigator.appName !="Netscape")
+{   document.write("<link rel='stylesheet' href='../default.css'>");}
+//-->
+</script>
+<style type="text/css">
+<!--
+div.whs1 { width:100%; }
+p.whs2 { text-align:center; }
+img_whs3 { border:none; width:265px; height:72px; float:none; border-style:none; }
+img_whs4 { border:none; width:121px; height:40px; float:none; }
+img_whs5 { border:none; width:119px; height:38px; float:none; border-style:none; }
+img_whs6 { border:none; width:123px; height:41px; float:none; }
+img_whs7 { border:none; width:122px; height:41px; float:none; }
+ul.whs8 { list-style:url('../Recursos/vi_eta.jpg'); }
+-->
+</style><script type="text/javascript" language="JavaScript" title="WebHelpInlineScript">
+<!--
+function reDo() {
+  if (innerWidth != origWidth || innerHeight != origHeight)
+     location.reload();
+}
+if ((parseInt(navigator.appVersion) == 4) && (navigator.appName == "Netscape")) {
+	origWidth = innerWidth;
+	origHeight = innerHeight;
+	onresize = reDo;
+}
+onerror = null; 
+//-->
+</script>
+<style type="text/css">
+<!--
+div.WebHelpPopupMenu { position:absolute; left:0px; top:0px; z-index:4; visibility:hidden; }
+-->
+</style><script type="text/javascript" language="javascript1.2" src="../whmsg.js"></script>
+<script type="text/javascript" language="javascript" src="../whver.js"></script>
+<script type="text/javascript" language="javascript1.2" src="../whproxy.js"></script>
+<script type="text/javascript" language="javascript1.2" src="../whutils.js"></script>
+<script type="text/javascript" language="javascript1.2" src="../whtopic.js"></script>
+</head>
+<body><script type="text/javascript" language="javascript1.2">
+<!--
+if (window.gbWhTopic)
+{
+	if (window.addTocInfo)
+	{
+	addTocInfo("Uso del Aplicativo\nPlantilla de registro");
+
+	}
+	if (window.writeBtnStyle)
+		writeBtnStyle();
+
+	if (window.writeIntopicBar)
+		writeIntopicBar(0);
+
+	if (window.setRelStartPage)
+	{
+	setRelStartPage("../SACI.htm");
+addSearchFormHref("javascript:document.ehelpform.submit()");
+
+		autoSync(1);
+		sendSyncInfo();
+		sendAveInfoOut();
+	}
+}
+else
+	if (window.gbIE4)
+		document.location.reload();
+//-->
+</script>
+<div placeholder id="header" class="whs1">
+ <p class=Encabezado>Uso del Aplicativo</p>
+</div>
+<h1>Plantilla de registro</h1>
+
+<p>Una plantilla de registro es un formulario que permite ingresar nuevos 
+ registros o modificar los existentes para una entidad. </p>
+
+<p>Este formulario de edición despliega los campos del registro elegido, 
+ cada uno de sus campos con los valores actualmente almacenados, en el 
+ caso de un nuevo registro los valores asociados al campo pueden estar 
+ en blanco o sugerir un valor por omisión según sea el caso.</p>
+
+<h2>Navegación</h2>
+
+<p>El formulario se puede dividir en partes, las cuales agrupan a su vez 
+ atributos relacionados funcionalmente. Cada una de las partes es identificada 
+ y accedida por separadores en la parte superior del formulario, para accederlas 
+ bastará con seleccionar una de ellas.</p>
+
+<p align="center" class="whs2"><img src="../Recursos/separador.jpg" x-maintain-ratio="TRUE" width="265px" height="72px" border="0" class="img_whs3"></p>
+
+<p>Uno de los Separadores tendrá el rol de principal, que significa que 
+ tiene precedencia sobre los otros, así la información contenida en este 
+ deberá existir antes de la información complementada en cualquier otro. 
+ &nbsp;El Separador 
+ principal además contiene el botón de “guardar”, con el cual se almacenan 
+ los cambios realizados o se crea el nuevo registro.</p>
+
+<p align="center" class="whs2">&nbsp;<img src="../Recursos/guardar.jpg" x-maintain-ratio="TRUE" width="121px" height="40px" border="0" class="img_whs4"></p>
+
+<p>Por aspectos de conveniencia el formulario integrará el botón de “nuevo”, 
+ el cual recarga el formulario y lo dispone para ingresar un nuevo registro 
+ del mismo tipo.</p>
+
+<p align="center" class="whs2"><img src="../Recursos/nuevo.jpg" x-maintain-ratio="TRUE" width="119px" height="38px" border="0" class="img_whs5"></p>
+
+<p>Adicionalmente se incluye un botón “Lista” que permite volver a la lista, 
+ cancelando los cambios editados hasta el momento, este botón puede ser 
+ &nbsp;interpretado 
+ como “Cancelar”.</p>
+
+<p align="center" class="whs2">&nbsp;<img src="../Recursos/lista.jpg" x-maintain-ratio="TRUE" width="123px" height="41px" border="0" class="img_whs6"></p>
+
+<p>En algunos casos excepcionales, como &nbsp;puede 
+ encontrarse adicionalmente un botón para borrar el registro, sin embargo 
+ un registro no podrá ser borrado si ya es usado como referencia en el 
+ sistema, esta opción se reserva únicamente para resolver el ingreso de 
+ datos erróneos.</p>
+
+<p align="center" class="whs2"><img src="../Recursos/eliminar.jpg" x-maintain-ratio="TRUE" width="122px" height="41px" border="0" class="img_whs7"></p>
+
+<h2>Validaciones</h2>
+
+<p>La plantilla de registro valida la congruencia de la información ingresada 
+ mediante la verificación de reglas de negocio preestablecidas, este proceso 
+ de validación puede ser ejecutado en tres momentos diferentes:</p>
+
+<ul class="whs8">
+	
+	<li class=kadov-p><p>En la edición particular de un campo, es decir 
+ cuando se ingrese o edite un valor aislado en un campo del formulario. 
+ &nbsp;Usualmente 
+ estas validaciones corresponden a reglas simples sobre el formato del 
+ dato a ingresar y comparación con valores válidos.</p></li>
+	
+	<li class=kadov-p><p>En el grupo, es decir valida información conformada 
+ por un grupo de datos relacionados, esta validación permite verificar 
+ la congruencia de datos entre sí, se ejecuta al cambiar de separador.</p></li>
+	
+	<li class=kadov-p><p>A nivel de registro, es una verificación general 
+ del registro o edición del registro en relación a las reglas de negocio 
+ relacionadas con el negocio, se ejecuta al proceder con el botón de “guardar”.</p></li>
+</ul>
+
+<p>En el caso de las validaciones cuando se detecte una inconsistencia, 
+ el sistema no procederá con el cambio o la inclusión y desplegará un mensaje 
+ de error que indicará la validación fallida y si procede la acción correctiva.</p>
+
+<script type="text/javascript" language="javascript1.2">
+<!--
+if (window.writeIntopicBar)
+	writeIntopicBar(0);
+//-->
+</script>
+<form method="POST" action="http://www.helpcommunity.com/ehelpapi.asp?cmd=WebSave" name="ehelpform" target="_top" style="display:'none';">
+<input type="hidden" name="data" value="2A0D0215000000506C616E74696C6C6120646520726567697374726F11021200000055736F2064656C2041706C6963617469766F120215000000506C616E74696C6C6120646520726567697374726F13022C00000053697374656D612041646D696E6973747261646F72206465204375656E74617320646520496E7465726E6574150208000000534143492E68746D1703740100003C3F786D6C2076657273696F6E3D22312E30223F3E0D0A3C21444F43545950452053595354454D20226568656C706F70742E647464223E0D0A3C46494C452D4F5054494F4E532046494C452D56455253494F4E3D2232222046494C452D4B45593D2265653431643334395F656365375F343062375F626137325F373331306464653365636233223E0D0A3C2F46494C452D4F5054494F4E533E0D0A3C4548454C502D4F5054494F4E5320464F524D41542D56455253494F4E3D22312E30223E0D0A203C4F5054494F4E5320454E41424C45443D225945532220454D4245444445443D2259455322204D41494E2D57494E444F572D4F4E4C593D224E4F2220434F4D4D554E4954592D4E4F544946593D224E4F222046495253542D504147453D224E4F542D534554223E0D0A203C2F4F5054494F4E533E0D0A203C425554544F4E2D4C4142454C3E5765625365617263680D0A203C2F425554544F4E2D4C4142454C3E0D0A3C2F4548454C502D4F5054494F4E533E18010400000002000000702A">
+</form>
+</body>
+</html>

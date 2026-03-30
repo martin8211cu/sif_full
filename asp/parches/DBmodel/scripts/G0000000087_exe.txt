@@ -1,0 +1,89 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 199 - DBM 335: Depositante Recepcion de Efectivo
+
+	         PARCHE:  Parche023_382_SIF_CajasYdestino
+
+GENERADO EN:
+	SERVER:  http://mxpapp36:8300
+	DSN:     sifcim
+	FECHA:   08/10/2011 08:23:07
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* CHG_TABLE CCHespecialMovs: Movimientos de Caja Especial d */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): CCHEMdepositadoPor - Nombre Depositante */
+ALTER TABLE CCHespecialMovs ADD CCHEMdepositadoPor varchar(255) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* ADD_TABLE GEcategoriaDestino: Categoria Monetaria del Destin */
+/* ======================================================================================== */
+
+CREATE TABLE GEcategoriaDestino (
+	 GECDid                         numeric(18)          identity
+	,Ecodigo                        integer              NOT NULL
+	,GECDcodigo                     char(10)             NOT NULL
+	,GECDdescripcion                varchar(50)          NOT NULL
+	,GECDmonto                      money                NOT NULL
+	,BMUsucodigo                    numeric(18)          NULL
+	,ts_rversion                    timestamp           
+	)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="P", SEC="0", COLS="GECDid" */
+ALTER TABLE GEcategoriaDestino ADD CONSTRAINT GEcategoriaDestino_PK PRIMARY KEY CLUSTERED (GECDid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="A", SEC="1", COLS="Ecodigo,GECDcodigo" */
+ALTER TABLE GEcategoriaDestino ADD CONSTRAINT GEcategoriaDestino_AK01 UNIQUE NONCLUSTERED (Ecodigo,GECDcodigo)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE GEcomision: Comision de Viaticos */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): GECdestino - Descripcion del Destino */
+ALTER TABLE GEcomision ADD GECdestino varchar(50) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): GECDid - ID categoria de ciuidad destino */
+ALTER TABLE GEcomision ADD GECDid numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(NUEVO): TIP="F", SEC="6", COLS="GECDid", REF="GEcategoriaDestino" */
+CREATE INDEX GEcomision_FI06 ON GEcomision (GECDid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ================================================================= */
+/*            CREA FKs NUEVOS O CON CAMPOS MODIFICADOS               */
+/* ================================================================= */
+/* CHG_TABLE GEcomision */
+/* ADD_FK OP=(NUEVO): TIP="F", SEC="6", COLS="GECDid", REF="GEcategoriaDestino" */
+ALTER TABLE GEcomision ADD CONSTRAINT GEcomision_FK06 FOREIGN KEY (GECDid) REFERENCES GEcategoriaDestino (GECDid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

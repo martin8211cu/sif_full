@@ -1,0 +1,31 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 179 - DBM 295: Se creo un indice unico con los campo (Bi
+
+	         PARCHE:  Parche023_289_SIF_CatalogoTCE
+
+GENERADO EN:
+	SERVER:  http://mxpapp36:8300
+	DSN:     sifcim
+	FECHA:   08/10/2011 07:41:53
+*/
+
+/* INI_SCRIPT */
+
+/* ================================================================= */
+/*            CREA FKs NUEVOS O CON CAMPOS MODIFICADOS               */
+/* ================================================================= */
+/* CHG_TABLE CuentasBancos */
+/* ADD_FK OP=(NUEVO): TIP="F", SEC="6", COLS="CBTCid", REF="CBTarjetaCredito" */
+ALTER TABLE CuentasBancos ADD CONSTRAINT CuentasBancos_FK06 FOREIGN KEY (CBTCid) REFERENCES CBTarjetaCredito (CBTCid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

@@ -1,0 +1,16 @@
+<tag name="cf_web_portlet" endtag="yes">
+  <tagformat nlbeforetag="0" nlaftertag="0" />
+  <attributes>
+    <attrib name="titulo"/>
+    <attrib name="border" type="enumerated">
+      <attriboption value="true" />
+      <attriboption value="false" />
+    </attrib>
+    <attrib name="skin"/>
+    <attrib name="tituloalign" type="enumerated">
+      <attriboption value="left" />
+      <attriboption value="center" />
+      <attriboption value="right" />
+    </attrib>
+  </attributes>
+</tag>

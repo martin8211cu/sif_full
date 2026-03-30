@@ -1,0 +1,54 @@
+[OPTIONS]
+Compiled File=SIF.chm
+Title=SIF
+Contents File=SIF.hhc
+Index File=SIF.hhk
+Default topic=Sistema_Financiero_Integrado.htm
+Default Window=
+Error log file=
+Display compile progress=No
+Display compile notes=No
+Full-text search=Yes
+Binary Index=Yes
+Auto Index=No
+Enhanced decompilation=No
+Binary TOC=No
+Flat=No
+
+[WINDOWS]
+
+[FILES]
+Concepto_contable.htm
+Saldos_movimientos.htm
+Balance_comprobacion.htm
+Monedas.htm
+Catalogo_cuentas.htm
+Historico_tipo_cambio.htm
+Sistema_Financiero_Integrado.htm
+Subcuentas.htm
+Cuentas_Mayor.htm
+Cierre_auxiliar.htm
+Cierre_mes_contable.htm
+Reversar_documentos_contables.htm
+Registro_Documentos_Contables.htm
+Introduccion.htm
+Mascaras_cuentas.htm
+Cuentas_financieras.htm
+Balance_general.htm
+Poliza_contable.htm
+Cuentas_contables.htm
+eHelp.xml
+RoboHHRE.lng
+
+SIF.glo
+SIF.brs
+[ALIAS]
+#include SIF.ali
+
+[MAP]
+#include BSSCDefault.h
+
+[TEXT POPUPS]
+BSSCDefault.h
+
+

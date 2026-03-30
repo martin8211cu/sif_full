@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+
+	<Idioma id="en">
+		<LB_Titulo>Unmapped Accounts</LB_Titulo>
+		<LB_Fecha>Date</LB_Fecha>
+		<LB_FormatoCuenta>Account Format</LB_FormatoCuenta>
+		<LB_Tipo>Type</LB_Tipo>
+		<LB_Cuenta>Account</LB_Cuenta>
+	</Idioma>
+</Etiquetas>

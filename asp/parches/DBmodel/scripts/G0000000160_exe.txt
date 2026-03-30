@@ -1,0 +1,57 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 498 - DBM 441: Creacion de nuevos campos para Facturacio
+
+	         PARCHE:  Parche023_627_SIF_CancelacionDocumentos
+
+GENERADO EN:
+	SERVER:  http://mxvqapp34:8300
+	DSN:     sifcim
+	FECHA:   13/01/2012 12:53:47
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* CHG_TABLE HDDocumentos: Histórico de Detalle de Docume */
+/* ======================================================================================== */
+/* ADD_COLUMN OP = (NUEVO): DcuentaT - Cuenta Transitoria */
+ALTER TABLE HDDocumentos ADD DcuentaT numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP = (NUEVO): DesTransitoria - Tiene Transitoria? */
+ALTER TABLE HDDocumentos ADD DesTransitoria bit DEFAULT 0 NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE HDocumentos: Histórico de Documentos Aplica */
+/* ======================================================================================== */
+/* ADD_COLUMN OP = (NUEVO): FCid - ID de la Caja */
+ALTER TABLE HDocumentos ADD FCid numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP = (NUEVO): ETnumero - Numero de la Transaccion */
+ALTER TABLE HDocumentos ADD ETnumero numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP = (NUEVO): Danulado - Documento Anulado */
+ALTER TABLE HDocumentos ADD Danulado bit DEFAULT 0 NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

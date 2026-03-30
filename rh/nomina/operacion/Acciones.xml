@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+<Idioma id="es_CR">
+<inicio>Inicio</inicio>
+<favoritos>Favoritos</favoritos>
+<compania>Compa&amp;ntilde;&amp;iacute;a</compania>
+<EmpACP>Empleado</EmpACP>
+<TpoAccACP>Tipo de Acci&amp;oacute;n</TpoAccACP>
+<NewEmpACP>Nueva Empresa</NewEmpACP>
+<ObsACP>Observaciones</ObsACP>
+<TpoNominaACP>Tipo de N&amp;oacute;mina</TpoNominaACP>
+<RegVacACP>R&amp;eacute;gimen de Vacaciones</RegVacACP>
+<DepACP>Departamento</DepACP>
+<PuestoACP>Puesto</PuestoACP>
+<PlazaACP>Plaza</PlazaACP>
+<PorcPlazaACP>Porcentaje de Plaza</PorcPlazaACP>
+<PorcSalFijoACP>Porcentaje de Salario Fijo</PorcSalFijoACP>
+<JornadaACP>Jornada</JornadaACP>
+<EmpresaACP>Empresa</EmpresaACP>
+<CompActACP>Componentes Actuales</CompActACP>
+<SalTotACP>Salario Total</SalTotACP>
+<ComponenteACP>Componente</ComponenteACP>
+<MontoACP>Monto</MontoACP>
+<CompPropACP>Componentes Propuestos</CompPropACP>
+<AddCompSalACP>Agregar Nuevo Componente Salarial</AddCompSalACP>
+<FecRigeACP>Fecha Rige</FecRigeACP>
+</Idioma>
+
+<Idioma id="es_MX">
+<inicio>Inicio</inicio>
+<favoritos>Favoritos</favoritos>
+<compania>Compa&amp;ntilde;&amp;iacute;a</compania>
+<EmpACP>Empleado</EmpACP>
+<TpoAccACP>Tipo de Acci&amp;oacute;n</TpoAccACP>
+<NewEmpACP>Nueva Empresa</NewEmpACP>
+<ObsACP>Observaciones</ObsACP>
+<TpoNominaACP>Tipo de N&amp;oacute;mina</TpoNominaACP>
+<RegVacACP>R&amp;eacute;gimen de Vacaciones</RegVacACP>
+<DepACP>Departamento</DepACP>
+<PuestoACP>Puesto</PuestoACP>
+<PlazaACP>Plaza</PlazaACP>
+<PorcPlazaACP>Porcentaje de Plaza</PorcPlazaACP>
+<PorcSalFijoACP>Porcentaje de Salario Fijo</PorcSalFijoACP>
+<JornadaACP>Jornada</JornadaACP>
+<EmpresaACP>Empresa</EmpresaACP>
+<CompActACP>Componentes Actuales</CompActACP>
+<SalTotACP>Salario Total</SalTotACP>
+<ComponenteACP>Componente</ComponenteACP>
+<MontoACP>Monto</MontoACP>
+<CompPropACP>Componentes Propuestos</CompPropACP>
+<AddCompSalACP>Agregar Nuevo Componente Salarial</AddCompSalACP>
+<FecRigeACP>Fecha Rige</FecRigeACP>
+</Idioma>
+
+<Idioma id="es_PA">
+<inicio>Inicio</inicio>
+<favoritos>Favoritos</favoritos>
+<compania>Compa&amp;ntilde;&amp;iacute;a</compania>
+<EmpACP>Empleado</EmpACP>
+<TpoAccACP>Tipo de Acci&amp;oacute;n</TpoAccACP>
+<NewEmpACP>Nueva Empresa</NewEmpACP>
+<ObsACP>Observaciones</ObsACP>
+<TpoNominaACP>Tipo de N&amp;oacute;mina</TpoNominaACP>
+<RegVacACP>R&amp;eacute;gimen de Vacaciones</RegVacACP>
+<DepACP>Departamento</DepACP>
+<PuestoACP>Puesto</PuestoACP>
+<PlazaACP>Plaza</PlazaACP>
+<PorcPlazaACP>Porcentaje de Plaza</PorcPlazaACP>
+<PorcSalFijoACP>Porcentaje de Salario Fijo</PorcSalFijoACP>
+<JornadaACP>Jornada</JornadaACP>
+<EmpresaACP>Empresa</EmpresaACP>
+<CompActACP>Componentes Actuales</CompActACP>
+<SalTotACP>Salario Total</SalTotACP>
+<ComponenteACP>Componente</ComponenteACP>
+<MontoACP>Monto</MontoACP>
+<CompPropACP>Componentes Propuestos</CompPropACP>
+<AddCompSalACP>Agregar Nuevo Componente Salarial</AddCompSalACP>
+<FecRigeACP>Fecha Rige</FecRigeACP>
+</Idioma>
+
+<Idioma id="es">
+<inicio>Inicio</inicio>
+<favoritos>Favoritos</favoritos>
+<compania>Compa&amp;ntilde;&amp;iacute;a</compania>
+<EmpACP>Empleado</EmpACP>
+<TpoAccACP>Tipo de Acci&amp;oacute;n</TpoAccACP>
+<NewEmpACP>Nueva Empresa</NewEmpACP>
+<ObsACP>Observaciones</ObsACP>
+<TpoNominaACP>Tipo de N&amp;oacute;mina</TpoNominaACP>
+<RegVacACP>R&amp;eacute;gimen de Vacaciones</RegVacACP>
+<DepACP>Departamento</DepACP>
+<PuestoACP>Puesto</PuestoACP>
+<PlazaACP>Plaza</PlazaACP>
+<PorcPlazaACP>Porcentaje de Plaza</PorcPlazaACP>
+<PorcSalFijoACP>Porcentaje de Salario Fijo</PorcSalFijoACP>
+<JornadaACP>Jornada</JornadaACP>
+<EmpresaACP>Empresa</EmpresaACP>
+<CompActACP>Componentes Actuales</CompActACP>
+<SalTotACP>Salario Total</SalTotACP>
+<ComponenteACP>Componente</ComponenteACP>
+<MontoACP>Monto</MontoACP>
+<CompPropACP>Componentes Propuestos</CompPropACP>
+<AddCompSalACP>Agregar Nuevo Componente Salarial</AddCompSalACP>
+<FecRigeACP>Fecha Rige</FecRigeACP>
+<VacDisfACP>Vacaciones disfrutadas</VacDisfACP><VacCompensadasfACP>Vacaciones compensadas</VacCompensadasfACP><UnidadesACP>Unidades</UnidadesACP><MontoBACP>Monto Base</MontoBACP><MSG_ExistenVacacionesPosterioresALaFechaRigeDeLaTransacciónDeCeseEstaSeguroDeQueDeseaContinuarConLaAplicacion>Existen vacaciones posteriores a la fecha rige de la transacción de cese. ¿Está seguro de que desea continuar con la aplicación?</MSG_ExistenVacacionesPosterioresALaFechaRigeDeLaTransacciónDeCeseEstaSeguroDeQueDeseaContinuarConLaAplicacion><MSG_Desea_eliminar_la_Accion_de_Personal>¿Desea eliminar la Acción de Personal?</MSG_Desea_eliminar_la_Accion_de_Personal><MSG_No_puede_ser_cero>no puede ser cero</MSG_No_puede_ser_cero><MSG_La_Fecha_Vence_no_puede_ser_menor_que_la_Fecha_Rige>La Fecha Vence no puede ser menor que la Fecha Rige</MSG_La_Fecha_Vence_no_puede_ser_menor_que_la_Fecha_Rige><MSG_Regimen_de_Vacaciones>Régimen de Vacaciones</MSG_Regimen_de_Vacaciones><MSG_Tipo_de_Nomina>Tipo de Nómina</MSG_Tipo_de_Nomina><MSG_Oficina>Oficina</MSG_Oficina><MSG_Departamento>Departamento</MSG_Departamento><MSG_Plaza>Plaza</MSG_Plaza><MSG_Puesto>Puesto</MSG_Puesto><MSG_Porcentaje_de_Plaza>Porcentaje de Plaza</MSG_Porcentaje_de_Plaza><MSG_Porcentaje_de_Salario_Fijo>Porcentaje de Salario Fijo</MSG_Porcentaje_de_Salario_Fijo><MSG_Jornada>Jornada</MSG_Jornada><MSG_Vacaciones_Disfrutadas>Vacaciones Disfrutadas</MSG_Vacaciones_Disfrutadas><MSG_Tipo_de_Tabla>Tipo de Tabla</MSG_Tipo_de_Tabla><MSG_Categoria>Categoría</MSG_Categoria><MSG_Cantidad_de>Cantidad de</MSG_Cantidad_de><MSG_Monto_de>Monto de</MSG_Monto_de><MSG_Empleado>Empleado</MSG_Empleado><MSG_Tipo_de_Accion>Tipo de Acción</MSG_Tipo_de_Accion><MSG_Fecha_Rige>Fecha Rige</MSG_Fecha_Rige><MSG_Fecha_Vence>Fecha Vence</MSG_Fecha_Vence><MSG_Nueva_Empresa>Nueva Empresa</MSG_Nueva_Empresa><LB_Empleado>Empleado</LB_Empleado><LB_Tipo_de_Accion>Tipo de Acci&amp;oacute;n</LB_Tipo_de_Accion><LB_Lista_de_Tipos_de_Acciones>Lista de Tipos de Acciones</LB_Lista_de_Tipos_de_Acciones><LB_Fecha_Rige>Fecha Rige</LB_Fecha_Rige><LB_Fecha_Vence>Fecha Vence:</LB_Fecha_Vence><LB_Nueva_Empresa>Nueva Empresa</LB_Nueva_Empresa><LB_Observaciones>Observaciones</LB_Observaciones><BTN_ListaDeAcciones>Lista de Acciones</BTN_ListaDeAcciones><LB_Situacion_Actual>Situaci&amp;oacute;n Actual</LB_Situacion_Actual><LB_Empresa>Empresa</LB_Empresa><LB_Plaza>Plaza</LB_Plaza><LB_Departamento>Departamento</LB_Departamento><LB_Centro_Funcional>Centro Funcional</LB_Centro_Funcional><LB_TipoDeTabla>Tipo de Tabla</LB_TipoDeTabla><LB_Puesto>Puesto</LB_Puesto><LB_Categoria>Categor&amp;iacute;a</LB_Categoria><LB_Puesto_RH>Puesto RH</LB_Puesto_RH><LB_Jornada>Jornada</LB_Jornada><LB_Porcentaje_de_Plaza>Porcentaje de Plaza</LB_Porcentaje_de_Plaza><LB_Porcentaje_de_Salario_Fijo>Porcentaje de Salario Fijo</LB_Porcentaje_de_Salario_Fijo><LB_Tipo_de_Nomina>Tipo de N&amp;oacute;mina</LB_Tipo_de_Nomina><LB_Regimen_de_Vacaciones>R&amp;eacute;gimen de Vacaciones</LB_Regimen_de_Vacaciones><LB_Lista_de_plazas_presupuestarias>Lista de plazas presupuestarias</LB_Lista_de_plazas_presupuestarias><LB_Lista_de_puestos>Lista de puestos</LB_Lista_de_puestos><MSG_Debe_seleccionar_la_plaza>Debe seleccionar la plaza</MSG_Debe_seleccionar_la_plaza><LB_Situacion_Propuesta>Situaci&amp;oacute;n Propuesta</LB_Situacion_Propuesta><LB_Oficina>Oficina</LB_Oficina><LB_Lista_de_Categorias>Lista de Categorías</LB_Lista_de_Categorias><LB_PuestoRH>Puesto RH</LB_PuestoRH><LB_Porcetaje_de_Plaza>Porcentaje de Plaza</LB_Porcetaje_de_Plaza><LB_Registro_de_Vacaciones>R&amp;eacute;gimen de Vacaciones</LB_Registro_de_Vacaciones><LB_Vacaciones_disfrutadas>Vacaciones disfrutadas</LB_Vacaciones_disfrutadas><LB_Vacaciones_compensadas>Vacaciones compensadas</LB_Vacaciones_compensadas><LB_Componentes_Actuales>Componentes Actuales</LB_Componentes_Actuales><MSG_El_argumento_id_o_argumento_sql_estan_indefinidos>El argumento id o argumento sql estan indefinidos</MSG_El_argumento_id_o_argumento_sql_estan_indefinidos><LB_Agregar_Nuevo_Componente_Salarial>Agregar Nuevo Componente Salarial</LB_Agregar_Nuevo_Componente_Salarial><LB_Salario_Total>Salario Total</LB_Salario_Total><LB_Componente>Componente</LB_Componente><LB_Unidades>Unidades</LB_Unidades><LB_Monto_Base>Monto Base</LB_Monto_Base><LB_Monto>Monto</LB_Monto><MSG_Esta_seguro_de_que_desea_eliminar_el_componente_salarial>¿Está seguro de que desea eliminar el componente salarial?</MSG_Esta_seguro_de_que_desea_eliminar_el_componente_salarial><LB_Componentes_Propuestos>Componentes Propuestos</LB_Componentes_Propuestos><LB_Los_componentes_que_aparecen_en_color_rojo_se_pagan_en_forma_incidente>Los componentes que aparecen en color rojo se pagan en forma incidente.</LB_Los_componentes_que_aparecen_en_color_rojo_se_pagan_en_forma_incidente><MSG_Para_terminar_de_definir_la_Situacion_Propuesta_debe_guardar_los_cambios>Para terminar de definir la Situaci&amp;oacute;n Propuesta debe guardar los cambios</MSG_Para_terminar_de_definir_la_Situacion_Propuesta_debe_guardar_los_cambios></Idioma>
+<Idioma id="en"><EmpACP>Employee</EmpACP><TpoAccACP>Action Type</TpoAccACP><FecRigeACP>Initial Date</FecRigeACP><NewEmpACP>New company</NewEmpACP><ObsACP>Observations</ObsACP><TpoNominaACP>Payroll Type</TpoNominaACP><RegVacACP>Vacations plan</RegVacACP><DepACP>Department</DepACP><PuestoACP>Position</PuestoACP><PlazaACP>Position Code</PlazaACP><PorcPlazaACP>Position Code %</PorcPlazaACP><PorcSalFijoACP>Percentage of fixed salary</PorcSalFijoACP><JornadaACP>Schedule</JornadaACP><EmpresaACP>Company</EmpresaACP><CompActACP>Present components</CompActACP><SalTotACP>Total salary</SalTotACP><ComponenteACP>Component</ComponenteACP><MontoACP>Amount</MontoACP><CompPropACP>Components Proposed</CompPropACP><AddCompSalACP>Add New Salary Component</AddCompSalACP><VacDisfACP>Enjoyed vacations</VacDisfACP><VacCompensadasfACP>Compensated vacations</VacCompensadasfACP><BTN_ListaDeAcciones>Actions list</BTN_ListaDeAcciones><LB_Agregar_Nuevo_Componente_Salarial>Add New Salary Component</LB_Agregar_Nuevo_Componente_Salarial><LB_Categoria>Category</LB_Categoria><LB_Centro_Funcional>Functional Center</LB_Centro_Funcional><LB_Componentes_Actuales>Present Components</LB_Componentes_Actuales><LB_Componentes_Propuestos>Components Proposed</LB_Componentes_Propuestos><LB_Departamento>Department</LB_Departamento><LB_Empleado>Employee</LB_Empleado><LB_Empresa>Company</LB_Empresa><LB_Fecha_Rige>Initial Date</LB_Fecha_Rige><LB_Fecha_Vence>Final Date</LB_Fecha_Vence><LB_Jornada>Schedule</LB_Jornada><LB_Lista_de_Categorias>Category list</LB_Lista_de_Categorias><LB_Lista_de_Tipos_de_Acciones>Action Types List</LB_Lista_de_Tipos_de_Acciones><LB_Lista_de_plazas_presupuestarias>List of Budgetary Position Code</LB_Lista_de_plazas_presupuestarias><LB_Lista_de_puestos>Positions List</LB_Lista_de_puestos><LB_Los_componentes_que_aparecen_en_color_rojo_se_pagan_en_forma_incidente>The components that appear in red color are paid in form incident</LB_Los_componentes_que_aparecen_en_color_rojo_se_pagan_en_forma_incidente><LB_Monto_Base>Amount base</LB_Monto_Base><LB_Nueva_Empresa>New company</LB_Nueva_Empresa><LB_Observaciones>Observations</LB_Observaciones><LB_Oficina>Office</LB_Oficina><LB_Plaza>Position Code</LB_Plaza><LB_Porcentaje_de_Plaza>Position Code %</LB_Porcentaje_de_Plaza><LB_Porcentaje_de_Salario_Fijo>Percentage of fixed salary</LB_Porcentaje_de_Salario_Fijo><LB_Porcetaje_de_Plaza>Position Code %</LB_Porcetaje_de_Plaza><LB_Puesto>Position</LB_Puesto><LB_PuestoRH>Position HR</LB_PuestoRH><LB_Puesto_RH>Position HR</LB_Puesto_RH><LB_Regimen_de_Vacaciones>Vacation plan</LB_Regimen_de_Vacaciones><LB_Registro_de_Vacaciones>Vacation plan</LB_Registro_de_Vacaciones><LB_Salario_Total>Total Salary</LB_Salario_Total><LB_Situacion_Actual>Present Stuation</LB_Situacion_Actual><LB_Situacion_Propuesta>Proposed Stuation</LB_Situacion_Propuesta><LB_TipoDeTabla>Type of chart</LB_TipoDeTabla><LB_Tipo_de_Accion>Action Type</LB_Tipo_de_Accion><LB_Tipo_de_Nomina>Payroll Type</LB_Tipo_de_Nomina><LB_Unidades>Units</LB_Unidades><LB_Vacaciones_compensadas>Compensated Vacations</LB_Vacaciones_compensadas><LB_Vacaciones_disfrutadas>Enjoyed vacations</LB_Vacaciones_disfrutadas><MSG_Cantidad_de>Quantity of</MSG_Cantidad_de><MSG_Categoria>Category</MSG_Categoria><MSG_Debe_seleccionar_la_plaza>Should Select the Position Code</MSG_Debe_seleccionar_la_plaza><MSG_Departamento>Department</MSG_Departamento><MSG_Desea_eliminar_la_Accion_de_Personal>Do you desires to eliminate the personnel action</MSG_Desea_eliminar_la_Accion_de_Personal><MSG_El_argumento_id_o_argumento_sql_estan_indefinidos>El argumento id o argumento sql estan indefinidos</MSG_El_argumento_id_o_argumento_sql_estan_indefinidos><MSG_Empleado>Employee</MSG_Empleado><MSG_Esta_seguro_de_que_desea_eliminar_el_componente_salarial>Are you sure that desires to eliminate the salary component</MSG_Esta_seguro_de_que_desea_eliminar_el_componente_salarial><MSG_ExistenVacacionesPosterioresALaFechaRigeDeLaTransacciónDeCeseEstaSeguroDeQueDeseaContinuarConLaAplicacion>There exist vacations after the date begins of the transaction of cessation  Are you sure that desires to continue with the application</MSG_ExistenVacacionesPosterioresALaFechaRigeDeLaTransacciónDeCeseEstaSeguroDeQueDeseaContinuarConLaAplicacion><MSG_Fecha_Rige>Initial Date</MSG_Fecha_Rige><MSG_Fecha_Vence>Final Date</MSG_Fecha_Vence><MSG_Jornada>Schedule</MSG_Jornada><MSG_La_Fecha_Vence_no_puede_ser_menor_que_la_Fecha_Rige>The due date cannot be smaller that the date begins</MSG_La_Fecha_Vence_no_puede_ser_menor_que_la_Fecha_Rige><MSG_Monto_de>Amount of</MSG_Monto_de><MSG_No_puede_ser_cero>Cannot be zero</MSG_No_puede_ser_cero><MSG_Nueva_Empresa>New company</MSG_Nueva_Empresa><MSG_Oficina>Office</MSG_Oficina><MSG_Para_terminar_de_definir_la_Situacion_Propuesta_debe_guardar_los_cambios>To finish of define the proposed situation should keep the changes</MSG_Para_terminar_de_definir_la_Situacion_Propuesta_debe_guardar_los_cambios><MSG_Plaza>Position Code</MSG_Plaza><MSG_Porcentaje_de_Plaza>Position Code %</MSG_Porcentaje_de_Plaza><MSG_Porcentaje_de_Salario_Fijo>Percentage of fixed salary</MSG_Porcentaje_de_Salario_Fijo><MSG_Puesto>Position</MSG_Puesto><MSG_Regimen_de_Vacaciones>Vacation plan</MSG_Regimen_de_Vacaciones><MSG_Tipo_de_Accion>Action Type</MSG_Tipo_de_Accion><MSG_Tipo_de_Nomina>Payroll Type</MSG_Tipo_de_Nomina><MSG_Tipo_de_Tabla>Type of chart</MSG_Tipo_de_Tabla><MSG_Vacaciones_Disfrutadas>Enjoyed vacations</MSG_Vacaciones_Disfrutadas><MontoBACP>Amount</MontoBACP><UnidadesACP>Units</UnidadesACP><compania>Company</compania><favoritos>Favorites</favoritos><inicio>Start</inicio><LB_Componente>Component</LB_Componente><LB_Monto>Amount</LB_Monto><LB_Conceptos_de_pago>Concept of Payment</LB_Conceptos_de_pago><LB_Concepto>Concept</LB_Concepto><LB_Importe>Importe</LB_Importe><LB_Cantidad>Quantity</LB_Cantidad><LB_Resultado>Result</LB_Resultado><LB_Negociado></LB_Negociado><LB_ListaDeEmpleados>Employees List</LB_ListaDeEmpleados><MSG_DebeSerMayorA></MSG_DebeSerMayorA><MSG_Dias></MSG_Dias><MSG_ElValorDelCampo></MSG_ElValorDelCampo><MSG_ExistenVacacionesPosterioresALaFechaRigeDeLaTransaccionDeCeseEstaSeguroDeQueDeseaContinuarConLaAplicacion></MSG_ExistenVacacionesPosterioresALaFechaRigeDeLaTransaccionDeCeseEstaSeguroDeQueDeseaContinuarConLaAplicacion><MSG_LaDiferenciaDeDiasEntreFechaRigeYFechaVenceNoPuedeSerMayorA></MSG_LaDiferenciaDeDiasEntreFechaRigeYFechaVenceNoPuedeSerMayorA><MSG_YMenorOIgualA></MSG_YMenorOIgualA><LB_Existen_vacaciones_posteriores_a_la_fecha_rige_de_la_transaccion_de_cese></LB_Existen_vacaciones_posteriores_a_la_fecha_rige_de_la_transaccion_de_cese><MSG_NoSeEncontraronRegistros></MSG_NoSeEncontraronRegistros></Idioma></Etiquetas>

@@ -1,0 +1,14 @@
+﻿<cfinvoke vsvalor="#session.monitoreo.SScodigo#.#session.monitoreo.SMcodigo#.#session.monitoreo.SPcodigo#" default="Cierre de Intereses del Per&iacute;odo" vsgrupo="103" returnvariable="nombre_proceso" component="sif.Componentes.TranslateDB" method="Translate"/>
+<cfinvoke key="LB_Proceso_de_Cierre_de_Intereses_del_Periodo" default="Proceso de Cierre de Intereses del Per&iacute;odo" returnvariable="LB_Proceso_Cierre" component="sif.Componentes.Translate" method="Translate"/>
+<cfinvoke key="LB_Cierre_De_Intereses" default="Cierre de Intereses a" returnvariable="LB_Periodo_Mes" component="sif.Componentes.Translate" method="Translate"/>
+<cfinvoke key="LB_Error._No_se_definido_el_mes_de_trabajo" default="Error. No se ha definido el mes de trabajo." returnvariable="LB_No_mes" component="sif.Componentes.Translate" method="Translate"/>
+<cfinvoke key="LB_Error._No_se_ha_el_periodo_de_trabajo" default="Error. No se ha definido el periodo de trabajo." returnvariable="LB_No_periodo" component="sif.Componentes.Translate" method="Translate"/>
+<cfinvoke key="BTN_Cerrar_Periodo" default="Cerrar Per&iacute;odo" returnvariable="BTN_Cerrar" component="sif.Componentes.Translate" method="Translate"/>
+<cfinvoke key="BTN_Regresar" default="Regresar" xmlfile="/rh/generales.xml" returnvariable="BTN_Regresar" component="sif.Componentes.Translate" method="Translate"/>
+<cfinvoke key="MSG_Va_a_ejecutar_el_proceso_de_cierre_de_Intereses_Desea_continuar" default="Va a ejecutar el proceso de cierre de Intereses. El proceso actualiza el acumulado del Periodo/Mes Actual a 0 y Liquida los intereses acumulados del Periodo/Mes anterior. Desea continuar?" returnvariable="lb_Cerrar" component="sif.Componentes.Translate" method="Translate"/>
+<cfinvoke key="MSG_Proceso_de_Cierre_de_Periodo_exitosamente" default="Proceso de Cierre de Período ejecutado exitosamente" returnvariable="lb_exito" component="sif.Componentes.Translate" method="Translate"/>
+<cfinvoke key="MSG_Proceso_De_Cierre_De_Intereses_Liquida_El_Acumulado_al_Periodo_Mes_Actual" default="Liquidaci&oacute;n del Acumulado de Intereses al Periodo y Mes Actual." returnvariable="MSG_Proceso" component="sif.Componentes.Translate" method="Translate"/>
+<cfinvoke key="MSG_Proceso_De_Cierre_De_Intereses_Ya_Fue_Realizado." default="El proceso de Cierre de Intereses del Per&iacute;odo ya fue realizado." returnvariable="MSG_ProcesoRealizado" component="sif.Componentes.Translate" method="Translate"/>
+<cfinvoke key="MSG_No_Se_Ha_Generado_NIngun_Proceso_De_Cierre_De_Intereses" default="No se ha generado ning&uacute;n proceso de cierre de intereses." returnvariable="MSG_PrimerProceso" component="sif.Componentes.Translate" method="Translate"/>
+<cfinvoke key="MSG_No_Han_Sido_Definidos_Los_Parametros_De_Liquidacion_De_Intereses" default="No han sido definidos los par&aacute;metros de Liquidaci&oacute;n de Intereses." returnvariable="MSG_Parametros" component="sif.Componentes.Translate" method="Translate"/>
+

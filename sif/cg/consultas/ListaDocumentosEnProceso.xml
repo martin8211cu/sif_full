@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_Titulo>Unnaplied Vouchers</LB_Titulo>
+		<LB_ConceptoIni>Initial Concept</LB_ConceptoIni>
+		<LB_ConceptoFin>Final concept</LB_ConceptoFin>
+		<LB_Formato>Format</LB_Formato>
+		<LB_Referencia>Reference</LB_Referencia>
+		<LB_AsientoIni>Initial Entry</LB_AsientoIni>
+		<LB_AsientoFin>Final Entry</LB_AsientoFin>
+		<LB_Documento>Document</LB_Documento>
+		<LB_PeriodoIni>Initial Period</LB_PeriodoIni>
+		<LB_PeriodoFin>Final Period</LB_PeriodoFin>
+		<LB_Usuario>User</LB_Usuario>
+		<LB_MesIni>Initial Month</LB_MesIni>
+		<LB_MesFin>Final Month</LB_MesFin>
+		<LB_Orden>Order by</LB_Orden>
+		<LB_FechaIni>Initial Date</LB_FechaIni>
+		<LB_FechaFin>Final Date</LB_FechaFin>
+		<LB_OrigenAsiento>Entry Source</LB_OrigenAsiento>
+		<LB_Todos>All</LB_Todos>
+		<LB_Linea>Line</LB_Linea>
+		<BTN_Limpiar>Clean</BTN_Limpiar>
+		<BTN_Generar>Generate</BTN_Generar>
+	</Idioma>
+</Etiquetas>

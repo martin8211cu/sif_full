@@ -1,0 +1,14 @@
+﻿@charset "utf-8";
+.iconoTop {
+	background:url(/cfmx/plantillas/soinasp01racsa/header_racsa.jpg);
+	background-repeat: no-repeat;
+}
+.iconoPreferencias a, .iconoUsuario, .iconoUsuario a {
+	color:white;
+	font-weight:bold;
+}
+.iconoPreferencias * img {
+	background-color:white;
+	border:#000099 2px groove;
+	vertical-align:middle;
+}

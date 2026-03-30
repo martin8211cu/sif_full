@@ -1,0 +1,30 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 382 - DBM 313: IMPIncidentesCambio
+
+	         PARCHE:  Parche023_323_RH _MejorasImportacionIncidenciasTip
+
+GENERADO EN:
+	SERVER:  http://mxvqapp34:8300
+	DSN:     sifcim
+	FECHA:   06/01/2012 16:45:43
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* CHG_TABLE IMPIncidentes: IMPIncidentes */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): Imontores - Valor Incidencia Calculado */
+ALTER TABLE IMPIncidentes ADD Imontores money DEFAULT 0 NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

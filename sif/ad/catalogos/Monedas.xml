@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_Titulo>Currency Catalog</LB_Titulo>
+		<LB_Codigo>Code</LB_Codigo>
+		<LB_Descripcion>Descrption</LB_Descripcion>
+		<LB_Simbolo>Symbol</LB_Simbolo>
+		<LB_Sigla>Initials</LB_Sigla>
+		<LB_Moneda>Currency</LB_Moneda>
+		<LB_Mensaje>The currencies defined in this catalog, can be used by the enterprise to generate documents, payments registers, etc.</LB_Mensaje>
+	</Idioma>
+</Etiquetas>

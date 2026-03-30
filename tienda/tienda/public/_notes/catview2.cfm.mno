@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<info>
+	<infoitem key="UD_bestseller" value="name:id_producto;datatype:,name:id_presentacion;datatype:,name:nombre_producto;datatype:,name:precio;datatype:" />
+	<infoitem key="UD_featured" value="name:id_producto;datatype:,name:id_presentacion;datatype:,name:nombre_producto;datatype:,name:precio;datatype:" />
+</info>

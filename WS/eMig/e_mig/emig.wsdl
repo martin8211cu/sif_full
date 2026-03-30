@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://e_mig.e_mig._sif" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="http://e_mig.e_mig._sif" xmlns:intf="http://e_mig.e_mig._sif" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns1="http://rpc.xml.coldfusion" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<!--WSDL created by ColdFusion version 8,0,1,195765-->
+ <wsdl:types>
+  <schema targetNamespace="http://e_mig.e_mig._sif" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://rpc.xml.coldfusion"/>
+   <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+   <complexType name="P_Cedula">
+    <sequence>
+     <element name="numeroCedula" nillable="true" type="xsd:string"/>
+     <element name="tipoCedula" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+   <complexType name="R_ConsultaEstados">
+    <sequence>
+     <element name="ESTADO_CCSS" nillable="true" type="xsd:string"/>
+     <element name="ESTADO_RN" nillable="true" type="xsd:string"/>
+     <element name="ESTADO_TD" nillable="true" type="xsd:string"/>
+     <element name="NOMBRE" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+  </schema>
+  <schema targetNamespace="http://rpc.xml.coldfusion" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://e_mig.e_mig._sif"/>
+   <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+   <complexType name="CFCInvocationException">
+    <sequence/>
+   </complexType>
+  </schema>
+ </wsdl:types>
+
+   <wsdl:message name="getEstadosPersonaResponse">
+
+      <wsdl:part name="getEstadosPersonaReturn" type="impl:R_ConsultaEstados"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="CFCInvocationException">
+
+      <wsdl:part name="fault" type="tns1:CFCInvocationException"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="getEstadosPersonaRequest">
+
+      <wsdl:part name="parameters" type="impl:P_Cedula"/>
+
+   </wsdl:message>
+
+   <wsdl:portType name="EmigWS">
+
+      <wsdl:operation name="getEstadosPersona" parameterOrder="parameters">
+
+         <wsdl:input message="impl:getEstadosPersonaRequest" name="getEstadosPersonaRequest"/>
+
+         <wsdl:output message="impl:getEstadosPersonaResponse" name="getEstadosPersonaResponse"/>
+
+         <wsdl:fault message="impl:CFCInvocationException" name="CFCInvocationException"/>
+
+      </wsdl:operation>
+
+   </wsdl:portType>
+
+   <wsdl:binding name="emigWS.cfcSoapBinding" type="impl:EmigWS">
+
+      <wsdlsoap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+      <wsdl:operation name="getEstadosPersona">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getEstadosPersonaRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://e_mig.e_mig._sif" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getEstadosPersonaResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://e_mig.e_mig._sif" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="CFCInvocationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="CFCInvocationException" namespace="http://e_mig.e_mig._sif" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+   </wsdl:binding>
+
+   <wsdl:service name="EmigWSService">
+
+      <wsdl:port binding="impl:emigWS.cfcSoapBinding" name="emigWS.cfc">
+
+         <wsdlsoap:address location="http://localhost:8300/cfmx/_sif/e_mig/e_mig/emigWS.cfc"/>
+
+      </wsdl:port>
+
+   </wsdl:service>
+
+</wsdl:definitions>
+
+	

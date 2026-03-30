@@ -1,0 +1,89 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 13 - Update_Modificaciones
+
+	         PARCHE:  ParcheRH_023_003
+
+GENERADO EN:
+	SERVER:  http://localhost:8099
+	DSN:     minisif
+	FECHA:   21/02/2011 18:12:17
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* ADD_TABLE DEModificables: Datos Modificables del Emplead */
+/* ======================================================================================== */
+
+CREATE TABLE DEModificables (
+	 Bid                            bit                  NOT NULL
+	,NTIcodigo                      bit                  NOT NULL
+	,DEidentificacion               bit                  NOT NULL
+	,DEnombre                       bit                  NOT NULL
+	,DEapellido1                    bit                  NOT NULL
+	,DEapellido2                    bit                  NOT NULL
+	,CBTcodigo                      bit                  NOT NULL
+	,DEcuenta                       bit                  NOT NULL
+	,CBcc                           bit                  NOT NULL
+	,Mcodigo                        bit                  NOT NULL
+	,DEdireccion                    bit                  NOT NULL
+	,DEtelefono1                    bit                  NOT NULL
+	,DEtelefono2                    bit                  NOT NULL
+	,DEemail                        bit                  NOT NULL
+	,DEcivil                        bit                  NOT NULL
+	,DEfechanac                     bit                  NOT NULL
+	,DEsexo                         bit                  NOT NULL
+	,DEcantdep                      bit                  NOT NULL
+	,DEobs1                         bit                  NOT NULL
+	,DEobs2                         bit                  NOT NULL
+	,DEobs3                         bit                  NOT NULL
+	,DEdato1                        bit                  NOT NULL
+	,DEdato2                        bit                  NOT NULL
+	,DEdato3                        bit                  NOT NULL
+	,DEdato4                        bit                  NOT NULL
+	,DEdato5                        bit                  NOT NULL
+	,DEinfo1                        bit                  NOT NULL
+	,DEinfo2                        bit                  NOT NULL
+	,DEinfo3                        bit                  NOT NULL
+	,FEdatos1                       bit                  NOT NULL
+	,FEdatos2                       bit                  NOT NULL
+	,FEdatos3                       bit                  NOT NULL
+	,FEinfo1                        bit                  NOT NULL
+	,FEinfo2                        bit                  NOT NULL
+	,FEobs1                         bit                  NOT NULL
+	,FEobs2                         bit                  NOT NULL
+	,DEtarjeta                      bit                  NOT NULL
+	,DEpassword                     bit                  NOT NULL
+	,Ppais                          bit                  NOT NULL
+	,DESeguroSocial                 bit                  NOT NULL
+	,DEdato6                        bit                  NOT NULL
+	,DEdato7                        bit                  NOT NULL
+	,DEinfo4                        bit                  NOT NULL
+	,DEinfo5                        bit                  NOT NULL
+	,DEobs4                         bit                  NOT NULL
+	,DEobs5                         bit                  NOT NULL
+	,ZEid                           bit                  NOT NULL
+	,DEsdi                          bit                  NOT NULL
+	,DEruta                         bit                  NOT NULL
+	,BMfechaalta                    datetime             NULL
+	,Ecodigo                        numeric(18)          NOT NULL
+	,BMUsucodigo                    numeric(18)          NULL
+	,ts_rversion                    timestamp           
+	)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="P", SEC="0", COLS="Ecodigo" */
+ALTER TABLE DEModificables ADD CONSTRAINT DEModificables_PK PRIMARY KEY CLUSTERED (Ecodigo)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

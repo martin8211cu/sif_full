@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiqueta>
+	<Idioma id="en">
+		<LB_Header>Invoicing</LB_Header>
+		<LB_RegistroPreFacturas>Pre invoice Register</LB_RegistroPreFacturas>
+		<LB_CentroFuncionalDefault>Functional Center Default</LB_CentroFuncionalDefault>
+		<LB_CuentaDefault>Default Account</LB_CuentaDefault>
+		<LB_SeleccionarTodos>Select All</LB_SeleccionarTodos>
+		<MSG_EstaSeguroDeQueDeseaAplicarLosDocumentosSeleccionados>Apply Selected Documents?</MSG_EstaSeguroDeQueDeseaAplicarLosDocumentosSeleccionados>
+		<MSG_EstaSeguroDeQueDeseaAnualLosDocumentosSeleccionados>Cancel Selected Documents?</MSG_EstaSeguroDeQueDeseaAnualLosDocumentosSeleccionados>
+		<MSG_DebeSeleccionarAlMenosUnDocumentoAntesDeAplicar>Please select a document to Apply</MSG_DebeSeleccionarAlMenosUnDocumentoAntesDeAplicar>
+		<MSG_DebeSeleccionarAlMenosUnDocumentoAntesDeAnular>Please select a document to Cancel</MSG_DebeSeleccionarAlMenosUnDocumentoAntesDeAnular>
+		<LB_Pendiente>Pending</LB_Pendiente>
+		<LB_Estimada>Estimate</LB_Estimada>
+		<LB_Anulada>Cancel</LB_Anulada>
+		<LB_Terminada>Finished</LB_Terminada>
+		<LB_Vencida>Overdue</LB_Vencida>
+		<LB_Lista_de_Centros_Funcionales>Functional Centers List</LB_Lista_de_Centros_Funcionales>
+	</Idioma>
+</Etiqueta>

@@ -1,0 +1,22 @@
+.Listas {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 9px;
+	color: #CCCCCC;
+}
+.EncabLista {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	font-style: normal;
+	font-weight: bold;
+	color: #FFFFFF;
+	background-color: #006699;
+}
+.FilasSimple {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+}
+.FilasSimpleAlt {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	background-color: #CCCCCC;
+}

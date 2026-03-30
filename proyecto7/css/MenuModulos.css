@@ -1,0 +1,424 @@
+.containerlightbox{
+    border: 1px solid #DDDDDD;
+    clear: right;
+	height:99%;
+	width:99%;
+    overflow: auto !important;
+    position: relative;
+	overflow: -moz-scrollbars-vertical;
+	overflow: -moz-scrollbars-horizontal;
+    overflow-y: scroll;
+	overflow-x: scroll;
+}
+.containerlightboxMobile{
+    border: 1px solid #DDDDDD;
+    clear: right;
+	height:99%;
+	width:840px;
+    overflow: auto !important;
+    position: relative;
+	overflow: -moz-scrollbars-vertical;
+	overflow: -moz-scrollbars-horizontal;
+    overflow-y: scroll;
+	overflow-x: scroll;
+}
+
+.Container_menu
+{
+    margin:139px auto;
+    width:1000px;
+}
+
+a.modulo-ct2 {
+    background: url(../imagenes/Cotizaciones_datos2.png) no-repeat scroll left top transparent;
+    display: block;
+    height: 100%;
+    width: 100%;
+}
+.modulo-ctdiv2 {
+	display:none;
+    float: left;
+    height: 165px;
+    left: 41%;
+    position: absolute;
+    top: 3%;
+    width: 165px;
+}
+a.modulo-ge2 {
+    background: url(../imagenes/Gastos_Empleados_datos2.png) no-repeat scroll left top transparent;
+    display: block;
+    height: 100%;
+    width: 100%;
+}
+.modulo-gediv2 {
+	display:none;
+    float: left;
+    height: 165px;
+    left: 77%;
+    position: absolute;
+    top: 3%;
+    width: 165px;
+}
+a.modulo-sc2 {
+    background: url(../imagenes/Solicitud_Compras_datos2.png) no-repeat scroll left top transparent;
+    display: block;
+    height: 100%;
+    width: 100%;
+}
+.modulo-scdiv2 {
+	display:none;
+    float: left;
+    height: 165px;
+    left: 3%;
+    position: absolute;
+    top: 3%;
+    width: 165px;
+}
+a.modulo-oc2 {
+    background: url(../imagenes/Orden_Compra_datos2.png) no-repeat scroll left top transparent;
+    display: block;
+    height: 100%;
+    width: 100%;
+}
+.modulo-ocdiv2 {
+	display:none;
+    float: left;
+    height: 165px;
+    left: 41%;
+    position: absolute;
+    top: 1%;
+    width: 165px;
+}
+a.modulo-rh2 {
+    background: url(../imagenes/RecusosHumanos_datos2.png) no-repeat scroll left top transparent;
+    display: block;
+    height: 100%;
+    width: 100%;
+}
+.modulo-rhdiv2{
+	display:none;
+    float: left;
+    height: 165px;
+    left: 77%;
+    margin-right: 20px;
+    position: absolute;
+    top: 1%;
+    width: 165px;
+}
+a.modulo-te2 {
+    background: url(../imagenes/Tesoreria_datos2.png) no-repeat scroll left top transparent;
+    display: block;
+    height: 100%;
+    width: 100%;
+}
+.modulo-tediv2 {
+	display:none;
+    float: left;
+    height: 165px;
+    left: 3%;
+    position: absolute;
+    top: 1%;
+    width: 165px;
+} 
+
+.NumeroCT{
+  	color: #FFFFFF;
+    font-size: 25px;
+    font-weight: bold;
+    margin-left: 56.9%;
+    margin-top: 1%;
+    position: absolute;
+    text-align: center;
+    width: 30px;
+    z-index: 100;
+}
+.NumeroSC{
+  	color: #FFFFFF;
+    font-size: 25px;
+    font-weight: bold;
+    margin-left: 18.9%;
+    margin-top: 1%;
+    position: absolute;
+    text-align: center;
+    width: 30px;
+    z-index: 100;
+}
+.NumeroGE{
+  	color: #FFFFFF;
+    font-size: 25px;
+    font-weight: bold;
+    margin-left: 93%;
+    margin-top: 1%;
+    position: absolute;
+    text-align: center;
+    width: 30px;
+    z-index: 100;
+}
+.NumeroOC{
+  	color: #FFFFFF;
+    font-size: 25px;
+    font-weight: bold;
+    margin-left: 56.9%;
+    margin-top: 0px;
+    position: absolute;
+    text-align: center;
+    width: 30px;
+    z-index: 100;
+}
+.NumeroTE{
+  	color: #FFFFFF;
+    font-size: 25px;
+    font-weight: bold;
+    margin-left: 18.9%;
+    margin-top: 0px;
+    position: absolute;
+    text-align: center;
+    width: 30px;
+    z-index: 100;
+}
+.NumeroRH{
+  	color: #FFFFFF;
+    font-size: 25px;
+    font-weight: bold;
+    margin-left: 93%;
+    margin-top: 0px;
+    position: absolute;
+    text-align: center;
+    width: 30px;
+    z-index: 100;
+}
+
+
+.titulo{
+	border-bottom: 1px solid #CCCCCC;
+    color: #666666;
+    font-size: 27px;
+    font-weight: 500;
+    margin-left: 3px;
+    margin-top: 1px;
+    padding: 0 0 8px 45px;
+}
+#circle-menu {
+    display: block;
+	text-align:center;
+    height:500px;
+    margin: 0 auto;
+    position: relative;
+    width: 710px;
+	border-color: #CCCCCC;
+    border-radius: 10px 10px 10px 10px;
+    border-style: solid;
+    border-width: 1px;
+    clear: both;
+    padding: 10px;	
+	margin-bottom:20px;	
+}
+#circle-menu-interno1 {
+    display: block;
+	text-align:center;
+    height:200px;
+    margin: 0 auto;
+    position: relative;
+    width: 670px;
+    border-width: 1px;
+    clear: both;
+    padding: 10px;	
+}
+#circle-menu-interno2 {
+    display: block;
+	text-align:center;
+    height:150px;
+    margin: 0 auto;
+    position: relative;
+    width: 670px;
+    clear: both;
+    padding: 10px;	
+	margin-bottom:10px;	
+}
+
+a.archivos-icon-detalle{
+	 background: url("../imagenes/details.jpg") no-repeat scroll left top transparent;
+    display: block;
+    float: right;
+    height: 20px;
+    margin-right: 10px;
+    width: 20px;
+}
+a.archivos-icon-aprobar{
+	 background: url("../imagenes/aprobar.png") no-repeat scroll left top transparent;
+    display: block;
+    float: right;
+    height: 20px;
+    margin-right: 10px;
+    width: 20px;
+}
+a.archivos-icon-rechazar{
+	 background: url("../imagenes/rechazar.png") no-repeat scroll left top transparent;
+    display: block;
+    float: right;
+    height: 20px;
+    margin-right: 10px;
+    width: 20px;
+}
+a.archivos-icon-reiniciar{
+	background: url("../imagenes/reiniciar.png") no-repeat scroll left top transparent;
+    display: block;
+    float: right;
+    height: 25px;
+    margin-right: 10px;
+    width: 25px;	
+}
+#circle-menu2 {
+    display: block;
+	text-align:center;
+    height:500px;
+    margin: 0 auto;
+    position: relative;
+    width: 85%;
+	border-color: #CCCCCC;
+    border-radius: 10px 10px 10px 10px;
+    border-style: solid;
+    border-width: 1px;
+    clear: both;
+    padding: 10px;
+	margin-bottom:20px;		
+}
+#circle-menu3 {
+    display: block;
+	text-align:center;
+	min-height:500px;
+    margin: 0 auto;
+    position: relative;
+	min-width:500px;
+	border-color: #CCCCCC;
+    border-radius: 10px 10px 10px 10px;
+    border-style: solid;
+    border-width: 1px;
+    clear: both;
+    padding: 10px;
+	margin-bottom:20px;	
+}
+#circle-menu a:hover, #circle-menu a.hover {
+	background-position: left bottom;
+}
+a.modulo-sc {
+    background:url(../imagenes/Solicitud_Compras_datos.png) no-repeat scroll left top transparent;
+    display: block;
+    height: 100%;
+    width: 100%;
+	margin:0px;
+}
+a.modulo-ct {
+    background: url(../imagenes/Cotizaciones_datos.png) no-repeat scroll left top transparent;
+    display: block;
+    height: 100%;
+    width: 100%;
+}
+a.modulo-ge {
+    background: url(../imagenes/Gastos_Empleados_datos.png) no-repeat scroll left top transparent;
+    display: block;
+    height: 100%;
+    width: 100%;
+}
+a.modulo-te {
+    background: url(../imagenes/Tesoreria_datos.png) no-repeat scroll left top transparent;
+    display: block;
+    height: 100%;
+    width: 100%;
+}
+a.modulo-oc {
+    background: url(../imagenes/Orden_Compra_datos.png) no-repeat scroll left top transparent;
+    display: block;
+    height: 100%;
+    width: 100%;
+}
+a.modulo-rh {
+    background: url(../imagenes/RecurosHumanos_datos.png) no-repeat scroll left top transparent;
+    display: block;
+    height: 100%;
+    width: 100%;
+}
+
+.modulo-scdiv {
+    display: block;
+    float: left;
+    height: 121px;
+    left: 3%;
+    position: absolute;
+    top: 20%;
+    width: 145px;
+	
+}
+.modulo-ctdiv {
+    display: block;
+    float: left;
+    height: 121px;
+    left: 42%;
+    position: absolute;
+    top: 20%;
+    width: 148px;
+}
+.modulo-gediv {
+   display: block;
+    float: left;
+    height: 121px;
+    left: 77%;
+    position: absolute;
+    top: 20%;
+    width: 148px;
+} 
+.modulo-tediv {
+    display: block;
+    float: left;
+    height: 121px;
+    left: 3%;
+    position: absolute;
+    top: 20%;
+    width: 148px;
+}
+.modulo-ocdiv  {
+    display: block;
+    float: left;
+    height: 121px;
+    left: 42%;
+    position: absolute;
+    top: 20%;
+    width: 148px;
+}
+.modulo-rhdiv  {
+   display: block;
+    float: left;
+    height: 121px;
+    left: 77%;
+    margin-right: 20px;
+    position: absolute;
+    top: 20%;
+    width: 148px;
+}
+a.btnAprobar {
+	background: url(../imagenes/aceptar_2.png) no-repeat scroll left top transparent;
+    height: 28px;
+    width: 85px;
+    line-height: 30px;
+	cursor:pointer;
+    text-decoration: none;
+	display:block;
+}
+a.btnRechazar {
+	background: url(../imagenes/rechazar_2.png) no-repeat scroll left top transparent;
+    height: 28px;
+    width: 85px;
+    line-height: 30px;
+	cursor:pointer;
+    text-decoration: none;
+	display:block;
+}
+a.btnCancelar{
+	background: url(../imagenes/cancelar.png) no-repeat scroll left top transparent;
+    height: 28px;
+    width: 85px;
+    line-height: 30px;
+	cursor:pointer;
+    text-decoration: none;
+	display:block;
+}

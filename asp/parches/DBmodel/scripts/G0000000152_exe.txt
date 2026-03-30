@@ -1,0 +1,110 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 493 - DBM 430: Crear un campo (FFECreursivo) para las ta
+
+	         PARCHE:  Parche023_593_SIF_Documentos
+
+GENERADO EN:
+	SERVER:  http://mxvqapp34:8300
+	DSN:     sifcim
+	FECHA:   08/01/2012 20:20:18
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* CHG_TABLE AsientosRecursivos: AsientosRecursivos */
+/* ======================================================================================== */
+/* ADD_COLUMN OP = (NUEVO): FFECrecursivo - Fecha Fin del Asiento Recursivo */
+ALTER TABLE AsientosRecursivos ADD FFECrecursivo datetime NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE EContables: Encabezado Documentos Contable */
+/* ======================================================================================== */
+/* ADD_COLUMN OP = (NUEVO): FFECrecursivo - Fecha Fin del Recursivo */
+ALTER TABLE EContables ADD FFECrecursivo datetime NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE FATarjetas: Tipos de tarjetas */
+/* ======================================================================================== */
+/* CHG_COLUMN OP = (CAMBIO): FATporccom - FATporccom */
+ALTER TABLE FATarjetas DROP CONSTRAINT DF__FATarjeta__FATpo__35DDC4F2
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE FATarjetas ALTER COLUMN FATporccom numeric(5,2) NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE FATarjetas ADD CONSTRAINT FATarjetas_DF10 DEFAULT 0.0 FOR FATporccom
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* ADD_TABLE RCuentasTipo_DistCargas: RCuentasTipo_DistCargas */
+/* ======================================================================================== */
+
+CREATE TABLE RCuentasTipo_DistCargas (
+	 RCTid                          numeric(18)          identity
+	,RCNid                          numeric(18)          NOT NULL
+	,Ecodigo                        integer              NOT NULL
+	,tiporeg                        integer              NOT NULL
+	,DEid                           numeric(18)          NOT NULL
+	,RHPPid                         numeric(18)          NULL
+	,referencia                     numeric(18)          NOT NULL
+	,cuenta                         varchar(100)         NULL
+	,valor                          varchar(100)         NULL
+	,valor2                         varchar(100)         NULL
+	,Cformato                       varchar(100)         NULL
+	,Ccuenta                        numeric(18)          NULL
+	,CFcuenta                       numeric(18)          NULL
+	,tipo                           char(1)              NULL
+	,CFid                           numeric(18)          NOT NULL
+	,Ocodigo                        integer              NOT NULL
+	,Dcodigo                        integer              NOT NULL
+	,montores                       float                NOT NULL
+	,vpresupuesto                   integer              DEFAULT 0 NOT NULL
+	 CONSTRAINT RCuentasTipo_DistCargas_CK19 CHECK ([vpresupuesto]=(1) OR [vpresupuesto]=(0))
+	,BMfechaalta                    datetime             NOT NULL
+	,Periodo                        integer              NULL
+	,Mes                            integer              NULL
+	,CFidAnt                        numeric(18)          NULL
+	,valorAnt                       varchar(100)         NULL
+	,BMUsucodigo                    numeric(18)          NOT NULL
+	,ts_rversion                    timestamp           
+	)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP = (TAB NUEVA): TIP="P", SEC="0", COLS="RCTid" */
+ALTER TABLE RCuentasTipo_DistCargas ADD CONSTRAINT RCuentasTipo_DistCargas_PK PRIMARY KEY NONCLUSTERED (RCTid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (TAB NUEVA): TIP="I", SEC="1", COLS="RCNid,Ecodigo" */
+CREATE NONCLUSTERED INDEX RCuentasTipo_DistCargas_ID01 ON RCuentasTipo_DistCargas (RCNid,Ecodigo)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (TAB NUEVA): TIP="I", SEC="2", COLS="RCNid,Ecodigo,DEid,CFid" */
+CREATE NONCLUSTERED INDEX RCuentasTipo_DistCargas_ID02 ON RCuentasTipo_DistCargas (RCNid,Ecodigo,DEid,CFid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

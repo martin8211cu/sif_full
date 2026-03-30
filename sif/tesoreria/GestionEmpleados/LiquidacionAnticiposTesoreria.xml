@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<MSG_ElUsuarioNoEsAprobador>The user does not have permission to authorize</MSG_ElUsuarioNoEsAprobador>
+		<LB_TituloPreparacionDeLiquidaciones>Employees Settlements Preparation</LB_TituloPreparacionDeLiquidaciones>
+		<LB_ElEmpleadoTieneAnticiposConSaldosEnContraQueDebeLiquidarAntesDePoderleReintegarDinero>The Employee has Advances to Settle before to process the Reimburse</LB_ElEmpleadoTieneAnticiposConSaldosEnContraQueDebeLiquidarAntesDePoderleReintegarDinero>
+		<LB_NumeroAnticipo>Advance Number</LB_NumeroAnticipo>
+		<LB_SaldoLiquidar>Settlement Balance</LB_SaldoLiquidar>
+	</Idioma>
+</Etiquetas>

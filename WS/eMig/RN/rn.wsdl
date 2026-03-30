@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://rn.e_mig._sif" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="http://rn.e_mig._sif" xmlns:intf="http://rn.e_mig._sif" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns1="http://rpc.xml.coldfusion" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<!--WSDL created by ColdFusion version 8,0,1,195765-->
+ <wsdl:types>
+  <schema targetNamespace="http://rn.e_mig._sif" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://rpc.xml.coldfusion"/>
+   <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+   <complexType name="P_CedulaJuridica">
+    <sequence>
+     <element name="N_CLASECEDULA" nillable="true" type="xsd:double"/>
+     <element name="N_CONSEC_CEDULA" nillable="true" type="xsd:double"/>
+     <element name="N_TIPOCEDULA" nillable="true" type="xsd:double"/>
+    </sequence>
+   </complexType>
+   <complexType name="R_PersonaJuridica">
+    <sequence>
+     <element name="ASIENTO" nillable="true" type="xsd:double"/>
+     <element name="A_DOMICILIO" nillable="true" type="xsd:string"/>
+     <element name="A_EXPEDIENTE" nillable="true" type="xsd:string"/>
+     <element name="A_FINES" nillable="true" type="xsd:string"/>
+     <element name="A_RAZONSOCIAL" nillable="true" type="xsd:string"/>
+     <element name="C_ESTADOACTUAL" nillable="true" type="xsd:string"/>
+     <element name="F_INICIO" nillable="true" type="xsd:dateTime"/>
+     <element name="F_INSCRIPCION" nillable="true" type="xsd:dateTime"/>
+     <element name="F_VENCIMIENTO" nillable="true" type="xsd:dateTime"/>
+     <element name="H_INSCRIPCION" nillable="true" type="xsd:string"/>
+     <element name="N_IND_OTORGARPODER" nillable="true" type="xsd:double"/>
+     <element name="TOMO" nillable="true" type="xsd:double"/>
+    </sequence>
+   </complexType>
+   <complexType name="R_Capital">
+    <sequence>
+     <element name="C_CLASEACCION" nillable="true" type="xsd:string"/>
+     <element name="C_TIPOCAPITAL" nillable="true" type="xsd:string"/>
+     <element name="C_TIPOMONEDA" nillable="true" type="xsd:string"/>
+     <element name="D_ACCION" nillable="true" type="xsd:string"/>
+     <element name="F_INSCRIPCION" nillable="true" type="xsd:dateTime"/>
+     <element name="H_INSCRIPCION" nillable="true" type="xsd:string"/>
+     <element name="N_ASIENTOINSCAP" nillable="true" type="xsd:double"/>
+     <element name="N_CANTIDAD" nillable="true" type="xsd:double"/>
+     <element name="N_CONSECUTIVO_TITULO" nillable="true" type="xsd:double"/>
+     <element name="N_MONTO" nillable="true" type="xsd:double"/>
+     <element name="N_TOMOINSCAP" nillable="true" type="xsd:double"/>
+    </sequence>
+   </complexType>
+   <complexType name="ArrayOfR_Capital">
+    <complexContent>
+     <restriction base="soapenc:Array">
+      <attribute ref="soapenc:arrayType" wsdl:arrayType="impl:R_Capital[]"/>
+     </restriction>
+    </complexContent>
+   </complexType>
+   <complexType name="R_Nombramientos">
+    <sequence>
+     <element name="A_DIRECCION" nillable="true" type="xsd:string"/>
+     <element name="A_NUM_IDENTIFICACION" nillable="true" type="xsd:string"/>
+     <element name="C_DOMICILIO" nillable="true" type="xsd:string"/>
+     <element name="C_ESTADOCIVIL" nillable="true" type="xsd:string"/>
+     <element name="C_IDENTIFICACION" nillable="true" type="xsd:string"/>
+     <element name="C_REPRESENTAC" nillable="true" type="xsd:string"/>
+     <element name="C_TIPOPARTE" nillable="true" type="xsd:string"/>
+     <element name="F_INICIO" nillable="true" type="xsd:dateTime"/>
+     <element name="F_INSCRIPCION" nillable="true" type="xsd:dateTime"/>
+     <element name="F_VENCIMIENTO" nillable="true" type="xsd:dateTime"/>
+     <element name="H_INSCRIPCION" nillable="true" type="xsd:string"/>
+     <element name="N_ASIENTOINSPARTE" nillable="true" type="xsd:double"/>
+     <element name="N_CLASECED_MIEMBRO" nillable="true" type="xsd:double"/>
+     <element name="N_CONSCED_MIEMBRO" nillable="true" type="xsd:double"/>
+     <element name="N_CONSECUTIVOPARTE" nillable="true" type="xsd:double"/>
+     <element name="N_IND_JUNTA_DIR" nillable="true" type="xsd:double"/>
+     <element name="N_TIPOCED_MIEMBRO" nillable="true" type="xsd:double"/>
+     <element name="N_TOMOINSPARTE" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+   <complexType name="ArrayOfR_Nombramientos">
+    <complexContent>
+     <restriction base="soapenc:Array">
+      <attribute ref="soapenc:arrayType" wsdl:arrayType="impl:R_Nombramientos[]"/>
+     </restriction>
+    </complexContent>
+   </complexType>
+   <complexType name="P_CedulaFisica">
+    <sequence>
+     <element name="A_NUM_IDENTIFICACION" nillable="true" type="xsd:string"/>
+     <element name="C_IDENTIFICACION" nillable="true" type="xsd:string"/>
+     <element name="N_CONSEC_IDENTIFIC" nillable="true" type="xsd:double"/>
+    </sequence>
+   </complexType>
+   <complexType name="R_PersonaFisica">
+    <sequence>
+     <element name="APELLIDO_1" nillable="true" type="xsd:string"/>
+     <element name="APELLIDO_2" nillable="true" type="xsd:string"/>
+     <element name="NOMBRE" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+  </schema>
+  <schema targetNamespace="http://rpc.xml.coldfusion" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://rn.e_mig._sif"/>
+   <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+   <complexType name="CFCInvocationException">
+    <sequence/>
+   </complexType>
+  </schema>
+ </wsdl:types>
+
+   <wsdl:message name="getCapitalResponse">
+
+      <wsdl:part name="getCapitalReturn" type="impl:ArrayOfR_Capital"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="getNombramientosResponse">
+
+      <wsdl:part name="getNombramientosReturn" type="impl:ArrayOfR_Nombramientos"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="getCapitalRequest">
+
+      <wsdl:part name="parameters" type="impl:P_CedulaJuridica"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="getPersonaFisicaResponse">
+
+      <wsdl:part name="getPersonaFisicaReturn" type="impl:R_PersonaFisica"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="getPersonaJuridicaRequest">
+
+      <wsdl:part name="parameters" type="impl:P_CedulaJuridica"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="getPersonaFisicaRequest">
+
+      <wsdl:part name="parameters" type="impl:P_CedulaFisica"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="CFCInvocationException">
+
+      <wsdl:part name="fault" type="tns1:CFCInvocationException"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="getPersonaJuridicaResponse">
+
+      <wsdl:part name="getPersonaJuridicaReturn" type="impl:R_PersonaJuridica"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="getNombramientosRequest">
+
+      <wsdl:part name="parameters" type="impl:P_CedulaJuridica"/>
+
+   </wsdl:message>
+
+   <wsdl:portType name="PersonasJuridicasWS">
+
+      <wsdl:operation name="getPersonaJuridica" parameterOrder="parameters">
+
+         <wsdl:input message="impl:getPersonaJuridicaRequest" name="getPersonaJuridicaRequest"/>
+
+         <wsdl:output message="impl:getPersonaJuridicaResponse" name="getPersonaJuridicaResponse"/>
+
+         <wsdl:fault message="impl:CFCInvocationException" name="CFCInvocationException"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getCapital" parameterOrder="parameters">
+
+         <wsdl:input message="impl:getCapitalRequest" name="getCapitalRequest"/>
+
+         <wsdl:output message="impl:getCapitalResponse" name="getCapitalResponse"/>
+
+         <wsdl:fault message="impl:CFCInvocationException" name="CFCInvocationException"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getNombramientos" parameterOrder="parameters">
+
+         <wsdl:input message="impl:getNombramientosRequest" name="getNombramientosRequest"/>
+
+         <wsdl:output message="impl:getNombramientosResponse" name="getNombramientosResponse"/>
+
+         <wsdl:fault message="impl:CFCInvocationException" name="CFCInvocationException"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getPersonaFisica" parameterOrder="parameters">
+
+         <wsdl:input message="impl:getPersonaFisicaRequest" name="getPersonaFisicaRequest"/>
+
+         <wsdl:output message="impl:getPersonaFisicaResponse" name="getPersonaFisicaResponse"/>
+
+         <wsdl:fault message="impl:CFCInvocationException" name="CFCInvocationException"/>
+
+      </wsdl:operation>
+
+   </wsdl:portType>
+
+   <wsdl:binding name="PersonasJuridicasWS.cfcSoapBinding" type="impl:PersonasJuridicasWS">
+
+      <wsdlsoap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+      <wsdl:operation name="getPersonaJuridica">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getPersonaJuridicaRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://rn.e_mig._sif" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getPersonaJuridicaResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://rn.e_mig._sif" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="CFCInvocationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="CFCInvocationException" namespace="http://rn.e_mig._sif" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getCapital">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getCapitalRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://rn.e_mig._sif" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getCapitalResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://rn.e_mig._sif" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="CFCInvocationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="CFCInvocationException" namespace="http://rn.e_mig._sif" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getNombramientos">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getNombramientosRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://rn.e_mig._sif" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getNombramientosResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://rn.e_mig._sif" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="CFCInvocationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="CFCInvocationException" namespace="http://rn.e_mig._sif" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getPersonaFisica">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getPersonaFisicaRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://rn.e_mig._sif" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getPersonaFisicaResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://rn.e_mig._sif" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="CFCInvocationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="CFCInvocationException" namespace="http://rn.e_mig._sif" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+   </wsdl:binding>
+
+   <wsdl:service name="PersonasJuridicasWSService">
+
+      <wsdl:port binding="impl:PersonasJuridicasWS.cfcSoapBinding" name="PersonasJuridicasWS.cfc">
+
+         <wsdlsoap:address location="http://localhost:8300/cfmx/_sif/e_mig/RN/PersonasJuridicasWS.cfc"/>
+
+      </wsdl:port>
+
+   </wsdl:service>
+
+</wsdl:definitions>
+
+	
+
+	
+
+	
+
+	

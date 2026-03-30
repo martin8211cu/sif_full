@@ -1,0 +1,62 @@
+[MAS SUPPORT]
+SupportMas_Prj=1
+[Target:WebHelp]
+SupportMas_Prj=1
+ResultFileName=!SSL!\WebHelp\ASP_Help.htm
+SSLayoutType=2
+CreateProjectTime=
+CreateProjectUser=
+SupportMas_MPJ=1
+[Target:WebHelp Pro]
+SupportMas_Prj=1
+ResultFileName=!SSL!\WebHelp_Pro\ASP_Help.htm
+SSLayoutType=32
+ServerProjectName=ASP_Help
+CreateProjectTime=
+CreateProjectUser=
+SupportMas_MPJ=1
+MindReader Server=
+ActionID For Generation=1001
+Remove Folder with prompt=1
+ViewFileName=!SSL!\WebHelp_Pro\ASP_Help.htm
+ResultStatus=0
+BuildTimeHi=29665023
+BuildTimeLow=-1677086354
+[Target:Microsoft HTML Help]
+ResultFileName=!SSL!\Microsoft_HTML_Help\ASP_Help.chm
+SSLayoutType=1
+CreateProjectTime=
+CreateProjectUser=
+SupportMas_MPJ=1
+[Target:FlashHelp]
+ResultFileName=!SSL!\FlashHelp\ASP_Help.htm
+SSLayoutType=2
+CreateProjectTime=
+CreateProjectUser=
+SupportMas_MPJ=1
+[Target:Printed Documentation]
+ResultFileName=!SSL!\Printed_Documentation\ASP_Help.doc
+SSLayoutType=7
+[Target:XML Output]
+ResultFileName=!SSL!\XML_Output\ASP_Help.xml
+SSLayoutType=8192
+[PreSingleSource]
+Html Help Project=X:\asp_help\ASP_Help\ASP_Help.hhp
+Table Of Content=X:\asp_help\ASP_Help\ASP_Help.hhc
+Index=X:\asp_help\ASP_Help\ASP_Help_merged$.hhk
+See Also Index=X:\asp_help\ASP_Help\ASP_Help.hha
+Browse Sequence=X:\asp_help\ASP_Help\ASP_Help.brs
+Topic Properties=X:\asp_help\ASP_Help\ASP_Help.trs
+Active Folders=X:\asp_help\ASP_Help\ASP_Help.trf
+Baggage Files=X:\asp_help\ASP_Help\ASP_Help.trb
+Skin List=X:\asp_help\ASP_Help\ASP_Help.trk
+OriginalHhk=X:\asp_help\ASP_Help\ASP_Help.hhk
+Active Layout Names=X:\asp_help\ASP_Help\ASP_Help.trl
+Default Topic=X:\asp_help\ASP_Help\Índice_General.htm
+Build Tags0=6654;Print | Online
+Build Tags=
+Build Expression=
+Language ID=3082
+Language Name=Español
+Language=X:\asp_help\ASP_Help\RoboHHRE.lng
+Stop List=X:\asp_help\ASP_Help\ASP_Help.stp

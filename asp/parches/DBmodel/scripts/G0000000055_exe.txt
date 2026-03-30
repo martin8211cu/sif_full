@@ -1,0 +1,51 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 138 - DBM 238: Se agregaron dos nuevos campos para Depre
+
+	         PARCHE:  Parche023_184_SIF_DepreciacionFiscal y TCE
+
+GENERADO EN:
+	SERVER:  http://mxpapp36:8300
+	DSN:     sifcim
+	FECHA:   08/08/2011 22:14:08
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* CHG_TABLE ADTProceso: Detalle de Transacciones de Ac */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): TAmontodepadqFiscal - Valor de la depreciacion de la adquisicion Fiscal */
+ALTER TABLE ADTProceso ADD TAmontodepadqFiscal money NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): TAmontodepmejFiscal - Valor de la depreciacion de la mejora Fiscal */
+ALTER TABLE ADTProceso ADD TAmontodepmejFiscal money NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE SNegocios: Socios de Negocios */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): CFcuentaCxC - Cuenta default CxC2 */
+ALTER TABLE SNegocios ADD CFcuentaCxC numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): CFcuentaCxP - Cuenta default CxP2 */
+ALTER TABLE SNegocios ADD CFcuentaCxP numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

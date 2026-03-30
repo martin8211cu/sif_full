@@ -1,0 +1,263 @@
+<?xml version='1.0' encoding='windows-1252' ?>
+<tocdata>
+<book name="Administración de Plazas" >
+  <book name="Catálogos" >
+    <item name="Categorías de Pago" url="Administraci_n_de_Plazas/Cat_logos/Categor_as_de_Pago.htm" />
+    <item name="Maestro de Puestos Presupuestarios" url="Administraci_n_de_Plazas/Cat_logos/Maestro_de_Puestos_Presupuestarios.htm" />
+    <item name="Plazas Presupuestarias" url="Administraci_n_de_Plazas/Cat_logos/Plazas_Presupuestarias.htm" />
+    <item name="Tipos de Movimientos" url="Administraci_n_de_Plazas/Cat_logos/Tipos_de_Movimientos.htm" />
+    <item name="Tipos de Tabla Salarial" url="Administraci_n_de_Plazas/Cat_logos/Tipos_de_Tabla_Salarial.htm" />
+  </book>
+  <book name="Operación" >
+    <item name="Registro de Movimientos de Plaza" url="Administraci_n_de_Plazas/Operaci_n/Registro_de_Movimientos_de_Plaza.htm" />
+  </book>
+</book>
+<book name="Administración de Puestos" >
+  <book name="Descripción de Puestos" >
+    <item name="Catálogos Generales" url="Administraci_n_de_Puestos/Descripci_n_de_Puestos/Catalogos_Generales.htm" />
+    <item name="Configuración del Reporte" url="Administraci_n_de_Puestos/Descripci_n_de_Puestos/Configuraci_n_del_Reporte.htm" />
+    <item name="Conocimientos" url="Administraci_n_de_Puestos/Descripci_n_de_Puestos/Conocimientos.htm" />
+    <item name="Datos Variables" url="Administraci_n_de_Puestos/Descripci_n_de_Puestos/Datos_Variables.htm" />
+    <item name="Habilidades" url="Administraci_n_de_Puestos/Descripci_n_de_Puestos/Habilidades.htm" />
+    <item name="Niveles" url="Administraci_n_de_Puestos/Descripci_n_de_Puestos/Niveles.htm" />
+    <item name="Ocupaciones" url="Administraci_n_de_Puestos/Descripci_n_de_Puestos/Ocupaciones.htm" />
+    <item name="Puestos" url="Administraci_n_de_Puestos/Descripci_n_de_Puestos/Puestos.htm" />
+    <item name="Puestos Externos" url="Administraci_n_de_Puestos/Descripci_n_de_Puestos/Puestos_Externos.htm" />
+    <item name="Tipos de Puestos" url="Administraci_n_de_Puestos/Descripci_n_de_Puestos/Tipos_de_Puestos.htm" />
+  </book>
+  <book name="Valoración de Puestos" >
+    <item name="Consulta de Valoración de Puestos" url="Administraci_n_de_Puestos/Valoraci_n_de_Puestos/Consulta_de_Valoraci_n_de_Puestos.htm" />
+    <item name="Cuadro Auxiliar para Solución de Problemas" url="Administraci_n_de_Puestos/Valoraci_n_de_Puestos/Cuadro_Auxiliar_para_Soluci_n_de_Problemas.htm" />
+    <item name="Cuadro de Habilidades" url="Administraci_n_de_Puestos/Valoraci_n_de_Puestos/Cuadro_de_Habilidades.htm" />
+    <item name="Cuadro de Perfiles HAY Característicos" url="Administraci_n_de_Puestos/Valoraci_n_de_Puestos/Cuadro_de_Perfiles_HAY_Caracter_sticos.htm" />
+    <item name="Cuadro de Responsabilidad" url="Administraci_n_de_Puestos/Valoraci_n_de_Puestos/Cuadro_de_Responsabilidad.htm" />
+    <item name="Cuadro de Solución de Problemas" url="Administraci_n_de_Puestos/Valoraci_n_de_Puestos/Cuadro_de_Soluci_n_de_Problemas.htm" />
+    <item name="Gráfico Histórico Valoración de Puestos" url="Administraci_n_de_Puestos/Valoraci_n_de_Puestos/Gr_fico_Hist_rico_Valoraci_n_de_Puestos.htm" />
+    <item name="Gráfico Salario Base por Tipos de Puestos" url="Administraci_n_de_Puestos/Valoraci_n_de_Puestos/Gr_fico_Salario_Base_por_Tipos_de_Puestos.htm" />
+    <item name="Gráfico Salario Base vs Puntos" url="Administraci_n_de_Puestos/Valoraci_n_de_Puestos/Gr_fico_Salario_Base_vs_Puntos.htm" />
+    <item name="Registro de Relación de Valoración de Puestos" url="Administraci_n_de_Puestos/Valoraci_n_de_Puestos/Registro_de_Relaci_n_de_Valoraci_n_de_Puestos.htm" />
+  </book>
+</book>
+<book name="Autogestión" >
+  <book name="Autogestión" >
+    <item name="Aprobación de Trámites" url="Autogesti_n/Autogesti_n/Aprobaci_n_de_Tr_mites.htm" />
+    <item name="Cambios Salariales" url="Autogesti_n/Autogesti_n/Cambios_Salariales.htm" />
+    <item name="Citas Médicas" url="Autogesti_n/Autogesti_n/Citas_M_dicas.htm" />
+    <item name="Concursos Abiertos" url="Autogesti_n/Autogesti_n/Concursos_Abiertos.htm" />
+    <item name="Iniciar Trámite" url="Autogesti_n/Autogesti_n/Iniciar_Tr_mite.htm" />
+    <item name="Justificación Adelantada de Marca" url="Autogesti_n/Autogesti_n/Justificaci_n_Adelantada_de_Marca.htm" />
+    <item name="Justificación Adelantada de Marca para Jefe" url="Autogesti_n/Autogesti_n/Justificaci_n_Adelantada_de_Marca_para_Jefe.htm" />
+    <item name="Mi Expediente" url="Autogesti_n/Autogesti_n/Mi_Expediente.htm" />
+    <item name="Reloj Marcador" url="Autogesti_n/Autogesti_n/Reloj_Marcador.htm" />
+    <item name="Solicitud Apertura de Concursos" url="Autogesti_n/Autogesti_n/Solicitud_Apertura_de_Concursos.htm" />
+    <item name="Solicitud de Documentos" url="Autogesti_n/Autogesti_n/Solicitud_de_Documentos.htm" />
+    <item name="Solicitud de Plazas" url="Autogesti_n/Autogesti_n/Solicitud_de_Plazas.htm" />
+    <item name="Trámites Pendientes" url="Autogesti_n/Autogesti_n/Tr_mites_Pendientes.htm" />
+  </book>
+  <book name="Desarrollo" >
+    <item name="Autoevaluación del Desempeño" url="Autogesti_n/Desarrollo/Autoevaluaci_n_del_Desempe_o.htm" />
+    <item name="Automatrícula de Cursos" url="Autogesti_n/Desarrollo/Automatr_cula_de_Cursos.htm" />
+    <item name="Evaluaciones del Desempeño Pendientes" url="Autogesti_n/Desarrollo/Evaluaciones_del_Desempe_o_Pendientes.htm" />
+    <item name="Solicitud de Capacitación" url="Autogesti_n/Desarrollo/Solicitud_de_Capacitaci_n.htm" />
+  </book>
+</book>
+<book name="Compras" >
+  <book name="Cálculo de Importación" >
+    <item name="1 - Registro de Transacciones" url="Compras/C_lculo_de_Importaci_n/1_-_Registro_de_Transacciones.htm" />
+    <item name="2 - Anulación de Transacciones" url="Compras/C_lculo_de_Importaci_n/2_-_Anulaci_n_de_Transacciones.htm" />
+    <item name="3 - Pólizas de Desalmacenaje" url="Compras/C_lculo_de_Importaci_n/3_-_P_lizas_de_Desalmacenaje.htm" />
+    <item name="4 - Administración de Embarques" url="Compras/C_lculo_de_Importaci_n/4_-_Administraci_n_de_Embarques.htm" />
+    <item name="5 - Seguimiento de Embarques" url="Compras/C_lculo_de_Importaci_n/5_-_Seguimiento_de_Embarques.htm" />
+  </book>
+  <book name="Catálogos" >
+    <item name="1 - Configuración Tipos de Solicitud" url="Compras/Cat_logos/Confguraci_n_Tipos_de_Solicitud.htm" />
+    <item name="10 - Términos Internacionales de Comercio" url="Compras/Cat_logos/T_rminos_Internacionales_de_Comercio.htm" />
+    <item name="11 - Seguros" url="Compras/Cat_logos/Seguros.htm" />
+    <item name="2 - Solicitantes" url="Compras/Cat_logos/Solicitantes.htm" />
+    <item name="3 - Compradores" url="Compras/Cat_logos/Compradores.htm" />
+    <item name="4 - Tipos de Orden de Compra" url="Compras/Cat_logos/Tipos_de_Orden_de_Compra.htm" />
+    <item name="5 - Grupos de Criterios de Comparación" url="Compras/Cat_logos/Grupos_de_Criterios_de_Comparaci_n.htm" />
+    <item name="6 - Contratos" url="Compras/Cat_logos/Contratos.htm" />
+    <item name="7 - Tipos de Documentos" url="Compras/Cat_logos/Tipos_de_Documentos.htm" />
+    <item name="8 - Tipos de Transacción" url="Compras/Cat_logos/Tipos_de_Transacci_n.htm" />
+    <item name="9 - Formas de Pago" url="Compras/Cat_logos/Formas_de_Pago.htm" />
+  </book>
+  <book name="Otras Opciones de Compra" >
+    <item name="1 - Reimpresión de Solicitudes de Compra" url="Compras/Otras_Opciones_de_Compra/Reimpresi_n_de_Solicitudes_de_Compra.htm" />
+    <item name="2 - Reimpresión de Órdenes de Compra" url="Compras/Otras_Opciones_de_Compra/Reimpresi_n_de__rdenes_de_Compra.htm" />
+    <item name="3 - Cancelación de Solicitudes de Compra" url="Compras/Otras_Opciones_de_Compra/Cancelaci_n_de_Solicitudes_de_Compra.htm" />
+    <item name="4 - Cancelación de Órdenes de Compra" url="Compras/Otras_Opciones_de_Compra/Cancelaci_n_de__rdenes_de_Compra.htm" />
+    <item name="5 - Solicitudes de Compra Rechazadas" url="Compras/Otras_Opciones_de_Compra/Solicitudes_de_Compra_Rechazadas.htm" />
+    <item name="6 - Órdenes de Compra Rechazadas" url="Compras/Otras_Opciones_de_Compra/_rdenes_de_Compra_Rechazadas.htm" />
+    <item name="7 - Reasignar Cargas de Trabajo (Solicitudes de Compra)" url="Compras/Otras_Opciones_de_Compra/Reasignar_Cargas_de_Trabajo_(Solicitudes_de_Compra).htm" />
+    <item name="8 - Reasignar Órdenes de Compra" url="Compras/Otras_Opciones_de_Compra/Reasignar__rdenes_de_Compra.htm" />
+    <item name="9 - Generación de Embarques por Órdenes de Compra (OC)" url="Compras/Otras_Opciones_de_Compra/9_-_Generaci_n_de_Embarques_por__rdenes_de_Compra_(OC).htm" />
+  </book>
+  <book name="Proceso de Compra" >
+    <item name="1 - Registro de Solicitudes de Compra" url="Compras/Proceso_de_Compra/Registro_de_Solicitudes_de_Compra.htm" />
+    <item name="2 - Publicación de Compra" url="Compras/Proceso_de_Compra/Publicaci_n_de_Compra.htm" />
+    <item name="3 - Evaluación de Cotizaciones" url="Compras/Proceso_de_Compra/Evaluaci_n_de_Cotizaciones.htm" />
+    <item name="4 - Órdenes de Compra" url="Compras/Proceso_de_Compra/Ordenes_de_Compra.htm" />
+  </book>
+  <book name="Recepción y Reclamo" >
+    <item name="1 - Registro de Documentos de Recepción" url="Compras/Recepci_n_y_Reclamo/Registro_de_Documentos_de_Recepci_n.htm" />
+    <item name="2 - Registro de Documentos de Devolución" url="Compras/Recepci_n_y_Reclamo/Registro_de_Documentos_de_Devoluci_n.htm" />
+    <item name="3 - Trabajar con Reclamos" url="Compras/Recepci_n_y_Reclamo/Trabajar_con_Reclamos.htm" />
+    <item name="4 - Liquidación de Saldos de Orden de Compra" url="Compras/Recepci_n_y_Reclamo/Liquidaci_n_de_Saldos_de_Orden_de_Compra.htm" />
+  </book>
+</book>
+<book name="Contabilidad" >
+  <book name="Catálogos" >
+    <item name="Catalogos" url="Contabilidad/Cat_logos/Catalogos.htm" />
+    <item name="ConceptoContableE" url="Contabilidad/Cat_logos/ConceptoContableE.htm" />
+    <item name="CuentasContables" url="Contabilidad/Cat_logos/CuentasContables.htm" />
+    <item name="CuentasMayor" url="Contabilidad/Cat_logos/CuentasMayor.htm" />
+    <item name="Htipocambio" url="Contabilidad/Cat_logos/Htipocambio.htm" />
+    <item name="MascarasCuentas" url="Contabilidad/Cat_logos/MascarasCuentas.htm" />
+    <item name="Monedas" url="Contabilidad/Cat_logos/Monedas.htm" />
+  </book>
+  <book name="Consultas" >
+    <item name="BalCompR" url="Contabilidad/Consultas/BalCompR.htm" />
+    <item name="BalGeneral" url="Contabilidad/Consultas/BalGeneral.htm" />
+    <item name="PolizaContable" url="Contabilidad/Consultas/PolizaContable.htm" />
+    <item name="RCuentas" url="Contabilidad/Consultas/RCuentas.htm" />
+    <item name="saldosymov" url="Contabilidad/Consultas/saldosymov.htm" />
+  </book>
+  <book name="Procesos" >
+    <item name="CierreAuxiliar" url="Contabilidad/Procesos/CierreAuxiliar.htm" />
+    <item name="CierreMes" url="Contabilidad/Procesos/CierreMes.htm" />
+    <item name="CopiaAsientos" url="Contabilidad/Procesos/CopiaAsientos.htm" />
+    <item name="DocumentosContables" url="Contabilidad/Procesos/DocumentosContables.htm" />
+  </book>
+</book>
+<book name="Estructura Salarial" >
+  <book name="Catálogos" >
+    <item name="Componentes Salariales" url="Estructura_Salarial/Cat_logos/Componentes_Salariales.htm" />
+    <item name="Creación y Mantenimiento de Escalas Salariales" url="Estructura_Salarial/Cat_logos/Creaci_n_y_Mantenimiento_de_Escalas_Salariales.htm" />
+  </book>
+</book>
+<book name="Expediente Y Nómina" >
+  <book name="Operación" >
+    <item name="Aprobación de Trámites" url="Expediente_Y_N_mina/Operaci_n/Aprobaci_n_de_Tr_mites.htm" />
+    <item name="Boleta de Liquidacion Laboral" url="Expediente_Y_N_mina/Operaci_n/Boleta_de_Liquidacion_Laboral.htm" />
+    <item name="Cambio de Fecha Anualidad / Vacaciones" url="Expediente_Y_N_mina/Operaci_n/Cambio_de_Fecha_Anualidad___Vacaciones.htm" />
+    <item name="Confección de Liquidación de Personal" url="Expediente_Y_N_mina/Operaci_n/Confecci_n_de_Liquidaci_n_de_Personal.htm" />
+    <item name="Contabiliza Nómina desde Histórico de Nóminas" url="Expediente_Y_N_mina/Operaci_n/Contabiliza_N_mina_desde_Hist_rico_de_N_minas.htm" />
+    <item name="Mantenimiento de Empleados" url="Expediente_Y_N_mina/Operaci_n/Mantenimiento_de_Empleados.htm" />
+    <item name="Proceso de Anulación de Acciones" url="Expediente_Y_N_mina/Operaci_n/Proceso_de_Anulaci_n_de_Acciones.htm" />
+    <item name="Registro de Acciones de Personal" url="Expediente_Y_N_mina/Operaci_n/Registro_de_Acciones_de_Personal.htm" />
+    <item name="Registro de Acciones Masivas de Personal" url="Expediente_Y_N_mina/Operaci_n/Registro_de_Acciones_Masivas_de_Personal.htm" />
+    <item name="Registro de Deducciones" url="Expediente_Y_N_mina/Operaci_n/Registro_de_Deducciones.htm" />
+    <item name="Registro de Expedientes" url="Expediente_Y_N_mina/Operaci_n/Registro_de_Expedientes.htm" />
+    <item name="Registro de Incidencias" url="Expediente_Y_N_mina/Operaci_n/Registro_de_Incidencias.htm" />
+    <item name="Registro de Relaciones de Aumento" url="Expediente_Y_N_mina/Operaci_n/Registro_de_Relaciones_de_Aumento.htm" />
+    <item name="Registro de Relaciones de Cálculo" url="Expediente_Y_N_mina/Operaci_n/Registro_de_Relaciones_de_C_lculo.htm" />
+    <item name="Registro de Relaciones de Cálculo Especiales" url="Expediente_Y_N_mina/Operaci_n/Registro_de_Relaciones_de_C_lculo_Especiales.htm" />
+  </book>
+</book>
+<book name="Parámetros RH" >
+  <book name="Administración de Nómina" >
+    <item name="Cargas Obrero-Patronales" url="Par_metros_RH/Administraci_n_de_N_mina/Cargas_Obrero-Patronales.htm" />
+    <item name="Certificaciones RH" url="Par_metros_RH/Administraci_n_de_N_mina/Certificaciones_RH.htm" />
+    <item name="Componentes Salariales" url="Par_metros_RH/Administraci_n_de_N_mina/Componentes_Salariales.htm" />
+    <item name="Conceptos de Pago" url="Par_metros_RH/Administraci_n_de_N_mina/Conceptos_de_Pago.htm" />
+    <item name="Etiquetas por Empresa" url="Par_metros_RH/Administraci_n_de_N_mina/Etiquetas_por_Empresa.htm" />
+    <item name="Régimen de Antiguedad Laboral" url="Par_metros_RH/Administraci_n_de_N_mina/R_gimen_de_Antiguedad_Laboral.htm" />
+    <item name="Tipos de Acción" url="Par_metros_RH/Administraci_n_de_N_mina/Tipos_de_Acci_n.htm" />
+    <item name="Tipos de Acción Masiva" url="Par_metros_RH/Administraci_n_de_N_mina/Tipos_de_Acci_n_Masiva.htm" />
+    <item name="Tipos de Deducción" url="Par_metros_RH/Administraci_n_de_N_mina/Tipos_de_Deducci_n.htm" />
+    <item name="Tipos de Nómina" url="Par_metros_RH/Administraci_n_de_N_mina/Tipos_de_N_mina.htm" />
+  </book>
+  <book name="Estructura Organizacional" >
+    <item name="Bancos" url="Par_metros_RH/Estructura_Organizacional/Bancos.htm" />
+    <item name="Centros Funcionales" url="Par_metros_RH/Estructura_Organizacional/Centros_Funcionales.htm" />
+    <item name="Conceptos por Tipo de Expediente" url="Par_metros_RH/Estructura_Organizacional/Conceptos_por_Tipo_de_Expediente.htm" />
+    <item name="Definición de Trámites" url="Par_metros_RH/Estructura_Organizacional/Definici_n_de_Tr_mites.htm" />
+    <item name="Departamentos" url="Par_metros_RH/Estructura_Organizacional/Departamentos.htm" />
+    <item name="Feriados" url="Par_metros_RH/Estructura_Organizacional/Feriados.htm" />
+    <item name="Jornadas" url="Par_metros_RH/Estructura_Organizacional/Jornadas.htm" />
+    <item name="Niveles Profesionales" url="Par_metros_RH/Estructura_Organizacional/Niveles_Profesionales.htm" />
+    <item name="Oficinas" url="Par_metros_RH/Estructura_Organizacional/Oficinas.htm" />
+    <item name="Puestos" url="Par_metros_RH/Estructura_Organizacional/Puestos.htm" />
+    <item name="Tipos de Expedientes" url="Par_metros_RH/Estructura_Organizacional/Tipos_de_Expedientes.htm" />
+  </book>
+  <book name="Parámetros Generales" >
+    <item name="Cuestionarios" url="Par_metros_RH/Par_metros_Generales/Cuestionarios.htm" />
+    <item name="Parámetros Generales" url="Par_metros_RH/Par_metros_Generales/Par_metros_Generales.htm" />
+    <item name="Tipos de Empleado" url="Par_metros_RH/Par_metros_Generales/Tipos_de_Empleado.htm" />
+    <item name="Zonas Económicas" url="Par_metros_RH/Par_metros_Generales/Zonas_Econ_micas.htm" />
+  </book>
+</book>
+<book name="Planilla Presupuestaria" >
+  <book name="Catálogos" >
+    <item name="Categorías de PAgo" url="Planilla_Presupuestaria/Cat_logos/Categor_as_de_PAgo.htm" />
+    <item name="Maestro de Puestos Presupuestarios" url="Planilla_Presupuestaria/Cat_logos/Maestro_de_Puestos_Presupuestarios.htm" />
+    <item name="Relación de Categorías – Puesto por Tabla." url="Planilla_Presupuestaria/Cat_logos/Relaci_n_de_Categor_as___Puesto_por_Tabla..htm" />
+    <item name="Tipos de Tabla Salarial" url="Planilla_Presupuestaria/Cat_logos/Tipos_de_Tabla_Salarial.htm" />
+  </book>
+  <book name="Operación" >
+    <item name="Escenarios" url="Planilla_Presupuestaria/Operaci_n/Escenarios.htm" />
+    <item name="Solicitud de Plazas" url="Planilla_Presupuestaria/Operaci_n/Solicitud_de_Plazas.htm" />
+  </book>
+</book>
+<book name="Presupuesto" >
+  <book name="Consultas" >
+    <item name="1 - Consulta Control de Presupuesto" url="Presupuesto/Consultas/Consulta_Control_de_Presupuesto.htm" />
+    <item name="2 - Consulta de Autorizaciones Presupuestarias (NAPs)" url="Presupuesto/Consultas/Consulta_de_Autorizaciones_Presupuestarias_(NAPs).htm" />
+    <item name="3 - Consulta de Rechazos Presupuestarios (NRPs)" url="Presupuesto/Consultas/3_-_Consulta_de_Rechazos_Presupuestarios_(NRPs).htm" />
+    <item name="4 - Consulta Proyección de Tipos de Cambio." url="Presupuesto/Consultas/Consulta_Proyecci_n_de_Tipos_de_Cambio..htm" />
+  </book>
+  <book name="Formulación de Presupuesto" >
+    <item name="1 - Periodos Presupuestarios" url="Presupuesto/Formulaci_n_de_Presupuesto/1_-_Periodos_Presupuestarios.htm" />
+    <item name="10 - Exportar Formulaciones Aprobadas de un Periodo" url="Presupuesto/Formulaci_n_de_Presupuesto/Exportar_Formulaciones_Aprobadas_de_un_Periodo.htm" />
+    <item name="11 - Exportar Ejecuciones Reales de un Periodo" url="Presupuesto/Formulaci_n_de_Presupuesto/11_-_Exportar_Ejecuciones_Reales_de_un_Periodo.htm" />
+    <item name="12 - Importar Versión de Formulación" url="Presupuesto/Formulaci_n_de_Presupuesto/12_-_Importar_Versi_n_de_Formulaci_n.htm" />
+    <item name="2 - Liquidación de Periodos Presupuestarios" url="Presupuesto/Formulaci_n_de_Presupuesto/2_-_Liquidaci_n_de_Periodos_Presupuestarios.htm" />
+    <item name="3 - Cuentas Vinculadas" url="Presupuesto/Formulaci_n_de_Presupuesto/3_-_Cuentas_Vinculadas.htm" />
+    <item name="4 - Versiones de Formulación de Presupuesto" url="Presupuesto/Formulaci_n_de_Presupuesto/4_-_Versiones_de_Formulaci_n_de_Presupuesto.htm" />
+    <item name="5 - Tipos de Cambio Proyectados por Mes" url="Presupuesto/Formulaci_n_de_Presupuesto/Tipos_de_Cambio_Proyectados_por_Mes.htm" />
+    <item name="6 - Formular Versión Base" url="Presupuesto/Formulaci_n_de_Presupuesto/6_-_Formular_Versi_n_Base.htm" />
+    <item name="7 - Formular Versión Usuario" url="Presupuesto/Formulaci_n_de_Presupuesto/7_-_Formular_Versi_n_Usuario.htm" />
+    <item name="8 - Formular Versión Final" url="Presupuesto/Formulaci_n_de_Presupuesto/Formular_Versi_n_Final.htm" />
+    <item name="9 - Aprobar Versión de Formulación" url="Presupuesto/Formulaci_n_de_Presupuesto/Aprobar_Versi_n_de_Formulaci_n.htm" />
+  </book>
+  <book name="Otras Opciones en Presupuesto" >
+    <item name="1 - Importar Catálogos" url="Presupuesto/Otras_Opciones_en_Presupuesto/1_-_Importar_Cat_logos.htm" />
+  </book>
+  <book name="Plan de CtasFinancieras" >
+    <item name="1 - Plan de Cuentas Financieras" url="Presupuesto/Plan_de_CtasFinancieras/Plan_de_Cuentas_Financieras.htm" />
+  </book>
+  <book name="Reportes" >
+    <item name="1 - Reportes de Saldos de Control de Presupuesto" url="Presupuesto/Reportes/Reportes_de_Saldos_de_Control_de_Presupuesto.htm" />
+    <item name="2 - Reportes de Movimientos de Presupuesto" url="Presupuesto/Reportes/Reportes_de_Movimientos_de_Presupuesto.htm" />
+    <item name="3 - Reportes de Documentos de Presupuesto" url="Presupuesto/Reportes/Reportes_de_Documentos_de_Presupuesto.htm" />
+    <item name="4 - Reportes de Versiones de Formulación" url="Presupuesto/Reportes/Reportes_de_Versiones_de_Formulaci_n.htm" />
+    <item name="5 - Reportes de Liquidación de Periodos Presupuestarios" url="Presupuesto/Reportes/Reportes_de_Liquidaci_n_de_Periodos_Presupuestarios.htm" />
+  </book>
+  <book name="Seguridad de Presupuesto" >
+    <item name="1 - Seguridad por Centros Funcionales" url="Presupuesto/Seguridad_de_Presupuesto/Seguridad_por_Centros_Funcionales.htm" />
+    <item name="2 - Seguridad por Usuario." url="Presupuesto/Seguridad_de_Presupuesto/2_-_Seguridad_por_Usuario..htm" />
+  </book>
+  <book name="Transacciones de Presupuesto" >
+    <item name="1 - Reserva de Presupuesto" url="Presupuesto/Transacciones_de_Presupuesto/1_-_Reserva_de_Presupuesto.htm" />
+    <item name="2 - Liberación de Reserva de Presupuesto" url="Presupuesto/Transacciones_de_Presupuesto/Liberaci_n_de_Reserva_de_Presupuesto.htm" />
+    <item name="3 - Registro de Traslados de Presupuesto" url="Presupuesto/Transacciones_de_Presupuesto/3_-_Registro_de_Traslados_de_Presupuesto.htm" />
+    <item name="4 - Aprobación de Traslados de Presupuesto" url="Presupuesto/Transacciones_de_Presupuesto/Aprobaci_n_de_Traslados_de_Presupuesto.htm" />
+    <item name="5 - Aprobación de Rechazos Presupuestarios (NRPs)" url="Presupuesto/Transacciones_de_Presupuesto/Aprobaci_n_de_Rechazos_Presupuestarios_(NRPs).htm" />
+    <item name="6 - Cancelación de NRPs Aprobados sin Aplicar" url="Presupuesto/Transacciones_de_Presupuesto/6_-_Cancelaci_n_de_NRPs_Aprobados_sin_Aplicar.htm" />
+    <item name="7 - Apertura de Control por Módulos Origen" url="Presupuesto/Transacciones_de_Presupuesto/7_-_Apertura_de_Control_por_M_dulos_Origen.htm" />
+  </book>
+</book>
+<book name="Recepción de Pagos" >
+  <book name="Catálogos" >
+    <item name="Formatos de Exportación" url="Recepci_n_de_Pagos/Cat_logos/Formatos_de__Exportaci_n.htm" />
+  </book>
+  <book name="Operación" >
+    <item name="Exportación de Archivos de Nómina" url="Recepci_n_de_Pagos/Operaci_n/Exportaci_n_de_Archivos_de_N_mina.htm" />
+    <item name="Registro de Pago de Nómina" url="Recepci_n_de_Pagos/Operaci_n/Registro_de_Pago_de_N_mina.htm" />
+    <item name="Verificación de Nómina" url="Recepci_n_de_Pagos/Operaci_n/Verificaci_n_de_N_mina.htm" />
+  </book>
+</book>
+<item name="Inicio" url="Inicio.htm" />
+
+</tocdata>

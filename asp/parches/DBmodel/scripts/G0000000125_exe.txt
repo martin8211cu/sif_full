@@ -1,0 +1,30 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 418 - DBM 352: Se agrega la observacion al arqueo
+
+	         PARCHE:  Parche023_396_SIF_Arqueo_Observacion
+
+GENERADO EN:
+	SERVER:  http://mxvqapp34:8300
+	DSN:     sifcim
+	FECHA:   06/01/2012 17:41:26
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* CHG_TABLE CCHarqueo: CCHarqueo */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): CCHobservacion - CCHobservacion */
+ALTER TABLE CCHarqueo ADD CCHobservacion varchar(255) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

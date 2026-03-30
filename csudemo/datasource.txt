@@ -1,0 +1,7 @@
+CF Data Source Name: csulog
+Database:            CONFIGDB
+Server:              10.7.7.213
+Username:            db2admin
+Password:            ********
+Description:
+Connection String:   DatabaseName=CONFIGDB;CreateDefaultPackage=TRUE;ReplacePackage=TRUE;sendStringParametersAsUnicode=false;AlternateID=CSUSCHEMA

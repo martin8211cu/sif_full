@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<info>
+	<infoitem key="UD_rsModulos" value="name:SScodigo;datatype:,name:SMcodigo;datatype:,name:SMdescripcion;datatype:" />
+	<infoitem key="UD_rsForm" value="name:EIcodigo;datatype:,name:EImodulo;datatype:,name:Ecodigo;datatype:,name:EIdescripcion;datatype:,name:EIdelimitador;datatype:,name:EIusatemp;datatype:,name:EItambuffer;datatype:,name:EIparcial;datatype:,name:EIverificaant;datatype:,name:EIimporta;datatype:,name:EIexporta;datatype:,name:EIsql;datatype:,name:EIsqlexp;datatype:,name:EIcfimporta;datatype:" />
+</info>

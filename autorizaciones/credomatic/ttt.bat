@@ -1,0 +1,1 @@
+d:\Sybase\EAServer\Repository\WebApplication\Macromedia_Coldfusion_MX\autorizaciones\credomatic\newcli.exe aut 5303106715424410 12 05 5000  -C557 -Pd:\Sybase\EAServer\Repository\WebApplication\Macromedia_Coldfusion_MX\autorizaciones\credomatic\

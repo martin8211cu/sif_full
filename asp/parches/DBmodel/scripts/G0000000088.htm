@@ -1,0 +1,173 @@
+<strong>INDICE:</strong><BR>- <A href='#COLs_ADD'>Columnas nuevas</A><BR>- <A href='#COLs_DEL'>Columnas a eliminarse</A><BR>- <A href='#KEYs_DEL'>Llaves a eliminarse</A><BR>- <A href='#KEYs_ADD'>Llaves nuevas o a regenerarse</A><BR>- <A href='#KEYs_FI'>Indices para llaves foráneas</A><BR><BR><BR>
+			<BR><strong><A name='COLs_ADD'>COLUMNAS NUEVAS EN EL MODELO DBM QUE SE VAN A CREAR EN LA BASE DE DATOS</A></strong><BR>
+			<table>
+			<tr><td><strong>TABLA</strong></td><td><strong>COLUMNA</strong></td><td><strong>TIPO</strong></td><td><strong>LON</strong></td><td><strong>DEC</strong></td><td><strong>obl</strong></td><td><strong>ide</strong></td><td><strong>dfl</strong></td><td><strong>rul</strong></td></tr>
+			
+				<tr><td>CCHespecialMovs&nbsp;&nbsp;</td><td>CCHTid_CCH&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>18</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>CCHespecialMovs&nbsp;&nbsp;</td><td>CCHTid_reintegro&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>18</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>CCHImportes&nbsp;&nbsp;</td><td>CCHIentradas&nbsp;&nbsp;</td><td>MONEY&nbsp;&nbsp;</td><td>18</td><td>4</td><td>1</td><td>0</td><td>0</td><td></td></tr>
+			
+				<tr><td>CCHImportes&nbsp;&nbsp;</td><td>CCHIsaldoInicial&nbsp;&nbsp;</td><td>MONEY&nbsp;&nbsp;</td><td>18</td><td>4</td><td>1</td><td>0</td><td>0</td><td></td></tr>
+			
+				<tr><td>CCHImportes&nbsp;&nbsp;</td><td>CCHIsalidas&nbsp;&nbsp;</td><td>MONEY&nbsp;&nbsp;</td><td>18</td><td>4</td><td>1</td><td>0</td><td>0</td><td></td></tr>
+			
+			</table>
+		
+			<BR><strong><A name='COLs_DEL'>COLUMNAS QUE VAN A SER ELIMINADAS EN LA BASE DE DATOS PORQUE YA NO SE REQUIEREN EN EL MODELO DBM</A></strong><BR>
+			<table>
+			<tr><td><strong>TABLA</strong></td><td><strong>COLUMNA</strong></td><td><strong>TIPO</strong></td><td><strong>LON</strong></td><td><strong>DEC</strong></td><td><strong>obl</strong></td><td><strong>ide</strong></td><td><strong>dfl</strong></td><td><strong>rul</strong></td></tr>
+			
+				<tr><td>CCHImportes&nbsp;&nbsp;</td><td>CCHIdepositosRecibidos&nbsp;&nbsp;</td><td>MONEY&nbsp;&nbsp;</td><td>18</td><td>4</td><td>1</td><td>0</td><td>0</td><td></td></tr>
+			
+				<tr><td>CCHImportes&nbsp;&nbsp;</td><td>CCHIefectivoRecibido&nbsp;&nbsp;</td><td>MONEY&nbsp;&nbsp;</td><td>18</td><td>4</td><td>1</td><td>0</td><td>0</td><td></td></tr>
+			
+			</table>
+		
+			<BR><strong><A name='KEYs_DEL'>LLAVES QUE SE VAN A ELIMINAR</A></strong><BR>
+			<table>
+			<tr><td><strong>TABLA</strong></td><td><strong>TIPO</strong></td><td><strong>CODIGO</strong></td><td><strong>COLUMNAS</strong></td><td><strong>TABLA REFERENCIADA</strong></td><td><strong>COLUMNAS REFERENCIADAS</strong></td><td><strong>RAZON</strong></td></tr>
+			
+				
+					<tr><td>ECuentaBancaria</td><td align="center">
+						
+							AK 
+						
+					</td>
+					
+						<td>
+							
+								ECuentaBancaria_AK01
+							
+						</td>
+					
+					<td>Bid,ECfecha</td><td>*</td><td>*</td>
+					<td>
+						
+							BORRADA EN DBM (DBM:DROP)
+						
+					</td>
+					</tr>
+					
+						
+			
+			</table>
+		
+			<BR><strong><A name='COLs_ADD'>LLAVES QUE SE VAN A CREAR.</font></A></strong><BR>
+			<table>
+			<tr><td><strong>TABLA</strong></td><td><strong>TIPO</strong></td><td><strong>SEC.</strong></td><td><strong>COLUMNAS</strong></td><td><strong>TABLA REFERENCIADA</strong></td><td><strong>COLUMNAS REFERENCIADAS</strong></td><td><strong>RAZON</strong></td></tr>
+			
+				
+					<tr><td>CCHespecialMovs</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							06
+						</td>
+					
+					<td>CCHTid_CCH</td><td>CCHTransaccionesProceso</td><td>CCHTid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>CCHespecialMovs</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							07
+						</td>
+					
+					<td>CCHTid_reintegro</td><td>CCHTransaccionesProceso</td><td>CCHTid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>ECuentaBancaria</td><td align="center">
+						
+							AK 
+						
+					</td>
+					
+						<td align="center">
+							02
+						</td>
+					
+					<td>ECfecha,CBid</td><td>*</td><td>*</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+			</table>
+		
+			<BR><strong><A name='KEYs_FI'>INDICES QUE SE VAN A CREAR EN LA BASE DE DATOS PARA SOPORTAR LLAVES FORANEAS</A></strong><BR>
+			<table>
+			<tr><td><strong>TABLA</strong></td><td><strong>TIPO</strong></td><td><strong>SEC.</strong></td><td><strong>COLUMNAS</strong></td><td><strong>TABLA REFERENCIADA</strong></td><td><strong>COLUMNAS REFERENCIADAS</strong></td><td><strong>RAZON</strong></td></tr>
+			
+				
+					<tr><td>CCHespecialMovs</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							06
+						</td>
+					
+					<td>CCHTid_CCH</td><td>CCHTransaccionesProceso</td><td>CCHTid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>CCHespecialMovs</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							07
+						</td>
+					
+					<td>CCHTid_reintegro</td><td>CCHTransaccionesProceso</td><td>CCHTid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+			</table>
+		

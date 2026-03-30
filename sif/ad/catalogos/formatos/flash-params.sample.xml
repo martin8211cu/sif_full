@@ -1,0 +1,1198 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+<data>
+	<header>
+		<codigo>FLASH03   </codigo>
+		<descripcion>FLASH03   </descripcion>
+		<page>
+			
+			<width>21.5900</width>
+			<height>27.9400</height>
+			<orient>1</orient>
+		</page>
+	</header>
+	<params>
+	
+		<param>
+			<lin>1</lin>
+			<par>Ecodigo</par>
+			<tip>texto</tip>
+			<lon>1</lon>
+			<def>0</def>
+		</param>
+	
+		<param>
+			<lin>2</lin>
+			<par>FCid</par>
+			<tip>texto</tip>
+			<lon>1</lon>
+			<def>0</def>
+		</param>
+	
+		<param>
+			<lin>3</lin>
+			<par>ETnumero</par>
+			<tip>texto</tip>
+			<lon>1</lon>
+			<def>0</def>
+		</param>
+	
+	</params>
+	<campos>
+	
+		<campo>
+			<linea>1</linea>
+			<campo>3 - Factura</campo>
+			<descripcion>Factura:</descripcion>
+			
+			<font_family>Arial</font_family>
+			<font_size>11.0</font_size>
+			<font_bold>true</font_bold>
+			<font_underline>false</font_underline>
+			<font_italic>false</font_italic>
+			<color>000000</color>
+			
+			<x>1.30</x>
+			<y>3.50</y>
+			<width>1.41</width>
+			<posicion>1</posicion>
+			
+			<decimales>0</decimales>
+			<formato>-1</formato>
+			<justificar>1</justificar> 
+			
+			<ajuste_linea>false</ajuste_linea>
+			<prefijo></prefijo>
+			<sufijo></sufijo>
+			<hidden>false</hidden>
+			<tipo>1</tipo>
+			<trim>false</trim>
+			<sql>3</sql>
+			<totalizar>false</totalizar>
+			<page_break>false</page_break>
+			<nivel>0</nivel>
+		</campo>
+	
+		<campo>
+			<linea>2</linea>
+			<campo>0 - Ninguno</campo>
+			<descripcion>N&#xba;.Trans:</descripcion>
+			
+			<font_family>Arial</font_family>
+			<font_size>9.0</font_size>
+			<font_bold>false</font_bold>
+			<font_underline>false</font_underline>
+			<font_italic>false</font_italic>
+			<color>000000</color>
+			
+			<x>15.50</x>
+			<y>3.50</y>
+			<width>1.59</width>
+			<posicion>1</posicion>
+			
+			<decimales>0</decimales>
+			<formato>-1</formato>
+			<justificar>1</justificar> 
+			
+			<ajuste_linea>false</ajuste_linea>
+			<prefijo></prefijo>
+			<sufijo></sufijo>
+			<hidden>false</hidden>
+			<tipo>1</tipo>
+			<trim>false</trim>
+			<sql>0</sql>
+			<totalizar>false</totalizar>
+			<page_break>false</page_break>
+			<nivel>0</nivel>
+		</campo>
+	
+		<campo>
+			<linea>3</linea>
+			<campo>0 - Ninguno</campo>
+			<descripcion>C&#xe9;d. Jur&#xed;dica 3-101-069227-25</descripcion>
+			
+			<font_family>Arial</font_family>
+			<font_size>9.0</font_size>
+			<font_bold>true</font_bold>
+			<font_underline>false</font_underline>
+			<font_italic>false</font_italic>
+			<color>000000</color>
+			
+			<x>1.10</x>
+			<y>4.50</y>
+			<width>5.29</width>
+			<posicion>1</posicion>
+			
+			<decimales>0</decimales>
+			<formato>-1</formato>
+			<justificar>1</justificar> 
+			
+			<ajuste_linea>false</ajuste_linea>
+			<prefijo></prefijo>
+			<sufijo></sufijo>
+			<hidden>false</hidden>
+			<tipo>1</tipo>
+			<trim>false</trim>
+			<sql>0</sql>
+			<totalizar>false</totalizar>
+			<page_break>false</page_break>
+			<nivel>0</nivel>
+		</campo>
+	
+		<campo>
+			<linea>4</linea>
+			<campo>19 - Fecha</campo>
+			<descripcion>Fecha:</descripcion>
+			
+			<font_family>Arial</font_family>
+			<font_size>9.0</font_size>
+			<font_bold>false</font_bold>
+			<font_underline>false</font_underline>
+			<font_italic>false</font_italic>
+			<color>000000</color>
+			
+			<x>16.10</x>
+			<y>4.40</y>
+			<width>1.00</width>
+			<posicion>1</posicion>
+			
+			<decimales>0</decimales>
+			<formato>-1</formato>
+			<justificar>1</justificar> 
+			
+			<ajuste_linea>false</ajuste_linea>
+			<prefijo></prefijo>
+			<sufijo></sufijo>
+			<hidden>false</hidden>
+			<tipo>1</tipo>
+			<trim>false</trim>
+			<sql>19</sql>
+			<totalizar>false</totalizar>
+			<page_break>false</page_break>
+			<nivel>0</nivel>
+		</campo>
+	
+		<campo>
+			<linea>5</linea>
+			<campo>0 - Ninguno</campo>
+			<descripcion>Cliente:</descripcion>
+			
+			<font_family>Arial</font_family>
+			<font_size>9.0</font_size>
+			<font_bold>false</font_bold>
+			<font_underline>false</font_underline>
+			<font_italic>false</font_italic>
+			<color>000000</color>
+			
+			<x>1.40</x>
+			<y>5.20</y>
+			<width>2.00</width>
+			<posicion>1</posicion>
+			
+			<decimales>0</decimales>
+			<formato>-1</formato>
+			<justificar>1</justificar> 
+			
+			<ajuste_linea>false</ajuste_linea>
+			<prefijo></prefijo>
+			<sufijo></sufijo>
+			<hidden>false</hidden>
+			<tipo>1</tipo>
+			<trim>false</trim>
+			<sql>0</sql>
+			<totalizar>false</totalizar>
+			<page_break>false</page_break>
+			<nivel>0</nivel>
+		</campo>
+	
+		<campo>
+			<linea>6</linea>
+			<campo>0 - Ninguno</campo>
+			<descripcion>Direcci&#xf3;n:</descripcion>
+			
+			<font_family>Arial</font_family>
+			<font_size>9.0</font_size>
+			<font_bold>false</font_bold>
+			<font_underline>false</font_underline>
+			<font_italic>false</font_italic>
+			<color>000000</color>
+			
+			<x>1.40</x>
+			<y>6.00</y>
+			<width>2.00</width>
+			<posicion>1</posicion>
+			
+			<decimales>0</decimales>
+			<formato>-1</formato>
+			<justificar>1</justificar> 
+			
+			<ajuste_linea>false</ajuste_linea>
+			<prefijo></prefijo>
+			<sufijo></sufijo>
+			<hidden>false</hidden>
+			<tipo>1</tipo>
+			<trim>false</trim>
+			<sql>0</sql>
+			<totalizar>false</totalizar>
+			<page_break>false</page_break>
+			<nivel>0</nivel>
+		</campo>
+	
+		<campo>
+			<linea>7</linea>
+			<campo>0 - Ninguno</campo>
+			<descripcion>Cantidad</descripcion>
+			
+			<font_family>Arial</font_family>
+			<font_size>9.0</font_size>
+			<font_bold>true</font_bold>
+			<font_underline>false</font_underline>
+			<font_italic>false</font_italic>
+			<color>000000</color>
+			
+			<x>1.20</x>
+			<y>7.10</y>
+			<width>2.82</width>
+			<posicion>1</posicion>
+			
+			<decimales>0</decimales>
+			<formato>-1</formato>
+			<justificar>1</justificar> 
+			
+			<ajuste_linea>false</ajuste_linea>
+			<prefijo></prefijo>
+			<sufijo></sufijo>
+			<hidden>false</hidden>
+			<tipo>1</tipo>
+			<trim>false</trim>
+			<sql>0</sql>
+			<totalizar>false</totalizar>
+			<page_break>false</page_break>
+			<nivel>0</nivel>
+		</campo>
+	
+		<campo>
+			<linea>8</linea>
+			<campo>0 - Ninguno</campo>
+			<descripcion>Descripci&#xf3;n</descripcion>
+			
+			<font_family>Arial</font_family>
+			<font_size>9.0</font_size>
+			<font_bold>true</font_bold>
+			<font_underline>false</font_underline>
+			<font_italic>false</font_italic>
+			<color>000000</color>
+			
+			<x>8.20</x>
+			<y>7.10</y>
+			<width>12.17</width>
+			<posicion>1</posicion>
+			
+			<decimales>0</decimales>
+			<formato>-1</formato>
+			<justificar>1</justificar> 
+			
+			<ajuste_linea>false</ajuste_linea>
+			<prefijo></prefijo>
+			<sufijo></sufijo>
+			<hidden>false</hidden>
+			<tipo>1</tipo>
+			<trim>false</trim>
+			<sql>0</sql>
+			<totalizar>false</totalizar>
+			<page_break>false</page_break>
+			<nivel>0</nivel>
+		</campo>
+	
+		<campo>
+			<linea>9</linea>
+			<campo>0 - Ninguno</campo>
+			<descripcion>Costo</descripcion>
+			
+			<font_family>Arial</font_family>
+			<font_size>9.0</font_size>
+			<font_bold>true</font_bold>
+			<font_underline>false</font_underline>
+			<font_italic>false</font_italic>
+			<color>000000</color>
+			
+			<x>17.50</x>
+			<y>7.10</y>
+			<width>3.17</width>
+			<posicion>1</posicion>
+			
+			<decimales>0</decimales>
+			<formato>-1</formato>
+			<justificar>1</justificar> 
+			
+			<ajuste_linea>false</ajuste_linea>
+			<prefijo></prefijo>
+			<sufijo></sufijo>
+			<hidden>false</hidden>
+			<tipo>1</tipo>
+			<trim>false</trim>
+			<sql>0</sql>
+			<totalizar>false</totalizar>
+			<page_break>false</page_break>
+			<nivel>0</nivel>
+		</campo>
+	
+		<campo>
+			<linea>10</linea>
+			<campo>0 - Ninguno</campo>
+			<descripcion>Subtotal:</descripcion>
+			
+			<font_family>Arial</font_family>
+			<font_size>9.0</font_size>
+			<font_bold>false</font_bold>
+			<font_underline>false</font_underline>
+			<font_italic>false</font_italic>
+			<color>000000</color>
+			
+			<x>14.00</x>
+			<y>20.50</y>
+			<width>1.50</width>
+			<posicion>3</posicion>
+			
+			<decimales>0</decimales>
+			<formato>-1</formato>
+			<justificar>1</justificar> 
+			
+			<ajuste_linea>false</ajuste_linea>
+			<prefijo></prefijo>
+			<sufijo></sufijo>
+			<hidden>false</hidden>
+			<tipo>1</tipo>
+			<trim>false</trim>
+			<sql>0</sql>
+			<totalizar>false</totalizar>
+			<page_break>false</page_break>
+			<nivel>0</nivel>
+		</campo>
+	
+		<campo>
+			<linea>11</linea>
+			<campo>0 - Ninguno</campo>
+			<descripcion>I. Vta:</descripcion>
+			
+			<font_family>Arial</font_family>
+			<font_size>9.0</font_size>
+			<font_bold>false</font_bold>
+			<font_underline>false</font_underline>
+			<font_italic>false</font_italic>
+			<color>000000</color>
+			
+			<x>14.40</x>
+			<y>20.90</y>
+			<width>1.50</width>
+			<posicion>3</posicion>
+			
+			<decimales>0</decimales>
+			<formato>-1</formato>
+			<justificar>1</justificar> 
+			
+			<ajuste_linea>false</ajuste_linea>
+			<prefijo></prefijo>
+			<sufijo></sufijo>
+			<hidden>false</hidden>
+			<tipo>1</tipo>
+			<trim>false</trim>
+			<sql>0</sql>
+			<totalizar>false</totalizar>
+			<page_break>false</page_break>
+			<nivel>0</nivel>
+		</campo>
+	
+		<campo>
+			<linea>12</linea>
+			<campo>0 - Ninguno</campo>
+			<descripcion>Total:</descripcion>
+			
+			<font_family>Arial</font_family>
+			<font_size>9.0</font_size>
+			<font_bold>false</font_bold>
+			<font_underline>false</font_underline>
+			<font_italic>false</font_italic>
+			<color>000000</color>
+			
+			<x>14.60</x>
+			<y>21.30</y>
+			<width>1.50</width>
+			<posicion>3</posicion>
+			
+			<decimales>0</decimales>
+			<formato>-1</formato>
+			<justificar>1</justificar> 
+			
+			<ajuste_linea>false</ajuste_linea>
+			<prefijo></prefijo>
+			<sufijo></sufijo>
+			<hidden>false</hidden>
+			<tipo>1</tipo>
+			<trim>false</trim>
+			<sql>0</sql>
+			<totalizar>false</totalizar>
+			<page_break>false</page_break>
+			<nivel>0</nivel>
+		</campo>
+	
+		<campo>
+			<linea>13</linea>
+			<campo>0 - Ninguno</campo>
+			<descripcion>Orden de Compra N&#xba;:</descripcion>
+			
+			<font_family>Arial</font_family>
+			<font_size>9.0</font_size>
+			<font_bold>false</font_bold>
+			<font_underline>false</font_underline>
+			<font_italic>false</font_italic>
+			<color>000000</color>
+			
+			<x>1.40</x>
+			<y>23.20</y>
+			<width>3.88</width>
+			<posicion>3</posicion>
+			
+			<decimales>0</decimales>
+			<formato>-1</formato>
+			<justificar>1</justificar> 
+			
+			<ajuste_linea>false</ajuste_linea>
+			<prefijo></prefijo>
+			<sufijo></sufijo>
+			<hidden>false</hidden>
+			<tipo>1</tipo>
+			<trim>false</trim>
+			<sql>0</sql>
+			<totalizar>false</totalizar>
+			<page_break>false</page_break>
+			<nivel>0</nivel>
+		</campo>
+	
+		<campo>
+			<linea>14</linea>
+			<campo>0 - Ninguno</campo>
+			<descripcion>Recibo Conforme:</descripcion>
+			
+			<font_family>Arial</font_family>
+			<font_size>9.0</font_size>
+			<font_bold>false</font_bold>
+			<font_underline>false</font_underline>
+			<font_italic>false</font_italic>
+			<color>000000</color>
+			
+			<x>1.40</x>
+			<y>23.60</y>
+			<width>3.88</width>
+			<posicion>3</posicion>
+			
+			<decimales>0</decimales>
+			<formato>-1</formato>
+			<justificar>1</justificar> 
+			
+			<ajuste_linea>false</ajuste_linea>
+			<prefijo></prefijo>
+			<sufijo></sufijo>
+			<hidden>false</hidden>
+			<tipo>1</tipo>
+			<trim>false</trim>
+			<sql>0</sql>
+			<totalizar>false</totalizar>
+			<page_break>false</page_break>
+			<nivel>0</nivel>
+		</campo>
+	
+		<campo>
+			<linea>15</linea>
+			<campo>0 - Ninguno</campo>
+			<descripcion>Firma</descripcion>
+			
+			<font_family>Arial</font_family>
+			<font_size>9.0</font_size>
+			<font_bold>false</font_bold>
+			<font_underline>false</font_underline>
+			<font_italic>false</font_italic>
+			<color>000000</color>
+			
+			<x>12.60</x>
+			<y>24.90</y>
+			<width>3.53</width>
+			<posicion>3</posicion>
+			
+			<decimales>0</decimales>
+			<formato>-1</formato>
+			<justificar>1</justificar> 
+			
+			<ajuste_linea>false</ajuste_linea>
+			<prefijo></prefijo>
+			<sufijo></sufijo>
+			<hidden>false</hidden>
+			<tipo>1</tipo>
+			<trim>false</trim>
+			<sql>0</sql>
+			<totalizar>false</totalizar>
+			<page_break>false</page_break>
+			<nivel>0</nivel>
+		</campo>
+	
+		<campo>
+			<linea>16</linea>
+			<campo>0 - Ninguno</campo>
+			<descripcion>Autorizado mediante resoluci&#xf3;n N&#xba;.11-97 Gaceta N&#xba;171 del 05-09-97 de la D.G.T.D.</descripcion>
+			
+			<font_family>Arial</font_family>
+			<font_size>9.0</font_size>
+			<font_bold>false</font_bold>
+			<font_underline>false</font_underline>
+			<font_italic>false</font_italic>
+			<color>000000</color>
+			
+			<x>3.30</x>
+			<y>25.60</y>
+			<width>18.00</width>
+			<posicion>3</posicion>
+			
+			<decimales>0</decimales>
+			<formato>-1</formato>
+			<justificar>1</justificar> 
+			
+			<ajuste_linea>false</ajuste_linea>
+			<prefijo></prefijo>
+			<sufijo></sufijo>
+			<hidden>false</hidden>
+			<tipo>1</tipo>
+			<trim>false</trim>
+			<sql>0</sql>
+			<totalizar>false</totalizar>
+			<page_break>false</page_break>
+			<nivel>0</nivel>
+		</campo>
+	
+		<campo>
+			<linea>18</linea>
+			<campo>29 - N&#xfa;mero de Documento</campo>
+			<descripcion>N&#xfa;mero de Documento (courier/bold/underline)</descripcion>
+			
+			<font_family>Courier</font_family>
+			<font_size>9.0</font_size>
+			<font_bold>true</font_bold>
+			<font_underline>true</font_underline>
+			<font_italic>true</font_italic>
+			<color>000000</color>
+			
+			<x>2.50</x>
+			<y>3.50</y>
+			<width>2.00</width>
+			<posicion>1</posicion>
+			
+			<decimales>0</decimales>
+			<formato>-1</formato>
+			<justificar>3</justificar> 
+			
+			<ajuste_linea>false</ajuste_linea>
+			<prefijo></prefijo>
+			<sufijo></sufijo>
+			<hidden>false</hidden>
+			<tipo>2</tipo>
+			<trim>false</trim>
+			<sql>29</sql>
+			<totalizar>false</totalizar>
+			<page_break>false</page_break>
+			<nivel>0</nivel>
+		</campo>
+	
+		<campo>
+			<linea>19</linea>
+			<campo>30 - Serie</campo>
+			<descripcion>Serie</descripcion>
+			
+			<font_family>Arial</font_family>
+			<font_size>9.0</font_size>
+			<font_bold>false</font_bold>
+			<font_underline>false</font_underline>
+			<font_italic>false</font_italic>
+			<color>000000</color>
+			
+			<x>4.50</x>
+			<y>3.50</y>
+			<width>0.35</width>
+			<posicion>1</posicion>
+			
+			<decimales>0</decimales>
+			<formato>-1</formato>
+			<justificar>1</justificar> 
+			
+			<ajuste_linea>false</ajuste_linea>
+			<prefijo></prefijo>
+			<sufijo></sufijo>
+			<hidden>false</hidden>
+			<tipo>2</tipo>
+			<trim>false</trim>
+			<sql>30</sql>
+			<totalizar>false</totalizar>
+			<page_break>false</page_break>
+			<nivel>0</nivel>
+		</campo>
+	
+		<campo>
+			<linea>20</linea>
+			<campo>19 - Fecha</campo>
+			<descripcion>Fecha (sans-serif/italic/993366)</descripcion>
+			
+			<font_family>sans-serif</font_family>
+			<font_size>9.0</font_size>
+			<font_bold>false</font_bold>
+			<font_underline>false</font_underline>
+			<font_italic>false</font_italic>
+			<color>993366</color>
+			
+			<x>17.40</x>
+			<y>4.40</y>
+			<width>2.00</width>
+			<posicion>1</posicion>
+			
+			<decimales>0</decimales>
+			<formato>-1</formato>
+			<justificar>1</justificar> 
+			
+			<ajuste_linea>false</ajuste_linea>
+			<prefijo></prefijo>
+			<sufijo></sufijo>
+			<hidden>false</hidden>
+			<tipo>2</tipo>
+			<trim>false</trim>
+			<sql>19</sql>
+			<totalizar>false</totalizar>
+			<page_break>false</page_break>
+			<nivel>0</nivel>
+		</campo>
+	
+		<campo>
+			<linea>21</linea>
+			<campo>6 - Socio</campo>
+			<descripcion>Socio</descripcion>
+			
+			<font_family>Arial</font_family>
+			<font_size>9.0</font_size>
+			<font_bold>false</font_bold>
+			<font_underline>false</font_underline>
+			<font_italic>false</font_italic>
+			<color>000000</color>
+			
+			<x>3.10</x>
+			<y>5.20</y>
+			<width>16.58</width>
+			<posicion>1</posicion>
+			
+			<decimales>0</decimales>
+			<formato>-1</formato>
+			<justificar>1</justificar> 
+			
+			<ajuste_linea>false</ajuste_linea>
+			<prefijo></prefijo>
+			<sufijo></sufijo>
+			<hidden>false</hidden>
+			<tipo>2</tipo>
+			<trim>false</trim>
+			<sql>6</sql>
+			<totalizar>false</totalizar>
+			<page_break>false</page_break>
+			<nivel>0</nivel>
+		</campo>
+	
+		<campo>
+			<linea>22</linea>
+			<campo>33 - Cantidad</campo>
+			<descripcion>Cantidad</descripcion>
+			
+			<font_family>Arial</font_family>
+			<font_size>9.0</font_size>
+			<font_bold>false</font_bold>
+			<font_underline>false</font_underline>
+			<font_italic>false</font_italic>
+			<color>000000</color>
+			
+			<x>1.30</x>
+			<y>8.10</y>
+			<width>1.06</width>
+			<posicion>2</posicion>
+			
+			<decimales>0</decimales>
+			<formato>#</formato>
+			<justificar>3</justificar> 
+			
+			<ajuste_linea>false</ajuste_linea>
+			<prefijo></prefijo>
+			<sufijo></sufijo>
+			<hidden>false</hidden>
+			<tipo>2</tipo>
+			<trim>false</trim>
+			<sql>33</sql>
+			<totalizar>false</totalizar>
+			<page_break>false</page_break>
+			<nivel>0</nivel>
+		</campo>
+	
+		<campo>
+			<linea>23</linea>
+			<campo>37 - Descripci&#xf3;n de Item</campo>
+			<descripcion>Descripci&#xf3;n de Item</descripcion>
+			
+			<font_family>Arial</font_family>
+			<font_size>9.0</font_size>
+			<font_bold>false</font_bold>
+			<font_underline>false</font_underline>
+			<font_italic>false</font_italic>
+			<color>000000</color>
+			
+			<x>3.30</x>
+			<y>8.10</y>
+			<width>12.06</width>
+			<posicion>2</posicion>
+			
+			<decimales>0</decimales>
+			<formato>-1</formato>
+			<justificar>1</justificar> 
+			
+			<ajuste_linea>true</ajuste_linea>
+			<prefijo></prefijo>
+			<sufijo></sufijo>
+			<hidden>false</hidden>
+			<tipo>2</tipo>
+			<trim>false</trim>
+			<sql>37</sql>
+			<totalizar>false</totalizar>
+			<page_break>false</page_break>
+			<nivel>0</nivel>
+		</campo>
+	
+		<campo>
+			<linea>24</linea>
+			<campo>36 - Total de L&#xed;nea</campo>
+			<descripcion>Total de L&#xed;nea</descripcion>
+			
+			<font_family>Arial</font_family>
+			<font_size>9.0</font_size>
+			<font_bold>false</font_bold>
+			<font_underline>false</font_underline>
+			<font_italic>false</font_italic>
+			<color>000000</color>
+			
+			<x>15.00</x>
+			<y>8.10</y>
+			<width>3.53</width>
+			<posicion>2</posicion>
+			
+			<decimales>2</decimales>
+			<formato>###,###,###,###,##0.00</formato>
+			<justificar>3</justificar> 
+			
+			<ajuste_linea>false</ajuste_linea>
+			<prefijo></prefijo>
+			<sufijo></sufijo>
+			<hidden>false</hidden>
+			<tipo>2</tipo>
+			<trim>false</trim>
+			<sql>36</sql>
+			<totalizar>false</totalizar>
+			<page_break>false</page_break>
+			<nivel>0</nivel>
+		</campo>
+	
+		<campo>
+			<linea>25</linea>
+			<campo>43 - Subtotal con Descuento</campo>
+			<descripcion>Subtotal</descripcion>
+			
+			<font_family>Arial</font_family>
+			<font_size>9.0</font_size>
+			<font_bold>false</font_bold>
+			<font_underline>false</font_underline>
+			<font_italic>false</font_italic>
+			<color>000000</color>
+			
+			<x>15.50</x>
+			<y>20.50</y>
+			<width>3.00</width>
+			<posicion>3</posicion>
+			
+			<decimales>2</decimales>
+			<formato>###,###,###,###,##0.00</formato>
+			<justificar>3</justificar> 
+			
+			<ajuste_linea>false</ajuste_linea>
+			<prefijo></prefijo>
+			<sufijo></sufijo>
+			<hidden>false</hidden>
+			<tipo>2</tipo>
+			<trim>false</trim>
+			<sql>43</sql>
+			<totalizar>false</totalizar>
+			<page_break>false</page_break>
+			<nivel>0</nivel>
+		</campo>
+	
+		<campo>
+			<linea>26</linea>
+			<campo>25 - Impuesto</campo>
+			<descripcion>Impuesto</descripcion>
+			
+			<font_family>Arial</font_family>
+			<font_size>9.0</font_size>
+			<font_bold>false</font_bold>
+			<font_underline>false</font_underline>
+			<font_italic>false</font_italic>
+			<color>000000</color>
+			
+			<x>15.50</x>
+			<y>20.90</y>
+			<width>3.00</width>
+			<posicion>3</posicion>
+			
+			<decimales>2</decimales>
+			<formato>###,###,###,###,##0.00</formato>
+			<justificar>3</justificar> 
+			
+			<ajuste_linea>false</ajuste_linea>
+			<prefijo></prefijo>
+			<sufijo></sufijo>
+			<hidden>false</hidden>
+			<tipo>2</tipo>
+			<trim>false</trim>
+			<sql>25</sql>
+			<totalizar>false</totalizar>
+			<page_break>false</page_break>
+			<nivel>0</nivel>
+		</campo>
+	
+		<campo>
+			<linea>27</linea>
+			<campo>20 - Total</campo>
+			<descripcion>Total</descripcion>
+			
+			<font_family>Arial</font_family>
+			<font_size>9.0</font_size>
+			<font_bold>false</font_bold>
+			<font_underline>false</font_underline>
+			<font_italic>false</font_italic>
+			<color>000000</color>
+			
+			<x>15.50</x>
+			<y>21.30</y>
+			<width>3.00</width>
+			<posicion>3</posicion>
+			
+			<decimales>2</decimales>
+			<formato>###,###,###,###,##0.00</formato>
+			<justificar>3</justificar> 
+			
+			<ajuste_linea>false</ajuste_linea>
+			<prefijo></prefijo>
+			<sufijo></sufijo>
+			<hidden>false</hidden>
+			<tipo>2</tipo>
+			<trim>false</trim>
+			<sql>20</sql>
+			<totalizar>false</totalizar>
+			<page_break>false</page_break>
+			<nivel>0</nivel>
+		</campo>
+	
+		<campo>
+			<linea>28</linea>
+			<campo>41 - Monto Total en Letras</campo>
+			<descripcion>Monto Total en Letras</descripcion>
+			
+			<font_family>Arial</font_family>
+			<font_size>9.0</font_size>
+			<font_bold>false</font_bold>
+			<font_underline>false</font_underline>
+			<font_italic>false</font_italic>
+			<color>000000</color>
+			
+			<x>1.50</x>
+			<y>22.20</y>
+			<width>18.00</width>
+			<posicion>3</posicion>
+			
+			<decimales>0</decimales>
+			<formato>-1</formato>
+			<justificar>1</justificar> 
+			
+			<ajuste_linea>true</ajuste_linea>
+			<prefijo>***</prefijo>
+			<sufijo>***</sufijo>
+			<hidden>false</hidden>
+			<tipo>2</tipo>
+			<trim>false</trim>
+			<sql>41</sql>
+			<totalizar>false</totalizar>
+			<page_break>false</page_break>
+			<nivel>0</nivel>
+		</campo>
+	
+		<campo>
+			<linea>29</linea>
+			<campo>6 - Socio</campo>
+			<descripcion>Socio</descripcion>
+			
+			<font_family>Arial</font_family>
+			<font_size>9.0</font_size>
+			<font_bold>false</font_bold>
+			<font_underline>false</font_underline>
+			<font_italic>false</font_italic>
+			<color>000000</color>
+			
+			<x>2.30</x>
+			<y>24.90</y>
+			<width>16.58</width>
+			<posicion>3</posicion>
+			
+			<decimales>0</decimales>
+			<formato>-1</formato>
+			<justificar>1</justificar> 
+			
+			<ajuste_linea>false</ajuste_linea>
+			<prefijo></prefijo>
+			<sufijo></sufijo>
+			<hidden>false</hidden>
+			<tipo>2</tipo>
+			<trim>false</trim>
+			<sql>6</sql>
+			<totalizar>false</totalizar>
+			<page_break>false</page_break>
+			<nivel>0</nivel>
+		</campo>
+	
+		<campo>
+			<linea>32</linea>
+			<campo>9 - S&#xed;mbolo de la Moneda</campo>
+			<descripcion>S&#xed;mbolo de la Moneda</descripcion>
+			
+			<font_family>Arial</font_family>
+			<font_size>9.0</font_size>
+			<font_bold>false</font_bold>
+			<font_underline>false</font_underline>
+			<font_italic>false</font_italic>
+			<color>000000</color>
+			
+			<x>15.80</x>
+			<y>20.50</y>
+			<width>0.50</width>
+			<posicion>3</posicion>
+			
+			<decimales>0</decimales>
+			<formato>-1</formato>
+			<justificar>1</justificar> 
+			
+			<ajuste_linea>false</ajuste_linea>
+			<prefijo></prefijo>
+			<sufijo></sufijo>
+			<hidden>false</hidden>
+			<tipo>2</tipo>
+			<trim>false</trim>
+			<sql>9</sql>
+			<totalizar>false</totalizar>
+			<page_break>false</page_break>
+			<nivel>0</nivel>
+		</campo>
+	
+		<campo>
+			<linea>33</linea>
+			<campo>9 - S&#xed;mbolo de la Moneda</campo>
+			<descripcion>S&#xed;mbolo de la Moneda 2</descripcion>
+			
+			<font_family>Arial</font_family>
+			<font_size>9.0</font_size>
+			<font_bold>false</font_bold>
+			<font_underline>false</font_underline>
+			<font_italic>false</font_italic>
+			<color>000000</color>
+			
+			<x>15.80</x>
+			<y>20.90</y>
+			<width>0.50</width>
+			<posicion>3</posicion>
+			
+			<decimales>0</decimales>
+			<formato>-1</formato>
+			<justificar>1</justificar> 
+			
+			<ajuste_linea>false</ajuste_linea>
+			<prefijo></prefijo>
+			<sufijo></sufijo>
+			<hidden>false</hidden>
+			<tipo>2</tipo>
+			<trim>false</trim>
+			<sql>9</sql>
+			<totalizar>false</totalizar>
+			<page_break>false</page_break>
+			<nivel>0</nivel>
+		</campo>
+	
+		<campo>
+			<linea>34</linea>
+			<campo>9 - S&#xed;mbolo de la Moneda</campo>
+			<descripcion>S&#xed;mbolo de la Moneda 3</descripcion>
+			
+			<font_family>Arial</font_family>
+			<font_size>9.0</font_size>
+			<font_bold>false</font_bold>
+			<font_underline>false</font_underline>
+			<font_italic>false</font_italic>
+			<color>000000</color>
+			
+			<x>15.80</x>
+			<y>21.30</y>
+			<width>0.50</width>
+			<posicion>3</posicion>
+			
+			<decimales>0</decimales>
+			<formato>-1</formato>
+			<justificar>1</justificar> 
+			
+			<ajuste_linea>false</ajuste_linea>
+			<prefijo></prefijo>
+			<sufijo></sufijo>
+			<hidden>false</hidden>
+			<tipo>2</tipo>
+			<trim>false</trim>
+			<sql>9</sql>
+			<totalizar>false</totalizar>
+			<page_break>false</page_break>
+			<nivel>0</nivel>
+		</campo>
+	
+		<campo>
+			<linea>35</linea>
+			<campo>44 - Direcci&#xf3;n Socio Negocios</campo>
+			<descripcion>Direcci&#xf3;n Socio Negocios</descripcion>
+			
+			<font_family>Arial</font_family>
+			<font_size>9.0</font_size>
+			<font_bold>false</font_bold>
+			<font_underline>false</font_underline>
+			<font_italic>false</font_italic>
+			<color>000000</color>
+			
+			<x>3.40</x>
+			<y>6.00</y>
+			<width>16.00</width>
+			<posicion>1</posicion>
+			
+			<decimales>0</decimales>
+			<formato>-1</formato>
+			<justificar>1</justificar> 
+			
+			<ajuste_linea>true</ajuste_linea>
+			<prefijo></prefijo>
+			<sufijo></sufijo>
+			<hidden>false</hidden>
+			<tipo>2</tipo>
+			<trim>false</trim>
+			<sql>44</sql>
+			<totalizar>false</totalizar>
+			<page_break>false</page_break>
+			<nivel>0</nivel>
+		</campo>
+	
+		<campo>
+			<linea>36</linea>
+			<campo>3 - Factura</campo>
+			<descripcion>Factura (total/ajuste_linea)</descripcion>
+			
+			<font_family>Arial</font_family>
+			<font_size>6.0</font_size>
+			<font_bold>false</font_bold>
+			<font_underline>false</font_underline>
+			<font_italic>false</font_italic>
+			<color>000000</color>
+			
+			<x>17.00</x>
+			<y>3.50</y>
+			<width>2.00</width>
+			<posicion>1</posicion>
+			
+			<decimales>0</decimales>
+			<formato>-1</formato>
+			<justificar>1</justificar> 
+			
+			<ajuste_linea>true</ajuste_linea>
+			<prefijo></prefijo>
+			<sufijo></sufijo>
+			<hidden>false</hidden>
+			<tipo>2</tipo>
+			<trim>false</trim>
+			<sql>3</sql>
+			<totalizar>true</totalizar>
+			<page_break>false</page_break>
+			<nivel>0</nivel>
+		</campo>
+	
+		<campo>
+			<linea>37</linea>
+			<campo>0 - Ninguno</campo>
+			<descripcion>______________________________</descripcion>
+			
+			<font_family>Arial</font_family>
+			<font_size>9.0</font_size>
+			<font_bold>false</font_bold>
+			<font_underline>false</font_underline>
+			<font_italic>false</font_italic>
+			<color>000000</color>
+			
+			<x>2.30</x>
+			<y>24.40</y>
+			<width>5.00</width>
+			<posicion>3</posicion>
+			
+			<decimales>0</decimales>
+			<formato>-1</formato>
+			<justificar>1</justificar> 
+			
+			<ajuste_linea>false</ajuste_linea>
+			<prefijo></prefijo>
+			<sufijo></sufijo>
+			<hidden>false</hidden>
+			<tipo>1</tipo>
+			<trim>false</trim>
+			<sql>0</sql>
+			<totalizar>false</totalizar>
+			<page_break>false</page_break>
+			<nivel>0</nivel>
+		</campo>
+	
+		<campo>
+			<linea>38</linea>
+			<campo>0 - Ninguno</campo>
+			<descripcion>______________________________</descripcion>
+			
+			<font_family>Arial</font_family>
+			<font_size>6.0</font_size>
+			<font_bold>false</font_bold>
+			<font_underline>false</font_underline>
+			<font_italic>false</font_italic>
+			<color>000000</color>
+			
+			<x>12.60</x>
+			<y>24.40</y>
+			<width>5.00</width>
+			<posicion>3</posicion>
+			
+			<decimales>0</decimales>
+			<formato>-1</formato>
+			<justificar>1</justificar> 
+			
+			<ajuste_linea>false</ajuste_linea>
+			<prefijo></prefijo>
+			<sufijo></sufijo>
+			<hidden>false</hidden>
+			<tipo>1</tipo>
+			<trim>false</trim>
+			<sql>0</sql>
+			<totalizar>false</totalizar>
+			<page_break>false</page_break>
+			<nivel>0</nivel>
+		</campo>
+	
+	</campos>
+</data>

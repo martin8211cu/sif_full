@@ -1,0 +1,1430 @@
+<strong>INDICE:</strong><BR>- <A href='#COLs_CHG'>Columnas a modificarse</A><BR>- <A href='#COLs_ADD'>Columnas nuevas</A><BR>- <A href='#COLs_DEL'>Columnas a eliminarse</A><BR>- <A href='#KEYs_DEL'>Llaves a eliminarse</A><BR>- <A href='#TABs_ADD'>Tablas nuevas</A><BR>- <A href='#KEYs_ADD'>Llaves nuevas o a regenerarse</A><BR>- <A href='#KEYs_FI'>Indices para llaves foráneas</A><BR><BR><BR>
+			<BR><strong><A name='COLs_CHG'>COLUMNAS QUE VAN A SER ALTERADAS EN LA BASE DE DATOS PORQUE TIENEN CARACTERISTICAS MODIFICADAS EN EL MODELO DBM</A></strong><BR>
+			<table>
+			<tr><td><strong>TABLA</strong></td><td><strong>COLUMNA</strong></td><td><strong>&nbsp;</strong></td><td><strong>TIPO</strong></td><td><strong>LON</strong></td><td><strong>DEC</strong></td><td><strong>obl</strong></td><td><strong>ide</strong></td><td><strong>dfl</strong></td><td><strong>rul</strong></td></tr>
+			
+				<tr>
+					<td>AFTBResponsables</td><td>AFTRechazado</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td>LOGIC</td>
+					<td>1</td>
+					<td>0</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					<td><strong>0</strong></td>
+					<td></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>LOGIC</td>
+					<td>1</td>
+					<td>0</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					
+						<td></td>
+					
+					
+						<td><font color="#FF0000"></font></td>
+					
+				</tr>
+			
+				<tr>
+					<td>CCTransacciones</td><td>CCTcktr</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td>CHAR</td>
+					<td>1</td>
+					<td>0</td>
+					<td>0</td>
+					
+						<td>0</td>
+					
+					<td></td>
+					<td><strong>([CCTcktr] IS NULL OR ([CCTcktr]='P' OR [CCTcktr]='T' OR [CCTcktr]='C'))</strong></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>CHAR</td>
+					<td>1</td>
+					<td>0</td>
+					<td>0</td>
+					
+						<td>0</td>
+					
+					
+						<td><font color="#FF0000"></font></td>
+					
+					
+						<td>([CCTcktr] IS NULL OR ([CCTcktr]='T' OR [CCTcktr]='C'))</td>
+					
+				</tr>
+			
+				<tr>
+					<td>CDErrores</td><td>ColumnName</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td>VARCHAR</td>
+					<td><strong>255</strong></td>
+					<td>0</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					<td></td>
+					<td></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>VARCHAR</td>
+					<td>60</td>
+					<td>0</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					
+						<td><font color="#FF0000"></font></td>
+					
+					
+						<td><font color="#FF0000"></font></td>
+					
+				</tr>
+			
+				<tr>
+					<td>CDErrores</td><td>ColumnType</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td>VARCHAR</td>
+					<td><strong>255</strong></td>
+					<td>0</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					<td></td>
+					<td></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>VARCHAR</td>
+					<td>40</td>
+					<td>0</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					
+						<td><font color="#FF0000"></font></td>
+					
+					
+						<td><font color="#FF0000"></font></td>
+					
+				</tr>
+			
+				<tr>
+					<td>CtasMayor</td><td>CTCconversion</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td>INTEGER</td>
+					<td>10</td>
+					<td>0</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					<td>0</td>
+					<td><strong>([CTCconversion]=(4) OR [CTCconversion]=(3) OR [CTCconversion]=(2) OR [CTCconversion]=(1) OR [CTCconversion]=(0))</strong></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>INTEGER</td>
+					<td>10</td>
+					<td>0</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					
+						<td>0</td>
+					
+					
+						<td>([CTCconversion]=(3) OR [CTCconversion]=(2) OR [CTCconversion]=(1) OR [CTCconversion]=(0))</td>
+					
+				</tr>
+			
+				<tr>
+					<td>DLaboralesEmpleado</td><td>DLreplicacion</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td>LOGIC</td>
+					<td>1</td>
+					<td>0</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					<td><strong>0</strong></td>
+					<td></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>LOGIC</td>
+					<td>1</td>
+					<td>0</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					
+						<td></td>
+					
+					
+						<td><font color="#FF0000"></font></td>
+					
+				</tr>
+			
+				<tr>
+					<td>EDocumentosI</td><td>EDIestado</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td>INTEGER</td>
+					<td>10</td>
+					<td>0</td>
+					<td>0</td>
+					
+						<td>0</td>
+					
+					<td>0</td>
+					<td><strong>([EDIestado] IS NULL OR ([EDIestado]=(-10) OR [EDIestado]=(10) OR [EDIestado]=(0)))</strong></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>INTEGER</td>
+					<td>10</td>
+					<td>0</td>
+					<td>0</td>
+					
+						<td>0</td>
+					
+					
+						<td>0</td>
+					
+					
+						<td></td>
+					
+				</tr>
+			
+				<tr>
+					<td>EIncidencias</td><td>EIestado</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td>INTEGER</td>
+					<td>10</td>
+					<td>0</td>
+					<td>0</td>
+					
+						<td>0</td>
+					
+					<td><strong>0</strong></td>
+					<td><strong>([EIestado] IS NULL OR ([EIestado]=(1) OR [EIestado]=(0)))</strong></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>INTEGER</td>
+					<td>10</td>
+					<td>0</td>
+					<td>0</td>
+					
+						<td>0</td>
+					
+					
+						<td></td>
+					
+					
+						<td></td>
+					
+				</tr>
+			
+				<tr>
+					<td>ERequisicion</td><td>Estado</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td>INTEGER</td>
+					<td>10</td>
+					<td>0</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					<td>0</td>
+					<td><strong>([Estado]=(4) OR [Estado]=(2) OR [Estado]=(1) OR [Estado]=(0))</strong></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>INTEGER</td>
+					<td>10</td>
+					<td>0</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					
+						<td>0</td>
+					
+					
+						<td>([Estado]=(2) OR [Estado]=(1) OR [Estado]=(0))</td>
+					
+				</tr>
+			
+				<tr>
+					<td>FATarjetas</td><td>FATporccom</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td>NUMERIC</td>
+					<td><strong>5</strong></td>
+					<td><strong>2</strong></td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					<td>0.0</td>
+					<td></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>NUMERIC</td>
+					<td>18</td>
+					<td>0</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					
+						<td>0.0</td>
+					
+					
+						<td><font color="#FF0000"></font></td>
+					
+				</tr>
+			
+				<tr>
+					<td>FPagos</td><td>Tipo</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td>CHAR</td>
+					<td>1</td>
+					<td>0</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					<td></td>
+					<td><strong>([Tipo]='A' OR [Tipo]='C' OR [Tipo]='D' OR [Tipo]='T' OR [Tipo]='E')</strong></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>CHAR</td>
+					<td>1</td>
+					<td>0</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					
+						<td><font color="#FF0000"></font></td>
+					
+					
+						<td>([Tipo]='C' OR [Tipo]='D' OR [Tipo]='T' OR [Tipo]='E')</td>
+					
+				</tr>
+			
+				<tr>
+					<td>SaldosContablesConvertidos</td><td>CTCconversion</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td>INTEGER</td>
+					<td>10</td>
+					<td>0</td>
+					<td>0</td>
+					
+						<td>0</td>
+					
+					<td>0</td>
+					<td><strong>([CTCconversion] IS NULL OR ([CTCconversion]=(4) OR [CTCconversion]=(3) OR [CTCconversion]=(2) OR [CTCconversion]=(1) OR [CTCconversion]=(0)))</strong></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>INTEGER</td>
+					<td>10</td>
+					<td>0</td>
+					<td>0</td>
+					
+						<td>0</td>
+					
+					
+						<td>0</td>
+					
+					
+						<td>([CTCconversion] IS NULL OR ([CTCconversion]=(3) OR [CTCconversion]=(2) OR [CTCconversion]=(1) OR [CTCconversion]=(0)))</td>
+					
+				</tr>
+			
+			</table>
+		
+			<BR><strong><A name='COLs_ADD'>COLUMNAS NUEVAS EN EL MODELO DBM QUE SE VAN A CREAR EN LA BASE DE DATOS</A></strong><BR>
+			<table>
+			<tr><td><strong>TABLA</strong></td><td><strong>COLUMNA</strong></td><td><strong>TIPO</strong></td><td><strong>LON</strong></td><td><strong>DEC</strong></td><td><strong>obl</strong></td><td><strong>ide</strong></td><td><strong>dfl</strong></td><td><strong>rul</strong></td></tr>
+			
+				<tr><td>AsientosRecursivos&nbsp;&nbsp;</td><td>FFECrecursivo&nbsp;&nbsp;</td><td>DATE TIME&nbsp;&nbsp;</td><td>0</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>CCHarqueo&nbsp;&nbsp;</td><td>CCHobservacion&nbsp;&nbsp;</td><td>VARCHAR&nbsp;&nbsp;</td><td>255</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>CDRHHCargasCalculo&nbsp;&nbsp;</td><td>CDRHHCCSalarioBase&nbsp;&nbsp;</td><td>MONEY&nbsp;&nbsp;</td><td>18</td><td>4</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>CDRHHCargasCalculo&nbsp;&nbsp;</td><td>CDRHHCCSalarioBaseCotizacion&nbsp;&nbsp;</td><td>MONEY&nbsp;&nbsp;</td><td>18</td><td>4</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>CDRHHDeduccionesEmpleado&nbsp;&nbsp;</td><td>CDRHHDmetodo&nbsp;&nbsp;</td><td>LOGIC&nbsp;&nbsp;</td><td>1</td><td>0</td><td>1</td><td>0</td><td>1</td><td></td></tr>
+			
+				<tr><td>CDRHHDeduccionesEmpleado&nbsp;&nbsp;</td><td>CDRHHDmonto&nbsp;&nbsp;</td><td>MONEY&nbsp;&nbsp;</td><td>18</td><td>4</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>CDRHHIncidenciasCalculo&nbsp;&nbsp;</td><td>CDRHHICespecie&nbsp;&nbsp;</td><td>LOGIC&nbsp;&nbsp;</td><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td><td></td></tr>
+			
+				<tr><td>CDRHHIncidenciasCalculo&nbsp;&nbsp;</td><td>CDRHHIfechacontrol&nbsp;&nbsp;</td><td>DATE TIME&nbsp;&nbsp;</td><td>0</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>CDRHHSalarioEmpleado&nbsp;&nbsp;</td><td>CDRHHSEespecie&nbsp;&nbsp;</td><td>MONEY&nbsp;&nbsp;</td><td>18</td><td>4</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>CDRHHSalarioEmpleado&nbsp;&nbsp;</td><td>CDRHHSEsalariobc&nbsp;&nbsp;</td><td>MONEY&nbsp;&nbsp;</td><td>18</td><td>4</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>Clasificaciones&nbsp;&nbsp;</td><td>Cconsecutivo&nbsp;&nbsp;</td><td>INTEGER&nbsp;&nbsp;</td><td>10</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>CMProcesoCompra&nbsp;&nbsp;</td><td>CMPfechaAprob&nbsp;&nbsp;</td><td>DATE TIME&nbsp;&nbsp;</td><td>0</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>CMProcesoCompra&nbsp;&nbsp;</td><td>CMPfechaEnvAprob&nbsp;&nbsp;</td><td>DATE TIME&nbsp;&nbsp;</td><td>0</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>CMProcesoCompra&nbsp;&nbsp;</td><td>CMPjustificacionRechazo&nbsp;&nbsp;</td><td>VARCHAR&nbsp;&nbsp;</td><td>100</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>CMTipoOrden&nbsp;&nbsp;</td><td>CMTOModDescripcion&nbsp;&nbsp;</td><td>LOGIC&nbsp;&nbsp;</td><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td><td></td></tr>
+			
+				<tr><td>CMTipoOrden&nbsp;&nbsp;</td><td>CMTOModFechaEntrega&nbsp;&nbsp;</td><td>LOGIC&nbsp;&nbsp;</td><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td><td></td></tr>
+			
+				<tr><td>CMTipoOrden&nbsp;&nbsp;</td><td>CMTOModFechaRequerida&nbsp;&nbsp;</td><td>LOGIC&nbsp;&nbsp;</td><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td><td></td></tr>
+			
+				<tr><td>CMTipoOrden&nbsp;&nbsp;</td><td>CMTOModImpuesto&nbsp;&nbsp;</td><td>LOGIC&nbsp;&nbsp;</td><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td><td></td></tr>
+			
+				<tr><td>CMTiposSolicitud&nbsp;&nbsp;</td><td>CMTSaprobarsolicitante&nbsp;&nbsp;</td><td>LOGIC&nbsp;&nbsp;</td><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td><td></td></tr>
+			
+				<tr><td>CtasMayor&nbsp;&nbsp;</td><td>TCHid&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>18</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>DContratosCM&nbsp;&nbsp;</td><td>DCdiasEntrega&nbsp;&nbsp;</td><td>INTEGER&nbsp;&nbsp;</td><td>10</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>DPolizaDesalmacenaje&nbsp;&nbsp;</td><td>DPDaduanalesrealRCPar&nbsp;&nbsp;</td><td>MONEY&nbsp;&nbsp;</td><td>18</td><td>4</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>DPolizaDesalmacenaje&nbsp;&nbsp;</td><td>DPDfletesrealRCPar&nbsp;&nbsp;</td><td>MONEY&nbsp;&nbsp;</td><td>18</td><td>4</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>DPolizaDesalmacenaje&nbsp;&nbsp;</td><td>DPDimpuestosrealRCPar&nbsp;&nbsp;</td><td>MONEY&nbsp;&nbsp;</td><td>18</td><td>4</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>DPolizaDesalmacenaje&nbsp;&nbsp;</td><td>DPDimpuestosrecupRCPar&nbsp;&nbsp;</td><td>MONEY&nbsp;&nbsp;</td><td>18</td><td>4</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>DPolizaDesalmacenaje&nbsp;&nbsp;</td><td>DPDsegurosrealRCPar&nbsp;&nbsp;</td><td>MONEY&nbsp;&nbsp;</td><td>18</td><td>4</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>DVacacionesEmpleado&nbsp;&nbsp;</td><td>DVEmanual&nbsp;&nbsp;</td><td>LOGIC&nbsp;&nbsp;</td><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td><td></td></tr>
+			
+				<tr><td>EContables&nbsp;&nbsp;</td><td>FFECrecursivo&nbsp;&nbsp;</td><td>DATE TIME&nbsp;&nbsp;</td><td>0</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>EOrdenCM&nbsp;&nbsp;</td><td>CMPid&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>18</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>EOrdenCM&nbsp;&nbsp;</td><td>EOfechaEnvP&nbsp;&nbsp;</td><td>DATE TIME&nbsp;&nbsp;</td><td>0</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>EPolizaDesalmacenaje&nbsp;&nbsp;</td><td>EPDidpadre&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>18</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>EPolizaDesalmacenaje&nbsp;&nbsp;</td><td>PermiteDesParcial&nbsp;&nbsp;</td><td>LOGIC&nbsp;&nbsp;</td><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td><td></td></tr>
+			
+				<tr><td>ESolicitudCompraCM&nbsp;&nbsp;</td><td>ESfechaAplica&nbsp;&nbsp;</td><td>DATE TIME&nbsp;&nbsp;</td><td>0</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>ETransacciones&nbsp;&nbsp;</td><td>ETnotaCredito&nbsp;&nbsp;</td><td>LOGIC&nbsp;&nbsp;</td><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td><td></td></tr>
+			
+				<tr><td>FADCierres&nbsp;&nbsp;</td><td>FADCdocumentos&nbsp;&nbsp;</td><td>MONEY&nbsp;&nbsp;</td><td>18</td><td>4</td><td>1</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>FADCierres&nbsp;&nbsp;</td><td>FADCdocumentossis&nbsp;&nbsp;</td><td>MONEY&nbsp;&nbsp;</td><td>18</td><td>4</td><td>1</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>FAP000&nbsp;&nbsp;</td><td>FAPMSG&nbsp;&nbsp;</td><td>VARCHAR&nbsp;&nbsp;</td><td>80</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>Impuestos&nbsp;&nbsp;</td><td>IActdefault&nbsp;&nbsp;</td><td>LOGIC&nbsp;&nbsp;</td><td>1</td><td>0</td><td>1</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>Impuestos&nbsp;&nbsp;</td><td>IServdefault&nbsp;&nbsp;</td><td>LOGIC&nbsp;&nbsp;</td><td>1</td><td>0</td><td>1</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>RHDescripPuestoP&nbsp;&nbsp;</td><td>ObservacionesRechazo&nbsp;&nbsp;</td><td>VARCHAR&nbsp;&nbsp;</td><td>1024</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>SaldosContablesConvertidos&nbsp;&nbsp;</td><td>SLinicialGE&nbsp;&nbsp;</td><td>MONEY&nbsp;&nbsp;</td><td>18</td><td>4</td><td>1</td><td>0</td><td>0</td><td></td></tr>
+			
+				<tr><td>SaldosContablesConvertidos&nbsp;&nbsp;</td><td>SOinicialGE&nbsp;&nbsp;</td><td>MONEY&nbsp;&nbsp;</td><td>18</td><td>4</td><td>1</td><td>0</td><td>0</td><td></td></tr>
+			
+				<tr><td>SaldosContablesConvertidos&nbsp;&nbsp;</td><td>TCHid&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>18</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>SNContactos&nbsp;&nbsp;</td><td>SNCarea&nbsp;&nbsp;</td><td>INTEGER&nbsp;&nbsp;</td><td>10</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>TESmedioPago&nbsp;&nbsp;</td><td>TESenviaCorreo&nbsp;&nbsp;</td><td>LOGIC&nbsp;&nbsp;</td><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td><td></td></tr>
+			
+				<tr><td>TEStransferenciaP&nbsp;&nbsp;</td><td>TESTPtipoDet&nbsp;&nbsp;</td><td>VARCHAR&nbsp;&nbsp;</td><td>50</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+			</table>
+		
+			<BR><strong><A name='COLs_DEL'>COLUMNAS QUE VAN A SER ELIMINADAS EN LA BASE DE DATOS PORQUE YA NO SE REQUIEREN EN EL MODELO DBM</A></strong><BR>
+			<table>
+			<tr><td><strong>TABLA</strong></td><td><strong>COLUMNA</strong></td><td><strong>TIPO</strong></td><td><strong>LON</strong></td><td><strong>DEC</strong></td><td><strong>obl</strong></td><td><strong>ide</strong></td><td><strong>dfl</strong></td><td><strong>rul</strong></td></tr>
+			
+				<tr><td>ETransacciones&nbsp;&nbsp;</td><td>Icodigo&nbsp;&nbsp;</td><td>CHAR&nbsp;&nbsp;</td><td>5</td><td>0</td><td>1</td><td>0</td><td></td><td></td></tr>
+			
+			</table>
+		
+			<BR><strong><A name='KEYs_DEL'>LLAVES QUE SE VAN A ELIMINAR</A></strong><BR>
+			<table>
+			<tr><td><strong>TABLA</strong></td><td><strong>TIPO</strong></td><td><strong>CODIGO</strong></td><td><strong>COLUMNAS</strong></td><td><strong>TABLA REFERENCIADA</strong></td><td><strong>COLUMNAS REFERENCIADAS</strong></td><td><strong>RAZON</strong></td></tr>
+			
+				
+					<tr><td>CPresupuestoComprometidasNAPs</td><td align="center">
+						
+							PK 
+						
+					</td>
+					
+						<td>
+							
+								CPresupuestoComprometid01_PK
+							
+						</td>
+					
+					<td>CPPid,Ecodigo,CPNAPnum</td><td>*</td><td>*</td>
+					<td>
+						
+							BORRADA EN DBM (DBM:DROP)
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>EDocumentosI</td><td align="center">
+						
+							ID 
+						
+					</td>
+					
+						<td>
+							
+								EDocumentosI_ID02
+							
+						</td>
+					
+					<td>Ecodigo,EDIestado,EDItipo</td><td>*</td><td>*</td>
+					<td>
+						
+							CAMPOS MODIFICADOS
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>EIDeducciones</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td>
+							
+								EIDeducciones_FK02
+							
+						</td>
+					
+					<td>Ecodigo</td><td>Empresas</td><td>Ecodigo</td>
+					<td>
+						
+							NO GENERAR CONSTRAINT
+						
+					</td>
+					</tr>
+					
+				
+					<tr><td>EIDeducciones</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td>
+							
+								EIDeducciones_FI02
+							
+						</td>
+					
+					<td>Ecodigo</td><td>Empresas</td><td>Ecodigo</td>
+					<td>
+						
+							NO GENERAR CONSTRAINT
+						
+					</td>
+					</tr>
+					
+				
+			
+				
+					<tr><td>ETransacciones</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td>
+							
+								ETransacciones_FK08
+							
+						</td>
+					
+					<td>Ecodigo,Icodigo</td><td>Impuestos</td><td>Ecodigo,Icodigo</td>
+					<td>
+						
+							BORRADA EN DBM (DBM:DROP)
+						
+					</td>
+					</tr>
+					
+				
+					<tr><td>ETransacciones</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td>
+							
+								ETransacciones_FI08
+							
+						</td>
+					
+					<td>Ecodigo,Icodigo</td><td>Impuestos</td><td>Ecodigo,Icodigo</td>
+					<td>
+						
+							BORRADA EN DBM (DBM:DROP)
+						
+					</td>
+					</tr>
+					
+				
+			
+			</table>
+		
+			<BR><strong><A name='TABs_ADD'>TABLAS NUEVAS EN EL MODELO DBM QUE SE VAN A CREAR EN LA BASE DE DATOS</A></strong><BR>
+			<table>
+			<tr><td><strong>TABLA</strong></td></tr>
+			
+				<tr><td>CPNAPdetallePago</td></tr>
+			
+				<tr><td>HPCReglas</td></tr>
+			
+				<tr><td>HtiposcambioConversionD</td></tr>
+			
+				<tr><td>HtiposcambioConversionE</td></tr>
+			
+				<tr><td>RCuentasTipo_DistCargas</td></tr>
+			
+			</table>
+		
+			<BR><strong><A name='COLs_ADD'>LLAVES QUE SE VAN A CREAR.</font></A></strong><BR>
+			<table>
+			<tr><td><strong>TABLA</strong></td><td><strong>TIPO</strong></td><td><strong>SEC.</strong></td><td><strong>COLUMNAS</strong></td><td><strong>TABLA REFERENCIADA</strong></td><td><strong>COLUMNAS REFERENCIADAS</strong></td><td><strong>RAZON</strong></td></tr>
+			
+				
+					<tr><td>CPNAPdetallePago</td><td align="center">
+						
+							PK 
+						
+					</td>
+					
+						<td align="center">
+							00
+						</td>
+					
+					<td>Ecodigo,CPNAPnum,CPNAPDPid</td><td>*</td><td>*</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>CPNAPdetallePago</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>Ecodigo,CPNAPnum</td><td>CPNAP</td><td>Ecodigo,CPNAPnum</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>CPNAPdetallePago</td><td align="center">
+						
+							ID 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>CPcuenta,Ocodigo,CPNAPDPtipoMov</td><td>*</td><td>*</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>CPresupuestoComprometidasNAPs</td><td align="center">
+						
+							PK 
+						
+					</td>
+					
+						<td align="center">
+							00
+						</td>
+					
+					<td>CPPid,Ecodigo,CPNAPnum</td><td>*</td><td>*</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>DDocumentosCxP</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							14
+						</td>
+					
+					<td>Ecodigo,Icodigo</td><td>Impuestos</td><td>Ecodigo,Icodigo</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>DTransacciones</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							10
+						</td>
+					
+					<td>CFid</td><td>CFuncional</td><td>CFid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>EDocumentosI</td><td align="center">
+						
+							ID 
+						
+					</td>
+					
+						<td align="center">
+							02
+						</td>
+					
+					<td>Ecodigo,EDIestado,EDItipo</td><td>*</td><td>*</td>
+					<td>
+						
+							CAMPOS MODIFICADOS
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>EIDeducciones</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							03
+						</td>
+					
+					<td>Ecodigo,Tcodigo</td><td>TiposNomina</td><td>Ecodigo,Tcodigo</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>EIncidencias</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>CIid</td><td>CIncidentes</td><td>CIid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>EIncidencias</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							02
+						</td>
+					
+					<td>Ecodigo,Tcodigo</td><td>TiposNomina</td><td>Ecodigo,Tcodigo</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>EOrdenCM</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							09
+						</td>
+					
+					<td>CMPid</td><td>CMProcesoCompra</td><td>CMPid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>ETransacciones</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							11
+						</td>
+					
+					<td>CFid</td><td>CFuncional</td><td>CFid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>HERequisicion</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>CFid</td><td>CFuncional</td><td>CFid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>HPCReglas</td><td align="center">
+						
+							PK 
+						
+					</td>
+					
+						<td align="center">
+							00
+						</td>
+					
+					<td>PCRid</td><td>*</td><td>*</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>HPCReglas</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>PCRref</td><td>HPCReglas</td><td>PCRid</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>HPCReglas</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							02
+						</td>
+					
+					<td>PCEMid</td><td>PCEMascaras</td><td>PCEMid</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>HPCReglas</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							03
+						</td>
+					
+					<td>Ecodigo,Cmayor</td><td>CtasMayor</td><td>Ecodigo,Cmayor</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>HPCReglas</td><td align="center">
+						
+							ID 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>Ecodigo,OficodigoM</td><td>*</td><td>*</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>HPCReglas</td><td align="center">
+						
+							ID 
+						
+					</td>
+					
+						<td align="center">
+							02
+						</td>
+					
+					<td>Ecodigo,Cmayor,PCRregla,PCRdesde,PCRhasta</td><td>*</td><td>*</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>HtiposcambioConversionD</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>TCHid</td><td>HtiposcambioConversionE</td><td>TCHid</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>HtiposcambioConversionD</td><td align="center">
+						
+							ID 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>TCHid,Ecodigo,Speriodo,Smes,Mcodigo</td><td>*</td><td>*</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>HtiposcambioConversionE</td><td align="center">
+						
+							PK 
+						
+					</td>
+					
+						<td align="center">
+							00
+						</td>
+					
+					<td>TCHid</td><td>*</td><td>*</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>Incidencias</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							05
+						</td>
+					
+					<td>EIlote</td><td>EIncidencias</td><td>EIlote</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>RCuentasTipo_DistCargas</td><td align="center">
+						
+							PK 
+						
+					</td>
+					
+						<td align="center">
+							00
+						</td>
+					
+					<td>RCTid</td><td>*</td><td>*</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>RCuentasTipo_DistCargas</td><td align="center">
+						
+							ID 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>RCNid,Ecodigo</td><td>*</td><td>*</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>RCuentasTipo_DistCargas</td><td align="center">
+						
+							ID 
+						
+					</td>
+					
+						<td align="center">
+							02
+						</td>
+					
+					<td>RCNid,Ecodigo,DEid,CFid</td><td>*</td><td>*</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>RHPTUD</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							02
+						</td>
+					
+					<td>Ecodigo,Tcodigo</td><td>TiposNomina</td><td>Ecodigo,Tcodigo</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+			</table>
+		
+			<BR><strong><A name='KEYs_FI'>INDICES QUE SE VAN A CREAR EN LA BASE DE DATOS PARA SOPORTAR LLAVES FORANEAS</A></strong><BR>
+			<table>
+			<tr><td><strong>TABLA</strong></td><td><strong>TIPO</strong></td><td><strong>SEC.</strong></td><td><strong>COLUMNAS</strong></td><td><strong>TABLA REFERENCIADA</strong></td><td><strong>COLUMNAS REFERENCIADAS</strong></td><td><strong>RAZON</strong></td></tr>
+			
+				
+					<tr><td>DDocumentosCxP</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							14
+						</td>
+					
+					<td>Ecodigo,Icodigo</td><td>Impuestos</td><td>Ecodigo,Icodigo</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>DTransacciones</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							10
+						</td>
+					
+					<td>CFid</td><td>CFuncional</td><td>CFid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>EIDeducciones</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							03
+						</td>
+					
+					<td>Ecodigo,Tcodigo</td><td>TiposNomina</td><td>Ecodigo,Tcodigo</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>EIncidencias</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>CIid</td><td>CIncidentes</td><td>CIid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>EIncidencias</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							02
+						</td>
+					
+					<td>Ecodigo,Tcodigo</td><td>TiposNomina</td><td>Ecodigo,Tcodigo</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>EOrdenCM</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							09
+						</td>
+					
+					<td>CMPid</td><td>CMProcesoCompra</td><td>CMPid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>ETransacciones</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							11
+						</td>
+					
+					<td>CFid</td><td>CFuncional</td><td>CFid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>HERequisicion</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>CFid</td><td>CFuncional</td><td>CFid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>Incidencias</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							05
+						</td>
+					
+					<td>EIlote</td><td>EIncidencias</td><td>EIlote</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>RHPTUD</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							02
+						</td>
+					
+					<td>Ecodigo,Tcodigo</td><td>TiposNomina</td><td>Ecodigo,Tcodigo</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+			</table>
+		

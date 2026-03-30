@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_Titulo>Cancel Payment Orders</LB_Titulo>
+		<LB_Titulo1>Payment Orders Issued</LB_Titulo1>
+		<LB_TrabajarConTesoreria>Working with Treasury</LB_TrabajarConTesoreria>
+		<LB_EmpresaPago>Enterprise Payment</LB_EmpresaPago>
+		<LB_CuentaPago>Account Payment</LB_CuentaPago>
+		<LB_Beneficiario>Beneficary</LB_Beneficiario>
+		<LB_Estado>Status</LB_Estado>
+		<LB_Todos>All</LB_Todos>
+		<LB_EnPreparacion>Forthcoming</LB_EnPreparacion>
+		<LB_EnEmision>Issuing</LB_EnEmision>
+		<LB_SinAplicar>No Apply</LB_SinAplicar>
+		<LB_Emitidas>Issued</LB_Emitidas>
+		<LB_Anuladas>Canceled</LB_Anuladas>
+		<LB_MonedaPago>Currency Payment</LB_MonedaPago>
+		<LB_Moneda>Currency</LB_Moneda>
+		<LB_NumOrden>Order Number</LB_NumOrden>
+		<LB_HastaFecha>To Date</LB_HastaFecha>
+		<LB_DocumentoPago>Document Payment</LB_DocumentoPago>
+		<LB_TrabajarOrdenesEmision>Working with Issue Orders</LB_TrabajarOrdenesEmision>
+		<LB_EmpresaSolicitud>Enterprise Request</LB_EmpresaSolicitud>
+		<LB_NumSolicitud>Application Number</LB_NumSolicitud>
+		<LB_SocioNegocio>Bussines Partner</LB_SocioNegocio>
+		<LB_Socio>Partner</LB_Socio>
+		<LB_o>or</LB_o>
+		<LB_MonedaFactura>Currency Invoice</LB_MonedaFactura>
+		<LB_NumeroAcuerdo>Number Agreement</LB_NumeroAcuerdo>
+		<LB_Banco>Bank</LB_Banco>
+		<LB_CuentaBancariaPago>Payment Bank Account</LB_CuentaBancariaPago>
+		<LB_MedioPago>Means of Payment</LB_MedioPago>
+	<BTN_Anular>Cancel</BTN_Anular><LB_AnuOrdenPago>Cancel Payment Order</LB_AnuOrdenPago><LB_AnuRegDoc>Cancel Document Register</LB_AnuRegDoc><LB_Anulado>Canceled</LB_Anulado><LB_AnularSPAsociadas>Cancel Payment Request</LB_AnularSPAsociadas><LB_Autorizacion>Authorization</LB_Autorizacion><LB_Cheque>Check</LB_Cheque><LB_CtaBanco>Bank Account</LB_CtaBanco><LB_CtaDest>Account Destination</LB_CtaDest><LB_EdoDoc>Document Status</LB_EdoDoc><LB_Emision>Issuance</LB_Emision><LB_Entegado>Delivered</LB_Entegado><LB_EstadoOrden>Order Status</LB_EstadoOrden><LB_FecOrden>Order Date</LB_FecOrden><LB_FecPagoSol>Requested Payment Date</LB_FecPagoSol><LB_Impreso>Printed</LB_Impreso><LB_ListaOrdenes>Orders List</LB_ListaOrdenes><LB_MonEmpPago>Payment Enterprise Amount</LB_MonEmpPago><LB_MotAnulacion>Rejected Reason</LB_MotAnulacion><LB_Observaciones>Comments</LB_Observaciones><LB_Preparacion>Preparation</LB_Preparacion><LB_RegYContabilizado>Registered and Accounted</LB_RegYContabilizado><LB_SinContabilizar>Not Accounted</LB_SinContabilizar><LB_TC>CE</LB_TC><LB_TipIncorrecto>Incorrect Type</LB_TipIncorrecto><LB_TotPagar>Payment Total</LB_TotPagar><LB_TransElectronica>Electronic Tranfer</LB_TransElectronica><LB_TransImpresa>Transaction Printed</LB_TransImpresa><LB_TransManual>Manual Transaction</LB_TransManual><LB_YContabilizado>and Accounted</LB_YContabilizado><MSG_AnulacionOPEmitida>The payment order cancellation cancell the payment document. Payment orders and  related requests are cancelled</MSG_AnulacionOPEmitida><MSG_AnulaciónChkOTrans>Cancellation of Checks or Transfer or Payment Card</MSG_AnulaciónChkOTrans><MSG_EjecutarSigProceso>The following process will be executed</MSG_EjecutarSigProceso><MSG_NoIncluiOP>Not include Payment Order</MSG_NoIncluiOP><MSG_NoPuedeAnular>Can not be canceled because it was delivered NUM</MSG_NoPuedeAnular><MSG_RevContablemente>Reversing the payment in accounting</MSG_RevContablemente><MSG_VolverPagOP>If you want to re-pay the Payment Order, use the option</MSG_VolverPagOP></Idioma>
+</Etiquetas>

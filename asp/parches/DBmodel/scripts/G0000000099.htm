@@ -1,0 +1,777 @@
+<strong>INDICE:</strong><BR>- <A href='#KEYs_ADD'>Llaves nuevas o a regenerarse</A><BR>- <A href='#KEYs_FI'>Indices para llaves foráneas</A><BR><BR><BR>
+			<BR><strong><A name='COLs_ADD'>LLAVES QUE SE VAN A CREAR.</font></A></strong><BR>
+			<table>
+			<tr><td><strong>TABLA</strong></td><td><strong>TIPO</strong></td><td><strong>SEC.</strong></td><td><strong>COLUMNAS</strong></td><td><strong>TABLA REFERENCIADA</strong></td><td><strong>COLUMNAS REFERENCIADAS</strong></td><td><strong>RAZON</strong></td></tr>
+			
+				
+					<tr><td>Ayuda</td><td align="center">
+						
+							UI 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>Iid,Acodigo</td><td>*</td><td>*</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>EImportador</td><td align="center">
+						
+							ID 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>EIcodigo,EImodulo,Ecodigo</td><td>*</td><td>*</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+			</table>
+		
+			<BR><strong><A name='KEYs_FI'>INDICES QUE SE VAN A CREAR EN LA BASE DE DATOS PARA SOPORTAR LLAVES FORANEAS</A></strong><BR>
+			<table>
+			<tr><td><strong>TABLA</strong></td><td><strong>TIPO</strong></td><td><strong>SEC.</strong></td><td><strong>COLUMNAS</strong></td><td><strong>TABLA REFERENCIADA</strong></td><td><strong>COLUMNAS REFERENCIADAS</strong></td><td><strong>RAZON</strong></td></tr>
+			
+				
+					<tr><td>Ayuda</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>Iid</td><td>Idiomas</td><td>Iid</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>ConceptoDeduc</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>IRcodigo</td><td>ImpuestoRenta</td><td>IRcodigo</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>DCCorreo</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>DCFGid</td><td>DCFGrupo</td><td>DCFGid</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>DConceptoDeduc</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>CDid</td><td>ConceptoDeduc</td><td>CDid</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>DConceptoDeduc</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							02
+						</td>
+					
+					<td>EIRid</td><td>EImpuestoRenta</td><td>EIRid</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>DImpuestoRenta</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>EIRid</td><td>EImpuestoRenta</td><td>EIRid</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>EIdioma</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>Iid</td><td>Idiomas</td><td>Iid</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>EImportadorEmpresa</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>EIid</td><td>EImportador</td><td>EIid</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>EImportadorUsuario</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>EIid,Ecodigo</td><td>EImportadorEmpresa</td><td>EIid,Ecodigo</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>EImpuestoRenta</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>IRcodigo</td><td>ImpuestoRenta</td><td>IRcodigo</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>FMT010</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>FMT00COD</td><td>FMT000</td><td>FMT00COD</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>FMT011</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>FMT00COD</td><td>FMT000</td><td>FMT00COD</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>HYImpacto</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>HYMgrado</td><td>HYMagnitud</td><td>HYMgrado</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>HYTHabilidades</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>HYIHgrado</td><td>HYInteraccionHumana</td><td>HYIHgrado</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>HYTHabilidades</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							02
+						</td>
+					
+					<td>HYHGcodigo</td><td>HYHabilidadGerencia</td><td>HYHGcodigo</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>HYTHabilidades</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							03
+						</td>
+					
+					<td>HYHEcodigo</td><td>HYHabilidadEspecializada</td><td>HYHEcodigo</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>HYTResponsabilidad</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>HYMgrado</td><td>HYMagnitud</td><td>HYMgrado</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>HYTResponsabilidad</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							02
+						</td>
+					
+					<td>HYLAcodigo</td><td>HYLibertadActuar</td><td>HYLAcodigo</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>HYTResponsabilidad</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							03
+						</td>
+					
+					<td>HYIcodigo,HYMgrado</td><td>HYImpacto</td><td>HYIcodigo,HYMgrado</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>HYTSolucionProblemas</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>HYMRcodigo</td><td>HYMarcoReferencia</td><td>HYMRcodigo</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>HYTSolucionProblemas</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							02
+						</td>
+					
+					<td>HYCPgrado</td><td>HYComplejidadPensamiento</td><td>HYCPgrado</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>IBitacora</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>EIid</td><td>EImportador</td><td>EIid</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>IErrores</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>IBid</td><td>IBitacora</td><td>IBid</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>ImpuestoRenta</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>IRcodigoPadre</td><td>ImpuestoRenta</td><td>IRcodigo</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>OrigenProv</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>Oorigen</td><td>Origenes</td><td>Oorigen</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>OrigenProv</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							02
+						</td>
+					
+					<td>OPtabla</td><td>OrigenTablaProv</td><td>OPtabla</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>PortalCuestionarioParte</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>PCid</td><td>PortalCuestionario</td><td>PCid</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>PortalCuestionarioU</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>BUid</td><td>BenzigerUsuario</td><td>BUid</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>PortalCuestionarioU</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							02
+						</td>
+					
+					<td>PCid</td><td>PortalCuestionario</td><td>PCid</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>PortalPregunta</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>PCid,PPparte</td><td>PortalCuestionarioParte</td><td>PCid,PPparte</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>PortalPreguntaU</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>PCUid</td><td>PortalCuestionarioU</td><td>PCUid</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>PortalPreguntaU</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							02
+						</td>
+					
+					<td>PCid,PPid</td><td>PortalPregunta</td><td>PCid,PPid</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>PortalRespuesta</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>PCid,PPid</td><td>PortalPregunta</td><td>PCid,PPid</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>PortalRespuesta</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							02
+						</td>
+					
+					<td>PCid,PRira</td><td>PortalPregunta</td><td>PCid,PPid</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>PortalRespuestaU</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>PCid,PPid,PRid</td><td>PortalRespuesta</td><td>PCid,PPid,PRid</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>PortalRespuestaU</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							02
+						</td>
+					
+					<td>PCUid,PCid,PPid</td><td>PortalPreguntaU</td><td>PCUid,PCid,PPid</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>VSidioma</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>Iid</td><td>Idiomas</td><td>Iid</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>VSidioma</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							02
+						</td>
+					
+					<td>VSgrupo</td><td>VSgrupo</td><td>VSgrupo</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+			</table>
+		

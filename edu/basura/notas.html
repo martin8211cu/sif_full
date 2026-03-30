@@ -1,0 +1,5381 @@
+<cfinclude template="../Utiles/general.cfm">
+<html><!-- InstanceBegin template="/Templates/LMenuCED.dwt.cfm" codeOutsideHTMLIsLocked="false" -->
+<head>
+<title>Educaci&oacute;n</title>
+<meta http-equiv="Expires" content="Fri, Jan 01 1970 08:20:00 GMT">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta http-equiv="Pragma" content="no-cache">
+<!-- InstanceBeginEditable name="head" -->
+<!-- InstanceEndEditable -->
+<link href="../css/portlets.css" rel="stylesheet" type="text/css">
+<link href="../css/edu.css" rel="stylesheet" type="text/css">
+<script language="JavaScript" type="text/JavaScript">
+<!--
+function MM_reloadPage(init) {  //reloads the window if Nav4 resized
+  if (init==true) with (navigator) {if ((appName=="Netscape")&&(parseInt(appVersion)==4)) {
+    document.MM_pgW=innerWidth; document.MM_pgH=innerHeight; onresize=MM_reloadPage; }}
+  else if (innerWidth!=document.MM_pgW || innerHeight!=document.MM_pgH) location.reload();
+}
+MM_reloadPage(true);
+//-->
+</script>
+<script language="JavaScript" src="../js/DHTMLMenu/stm31.js"></script>
+<script language="JavaScript" type="text/javascript">
+	// Funciones para Manejo de Botones
+	botonActual = "";
+
+	function setBtn(obj) {
+		botonActual = obj.name;
+	}
+	function btnSelected(name, f) {
+		if (f != null) {
+			return (f["botonSel"].value == name)
+		} else {
+			return (botonActual == name)
+		}
+	}
+</script>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"></head>
+<body>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr> 
+    <td width="154" rowspan="2" align="center" valign="top"><img src="../Imagenes/logo.gif" width="154" height="62"></td>
+    <td valign="bottom"> 
+	  <!-- InstanceBeginEditable name="Ubica" --> 
+      
+		<table class="area" width="100%" cellpadding="0" cellspacing="0" border="0">
+			<tr>
+				<td width="25%">
+					<a href="/jsp/sdc/org/agenda/">
+						<img alt="Ir a agenda personal" src="/cfmx/edu/Imagenes/agenda.gif" width="32" height="25" align="ABSMIDDLE" border="0" />
+					</a>
+					<a href="/jsp/sdc/org/agenda/">
+					18 de Junio de 2003
+					
+					</a>
+				</td>
+				<td class="tituloAlterno" width="50%">
+					
+							<a href="/jsp/sdc/cfg/cfg/usuario.jsp">Marcel de Mézerville López</a>
+							<a href="/jsp/sdc/cfg/cfg/usuario.jsp"><img alt="Ir a configuraci&oacute;n personal" src="/cfmx/edu/Imagenes/yo.gif" width="32" height="25" align="ABSMIDDLE" border="0" /></a>
+					
+				</td>
+				<td align="right" width="25%">
+					<a href="/jsp/sdc/org/buzon/">Tiene 24 mensajes</a>
+					<a href="/jsp/sdc/org/buzon/"><img alt="ir al buz&oacute;n" src="/cfmx/edu/Imagenes/buzon.gif" width="34" height="23" align="ABSMIDDLE" border="0" /></a> 
+				</td>
+			</tr>
+		</table>
+	
+      <!-- InstanceEndEditable --> </td>
+  </tr>
+  <tr> 
+    <td valign="top">
+      <table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr class="area"> 
+          <td width="275" valign="middle">
+		  	<cfset RolActual = 4>
+			<cfset Session.RolActual = 4>
+			<cfinclude template="../portlets/pEmpresas2.cfm">
+		  </td>
+          <td nowrap> 
+            <div align="center"><span class="superTitulo">
+			<font size="5">
+	  <!-- InstanceBeginEditable name="Titulo" --> 
+              administraci&oacute;n del centro de estudio<!-- InstanceEndEditable -->	
+			</font></span></div></td>
+        </tr>
+        <tr class="area" style="padding-bottom: 3px;"> 
+		  <td nowrap style="padding-left: 10px;">
+		  <cfinclude template="../portlets/pminisitio.cfm">
+		  </td>
+          <td valign="top" nowrap> 
+	  <!-- InstanceBeginEditable name="MenuJS" --> 
+	  	  	
+<script type="text/javascript">
+	var menuPrincipalOptions = new Array (
+
+	new Array('Pago de facturas personales','/sdc/bpp/fac/index.jsp'),
+
+	new Array('Administración del centro de estudio','/edu/ced/MenuCED.cfm'),
+
+	new Array('Apoyo familiar','/edu/responsable/consultarActividades.cfm'),
+
+	new Array('Asistencia','/edu/asistencia/MenuAST.cfm'),
+
+	new Array('Docencia','/edu/docencia/MenuDOC.cfm'),
+
+	new Array('Mi cuaderno de estudios','/edu/est/consultarActividades.cfm'),
+
+	new Array('Rendimiento académico','/edu/director/consultas/consultarActividadesDIR.cfm'),
+
+	new Array('Trámites educativos','/T64'),
+
+	new Array('Usuarios',''),
+
+	new Array('Expediente Laboral','/sif/rh/expediente/consultas/expediente-cons.cfm'),
+
+	new Array('Recursos Humanos','/sif/rh/index.cfm'),
+
+	new Array('Activos Fijos','/sif/af/MenuAF.cfm'),
+
+	new Array('Administración del Sistema','/sif/ad/MenuAD.cfm'),
+
+	new Array('Anexos Financieros','/sif/an/MenuAN.cfm'),
+
+	new Array('Compras','/sif/cm/MenuCM.cfm'),
+
+	new Array('Consultas administrativas','/sif/admin/MenuADMIN.cfm'),
+
+	new Array('Contabilidad General','/sif/cg/MenuCG.cfm'),
+
+	new Array('Control de Tiempos','/sif/ControlTiempos/MenuCT.cfm'),
+
+	new Array('Cuentas por Cobrar','/sif/cc/MenuCC.cfm'),
+
+	new Array('Cuentas por Pagar','/sif/cp/MenuCP.cfm'),
+
+	new Array('Facturación','/sif/fa/MenuFA.cfm'),
+
+	new Array('Inventarios','/sif/iv/MenuIV.cfm'),
+
+	new Array('Movimientos Bancarios','/sif/mb/MenuMB.cfm'),
+
+	new Array('Anuncios clasificados','/sdc/dc/'),
+
+	new Array('Bienes Patrimoniales','/sdc/abp/'),
+
+	new Array('Finanzas Personales','/sdc/fp/'),
+
+	new Array('','')
+	);
+</script>
+
+<table width='100%' border='0' cellspacing='0' cellpadding='0' >
+  <tr>
+    <td nowrap> 
+
+<script type="text/javascript" language="JavaScript1.2">
+<!--
+stm_bm(["exnvfhr",400,"/edu/js/DHTMLMenu/","blank.gif",0,"","",0,1,50,50,50,1,0,0]);
+stm_bp("p0",[0,4,0,0,0,2,8,7,100,"",-2,"",-2,90,0,0,"#000000","#a0a0ba","",3,1,1,"#a0a0ba"]);
+stm_ai("p0i0",[0,"Menú Principal","","",-1,-1,0,"","_self","","","","",5,0,0,"arrow_r.gif","arrow_r.gif",7,7,0,0,1,"#a0a0ba",0,"#a0a0ba",0,"","",3,3,1,1,"#a0a0ba","#666666","#ffffff","#ffffff","8pt Verdana","8pt Verdana",0,0]);
+stm_bp("p1",[1,4,0,0,2,2,0,0,100,"",-2,"",-2,50,0,0,"#7f7f7f","#ffffff","",0,1,1,"#000000"]);
+for (var contador=0; contador<menuPrincipalOptions.length-1; contador++) {
+	stm_aix("p1i"+contador,"p0i0",[0,menuPrincipalOptions[contador][0],"","",-1,-1,0,menuPrincipalOptions[contador][1],"_self",menuPrincipalOptions[contador][0],menuPrincipalOptions[contador][0],"","",0,0,0,"","",0,0,0,0,1,"#ffffff",1,"#a0a0ba",0,"","",3,3,0,0,"#ffffff","#ffffff","#000000"]);
+}
+stm_ep();
+stm_ai("p0i1",[6,1,"transparent","",0,0,0]);
+stm_aix("p0i2","p0i0",[0,"Plan de Estudio","","",-1,-1,0,"","_self","","","","",8]);
+stm_bpx("p2","p1",[1,4,0,0,2,2,8,0,100,"",-2,"",-2,50,0,0,"#000000"]);
+stm_aix("p2i0","p1i0",[0,"Niveles","","",-1,-1,0,"/edu/ced/plan/Nivel.cfm","_self","Niveles","Niveles"]);
+stm_aix("p2i1","p1i0",[0,"Grados","","",-1,-1,0,"/edu/ced/plan/Grado.cfm","_self","Grados","Grados","","",8]);
+stm_aix("p2i2","p2i1",[0,"Períodos de Evaluación","","",-1,-1,0,"/edu/ced/plan/PeriodoEvaluacion.cfm","_self","Períodos de Evaluación","Períodos de Evaluación"]);
+stm_aix("p2i3","p2i1",[0,"Tipos de Curso Lectivo","","",-1,-1,0,"/edu/ced/plan/PeriodoEscolar.cfm","_self","Tipos de Curso Lectivo","Tipos de Curso Lectivo"]);
+stm_aix("p2i4","p2i1",[0,"Cursos Lectivos","","",-1,-1,0,"/edu/ced/plan/listaSubPeriodoEscolar.cfm","_self","Cursos Lectivos","Cursos Lectivos"]);
+stm_aix("p2i5","p2i1",[0,"Tipos de Materia","","",-1,-1,0,"/edu/ced/plan/MateriaTipo.cfm","_self","Tipos de Materia","Tipos de Materia"]);
+stm_aix("p2i6","p2i1",[0,"Conceptos de Evaluación","","",-1,-1,0,"/edu/ced/plan/EvaluacionConcepto.cfm","_self","Conceptos de Evaluación","Conceptos de Evaluación"]);
+stm_aix("p2i7","p2i1",[0,"Tablas de Evaluación","","",-1,-1,0,"/edu/ced/plan/listaTablaEvaluac.cfm","_self","Tablas de Evaluación","Tablas de Evaluación"]);
+stm_aix("p2i8","p2i1",[0,"Plan de Evaluación","","",-1,-1,0,"/edu/ced/plan/listaEvaluacionPlan.cfm","_self","Plan de Evaluación","Plan de Evaluación"]);
+stm_aix("p2i9","p2i1",[0,"Materias","","",-1,-1,0,"/edu/ced/plan/Materias.cfm","_self","Materias","Materias"]);
+stm_aix("p2i10","p2i1",[0,"Materias Complementarias","","",-1,-1,0,"/edu/ced/plan/listaMateriasComplementarias.cfm","_self","Materias Complementarias","Materias Complementarias"]);
+stm_aix("p2i11","p2i1",[0,"Materias Sustitutivas","","",-1,-1,0,"/edu/ced/plan/listaMateriasSustitutivas.cfm","_self","Materias Sustitutivas","Materias Sustitutivas"]);
+stm_aix("p2i12","p2i1",[0,"Materias Electivas","","",-1,-1,0,"/edu/ced/plan/listaMateriasElectivas.cfm","_self","Materias Electivas","Materias Electivas"]);
+stm_ep();
+stm_aix("p0i3","p0i1",[6,1,"transparent","",1,1]);
+stm_aix("p0i4","p0i0",[0,"Recurso","","",-1,-1,0,"","_self","","","","",8,0,0,"arrow_r.gif","arrow_r.gif",7,7,0,0,1,"#a0a0ba",0,"#a0a0ba",0,"","",3,3,1,1,"#a0a0ba","#a0a0ba"]);
+stm_bpx("p3","p1",[]);
+stm_aix("p3i0","p1i0",[0,"Infraestructura","","",-1,-1,0,"/edu/ced/recurso/Infraestructura.cfm","_self","Infraestructura","Infraestructura"]);
+stm_aix("p3i1","p1i0",[0,"Tipos de Horario","","",-1,-1,0,"/edu/ced/plan/listaHorarioTipo.cfm","_self","Tipos de Horario","Tipos de Horario"]);
+stm_aix("p3i2","p1i0",[0,"Calendario Escolar","","",-1,-1,0,"/edu/ced/recurso/calendario.cfm","_self","Calendario Escolar","Calendario Escolar"]);
+stm_aix("p3i3","p1i0",[0,"Recurso Humano","","",-1,-1,0,"/edu/ced/recurso/rh.cfm","_self","Recurso Humano","Recurso Humano"]);
+stm_aix("p3i4","p1i0",[0,"Biblioteca","","",-1,-1,0,"/edu/ced/recurso/listaBiblioteca.cfm","_self","Biblioteca","Biblioteca"]);
+stm_ep();
+stm_aix("p0i5","p0i1",[]);
+stm_aix("p0i6","p0i2",[0,"Alumnos"]);
+stm_bpx("p4","p2",[]);
+stm_aix("p4i0","p1i0",[0,"Mantenimiento de Promociones","","",-1,-1,0,"/edu/ced/alumno/promociones.cfm","_self","Mantenimiento de Promociones","Mantenimiento de Promociones"]);
+stm_aix("p4i1","p2i1",[0,"Proceso de Promoción","","",-1,-1,0,"/edu/ced/alumno/PromocionProc.cfm","_self","Proceso de Promoción","Proceso de Promoción"]);
+stm_aix("p4i2","p2i1",[0,"Alumnos","","",-1,-1,0,"/edu/ced/alumno/alumno.cfm","_self","Alumnos","Alumnos"]);
+stm_aix("p4i3","p2i1",[0,"Alumnos Retirados","","",-1,-1,0,"/edu/ced/alumno/retirados.cfm","_self","Alumnos Retirados","Alumnos Retirados"]);
+stm_aix("p4i4","p2i1",[0,"Alumnos Graduados","","",-1,-1,0,"/edu/ced/alumno/Graduados.cfm","_self","Alumnos Graduados","Alumnos Graduados"]);
+stm_aix("p4i5","p2i1",[0,"Matrícula Masiva","","",-1,-1,0,"/edu/ced/alumno/MatriculaMasiva.cfm","_self","Matrícula Masiva","Matrícula Masiva"]);
+stm_aix("p4i6","p2i1",[0,"Matrícula Individual","","",-1,-1,0,"/edu/ced/alumno/MatriculaIndividual.cfm","_self","Matrícula Individual","Matrícula Individual"]);
+stm_aix("p4i7","p2i1",[0,"Matrícula Extraordinaria","","",-1,-1,0,"/edu/ced/alumno/MatriculaExtra.cfm","_self","Matrícula Extraordinaria","Matrícula Extraordinaria"]);
+stm_ep();
+stm_aix("p0i7","p0i1",[]);
+stm_aix("p0i8","p0i2",[0,"Curso Lectivo"]);
+stm_bpx("p5","p2",[1,4,0,0,2,2,0]);
+stm_aix("p5i0","p1i0",[0,"Mantenimiento de Cursos","","",-1,-1,0,"/edu/ced/cursolectivo/Cursos.cfm","_self","Mantenimiento de Cursos","Mantenimiento de Cursos"]);
+stm_ep();
+stm_aix("p0i9","p0i1",[]);
+stm_aix("p0i10","p0i2",[0,"Reportes"]);
+stm_bpx("p6","p5",[]);
+stm_aix("p6i0","p1i0",[0,"Alumnos por Grupo","","",-1,-1,0,"/edu/ced/consultas/ListaEstudXGrupo.cfm","_self","Alumnos por Grupo","Alumnos por Grupo"]);
+stm_aix("p6i1","p1i0",[0,"Cursos por Grupo","","",-1,-1,0,"/edu/ced/consultas/ListadoMateriasGrupo.cfm","_self","Cursos por Grupo","Cursos por Grupo"]);
+stm_aix("p6i2","p1i0",[0,"Cursos por Profesor","","",-1,-1,0,"/edu/ced/consultas/ListaCursosXProf.cfm","_self","Cursos por Profesor","Cursos por Profesor"]);
+stm_aix("p6i3","p1i0",[0,"Horarios por Grupo","","",-1,-1,0,"/edu/ced/consultas/ListadoHorariosGrupo.cfm","_self","Horarios por Grupo","Horarios por Grupo"]);
+stm_aix("p6i4","p1i0",[0,"Materias Electivas","","",-1,-1,0,"/edu/ced/consultas/ListaMatElect.cfm","_self","Materias Electivas","Materias Electivas"]);
+stm_aix("p6i5","p1i0",[0,"Encargados por Alumno","","",-1,-1,0,"/edu/ced/consultas/ListaAlumnoEncar.cfm","_self","Encargados por Alumno","Encargados por Alumno"]);
+stm_aix("p6i6","p1i0",[0,"Alumnos por Encargado","","",-1,-1,0,"/edu/ced/consultas/ListaAlumnosXEncargado.cfm","_self","Alumnos por Encargado","Alumnos por Encargado"]);
+stm_aix("p6i7","p1i0",[0,"Temarios y Evaluaciones","","",-1,-1,0,"/edu/ced/consultas/ListaTemariosXCurso.cfm","_self","Temarios y Evaluaciones","Temarios y Evaluaciones"]);
+stm_aix("p6i8","p1i0",[0,"Evaluaciones de Preescolar","","",-1,-1,0,"/edu/ced/consultas/ListaEvalPree.cfm","_self","Evaluaciones de Preescolar","Evaluaciones de Preescolar"]);
+stm_aix("p6i9","p1i0",[0,"Reporte de Progreso","","",-1,-1,0,"/edu/ced/consultas/ProgressReport.cfm","_self","Reporte de Progreso","Reporte de Progreso"]);
+stm_aix("p6i10","p1i0",[0,"Reporte de Evaluaciones","","",-1,-1,0,"/edu/ced/consultas/ListaEvaluac.cfm","_self","Reporte de Evaluaciones","Reporte de Evaluaciones"]);
+stm_aix("p6i11","p1i0",[0,"Reporte de Notas Finales","","",-1,-1,0,"/edu/ced/consultas/ListaEvaluac.cfm","_self","Reporte de Notas Finales","Reporte de Notas Finales"]);
+stm_ep();
+stm_ep();
+stm_em();
+//-->
+</script>
+
+</td>
+  </tr>
+</table>
+
+      <!-- InstanceEndEditable -->	
+		  </td>
+        </tr>
+      </table>
+	</td>
+  </tr>
+</table>
+  
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr> 
+    <td align="left" valign="top" nowrap></td>
+    <td width="100%" height="1" align="left" valign="top"><!-- InstanceBeginEditable name="Titulo2" --><!-- InstanceEndEditable --></td>
+  </tr>
+  <tr> 
+    <td valign="top" nowrap>
+		<cfinclude template="/sif/menu.cfm">
+	</td>
+    <td valign="top" width="100%">
+	<table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr> 
+          <td width="2%"class="Titulo"><img  src="../Imagenes/sp.gif" width="15" height="15" border="0"></td>
+          <td width="3%" class="Titulo" >&nbsp;</td>
+          <td width="94%" class="Titulo">
+		  <!-- InstanceBeginEditable name="TituloPortlet" --> 
+            Informe de Notas Finales<!-- InstanceEndEditable -->
+		  </td>
+          <td width="1%" valign="top" nowrap bgcolor="#ADADCA"><img src="../Imagenes/rt.gif"></td>
+        </tr>
+        <tr> 
+          <td colspan="3" class="contenido-lbborder">
+		  <!-- InstanceBeginEditable name="Mantenimiento2" -->
+	
+			
+	
+
+ <script language="JavaScript" type="text/JavaScript">  
+	var periodos = new Array();					
+	var periodosText = new Array();						
+	var niveles = new Array();						
+	var grupos= new Array();	
+	var gruposText = new Array();
+	var nivelesGrupos= new Array();	
+	var materias= new Array();	
+	var materiasText = new Array();
+	var nivelesMaterias= new Array();	
+	var gruposMaterias= new Array();	
+	
+	// Esta función únicamente debe ejecutarlo una vez
+	function obtenerGrupos(f) {
+		for(i=0; i<f.Grupo.length; i++) {
+			var s = f.Grupo.options[i].value.split("|");
+			// Códigos de los detalles
+			grupos[i]= s[0];
+			gruposText[i] = f.Grupo.options[i].text;			
+			nivelesGrupos[i] = s[1];									
+		}
+	}	
+
+	
+	function cargarGrupos(csource, ctarget, vdefault){
+		// Limpiar Combo
+		for (var i=ctarget.length-1; i >=0; i--) {
+			ctarget.options[i]=null;
+		}
+		var k = csource.value;		
+		var j = 0;
+		
+		for (var i=0; i<grupos.length; i++) {
+			if (nivelesGrupos[i] == k) {
+				nuevaOpcion = new Option(gruposText[i],grupos[i]);
+				ctarget.options[j]=nuevaOpcion;
+				if (vdefault != null && grupos[i] == vdefault) {
+					ctarget.selectedIndex = j;
+				}
+				j++;
+			}
+		}
+	}
+		function poneAdicionales(obj){
+			var connVerAdicionales	= document.getElementById("verAdicionales");
+		
+			if(obj.checked)
+				connVerAdicionales.style.display = "";
+			else 
+				connVerAdicionales.style.display = "none";
+		}	
+		
+		function doConlis(f, opc) {
+			if(opc == 1){	// Alumnos
+				popUpWindow("conlisAlumnosEval.cfm?form=formNotaFinal"
+						+"&NombreAl=Alumno"
+						+"&Ecodigo=Ecodigo" 
+						+"&Ncodigo=" + f.Ncodigo.value
+						+"&GRcodigo=" + f.Grupo.value,250,200,650,350);
+			}
+		} 
+		
+		function limpiar(obj) {
+			obj.form.Ecodigo.value = '-1';
+			obj.form.Alumno.value = '-- Todos --';
+		} 
+		
+		function validaConc(f) {
+			if(f.Grupo.value == ''){
+				alert('Debe elegir primero un grupo');			
+				f.Grupo.focus();
+			}
+		}
+	var popUpWin=0; 
+	function popUpWindow(URLStr, left, top, width, height)
+	{
+	  if(popUpWin)
+	  {
+		if(!popUpWin.closed) popUpWin.close();
+	  }
+	  popUpWin = open(URLStr, 'popUpWin', 'toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbar=no,resizable=no,copyhistory=yes,width='+width+',height='+height+',left='+left+', top='+top+',screenX='+left+',screenY='+top+'');
+	}		 		
+	function doConlisMateriaTabla() {
+		popUpWindow("ConlisMateriaTabla.cfm?form=formNotaFinal"
+		+"&Ncodigo="+document.formNotaFinal.Ncodigo.value
+		//+"&SPEcodigo="+document.formNotaFinal.SPEcodigo.value
+		+"&GRcodigo="+document.formNotaFinal.Grupo.value
+		+"&cursos="+document.formNotaFinal.CursoTabla.value,250,100,650,500);
+	}
+</script>
+            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr> 
+                <td> 
+	
+
+
+		
+			<table width="100%" border="0" cellpadding="4" cellspacing="0" class="areaMenu">
+			  <tr align="left"> 
+				<td><a href="/edu" tabindex="-1">Educaci&oacute;n</a></td>
+				<td>|</td>
+				
+					<td nowrap><a href="/edu/ced/MenuCED.cfm" tabindex="-1">Administración</a></td>
+				
+				<td>|</td>
+				<td><a href="/edu/ced/MenuCED.cfm" tabindex="-1">Regresar</a></td>
+				<td>|</td>
+				<td width="100%"><a href="javascript:printURL('/edu/ced/consultas/imprime/ListaNotasFinalesImpr.cfm?f=1&&btnGenerar=Reporte&Grupo=218&rdCortes=PC&TituloRep=&FechaRep=18/06/2003&Ecodigo=-1&ckPxC=checkbox&ckInci=checkbox&ckObs=ckObs&ckEst=checkbox&ckEsc=checkbox&ckPG=checkbox&ckPCF=checkbox&nomAdicio1=Adicional 1&nomAdicio2=Adicional 2');">Imprimir</a></td>
+			  </tr>
+			</table>		
+		
+		
+		<script type="text/javascript">
+			function printURL (url) {
+			  if (window.print && window.frames && window.frames.printerIframe) {
+				var html = '';
+				html += '<html>';
+				html += '<body onload="parent.printFrame(window.frames.urlToPrint);">';
+				html += '<iframe name="urlToPrint" src="' + url + '"><\/iframe>';
+				html += '<\/body><\/html>';
+				var ifd = window.frames.printerIframe.document;
+				ifd.open();
+				ifd.write(html);
+				ifd.close();
+			  }
+			  else {
+						var win = window.open('', 'printerWindow', 'width=600,height=300,resizable,scrollbars,toolbar,menubar');
+						var html = '';
+						html += '<html>';
+						html += '<frameset rows="100%, *" ' 
+							 +  'onload="opener.printFrame(window.urlToPrint);">';
+						html += '<frame name="urlToPrint" src="' + url + '" \/>';
+						html += '<frame src="about:blank" \/>';
+						html += '<\/frameset><\/html>';
+						win.document.open();
+						win.document.write(html);
+						win.document.close();
+			  }
+			}
+			
+			function printFrame (frame) {
+			  if (frame.print) {
+				frame.focus();
+				frame.print();
+				frame.src = "about:blank"
+			  }
+			}
+			
+		</script>		
+	 </td>
+              </tr>
+            </table>
+            <form name="formNotaFinal" method="post" action="ListaNotasFinales.cfm" >
+				<input name="CursoSel" type="hidden" value="" id="CursoSel">
+				<input name="Ecodigo" type="hidden" value="-1" id="Ecodigo">				
+				<input name="ECcodigo" type="hidden" value="-1" id="ECcodigo">								
+
+              <table width="100%" border="0" cellspacing="1" cellpadding="1" class="areaFiltro">
+                <tr> 
+                  <td width="28%" class="subTitulo">Nivel</td>
+                  <td width="29%" class="subTitulo">Titulo del Reporte</td>
+                  <td width="29%" class="subTitulo">Fecha de entrega</td>
+                  <td width="14%" class="subTitulo">Firmas</td>
+                </tr>
+                <tr> 
+                  <td><select name="Ncodigo" id="Ncodigo" onChange="javascript: cargarGrupos(this,document.formNotaFinal.Grupo,'218'); limpiar(this);">
+                      
+                          <option value="20" selected>Primaria</option>
+                          
+                          <option value="21">Secundaria</option>
+                        
+                          <option value="22">Secundaria Superior</option>
+                         </select> </td>
+                  <td><input name="TituloRep" type="text" id="TituloRep" size="50" maxlength="100" onClick="this.select()" value=""></td>
+                  <td> <a href="#"> 
+                    <input name="FechaRep" onFocus="this.select()" type="text" onBlur="javascript: onblurdatetime(this)" value="18/06/2003" size="12" maxlength="10" >
+                    <img src="/cfmx/edu/Imagenes/date_d.gif" alt="Calendario" name="Calendar" width="11" height="11" border="0" id="Calendar" onClick="javascript:showCalendar('document.formNotaFinal.FechaRep');"> 
+                    </a> </td>
+                  <td nowrap> <input type="checkbox" name="ckPM" value="checkbox" class="areaFiltro" >
+                    Padre/Madre </td>
+                </tr>
+                <tr> 
+                  <td class="subTitulo">Grupo</td>
+                  <td colspan="2" align="center" class="subTitulo">Visualizar 
+                    en el reporte</td>
+                  <td><input type="checkbox" name="ckA" value="checkbox" class="areaFiltro" >
+                    Alumno </td>
+                </tr>
+                <tr> 
+                  <td><select name="Grupo" id="Grupo" onChange="javascript: limpiar(this)">
+                       
+                        <option value="218|20">Segundo Grado</option>
+                       
+                        <option value="219|20">Tercer Grado</option>
+                       
+                        <option value="221|20">Quinto Grado</option>
+                       </select>
+					  <input name="SPEcodigo" type="hidden" value="110" id="SPEcodigo">
+					  <input name="CursoTabla" type="hidden" value="" id="CursoTabla">
+				  </td>
+                  <td nowrap> <input name="ckPxC" type="checkbox" id="ckPxC" value="checkbox" class="areaFiltro"  checked>
+                    Notas por Periodo de Evaluaci&oacute;n</td>
+                  <td><input type="checkbox" name="ckEsc" value="checkbox" class="areaFiltro" checked>
+                    Tabla de Evaluaci&oacute;n &nbsp; </td>
+                  <td><input type="checkbox" name="ckP" value="checkbox" class="areaFiltro" >
+                    Profesor</td>
+                </tr>
+                <tr> 
+                  <td class="subTitulo">Alumnos</td>
+                  <td><input name="ckEst" type="checkbox" id="ckEst" value="checkbox" class="areaFiltro"  checked>
+                    Estado de Promoci&oacute;n</td>
+                  <td><input name="ckInci" type="checkbox" id="ckInci2" value="checkbox" class="areaFiltro"  checked>
+                    Incidencias </td>
+                  <td><input type="checkbox" name="ckD" value="checkbox" class="areaFiltro" >
+                    Director</td>
+                </tr>
+                <tr> 
+                  <td nowrap> <input name="Alumno" type="text" readonly="true" id="Alumno" size="40" maxlength="80" value="-- Todos --"> 
+                    <a href="#"> <img src="../../Imagenes/Description.gif" alt="Lista de Alumnos" name="imagen" width="18" height="14" border="0" align="absmiddle" onClick="javascript:doConlis(document.formNotaFinal, 1);"> 
+                    </a> </td>
+                  <td><input name="ckPCF" type="checkbox" id="ckPCF" value="checkbox" class="areaFiltro"  checked>
+                    Promedio por Curso</td>
+                  <td><input name="ckObs" type="checkbox" id="ckObs" value="ckObs" class="areaFiltro"  checked>
+                    Observaciones</td>
+                  <td nowrap> <input type="checkbox" name="ckAD" value="checkbox" onClick="javascript: poneAdicionales(this)" class="areaFiltro" >
+                    Adicionales</td>
+                </tr>
+                <tr>
+                  <td class="subTitulo"></td>
+                  <td><input name="ckPG" type="checkbox" id="ckPG" value="checkbox" class="areaFiltro"  checked>
+                    Promedio Final</td>
+                  <td>&nbsp;</td>
+                  <td>&nbsp;</td>
+                </tr>
+                <tr> 
+                  <td >
+				  </td>
+                  <td>&nbsp;</td>
+                  <td>&nbsp;</td>
+                  <td>&nbsp;</td>
+                </tr>
+                <tr> 
+                  <td></td>
+                  <td align="center">&nbsp;</td>
+                  <td align="left">&nbsp; </td>
+                  <td nowrap class="subTitulo">Corte de Impresi&oacute;n</td>
+                </tr>
+                <tr> 
+                  <td rowspan="2">&nbsp;</td>
+                  <td colspan="2" rowspan="2" align="center"> <div style="display: ;" id="verAdicionales"> 
+                      <table width="78%" border="0" cellspacing="1" cellpadding="1">
+                        <tr> 
+                          <td width="18%">Adicional 1</td>
+                          <td width="82%"><input name="nomAdicio1" type="text" id="nomAdicio1" value="Adicional 1" size="70" maxlength="80"></td>
+                        </tr>
+                        <tr> 
+                          <td>Adicional 2</td>
+                          <td><input name="nomAdicio2" type="text" id="nomAdicio2" value="Adicional 2" size="70" maxlength="80"></td>
+                        </tr>
+                      </table>
+                    </div></td>
+                  <td nowrap> <input type="radio" class="areaFiltro" name="rdCortes" value="PC" checked>
+                    Página Contínua</td>
+                </tr>
+                <tr> 
+                  <td nowrap><input type="radio" class="areaFiltro" name="rdCortes" value="PxA" >
+                    Páginas por Alumno</td>
+                </tr>
+                <tr> 
+                  <td>&nbsp;</td>
+                  <td colspan="3" align="center"><input name="btnGenerar" type="submit" id="btnGenerar" value="Reporte" ></td>
+                </tr>
+              </table>
+              
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                  <tr> 
+                    <td> 
+
+
+	
+<link href="/edu/css/edu.css" type="text/css" rel="stylesheet">
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr class="area"> 
+    <td width="62%"><font size="-7">Servicios Digitales al Ciudadano</font></td>
+    <td width="17%">&nbsp;</td>
+    <td width="21%">Fecha de Entrega: 18/06/2003 </td>
+  </tr>
+  <tr class="area"> 
+    <td><font size="-7">www.migestion.net</font></td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr class="tituloAlterno"> 
+    <td colspan="3" align="center" class="tituloAlterno">
+		<strong>
+			
+        REPORTE DE NOTAS FINALES 
+      
+		</strong>
+	</td>
+  </tr>
+  <tr class="tituloAlterno"> 
+    <td colspan="3" align="center" class=>
+      <strong>GRUPO: Segundo Grado</strong>
+	</td>
+  </tr>  
+  <tr> 
+    <td colspan="3" align="center" class="tituloAlterno"> <strong>Green Dew Academy</strong> <hr></td>
+  </tr>
+  
+	
+  <tr> 
+   <td colspan="3"> 
+		
+			<table width="100%" border="0" cellspacing="1" cellpadding="1">		
+				
+						<tr> 
+               			 	<td class="areaFiltro"> 
+								<table width="100%" border="0" cellspacing="1" cellpadding="1">
+								  <tr>
+									<td width="50%">Alumno :Godoy Acevedo, Valentina</td>
+									<td width="50%">Grupo: Segundo Grado</td>
+								  </tr>
+								  <tr>
+									<td>Nivel: Primaria</td>
+			                        <td>&nbsp; </td>
+								  </tr>
+								</table>
+							</td>
+						</tr>
+ 						<tr> 
+							<td>
+												
+								<table width="100%" border="0" cellspacing="1" cellpadding="1" class="subrayado">								
+								  <tr> 
+									<td width="4%">&nbsp;</td>
+			                        <td width="-1419%"><strong>MATERIA</strong></td>
+									
+											<td width="15%" align="center"><strong>I Bimestre</strong></td>
+										
+											<td width="15%" align="center"><strong>II Bimestre</strong></td>
+										
+										<td width="15%" align="center"><strong>%Promedio por Semestre</strong></td>
+									
+										<td width="15%" align="center"><strong>Estado</strong></td>
+									
+
+								  </tr>
+								</table>							
+							</td>
+						</tr> 					
+					 
+							<tr>
+								<td> 
+									
+								</td>
+							</tr> 
+							<tr>
+								<td> 						
+									<table width="100%" border="0" cellspacing="1" cellpadding="1" class="subrayado">
+										
+									  <tr> 				
+										<td width="4%">&nbsp;</td>									  
+										<td width="-1419%">Conduct</td>
+												
+															<td width="15%" align="center">&nbsp;</td>
+														
+														
+																<td width="15%" align="center">
+																	
+																	95.00 
+																</td>
+															
+
+														
+												<td width="15%" align="center">&nbsp; </td> 
+											
+											
+											<td width="15%" align="center">
+												
+													<strong>
+														
+															&nbsp;
+														
+													</strong>
+												
+											</td>
+										
+									  </tr>
+									</table>
+								</td>
+							</tr> 
+						 
+							<tr>
+								<td> 
+									
+								</td>
+							</tr> 
+							<tr>
+								<td> 						
+									<table width="100%" border="0" cellspacing="1" cellpadding="1" class="subrayado">
+
+										
+									  <tr> 				
+										<td width="4%">&nbsp;</td>									  
+										<td width="-1419%">Español</td>
+										
+													<td width="15%" align="center">
+													
+															95.00 
+														
+													</td>
+												
+													<td width="15%" align="center">
+													
+															75.00 
+														
+													</td>
+												
+												<td width="15%" align="center"><strong>85.00</strong></td>
+											
+											
+											<td width="15%" align="center">
+												
+													<strong>
+														
+															Promovido
+															
+													</strong>
+												
+											</td>
+										
+									  </tr>
+									</table>
+								</td>
+							</tr> 
+						 
+							<tr>
+								<td> 
+									
+								</td>
+							</tr> 
+							<tr>
+								<td> 						
+									<table width="100%" border="0" cellspacing="1" cellpadding="1" class="subrayado">
+										
+									  <tr> 				
+										<td width="4%">&nbsp;</td>									  
+										<td width="-1419%">Mathematics</td>
+										
+														
+																<td width="15%" align="center">
+																	
+																	85.00 
+																</td>
+															
+
+																
+															<td width="15%" align="center">&nbsp;</td>
+														
+												<td width="15%" align="center">&nbsp; </td> 
+											
+											
+											<td width="15%" align="center">
+												
+													<strong>
+														
+															&nbsp;
+														
+													</strong>
+												
+											</td>
+										
+									  </tr>
+									</table>
+								</td>
+							</tr> 
+						 
+							<tr>
+								<td> 
+									
+								</td>
+							</tr> 
+							<tr>
+								<td> 						
+									<table width="100%" border="0" cellspacing="1" cellpadding="1" class="subrayado">
+										
+									  <tr> 				
+										<td width="4%">&nbsp;</td>									  
+										<td width="-1419%">Science</td>
+										
+													<td width="15%" align="center">
+													
+															100.00 
+														
+													</td>
+												
+													<td width="15%" align="center">
+													
+															100.00 
+														
+													</td>
+												
+												<td width="15%" align="center"><strong>100.00</strong></td>
+											
+											
+											<td width="15%" align="center">
+												
+													<strong>
+														
+															Promovido
+															
+													</strong>
+												
+											</td>
+										
+									  </tr>
+									</table>
+								</td>
+							</tr> 
+						 
+							<tr>
+								<td> 
+									
+								</td>
+							</tr> 
+							<tr>
+								<td> 						
+									<table width="100%" border="0" cellspacing="1" cellpadding="1" class="subrayado">
+										
+									  <tr> 				
+										<td width="4%">&nbsp;</td>									  
+										<td width="-1419%"><b>Clubes</b></td>
+										
+													<td width="15%" align="center">
+													
+															
+																	<b>99.00</b>
+																
+														
+													</td>
+												
+													<td width="15%" align="center">
+													
+															
+																	<b>95.00</b>
+																
+														
+													</td>
+												
+												<td width="15%" align="center">&nbsp; </td> 
+											
+											
+											<td width="15%" align="center">
+												
+													<strong>
+														
+															&nbsp;
+														
+													</strong>
+												
+											</td>
+										
+									  </tr>
+									</table>
+								</td>
+							</tr> 
+						 
+							<tr>
+								<td> 
+									
+								</td>
+							</tr> 
+							<tr>
+								<td> 						
+									<table width="100%" border="0" cellspacing="1" cellpadding="1" class="subrayado">
+										
+									  <tr> 				
+										<td width="4%">&nbsp;</td>									  
+										<td width="-1419%">&nbsp;&nbsp;&nbsp;Natacion</td>
+										
+													<td width="15%" align="center">
+													
+															98.00 
+														
+													</td>
+												
+													<td width="15%" align="center">
+													
+															95.00 
+														
+													</td>
+												
+												<td width="15%" align="center">&nbsp; </td> 
+											
+											
+											<td width="15%" align="center">
+												
+													<strong>
+														
+															&nbsp;
+														
+													</strong>
+												
+											</td>
+										
+									  </tr>
+									</table>
+								</td>
+							</tr> 
+						 
+							<tr>
+								<td> 
+									
+								</td>
+							</tr> 
+							<tr>
+								<td> 						
+									<table width="100%" border="0" cellspacing="1" cellpadding="1" class="subrayado">
+										
+									  <tr> 				
+										<td width="4%">&nbsp;</td>									  
+										<td width="-1419%">&nbsp;&nbsp;&nbsp;Esgrima</td>
+										
+													<td width="15%" align="center">
+													
+															100.00 
+														
+													</td>
+												
+													<td width="15%" align="center">
+													
+															95.00 
+														
+													</td>
+												
+												<td width="15%" align="center">&nbsp; </td> 
+											
+											
+											<td width="15%" align="center">
+												
+													<strong>
+														
+															&nbsp;
+														
+													</strong>
+												
+											</td>
+										
+									  </tr>
+									</table>
+								</td>
+							</tr> 
+							
+							
+							<tr>
+								<td> 						
+	
+								</td>
+							</tr> 
+							
+								<tr>
+									<td> 
+										<table width="100%" border="0" cellspacing="1" cellpadding="1" class="subrayado">
+											<tr> 
+												<td  nowrap width="4%"></td>									  
+												<td width="-1419%"><strong>PROMEDIO FINAL</strong>
+													 
+													 
+												</td>
+												
+												
+											
+														<td width="15%" align="center">
+															<strong>
+																96.17 
+																
+															</strong>
+														</td>
+													
+														<td width="15%" align="center">
+															<strong>
+																92.50 
+																
+															</strong>
+														</td>
+													 
+														
+														<td width="15%" align="center" >
+															<strong> 
+																92.50 
+															</strong>
+													   </td> 
+													
+													 
+														<td width="15%" align="center" >
+															<strong>
+																
+																		Promovido 
+																	
+															</strong>
+														</td>
+													
+											</tr>
+										</table>
+									</td>
+								</tr> 
+							
+								<tr> 
+								  <td  class="areaFiltro" align="center"><strong>ESCALA DE VALORACI&Oacute;N</strong></td>
+								</tr>
+								
+								<tr> 
+								  <td align="center"  class="subrayado">N / A = No Aplica</td>
+								</tr>
+								
+											<tr> 
+											  <td align="center" class="subrayado">100 = Excelente</td>
+											</tr>
+										
+											<tr> 
+											  <td align="center" class="subrayado">85 = Muy Bueno</td>
+											</tr>
+										
+											<tr> 
+											  <td align="center" class="subrayado">75 = Aceptable</td>
+											</tr>
+										
+											<tr> 
+											  <td align="center" class="subrayado">50 = Falta aprendizaje</td>
+											</tr>
+										
+											<tr> 
+											  <td align="center" class="subrayado">30 = Repite la lección</td>
+											</tr>
+										
+														
+							<tr>
+								<td>
+									
+					
+								
+      <table width="100%" cellspacing="0" >
+        
+        
+        
+        
+        <tr class="subTitulo"> 
+          <td colspan="3" align="center"  nowrap  class="encabReporte" style="border: 1px solid #000000"><strong>Observaciones:&nbsp;</strong></td>
+          <td colspan="6" align="center"  nowrap  class="encabReporte"  style="border: 1px solid #000000"><strong> 
+            &nbsp; &nbsp; </strong><strong>Asistencia:&nbsp; &nbsp; &nbsp; </strong></td>
+          
+        </tr>
+        <tr > 
+          <td width="9%" align="center" valign="top" nowrap style="border: 1px solid #000000">Reforzamiento</td>
+          <td width="6%" align="center" valign="top" style="border: 1px solid #000000">Llamada 
+            de Atenci&oacute;n</td>
+          <td width="11%" align="center" valign="top" nowrap style="border: 1px solid #000000">Advertencia</td>
+          <td colspan="2" align="center" valign="top" nowrap style="border: 1px solid #000000">Ausencias</td>
+          <td colspan="2" align="center" valign="top" nowrap style="border: 1px solid #000000">Llegada 
+            Tard&iacute;a </td>
+          <td colspan="2" align="center" valign="top" nowrap style="border: 1px solid #000000">Salida 
+            Temprano </td>
+        </tr>
+        <tr class="subTitulo" class="listaPar"> 
+          <td width="9%" nowrap align="center" style="border: 1px solid #000000">&nbsp;</td>
+          <td width="6%" nowrap align="center" style="border: 1px solid #000000">&nbsp;</td>
+          <td width="11%" align="center" nowrap style="border: 1px solid #000000">&nbsp;</td>
+          <td width="9%" nowrap align="center" style="border: 1px solid #000000">Just</td>
+          <td width="8%" nowrap align="center" style="border: 1px solid #000000">Injust</td>
+          <td width="8%" nowrap align="center" style="border: 1px solid #000000">Just</td>
+          <td width="10%" nowrap align="center" style="border: 1px solid #000000">Injust</td>
+          <td width="6%" align="center"  nowrap style="border: 1px solid #000000">Just</td >
+          <td  nowrap align="center" style="border: 1px solid #000000">Injust</td>
+        </tr>
+        
+        <tr class="subTitulo" class="listaPar"> 
+          
+          <td width="9%" nowrap align="center"  style="border: 1px solid #000000"> 
+            
+            
+            1  
+            
+            
+          </td>
+          <td width="6%" nowrap align="center"  style="border: 1px solid #000000">&nbsp; 
+            
+            
+            
+                
+            
+            
+          </td>
+          <td width="11%" align="center" nowrap  style="border: 1px solid #000000"> 
+            
+            
+            1  
+            
+            
+          </td>
+          <td width="9%" nowrap align="center"  style="border: 1px solid #000000">&nbsp; 
+            
+            
+            
+                
+            
+            
+          </td>
+          <td width="8%" nowrap align="center"  style="border: 1px solid #000000">&nbsp; 
+            
+            
+            
+                
+            
+            
+          </td>
+          <td width="8%" nowrap align="center"  style="border: 1px solid #000000">&nbsp; 
+            
+            
+                
+            
+          </td>
+          <td width="10%" nowrap align="center"  style="border: 1px solid #000000"> 
+            
+            1  
+            
+          </td>
+          <td width="6%" align="center"  nowrap  style="border: 1px solid #000000">&nbsp; 
+            
+            
+                
+            
+          </td >
+          <td  nowrap align="center"  style="border: 1px solid #000000">&nbsp; 
+            
+            
+            
+                
+            
+            
+          </td>
+        </tr>
+        
+            <tr class="subTitulo" class="listaPar"> 
+              <td align="center" width="9%"  style="border: 1px solid #000000"> 
+                04/02/2003 </td>
+              <td width="70%" colspan="8"  style="border: 1px solid #000000"> 
+                Observacion de Reforzamiento </td>
+            </tr>
+          
+            <tr class="subTitulo" class="listaNon"> 
+              <td align="center" width="9%"  style="border: 1px solid #000000"> 
+                04/02/2003 </td>
+              <td width="70%" colspan="8"  style="border: 1px solid #000000"> 
+                Control de  Tardía injustificada </td>
+            </tr>
+          
+            <tr class="subTitulo" class="listaPar"> 
+              <td align="center" width="9%"  style="border: 1px solid #000000"> 
+                13/02/2003 </td>
+              <td width="70%" colspan="8"  style="border: 1px solid #000000"> 
+                Observacion de Advertencia </td>
+            </tr>
+          
+        
+      </table>
+							
+									<table width="100%"  cellspacing="0">
+										<tr> 
+											<td colspan="4">&nbsp;</td>
+										</tr>
+									</table>
+								
+							 
+								</td>
+							</tr>
+																					
+						
+						<tr> 
+               			 	<td class="areaFiltro"> 
+								<table width="100%" border="0" cellspacing="1" cellpadding="1">
+								  <tr>
+									<td width="50%">Alumno :Lara Argüello, Lucia</td>
+									<td width="50%">Grupo: Segundo Grado</td>
+								  </tr>
+								  <tr>
+									<td>Nivel: Primaria</td>
+			                        <td>&nbsp; </td>
+								  </tr>
+								</table>
+							</td>
+						</tr>
+ 						<tr> 
+							<td>
+												
+								<table width="100%" border="0" cellspacing="1" cellpadding="1" class="subrayado">								
+								  <tr> 
+									<td width="4%">&nbsp;</td>
+			                        <td width="-1419%"><strong>MATERIA</strong></td>
+									
+											<td width="15%" align="center"><strong>I Bimestre</strong></td>
+										
+											<td width="15%" align="center"><strong>II Bimestre</strong></td>
+										
+										<td width="15%" align="center"><strong>%Promedio por Semestre</strong></td>
+									
+										<td width="15%" align="center"><strong>Estado</strong></td>
+									
+
+								  </tr>
+								</table>							
+							</td>
+						</tr> 					
+					 
+							<tr>
+								<td> 
+									
+								</td>
+							</tr> 
+							<tr>
+								<td> 						
+									<table width="100%" border="0" cellspacing="1" cellpadding="1" class="subrayado">
+										
+									  <tr> 				
+										<td width="4%">&nbsp;</td>									  
+										<td width="-1419%">Conduct</td>
+												
+															<td width="15%" align="center">&nbsp;</td>
+														
+														
+																<td width="15%" align="center">
+																	
+																	96.00 
+																</td>
+															
+
+														
+												<td width="15%" align="center">&nbsp; </td> 
+											
+											
+											<td width="15%" align="center">
+												
+													<strong>
+														
+															&nbsp;
+														
+													</strong>
+												
+											</td>
+										
+									  </tr>
+									</table>
+								</td>
+							</tr> 
+						 
+							<tr>
+								<td> 
+									
+								</td>
+							</tr> 
+							<tr>
+								<td> 						
+									<table width="100%" border="0" cellspacing="1" cellpadding="1" class="subrayado">
+										
+									  <tr> 				
+										<td width="4%">&nbsp;</td>									  
+										<td width="-1419%">Español</td>
+										
+													<td width="15%" align="center">
+													
+															98.00 
+														
+													</td>
+												
+													<td width="15%" align="center">
+													
+															
+																	<FONT color="Red" >66.00</font>
+																
+														
+													</td>
+												
+												<td width="15%" align="center"><strong>80.00</strong></td>
+											
+											
+											<td width="15%" align="center">
+												
+													<strong>
+														
+															Promovido
+															
+													</strong>
+												
+											</td>
+										
+									  </tr>
+									</table>
+								</td>
+							</tr> 
+						 
+							<tr>
+								<td> 
+									
+								</td>
+							</tr> 
+							<tr>
+								<td> 						
+									<table width="100%" border="0" cellspacing="1" cellpadding="1" class="subrayado">
+										
+									  <tr> 				
+										<td width="4%">&nbsp;</td>									  
+										<td width="-1419%">Mathematics</td>
+										
+														
+																<td width="15%" align="center">
+																	
+																	85.00 
+																</td>
+															
+
+																
+															<td width="15%" align="center">&nbsp;</td>
+														
+												<td width="15%" align="center">&nbsp; </td> 
+											
+											
+											<td width="15%" align="center">
+												
+													<strong>
+														
+															&nbsp;
+														
+													</strong>
+												
+											</td>
+										
+									  </tr>
+									</table>
+								</td>
+							</tr> 
+						 
+							<tr>
+								<td> 
+									
+								</td>
+							</tr> 
+							<tr>
+								<td> 						
+									<table width="100%" border="0" cellspacing="1" cellpadding="1" class="subrayado">
+										
+									  <tr> 				
+										<td width="4%">&nbsp;</td>									  
+										<td width="-1419%">Science</td>
+										
+													<td width="15%" align="center">
+													
+															
+																	<FONT color="Red" >50.00</font>
+																
+														
+													</td>
+												
+													<td width="15%" align="center">
+													
+															85.00 
+														
+													</td>
+												
+												<td width="15%" align="center"><strong>75.00</strong></td>
+											
+											
+											<td width="15%" align="center">
+												
+													<strong>
+														
+															Promovido
+															
+													</strong>
+												
+											</td>
+										
+									  </tr>
+									</table>
+								</td>
+							</tr> 
+						 
+							<tr>
+								<td> 
+									
+								</td>
+							</tr> 
+							<tr>
+								<td> 						
+									<table width="100%" border="0" cellspacing="1" cellpadding="1" class="subrayado">
+										
+									  <tr> 				
+										<td width="4%">&nbsp;</td>									  
+										<td width="-1419%"><b>Clubes</b></td>
+										
+													<td width="15%" align="center">
+													
+															
+																	<b>96.50</b>
+																
+														
+													</td>
+												
+													<td width="15%" align="center">
+													
+															
+																	<b>95.00</b>
+																
+														
+													</td>
+												
+												<td width="15%" align="center">&nbsp; </td> 
+											
+											
+											<td width="15%" align="center">
+												
+													<strong>
+														
+															&nbsp;
+														
+													</strong>
+												
+											</td>
+										
+									  </tr>
+									</table>
+								</td>
+							</tr> 
+						 
+							<tr>
+								<td> 
+									
+								</td>
+							</tr> 
+							<tr>
+								<td> 						
+									<table width="100%" border="0" cellspacing="1" cellpadding="1" class="subrayado">
+										
+									  <tr> 				
+										<td width="4%">&nbsp;</td>									  
+										<td width="-1419%">&nbsp;&nbsp;&nbsp;Natacion</td>
+										
+													<td width="15%" align="center">
+													
+															93.00 
+														
+													</td>
+												
+													<td width="15%" align="center">
+													
+															100.00 
+														
+													</td>
+												
+												<td width="15%" align="center">&nbsp; </td> 
+											
+											
+											<td width="15%" align="center">
+												
+													<strong>
+														
+															&nbsp;
+														
+													</strong>
+												
+											</td>
+										
+									  </tr>
+									</table>
+								</td>
+							</tr> 
+						 
+							<tr>
+								<td> 
+									
+								</td>
+							</tr> 
+							<tr>
+								<td> 						
+									<table width="100%" border="0" cellspacing="1" cellpadding="1" class="subrayado">
+										
+									  <tr> 				
+										<td width="4%">&nbsp;</td>									  
+										<td width="-1419%">&nbsp;&nbsp;&nbsp;Esgrima</td>
+										
+													<td width="15%" align="center">
+													
+															100.00 
+														
+													</td>
+												
+													<td width="15%" align="center">
+													
+															90.00 
+														
+													</td>
+												
+												<td width="15%" align="center">&nbsp; </td> 
+											
+											
+											<td width="15%" align="center">
+												
+													<strong>
+														
+															&nbsp;
+														
+													</strong>
+												
+											</td>
+										
+									  </tr>
+									</table>
+								</td>
+							</tr> 
+						 
+							<tr>
+								<td> 
+									
+										<table width="100%" border="0" cellspacing="1" cellpadding="1" class="subrayado">
+											
+											<tr>
+												<td width="4%">&nbsp;</td>
+												<td width="-1419%"><strong>ELECTIVAS</strong></td>			
+											</tr>
+										</table>
+									
+										<table width="100%" border="0" cellspacing="1" cellpadding="1" class="subrayado">
+											<tr>
+												<td width="4%">&nbsp;</td>
+												<td width="-1419%"><strong>Ayuda comunitaria</strong></td>			
+											
+												
+												
+																<td width="15%" align="center">
+																	
+																		75.00 
+																	
+																</td>
+															
+														</font>	
+													 
+																<td width="15%" align="center">
+																	
+																		65.00 
+																	
+																</td>
+															
+														</font>	
+													 
+														<td width="15%" align="center"><strong>69.00</strong></td>
+													
+													<td width="15%" align="center">
+														
+															<strong>
+																
+																	Aplazado 
+																	
+															</strong>
+														
+													</td>
+												
+											</tr>
+											
+										</table>
+									
+								</td>
+							</tr> 
+							<tr>
+								<td> 						
+									<table width="100%" border="0" cellspacing="1" cellpadding="1" class="subrayado">
+										
+									  <tr> 				
+										<td width="4%">&nbsp;</td>									  
+										<td width="-1419%">Ayuda a los niños</td>
+										
+													<td width="15%" align="center">
+													
+															75.00 
+														
+													</td>
+												
+													<td width="15%" align="center">
+													
+															
+																	<FONT color="Red" >65.00</font>
+																
+														
+													</td>
+												
+												<td width="15%" align="center"><strong>69.00</strong></td>
+											
+											
+											<td width="15%" align="center">&nbsp;
+												
+													
+												
+											</td>
+										
+									  </tr>
+									</table>
+								</td>
+							</tr> 
+							
+							
+							<tr>
+								<td> 						
+	
+								</td>
+							</tr> 
+							
+								<tr>
+									<td> 
+										<table width="100%" border="0" cellspacing="1" cellpadding="1" class="subrayado">
+											<tr> 
+												<td  nowrap width="4%"></td>									  
+												<td width="-1419%"><strong>PROMEDIO FINAL</strong>
+													 
+													 
+												</td>
+												
+												
+											
+														<td width="15%" align="center">
+															<strong>
+																87.08 
+																
+															</strong>
+														</td>
+													
+														<td width="15%" align="center">
+															<strong>
+																88.67 
+																
+															</strong>
+														</td>
+													 
+														
+														<td width="15%" align="center" >
+															<strong> 
+																77.50 
+															</strong>
+													   </td> 
+													
+													 
+														<td width="15%" align="center" >
+															<strong>
+																
+																		Aplazado 
+																	
+															</strong>
+														</td>
+													
+											</tr>
+										</table>
+									</td>
+								</tr> 
+							
+								<tr> 
+								  <td  class="areaFiltro" align="center"><strong>ESCALA DE VALORACI&Oacute;N</strong></td>
+								</tr>
+								
+								<tr> 
+								  <td align="center"  class="subrayado">N / A = No Aplica</td>
+								</tr>
+								
+											<tr> 
+											  <td align="center" class="subrayado">100 = Excelente</td>
+											</tr>
+										
+											<tr> 
+											  <td align="center" class="subrayado">85 = Muy Bueno</td>
+											</tr>
+										
+											<tr> 
+											  <td align="center" class="subrayado">75 = Aceptable</td>
+											</tr>
+										
+											<tr> 
+											  <td align="center" class="subrayado">50 = Falta aprendizaje</td>
+											</tr>
+										
+											<tr> 
+											  <td align="center" class="subrayado">30 = Repite la lección</td>
+											</tr>
+										
+														
+							<tr>
+								<td>
+									
+					
+								
+      <table width="100%" cellspacing="0" >
+        
+        
+        
+        
+        <tr class="subTitulo"> 
+          <td colspan="3" align="center"  nowrap  class="encabReporte" style="border: 1px solid #000000"><strong>Observaciones:&nbsp;</strong></td>
+          <td colspan="6" align="center"  nowrap  class="encabReporte"  style="border: 1px solid #000000"><strong> 
+            &nbsp; &nbsp; </strong><strong>Asistencia:&nbsp; &nbsp; &nbsp; </strong></td>
+          
+        </tr>
+        <tr > 
+          <td width="9%" align="center" valign="top" nowrap style="border: 1px solid #000000">Reforzamiento</td>
+          <td width="6%" align="center" valign="top" style="border: 1px solid #000000">Llamada 
+            de Atenci&oacute;n</td>
+          <td width="11%" align="center" valign="top" nowrap style="border: 1px solid #000000">Advertencia</td>
+          <td colspan="2" align="center" valign="top" nowrap style="border: 1px solid #000000">Ausencias</td>
+          <td colspan="2" align="center" valign="top" nowrap style="border: 1px solid #000000">Llegada 
+            Tard&iacute;a </td>
+          <td colspan="2" align="center" valign="top" nowrap style="border: 1px solid #000000">Salida 
+            Temprano </td>
+        </tr>
+        <tr class="subTitulo" class="listaPar"> 
+          <td width="9%" nowrap align="center" style="border: 1px solid #000000">&nbsp;</td>
+          <td width="6%" nowrap align="center" style="border: 1px solid #000000">&nbsp;</td>
+          <td width="11%" align="center" nowrap style="border: 1px solid #000000">&nbsp;</td>
+          <td width="9%" nowrap align="center" style="border: 1px solid #000000">Just</td>
+          <td width="8%" nowrap align="center" style="border: 1px solid #000000">Injust</td>
+          <td width="8%" nowrap align="center" style="border: 1px solid #000000">Just</td>
+          <td width="10%" nowrap align="center" style="border: 1px solid #000000">Injust</td>
+          <td width="6%" align="center"  nowrap style="border: 1px solid #000000">Just</td >
+          <td  nowrap align="center" style="border: 1px solid #000000">Injust</td>
+        </tr>
+        
+        <tr class="subTitulo" class="listaPar"> 
+          
+          <td width="9%" nowrap align="center"  style="border: 1px solid #000000">&nbsp; 
+            
+            
+            
+                
+            
+            
+          </td>
+          <td width="6%" nowrap align="center"  style="border: 1px solid #000000">&nbsp; 
+            
+            
+            
+                
+            
+            
+          </td>
+          <td width="11%" align="center" nowrap  style="border: 1px solid #000000">&nbsp; 
+            
+            
+            
+                
+            
+            
+          </td>
+          <td width="9%" nowrap align="center"  style="border: 1px solid #000000">&nbsp; 
+            
+            
+            
+                
+            
+            
+          </td>
+          <td width="8%" nowrap align="center"  style="border: 1px solid #000000">&nbsp; 
+            
+            
+            
+                
+            
+            
+          </td>
+          <td width="8%" nowrap align="center"  style="border: 1px solid #000000">&nbsp; 
+            
+            
+                
+            
+          </td>
+          <td width="10%" nowrap align="center"  style="border: 1px solid #000000"> 
+            
+            1  
+            
+          </td>
+          <td width="6%" align="center"  nowrap  style="border: 1px solid #000000">&nbsp; 
+            
+            
+                
+            
+          </td >
+          <td  nowrap align="center"  style="border: 1px solid #000000">&nbsp; 
+            
+            
+            
+                
+            
+            
+          </td>
+        </tr>
+        
+            <tr class="subTitulo" class="listaPar"> 
+              <td align="center" width="9%"  style="border: 1px solid #000000"> 
+                04/02/2003 </td>
+              <td width="70%" colspan="8"  style="border: 1px solid #000000"> 
+                Control de  Tardía injustificada </td>
+            </tr>
+          
+        
+      </table>
+							
+									<table width="100%"  cellspacing="0">
+										<tr> 
+											<td colspan="4">&nbsp;</td>
+										</tr>
+									</table>
+								
+							 
+								</td>
+							</tr>
+																					
+						
+						<tr> 
+               			 	<td class="areaFiltro"> 
+								<table width="100%" border="0" cellspacing="1" cellpadding="1">
+								  <tr>
+									<td width="50%">Alumno :Neira García, Juan Pablo</td>
+									<td width="50%">Grupo: Segundo Grado</td>
+								  </tr>
+								  <tr>
+									<td>Nivel: Primaria</td>
+			                        <td>&nbsp; </td>
+								  </tr>
+								</table>
+							</td>
+						</tr>
+ 						<tr> 
+							<td>
+												
+								<table width="100%" border="0" cellspacing="1" cellpadding="1" class="subrayado">								
+								  <tr> 
+									<td width="4%">&nbsp;</td>
+			                        <td width="-1419%"><strong>MATERIA</strong></td>
+									
+											<td width="15%" align="center"><strong>I Bimestre</strong></td>
+										
+											<td width="15%" align="center"><strong>II Bimestre</strong></td>
+										
+										<td width="15%" align="center"><strong>%Promedio por Semestre</strong></td>
+									
+										<td width="15%" align="center"><strong>Estado</strong></td>
+									
+
+								  </tr>
+								</table>							
+							</td>
+						</tr> 					
+					 
+							<tr>
+								<td> 
+									
+								</td>
+							</tr> 
+							<tr>
+								<td> 						
+									<table width="100%" border="0" cellspacing="1" cellpadding="1" class="subrayado">
+										
+									  <tr> 				
+										<td width="4%">&nbsp;</td>									  
+										<td width="-1419%">Conduct</td>
+												
+															<td width="15%" align="center">&nbsp;</td>
+														
+														
+																<td width="15%" align="center">
+																	
+																	98.00 
+																</td>
+															
+
+														
+												<td width="15%" align="center">&nbsp; </td> 
+											
+											
+											<td width="15%" align="center">
+												
+													<strong>
+														
+															&nbsp;
+														
+													</strong>
+												
+											</td>
+										
+									  </tr>
+									</table>
+								</td>
+							</tr> 
+						 
+							<tr>
+								<td> 
+									
+								</td>
+							</tr> 
+							<tr>
+								<td> 						
+									<table width="100%" border="0" cellspacing="1" cellpadding="1" class="subrayado">
+										
+									  <tr> 				
+										<td width="4%">&nbsp;</td>									  
+										<td width="-1419%">Español</td>
+										
+													<td width="15%" align="center">
+													
+															94.00 
+														
+													</td>
+												
+													<td width="15%" align="center">
+													
+															95.00 
+														
+													</td>
+												
+												<td width="15%" align="center"><strong>95.00</strong></td>
+											
+											
+											<td width="15%" align="center">
+												
+													<strong>
+														
+															Promovido
+															
+													</strong>
+												
+											</td>
+										
+									  </tr>
+									</table>
+								</td>
+							</tr> 
+						 
+							<tr>
+								<td> 
+									
+								</td>
+							</tr> 
+							<tr>
+								<td> 						
+									<table width="100%" border="0" cellspacing="1" cellpadding="1" class="subrayado">
+										
+									  <tr> 				
+										<td width="4%">&nbsp;</td>									  
+										<td width="-1419%">Mathematics</td>
+										
+														
+																<td width="15%" align="center">
+																	
+																	85.00 
+																</td>
+															
+
+																
+															<td width="15%" align="center">&nbsp;</td>
+														
+												<td width="15%" align="center">&nbsp; </td> 
+											
+											
+											<td width="15%" align="center">
+												
+													<strong>
+														
+															&nbsp;
+														
+													</strong>
+												
+											</td>
+										
+									  </tr>
+									</table>
+								</td>
+							</tr> 
+						 
+							<tr>
+								<td> 
+									
+								</td>
+							</tr> 
+							<tr>
+								<td> 						
+									<table width="100%" border="0" cellspacing="1" cellpadding="1" class="subrayado">
+										
+									  <tr> 				
+										<td width="4%">&nbsp;</td>									  
+										<td width="-1419%">Science</td>
+										
+													<td width="15%" align="center">
+													
+															75.00 
+														
+													</td>
+												
+													<td width="15%" align="center">
+													
+															
+																	<FONT color="Red" >50.00</font>
+																
+														
+													</td>
+												
+												<td width="15%" align="center"><strong>75.00</strong></td>
+											
+											
+											<td width="15%" align="center">
+												
+													<strong>
+														
+															Promovido
+															
+													</strong>
+												
+											</td>
+										
+									  </tr>
+									</table>
+								</td>
+							</tr> 
+						 
+							<tr>
+								<td> 
+									
+								</td>
+							</tr> 
+							<tr>
+								<td> 						
+									<table width="100%" border="0" cellspacing="1" cellpadding="1" class="subrayado">
+										
+									  <tr> 				
+										<td width="4%">&nbsp;</td>									  
+										<td width="-1419%"><b>Clubes</b></td>
+										
+													<td width="15%" align="center">
+													
+															
+																	<b>96.50</b>
+																
+														
+													</td>
+												
+													<td width="15%" align="center">
+													
+															
+																	<b>92.50</b>
+																
+														
+													</td>
+												
+												<td width="15%" align="center">&nbsp; </td> 
+											
+											
+											<td width="15%" align="center">
+												
+													<strong>
+														
+															&nbsp;
+														
+													</strong>
+												
+											</td>
+										
+									  </tr>
+									</table>
+								</td>
+							</tr> 
+						 
+							<tr>
+								<td> 
+									
+								</td>
+							</tr> 
+							<tr>
+								<td> 						
+									<table width="100%" border="0" cellspacing="1" cellpadding="1" class="subrayado">
+										
+									  <tr> 				
+										<td width="4%">&nbsp;</td>									  
+										<td width="-1419%">&nbsp;&nbsp;&nbsp;Natacion</td>
+										
+													<td width="15%" align="center">
+													
+															93.00 
+														
+													</td>
+												
+													<td width="15%" align="center">
+													
+															90.00 
+														
+													</td>
+												
+												<td width="15%" align="center">&nbsp; </td> 
+											
+											
+											<td width="15%" align="center">
+												
+													<strong>
+														
+															&nbsp;
+														
+													</strong>
+												
+											</td>
+										
+									  </tr>
+									</table>
+								</td>
+							</tr> 
+						 
+							<tr>
+								<td> 
+									
+								</td>
+							</tr> 
+							<tr>
+								<td> 						
+									<table width="100%" border="0" cellspacing="1" cellpadding="1" class="subrayado">
+										
+									  <tr> 				
+										<td width="4%">&nbsp;</td>									  
+										<td width="-1419%">&nbsp;&nbsp;&nbsp;Esgrima</td>
+										
+													<td width="15%" align="center">
+													
+															100.00 
+														
+													</td>
+												
+													<td width="15%" align="center">
+													
+															95.00 
+														
+													</td>
+												
+												<td width="15%" align="center">&nbsp; </td> 
+											
+											
+											<td width="15%" align="center">
+												
+													<strong>
+														
+															&nbsp;
+														
+													</strong>
+												
+											</td>
+										
+									  </tr>
+									</table>
+								</td>
+							</tr> 
+						 
+							<tr>
+								<td> 
+									
+										<table width="100%" border="0" cellspacing="1" cellpadding="1" class="subrayado">
+											
+											<tr>
+												<td width="4%">&nbsp;</td>
+												<td width="-1419%"><strong>ELECTIVAS</strong></td>			
+											</tr>
+										</table>
+									
+										<table width="100%" border="0" cellspacing="1" cellpadding="1" class="subrayado">
+											<tr>
+												<td width="4%">&nbsp;</td>
+												<td width="-1419%"><strong>Ayuda comunitaria</strong></td>			
+											
+												
+												
+																<td width="15%" align="center">
+																	
+																		69.00 
+																	
+																</td>
+															
+														</font>	
+													 
+																<td width="15%" align="center">
+																	
+																		65.00 
+																	
+																</td>
+															
+														</font>	
+													 
+														<td width="15%" align="center"><strong>67.00</strong></td>
+													
+													<td width="15%" align="center">
+														
+															<strong>
+																
+																	Aplazado 
+																	
+															</strong>
+														
+													</td>
+												
+											</tr>
+											
+										</table>
+									
+								</td>
+							</tr> 
+							<tr>
+								<td> 						
+									<table width="100%" border="0" cellspacing="1" cellpadding="1" class="subrayado">
+										
+									  <tr> 				
+										<td width="4%">&nbsp;</td>									  
+										<td width="-1419%">Ancianato</td>
+										
+													<td width="15%" align="center">
+													
+															
+																	<FONT color="Red" >69.00</font>
+																
+														
+													</td>
+												
+													<td width="15%" align="center">
+													
+															
+																	<FONT color="Red" >65.00</font>
+																
+														
+													</td>
+												
+												<td width="15%" align="center"><strong>67.00</strong></td>
+											
+											
+											<td width="15%" align="center">&nbsp;
+												
+													
+												
+											</td>
+										
+									  </tr>
+									</table>
+								</td>
+							</tr> 
+							
+							
+							<tr>
+								<td> 						
+	
+								</td>
+							</tr> 
+							
+								<tr>
+									<td> 
+										<table width="100%" border="0" cellspacing="1" cellpadding="1" class="subrayado">
+											<tr> 
+												<td  nowrap width="4%"></td>									  
+												<td width="-1419%"><strong>PROMEDIO FINAL</strong>
+													 
+													 
+												</td>
+												
+												
+											
+														<td width="15%" align="center">
+															<strong>
+																90.58 
+																
+															</strong>
+														</td>
+													
+														<td width="15%" align="center">
+															<strong>
+																86.75 
+																
+															</strong>
+														</td>
+													 
+														
+														<td width="15%" align="center" >
+															<strong> 
+																85.00 
+															</strong>
+													   </td> 
+													
+													 
+														<td width="15%" align="center" >
+															<strong>
+																
+																		Aplazado 
+																	
+															</strong>
+														</td>
+													
+											</tr>
+										</table>
+									</td>
+								</tr> 
+							
+								<tr> 
+								  <td  class="areaFiltro" align="center"><strong>ESCALA DE VALORACI&Oacute;N</strong></td>
+								</tr>
+								
+								<tr> 
+								  <td align="center"  class="subrayado">N / A = No Aplica</td>
+								</tr>
+								
+											<tr> 
+											  <td align="center" class="subrayado">100 = Excelente</td>
+											</tr>
+										
+											<tr> 
+											  <td align="center" class="subrayado">85 = Muy Bueno</td>
+											</tr>
+										
+											<tr> 
+											  <td align="center" class="subrayado">75 = Aceptable</td>
+											</tr>
+										
+											<tr> 
+											  <td align="center" class="subrayado">50 = Falta aprendizaje</td>
+											</tr>
+										
+											<tr> 
+											  <td align="center" class="subrayado">30 = Repite la lección</td>
+											</tr>
+										
+														
+							<tr>
+								<td>
+									
+					
+								
+      <table width="100%" cellspacing="0" >
+        
+        
+        
+        
+        <tr class="subTitulo"> 
+          <td colspan="3" align="center"  nowrap  class="encabReporte" style="border: 1px solid #000000"><strong>Observaciones:&nbsp;</strong></td>
+          <td colspan="6" align="center"  nowrap  class="encabReporte"  style="border: 1px solid #000000"><strong> 
+            &nbsp; &nbsp; </strong><strong>Asistencia:&nbsp; &nbsp; &nbsp; </strong></td>
+          
+        </tr>
+        <tr > 
+          <td width="9%" align="center" valign="top" nowrap style="border: 1px solid #000000">Reforzamiento</td>
+          <td width="6%" align="center" valign="top" style="border: 1px solid #000000">Llamada 
+            de Atenci&oacute;n</td>
+          <td width="11%" align="center" valign="top" nowrap style="border: 1px solid #000000">Advertencia</td>
+          <td colspan="2" align="center" valign="top" nowrap style="border: 1px solid #000000">Ausencias</td>
+          <td colspan="2" align="center" valign="top" nowrap style="border: 1px solid #000000">Llegada 
+            Tard&iacute;a </td>
+          <td colspan="2" align="center" valign="top" nowrap style="border: 1px solid #000000">Salida 
+            Temprano </td>
+        </tr>
+        <tr class="subTitulo" class="listaPar"> 
+          <td width="9%" nowrap align="center" style="border: 1px solid #000000">&nbsp;</td>
+          <td width="6%" nowrap align="center" style="border: 1px solid #000000">&nbsp;</td>
+          <td width="11%" align="center" nowrap style="border: 1px solid #000000">&nbsp;</td>
+          <td width="9%" nowrap align="center" style="border: 1px solid #000000">Just</td>
+          <td width="8%" nowrap align="center" style="border: 1px solid #000000">Injust</td>
+          <td width="8%" nowrap align="center" style="border: 1px solid #000000">Just</td>
+          <td width="10%" nowrap align="center" style="border: 1px solid #000000">Injust</td>
+          <td width="6%" align="center"  nowrap style="border: 1px solid #000000">Just</td >
+          <td  nowrap align="center" style="border: 1px solid #000000">Injust</td>
+        </tr>
+        
+        <tr class="subTitulo" class="listaPar"> 
+          
+          <td width="9%" nowrap align="center"  style="border: 1px solid #000000">&nbsp; 
+            
+            
+            
+                
+            
+            
+          </td>
+          <td width="6%" nowrap align="center"  style="border: 1px solid #000000">&nbsp; 
+            
+            
+            
+                
+            
+            
+          </td>
+          <td width="11%" align="center" nowrap  style="border: 1px solid #000000">&nbsp; 
+            
+            
+            
+                
+            
+            
+          </td>
+          <td width="9%" nowrap align="center"  style="border: 1px solid #000000">&nbsp; 
+            
+            
+            
+                
+            
+            
+          </td>
+          <td width="8%" nowrap align="center"  style="border: 1px solid #000000">&nbsp; 
+            
+            
+            
+                
+            
+            
+          </td>
+          <td width="8%" nowrap align="center"  style="border: 1px solid #000000">&nbsp; 
+            
+            
+                
+            
+          </td>
+          <td width="10%" nowrap align="center"  style="border: 1px solid #000000"> 
+            
+            2  
+            
+          </td>
+          <td width="6%" align="center"  nowrap  style="border: 1px solid #000000"> 
+            
+            1  
+            
+          </td >
+          <td  nowrap align="center"  style="border: 1px solid #000000"> 
+            
+            
+            1  
+            
+            
+          </td>
+        </tr>
+        
+            <tr class="subTitulo" class="listaPar"> 
+              <td align="center" width="9%"  style="border: 1px solid #000000"> 
+                12/02/2002 </td>
+              <td width="70%" colspan="8"  style="border: 1px solid #000000"> 
+                Control de  Retiro temprano Justificada </td>
+            </tr>
+          
+            <tr class="subTitulo" class="listaNon"> 
+              <td align="center" width="9%"  style="border: 1px solid #000000"> 
+                06/02/2003 </td>
+              <td width="70%" colspan="8"  style="border: 1px solid #000000"> 
+                Control de  Tardía injustificada </td>
+            </tr>
+          
+            <tr class="subTitulo" class="listaPar"> 
+              <td align="center" width="9%"  style="border: 1px solid #000000"> 
+                13/02/2003 </td>
+              <td width="70%" colspan="8"  style="border: 1px solid #000000"> 
+                Control de  Tardía injustificada </td>
+            </tr>
+          
+            <tr class="subTitulo" class="listaNon"> 
+              <td align="center" width="9%"  style="border: 1px solid #000000"> 
+                14/02/2003 </td>
+              <td width="70%" colspan="8"  style="border: 1px solid #000000"> 
+                Control de  Retiro temprano injustificada </td>
+            </tr>
+          
+        
+      </table>
+							
+									<table width="100%"  cellspacing="0">
+										<tr> 
+											<td colspan="4">&nbsp;</td>
+										</tr>
+									</table>
+								
+							 
+								</td>
+							</tr>
+																					
+						
+						<tr> 
+               			 	<td class="areaFiltro"> 
+								<table width="100%" border="0" cellspacing="1" cellpadding="1">
+								  <tr>
+									<td width="50%">Alumno :Ochoa Antillón  , Juan Carlos</td>
+									<td width="50%">Grupo: Segundo Grado</td>
+								  </tr>
+								  <tr>
+									<td>Nivel: Primaria</td>
+			                        <td>&nbsp; </td>
+								  </tr>
+								</table>
+							</td>
+						</tr>
+ 						<tr> 
+							<td>
+												
+								<table width="100%" border="0" cellspacing="1" cellpadding="1" class="subrayado">								
+								  <tr> 
+									<td width="4%">&nbsp;</td>
+			                        <td width="-1419%"><strong>MATERIA</strong></td>
+									
+											<td width="15%" align="center"><strong>I Bimestre</strong></td>
+										
+											<td width="15%" align="center"><strong>II Bimestre</strong></td>
+										
+										<td width="15%" align="center"><strong>%Promedio por Semestre</strong></td>
+									
+										<td width="15%" align="center"><strong>Estado</strong></td>
+									
+
+								  </tr>
+								</table>							
+							</td>
+						</tr> 					
+					 
+							<tr>
+								<td> 
+									
+								</td>
+							</tr> 
+							<tr>
+								<td> 						
+									<table width="100%" border="0" cellspacing="1" cellpadding="1" class="subrayado">
+										
+									  <tr> 				
+										<td width="4%">&nbsp;</td>									  
+										<td width="-1419%">Español</td>
+										
+													<td width="15%" align="center">
+													
+															92.00 
+														
+													</td>
+												
+													<td width="15%" align="center">
+													
+															85.00 
+														
+													</td>
+												
+												<td width="15%" align="center"><strong>88.00</strong></td>
+											
+											
+											<td width="15%" align="center">
+												
+													<strong>
+														
+															Promovido
+															
+													</strong>
+												
+											</td>
+										
+									  </tr>
+									</table>
+								</td>
+							</tr> 
+						 
+							<tr>
+								<td> 
+									
+								</td>
+							</tr> 
+							<tr>
+								<td> 						
+									<table width="100%" border="0" cellspacing="1" cellpadding="1" class="subrayado">
+										
+									  <tr> 				
+										<td width="4%">&nbsp;</td>									  
+										<td width="-1419%">Mathematics</td>
+										
+														
+																<td width="15%" align="center">
+																	
+																	85.00 
+																</td>
+															
+
+																
+															<td width="15%" align="center">&nbsp;</td>
+														
+												<td width="15%" align="center">&nbsp; </td> 
+											
+											
+											<td width="15%" align="center">
+												
+													<strong>
+														
+															&nbsp;
+														
+													</strong>
+												
+											</td>
+										
+									  </tr>
+									</table>
+								</td>
+							</tr> 
+						 
+							<tr>
+								<td> 
+									
+								</td>
+							</tr> 
+							<tr>
+								<td> 						
+									<table width="100%" border="0" cellspacing="1" cellpadding="1" class="subrayado">
+										
+									  <tr> 				
+										<td width="4%">&nbsp;</td>									  
+										<td width="-1419%">Science</td>
+										
+													<td width="15%" align="center">
+													
+															
+																	<FONT color="Red" >50.00</font>
+																
+														
+													</td>
+												
+													<td width="15%" align="center">
+													
+															85.00 
+														
+													</td>
+												
+												<td width="15%" align="center"><strong>75.00</strong></td>
+											
+											
+											<td width="15%" align="center">
+												
+													<strong>
+														
+															Promovido
+															
+													</strong>
+												
+											</td>
+										
+									  </tr>
+									</table>
+								</td>
+							</tr> 
+						 
+							<tr>
+								<td> 
+									
+								</td>
+							</tr> 
+							<tr>
+								<td> 						
+									<table width="100%" border="0" cellspacing="1" cellpadding="1" class="subrayado">
+										
+									  <tr> 				
+										<td width="4%">&nbsp;</td>									  
+										<td width="-1419%"><b>Clubes</b></td>
+										
+													<td width="15%" align="center">
+													
+															
+																	<b>95.50</b>
+																
+														
+													</td>
+												
+													<td width="15%" align="center">
+													
+															
+																	<b>92.50</b>
+																
+														
+													</td>
+												
+												<td width="15%" align="center">&nbsp; </td> 
+											
+											
+											<td width="15%" align="center">
+												
+													<strong>
+														
+															&nbsp;
+														
+													</strong>
+												
+											</td>
+										
+									  </tr>
+									</table>
+								</td>
+							</tr> 
+						 
+							<tr>
+								<td> 
+									
+								</td>
+							</tr> 
+							<tr>
+								<td> 						
+									<table width="100%" border="0" cellspacing="1" cellpadding="1" class="subrayado">
+										
+									  <tr> 				
+										<td width="4%">&nbsp;</td>									  
+										<td width="-1419%">&nbsp;&nbsp;&nbsp;Natacion</td>
+										
+													<td width="15%" align="center">
+													
+															91.00 
+														
+													</td>
+												
+													<td width="15%" align="center">
+													
+															95.00 
+														
+													</td>
+												
+												<td width="15%" align="center">&nbsp; </td> 
+											
+											
+											<td width="15%" align="center">
+												
+													<strong>
+														
+															&nbsp;
+														
+													</strong>
+												
+											</td>
+										
+									  </tr>
+									</table>
+								</td>
+							</tr> 
+						 
+							<tr>
+								<td> 
+									
+								</td>
+							</tr> 
+							<tr>
+								<td> 						
+									<table width="100%" border="0" cellspacing="1" cellpadding="1" class="subrayado">
+										
+									  <tr> 				
+										<td width="4%">&nbsp;</td>									  
+										<td width="-1419%">&nbsp;&nbsp;&nbsp;Esgrima</td>
+										
+													<td width="15%" align="center">
+													
+															100.00 
+														
+													</td>
+												
+													<td width="15%" align="center">
+													
+															90.00 
+														
+													</td>
+												
+												<td width="15%" align="center">&nbsp; </td> 
+											
+											
+											<td width="15%" align="center">
+												
+													<strong>
+														
+															&nbsp;
+														
+													</strong>
+												
+											</td>
+										
+									  </tr>
+									</table>
+								</td>
+							</tr> 
+						 
+							<tr>
+								<td> 
+									
+										<table width="100%" border="0" cellspacing="1" cellpadding="1" class="subrayado">
+											
+											<tr>
+												<td width="4%">&nbsp;</td>
+												<td width="-1419%"><strong>ELECTIVAS</strong></td>			
+											</tr>
+										</table>
+									
+										<table width="100%" border="0" cellspacing="1" cellpadding="1" class="subrayado">
+											<tr>
+												<td width="4%">&nbsp;</td>
+												<td width="-1419%"><strong>Ayuda comunitaria</strong></td>			
+											
+												
+												
+																<td width="15%" align="center">
+																	
+																		60.00 
+																	
+																</td>
+															
+														</font>	
+													 
+																<td width="15%" align="center">
+																	
+																		80.00 
+																	
+																</td>
+															
+														</font>	
+													 
+														<td width="15%" align="center"><strong>70.00</strong></td>
+													
+													<td width="15%" align="center">
+														
+															<strong>
+																
+																	Promovido
+																	
+															</strong>
+														
+													</td>
+												
+											</tr>
+											
+										</table>
+									
+								</td>
+							</tr> 
+							<tr>
+								<td> 						
+									<table width="100%" border="0" cellspacing="1" cellpadding="1" class="subrayado">
+										
+									  <tr> 				
+										<td width="4%">&nbsp;</td>									  
+										<td width="-1419%">Ayuda a los niños</td>
+										
+													<td width="15%" align="center">
+													
+															
+																	<FONT color="Red" >60.00</font>
+																
+														
+													</td>
+												
+													<td width="15%" align="center">
+													
+															80.00 
+														
+													</td>
+												
+												<td width="15%" align="center"><strong>70.00</strong></td>
+											
+											
+											<td width="15%" align="center">&nbsp;
+												
+													
+												
+											</td>
+										
+									  </tr>
+									</table>
+								</td>
+							</tr> 
+							
+							
+							<tr>
+								<td> 						
+	
+								</td>
+							</tr> 
+							
+								<tr>
+									<td> 
+										<table width="100%" border="0" cellspacing="1" cellpadding="1" class="subrayado">
+											<tr> 
+												<td  nowrap width="4%"></td>									  
+												<td width="-1419%"><strong>PROMEDIO FINAL</strong>
+													 
+													 
+												</td>
+												
+												
+											
+														<td width="15%" align="center">
+															<strong>
+																85.58 
+																
+															</strong>
+														</td>
+													
+														<td width="15%" align="center">
+															<strong>
+																89.50 
+																
+															</strong>
+														</td>
+													 
+														
+														<td width="15%" align="center" >
+															<strong> 
+																81.50 
+															</strong>
+													   </td> 
+													
+													 
+														<td width="15%" align="center" >
+															<strong>
+																
+																		Promovido 
+																	
+															</strong>
+														</td>
+													
+											</tr>
+										</table>
+									</td>
+								</tr> 
+							
+								<tr> 
+								  <td  class="areaFiltro" align="center"><strong>ESCALA DE VALORACI&Oacute;N</strong></td>
+								</tr>
+								
+								<tr> 
+								  <td align="center"  class="subrayado">N / A = No Aplica</td>
+								</tr>
+								
+											<tr> 
+											  <td align="center" class="subrayado">100 = Excelente</td>
+											</tr>
+										
+											<tr> 
+											  <td align="center" class="subrayado">85 = Muy Bueno</td>
+											</tr>
+										
+											<tr> 
+											  <td align="center" class="subrayado">75 = Aceptable</td>
+											</tr>
+										
+											<tr> 
+											  <td align="center" class="subrayado">50 = Falta aprendizaje</td>
+											</tr>
+										
+											<tr> 
+											  <td align="center" class="subrayado">30 = Repite la lección</td>
+											</tr>
+										
+														
+							<tr>
+								<td>
+									
+					
+								
+      <table width="100%" cellspacing="0" >
+        
+        
+        
+        
+        <tr class="subTitulo"> 
+          <td colspan="3" align="center"  nowrap  class="encabReporte" style="border: 1px solid #000000"><strong>Observaciones:&nbsp;</strong></td>
+          <td colspan="6" align="center"  nowrap  class="encabReporte"  style="border: 1px solid #000000"><strong> 
+            &nbsp; &nbsp; </strong><strong>Asistencia:&nbsp; &nbsp; &nbsp; </strong></td>
+          
+        </tr>
+        <tr > 
+          <td width="9%" align="center" valign="top" nowrap style="border: 1px solid #000000">Reforzamiento</td>
+          <td width="6%" align="center" valign="top" style="border: 1px solid #000000">Llamada 
+            de Atenci&oacute;n</td>
+          <td width="11%" align="center" valign="top" nowrap style="border: 1px solid #000000">Advertencia</td>
+          <td colspan="2" align="center" valign="top" nowrap style="border: 1px solid #000000">Ausencias</td>
+          <td colspan="2" align="center" valign="top" nowrap style="border: 1px solid #000000">Llegada 
+            Tard&iacute;a </td>
+          <td colspan="2" align="center" valign="top" nowrap style="border: 1px solid #000000">Salida 
+            Temprano </td>
+        </tr>
+        <tr class="subTitulo" class="listaNon"> 
+          <td width="9%" nowrap align="center" style="border: 1px solid #000000">&nbsp;</td>
+          <td width="6%" nowrap align="center" style="border: 1px solid #000000">&nbsp;</td>
+          <td width="11%" align="center" nowrap style="border: 1px solid #000000">&nbsp;</td>
+          <td width="9%" nowrap align="center" style="border: 1px solid #000000">Just</td>
+          <td width="8%" nowrap align="center" style="border: 1px solid #000000">Injust</td>
+          <td width="8%" nowrap align="center" style="border: 1px solid #000000">Just</td>
+          <td width="10%" nowrap align="center" style="border: 1px solid #000000">Injust</td>
+          <td width="6%" align="center"  nowrap style="border: 1px solid #000000">Just</td >
+          <td  nowrap align="center" style="border: 1px solid #000000">Injust</td>
+        </tr>
+        
+        <tr class="subTitulo" class="listaNon"> 
+          
+          <td width="9%" nowrap align="center"  style="border: 1px solid #000000">&nbsp; 
+            
+            
+            
+                
+            
+            
+          </td>
+          <td width="6%" nowrap align="center"  style="border: 1px solid #000000">&nbsp; 
+            
+            
+            
+                
+            
+            
+          </td>
+          <td width="11%" align="center" nowrap  style="border: 1px solid #000000">&nbsp; 
+            
+            
+            
+                
+            
+            
+          </td>
+          <td width="9%" nowrap align="center"  style="border: 1px solid #000000">&nbsp; 
+            
+            
+            
+                
+            
+            
+          </td>
+          <td width="8%" nowrap align="center"  style="border: 1px solid #000000">&nbsp; 
+            
+            
+            
+                
+            
+            
+          </td>
+          <td width="8%" nowrap align="center"  style="border: 1px solid #000000">&nbsp; 
+            
+            
+                
+            
+          </td>
+          <td width="10%" nowrap align="center"  style="border: 1px solid #000000">&nbsp; 
+            
+            
+                
+            
+          </td>
+          <td width="6%" align="center"  nowrap  style="border: 1px solid #000000">&nbsp; 
+            
+            
+                
+            
+          </td >
+          <td  nowrap align="center"  style="border: 1px solid #000000">&nbsp; 
+            
+            
+            
+                
+            
+            
+          </td>
+        </tr>
+        
+          <tr class="subTitulo" class="listaNon"> 
+            <td align="center" width="9%"  style="border: 1px solid #000000">&nbsp; 
+            </td>
+            <td width="70%" colspan="8"  style="border: 1px solid #000000">&nbsp; </td>
+          </tr>
+        
+        
+      </table>
+							
+									<table width="100%"  cellspacing="0">
+										<tr> 
+											<td colspan="4">&nbsp;</td>
+										</tr>
+									</table>
+								
+							 
+								</td>
+							</tr>
+																					
+						
+						<tr> 
+               			 	<td class="areaFiltro"> 
+								<table width="100%" border="0" cellspacing="1" cellpadding="1">
+								  <tr>
+									<td width="50%">Alumno :Pruto Valerio, Rodrigo</td>
+									<td width="50%">Grupo: Segundo Grado</td>
+								  </tr>
+								  <tr>
+									<td>Nivel: Primaria</td>
+			                        <td>&nbsp; </td>
+								  </tr>
+								</table>
+							</td>
+						</tr>
+ 						<tr> 
+							<td>
+												
+								<table width="100%" border="0" cellspacing="1" cellpadding="1" class="subrayado">								
+								  <tr> 
+									<td width="4%">&nbsp;</td>
+			                        <td width="-1419%"><strong>MATERIA</strong></td>
+									
+											<td width="15%" align="center"><strong>I Bimestre</strong></td>
+										
+											<td width="15%" align="center"><strong>II Bimestre</strong></td>
+										
+										<td width="15%" align="center"><strong>%Promedio por Semestre</strong></td>
+									
+										<td width="15%" align="center"><strong>Estado</strong></td>
+									
+
+								  </tr>
+								</table>							
+							</td>
+						</tr> 					
+					 
+							<tr>
+								<td> 
+									
+								</td>
+							</tr> 
+							<tr>
+								<td> 						
+									<table width="100%" border="0" cellspacing="1" cellpadding="1" class="subrayado">
+										
+									  <tr> 				
+										<td width="4%">&nbsp;</td>									  
+										<td width="-1419%">Conduct</td>
+												
+															<td width="15%" align="center">&nbsp;</td>
+														
+														
+																<td width="15%" align="center">
+																	
+																	80.00 
+																</td>
+															
+
+														
+												<td width="15%" align="center">&nbsp; </td> 
+											
+											
+											<td width="15%" align="center">
+												
+													<strong>
+														
+															&nbsp;
+														
+													</strong>
+												
+											</td>
+										
+									  </tr>
+									</table>
+								</td>
+							</tr> 
+						 
+							<tr>
+								<td> 
+									
+								</td>
+							</tr> 
+							<tr>
+								<td> 						
+									<table width="100%" border="0" cellspacing="1" cellpadding="1" class="subrayado">
+										
+									  <tr> 				
+										<td width="4%">&nbsp;</td>									  
+										<td width="-1419%">Español</td>
+										
+													<td width="15%" align="center">
+													
+															
+																	<FONT color="Red" >65.50</font>
+																
+														
+													</td>
+												
+													<td width="15%" align="center">
+													
+															100.00 
+														
+													</td>
+												
+												<td width="15%" align="center"><strong>82.00</strong></td>
+											
+											
+											<td width="15%" align="center">
+												
+													<strong>
+														
+															Promovido
+															
+													</strong>
+												
+											</td>
+										
+									  </tr>
+									</table>
+								</td>
+							</tr> 
+						 
+							<tr>
+								<td> 
+									
+								</td>
+							</tr> 
+							<tr>
+								<td> 						
+									<table width="100%" border="0" cellspacing="1" cellpadding="1" class="subrayado">
+										
+									  <tr> 				
+										<td width="4%">&nbsp;</td>									  
+										<td width="-1419%">Mathematics</td>
+										
+														
+																<td width="15%" align="center">
+																	
+																	85.00 
+																</td>
+															
+
+																
+															<td width="15%" align="center">&nbsp;</td>
+														
+												<td width="15%" align="center">&nbsp; </td> 
+											
+											
+											<td width="15%" align="center">
+												
+													<strong>
+														
+															&nbsp;
+														
+													</strong>
+												
+											</td>
+										
+									  </tr>
+									</table>
+								</td>
+							</tr> 
+						 
+							<tr>
+								<td> 
+									
+								</td>
+							</tr> 
+							<tr>
+								<td> 						
+									<table width="100%" border="0" cellspacing="1" cellpadding="1" class="subrayado">
+										
+									  <tr> 				
+										<td width="4%">&nbsp;</td>									  
+										<td width="-1419%">Science</td>
+										
+													<td width="15%" align="center">
+													
+															
+																	<FONT color="Red" >50.00</font>
+																
+														
+													</td>
+												
+													<td width="15%" align="center">
+													
+															
+																	<FONT color="Red" >50.00</font>
+																
+														
+													</td>
+												
+												<td width="15%" align="center"><strong>50.00</strong></td>
+											
+											
+											<td width="15%" align="center">
+												
+													<strong>
+														
+															Aplazado 
+															
+													</strong>
+												
+											</td>
+										
+									  </tr>
+									</table>
+								</td>
+							</tr> 
+						 
+							<tr>
+								<td> 
+									
+								</td>
+							</tr> 
+							<tr>
+								<td> 						
+									<table width="100%" border="0" cellspacing="1" cellpadding="1" class="subrayado">
+										
+									  <tr> 				
+										<td width="4%">&nbsp;</td>									  
+										<td width="-1419%"><b>Clubes</b></td>
+										
+													<td width="15%" align="center">
+													
+															
+																	<b>96.50</b>
+																
+														
+													</td>
+												
+													<td width="15%" align="center">
+													
+															
+																	<b>92.50</b>
+																
+														
+													</td>
+												
+												<td width="15%" align="center">&nbsp; </td> 
+											
+											
+											<td width="15%" align="center">
+												
+													<strong>
+														
+															&nbsp;
+														
+													</strong>
+												
+											</td>
+										
+									  </tr>
+									</table>
+								</td>
+							</tr> 
+						 
+							<tr>
+								<td> 
+									
+								</td>
+							</tr> 
+							<tr>
+								<td> 						
+									<table width="100%" border="0" cellspacing="1" cellpadding="1" class="subrayado">
+										
+									  <tr> 				
+										<td width="4%">&nbsp;</td>									  
+										<td width="-1419%">&nbsp;&nbsp;&nbsp;Natacion</td>
+										
+													<td width="15%" align="center">
+													
+															93.00 
+														
+													</td>
+												
+													<td width="15%" align="center">
+													
+															90.00 
+														
+													</td>
+												
+												<td width="15%" align="center">&nbsp; </td> 
+											
+											
+											<td width="15%" align="center">
+												
+													<strong>
+														
+															&nbsp;
+														
+													</strong>
+												
+											</td>
+										
+									  </tr>
+									</table>
+								</td>
+							</tr> 
+						 
+							<tr>
+								<td> 
+									
+								</td>
+							</tr> 
+							<tr>
+								<td> 						
+									<table width="100%" border="0" cellspacing="1" cellpadding="1" class="subrayado">
+										
+									  <tr> 				
+										<td width="4%">&nbsp;</td>									  
+										<td width="-1419%">&nbsp;&nbsp;&nbsp;Esgrima</td>
+										
+													<td width="15%" align="center">
+													
+															100.00 
+														
+													</td>
+												
+													<td width="15%" align="center">
+													
+															95.00 
+														
+													</td>
+												
+												<td width="15%" align="center">&nbsp; </td> 
+											
+											
+											<td width="15%" align="center">
+												
+													<strong>
+														
+															&nbsp;
+														
+													</strong>
+												
+											</td>
+										
+									  </tr>
+									</table>
+								</td>
+							</tr> 
+							
+							
+							<tr>
+								<td> 						
+	
+								</td>
+							</tr> 
+							
+								<tr>
+									<td> 
+										<table width="100%" border="0" cellspacing="1" cellpadding="1" class="subrayado">
+											<tr> 
+												<td  nowrap width="4%"></td>									  
+												<td width="-1419%"><strong>PROMEDIO FINAL</strong>
+													 
+													 
+												</td>
+												
+												
+											
+														<td width="15%" align="center">
+															<strong>
+																81.67 
+																
+															</strong>
+														</td>
+													
+														<td width="15%" align="center">
+															<strong>
+																84.58 
+																
+															</strong>
+														</td>
+													 
+														
+														<td width="15%" align="center" >
+															<strong> 
+																66.00 
+															</strong>
+													   </td> 
+													
+													 
+														<td width="15%" align="center" >
+															<strong>
+																
+																		Aplazado 
+																	
+															</strong>
+														</td>
+													
+											</tr>
+										</table>
+									</td>
+								</tr> 
+							
+								<tr> 
+								  <td  class="areaFiltro" align="center"><strong>ESCALA DE VALORACI&Oacute;N</strong></td>
+								</tr>
+								
+								<tr> 
+								  <td align="center"  class="subrayado">N / A = No Aplica</td>
+								</tr>
+								
+											<tr> 
+											  <td align="center" class="subrayado">100 = Excelente</td>
+											</tr>
+										
+											<tr> 
+											  <td align="center" class="subrayado">85 = Muy Bueno</td>
+											</tr>
+										
+											<tr> 
+											  <td align="center" class="subrayado">75 = Aceptable</td>
+											</tr>
+										
+											<tr> 
+											  <td align="center" class="subrayado">50 = Falta aprendizaje</td>
+											</tr>
+										
+											<tr> 
+											  <td align="center" class="subrayado">30 = Repite la lección</td>
+											</tr>
+										
+														
+							<tr>
+								<td>
+									
+					
+								
+      <table width="100%" cellspacing="0" >
+        
+        
+        
+        
+        <tr class="subTitulo"> 
+          <td colspan="3" align="center"  nowrap  class="encabReporte" style="border: 1px solid #000000"><strong>Observaciones:&nbsp;</strong></td>
+          <td colspan="6" align="center"  nowrap  class="encabReporte"  style="border: 1px solid #000000"><strong> 
+            &nbsp; &nbsp; </strong><strong>Asistencia:&nbsp; &nbsp; &nbsp; </strong></td>
+          
+        </tr>
+        <tr > 
+          <td width="9%" align="center" valign="top" nowrap style="border: 1px solid #000000">Reforzamiento</td>
+          <td width="6%" align="center" valign="top" style="border: 1px solid #000000">Llamada 
+            de Atenci&oacute;n</td>
+          <td width="11%" align="center" valign="top" nowrap style="border: 1px solid #000000">Advertencia</td>
+          <td colspan="2" align="center" valign="top" nowrap style="border: 1px solid #000000">Ausencias</td>
+          <td colspan="2" align="center" valign="top" nowrap style="border: 1px solid #000000">Llegada 
+            Tard&iacute;a </td>
+          <td colspan="2" align="center" valign="top" nowrap style="border: 1px solid #000000">Salida 
+            Temprano </td>
+        </tr>
+        <tr class="subTitulo" class="listaPar"> 
+          <td width="9%" nowrap align="center" style="border: 1px solid #000000">&nbsp;</td>
+          <td width="6%" nowrap align="center" style="border: 1px solid #000000">&nbsp;</td>
+          <td width="11%" align="center" nowrap style="border: 1px solid #000000">&nbsp;</td>
+          <td width="9%" nowrap align="center" style="border: 1px solid #000000">Just</td>
+          <td width="8%" nowrap align="center" style="border: 1px solid #000000">Injust</td>
+          <td width="8%" nowrap align="center" style="border: 1px solid #000000">Just</td>
+          <td width="10%" nowrap align="center" style="border: 1px solid #000000">Injust</td>
+          <td width="6%" align="center"  nowrap style="border: 1px solid #000000">Just</td >
+          <td  nowrap align="center" style="border: 1px solid #000000">Injust</td>
+        </tr>
+        
+        <tr class="subTitulo" class="listaPar"> 
+          
+          <td width="9%" nowrap align="center"  style="border: 1px solid #000000">&nbsp; 
+            
+            
+            
+                
+            
+            
+          </td>
+          <td width="6%" nowrap align="center"  style="border: 1px solid #000000">&nbsp; 
+            
+            
+            
+                
+            
+            
+          </td>
+          <td width="11%" align="center" nowrap  style="border: 1px solid #000000">&nbsp; 
+            
+            
+            
+                
+            
+            
+          </td>
+          <td width="9%" nowrap align="center"  style="border: 1px solid #000000">&nbsp; 
+            
+            
+            
+                
+            
+            
+          </td>
+          <td width="8%" nowrap align="center"  style="border: 1px solid #000000">&nbsp; 
+            
+            
+            
+                
+            
+            
+          </td>
+          <td width="8%" nowrap align="center"  style="border: 1px solid #000000">&nbsp; 
+            
+            
+                
+            
+          </td>
+          <td width="10%" nowrap align="center"  style="border: 1px solid #000000">&nbsp; 
+            
+            
+                
+            
+          </td>
+          <td width="6%" align="center"  nowrap  style="border: 1px solid #000000"> 
+            
+            1  
+            
+          </td >
+          <td  nowrap align="center"  style="border: 1px solid #000000">&nbsp; 
+            
+            
+            
+                
+            
+            
+          </td>
+        </tr>
+        
+            <tr class="subTitulo" class="listaPar"> 
+              <td align="center" width="9%"  style="border: 1px solid #000000"> 
+                04/02/2003 </td>
+              <td width="70%" colspan="8"  style="border: 1px solid #000000"> 
+                Control de  Retiro temprano Justificada </td>
+            </tr>
+          
+        
+      </table>
+							
+									<table width="100%"  cellspacing="0">
+										<tr> 
+											<td colspan="4">&nbsp;</td>
+										</tr>
+									</table>
+								
+							 
+								</td>
+							</tr>
+																					
+						
+						<tr> 
+               			 	<td class="areaFiltro"> 
+								<table width="100%" border="0" cellspacing="1" cellpadding="1">
+								  <tr>
+									<td width="50%">Alumno :Redondo Valverde, Federico José</td>
+									<td width="50%">Grupo: Segundo Grado</td>
+								  </tr>
+								  <tr>
+									<td>Nivel: Primaria</td>
+			                        <td>&nbsp; </td>
+								  </tr>
+								</table>
+							</td>
+						</tr>
+ 						<tr> 
+							<td>
+												
+								<table width="100%" border="0" cellspacing="1" cellpadding="1" class="subrayado">								
+								  <tr> 
+									<td width="4%">&nbsp;</td>
+			                        <td width="-1419%"><strong>MATERIA</strong></td>
+									
+											<td width="15%" align="center"><strong>I Bimestre</strong></td>
+										
+											<td width="15%" align="center"><strong>II Bimestre</strong></td>
+										
+										<td width="15%" align="center"><strong>%Promedio por Semestre</strong></td>
+									
+										<td width="15%" align="center"><strong>Estado</strong></td>
+									
+
+								  </tr>
+								</table>							
+							</td>
+						</tr> 					
+					 
+							<tr>
+								<td> 
+									
+								</td>
+							</tr> 
+							<tr>
+								<td> 						
+									<table width="100%" border="0" cellspacing="1" cellpadding="1" class="subrayado">
+										
+									  <tr> 				
+										<td width="4%">&nbsp;</td>									  
+										<td width="-1419%">Conduct</td>
+												
+															<td width="15%" align="center">&nbsp;</td>
+														
+														
+																<td width="15%" align="center">
+																	
+																	95.00 
+																</td>
+															
+
+														
+												<td width="15%" align="center">&nbsp; </td> 
+											
+											
+											<td width="15%" align="center">
+												
+													<strong>
+														
+															&nbsp;
+														
+													</strong>
+												
+											</td>
+										
+									  </tr>
+									</table>
+								</td>
+							</tr> 
+						 
+							<tr>
+								<td> 
+									
+								</td>
+							</tr> 
+							<tr>
+								<td> 						
+									<table width="100%" border="0" cellspacing="1" cellpadding="1" class="subrayado">
+										
+									  <tr> 				
+										<td width="4%">&nbsp;</td>									  
+										<td width="-1419%">Español</td>
+										
+													<td width="15%" align="center">
+													
+															89.50 
+														
+													</td>
+												
+													<td width="15%" align="center">
+													
+															90.00 
+														
+													</td>
+												
+												<td width="15%" align="center"><strong>90.00</strong></td>
+											
+											
+											<td width="15%" align="center">
+												
+													<strong>
+														
+															Promovido
+															
+													</strong>
+												
+											</td>
+										
+									  </tr>
+									</table>
+								</td>
+							</tr> 
+						 
+							<tr>
+								<td> 
+									
+								</td>
+							</tr> 
+							<tr>
+								<td> 						
+									<table width="100%" border="0" cellspacing="1" cellpadding="1" class="subrayado">
+										
+									  <tr> 				
+										<td width="4%">&nbsp;</td>									  
+										<td width="-1419%">Mathematics</td>
+										
+														
+																<td width="15%" align="center">
+																	
+																	85.00 
+																</td>
+															
+
+																
+															<td width="15%" align="center">&nbsp;</td>
+														
+												<td width="15%" align="center">&nbsp; </td> 
+											
+											
+											<td width="15%" align="center">
+												
+													<strong>
+														
+															&nbsp;
+														
+													</strong>
+												
+											</td>
+										
+									  </tr>
+									</table>
+								</td>
+							</tr> 
+						 
+							<tr>
+								<td> 
+									
+								</td>
+							</tr> 
+							<tr>
+								<td> 						
+									<table width="100%" border="0" cellspacing="1" cellpadding="1" class="subrayado">
+										
+									  <tr> 				
+										<td width="4%">&nbsp;</td>									  
+										<td width="-1419%">Science</td>
+										
+													<td width="15%" align="center">
+													
+															100.00 
+														
+													</td>
+												
+													<td width="15%" align="center">
+													
+															85.00 
+														
+													</td>
+												
+												<td width="15%" align="center"><strong>85.00</strong></td>
+											
+											
+											<td width="15%" align="center">
+												
+													<strong>
+														
+															Promovido
+															
+													</strong>
+												
+											</td>
+										
+									  </tr>
+									</table>
+								</td>
+							</tr> 
+						 
+							<tr>
+								<td> 
+									
+								</td>
+							</tr> 
+							<tr>
+								<td> 						
+									<table width="100%" border="0" cellspacing="1" cellpadding="1" class="subrayado">
+										
+									  <tr> 				
+										<td width="4%">&nbsp;</td>									  
+										<td width="-1419%"><b>Clubes</b></td>
+										
+													<td width="15%" align="center">
+													
+															
+																	<b>92.00</b>
+																
+														
+													</td>
+												
+													<td width="15%" align="center">
+													
+															
+																	<b>97.50</b>
+																
+														
+													</td>
+												
+												<td width="15%" align="center">&nbsp; </td> 
+											
+											
+											<td width="15%" align="center">
+												
+													<strong>
+														
+															&nbsp;
+														
+													</strong>
+												
+											</td>
+										
+									  </tr>
+									</table>
+								</td>
+							</tr> 
+						 
+							<tr>
+								<td> 
+									
+								</td>
+							</tr> 
+							<tr>
+								<td> 						
+									<table width="100%" border="0" cellspacing="1" cellpadding="1" class="subrayado">
+										
+									  <tr> 				
+										<td width="4%">&nbsp;</td>									  
+										<td width="-1419%">&nbsp;&nbsp;&nbsp;Natacion</td>
+										
+													<td width="15%" align="center">
+													
+															84.00 
+														
+													</td>
+												
+													<td width="15%" align="center">
+													
+															95.00 
+														
+													</td>
+												
+												<td width="15%" align="center">&nbsp; </td> 
+											
+											
+											<td width="15%" align="center">
+												
+													<strong>
+														
+															&nbsp;
+														
+													</strong>
+												
+											</td>
+										
+									  </tr>
+									</table>
+								</td>
+							</tr> 
+						 
+							<tr>
+								<td> 
+									
+								</td>
+							</tr> 
+							<tr>
+								<td> 						
+									<table width="100%" border="0" cellspacing="1" cellpadding="1" class="subrayado">
+										
+									  <tr> 				
+										<td width="4%">&nbsp;</td>									  
+										<td width="-1419%">&nbsp;&nbsp;&nbsp;Esgrima</td>
+										
+													<td width="15%" align="center">
+													
+															100.00 
+														
+													</td>
+												
+													<td width="15%" align="center">
+													
+															100.00 
+														
+													</td>
+												
+												<td width="15%" align="center">&nbsp; </td> 
+											
+											
+											<td width="15%" align="center">
+												
+													<strong>
+														
+															&nbsp;
+														
+													</strong>
+												
+											</td>
+										
+									  </tr>
+									</table>
+								</td>
+							</tr> 
+							
+							
+							<tr>
+								<td> 						
+	
+								</td>
+							</tr> 
+							
+								<tr>
+									<td> 
+										<table width="100%" border="0" cellspacing="1" cellpadding="1" class="subrayado">
+											<tr> 
+												<td  nowrap width="4%"></td>									  
+												<td width="-1419%"><strong>PROMEDIO FINAL</strong>
+													 
+													 
+												</td>
+												
+												
+											
+														<td width="15%" align="center">
+															<strong>
+																91.75 
+																
+															</strong>
+														</td>
+													
+														<td width="15%" align="center">
+															<strong>
+																93.75 
+																
+															</strong>
+														</td>
+													 
+														
+														<td width="15%" align="center" >
+															<strong> 
+																87.50 
+															</strong>
+													   </td> 
+													
+													 
+														<td width="15%" align="center" >
+															<strong>
+																
+																		Promovido 
+																	
+															</strong>
+														</td>
+													
+											</tr>
+										</table>
+									</td>
+								</tr> 
+							
+								<tr> 
+								  <td  class="areaFiltro" align="center"><strong>ESCALA DE VALORACI&Oacute;N</strong></td>
+								</tr>
+								
+								<tr> 
+								  <td align="center"  class="subrayado">N / A = No Aplica</td>
+								</tr>
+								
+											<tr> 
+											  <td align="center" class="subrayado">100 = Excelente</td>
+											</tr>
+										
+											<tr> 
+											  <td align="center" class="subrayado">85 = Muy Bueno</td>
+											</tr>
+										
+											<tr> 
+											  <td align="center" class="subrayado">75 = Aceptable</td>
+											</tr>
+										
+											<tr> 
+											  <td align="center" class="subrayado">50 = Falta aprendizaje</td>
+											</tr>
+										
+											<tr> 
+											  <td align="center" class="subrayado">30 = Repite la lección</td>
+											</tr>
+										
+														
+							<tr>
+								<td>
+									
+					
+								
+      <table width="100%" cellspacing="0" >
+        
+        
+        
+        
+        <tr class="subTitulo"> 
+          <td colspan="3" align="center"  nowrap  class="encabReporte" style="border: 1px solid #000000"><strong>Observaciones:&nbsp;</strong></td>
+          <td colspan="6" align="center"  nowrap  class="encabReporte"  style="border: 1px solid #000000"><strong> 
+            &nbsp; &nbsp; </strong><strong>Asistencia:&nbsp; &nbsp; &nbsp; </strong></td>
+          
+        </tr>
+        <tr > 
+          <td width="9%" align="center" valign="top" nowrap style="border: 1px solid #000000">Reforzamiento</td>
+          <td width="6%" align="center" valign="top" style="border: 1px solid #000000">Llamada 
+            de Atenci&oacute;n</td>
+          <td width="11%" align="center" valign="top" nowrap style="border: 1px solid #000000">Advertencia</td>
+          <td colspan="2" align="center" valign="top" nowrap style="border: 1px solid #000000">Ausencias</td>
+          <td colspan="2" align="center" valign="top" nowrap style="border: 1px solid #000000">Llegada 
+            Tard&iacute;a </td>
+          <td colspan="2" align="center" valign="top" nowrap style="border: 1px solid #000000">Salida 
+            Temprano </td>
+        </tr>
+        <tr class="subTitulo" class="listaPar"> 
+          <td width="9%" nowrap align="center" style="border: 1px solid #000000">&nbsp;</td>
+          <td width="6%" nowrap align="center" style="border: 1px solid #000000">&nbsp;</td>
+          <td width="11%" align="center" nowrap style="border: 1px solid #000000">&nbsp;</td>
+          <td width="9%" nowrap align="center" style="border: 1px solid #000000">Just</td>
+          <td width="8%" nowrap align="center" style="border: 1px solid #000000">Injust</td>
+          <td width="8%" nowrap align="center" style="border: 1px solid #000000">Just</td>
+          <td width="10%" nowrap align="center" style="border: 1px solid #000000">Injust</td>
+          <td width="6%" align="center"  nowrap style="border: 1px solid #000000">Just</td >
+          <td  nowrap align="center" style="border: 1px solid #000000">Injust</td>
+        </tr>
+        
+        <tr class="subTitulo" class="listaPar"> 
+          
+          <td width="9%" nowrap align="center"  style="border: 1px solid #000000">&nbsp; 
+            
+            
+            
+                
+            
+            
+          </td>
+          <td width="6%" nowrap align="center"  style="border: 1px solid #000000">&nbsp; 
+            
+            
+            
+                
+            
+            
+          </td>
+          <td width="11%" align="center" nowrap  style="border: 1px solid #000000">&nbsp; 
+            
+            
+            
+                
+            
+            
+          </td>
+          <td width="9%" nowrap align="center"  style="border: 1px solid #000000">&nbsp; 
+            
+            
+            
+                
+            
+            
+          </td>
+          <td width="8%" nowrap align="center"  style="border: 1px solid #000000">&nbsp; 
+            
+            
+            
+                
+            
+            
+          </td>
+          <td width="8%" nowrap align="center"  style="border: 1px solid #000000">&nbsp; 
+            
+            
+                
+            
+          </td>
+          <td width="10%" nowrap align="center"  style="border: 1px solid #000000">&nbsp; 
+            
+            
+                
+            
+          </td>
+          <td width="6%" align="center"  nowrap  style="border: 1px solid #000000">&nbsp; 
+            
+            
+                
+            
+          </td >
+          <td  nowrap align="center"  style="border: 1px solid #000000"> 
+            
+            
+            1  
+            
+            
+          </td>
+        </tr>
+        
+            <tr class="subTitulo" class="listaPar"> 
+              <td align="center" width="9%"  style="border: 1px solid #000000"> 
+                04/02/2003 </td>
+              <td width="70%" colspan="8"  style="border: 1px solid #000000"> 
+                Control de  Retiro temprano injustificada </td>
+            </tr>
+          
+        
+      </table>
+							
+									<table width="100%"  cellspacing="0">
+										<tr> 
+											<td colspan="4">&nbsp;</td>
+										</tr>
+									</table>
+								
+							 
+								</td>
+							</tr>
+																					
+						
+						<tr> 
+               			 	<td class="areaFiltro"> 
+								<table width="100%" border="0" cellspacing="1" cellpadding="1">
+								  <tr>
+									<td width="50%">Alumno :Varela Roca, Juan Manuel</td>
+									<td width="50%">Grupo: Segundo Grado</td>
+								  </tr>
+								  <tr>
+									<td>Nivel: Primaria</td>
+			                        <td>&nbsp; </td>
+								  </tr>
+								</table>
+							</td>
+						</tr>
+ 						<tr> 
+							<td>
+												
+								<table width="100%" border="0" cellspacing="1" cellpadding="1" class="subrayado">								
+								  <tr> 
+									<td width="4%">&nbsp;</td>
+			                        <td width="-1419%"><strong>MATERIA</strong></td>
+									
+											<td width="15%" align="center"><strong>I Bimestre</strong></td>
+										
+											<td width="15%" align="center"><strong>II Bimestre</strong></td>
+										
+										<td width="15%" align="center"><strong>%Promedio por Semestre</strong></td>
+									
+										<td width="15%" align="center"><strong>Estado</strong></td>
+									
+
+								  </tr>
+								</table>							
+							</td>
+						</tr> 					
+					 
+							<tr>
+								<td> 
+									
+								</td>
+							</tr> 
+							<tr>
+								<td> 						
+									<table width="100%" border="0" cellspacing="1" cellpadding="1" class="subrayado">
+										
+									  <tr> 				
+										<td width="4%">&nbsp;</td>									  
+										<td width="-1419%">Conduct</td>
+												
+															<td width="15%" align="center">&nbsp;</td>
+														
+														
+																<td width="15%" align="center">
+																	
+																	87.00 
+																</td>
+															
+
+														
+												<td width="15%" align="center">&nbsp; </td> 
+											
+											
+											<td width="15%" align="center">
+												
+													<strong>
+														
+															&nbsp;
+														
+													</strong>
+												
+											</td>
+										
+									  </tr>
+									</table>
+								</td>
+							</tr> 
+						 
+							<tr>
+								<td> 
+									
+								</td>
+							</tr> 
+							<tr>
+								<td> 						
+									<table width="100%" border="0" cellspacing="1" cellpadding="1" class="subrayado">
+										
+									  <tr> 				
+										<td width="4%">&nbsp;</td>									  
+										<td width="-1419%">Español</td>
+										
+													<td width="15%" align="center">
+													
+															
+																	<FONT color="Red" >68.00</font>
+																
+														
+													</td>
+												
+													<td width="15%" align="center">
+													
+															
+																	<FONT color="Red" >65.00</font>
+																
+														
+													</td>
+												
+												<td width="15%" align="center"><strong>66.00</strong></td>
+											
+											
+											<td width="15%" align="center">
+												
+													<strong>
+														
+															Aplazado 
+															
+													</strong>
+												
+											</td>
+										
+									  </tr>
+									</table>
+								</td>
+							</tr> 
+						 
+							<tr>
+								<td> 
+									
+								</td>
+							</tr> 
+							<tr>
+								<td> 						
+									<table width="100%" border="0" cellspacing="1" cellpadding="1" class="subrayado">
+										
+									  <tr> 				
+										<td width="4%">&nbsp;</td>									  
+										<td width="-1419%">Mathematics</td>
+										
+														
+																<td width="15%" align="center">
+																	
+																	85.00 
+																</td>
+															
+
+																
+															<td width="15%" align="center">&nbsp;</td>
+														
+												<td width="15%" align="center">&nbsp; </td> 
+											
+											
+											<td width="15%" align="center">
+												
+													<strong>
+														
+															&nbsp;
+														
+													</strong>
+												
+											</td>
+										
+									  </tr>
+									</table>
+								</td>
+							</tr> 
+						 
+							<tr>
+								<td> 
+									
+								</td>
+							</tr> 
+							<tr>
+								<td> 						
+									<table width="100%" border="0" cellspacing="1" cellpadding="1" class="subrayado">
+										
+									  <tr> 				
+										<td width="4%">&nbsp;</td>									  
+										<td width="-1419%">Science</td>
+										
+													<td width="15%" align="center">
+													
+															85.00 
+														
+													</td>
+												
+													<td width="15%" align="center">
+													
+															75.00 
+														
+													</td>
+												
+												<td width="15%" align="center"><strong>75.00</strong></td>
+											
+											
+											<td width="15%" align="center">
+												
+													<strong>
+														
+															Promovido
+															
+													</strong>
+												
+											</td>
+										
+									  </tr>
+									</table>
+								</td>
+							</tr> 
+						 
+							<tr>
+								<td> 
+									
+								</td>
+							</tr> 
+							<tr>
+								<td> 						
+									<table width="100%" border="0" cellspacing="1" cellpadding="1" class="subrayado">
+										
+									  <tr> 				
+										<td width="4%">&nbsp;</td>									  
+										<td width="-1419%"><b>Clubes</b></td>
+										
+													<td width="15%" align="center">
+													
+															
+																	<b>83.00</b>
+																
+														
+													</td>
+												
+													<td width="15%" align="center">
+													
+															
+																	<b>85.00</b>
+																
+														
+													</td>
+												
+												<td width="15%" align="center">&nbsp; </td> 
+											
+											
+											<td width="15%" align="center">
+												
+													<strong>
+														
+															&nbsp;
+														
+													</strong>
+												
+											</td>
+										
+									  </tr>
+									</table>
+								</td>
+							</tr> 
+						 
+							<tr>
+								<td> 
+									
+								</td>
+							</tr> 
+							<tr>
+								<td> 						
+									<table width="100%" border="0" cellspacing="1" cellpadding="1" class="subrayado">
+										
+									  <tr> 				
+										<td width="4%">&nbsp;</td>									  
+										<td width="-1419%">&nbsp;&nbsp;&nbsp;Natacion</td>
+										
+													<td width="15%" align="center">
+													
+															
+																	<FONT color="Red" >66.00</font>
+																
+														
+													</td>
+												
+													<td width="15%" align="center">
+													
+															90.00 
+														
+													</td>
+												
+												<td width="15%" align="center">&nbsp; </td> 
+											
+											
+											<td width="15%" align="center">
+												
+													<strong>
+														
+															&nbsp;
+														
+													</strong>
+												
+											</td>
+										
+									  </tr>
+									</table>
+								</td>
+							</tr> 
+						 
+							<tr>
+								<td> 
+									
+								</td>
+							</tr> 
+							<tr>
+								<td> 						
+									<table width="100%" border="0" cellspacing="1" cellpadding="1" class="subrayado">
+										
+									  <tr> 				
+										<td width="4%">&nbsp;</td>									  
+										<td width="-1419%">&nbsp;&nbsp;&nbsp;Esgrima</td>
+										
+													<td width="15%" align="center">
+													
+															100.00 
+														
+													</td>
+												
+													<td width="15%" align="center">
+													
+															80.00 
+														
+													</td>
+												
+												<td width="15%" align="center">&nbsp; </td> 
+											
+											
+											<td width="15%" align="center">
+												
+													<strong>
+														
+															&nbsp;
+														
+													</strong>
+												
+											</td>
+										
+									  </tr>
+									</table>
+								</td>
+							</tr> 
+							
+							
+							<tr>
+								<td> 						
+	
+								</td>
+							</tr> 
+							
+								<tr>
+									<td> 
+										<table width="100%" border="0" cellspacing="1" cellpadding="1" class="subrayado">
+											<tr> 
+												<td  nowrap width="4%"></td>									  
+												<td width="-1419%"><strong>PROMEDIO FINAL</strong>
+													 
+													 
+												</td>
+												
+												
+											
+														<td width="15%" align="center">
+															<strong>
+																81.17 
+																
+															</strong>
+														</td>
+													
+														<td width="15%" align="center">
+															<strong>
+																80.33 
+																
+															</strong>
+														</td>
+													 
+														
+														<td width="15%" align="center" >
+															<strong> 
+																70.50 
+															</strong>
+													   </td> 
+													
+													 
+														<td width="15%" align="center" >
+															<strong>
+																
+																		Aplazado 
+																	
+															</strong>
+														</td>
+													
+											</tr>
+										</table>
+									</td>
+								</tr> 
+							
+								<tr> 
+								  <td  class="areaFiltro" align="center"><strong>ESCALA DE VALORACI&Oacute;N</strong></td>
+								</tr>
+								
+								<tr> 
+								  <td align="center"  class="subrayado">N / A = No Aplica</td>
+								</tr>
+								
+											<tr> 
+											  <td align="center" class="subrayado">100 = Excelente</td>
+											</tr>
+										
+											<tr> 
+											  <td align="center" class="subrayado">85 = Muy Bueno</td>
+											</tr>
+										
+											<tr> 
+											  <td align="center" class="subrayado">75 = Aceptable</td>
+											</tr>
+										
+											<tr> 
+											  <td align="center" class="subrayado">50 = Falta aprendizaje</td>
+											</tr>
+										
+											<tr> 
+											  <td align="center" class="subrayado">30 = Repite la lección</td>
+											</tr>
+										
+														
+							<tr>
+								<td>
+									
+					
+								
+      <table width="100%" cellspacing="0" >
+        
+        
+        
+        
+        <tr class="subTitulo"> 
+          <td colspan="3" align="center"  nowrap  class="encabReporte" style="border: 1px solid #000000"><strong>Observaciones:&nbsp;</strong></td>
+          <td colspan="6" align="center"  nowrap  class="encabReporte"  style="border: 1px solid #000000"><strong> 
+            &nbsp; &nbsp; </strong><strong>Asistencia:&nbsp; &nbsp; &nbsp; </strong></td>
+          
+        </tr>
+        <tr > 
+          <td width="9%" align="center" valign="top" nowrap style="border: 1px solid #000000">Reforzamiento</td>
+          <td width="6%" align="center" valign="top" style="border: 1px solid #000000">Llamada 
+            de Atenci&oacute;n</td>
+          <td width="11%" align="center" valign="top" nowrap style="border: 1px solid #000000">Advertencia</td>
+          <td colspan="2" align="center" valign="top" nowrap style="border: 1px solid #000000">Ausencias</td>
+          <td colspan="2" align="center" valign="top" nowrap style="border: 1px solid #000000">Llegada 
+            Tard&iacute;a </td>
+          <td colspan="2" align="center" valign="top" nowrap style="border: 1px solid #000000">Salida 
+            Temprano </td>
+        </tr>
+        <tr class="subTitulo" class="listaPar"> 
+          <td width="9%" nowrap align="center" style="border: 1px solid #000000">&nbsp;</td>
+          <td width="6%" nowrap align="center" style="border: 1px solid #000000">&nbsp;</td>
+          <td width="11%" align="center" nowrap style="border: 1px solid #000000">&nbsp;</td>
+          <td width="9%" nowrap align="center" style="border: 1px solid #000000">Just</td>
+          <td width="8%" nowrap align="center" style="border: 1px solid #000000">Injust</td>
+          <td width="8%" nowrap align="center" style="border: 1px solid #000000">Just</td>
+          <td width="10%" nowrap align="center" style="border: 1px solid #000000">Injust</td>
+          <td width="6%" align="center"  nowrap style="border: 1px solid #000000">Just</td >
+          <td  nowrap align="center" style="border: 1px solid #000000">Injust</td>
+        </tr>
+        
+        <tr class="subTitulo" class="listaPar"> 
+          
+          <td width="9%" nowrap align="center"  style="border: 1px solid #000000">&nbsp; 
+            
+            
+            
+                
+            
+            
+          </td>
+          <td width="6%" nowrap align="center"  style="border: 1px solid #000000">&nbsp; 
+            
+            
+            
+                
+            
+            
+          </td>
+          <td width="11%" align="center" nowrap  style="border: 1px solid #000000">&nbsp; 
+            
+            
+            
+                
+            
+            
+          </td>
+          <td width="9%" nowrap align="center"  style="border: 1px solid #000000">&nbsp; 
+            
+            
+            
+                
+            
+            
+          </td>
+          <td width="8%" nowrap align="center"  style="border: 1px solid #000000"> 
+            
+            
+            1  
+            
+            
+          </td>
+          <td width="8%" nowrap align="center"  style="border: 1px solid #000000">&nbsp; 
+            
+            
+                
+            
+          </td>
+          <td width="10%" nowrap align="center"  style="border: 1px solid #000000"> 
+            
+            1  
+            
+          </td>
+          <td width="6%" align="center"  nowrap  style="border: 1px solid #000000">&nbsp; 
+            
+            
+                
+            
+          </td >
+          <td  nowrap align="center"  style="border: 1px solid #000000">&nbsp; 
+            
+            
+            
+                
+            
+            
+          </td>
+        </tr>
+        
+            <tr class="subTitulo" class="listaPar"> 
+              <td align="center" width="9%"  style="border: 1px solid #000000"> 
+                20/02/2003 </td>
+              <td width="70%" colspan="8"  style="border: 1px solid #000000"> 
+                Control de  Ausencia injustificada </td>
+            </tr>
+          
+            <tr class="subTitulo" class="listaNon"> 
+              <td align="center" width="9%"  style="border: 1px solid #000000"> 
+                13/02/2003 </td>
+              <td width="70%" colspan="8"  style="border: 1px solid #000000"> 
+                Control de  Tardía injustificada </td>
+            </tr>
+          
+        
+      </table>
+							
+									<table width="100%"  cellspacing="0">
+										<tr> 
+											<td colspan="4">&nbsp;</td>
+										</tr>
+									</table>
+								
+							 
+								</td>
+							</tr>
+																					
+						
+						<tr> 
+               			 	<td class="areaFiltro"> 
+								<table width="100%" border="0" cellspacing="1" cellpadding="1">
+								  <tr>
+									<td width="50%">Alumno :Varela Roca, Saúl</td>
+									<td width="50%">Grupo: Segundo Grado</td>
+								  </tr>
+								  <tr>
+									<td>Nivel: Primaria</td>
+			                        <td>&nbsp; </td>
+								  </tr>
+								</table>
+							</td>
+						</tr>
+ 						<tr> 
+							<td>
+												
+								<table width="100%" border="0" cellspacing="1" cellpadding="1" class="subrayado">								
+								  <tr> 
+									<td width="4%">&nbsp;</td>
+			                        <td width="-1419%"><strong>MATERIA</strong></td>
+									
+											<td width="15%" align="center"><strong>I Bimestre</strong></td>
+										
+											<td width="15%" align="center"><strong>II Bimestre</strong></td>
+										
+										<td width="15%" align="center"><strong>%Promedio por Semestre</strong></td>
+									
+										<td width="15%" align="center"><strong>Estado</strong></td>
+									
+
+								  </tr>
+								</table>							
+							</td>
+						</tr> 					
+					 
+							<tr>
+								<td> 
+									
+								</td>
+							</tr> 
+							<tr>
+								<td> 						
+									<table width="100%" border="0" cellspacing="1" cellpadding="1" class="subrayado">
+										
+									  <tr> 				
+										<td width="4%">&nbsp;</td>									  
+										<td width="-1419%">Conduct</td>
+												
+															<td width="15%" align="center">&nbsp;</td>
+														
+														
+																<td width="15%" align="center">
+																	
+																	99.00 
+																</td>
+															
+
+														
+												<td width="15%" align="center">&nbsp; </td> 
+											
+											
+											<td width="15%" align="center">
+												
+													<strong>
+														
+															&nbsp;
+														
+													</strong>
+												
+											</td>
+										
+									  </tr>
+									</table>
+								</td>
+							</tr> 
+						 
+							<tr>
+								<td> 
+									
+								</td>
+							</tr> 
+							<tr>
+								<td> 						
+									<table width="100%" border="0" cellspacing="1" cellpadding="1" class="subrayado">
+										
+									  <tr> 				
+										<td width="4%">&nbsp;</td>									  
+										<td width="-1419%">Español</td>
+										
+													<td width="15%" align="center">
+													
+															95.00 
+														
+													</td>
+												
+													<td width="15%" align="center">
+													
+															70.00 
+														
+													</td>
+												
+												<td width="15%" align="center"><strong>82.00</strong></td>
+											
+											
+											<td width="15%" align="center">
+												
+													<strong>
+														
+															Promovido
+															
+													</strong>
+												
+											</td>
+										
+									  </tr>
+									</table>
+								</td>
+							</tr> 
+						 
+							<tr>
+								<td> 
+									
+								</td>
+							</tr> 
+							<tr>
+								<td> 						
+									<table width="100%" border="0" cellspacing="1" cellpadding="1" class="subrayado">
+										
+									  <tr> 				
+										<td width="4%">&nbsp;</td>									  
+										<td width="-1419%">Mathematics</td>
+										
+														
+																<td width="15%" align="center">
+																	
+																	85.00 
+																</td>
+															
+
+																
+															<td width="15%" align="center">&nbsp;</td>
+														
+												<td width="15%" align="center">&nbsp; </td> 
+											
+											
+											<td width="15%" align="center">
+												
+													<strong>
+														
+															&nbsp;
+														
+													</strong>
+												
+											</td>
+										
+									  </tr>
+									</table>
+								</td>
+							</tr> 
+						 
+							<tr>
+								<td> 
+									
+								</td>
+							</tr> 
+							<tr>
+								<td> 						
+									<table width="100%" border="0" cellspacing="1" cellpadding="1" class="subrayado">
+										
+									  <tr> 				
+										<td width="4%">&nbsp;</td>									  
+										<td width="-1419%">Science</td>
+										
+													<td width="15%" align="center">
+													
+															85.00 
+														
+													</td>
+												
+													<td width="15%" align="center">
+													
+															100.00 
+														
+													</td>
+												
+												<td width="15%" align="center"><strong>85.00</strong></td>
+											
+											
+											<td width="15%" align="center">
+												
+													<strong>
+														
+															Promovido
+															
+													</strong>
+												
+											</td>
+										
+									  </tr>
+									</table>
+								</td>
+							</tr> 
+						 
+							<tr>
+								<td> 
+									
+								</td>
+							</tr> 
+							<tr>
+								<td> 						
+									<table width="100%" border="0" cellspacing="1" cellpadding="1" class="subrayado">
+										
+									  <tr> 				
+										<td width="4%">&nbsp;</td>									  
+										<td width="-1419%"><b>Clubes</b></td>
+										
+													<td width="15%" align="center">
+													
+															
+																	<b>99.00</b>
+																
+														
+													</td>
+												
+													<td width="15%" align="center">
+													
+															
+																	<b>90.00</b>
+																
+														
+													</td>
+												
+												<td width="15%" align="center">&nbsp; </td> 
+											
+											
+											<td width="15%" align="center">
+												
+													<strong>
+														
+															&nbsp;
+														
+													</strong>
+												
+											</td>
+										
+									  </tr>
+									</table>
+								</td>
+							</tr> 
+						 
+							<tr>
+								<td> 
+									
+								</td>
+							</tr> 
+							<tr>
+								<td> 						
+									<table width="100%" border="0" cellspacing="1" cellpadding="1" class="subrayado">
+										
+									  <tr> 				
+										<td width="4%">&nbsp;</td>									  
+										<td width="-1419%">&nbsp;&nbsp;&nbsp;Natacion</td>
+										
+													<td width="15%" align="center">
+													
+															98.00 
+														
+													</td>
+												
+													<td width="15%" align="center">
+													
+															95.00 
+														
+													</td>
+												
+												<td width="15%" align="center">&nbsp; </td> 
+											
+											
+											<td width="15%" align="center">
+												
+													<strong>
+														
+															&nbsp;
+														
+													</strong>
+												
+											</td>
+										
+									  </tr>
+									</table>
+								</td>
+							</tr> 
+						 
+							<tr>
+								<td> 
+									
+								</td>
+							</tr> 
+							<tr>
+								<td> 						
+									<table width="100%" border="0" cellspacing="1" cellpadding="1" class="subrayado">
+										
+									  <tr> 				
+										<td width="4%">&nbsp;</td>									  
+										<td width="-1419%">&nbsp;&nbsp;&nbsp;Esgrima</td>
+										
+													<td width="15%" align="center">
+													
+															100.00 
+														
+													</td>
+												
+													<td width="15%" align="center">
+													
+															85.00 
+														
+													</td>
+												
+												<td width="15%" align="center">&nbsp; </td> 
+											
+											
+											<td width="15%" align="center">
+												
+													<strong>
+														
+															&nbsp;
+														
+													</strong>
+												
+											</td>
+										
+									  </tr>
+									</table>
+								</td>
+							</tr> 
+											
+						
+						<tr>
+							<td> 						
+								<table width="100%" border="0" cellspacing="1" cellpadding="1" class="subrayado">
+									
+								  
+								</table>
+							</td>
+						</tr>
+						
+								<tr>
+									<td> 
+										<table width="100%" border="0" cellspacing="1" cellpadding="1" class="subrayado">
+											<tr> 
+												<td  nowrap width="4%">&nbsp;</td>									  
+												<td width="-1419%"><strong>PROMEDIO FINAL</strong>
+													 
+												</td>
+												
+												
+											
+												
+												
+														<td width="15%" align="center">
+															<strong>
+																93.67 
+																
+															</strong>
+														</td>
+													
+														<td width="15%" align="center">
+															<strong>
+																89.83 
+																
+															</strong>
+														</td>
+													 
+													
+													<td width="15%" align="center" >
+														<strong>
+															83.50 
+														</strong>
+													</td>														
+													
+														<td width="15%" align="center" >
+															<strong>
+																
+																		Promovido 
+																	
+															</strong>
+														</td>
+													
+											</tr>
+										</table>
+									</td>
+								</tr> 
+							
+								<tr> 
+								  <td  class="areaFiltro" align="center"><strong>ESCALA DE VALORACI&Oacute;N</strong></td>
+								</tr>
+								
+								<tr> 
+								  <td align="center"  class="subrayado">N / A = No Aplica</td>
+								</tr>
+								
+											<tr> 
+											  <td align="center" class="subrayado">100 = Excelente</td>
+											</tr>
+										
+											<tr> 
+											  <td align="center" class="subrayado">85 = Muy Bueno</td>
+											</tr>
+										
+											<tr> 
+											  <td align="center" class="subrayado">75 = Aceptable</td>
+											</tr>
+										
+											<tr> 
+											  <td align="center" class="subrayado">50 = Falta aprendizaje</td>
+											</tr>
+										
+											<tr> 
+											  <td align="center" class="subrayado">30 = Repite la lección</td>
+											</tr>
+										
+														
+							<tr>
+								<td>
+									
+					
+								
+      <table width="100%" cellspacing="0" >
+        
+        
+        
+        
+        <tr class="subTitulo"> 
+          <td colspan="3" align="center"  nowrap  class="encabReporte" style="border: 1px solid #000000"><strong>Observaciones:&nbsp;</strong></td>
+          <td colspan="6" align="center"  nowrap  class="encabReporte"  style="border: 1px solid #000000"><strong> 
+            &nbsp; &nbsp; </strong><strong>Asistencia:&nbsp; &nbsp; &nbsp; </strong></td>
+          
+        </tr>
+        <tr > 
+          <td width="9%" align="center" valign="top" nowrap style="border: 1px solid #000000">Reforzamiento</td>
+          <td width="6%" align="center" valign="top" style="border: 1px solid #000000">Llamada 
+            de Atenci&oacute;n</td>
+          <td width="11%" align="center" valign="top" nowrap style="border: 1px solid #000000">Advertencia</td>
+          <td colspan="2" align="center" valign="top" nowrap style="border: 1px solid #000000">Ausencias</td>
+          <td colspan="2" align="center" valign="top" nowrap style="border: 1px solid #000000">Llegada 
+            Tard&iacute;a </td>
+          <td colspan="2" align="center" valign="top" nowrap style="border: 1px solid #000000">Salida 
+            Temprano </td>
+        </tr>
+        <tr class="subTitulo" class="listaPar"> 
+          <td width="9%" nowrap align="center" style="border: 1px solid #000000">&nbsp;</td>
+          <td width="6%" nowrap align="center" style="border: 1px solid #000000">&nbsp;</td>
+          <td width="11%" align="center" nowrap style="border: 1px solid #000000">&nbsp;</td>
+          <td width="9%" nowrap align="center" style="border: 1px solid #000000">Just</td>
+          <td width="8%" nowrap align="center" style="border: 1px solid #000000">Injust</td>
+          <td width="8%" nowrap align="center" style="border: 1px solid #000000">Just</td>
+          <td width="10%" nowrap align="center" style="border: 1px solid #000000">Injust</td>
+          <td width="6%" align="center"  nowrap style="border: 1px solid #000000">Just</td >
+          <td  nowrap align="center" style="border: 1px solid #000000">Injust</td>
+        </tr>
+        
+        <tr class="subTitulo" class="listaPar"> 
+          
+          <td width="9%" nowrap align="center"  style="border: 1px solid #000000">&nbsp; 
+            
+            
+            
+                
+            
+            
+          </td>
+          <td width="6%" nowrap align="center"  style="border: 1px solid #000000">&nbsp; 
+            
+            
+            
+                
+            
+            
+          </td>
+          <td width="11%" align="center" nowrap  style="border: 1px solid #000000">&nbsp; 
+            
+            
+            
+                
+            
+            
+          </td>
+          <td width="9%" nowrap align="center"  style="border: 1px solid #000000">&nbsp; 
+            
+            
+            
+                
+            
+            
+          </td>
+          <td width="8%" nowrap align="center"  style="border: 1px solid #000000"> 
+            
+            
+            1  
+            
+            
+          </td>
+          <td width="8%" nowrap align="center"  style="border: 1px solid #000000">&nbsp; 
+            
+            
+                
+            
+          </td>
+          <td width="10%" nowrap align="center"  style="border: 1px solid #000000">&nbsp; 
+            
+            
+                
+            
+          </td>
+          <td width="6%" align="center"  nowrap  style="border: 1px solid #000000">&nbsp; 
+            
+            
+                
+            
+          </td >
+          <td  nowrap align="center"  style="border: 1px solid #000000">&nbsp; 
+            
+            
+            
+                
+            
+            
+          </td>
+        </tr>
+        
+            <tr class="subTitulo" class="listaPar"> 
+              <td align="center" width="9%"  style="border: 1px solid #000000"> 
+                10/02/2003 </td>
+              <td width="70%" colspan="8"  style="border: 1px solid #000000"> 
+                Control de  Ausencia injustificada </td>
+            </tr>
+          
+        
+      </table>
+							
+									<table width="100%"  cellspacing="0">
+										<tr> 
+											<td colspan="4">&nbsp;</td>
+										</tr>
+									</table>
+								
+							 
+								</td>
+							</tr>
+																					
+										
+			</table>			
+		
+	</td>
+  </tr>   
+</table>
+
+
+
+<table width="100%" border="0" cellspacing="1" cellpadding="1">
+  <tr>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>
+  
+  <table width="100%" border="0" cellspacing="1" cellpadding="1">
+    <tr> 
+      <td width="6%">&nbsp;</td>
+      <td width="94%">&nbsp;</td>
+    </tr>
+    <tr> 
+      <td colspan="2" class="areaFiltro" align="center"><strong>COMENTARIOS / 
+        OBSERVACIONES</strong></td>
+    </tr>
+    <tr> 
+      <td width="6%">&nbsp;</td>
+      <td width="94%">&nbsp;</td>
+    </tr>
+    
+      <tr> 
+        <td colspan="2" class="encabReporte">I Bimestre</td>
+      </tr>
+      <tr> 
+        <td>&nbsp;</td>
+        <td class="subrayado">&nbsp;</td>
+      </tr>
+      <tr> 
+        <td>&nbsp;</td>
+        <td class="subrayado">&nbsp;</td>
+      </tr>
+     
+    
+      <tr> 
+        <td colspan="2" class="encabReporte">II Bimestre</td>
+      </tr>
+      <tr> 
+        <td>&nbsp;</td>
+        <td class="subrayado">&nbsp;</td>
+      </tr>
+      <tr> 
+        <td>&nbsp;</td>
+        <td class="subrayado">&nbsp;</td>
+      </tr>
+     
+    
+  </table>
+</td>
+  </tr>
+  <tr>
+    <td align="center">------------------ Fin del Reporte ------------------</td>
+  </tr>
+</table> 
+                    </td>
+                  </tr>
+                </table>
+              
+            </form>
+            <script language="JavaScript" type="text/javascript" src="../../js/calendar.js">//</script>
+            <script language="JavaScript" type="text/javascript" src="../../js/utilesMonto.js">//</script>
+            <script language="JavaScript" src="../../js/qForms/qforms.js">//</script>
+            <script language="JavaScript" type="text/JavaScript">
+	// specify the path where the "/qforms/" subfolder is located
+	qFormAPI.setLibraryPath("../../js/qForms/");
+	// loads all default libraries
+	qFormAPI.include("*");
+</script>
+            <script language="JavaScript" type="text/javascript" >
+//------------------------------------------------------------------------------------------						
+	obtenerGrupos(document.formNotaFinal);	
+	cargarGrupos(document.formNotaFinal.Ncodigo,document.formNotaFinal.Grupo,'218');
+	//obtenerPeriodos(document.formNotaFinal);
+	//cargarPeriodo(document.formNotaFinal.Grupo, document.formNotaFinal.PEcodigo, '');	
+	//obtenerMateria(document.formNotaFinal);
+	//cargarMateria(document.formNotaFinal.Ncodigo, document.formNotaFinal.Mcodigo, '');	
+	poneAdicionales(document.formNotaFinal.ckAD);
+	
+//------------------------------------------------------------------------------------------											
+	qFormAPI.errorColor = "#FFFFCC";
+	objForm = new qForm("formNotaFinal");	
+	
+	objForm.Ncodigo.required = true;
+	objForm.Ncodigo.description = "Nivel";	
+	objForm.Grupo.required = true;
+	objForm.Grupo.description = "Grupo";
+		
+//------------------------------------------------------------------------------------------					
+	
+</script>
+		  
+		  
+          <!-- InstanceEndEditable -->
+		  </td>
+          <td class="contenido-brborder">&nbsp;</td>
+        </tr>
+      </table>
+	 </td>
+  </tr>
+</table>
+</body>
+<!-- InstanceEnd --></html>

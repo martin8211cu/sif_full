@@ -1,0 +1,64 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 71 - DBM 197: Cambia tamaño campo mensaje (MEX)
+
+	         PARCHE:  Parche023_115_RH _Varios
+
+GENERADO EN:
+	SERVER:  http://mxpapp36:8300
+	DSN:     sifcim
+	FECHA:   11/07/2011 11:40:45
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* ADD_TABLE IMPIncidentes: IMPIncidentes */
+/* ======================================================================================== */
+
+CREATE TABLE IMPIncidentes (
+	 Id                             numeric(18)          identity
+	,DEid                           numeric(18)          NULL
+	,CIid                           numeric(18)          NULL
+	,CFid                           numeric(18)          NULL
+	,Ifecha                         datetime             NULL
+	,Ivalor                         money                NULL
+	,Ifechasis                      datetime             NULL
+	,Usucodigo                      numeric(18)          NULL
+	,Ulocalizacion                  char(2)              NULL
+	,RCNid                          numeric(18)          NULL
+	,Icpespecial                    integer              NULL
+	,IfechaRebajo                   datetime             NULL
+	,RHJid                          numeric(18)          NULL
+	,BMUsucodigo                    numeric(18)          NULL
+	,ts_rversion                    timestamp           
+	)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="P", SEC="0", COLS="Id" */
+ALTER TABLE IMPIncidentes ADD CONSTRAINT IMPIncidentes_PK PRIMARY KEY CLUSTERED (Id)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE MensajeBoleta: MensajeBoleta */
+/* ======================================================================================== */
+/* CHG_COLUMN OP=(CAMBIO): Mensaje - Mensaje */
+ALTER TABLE MensajeBoleta ALTER COLUMN Mensaje varchar(700) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+UPDATE MensajeBoleta SET Mensaje = RTRIM(Mensaje)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

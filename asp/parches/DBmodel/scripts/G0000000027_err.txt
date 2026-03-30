@@ -1,0 +1,388 @@
+/**************************************************
+ ERRORES EN LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ **************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  sifPublica
+	MODELO:  SIF Publica.pdm
+	VERSION: 8 - DBM 118: BASE CERO: SIF Publica
+
+	         PARCHE:  ParcheParche023_001_SIF_BASE0
+
+GENERADO EN:
+	SERVER:  http://mxvdapp10:8300
+	DSN:     sifcim
+	FECHA:   01/06/2011 12:55:50
+*/
+
+/* INI_SCRIPT */
+/* CHG_TABLE DListaPrecios: Detalle de Lista de Precios */
+/* DEL_KEY OP=(NO DEFINIDO): TIP="P", COLS="LPlinea" */
+ALTER TABLE DListaPrecios DROP CONSTRAINT DListaPrecios_PK /* PRIMARY KEY (LPlinea) */
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]The constraint 'DListaPrecios_PK' is being referenced by table 'Paquetes', foreign key constraint 'Paquetes_FK04'.
+
+
+/* ADD_COLUMN OP=(NUEVO): DLPlinea - Línea */
+ALTER TABLE DListaPrecios ADD DLPlinea numeric(18) identity
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Multiple identity columns specified for table 'DListaPrecios'. Only one identity column per table is allowed.
+
+
+/* ADD_KEY OP=(NUEVO): TIP="P", SEC="0", COLS="DLPlinea" */
+ALTER TABLE DListaPrecios ADD CONSTRAINT DListaPrecios_PK PRIMARY KEY NONCLUSTERED (DLPlinea)
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Table 'DListaPrecios' already has a primary key defined on it.
+
+/* CHG_TABLE EListaPrecios: Encabezado de Lista de Precios */
+/* DEL_KEY OP=(NO DEFINIDO): TIP="P", COLS="LPid" */
+ALTER TABLE EListaPrecios DROP CONSTRAINT EListaPrecios_PK /* PRIMARY KEY (LPid) */
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]The constraint 'EListaPrecios_PK' is being referenced by table 'ClienteDetallista', foreign key constraint 'ClienteDetallista_FK01'.
+
+
+/* ADD_COLUMN OP=(NUEVO): ELPid - id de Lista de Precios */
+ALTER TABLE EListaPrecios ADD ELPid numeric(18) identity
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Multiple identity columns specified for table 'EListaPrecios'. Only one identity column per table is allowed.
+
+
+/* ADD_KEY OP=(NUEVO): TIP="P", SEC="0", COLS="ELPid" */
+ALTER TABLE EListaPrecios ADD CONSTRAINT EListaPrecios_PK PRIMARY KEY NONCLUSTERED (ELPid)
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Table 'EListaPrecios' already has a primary key defined on it.
+
+/* CHG_TABLE EmpresaArea: Areas Funcionales */
+/* ADD_COLUMN OP=(NUEVO): EACodigo - EACodigo */
+ALTER TABLE EmpresaArea ADD EACodigo char(10) NULL
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot alter 'EmpresaArea' because it is not a table.
+
+
+/* ADD_KEY OP=(NUEVO): TIP="P", SEC="0", COLS="EAid" */
+ALTER TABLE EmpresaArea ADD CONSTRAINT EmpresaArea_PK PRIMARY KEY NONCLUSTERED (EAid)
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot alter 'EmpresaArea' because it is not a table.
+
+
+/* ADD_KEY OP=(NUEVO): TIP="F", SEC="1", COLS="EEid", REF="EncuestaEmpresa" */
+CREATE INDEX EmpresaArea_FI01 ON EmpresaArea (EEid)
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot create index on view 'EmpresaArea' because the view is not schema bound.
+
+/* CHG_TABLE EmpresaOrganizacion: Tipo de Organizacion Encuestad */
+/* ADD_KEY OP=(NUEVO): TIP="P", SEC="0", COLS="ETid" */
+ALTER TABLE EmpresaOrganizacion ADD CONSTRAINT EmpresaOrganizacion_PK PRIMARY KEY NONCLUSTERED (ETid)
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot alter 'EmpresaOrganizacion' because it is not a table.
+
+
+/* ADD_KEY OP=(NUEVO): TIP="F", SEC="1", COLS="EEid", REF="EncuestaEmpresa" */
+CREATE INDEX EmpresaOrganizacion_FI01 ON EmpresaOrganizacion (EEid)
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot create index on view 'EmpresaOrganizacion' because the view is not schema bound.
+
+/* CHG_TABLE Encuesta: Encuesta */
+/* ADD_KEY OP=(NUEVO): TIP="P", SEC="0", COLS="Eid" */
+ALTER TABLE Encuesta ADD CONSTRAINT Encuesta_PK PRIMARY KEY NONCLUSTERED (Eid)
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot alter 'Encuesta' because it is not a table.
+
+
+/* ADD_KEY OP=(NUEVO): TIP="F", SEC="1", COLS="EEid", REF="EncuestaEmpresa" */
+CREATE INDEX Encuesta_FI01 ON Encuesta (EEid)
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot create index on view 'Encuesta' because the view is not schema bound.
+
+/* CHG_TABLE EncuestaEmpresa: Empresas Encuestadoras */
+/* ADD_KEY OP=(NUEVO): TIP="P", SEC="0", COLS="EEid" */
+ALTER TABLE EncuestaEmpresa ADD CONSTRAINT EncuestaEmpresa_PK PRIMARY KEY NONCLUSTERED (EEid)
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot alter 'EncuestaEmpresa' because it is not a table.
+
+/* CHG_TABLE EncuestaPuesto: EncuestaPuesto */
+/* ADD_KEY OP=(NUEVO): TIP="P", SEC="0", COLS="EPid" */
+ALTER TABLE EncuestaPuesto ADD CONSTRAINT EncuestaPuesto_PK PRIMARY KEY NONCLUSTERED (EPid)
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot alter 'EncuestaPuesto' because it is not a table.
+
+
+/* ADD_KEY OP=(NUEVO): TIP="F", SEC="1", COLS="EAid", REF="EmpresaArea" */
+CREATE INDEX EncuestaPuesto_FI01 ON EncuestaPuesto (EAid)
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot create index on view 'EncuestaPuesto' because the view is not schema bound.
+
+
+/* ADD_KEY OP=(NUEVO): TIP="F", SEC="2", COLS="EEid", REF="EncuestaEmpresa" */
+CREATE INDEX EncuestaPuesto_FI02 ON EncuestaPuesto (EEid)
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot create index on view 'EncuestaPuesto' because the view is not schema bound.
+
+/* CHG_TABLE EncuestaSalarios: Salarios por Encuesta */
+/* CHG_COLUMN OP=(CAMBIO): ESvariacion - Coeficiente Variación */
+ALTER TABLE EncuestaSalarios ALTER COLUMN ESvariacion numeric(18,2) NOT NULL
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot alter 'EncuestaSalarios' because it is not a table.
+
+
+/* ADD_KEY OP=(NUEVO): TIP="P", SEC="0", COLS="ESid" */
+ALTER TABLE EncuestaSalarios ADD CONSTRAINT EncuestaSalarios_PK PRIMARY KEY NONCLUSTERED (ESid)
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot alter 'EncuestaSalarios' because it is not a table.
+
+
+/* ADD_KEY OP=(NUEVO): TIP="A", SEC="1", COLS="EEid,ETid,Eid,EPid,Moneda" */
+ALTER TABLE EncuestaSalarios ADD CONSTRAINT EncuestaSalarios_AK01 UNIQUE NONCLUSTERED (EEid,ETid,Eid,EPid,Moneda)
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot alter 'EncuestaSalarios' because it is not a table.
+
+
+/* ADD_KEY OP=(NUEVO): TIP="F", SEC="1", COLS="Eid", REF="Encuesta" */
+CREATE INDEX EncuestaSalarios_FI01 ON EncuestaSalarios (Eid)
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot create index on view 'EncuestaSalarios' because the view is not schema bound.
+
+
+/* ADD_KEY OP=(NUEVO): TIP="F", SEC="2", COLS="EPid", REF="EncuestaPuesto" */
+CREATE INDEX EncuestaSalarios_FI02 ON EncuestaSalarios (EPid)
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot create index on view 'EncuestaSalarios' because the view is not schema bound.
+
+
+/* ADD_KEY OP=(NUEVO): TIP="F", SEC="3", COLS="EEid", REF="EncuestaEmpresa" */
+CREATE INDEX EncuestaSalarios_FI03 ON EncuestaSalarios (EEid)
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot create index on view 'EncuestaSalarios' because the view is not schema bound.
+
+
+/* ADD_KEY OP=(NUEVO): TIP="F", SEC="4", COLS="ETid", REF="EmpresaOrganizacion" */
+CREATE INDEX EncuestaSalarios_FI04 ON EncuestaSalarios (ETid)
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot create index on view 'EncuestaSalarios' because the view is not schema bound.
+
+/* CHG_TABLE EstadosTracking: Estados de Tracking */
+/* ADD_COLUMN OP=(NUEVO): BMUsucodigo - Usucodigo para Log del Portal */
+ALTER TABLE EstadosTracking ADD BMUsucodigo numeric(18) NULL
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot alter 'EstadosTracking' because it is not a table.
+
+
+/* ADD_KEY OP=(NUEVO): TIP="P", SEC="0", COLS="Ecodigo,ETcodigo" */
+ALTER TABLE EstadosTracking ADD CONSTRAINT EstadosTracking_PK PRIMARY KEY NONCLUSTERED (Ecodigo,ETcodigo)
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot alter 'EstadosTracking' because it is not a table.
+
+/* CHG_TABLE ETracking: ETracking */
+/* CHG_COLUMN OP=(CAMBIO): ETestado - Estado */
+ALTER TABLE ETracking ADD CONSTRAINT ETracking_DF16 DEFAULT 'P' FOR ETestado
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot alter 'ETracking' because it is not a table.
+
+
+ALTER TABLE ETracking ADD CONSTRAINT ETracking_CK16 CHECK ([ETestado]='E' OR [ETestado]='T' OR [ETestado]='P')
+NO SE EJECUTÓ LA INSTRUCCIÓN PORQUE HAY UN ERROR PREVIO
+
+
+/* CHG_COLUMN OP=(CAMBIO): ETmediotransporte - Medio de Transporte */
+ALTER TABLE ETracking ADD CONSTRAINT ETracking_DF20 DEFAULT 0 FOR ETmediotransporte
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot alter 'ETracking' because it is not a table.
+
+
+ALTER TABLE ETracking ADD CONSTRAINT ETracking_CK20 CHECK ([ETmediotransporte]=(5) OR [ETmediotransporte]=(4) OR [ETmediotransporte]=(3) OR [ETmediotransporte]=(2) OR [ETmediotransporte]=(1) OR [ETmediotransporte]=(0))
+NO SE EJECUTÓ LA INSTRUCCIÓN PORQUE HAY UN ERROR PREVIO
+
+
+/* ADD_KEY OP=(NUEVO): TIP="P", SEC="0", COLS="ETidtracking" */
+ALTER TABLE ETracking ADD CONSTRAINT ETracking_PK PRIMARY KEY NONCLUSTERED (ETidtracking)
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot alter 'ETracking' because it is not a table.
+
+
+/* ADD_KEY OP=(NUEVO): TIP="A", SEC="1", COLS="ETnumtracking,Ecodigo" */
+ALTER TABLE ETracking ADD CONSTRAINT ETracking_AK01 UNIQUE NONCLUSTERED (ETnumtracking,Ecodigo)
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot alter 'ETracking' because it is not a table.
+
+
+/* ADD_KEY OP=(NUEVO): TIP="F", SEC="1", COLS="Ecodigo,ETcodigo", REF="EstadosTracking" */
+CREATE INDEX ETracking_FI01 ON ETracking (Ecodigo,ETcodigo)
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot create index on view 'ETracking' because the view is not schema bound.
+
+/* CHG_TABLE ETrackingItems: ETrackingItems */
+/* CHG_COLUMN OP=(CAMBIO): ETIestado - Estado */
+ALTER TABLE ETrackingItems ADD CONSTRAINT ETrackingItems_DF11 DEFAULT 0 FOR ETIestado
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot alter 'ETrackingItems' because it is not a table.
+
+
+ALTER TABLE ETrackingItems ADD CONSTRAINT ETrackingItems_CK11 CHECK ([ETIestado]=(1) OR [ETIestado]=(0))
+NO SE EJECUTÓ LA INSTRUCCIÓN PORQUE HAY UN ERROR PREVIO
+
+
+/* CHG_COLUMN OP=(CAMBIO): ETcostodirecto - Costo Directo (factura) */
+ALTER TABLE ETrackingItems ADD CONSTRAINT ETrackingItems_DF12 DEFAULT 0.00 FOR ETcostodirecto
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot alter 'ETrackingItems' because it is not a table.
+
+
+/* CHG_COLUMN OP=(CAMBIO): ETcostoindfletes - Costo Indirecto fletes */
+ALTER TABLE ETrackingItems ADD CONSTRAINT ETrackingItems_DF13 DEFAULT 0.00 FOR ETcostoindfletes
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot alter 'ETrackingItems' because it is not a table.
+
+
+/* CHG_COLUMN OP=(CAMBIO): ETcostoindseg - Costo Indirecto Seguros */
+ALTER TABLE ETrackingItems ADD CONSTRAINT ETrackingItems_DF14 DEFAULT 0.00 FOR ETcostoindseg
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot alter 'ETrackingItems' because it is not a table.
+
+
+/* CHG_COLUMN OP=(CAMBIO): ETcostoindsegpropio - Costo Indirecto Seguros Propios */
+ALTER TABLE ETrackingItems ADD CONSTRAINT ETrackingItems_DF15 DEFAULT 0.00 FOR ETcostoindsegpropio
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot alter 'ETrackingItems' because it is not a table.
+
+
+/* CHG_COLUMN OP=(CAMBIO): ETcostoindgastos - Costo Indirecto Gastos */
+ALTER TABLE ETrackingItems ADD CONSTRAINT ETrackingItems_DF16 DEFAULT 0.00 FOR ETcostoindgastos
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot alter 'ETrackingItems' because it is not a table.
+
+
+/* CHG_COLUMN OP=(CAMBIO): ETcostoindimp - Costo Indirecto Impuestos */
+ALTER TABLE ETrackingItems ADD CONSTRAINT ETrackingItems_DF17 DEFAULT 0.00 FOR ETcostoindimp
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot alter 'ETrackingItems' because it is not a table.
+
+
+/* CHG_COLUMN OP=(CAMBIO): ETcostoindfletesPoliza - Costo Indirecto fletes Poliza */
+ALTER TABLE ETrackingItems ADD CONSTRAINT ETrackingItems_DF18 DEFAULT 0.00 FOR ETcostoindfletesPoliza
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot alter 'ETrackingItems' because it is not a table.
+
+
+/* CHG_COLUMN OP=(CAMBIO): ETcostoindsegPoliza - Costo Indirecto Seguros Poliza */
+ALTER TABLE ETrackingItems ADD CONSTRAINT ETrackingItems_DF19 DEFAULT 0.00 FOR ETcostoindsegPoliza
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot alter 'ETrackingItems' because it is not a table.
+
+
+/* CHG_COLUMN OP=(CAMBIO): ETcostorecibido - Costo Recibido CIF */
+ALTER TABLE ETrackingItems ADD CONSTRAINT ETrackingItems_DF20 DEFAULT 0.00 FOR ETcostorecibido
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot alter 'ETrackingItems' because it is not a table.
+
+
+/* CHG_COLUMN OP=(CAMBIO): ETcostodirectorec - Costo Directo  desalmacenado poliza */
+ALTER TABLE ETrackingItems ADD CONSTRAINT ETrackingItems_DF21 DEFAULT 0.00 FOR ETcostodirectorec
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot alter 'ETrackingItems' because it is not a table.
+
+
+/* CHG_COLUMN OP=(CAMBIO): ETcostoindfletesrec - Costo Indirecto fletes  desalmacenado poliza */
+ALTER TABLE ETrackingItems ADD CONSTRAINT ETrackingItems_DF22 DEFAULT 0.00 FOR ETcostoindfletesrec
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot alter 'ETrackingItems' because it is not a table.
+
+
+/* CHG_COLUMN OP=(CAMBIO): ETcostoindsegrec - Costo Indirecto Seguros desalmacenado poliza */
+ALTER TABLE ETrackingItems ADD CONSTRAINT ETrackingItems_DF23 DEFAULT 0.00 FOR ETcostoindsegrec
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot alter 'ETrackingItems' because it is not a table.
+
+
+/* CHG_COLUMN OP=(CAMBIO): ETcostodirectofacorig - Costo Directo (factura)  no almac moneda origen */
+ALTER TABLE ETrackingItems ADD CONSTRAINT ETrackingItems_DF24 DEFAULT 0.00 FOR ETcostodirectofacorig
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot alter 'ETrackingItems' because it is not a table.
+
+
+/* CHG_COLUMN OP=(CAMBIO): ETcostoindfletesfacorig - Costo Indirecto fletes  no almac moneda origen */
+ALTER TABLE ETrackingItems ADD CONSTRAINT ETrackingItems_DF25 DEFAULT 0.00 FOR ETcostoindfletesfacorig
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot alter 'ETrackingItems' because it is not a table.
+
+
+/* CHG_COLUMN OP=(CAMBIO): ETcostoindsegfacorig - Costo Indirecto Seguros no almac moneda origen */
+ALTER TABLE ETrackingItems ADD CONSTRAINT ETrackingItems_DF26 DEFAULT 0.00 FOR ETcostoindsegfacorig
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot alter 'ETrackingItems' because it is not a table.
+
+
+/* CHG_COLUMN OP=(CAMBIO): ETcantfactura - Cantidad Factura */
+ALTER TABLE ETrackingItems ADD CONSTRAINT ETrackingItems_DF27 DEFAULT 0.00 FOR ETcantfactura
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot alter 'ETrackingItems' because it is not a table.
+
+
+/* CHG_COLUMN OP=(CAMBIO): ETcantrecibida - Cantidad Recibida */
+ALTER TABLE ETrackingItems ADD CONSTRAINT ETrackingItems_DF28 DEFAULT 0.00 FOR ETcantrecibida
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot alter 'ETrackingItems' because it is not a table.
+
+
+/* ADD_COLUMN OP=(NUEVO): Ucodigo - Ucodigo */
+ALTER TABLE ETrackingItems ADD Ucodigo char(5) NULL
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot alter 'ETrackingItems' because it is not a table.
+
+
+/* ADD_KEY OP=(NUEVO): TIP="P", SEC="0", COLS="ETIiditem" */
+ALTER TABLE ETrackingItems ADD CONSTRAINT ETrackingItems_PK PRIMARY KEY NONCLUSTERED (ETIiditem)
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot alter 'ETrackingItems' because it is not a table.
+
+
+/* ADD_KEY OP=(NUEVO): TIP="F", SEC="1", COLS="ETidtracking", REF="ETracking" */
+CREATE INDEX ETrackingItems_FI01 ON ETrackingItems (ETidtracking)
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot create index on view 'ETrackingItems' because the view is not schema bound.
+
+
+/* ADD_KEY OP=(NUEVO): TIP="I", SEC="1", COLS="DOlinea" */
+CREATE NONCLUSTERED INDEX ETrackingItems_ID01 ON ETrackingItems (DOlinea)
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot create index on view 'ETrackingItems' because the view is not schema bound.
+
+/* CHG_TABLE DListaPrecios */
+/* ADD_FK OP=(NUEVO): TIP="F", SEC="1", COLS="ELPid", REF="EListaPrecios" */
+ALTER TABLE DListaPrecios ADD CONSTRAINT DListaPrecios_FK01 FOREIGN KEY (ELPid) REFERENCES EListaPrecios (ELPid)
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Foreign key 'DListaPrecios_FK01' references invalid column 'ELPid' in referenced table 'EListaPrecios'.
+
+/* CHG_TABLE DTracking */
+/* ADD_FK OP=(TAB NUEVA): TIP="F", SEC="1", COLS="ETidtracking", REF="ETracking" */
+ALTER TABLE DTracking ADD CONSTRAINT DTracking_FK01 FOREIGN KEY (ETidtracking) REFERENCES ETracking (ETidtracking)
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Foreign key 'DTracking_FK01' references object 'ETracking' which is not a user table.
+
+
+/* ADD_FK OP=(TAB NUEVA): TIP="F", SEC="2", COLS="Ecodigo,ETcodigo", REF="EstadosTracking" */
+ALTER TABLE DTracking ADD CONSTRAINT DTracking_FK02 FOREIGN KEY (Ecodigo,ETcodigo) REFERENCES EstadosTracking (Ecodigo,ETcodigo)
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Foreign key 'DTracking_FK02' references object 'EstadosTracking' which is not a user table.
+
+/* CHG_TABLE EmpresaArea */
+/* ADD_FK OP=(NUEVO): TIP="F", SEC="1", COLS="EEid", REF="EncuestaEmpresa" */
+ALTER TABLE EmpresaArea ADD CONSTRAINT EmpresaArea_FK01 FOREIGN KEY (EEid) REFERENCES EncuestaEmpresa (EEid)
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot alter 'EmpresaArea' because it is not a table.
+
+/* CHG_TABLE EmpresaOrganizacion */
+/* ADD_FK OP=(NUEVO): TIP="F", SEC="1", COLS="EEid", REF="EncuestaEmpresa" */
+ALTER TABLE EmpresaOrganizacion ADD CONSTRAINT EmpresaOrganizacion_FK01 FOREIGN KEY (EEid) REFERENCES EncuestaEmpresa (EEid)
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot alter 'EmpresaOrganizacion' because it is not a table.
+
+/* CHG_TABLE Encuesta */
+/* ADD_FK OP=(NUEVO): TIP="F", SEC="1", COLS="EEid", REF="EncuestaEmpresa" */
+ALTER TABLE Encuesta ADD CONSTRAINT Encuesta_FK01 FOREIGN KEY (EEid) REFERENCES EncuestaEmpresa (EEid)
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot alter 'Encuesta' because it is not a table.
+
+/* CHG_TABLE EncuestaPuesto */
+/* ADD_FK OP=(NUEVO): TIP="F", SEC="1", COLS="EAid", REF="EmpresaArea" */
+ALTER TABLE EncuestaPuesto ADD CONSTRAINT EncuestaPuesto_FK01 FOREIGN KEY (EAid) REFERENCES EmpresaArea (EAid)
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot alter 'EncuestaPuesto' because it is not a table.
+
+
+/* ADD_FK OP=(NUEVO): TIP="F", SEC="2", COLS="EEid", REF="EncuestaEmpresa" */
+ALTER TABLE EncuestaPuesto ADD CONSTRAINT EncuestaPuesto_FK02 FOREIGN KEY (EEid) REFERENCES EncuestaEmpresa (EEid)
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot alter 'EncuestaPuesto' because it is not a table.
+
+/* CHG_TABLE EncuestaSalarios */
+/* ADD_FK OP=(NUEVO): TIP="F", SEC="1", COLS="Eid", REF="Encuesta" */
+ALTER TABLE EncuestaSalarios ADD CONSTRAINT EncuestaSalarios_FK01 FOREIGN KEY (Eid) REFERENCES Encuesta (Eid)
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot alter 'EncuestaSalarios' because it is not a table.
+
+
+/* ADD_FK OP=(NUEVO): TIP="F", SEC="2", COLS="EPid", REF="EncuestaPuesto" */
+ALTER TABLE EncuestaSalarios ADD CONSTRAINT EncuestaSalarios_FK02 FOREIGN KEY (EPid) REFERENCES EncuestaPuesto (EPid)
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot alter 'EncuestaSalarios' because it is not a table.
+
+
+/* ADD_FK OP=(NUEVO): TIP="F", SEC="3", COLS="EEid", REF="EncuestaEmpresa" */
+ALTER TABLE EncuestaSalarios ADD CONSTRAINT EncuestaSalarios_FK03 FOREIGN KEY (EEid) REFERENCES EncuestaEmpresa (EEid)
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot alter 'EncuestaSalarios' because it is not a table.
+
+
+/* ADD_FK OP=(NUEVO): TIP="F", SEC="4", COLS="ETid", REF="EmpresaOrganizacion" */
+ALTER TABLE EncuestaSalarios ADD CONSTRAINT EncuestaSalarios_FK04 FOREIGN KEY (ETid) REFERENCES EmpresaOrganizacion (ETid)
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot alter 'EncuestaSalarios' because it is not a table.
+
+/* CHG_TABLE ETracking */
+/* ADD_FK OP=(NUEVO): TIP="F", SEC="1", COLS="Ecodigo,ETcodigo", REF="EstadosTracking" */
+ALTER TABLE ETracking ADD CONSTRAINT ETracking_FK01 FOREIGN KEY (Ecodigo,ETcodigo) REFERENCES EstadosTracking (Ecodigo,ETcodigo)
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot alter 'ETracking' because it is not a table.
+
+/* CHG_TABLE ETrackingItems */
+/* ADD_FK OP=(NUEVO): TIP="F", SEC="1", COLS="ETidtracking", REF="ETracking" */
+ALTER TABLE ETrackingItems ADD CONSTRAINT ETrackingItems_FK01 FOREIGN KEY (ETidtracking) REFERENCES ETracking (ETidtracking)
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot alter 'ETrackingItems' because it is not a table.
+
+/* CHG_TABLE HCEstadosTracking */
+/* ADD_FK OP=(TAB NUEVA): TIP="F", SEC="1", COLS="ETidtracking", REF="ETracking" */
+ALTER TABLE HCEstadosTracking ADD CONSTRAINT HCEstadosTracking_FK01 FOREIGN KEY (ETidtracking) REFERENCES ETracking (ETidtracking)
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Foreign key 'HCEstadosTracking_FK01' references object 'ETracking' which is not a user table.
+
+
+/* ADD_FK OP=(TAB NUEVA): TIP="F", SEC="2", COLS="Ecodigo,ETcodigo", REF="EstadosTracking" */
+ALTER TABLE HCEstadosTracking ADD CONSTRAINT HCEstadosTracking_FK02 FOREIGN KEY (Ecodigo,ETcodigo) REFERENCES EstadosTracking (Ecodigo,ETcodigo)
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Foreign key 'HCEstadosTracking_FK02' references object 'EstadosTracking' which is not a user table.
+
+/* CHG_TABLE ObjetosListaPrecios */
+/* ADD_FK OP=(TAB NUEVA): TIP="F", SEC="1", COLS="ELPid", REF="EListaPrecios" */
+ALTER TABLE ObjetosListaPrecios ADD CONSTRAINT ObjetosListaPrecios_FK01 FOREIGN KEY (ELPid) REFERENCES EListaPrecios (ELPid)
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Foreign key 'ObjetosListaPrecios_FK01' references invalid column 'ELPid' in referenced table 'EListaPrecios'.
+
+/* CHG_TABLE PermisosListaPrecios */
+/* ADD_FK OP=(TAB NUEVA): TIP="F", SEC="1", COLS="ELPid", REF="EListaPrecios" */
+ALTER TABLE PermisosListaPrecios ADD CONSTRAINT PermisosListaPrecios_FK01 FOREIGN KEY (ELPid) REFERENCES EListaPrecios (ELPid)
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Foreign key 'PermisosListaPrecios_FK01' references invalid column 'ELPid' in referenced table 'EListaPrecios'.
+
+/* END_SCRIPT */
+

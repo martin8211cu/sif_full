@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+<Idioma id="en">
+	<PolizaE/>
+	<PolizaNum/>
+	<LB_TituloRLG>Libro Diario General</LB_TituloRLG>
+	<LB_ConceptoInicial>Concepto Inicial</LB_ConceptoInicial>
+	<LB_ConceptoFinal>Concepto Final</LB_ConceptoFinal>
+	<LB_Formato>Formato</LB_Formato>
+	<LB_Todos>Todos</LB_Todos>
+	<LB_PolizaInicial>Póliza Inicial</LB_PolizaInicial>
+	<LB_PolizaFinal>Póliza Final</LB_PolizaFinal>
+	<LB_FirmaAutorizada>Persona Autorizada para Firmar</LB_FirmaAutorizada>
+	<CHK_ActParam>Actualizar Parámetro </CHK_ActParam>
+	<LB_Usuario>Usuario que Generó</LB_Usuario>
+	<LB_Orden>Orden</LB_Orden>
+	<LB_PeriodoInicial>Periodo Inicial</LB_PeriodoInicial>
+	<LB_PeriodoFinal>Periodo Final</LB_PeriodoFinal>	
+	<LB_MesInicial>Mes Inicial</LB_MesInicial>
+	<LB_MesFinal>Mes Final</LB_MesFinal>
+	<BTN_Limpiar>Limpiar</BTN_Limpiar>
+	<BTN_Generar>Generar</BTN_Generar>
+</Idioma>
+<Idioma id="es"><BTN_Generar>Generar_esp</BTN_Generar><BTN_Limpiar>Limpiar_esp</BTN_Limpiar><CHK_ActParam>ActParam_esp</CHK_ActParam><LB_ConceptoFinal>ConceptoFinal_esp</LB_ConceptoFinal><LB_ConceptoInicial>ConceptoInicial_esp</LB_ConceptoInicial><LB_FirmaAutorizada>FirmaAutorizada_esp</LB_FirmaAutorizada><LB_Formato>Formato_esp</LB_Formato><LB_MesFinal>MesFinal_esp</LB_MesFinal><LB_MesInicial>MesInicial_esp</LB_MesInicial><LB_Orden>Orden_esp</LB_Orden><LB_PeriodoFinal>PeriodoFinal_esp</LB_PeriodoFinal><LB_PeriodoInicial>PeriodoInicial_esp</LB_PeriodoInicial><LB_PolizaFinal>PolizaFinal_esp</LB_PolizaFinal><LB_PolizaInicial>PolizaInicial_esp</LB_PolizaInicial><LB_TituloRLG>TituloRLG_esp</LB_TituloRLG><LB_Todos>Todos_esp</LB_Todos><LB_Usuario>Usuario_esp</LB_Usuario><PolizaE>PolizaE_esp</PolizaE><PolizaNum>PolizaNum_esp</PolizaNum></Idioma></Etiquetas>

@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_DatosGrupo>Data Group</LB_DatosGrupo>
+		<LB_Codigo>Code</LB_Codigo>
+		<LB_Nombre>Name</LB_Nombre>
+		<LB_Descripcion>Description</LB_Descripcion>
+		<LB_Padre>Parent</LB_Padre>
+		<LB_Seleccion>None</LB_Seleccion>
+	</Idioma> 
+</Etiquetas>

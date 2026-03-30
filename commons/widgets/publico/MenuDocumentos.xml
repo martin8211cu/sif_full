@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_CLIENTES>Client</LB_CLIENTES>
+		<LB_DocPendXPag>Pendining payment for  </LB_DocPendXPag>
+		<LB_Analisis>Analyze by</LB_Analisis>
+		<LB_VerDet>See Details</LB_VerDet>
+		<LB_CerrarDet >Close Details</LB_CerrarDet>
+		<LB_Total >Total</LB_Total>
+		<LB_Saldo >Balance</LB_Saldo>
+		<LB_VerDoc >See Documents</LB_VerDoc>
+		<LB_CerrarDoc >Close Documents</LB_CerrarDoc>
+		<LB_Documento>Document</LB_Documento>
+		<MSG_SinDat >There is not data for show graphics</MSG_SinDat>
+		<LB_SinVenc >Unexpired</LB_SinVenc>
+		<LB_Masde >More than</LB_Masde>
+		<LB_Fisica >Natural person</LB_Fisica>
+		<LB_Juridica >Legal person</LB_Juridica>
+		<LB_Extranjero >Foreign</LB_Extranjero>
+		<LB_Hoy >Today</LB_Hoy>
+		<LB_Vencimiento >Expired</LB_Vencimiento>
+		<LB_VencDias >Expired by day</LB_VencDias>
+		<LB_MontoVenc >overdue amount</LB_MontoVenc>
+		<LB_Saldo >Balance</LB_Saldo>
+		<LB_Persona >Person</LB_Persona>
+		<LB_Monto>Amount</LB_Monto>
+	</Idioma>
+</Etiquetas>
+

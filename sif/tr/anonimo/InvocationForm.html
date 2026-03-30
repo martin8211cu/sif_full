@@ -1,0 +1,140 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Untitled Document</title>
+</head>
+
+<body>
+
+<form action="InvocationRemote.cfm" method="post">
+
+  <table width="200" border="1">
+    <tr>
+      <td>Acceso</td>
+      <td><input name="acceso" type="text" id="acceso"></td>
+    </tr>
+    <tr>
+      <td>ActivityInstanceId</td>
+      <td><input name="ActivityInstanceId" type="text" id="ActivityInstanceId" value="389"></td>
+    </tr>
+    <tr>
+      <td>AppName</td>
+      <td><input name="AppName" type="text" id="AppName" value="AplicaAccion"></td>
+    </tr>
+    <tr>
+      <td>AppLocation</td>
+      <td><input name="AppLocation" type="text" id="AppLocation" value="sif.rh.Componentes.RH_AplicaAccion"></td>
+    </tr>
+    <tr>
+      <td>AppCommand</td>
+      <td><input name="AppCommand" type="text" id="AppCommand" value="AplicaAccion"></td>
+    </tr>
+    <tr>
+      <td>AppType</td>
+      <td><select name="AppType" id="AppType">
+        <option value="APPLICATION">APPLICATION</option>
+        <option value="PROCEDURE">PROCEDURE</option>
+        <option value="WEBSERVICE">WEBSERVICE</option>
+        <option value="SUBFLOW">SUBFLOW</option>
+        <option value="EJB">EJB</option>
+        <option value="CFC" selected>CFC</option>
+      </select>      </td>
+    </tr>
+    <tr>
+      <td>dsn</td>
+      <td><input name="dsn" type="text" id="dsn" value="minisif"></td>
+    </tr>
+    <tr>
+      <td>argc</td>
+      <td><select name="argc" id="argc">
+        <option value="0">0</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4" selected>4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+      </select></td>
+    </tr>
+  </table>
+  <table width="200" border="1">
+    <tr>
+      <td>&nbsp;</td>
+      <td>argn</td>
+      <td>argd</td>
+      <td>argv</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td><input name="arg1n" type="text" id="arg1n" value="Ecodigo"></td>
+      <td><select name="arg1d" id="arg1d">
+        <option value="STRING">STRING</option>
+        <option value="NUMERIC" selected>NUMERIC</option>
+        <option value="XML">XML</option>
+        <option value="FILE">FILE</option>
+      </select></td>
+      <td><input name="arg1v" type="text" id="arg1v" value="1"></td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td><input name="arg2n" type="text" id="arg2n" value="RHAlinea"></td>
+      <td><select name="arg2d" id="arg2d">
+        <option value="STRING">STRING</option>
+        <option value="NUMERIC" selected>NUMERIC</option>
+        <option value="XML">XML</option>
+        <option value="FILE">FILE</option>
+      </select></td>
+      <td><input name="arg2v" type="text" id="arg2v" value="66574"></td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td><input name="arg3n" type="text" id="arg3n" value="Usucodigo"></td>
+      <td><select name="arg3d" id="arg3d">
+        <option value="STRING">STRING</option>
+        <option value="NUMERIC" selected>NUMERIC</option>
+        <option value="XML">XML</option>
+        <option value="FILE">FILE</option>
+      </select></td>
+      <td><input name="arg3v" type="text" id="arg3v" value="27"></td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td><input name="arg4n" type="text" id="arg4n" value="Ulocalizacion"></td>
+      <td><select name="arg4d" id="arg4d">
+        <option value="STRING" selected>STRING</option>
+        <option value="NUMERIC">NUMERIC</option>
+        <option value="XML">XML</option>
+        <option value="FILE">FILE</option>
+      </select></td>
+      <td><input name="arg4v" type="text" id="arg4v" value="00"></td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td><input name="arg5n" type="text" id="arg5n"></td>
+      <td><select name="arg5d" id="arg5d">
+        <option value="STRING" selected>STRING</option>
+        <option value="NUMERIC">NUMERIC</option>
+        <option value="XML">XML</option>
+        <option value="FILE">FILE</option>
+      </select></td>
+      <td><input name="arg5v" type="text" id="arg5v"></td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td><input name="arg6n" type="text" id="arg6n"></td>
+      <td><select name="arg6d" id="arg6d">
+        <option value="STRING" selected>STRING</option>
+        <option value="NUMERIC">NUMERIC</option>
+        <option value="XML">XML</option>
+        <option value="FILE">FILE</option>
+      </select></td>
+      <td><input name="arg6v" type="text" id="arg6v"></td>
+    </tr>
+  </table>
+  <input type="submit">
+</form>
+
+</body>
+</html>

@@ -1,0 +1,324 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="api.xsl"?>
+<documentation>
+	<class name="WebFXGrid">
+		<description>
+			This is the base class, representing the grid.
+		</description>
+		<syntax>new WebFXGrid(aData);<br/>new WebFXGrid(nRows, nCols);</syntax>
+		<arguments>
+			<argument name="aData" type="String[][]">
+				<description>
+					A two dimensional array containing the number of rows and columns desired.
+					Unless the array is empty the values found will be used to populate the appropiate cells.
+				</description>
+			</argument>
+			<argument name="nRows" type="Number" description="Desired number of rows" />
+			<argument name="nCols" type="Number" description="Desired number of columns" />
+		</arguments>
+		<staticMethods />
+		<staticFields />
+		<methods>
+			<method name="addCol" description="Adds a new column to the grid">
+				<arguments>
+					<argument name="sValue" type="String" optional="true" description="If specified this value will be used in the new cells."/>
+				</arguments>
+				<returns type="void"/>
+			</method>
+			<method name="addRow" description="Adds a new column to the grid">
+				<arguments>
+					<argument name="p0"  type="Number[]" optional="true">
+						<description>
+							Can either be a number to indicate the desired number of cells or an array
+							containing data to populate the row. If not specified an emty row will be
+							added with the same number of cells as the grid has.
+						</description>
+					</argument>
+					<argument name="sid" type="Number[]" optional="true" description="If specified this value will be used in the new cells."/>
+				</arguments>
+				<returns type="void"/>
+			</method>
+			<method name="calcSize" description="Re-Calculates the size of the grid itself and all it's sub elements">
+				<returns type="void"/>
+			</method>
+			<method name="dump">
+				<description>
+					Dumps the content of the grid as a long string, formatted as a query string, making it suitable
+					for usage with a back-end. See the backend introduction for further information about this method.
+				</description>
+				<arguments>
+					<argument name="b" type="Boolean" optional="true" default="false" description="If true all cells will be dumped, otherwise only the modified ones will be included." />
+				</arguments>
+				<returns type="String"/>
+			</method>
+			<method name="getGridData" description="Returns the content of the grid as a two dimensional array.">
+				<returns type="String[][]"/>
+			</method>
+			<method name="dumpMatrix" description="Deprecated - see getGridData.">
+				<returns type="String[][]"/>
+			</method>
+			<method name="find" description="Highlights the first row containing a cell that matches the supplied condition, It's quite useless, subclass it if you need a proper search function.">
+				<arguments>
+					<argument name="condition" type="String" description="The condition to match (indexOf will be used, not very sophisticated)" />
+				</arguments>
+				<returns type="void"/>
+			</method>
+			<method name="focus" description="Changes focus to the grid">
+				<returns type="void"/>
+			</method>
+			<method name="getColSizes" description="Returns an array containing the column sizes.">
+				<returns type="Number[]"/>
+			</method>
+			<method name="getSelected" description="Returns a reference to the selected rows &lt;tr&gt; element.">
+				<returns type="Element"/>
+			</method>
+			<method name="getShowSid" description="Returns the ShowSid flag, see setShowSid.">
+				<returns type="Boolean"/>
+			</method>
+			<method name="removeRow" description="Removes the specified row, or if no row is specified the selected one.">
+				<arguments>
+					<argument name="row" type="Number" optional="true" description="Row to remove" />
+				</arguments>
+				<returns type="void"/>
+			</method>
+			<method name="selectFirst" description="Selects the first row.">
+				<returns type="void"/>
+			</method>
+			<method name="selectLast" description="Selects the last row.">
+				<returns type="void"/>
+			</method>
+			<method name="setAutoExpand" description="Sets the autoExpand flag. If true a new row will automatically be added to the grid once the last one is modified. Default is false.">
+				<arguments>
+					<argument name="b" type="Boolean" description="Flag" />
+				</arguments>
+				<returns type="void"/>
+			</method>
+			<method name="setHideBoxOnBlur" description="Sets the hideBoxOnBlur flag. If true the edit box will be hidden on blur. Default is false.">
+				<arguments>
+					<argument name="b" type="Boolean" description="Flag" />
+				</arguments>
+				<returns type="void"/>
+			</method>
+			<method name="setCellStyles" description="Assigns an individual css string to each cell">
+				<arguments>
+					<argument name="a" type="String[][]" description="A two dimensional array containing css strings for each cell" />
+				</arguments>
+				<returns type="void"/>
+			</method>
+			<method name="setCellValue" description="Sets the value of a cell">
+				<arguments>
+					<argument name="iRow"   type="Number" description="The row index number" />
+					<argument name="iCell"  type="Number" description="The cell index number" />
+					<argument name="sValue" type="String" optional="true"  description="The value" />
+					<argument name="iIndex" type="Number" optional="true"  description="If the cell consists of a drop down, use this to set the value by the option index rather than id, as setting the value would." />
+				</arguments>
+				<returns type="void"/>
+			</method>
+			<method name="setColDefault" description="Sets the default values for each column">
+				<arguments>
+					<argument name="a" type="String[]" description="An array containing the values." />
+				</arguments>
+				<returns type="void"/>
+			</method>
+			<method name="setLinkData" description="Sets the link data (presented as a drop down menu) for each column, see the usage section for further information. Preferably used when creating the grid.">
+				<arguments>
+					<argument name="a" type="String[][]" description="A set of arrays containing the link data to use" />
+				</arguments>
+				<returns type="void"/>
+			</method>
+			<method name="setColFlags" description="Sets the column flags, preferably used when creating the grid.">
+				<arguments>
+					<argument name="a" type="Number[]">
+						<description>
+							An array containing the flags, each flag is a bitmap according to this legend:<br/>
+							Bit 1 - Read only<br/>Bit 2 - Mandatory<br/>Bit 4 - Mask data (password field)<br/>Bit 8 - Hidden
+						</description>
+					</argument>
+				</arguments>
+				<returns type="void"/>
+			</method>
+			<method name="setColSizes" description="Sets the column sizes">
+				<arguments>
+					<argument name="a" type="String[]" description="An array with the sizes to use, append unit for non-pixel arguments. Preferably used when creating the grid." />
+				</arguments>
+				<returns type="void"/>
+			</method>
+			<method name="setColLengths" description="Sets the maximum allowed length for each column. (Only applies to text fields, equivalent of the maxlength property)">
+				<arguments>
+					<argument name="a" type="Number[]" description="An array with the lengths to use. Preferably used when creating the grid." />
+				</arguments>
+				<returns type="void"/>
+			</method>
+			<method name="setColTypes">
+				<description>
+					Sets the column types, limiting and verifying the content. For example a column with the type
+					int may only contain digits, while a String Column may contain anything. The column type
+					will also affect the sorting functionality. Preferably used when creating the grid.
+				</description>
+				<arguments>
+					<argument name="a" type="Number[]">
+						<description>
+							An array containing the types.<br/>
+							1 - Int<br/>2 - String<br/>3 - Date<br/>4 - Float
+						</description>
+					</argument>
+				</arguments>
+				<returns type="void"/>
+			</method>
+			<method name="setHeaders" description="Sets the column headers, preferably used when creating the grid.">
+				<arguments>
+					<argument name="a" type="String[]" description="An array with the headers to use" />
+				</arguments>
+				<returns type="void"/>
+			</method>
+			<method name="setId" description="Sets the id for a certain row">
+				<arguments>
+					<argument name="i"  type="Number" description="Row index for the desired row" />
+					<argument name="id" type="Number" description="The new id number" />
+				</arguments>
+				<returns type="void"/>
+			</method>
+			<method name="setNewIds" description="Sets the id for on or more rows that doesn't have any, used to assign ids to rows once they have been created. The value -1 is treated as a fag indicating that the save operation failed, thus marking the row as not saved.">
+				<arguments>
+					<argument name="a" type="Number[]" description="An array with the ids to use" />
+				</arguments>
+				<returns type="void"/>
+			</method>
+			<method name="setRowsServerIds" description="Sets the id for all rows, preferably used when creating the grid.">
+				<arguments>
+					<argument name="a" type="Number[]" description="An array with the ids to use" />
+				</arguments>
+				<returns type="void"/>
+			</method>
+			<method name="setShowSid" description="Sets the ShowSid flag. If true the id column will display the row ids, if false the row numbers will be displayed, and every second row will be a slightly different color.">
+				<arguments>
+					<argument name="b" type="Boolean" description="Flag" />
+				</arguments>
+				<returns type="void"/>
+			</method>
+			<method name="setSize" description="Resize the grid using the supplied parameters, will automatically invoke the calcSize method afterwards.">
+				<arguments>
+					<argument name="w" type="Number" description="The desired with" />
+					<argument name="h" type="Number" description="The desired height" />
+				</arguments>
+				<returns type="void"/>
+			</method>
+			<method name="setUri" description="Sets the URI that will be used as a base for the dump method, the dump data will be appended to whatever this is set to. See the backend introduction for further information.">
+				<arguments>
+					<argument name="s" type="String" description="Any valid uri" />
+				</arguments>
+				<returns type="void"/>
+			</method>
+			<method name="sort" description="Sorts the grid by one of the columns.">
+				<arguments>
+					<argument name="col" type="Number" description="Column index to sort by." />
+				</arguments>
+				<returns type="void"/>
+			</method>
+			<method name="toString" description="This is the method that generates the actual HTML code for the grid.">
+				<arguments/>
+				<returns type="String"/>
+			</method>
+		</methods>
+		<fields>
+			<field name="rows"          type="WebFXGridRow[]" description="An array containing the rows of the grid." readOnly="true" />
+			<field name="headers"       type="String[]"       description="An array containing the column headers, use setHeaders to modify." readOnly="true"/>
+			<field name="colSizes"      type="Number[]"       description="An array containing the column sizes, use setColSizes to modify." readOnly="true"/>
+			<field name="colLengths"    type="Number[]"       description="An array containing the column lengths, use setColLengths to modify." readOnly="true"/>
+			<field name="colFlags"      type="Number[]"       description="An array containing the column flags, use setColFlags to modify." readOnly="true"/>
+			<field name="colLinkData"   type="String[]"       description="An array containing the column link data, use setLinkData to modify." readOnly="true"/>
+			<field name="colDefault"    type="String[]"       description="An array containing the column defaults, use setColDefault to modify." readOnly="true"/>
+			<field name="colTypes"      type="Number[]"       description="An array containing the column types, use setColTypes to modify." readOnly="true"/>
+			<field name="cols"          type="Number"         description="The number of columns in the grid." readOnly="true"/>
+			<field name="flags"         type="Number"         description="Permission flags, affecting the entire grid according to this bitmap: 1 - update, 2 - insert, 4 - delete - The default value is 7." />
+			<field name="minimal"       type="Number"         description="The minimal with of a cell in edit mode, if the width of the column is less than this value, the editbox will span additional columns until this value has been reached." />
+			<field name="defColSize"    type="Number"         description="The default column size." />
+			<field name="resizeArea"    type="Number"         description="The width of the area between columns in the grid header that can be grabbed, and used to resize the columns. Default value is 7." />
+			<field name="resizeAreaV"   type="Number"         description="Same as resizeArea however this indicates the size of the area in which the cursor will change to indicate resizable rather than the actual area. Default value is 5." />
+			<field name="autoExpand"    type="Boolean"        description="If true a new row will automatically be added to the grid once the last one is modified. Default is false." />
+			<field name="hideBoxOnBlur" type="Boolean"        description="If true the edit box will be hidden on blur. Default is false." />
+			<field name="groupByFirst"  type="Boolean"        description="Deprecated. If set to true the rows will be grouped by the first column, collapsing the cells with matching values. - This field is deprecated and will be removed in a future version, however no replacement yet implemented." />
+		</fields>
+		<events>
+			<event name="onSelect"    description="Fires when a row has been selected."/>
+			<event name="onChange"    description="Fires when a change has been made."/>
+			<event name="onColResize" description="Fires when a column has been resized."/>
+			<event name="onSort"      description="Fires when the grid is sorted."/>
+			<event name="onNewRow"    description="Fires when a new row has been added."/>
+		</events>
+	</class>
+	<class name="WebFXGridRow">
+		<description>
+			This class represents a row.
+		</description>
+		<syntax>new WebFXGridRow(aData[, sid[, bUnescapeData]]);<br/>new WebFXGridRow([nCols[, sid[, bUnescapeData]]]);</syntax>
+		<arguments>
+			<argument name="aData" type="String[]">
+				<description>
+					An array containing the same number of elements as the row should have columns.
+					Unless the array is empty the values found will be used to populate the appropiate cells.
+				</description>
+			</argument>
+			<argument name="nCols" type="Number" description="Desired number of columns" />
+			<argument name="sid"   type="Number" description="The row sid, or server id." />
+			<argument name="bUnescapeData" type="Boolean">
+				<description>
+					If true the supplied data will be parsed through the unescape function before
+					used to populate the cells. Default is false."
+				</description>
+			</argument>
+		</arguments>
+		<staticMethods />
+		<staticFields />
+		<methods>
+			<method name="over" description="Enables a mouse over effect that highlights the row. Automatically executed on mouse over.">
+				<arguments />
+				<returns type="void"/>
+			</method>
+			<method name="out" description="Disables the mouse over effect. Automatically executed on mouse out.">
+				<arguments />
+				<returns type="void"/>
+			</method>
+			<method name="select" description="Selects the row and updates the style of it to indicate that it has been selected. Also executes the deselect method on the previously selected row and fires the onSelect event.">
+				<arguments />
+				<returns type="void"/>
+			</method>
+			<method name="deselect" description="Restores the original style of the row.">
+				<arguments>
+					<argument name="b" type="Boolean" optional="true" description="If specified the row will not be blured if any of its cells are in edit mode."/>
+				</arguments>
+				<returns type="void"/>
+			</method>
+		</methods>
+		<fields>
+			<field name="id"     type="String"           description="A unique name used to identify the html element that will be generated." readOnly="true" />
+			<field name="cells"  type="WebFXGridCells[]" description="An array containing the cells the row consists of." readOnly="true" />
+			<field name="parent" type="WebFXGrid"        description="A reference to the parent grid." readOnly="true" />
+			<field name="sid"    type="Number"           description="The sid, or server id." />
+		</fields>
+	</class>
+	<class name="WebFXGridCell">
+		<description>
+			This class represents a cell.
+		</description>
+		<syntax>new WebFXGridCell([sValue]);</syntax>
+		<arguments>
+			<argument name="sValue" type="String" description="The cell value" />
+		</arguments>
+		<staticMethods />
+		<staticFields />
+		<methods>
+			<method name="click" description="Enables edit mode for the cell. This method is executed when a cell is clicked on, hence the name.">
+				<arguments />
+				<returns type="void"/>
+			</method>
+		</methods>
+		<fields>
+			<field name="id"     type="String"           description="A unique name used to identify the html element that will be generated." readOnly="true" />
+			<field name="value"  type="String"           description="The cell value. To modify use the WebFXGrid setCellValue method." readOnly="true" />
+			<field name="index"  type="Number"           description="The cell index." readOnly="true" />
+			<field name="parent" type="String"           description="A reference to the parent row." readOnly="true" />
+			<field name="style"  type="String"           description="A css string describing the style of the cell." />
+		</fields>
+	</class>
+</documentation>

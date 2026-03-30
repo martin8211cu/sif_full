@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_Codigo>Code</LB_Codigo>
+		<LB_Mensajes>Select Enterprises belonging to the group</LB_Mensajes>
+		<BTN_Guardar>Save</BTN_Guardar>
+	<LB_Mensaje>Select Enterprises belonging to the group</LB_Mensaje></Idioma> 
+</Etiquetas>

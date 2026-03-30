@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+<info>
+	<infoitem key="UD_rsxml" value="name:AnexoDef;datatype:" />
+	<infoitem key="UD_rsRangos2" value="name:AnexoRan;datatype:" />
+	<infoitem key="UD_rsRangos3" value="name:AnexoRan;datatype:" />
+	<infoitem key="UD_rsAnexo" value="name:AnexoDes;datatype:,name:AnexoFec;datatype:,name:AnexoUsu;datatype:" />
+	<infoitem key="MM_css_include" value="../../css/sif.css" />
+	<infoitem key="MM_css_exclude" value="" />
+</info>

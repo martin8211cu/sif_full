@@ -1,0 +1,956 @@
+﻿<cf_dbfunction name="OP_concat"	returnvariable="_Cat">
+<cfquery name="rsInterfaces" datasource="sifinterfaces">
+	select 	NumeroInterfaz, 
+	Descripcion #_Cat#' ' #_Cat# case OrigenInterfaz when 'S' then '(origen SOIN)'  else ' ' end as Descripcion from Interfaz
+	order by NumeroInterfaz
+</cfquery>
+
+<cfif isdefined("url._")>
+	<cfset session.Navegacion.default = structNew()>
+</cfif>
+<cf_navegacion name="fltStatus" 		navegacion="" session default="100">
+<cf_navegacion name="fltFechaDesde" 	navegacion="" session default="">
+<cf_navegacion name="fltFechaDesdeHH" 	navegacion="" session default="">
+<cf_navegacion name="fltFechaDesdeMM" 	navegacion="" session default="">
+<cf_navegacion name="fltFechaHasta" 	navegacion="" session default="">
+<cf_navegacion name="fltFechaHastaHH" 	navegacion="" session default="">
+<cf_navegacion name="fltFechaHastaMM" 	navegacion="" session default="">
+<cf_navegacion name="fltIdDesde" 		navegacion="" session default="">
+<cf_navegacion name="fltIdHasta" 		navegacion="" session default="">
+<cf_navegacion name="fltInterfaz" 		navegacion="" session default="-1">
+<cf_navegacion name="fltInterfazAnt" 	navegacion="" session default="#form.FltInterfaz#">
+<cf_navegacion name="chkInterfaz" 		navegacion="" session default="0">
+<cfif fltInterfaz EQ fltInterfazAnt>
+	<cf_navegacion name="fltInterfazCNE"		navegacion="" session default="">
+	<cf_navegacion name="fltInterfazCVE"		navegacion="" session default="">
+	<cf_navegacion name="fltInterfazCND"		navegacion="" session default="">
+	<cf_navegacion name="fltInterfazCVD"		navegacion="" session default="">
+	<cf_navegacion name="fltInterfazCNS"		navegacion="" session default="">
+	<cf_navegacion name="fltInterfazCVS"		navegacion="" session default="">
+<cfelse>
+	<cf_navegacion name="fltInterfazCNE"		navegacion="" session value="">
+	<cf_navegacion name="fltInterfazCVE"		navegacion="" session value="">
+	<cf_navegacion name="fltInterfazCND"		navegacion="" session value="">
+	<cf_navegacion name="fltInterfazCVD"		navegacion="" session value="">
+	<cf_navegacion name="fltInterfazCNS"		navegacion="" session value="">
+	<cf_navegacion name="fltInterfazCVS"		navegacion="" session value="">
+	<cf_navegacion name="fltInterfazAnt" 		navegacion="" session value="#form.FltInterfaz#">
+</cfif>
+<cf_navegacion name="fltOrigen" 		navegacion="" session default="-1">
+<cf_navegacion name="chkRefrescar" 		navegacion="" session default="">
+<cf_navegacion name="PageNum_lista" 	navegacion="" session default="">
+
+<cfset LvarFiltro = "">
+<cfset LvarNavegacion = "">
+
+<cfif Form.fltStatus EQ "-101">
+	<cfset LvarFiltro = LvarFiltro & " and UsucodigoCancela is not null">
+<cfelseif abs(Form.fltStatus) NEQ 100>
+	<cfset LvarFiltro = LvarFiltro & " and StatusProceso = #abs(Form.fltStatus)#">
+</cfif>
+<cfif Len(Trim(Form.fltStatus))>
+	<cfset LvarNavegacion = LvarNavegacion & "&fltStatus=#Form.fltStatus#">
+</cfif>
+
+<cfif Len(Trim(Form.fltFechaDesde))>
+	<cfif Form.fltFechaDesdeHH EQ "">
+		<cfset Form.fltFechaDesdeHH = "00">
+		<cfset Form.fltFechaDesdeMM = "00">
+	<cfelseif Form.fltFechaDesdeHH GTE 24>
+		<cfset Form.fltFechaDesdeHH = "23">
+		<cfset Form.fltFechaDesdeMM = "59">
+	<cfelseif Form.fltFechaDesdeMM GTE 60>
+		<cfset Form.fltFechaDesdeMM = "59">
+	<cfelse>
+		<cfset Form.fltFechaDesdeHH = right("00" & Form.fltFechaDesdeHH,2)>
+		<cfset Form.fltFechaDesdeMM = right("00" & Form.fltFechaDesdeMM,2)>
+	</cfif>
+	<cfif Form.fltFechaDesdeMM EQ "">
+		<cfset Form.fltFechaDesdeMM = "00">
+	</cfif>
+	<cfset LvarFechaDesde = createDatetime(mid(Form.fltFechaDesde, 7, 4) , mid(Form.fltFechaDesde, 4, 2) , mid(Form.fltFechaDesde, 1, 2) , Form.fltFechaDesdeHH , Form.fltFechaDesdeMM , "00")>
+	<cfset LvarFechaDesde = createODBCdatetime(LvarFechaDesde)>
+
+	<cfset LvarFiltro = LvarFiltro & " and FechaInclusion >= #LvarFechaDesde#">
+
+	<cfset LvarNavegacion = LvarNavegacion & "&fltFechaDesde=#Form.fltFechaDesde#">
+	<cfset LvarNavegacion = LvarNavegacion & "&fltFechaDesdeHH=#Form.fltFechaDesdeHH#">
+	<cfset LvarNavegacion = LvarNavegacion & "&fltFechaDesdeMM=#Form.fltFechaDesdeMM#">
+
+<!---
+	<cfif Len(Trim(Form.fltFechaDesdeHH)) AND Len(Trim(Form.fltFechaDesdeMM))>
+		<cfif Form.fltFechaDesdeHH GTE 24 OR Form.fltFechaDesdeHH EQ "">
+			<cfset Form.fltFechaDesdeHH = "23">
+			<cfset Form.fltFechaDesdeMM = "59">
+		<cfelseif Form.fltFechaDesdeMM GTE 60>
+			<cfset Form.fltFechaDesdeMM = "59">
+		<cfelse>
+			<cfset Form.fltFechaDesdeHH = right("00" & Form.fltFechaDesdeHH,2)>
+			<cfset Form.fltFechaDesdeMM = right("00" & Form.fltFechaDesdeMM,2)>
+		</cfif>
+
+		<cfset LvarFechaDesde = mid(Form.fltFechaDesde, 7, 4) & mid(Form.fltFechaDesde, 4, 2) & mid(Form.fltFechaDesde, 1, 2) & Form.fltFechaDesdeHH & Form.fltFechaDesdeMM & "00">
+		<cf_dbfunction name="date_format" args="FechaInclusion,YYYYMMDDHHMISS" datasource="sifinterfaces" returnVariable="LvarFechaYYYYMMDD" form="frmFiltro"> 
+	<cfelse>
+		<cfset LvarFechaDesde = mid(Form.fltFechaDesde, 7, 4) & mid(Form.fltFechaDesde, 4, 2) & mid(Form.fltFechaDesde, 1, 2)>
+		<cf_dbfunction name="date_format" args="FechaInclusion,YYYYMMDD" datasource="sifinterfaces" returnVariable="LvarFechaYYYYMMDD" form="frmFiltro"> 
+	</cfif>
+	<cf_dbfunction name="to_datechar" args="mm dd yyyy hh:mi:ssampm">
+	<cfset LvarFiltro = LvarFiltro & " and #LvarFechaYYYYMMDD# >= '#LvarFechaDesde#'">
+	<cfset LvarNavegacion = LvarNavegacion & "&fltFechaDesde=#Form.fltFechaDesde#">
+--->
+</cfif>
+<cfif Len(Trim(Form.fltFechaHasta))>
+	<cfif Form.fltFechaHastaHH EQ "">
+		<cfset Form.fltFechaHastaHH = "23">
+		<cfset Form.fltFechaHastaMM = "59">
+	<cfelseif Form.fltFechaHastaHH GTE 24>
+		<cfset Form.fltFechaHastaHH = "23">
+		<cfset Form.fltFechaHastaMM = "59">
+	<cfelseif Form.fltFechaHastaMM GTE 60>
+		<cfset Form.fltFechaHastaMM = "59">
+	<cfelse>
+		<cfset Form.fltFechaHastaHH = right("00" & Form.fltFechaHastaHH,2)>
+		<cfset Form.fltFechaHastaMM = right("00" & Form.fltFechaHastaMM,2)>
+	</cfif>
+	<cfif Form.fltFechaHastaMM EQ "">
+		<cfset Form.fltFechaHastaMM = "00">
+	</cfif>
+	<cfset LvarFechaHasta = createDatetime(mid(Form.fltFechaHasta, 7, 4) , mid(Form.fltFechaHasta, 4, 2) , mid(Form.fltFechaHasta, 1, 2) , Form.fltFechaHastaHH , Form.fltFechaHastaMM , "59")>
+	<cfset LvarFechaHasta = createODBCdatetime(LvarFechaHasta)>
+
+	<cfset LvarFiltro = LvarFiltro & " and FechaInclusion <= #LvarFechaHasta#">
+
+	<cfset LvarNavegacion = LvarNavegacion & "&fltFechaHasta=#Form.fltFechaHasta#">
+	<cfset LvarNavegacion = LvarNavegacion & "&fltFechaHastaHH=#Form.fltFechaHastaHH#">
+	<cfset LvarNavegacion = LvarNavegacion & "&fltFechaHastaMM=#Form.fltFechaHastaMM#">
+<!---
+	<cfif Len(Trim(Form.fltFechaHastaHH)) AND Len(Trim(Form.fltFechaHastaMM))>
+		<cfif Form.fltFechaHastaHH GTE 24>
+			<cfset Form.fltFechaHastaHH = "23">
+			<cfset Form.fltFechaHastaMM = "59">
+		<cfelseif Form.fltFechaHastaMM GTE 60>
+			<cfset Form.fltFechaHastaMM = "59">
+		<cfelse>
+			<cfset Form.fltFechaHastaHH = right("00" & Form.fltFechaHastaHH,2)>
+			<cfset Form.fltFechaHastaMM = right("00" & Form.fltFechaHastaMM,2)>
+		</cfif>
+		<cfset LvarFechaHasta = mid(Form.fltFechaHasta, 7, 4) & mid(Form.fltFechaHasta, 4, 2) & mid(Form.fltFechaHasta, 1, 2) & Form.fltFechaHastaHH & Form.fltFechaHastaMM & "00">
+		<cf_dbfunction name="date_format" args="FechaInclusion,YYYYMMDDHHMISS" datasource="sifinterfaces" returnVariable="LvarFechaYYYYMMDD" form="frmFiltro"> 
+	<cfelse>
+		<cfset LvarFechaHasta = mid(Form.fltFechaHasta, 7, 4) & mid(Form.fltFechaHasta, 4, 2) & mid(Form.fltFechaHasta, 1, 2)>
+		<cf_dbfunction name="date_format" args="FechaInclusion,YYYYMMDD" datasource="sifinterfaces" returnVariable="LvarFechaYYYYMMDD" form="frmFiltro"> 
+	</cfif>
+	<cfset LvarFiltro = LvarFiltro & " and #LvarFechaYYYYMMDD# <= '#LvarFechaHasta#'">
+	<cfset LvarNavegacion = LvarNavegacion & "&fltFechaHasta=#Form.fltFechaHasta#">
+--->
+</cfif>
+
+<cfif Len(Trim(Form.fltIdDesde)) and isnumeric(Form.fltIdDesde)>
+	<cfif Len(Trim(Form.fltIdHasta)) and isnumeric(Form.fltIdHasta)>
+		<cfset LvarFiltro = LvarFiltro & " and p.IdProceso >= #Form.fltIdDesde#">
+	<cfelse>
+		<cfset LvarFiltro = LvarFiltro & " and p.IdProceso = #Form.fltIdDesde#">
+	</cfif>
+	<cfset LvarNavegacion = LvarNavegacion & "&fltIdDesde=#Form.fltIdDesde#">
+</cfif>
+<cfif Len(Trim(Form.fltIdHasta)) and isnumeric(Form.fltIdHasta)>
+	<cfset LvarFiltro = LvarFiltro & " and p.IdProceso <= #Form.fltIdHasta#">
+	<cfset LvarNavegacion = LvarNavegacion & "&fltIdHasta=#Form.fltIdHasta#">
+</cfif>
+
+<cfif Form.fltInterfaz NEQ "-1">
+	<cfset LvarFiltro = LvarFiltro & " and p.NumeroInterfaz = #Form.fltInterfaz#">
+	<cfset LvarNavegacion = LvarNavegacion & "&fltInterfaz=#Form.fltInterfaz#">
+</cfif>
+<cfif Form.fltOrigen NEQ "-1">
+	<cfset LvarFiltro = LvarFiltro & " and p.OrigenInterfaz = '#Form.fltOrigen#'">
+	<cfset LvarNavegacion = LvarNavegacion & "&fltOrigen=#Form.fltOrigen#">
+</cfif>
+<cfif isdefined("Form.chkRefrescar") and Form.chkRefrescar EQ 1>
+	<cfset LvarNavegacion = LvarNavegacion & "&chkRefrescar=1">
+</cfif>
+<cfif LvarNavegacion NEQ "">
+	<cfset LvarNavegacion = mid(LvarNavegacion,2,Len(LvarNavegacion))>
+</cfif>
+
+<cfoutput>
+<form method="post" name="frmFiltro" action="#GetFileFromPath(GetTemplatePath())#" style="margin:0 0 0 0" onsubmit="fnValidarContenido();">
+<table>
+	<tr>
+		<td width="1">Status:</td>
+		<td width="1" colspan="2">
+			<select name="fltStatus">
+				<option value="100"  <cfif Form.fltStatus EQ "100">selected</cfif>>(Cola de procesos pendientes de finalizar...)</option>
+				<option value="1"    <cfif Form.fltStatus EQ "1">selected</cfif>>Procesos Inactivos</option>
+				<option value="2"    <cfif Form.fltStatus EQ "2">selected</cfif>>Procesos en Ejecucion</option>
+				<option value="3"    <cfif Form.fltStatus EQ "3">selected</cfif>>Procesos Pendientes con Error</option>
+				<option value="5"    <cfif Form.fltStatus EQ "5">selected</cfif>>Procesos con Error en el spFinal</option>
+				<option value="-100" <cfif Form.fltStatus EQ "-100">selected</cfif>>(Bitacora de procesos finalizados...)</option>
+				<option value="-10"  <cfif Form.fltStatus EQ "-10">selected</cfif>>Procesos Finalizados con Exito</option>
+				<option value="-11"  <cfif Form.fltStatus EQ "-11">selected</cfif>>Procesos Finalizados con Error</option>
+				<option value="-101" <cfif Form.fltStatus EQ "-101">selected</cfif>>Procesos Cancelados</option>
+				<option value="-1"   <cfif Form.fltStatus EQ "-1">selected</cfif>>Procesos Inactivos Cancelados</option>
+				<option value="-2"   <cfif Form.fltStatus EQ "-2">selected</cfif>>Procesos Activos Cancelados</option>
+				<option value="-3"   <cfif Form.fltStatus EQ "-3">selected</cfif>>Procesos Pendientes con Error Cancelados</option>
+				<option value="-12"  <cfif Form.fltStatus EQ "-12">selected</cfif>>Procesos con Error antes de la Ejecucion</option>
+			</select>
+		</td>
+		<td width="50">&nbsp;</td>
+		<td width="1">Interfaz:</td>
+		<td width="1" colspan="2">
+			<select name="fltInterfaz"
+					onChange="javascript: if (this.value != -1 && document.frmFiltro.fltOrigen.value != -1) {
+								if (this.options[this.selectedIndex].text.indexOf('(origen SOIN)') > -1) 
+									document.frmFiltro.fltOrigen.selectedIndex = 1;
+								else
+									document.frmFiltro.fltOrigen.selectedIndex = 2;
+							  }
+								"
+			>
+				<option value="-1">(Todas las interfaces...)</option>
+				<cfloop query="rsInterfaces">
+					<option value="#rsInterfaces.NumeroInterfaz#" <cfif Form.fltInterfaz EQ rsInterfaces.NumeroInterfaz> selected</cfif>>#rsInterfaces.NumeroInterfaz#=#rsInterfaces.Descripcion#</option>
+				</cfloop>
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<td>Creados:</td>
+		<td>
+			desde:
+			<table style="border:solid ##CCCCCC 1px">
+				<tr>
+					<td>
+						<cf_sifcalendario name="fltFechaDesde" value="#Form.fltFechaDesde#" form="frmFiltro">
+					</td>
+					<td>
+						<cf_inputNumber name="fltFechaDesdeHH" value="#Form.fltFechaDesdeHH#" form="frmFiltro" enteros="2" codigoNumerico>
+					</td>
+					<td>:
+					</td>
+					<td>
+						<cf_inputNumber name="fltFechaDesdeMM" value="#Form.fltFechaDesdeMM#" form="frmFiltro" enteros="2" codigoNumerico>
+					</td>
+				</tr>
+			</table>
+		</td>
+		<td>
+			hasta:
+			<table style="border:solid ##CCCCCC 1px">
+				<tr>
+					<td>
+						<cf_sifcalendario name="fltFechaHasta" value="#Form.fltFechaHasta#" form="frmFiltro">
+					</td>
+					<td>
+						<cf_inputNumber name="fltFechaHastaHH" value="#Form.fltFechaHastaHH#" form="frmFiltro" enteros="2" codigoNumerico>
+					</td>
+					<td>:
+					</td>
+					<td>
+						<cf_inputNumber name="fltFechaHastaMM" value="#Form.fltFechaHastaMM#" form="frmFiltro" enteros="2" codigoNumerico>
+					</td>
+				</tr>
+			</table>
+		</td>
+		<td></td>
+			<td>Origen:</td>
+			<td>
+				<select name="fltOrigen"
+						onChange="if (this.value != -1)
+									if (document.frmFiltro.fltInterfaz.options[this.selectedIndex].text.indexOf('(Originado SOIN)') > -1 && this.value != 'S')
+										document.frmFiltro.fltInterfaz.selectedIndex = 0;
+									if (document.frmFiltro.fltInterfaz.options[this.selectedIndex].text.indexOf('(Originado SOIN)') == -1 && this.value == 'S')
+										document.frmFiltro.fltInterfaz.selectedIndex = 0;">
+					<option value="-1">(Ambos Origenes...)</option>
+					<option value="S" <cfif Form.fltOrigen EQ "S">selected</cfif>>SOIN</option>
+					<option value="E" <cfif Form.fltOrigen EQ "E">selected</cfif>>#session.CEnombre#</option>
+				</select>
+			</td>
+		<td align="right">
+			Refrescar&nbsp;<input type="checkbox" id="chkRefrescar" name="chkRefrescar" <cfif isdefined("Form.chkRefrescar") and Form.chkRefrescar EQ 1> checked</cfif> onclick="if (this.checked) { document.getElementById('Filtrar').click(); }" value="1">
+			<input name="submit" type="submit" id="Filtrar" value="Filtrar" />
+		</td>
+		<td width="50">&nbsp;</td>
+	</tr>
+	<tr>
+		<td valign="top">IDs:</td>
+		<td valign="top"><input type="text" name="fltIDdesde" size="10" value="#form.fltIdDesde#"></td>
+		<td valign="top"><input type="text" name="fltIDhasta" size="10" value="#form.fltIdHasta#"></td>
+		<td></td>
+		<td colspan="3">
+			<cfset sbPintaFiltrarPorContenido()>
+		</td>
+	</tr>
+	<cfif not isdefined("LvarSoloConsultar")>    	
+        <table bgcolor="silver">
+            <tr>
+                <td> <input type="checkbox" name="chkall" value="T" onClick="javascript:funcChequeaTodos();"> </td>
+                <td><b><font style="font-style:italic"> Seleccionar Todos </font></b></td>
+            </tr>
+       </table>
+    </cfif> 
+</table>
+</form>
+
+</cfoutput>
+
+		<form name="frmCola" method="post" action="consola-procesos-sql.cfm" style="margin:0 0 0 0">
+			<input type="hidden" name="id" id="id">
+			<input type="hidden" name="ni" id="ni">
+			<input type="hidden" name="sc" id="sc">
+			<input type="hidden" name="msg" id="msg">
+	<cfif isdefined("LvarSoloConsultar")>
+			<input type="hidden" name="cmdV" id="cmdV" value="V">
+	<cfelse>
+			<input type="hidden" name="cmd" id="cmd">
+	</cfif>
+			<input type="hidden" name="fltStatus" value="">
+			<input type="hidden" name="fltFechaDesde" value="">
+			<input type="hidden" name="fltFechaHasta" value="">
+			<input type="hidden" name="fltInterfaz" value="">
+			<input type="hidden" name="fltOrigen" value="">
+			<input type="hidden" name="chkRefrescar" value="">
+			
+			<cfoutput>
+			<cfif isdefined("Form.PageNum_lista") and Len(Trim(Form.PageNum_lista))>
+				<input type="hidden" name="PageNum_lista" value="#Form.PageNum_lista#">
+			</cfif>
+			</cfoutput>
+		</form>
+<cf_dbfunction name="to_char" args="p.IdProceso" datasource="sifinterfaces" returnvariable="LvarIdProceso">
+<cf_dbfunction name="to_char" args="p.NumeroInterfaz" datasource="sifinterfaces" returnvariable="LvarNumeroInterfaz"> 
+<cf_dbfunction name="to_char" args="p.SecReproceso" datasource="sifinterfaces" returnvariable="LvarSecReproceso">
+<cfif Form.fltStatus GT 0>
+	<script language="javascript">
+		function sbCMDconsultar(Id, Interfaz)
+		{
+			document.frmCola.id.value	= Id;
+			document.frmCola.ni.value	= Interfaz;
+			document.frmCola.sc.value	= 0;
+			document.frmCola.msg.value	= '.';
+			if (document.frmCola.cmd)
+				document.frmCola.cmd.value	= 'V';
+
+			document.frmCola.fltStatus.value = document.frmFiltro.fltStatus.value;
+			document.frmCola.fltFechaDesde.value = document.frmFiltro.fltFechaDesde.value;
+			document.frmCola.fltFechaHasta.value = document.frmFiltro.fltFechaHasta.value;
+			document.frmCola.fltInterfaz.value = document.frmFiltro.fltInterfaz.value;
+			document.frmCola.fltOrigen.value = document.frmFiltro.fltOrigen.value;
+			if (document.frmFiltro.chkRefrescar.checked) 
+				document.frmCola.chkRefrescar.value = document.frmFiltro.chkRefrescar.value;
+			else 
+				document.frmCola.chkRefrescar.value = "";
+				
+			document.frmCola.submit();
+		}
+	<cfif not isdefined("LvarSoloConsultar")>
+		function sbCMDcancelar(Status, Id, Interfaz, Secuencia)
+		{
+			//document.getElementById("ifrCancelar").style.top=(screen.height/2)+"pcx";
+			//document.getElementById("ifrCancelar").style.display="";
+			var LvarMSG = "";
+			while (LvarMSG != null && LvarMSG.replace(/ */,"") == "")
+				if (Status == 2)
+					LvarMSG = window.prompt('¿Desea detener la Ejecución del Proceso ' + Id + ' de la Interfaz ' + Interfaz + '?\nDigite la causa de la cancelación, o presione <CANCEL>','');
+				else
+					LvarMSG = window.prompt('¿Desea cancelar el Proceso ' + (Status == 1 ? 'inactivo' : Status == 2 ? 'en ejecución' : 'pendiente') + ' ' + Id + ' de la Interfaz ' + Interfaz + '?\nDigite la causa de la cancelación, o presione <CANCEL>','');
+			if (LvarMSG == null)
+			{
+				alert("No se cancelo el proceso");
+				return;
+			}
+			document.frmCola.id.value	= Id;
+			document.frmCola.ni.value	= Interfaz;
+			document.frmCola.sc.value	= Secuencia;
+			document.frmCola.msg.value	= LvarMSG;
+			document.frmCola.cmd.value	= 'C';
+
+			document.frmCola.fltStatus.value = document.frmFiltro.fltStatus.value;
+			document.frmCola.fltFechaDesde.value = document.frmFiltro.fltFechaDesde.value;
+			document.frmCola.fltFechaHasta.value = document.frmFiltro.fltFechaHasta.value;
+			document.frmCola.fltInterfaz.value = document.frmFiltro.fltInterfaz.value;
+			document.frmCola.fltOrigen.value = document.frmFiltro.fltOrigen.value;
+			if (document.frmFiltro.chkRefrescar.checked) 
+				document.frmCola.chkRefrescar.value = document.frmFiltro.chkRefrescar.value;
+			else 
+				document.frmCola.chkRefrescar.value = "";
+				
+			document.frmCola.submit();
+		}
+		
+		function sbCMDreprocesar(Id, Interfaz, Secuencia)
+		{
+			if (confirm('¿Desea Reprocesar el Proceso ' + Id + ' de la Interfaz ' + Interfaz + ' por ' + (Secuencia+1) +'a. vez?'))
+			{
+				document.frmCola.id.value	= Id;
+				document.frmCola.ni.value	= Interfaz;
+				document.frmCola.sc.value	= Secuencia;
+				document.frmCola.msg.value	= ".";
+				document.frmCola.cmd.value	= 'R';
+
+				document.frmCola.fltStatus.value = document.frmFiltro.fltStatus.value;
+				document.frmCola.fltFechaDesde.value = document.frmFiltro.fltFechaDesde.value;
+				document.frmCola.fltFechaHasta.value = document.frmFiltro.fltFechaHasta.value;
+				document.frmCola.fltInterfaz.value = document.frmFiltro.fltInterfaz.value;
+				document.frmCola.fltOrigen.value = document.frmFiltro.fltOrigen.value;
+				if (document.frmFiltro.chkRefrescar.checked) 
+					document.frmCola.chkRefrescar.value = document.frmFiltro.chkRefrescar.value;
+				else 
+					document.frmCola.chkRefrescar.value = "";
+
+				document.frmCola.submit();
+			}
+		}
+
+		function sbCMDreprocesarSpFinal(Id, Interfaz, Secuencia)
+		{
+			if (confirm('¿Desea reintentar la ejecución del Store Procedure Final para el Proceso ' + Id + ' de la Interfaz ' + Interfaz + '?'))
+			{
+				document.frmCola.id.value	= Id;
+				document.frmCola.ni.value	= Interfaz;
+				document.frmCola.sc.value	= Secuencia;
+				document.frmCola.msg.value	= ".";
+				document.frmCola.cmd.value	= 'SP';
+
+				document.frmCola.fltStatus.value = document.frmFiltro.fltStatus.value;
+				document.frmCola.fltFechaDesde.value = document.frmFiltro.fltFechaDesde.value;
+				document.frmCola.fltFechaHasta.value = document.frmFiltro.fltFechaHasta.value;
+				document.frmCola.fltInterfaz.value = document.frmFiltro.fltInterfaz.value;
+				document.frmCola.fltOrigen.value = document.frmFiltro.fltOrigen.value;
+				if (document.frmFiltro.chkRefrescar.checked) 
+					document.frmCola.chkRefrescar.value = document.frmFiltro.chkRefrescar.value;
+				else 
+					document.frmCola.chkRefrescar.value = "";
+
+				document.frmCola.submit();
+			}
+		}
+	</cfif>
+	</script>
+	<cf_web_portlet_start titulo="Cola de Procesos Pendientes de Finalizacion">
+		<cfset LvarIDsActivos = StructKeyList(Application.InterfazSoin["CE_#session.CEcodigo#"])>
+		<cfset LvarCancelados = "-1">
+		<cfset LvarActivos = "-1">
+		<cfloop index="LvarID" list="#LvarIDsActivos#">
+			<cfif mid(LvarID,1,7) EQ "ID_CAN_">
+				<cfset LvarCancelados = LvarCancelados & "," & mid(LvarID,8,18)>
+			<cfelseif mid(LvarID,1,3) EQ "ID_">
+				<!--- Application.interfazSoin[i][j]: Se usa con la hora del CF --->
+				<cfset LvarActividad = Application.InterfazSoin["CE_#session.CEcodigo#"][LvarID]>
+				<cfif dateDiff('s',LvarActividad,now()) LT 300>		<!--- now() OK --->
+					<cfset LvarActivos = LvarActivos & "," & mid(LvarID,4,18)>
+				</cfif>
+			</cfif>
+		</cfloop>
+		<cfquery name="rsSQL" datasource="sifinterfaces">
+			select #fnNow()# as now
+			<cfif Application.dsinfo.sifinterfaces.type EQ "oracle" OR Application.dsinfo.sifinterfaces.type EQ "db2">
+			from dual
+			</cfif>
+		</cfquery>
+		
+		<cfset LvarNowDMY_HMS = dateformat(rsSQL.now, 'dd-mm-yyyy hh:mm:ss')>
+
+		<cf_dbfunction name="timediff" args="p.FechaInicioProceso,'#PreserveSingleQuotes(LvarNowDMY_HMS)#'" returnvariable="LvarSegs">
+		<cf_dbfunction name="length" args="p.MsgErrorCompleto" returnvariable="LvarlenMsg">
+		<cf_dbfunction name="sPart" args="p.MsgError,1,31" returnvariable="LvarMsgError">
+		<cfquery name="rsLista" datasource="sifinterfaces">
+			select 	p.IdProceso, 
+					p.NumeroInterfaz, #PreserveSingleQuotes(LvarNumeroInterfaz)# as Interfaz,
+					case when p.OrigenInterfaz = 'S' then 'Originado desde SOIN hacia #session.CEnombre#' else 'Originado desde #session.CEnombre# hacia SOIN' end as Origen,
+					p.FechaInclusion,
+					p.StatusProceso,
+					'<span style=''font-weight:bold''>&nbsp;' #_Cat# 
+					case p.StatusProceso
+						when 1 then 'Inactivo'
+						when 2 then 
+							case 
+								when p.IdProceso in (#LvarCancelados#) then 'Cancelando'
+								when p.IdProceso in (#LvarActivos#) OR #PreserveSingleQuotes(LvarSegs)# < 300
+								then 'Activo'
+								else 'Dormido'
+							end
+							#_Cat#
+							case
+								when  #PreserveSingleQuotes(LvarSegs)# >= 300
+								then '<BR>' #_Cat# <cf_dbfunction name="to_char" args="round(#PreserveSingleQuotes(LvarSegs)#/60,0)"> #_Cat# ' min'
+								else ' '
+							end
+						when 3 then 'Error'
+						when 4 then 'Reprocesando'
+						when 5 then 'Error spFinal'
+					end #_Cat# '&nbsp;</span>' as Status,
+					 
+						case 
+							when <cf_dbfunction name="sPart" args="p.MsgError,1,18"> = 'ERROR DE EJECUCION' 
+							then 
+							p.MsgError #_Cat# '&nbsp;<img src="/cfmx/sif/imagenes/iindex.gif" style="cursor:pointer;" title="Visualizar Pila de Errores" onClick="sbStackTrace(' #_Cat# #preserveSingleQuotes(LvarIdProceso)##_Cat# ',' #_Cat# #preserveSingleQuotes(LvarNumeroInterfaz)# #_Cat# ',' #_Cat# #preserveSingleQuotes(LvarSecReproceso)# #_Cat# ',''C'');">' 
+							when #PreserveSingleQuotes(LvarMsgError)#  = 'SE GENERARON DETALLE DE ERRORES' 
+							then 'SE GENERARON DETALLE DE ERRORES' #_Cat# '&nbsp;<img src="/cfmx/sif/imagenes/findsmall.gif" style="cursor:pointer;" title="Consultar Datos y Det.Errores" onClick="sbCMDconsultar(' #_Cat# #preserveSingleQuotes(LvarIdProceso)# #_Cat# ',' #_Cat# #preserveSingleQuotes(LvarNumeroInterfaz)# #_Cat# ');">'
+							when coalesce(#LvarlenMsg#,0) > 0
+							then p.MsgError #_Cat# '&nbsp;<img src="/cfmx/sif/imagenes/Base.gif" style="cursor:pointer;" title="Visualizar Error Completo" onClick="sbMSGcompleto(' #_Cat# #preserveSingleQuotes(LvarIdProceso)##_Cat# ',' #_Cat# #preserveSingleQuotes(LvarNumeroInterfaz)# #_Cat# ',' #_Cat# #preserveSingleQuotes(LvarSecReproceso)# #_Cat# ',''C'');">' 
+							else p.MsgError
+						end
+					as MsgError,
+					p.UsuarioBdInclusion as Usuario,
+					case when SecReproceso<>0 then SecReproceso end as Reproceso1,
+					case when SecReproceso<>0 then '<img src="/cfmx/sif/imagenes/checked.gif">' end as Reproceso,
+				<cfif not isdefined("LvarSoloConsultar")>
+					case  
+						when p.StatusProceso = 1
+							then '<img src="/cfmx/sif/imagenes/idelete.gif" style="cursor:pointer;" title="Cancelar Proceso Inactivo" onClick="sbCMDcancelar(1,' #_Cat# #preserveSingleQuotes(LvarIdProceso)#  #_Cat# ',' #_Cat# #preserveSingleQuotes(LvarNumeroInterfaz)# #_Cat# ',' #_Cat# #preserveSingleQuotes(LvarSecReproceso)# #_Cat# ');">'
+						when p.StatusProceso = 2 AND p.IdProceso in (#LvarActivos#) AND p.IdProceso NOT in (#LvarCancelados#)
+							then '<img src="/cfmx/sif/imagenes/stop.gif" style="cursor:pointer;" title="Detener Ejecución del Proceso" onClick="sbCMDcancelar(2,' #_Cat# #preserveSingleQuotes(LvarIdProceso)#  #_Cat# ',' #_Cat# #preserveSingleQuotes(LvarNumeroInterfaz)##_Cat# ',' #_Cat# #preserveSingleQuotes(LvarSecReproceso)# #_Cat# ');">'
+						when p.StatusProceso = 3
+							then '<img src="/cfmx/sif/imagenes/idelete.gif" style="cursor:pointer;" title="Cancelar Proceso Pendiente" onClick="sbCMDcancelar(3,' #_Cat# #preserveSingleQuotes(LvarIdProceso)#  #_Cat# ',' #_Cat# #preserveSingleQuotes(LvarNumeroInterfaz)##_Cat# ',' #_Cat# #preserveSingleQuotes(LvarSecReproceso)# #_Cat# ');">&nbsp;<img src="/cfmx/sif/imagenes/start.gif" style="cursor:pointer;" title="Reprocesar Proceso Pendiente" onClick="sbCMDreprocesar(' #_Cat# #preserveSingleQuotes(LvarIdProceso)# #_Cat# ',' #_Cat# #preserveSingleQuotes(LvarNumeroInterfaz)# #_Cat# ',' #_Cat# #preserveSingleQuotes(LvarSecReproceso)# #_Cat# ');">'
+						when p.StatusProceso = 5
+							then '<img src="/cfmx/sif/imagenes/start.gif" style="cursor:pointer;" title="Reprocesar spFinal con Error" onClick="sbCMDreprocesarSpFinal(' #_Cat# #preserveSingleQuotes(LvarIdProceso)#  #_Cat# ',' #_Cat# #preserveSingleQuotes(LvarNumeroInterfaz)# #_Cat# ',' #_Cat# #preserveSingleQuotes(LvarSecReproceso)# #_Cat# ');">'
+					end as CMD,
+				<cfelse>
+					'' as CMD,
+				</cfif>
+				'<img src="/cfmx/sif/imagenes/findsmall.gif" style="cursor:pointer;'
+					#_Cat# case when #preserveSingleQuotes(LvarMsgError)# = 'SE GENERARON DETALLE DE ERRORES' 
+						then 'background:red;" title="Consultar Datos y Det.Errores"' else '" title="Consultar Datos del Proceso" ' end 
+					#_Cat# 'onClick="sbCMDconsultar(' #_Cat# #preserveSingleQuotes(LvarIdProceso)# #_Cat# ',' #_Cat# #preserveSingleQuotes(LvarNumeroInterfaz)# #_Cat# ');"">' as VER,
+				'#Form.fltStatus#' as fltStatus,
+				'#Form.fltFechaDesde#' as fltFechaDesde,
+				'#Form.fltFechaHasta#' as fltFechaHasta,
+				'#Form.fltInterfaz#' as fltInterfaz,
+				'#Form.fltOrigen#' as fltOrigen,
+				'#Form.chkRefrescar#' as chkRefrescar
+			  from InterfazColaProcesos p
+					inner join Interfaz i
+						on i.NumeroInterfaz = p.NumeroInterfaz
+			 where CEcodigo 		= #session.CEcodigo#
+ 			   and EcodigoSDC       = #session.EcodigoSDC#
+			<cfset sbPintarSQLFiltro()>
+			 #preserveSingleQuotes(LvarFiltro)#
+			 and p.StatusProceso <> 4
+			 order by Origen, FechaInclusion desc
+		</cfquery>
+ <cfoutput>       
+	<form method="post" name="frmConsola" action="#GetFileFromPath(GetTemplatePath())#">        
+		<cfinvoke 
+		 component="sif.Componentes.pListas"
+		 method="pListaQuery"
+		 returnvariable="pListaRet">
+			<cfinvokeargument name="query" value="#rsLista#"/>
+			<cfinvokeargument name="usaAjax"	value="no"/>
+
+			<cfinvokeargument name="cortes" value="Origen"/>
+			<cfinvokeargument name="desplegar" value="VER,CMD,IdProceso,Reproceso,Interfaz,FechaInclusion,Status,MsgError,Usuario"/>
+			<cfinvokeargument name="etiquetas" value="VER,CMD,ID&nbsp;&nbsp;,Reproc.,Interfaz,Creado,Status&nbsp;,Descripcion,Originado por"/>
+			<cfinvokeargument name="formatos" value="S,S,V,S,S,DT,S,S,S"/>
+			<cfinvokeargument name="ajustar" value="N,N,N,N,N,N,N,S,N"/>
+			<cfinvokeargument name="align" value="center,center, right, center, left, center, center, left, left"/>
+			<cfinvokeargument name="lineaAzul" value="StatusProceso EQ 2"/>
+			<cfinvokeargument name="lineaRoja" value="StatusProceso EQ 3 or StatusProceso EQ 11"/>
+			<cfinvokeargument name="checkboxes" value="N"/>
+	        	<cfif not isdefined("LvarSoloConsultar")>    
+				<cfinvokeargument name="checkboxes" value="S"/>
+		                <cfinvokeargument name="checkbox_function" value="return funcChequea()"/>
+		                <cfinvokeargument name="botones" value="Reprocesar"/>
+		            	<cfinvokeargument name="keys" value="StatusProceso,IdProceso,Interfaz,SecReproceso"/>
+		        </cfif> 
+			<cfinvokeargument name="irA" value="#GetFileFromPath(GetTemplatePath())#"/>
+			<cfinvokeargument name="MaxRows" value="20"/>
+			<cfinvokeargument name="formName" value="frmConsola"/>
+			<cfinvokeargument name="showLink" value="false"/>
+			<cfinvokeargument name="navegacion" value="#LvarNavegacion#"/>
+			<cfinvokeargument name="debug" value="N"/>
+			<cfinvokeargument name="showEmptyListMsg" value="Yes"/>
+			<cfinvokeargument name="EmptyListMsg" value="No existen procesos en la cola"/>
+		</cfinvoke>
+    </form>
+ </cfoutput>      
+	<cf_web_portlet_end>
+<cfelse>	
+	<script language="javascript">
+		function sbCMDconsultar(Id, Interfaz)
+		{
+			document.frmCola.id.value	= Id;
+			document.frmCola.ni.value	= Interfaz;
+			document.frmCola.sc.value	= 0;
+			document.frmCola.msg.value	= '.';
+			if (document.frmCola.cmd)
+				document.frmCola.cmd.value	= 'V';
+
+			document.frmCola.fltStatus.value = document.frmFiltro.fltStatus.value;
+			document.frmCola.fltFechaDesde.value = document.frmFiltro.fltFechaDesde.value;
+			document.frmCola.fltFechaHasta.value = document.frmFiltro.fltFechaHasta.value;
+			document.frmCola.fltInterfaz.value = document.frmFiltro.fltInterfaz.value;
+			document.frmCola.fltOrigen.value = document.frmFiltro.fltOrigen.value;
+			if (document.frmFiltro.chkRefrescar.checked) 
+				document.frmCola.chkRefrescar.value = document.frmFiltro.chkRefrescar.value;
+			else 
+				document.frmCola.chkRefrescar.value = "";
+				
+			document.frmCola.submit();
+		}
+	</script>
+	<cf_web_portlet_start titulo="Bitácora de Procesos Finalizados">
+		<cf_dbfunction name="length" args="p.MsgErrorCompleto" returnvariable="MsgErrorCompleto">
+		<cfquery name="rsLista" datasource="sifinterfaces">
+			select 	p.IdProceso, 
+					p.NumeroInterfaz, <cf_dbfunction name="to_char" args="p.NumeroInterfaz" datasource="sifinterfaces"> as Interfaz,
+					case when p.OrigenInterfaz = 'S' then 'Originado desde SOIN hacia #session.CEnombre#' else 'Originado desde #session.CEnombre# hacia SOIN' end as Origen,
+					p.FechaInclusion,
+					p.StatusProceso,
+					'<span style=''font-weight:bold''>&nbsp;' #_Cat# 
+					case p.StatusProceso
+						when 1  then 'Inactivo Cancelado'
+						when 2  then 'Activo Cancelado'
+						when 3  then 'Error Cancelado'
+						when 4  then 'Error Reprocesado'
+						when 10 then 'Finalizado Con Exito'
+						when 11 then 'Finalizado Con Error'
+						when 12 then 'Error antes de Inicio'
+					end #_Cat# '&nbsp;</span>' as Status,
+					case when SecReproceso<>0 and SecReproceso<>999999 then SecReproceso end as Reproceso,
+					p.MsgError #_Cat# 
+						case 
+							when <cf_dbfunction name="sPart" args="p.MsgError,1,18"> = 'ERROR DE EJECUCION' 
+							then '&nbsp;<img src="/cfmx/sif/imagenes/iindex.gif" style="cursor:pointer;" title="Visualizar Pila de Errores" onClick="sbStackTrace(' #_Cat# #preserveSingleQuotes(LvarIdProceso)# #_Cat# ',' #_Cat# #preserveSingleQuotes(LvarNumeroInterfaz)# #_Cat# ',' #_Cat# #preserveSingleQuotes(LvarSecReproceso)# #_Cat# ',''B'');">' 
+							when coalesce(#PreserveSingleQuotes(MsgErrorCompleto)#,0) > 0
+							then '&nbsp;<img src="/cfmx/sif/imagenes/Base.gif" style="cursor:pointer;" title="Visualizar Error Completo" onClick="sbMSGcompleto(' #_Cat# #preserveSingleQuotes(LvarIdProceso)# #_Cat# ',' #_Cat# #preserveSingleQuotes(LvarNumeroInterfaz)# #_Cat# ',' #_Cat# #preserveSingleQuotes(LvarSecReproceso)# #_Cat# ',''B'');">' 
+						end
+					as MsgError,
+					p.UsuarioBdInclusion as Usuario,
+					UsucodigoCancela,
+	 				'<img src="/cfmx/sif/imagenes/findsmall.gif" style="cursor:pointer;" title="Consultar Datos del Proceso" onClick="sbCMDconsultar(' #_Cat# #preserveSingleQuotes(LvarIdProceso)# #_Cat# ',' #_Cat# #preserveSingleQuotes(LvarNumeroInterfaz)# #_Cat# ');">' as VER,
+					'#Form.fltStatus#' as fltStatus,
+					'#Form.fltFechaDesde#' as fltFechaDesde,
+					'#Form.fltFechaHasta#' as fltFechaHasta,
+					'#Form.fltInterfaz#' as fltInterfaz,
+					'#Form.fltOrigen#' as fltOrigen,
+					'#Form.chkRefrescar#' as chkRefrescar
+			  from InterfazBitacoraProcesos p
+					left join Interfaz i
+						on i.NumeroInterfaz = p.NumeroInterfaz
+			 where CEcodigo 		= #session.CEcodigo#
+			   and EcodigoSDC       = #session.EcodigoSDC#
+			<cfset sbPintarSQLFiltro()>
+			 #preserveSingleQuotes(LvarFiltro)#
+			 order by Origen, IdProceso desc, SecReproceso desc
+		</cfquery>
+		<cfinvoke 
+		 component="sif.Componentes.pListas"
+		 method="pListaQuery"
+		 returnvariable="pListaRet">
+			<cfinvokeargument name="query" value="#rsLista#"/>
+			<cfinvokeargument name="usaAjax"	value="no"/>
+
+			<cfinvokeargument name="cortes" value="Origen"/>
+			<cfinvokeargument name="desplegar" value="VER,IdProceso,Reproceso,Interfaz,FechaInclusion,Status,MsgError,Usuario"/>
+			<cfinvokeargument name="etiquetas" value="VER,ID&nbsp;&nbsp;,Reproc.,Interfaz,Creado,Status&nbsp;,Descripcion,Creado por"/>
+			<cfinvokeargument name="formatos" value="S,V,IMG,S,DT,S,S,S"/>
+			<cfinvokeargument name="ajustar" value="N,N,N,N,N,N,S,N"/>
+			<cfinvokeargument name="align" value="center,center, center, left, center, center, left, left"/>
+			<cfinvokeargument name="lineaRoja" value="StatusProceso NEQ 10"/>
+			<cfinvokeargument name="checkboxes" value="N"/>
+			<cfinvokeargument name="irA" value="#GetFileFromPath(GetTemplatePath())#"/>
+			<cfinvokeargument name="MaxRows" value="20"/>
+			<cfinvokeargument name="formName" value="frmConsola"/>
+			<cfinvokeargument name="PageIndex" value="3"/>
+			<cfinvokeargument name="showLink" value="false"/>
+			<cfinvokeargument name="navegacion" value="#LvarNavegacion#"/>
+			<cfinvokeargument name="debug" value="N"/>
+			<cfinvokeargument name="showEmptyListMsg" value="Yes"/>
+			<cfinvokeargument name="EmptyListMsg" value="No existen procesos en la bitacora"/>
+		</cfinvoke>
+	<cf_web_portlet_end>
+<cffunction name="fnNow" access="public" output="no">
+		<cf_dbfunction name="now" datasource="sifinterfaces" returnvariable="fnNow">
+		<cfreturn #fnNow#>
+	</cffunction>
+</cfif>
+
+
+
+
+<script language="javascript">
+
+	function funcReprocesar(){
+		var result = true;
+		
+		if (confirm('Desea Reprocesar los Documentos Seleccionados?')){
+
+			eval("document.frmConsola.action = 'ReProceso-Masivo.cfm';");	
+				document.frmConsola.submit();
+		}
+		else
+			result = false;
+		return result;
+	}
+
+
+	function funcChequeaTodos(){
+		var c = document.frmFiltro.chkall;
+		if (document.frmConsola.chk) {
+			if (document.frmConsola.chk.value) {
+				if (!document.frmConsola.chk.disabled) { 
+					document.frmConsola.chk.checked = c.checked;
+				}
+			} 
+			else {
+				for (var counter = 0; counter < document.frmConsola.chk.length; counter++) {
+					var valores = document.frmConsola.chk[counter].value.split("|");				
+					var Dmonto = parseFloat( valores[4] );
+						
+					if (!document.frmConsola.chk[counter].disabled) {
+						document.frmConsola.chk[counter].checked = c.checked;
+					}
+				}
+			}
+		}
+	}
+	
+	function funcChequea(){
+		var c = document.frmFiltro.chkall;
+		var checked = true;
+		if (document.frmConsola.chk) {
+			if (document.frmConsola.chk.value) {
+				if (!document.frmConsola.chk.disabled) { 
+					if (!document.frmConsola.chk.checked) {
+						checked = false;
+					}									
+				}
+			} else {
+				for (var counter = 0; counter < document.frmConsola.chk.length; counter++) {
+					if (!document.frmConsola.chk[counter].disabled) {
+						if (!document.frmConsola.chk[counter].checked) {
+							checked = false;
+						}	
+					}
+				}
+			}
+		}
+		document.frmFiltro.chkall.checked = checked;
+	}	
+
+	for (var counter = 0; counter < document.frmConsola.chk.length; counter++) {
+		var valores = document.frmConsola.chk[counter].value.split("|");
+		var ValorStatus = parseInt(valores[0]);
+
+		if (ValorStatus == 3) {
+			document.frmConsola.chk[counter].disabled=false;
+		}
+		else
+			document.frmConsola.chk[counter].disabled=true;
+	}
+	
+	
+	function sbStackTrace(Id, Interfaz, Secuencia, Tipo)
+	{
+		var LvarUrl = "StackTrace.cfm?id=" +Id+ "&ni=" +Interfaz+ "&sc=" +Secuencia+ "&tp=" +Tipo;
+		var width=600;var height=400;var left=100;var top=100;
+		var LvarPopUpWin = open(LvarUrl, 'popUpWin', 'toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbar=no,resizable=no,copyhistory=yes,width='+width+',height='+height+',left='+left+', top='+top+',screenX='+left+',screenY='+top+'');
+		LvarPopUpWin.focus()
+	}
+	function sbMSGcompleto(Id, Interfaz, Secuencia, Tipo)
+	{
+		var LvarUrl = "StackTrace.cfm?id=" +Id+ "&ni=" +Interfaz+ "&sc=" +Secuencia+ "&tp=" +Tipo+ "&mec=1";
+		var width=600;var height=400;var left=100;var top=100;
+		var LvarPopUpWin = open(LvarUrl, 'popUpWin', 'toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbar=no,resizable=no,copyhistory=yes,width='+width+',height='+height+',left='+left+', top='+top+',screenX='+left+',screenY='+top+'');
+		LvarPopUpWin.focus()
+	}
+	setTimeout("if (document.getElementById('chkRefrescar').checked) document.getElementById('Filtrar').click()",10*1000);
+
+	function fnValidarContenido()
+	{
+		if (document.frmFiltro.fltInterfazCVE && document.frmFiltro.fltInterfazCVE.value != "")
+			fnAsignarContenido (document.frmFiltro.fltInterfazCNE, document.frmFiltro.fltInterfazCVE);
+		if (document.frmFiltro.fltInterfazCVD && document.frmFiltro.fltInterfazCVD.value != "")
+			fnAsignarContenido (document.frmFiltro.fltInterfazCND, document.frmFiltro.fltInterfazCVD);
+		if (document.frmFiltro.fltInterfazCVS && document.frmFiltro.fltInterfazCVS.value != "")
+			fnAsignarContenido (document.frmFiltro.fltInterfazCNS, document.frmFiltro.fltInterfazCVS);
+	}
+
+	function fnAsignarContenido(objN, objV)
+	{
+		var LvarTipo = objN.value.split("|")[1];
+		if (LvarTipo == "N")
+		{
+			var LvarValue = "";
+			try
+			{
+				LvarValue = parseFloat(objV.value)+"";
+			}
+			catch (e) {}
+			if ((LvarValue == "") || (LvarValue+"" == "NaN")) 
+			{
+				alert("Valor Numerico incorrecto");
+				objV.value = "";
+			}
+			else
+				objV.value = LvarValue;
+		}
+		else if (LvarTipo == "D") 
+		{
+			// "DD/MM/YYYY"
+			var LvarFecha = "";
+			var LvarParts  = objV.value.split("/");
+			if (LvarParts.length == 3)
+			try
+			{
+				LvarFecha = new Date(LvarParts[2],LvarParts[1]-1,LvarParts[0]);
+				LvarValue = ceros(LvarFecha.getDate())+"/"+ceros(LvarFecha.getMonth()+1)+"/"+LvarFecha.getFullYear();
+			}
+			catch (e) {
+				LvarFecha = "";
+			}
+
+			if (LvarFecha == "" || LvarFecha+"" == "NaN")
+			{
+				alert ('Fecha incorrecta (DD/MM/YYYY)');
+				objV.value = "";
+			}
+			else
+				objV.value = LvarValue;
+			
+		}
+	}
+	
+	function ceros(str)
+	{
+		if (str < 10)
+			return '0' + str;
+		else
+			return str;
+	}
+</script>
+
+<cffunction name="sbPintaFiltrarPorContenido" output="true">
+	<cfif fltInterfaz EQ -1>
+		<cfreturn>
+	</cfif>
+	<input type="checkbox" name="chkInterfaz" value="1" <cfif form.chkInterfaz EQ "1">checked</cfif>
+		onclick="location.href = ('#cgi.SCRIPT_NAME#?chkInterfaz=' + ((this.checked) ? '1' : '0'));"/>
+	<cfif form.chkInterfaz EQ "0">
+		Filtrar por Contenido
+		<cfreturn>
+	</cfif>
+	<strong>Filtrar por Contenido:</strong>
+	<table style="border:solid ##CCCCCC 1px">
+		<tr>
+			<td>
+				<strong>Nivel</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			</td>
+			<td>
+				<strong>Nombre de Campo</strong>
+			</td>
+			<td>
+				<strong>Valor</strong>
+			</td>
+		</tr>
+	<cfquery name="rsSQL" datasource="sifinterfaces">
+		select ManejoDatos from Interfaz where NumeroInterfaz = #fltInterfaz#
+	</cfquery>
+	<cfset LvarMD = rsSQL.ManejoDatos>
+	<cfif LvarMD EQ "T">
+		<cfloop list="E,D,S" index="LvarNivel">
+			<cftry>
+				<cfquery name="rsSQL" datasource="sifinterfaces">
+					select * from I#LvarNivel##fltInterfaz# where ID = 0
+				</cfquery>
+				<cf_dbstruct name="I#LvarNivel##fltInterfaz#" returnvariable="LvarCols" datasource="sifinterfaces">
+				<tr>
+					<td>
+						I#LvarNivel##fltInterfaz#:
+					</td>
+					<td>
+						<select name="fltInterfazCN#LvarNivel#" onchange="this.form.fltInterfazCV#LvarNivel#.value=''">
+						<cfloop query="LvarCols">
+							<cfif LvarCols.Name NEQ "ID">
+								<option value="#LvarCols.Name#|#LvarCols.CF_Type#" <cfif form["fltInterfazCN#LvarNivel#"] EQ "#LvarCols.Name#|#LvarCols.CF_Type#">selected</cfif>>#LvarCols.Name# (#LvarCols.CF_Type#)</option>
+							</cfif>
+						</cfloop>
+					</td>
+					<td>
+						<input type="text" name="fltInterfazCV#LvarNivel#" value="#form["fltInterfazCV#LvarNivel#"]#" onblur="fnValidarContenido();"/>
+					</td>
+				</tr>
+			<cfcatch type="any"></cfcatch>
+			</cftry>
+		</cfloop>
+	<cfelse>
+			<tr>
+				<td>
+					I#fltInterfaz# XML_E
+				</td>
+				<td>
+					<input type="text" name="fltInterfazCNE" value="#form.fltInterfazCNE#"/>
+				</td>
+				<td>
+					<input type="text" name="fltInterfazCVE" value="#form.fltInterfazCVE#"/>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					I#fltInterfaz# XML_D
+				</td>
+				<td>
+					<input type="text" name="fltInterfazCND" value="#form.fltInterfazCND#"/>
+				</td>
+				<td>
+					<input type="text" name="fltInterfazCVD" value="#form.fltInterfazCVD#"/>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					I#fltInterfaz# XML_S
+				</td>
+				<td>
+					<input type="text" name="fltInterfazCNS" value="#form.fltInterfazCNS#"/>
+				</td>
+				<td>
+					<input type="text" name="fltInterfazCVS" value="#form.fltInterfazCVS#"/>
+				</td>
+			</tr>
+	</cfif>
+	</table>
+</cffunction>
+
+<cffunction name="sbPintarSQLFiltro" output="true">
+	<cfif form.chkInterfaz EQ "1">
+		<cfloop list="E,D,S" index="LvarNivel">
+			<cfif trim(form["fltInterfazCV#LvarNivel#"]) NEQ "">
+				<cfif LvarMD EQ "T">
+					<cfset LvarCampo = listToArray(form["fltInterfazCN#LvarNivel#"],"|")>
+					and (select count(1) from I#LvarNivel##form.fltInterfaz#
+							where ID = p.IdProceso
+							<cfif LvarCampo[2] EQ "N">
+								and #LvarCampo[1]# 	= #form["fltInterfazCV#LvarNivel#"]#
+							<cfelseif LvarCampo[2] EQ "D">
+								<cfset LvarDate = LSParseDateTime(form["fltInterfazCV#LvarNivel#"])>
+								and #LvarCampo[1]# 	>=	#createODBCdate(LvarDate)#
+								<cfset LvarDate = dateadd("D",1,LvarDate)>
+								and #LvarCampo[1]# 	<	#createODBCdate(LvarDate)#
+							<cfelse>
+								and upper(#LvarCampo[1]#)	like '%#trim(replace(ucase(form["fltInterfazCV#LvarNivel#"]),"'","''","ALL"))#%'
+							</cfif>
+						) > 0
+				<cfelse>
+					and (select count(1) from InterfazDatosXML
+							where CEcodigo			= #session.CEcodigo#
+							  and NumeroInterfaz	= #form.fltInterfaz#
+							  and IdProceso			= p.IdProceso
+							  and TipoIO			= 'I'
+						<cfif Application.dsinfo.sifinterfaces.type EQ "oracle">
+							  and upper(utl_raw.cast_to_nvarchar2(XML_#LvarNivel#)) like
+						<cfelseif listFind("sqlserver,sybase", Application.dsinfo.sifinterfaces.type)>
+							  and upper(convert(varchar(8000), convert(varbinary(8000), XML_#LvarNivel#))) like
+						<cfelse>
+							<cfthrow message="Busqueda por contenido no soportado por el tipo de base de datos: #Application.dsinfo.sifinterfaces.type#">
+						</cfif>
+							  	<cfset LvarNombre	= replace(ucase(xmlFormat(form["fltInterfazCN#LvarNivel#"])),"'","''","ALL")>
+							  	<cfset LvarValor	= replace(ucase(xmlFormat(form["fltInterfazCV#LvarNivel#"])),"'","''","ALL")>
+							  	'%<#LvarNombre#>#LvarValor#%'
+						) > 0
+				</cfif>
+			</cfif>
+		</cfloop>
+	</cfif>
+</cffunction>

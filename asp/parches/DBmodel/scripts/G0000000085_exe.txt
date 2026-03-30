@@ -1,0 +1,68 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 191 - DBM 331: Diagram: Viaticos_por_Comision
+
+	         PARCHE:  Parche023_355_SIF_GastoEmpleados
+
+GENERADO EN:
+	SERVER:  http://mxpapp36:8300
+	DSN:     sifcim
+	FECHA:   08/10/2011 08:10:46
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* CHG_TABLE TESordenPago: TESordenPago */
+/* ======================================================================================== */
+/* CHG_COLUMN OP=(CAMBIO): TESOPestado - Estado de la Orden */
+ALTER TABLE TESordenPago DROP CONSTRAINT TESordenPago_CK04 /* CHECK ([TESOPestado]=(13) OR [TESOPestado]=(12) OR [TESOPestado]=(110) OR [TESOPestado]=(11) OR [TESOPestado]=(103) OR [TESOPestado]=(101) OR [TESOPestado]=(10)) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE TESordenPago DROP CONSTRAINT DF__TESordenP__TESOP__7FE0DB9D
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE TESordenPago ALTER COLUMN TESOPestado numeric(3) NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE TESordenPago ADD CONSTRAINT TESordenPago_DF04 DEFAULT 10 FOR TESOPestado
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE TESordenPago ADD CONSTRAINT TESordenPago_CK04 CHECK ([TESOPestado]=(13) OR [TESOPestado]=(12) OR [TESOPestado]=(110) OR [TESOPestado]=(11) OR [TESOPestado]=(103) OR [TESOPestado]=(101) OR [TESOPestado]=(10))
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): CCHidPago - ID Caja Especial Efectivo */
+ALTER TABLE TESordenPago ADD CCHidPago numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(NUEVO): TIP="F", SEC="15", COLS="CCHidPago", REF="CCHica" */
+CREATE INDEX TESordenPago_FI15 ON TESordenPago (CCHidPago)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ================================================================= */
+/*            CREA FKs NUEVOS O CON CAMPOS MODIFICADOS               */
+/* ================================================================= */
+/* CHG_TABLE TESordenPago */
+/* ADD_FK OP=(NUEVO): TIP="F", SEC="15", COLS="CCHidPago", REF="CCHica" */
+ALTER TABLE TESordenPago ADD CONSTRAINT TESordenPago_FK15 FOREIGN KEY (CCHidPago) REFERENCES CCHica (CCHid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

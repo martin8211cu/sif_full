@@ -1,0 +1,51 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 496 - DBM 440: Creacion de Campo ETnotaCredito
+
+	         PARCHE:  Parche023_606_SIF_FacturacionFTEC
+
+GENERADO EN:
+	SERVER:  http://mxvqapp34:8300
+	DSN:     sifcim
+	FECHA:   09/01/2012 13:04:11
+*/
+
+/* INI_SCRIPT */
+
+/* ================================================================= */
+/*    ELIMINA FKs QUE YA NO SE UTILIZAN O CON CAMPOS MODIFICADOS     */
+/* ================================================================= */
+/* CHG_TABLE ETransacciones */
+/* DEL_FK OP = (OBSOLETO): TIP="F", COLS="Ecodigo,Icodigo", REF="Impuestos" */
+ALTER TABLE ETransacciones DROP CONSTRAINT ETransacciones_FK08 /* REFERENCES Impuestos (Ecodigo,Icodigo) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE ETransacciones: Encabezado de Transacciones de */
+/* ======================================================================================== */
+/* DEL_KEY OP = (OBSOLETO): TIP="F", COLS="Ecodigo,Icodigo", REF="Impuestos" */
+DROP INDEX ETransacciones.ETransacciones_FI08 /* REFERENCES INDEX (Ecodigo,Icodigo) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* DEL_COLUMN OP = (OBSOLETO): Icodigo - Codigo de Impuesto */
+ALTER TABLE ETransacciones DROP COLUMN Icodigo
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_COLUMN OP = (NUEVO): ETnotaCredito - Generar Nota de Credito */
+ALTER TABLE ETransacciones ADD ETnotaCredito bit DEFAULT 0 NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

@@ -1,0 +1,13 @@
+<tag name="cf_sifimportar" endtag="no">
+    <tagformat nlbeforetag="0" nlaftertag="0" />
+    <attributes>
+        <attrib name="EIid" casesensitive="yes"/>
+        <attrib name="EIcodigo" casesensitive="yes"/>
+        <attrib name="mode" TYPE="enumerated">
+            <attriboption VALUE="in" />
+            <attriboption VALUE="out" />
+        </attrib>
+        <attrib name="width"/>
+        <attrib name="height"/>
+    </attributes>
+</tag>

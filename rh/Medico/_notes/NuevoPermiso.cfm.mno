@@ -1,0 +1,4 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<info>
+	<infoitem key="UD_permisos" value="name:Pnombre;datatype:,name:Papellido1;datatype:,name:Papellido2;datatype:,name:propietario;datatype:,name:lectura;datatype:,name:escritura;datatype:,name:citar;datatype:" />
+</info>

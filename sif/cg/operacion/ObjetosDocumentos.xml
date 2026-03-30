@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	
+	<Idioma id="en">
+		<LB_Titulo>Accounting Document Object</LB_Titulo>
+		<LB_DescripcionArchivo>File Description</LB_DescripcionArchivo>
+		<LB_Descripcion>Description</LB_Descripcion>
+		<LB_Extension>Extension</LB_Extension>
+		<LB_Descargar>Download</LB_Descargar>
+		<LB_Tipo>Type</LB_Tipo>
+		<LB_DigitarTexto>Insert text</LB_DigitarTexto>
+		<LB_Imagen>Image</LB_Imagen>
+		<LB_Archivo>File</LB_Archivo>
+	<Lbl_DebeSelArch>You have to select a file</Lbl_DebeSelArch><Lbl_DescArch>File Description</Lbl_DescArch></Idioma>
+</Etiquetas>

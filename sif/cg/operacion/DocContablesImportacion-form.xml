@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">	
+		<BTN_VerificarCtas>Verify Accounts</BTN_VerificarCtas>
+		<BTN_Balancear>Balance</BTN_Balancear>
+		<BTN_IraLista>Return</BTN_IraLista>
+		
+		
+       
+	</Idioma>
+
+</Etiquetas>

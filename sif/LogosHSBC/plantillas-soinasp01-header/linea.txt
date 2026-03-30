@@ -1,0 +1,5 @@
+quitar línea 46,
+<!---<img src="/cfmx/plantillas/soinasp01/images/spacer.gif" alt="MiGestion.net" width="163" height="71">--->
+
+c00020
+f7e6e8

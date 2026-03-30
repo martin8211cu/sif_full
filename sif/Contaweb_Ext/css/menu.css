@@ -1,0 +1,50 @@
+td.portlet-content, portlet-content-noborder {
+	color:black;
+	padding:6px;
+}
+
+td.portlet-content {
+	border-left:1px solid gray;
+	border-right:1px solid gray;
+	border-bottom:1px solid gray;
+}
+
+portlet-content-noborder {
+	border: none;
+}
+
+td.portlet-title, td.portlet-corner-lt, td.portlet-corner-rt, td.portlet-corner-lb, td.portlet-corner-rb {
+	background-color: #ADADCA;
+	padding:0px;
+	border:none;
+}
+
+td.portlet-title {
+	color:white;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-weight: bold;
+	font-variant: small-caps;
+	padding-top:3px;
+	padding-bottom:3px;
+	vertical-align: middle;
+	border:none;
+}
+
+td.portlet-corner-lt, td.portlet-corner-lb {
+	text-align: left;
+}
+td.portlet-corner-rt, td.portlet-corner-rb {
+	text-align: right;
+}
+td.portlet-corner-lt, td.portlet-corner-rt {
+	vertical-align: top;
+}
+td.portlet-corner-lb, td.portlet-corner-rb {
+	vertical-align: bottom;
+}
+.portlet-content-mn {
+	background-color: #F5F5F5;
+	border: 1px solid gray;
+}
+
+

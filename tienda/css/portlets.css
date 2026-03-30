@@ -1,0 +1,103 @@
+.Titulo {
+	color:white;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-weight: bolder;
+	font-variant: small-caps;
+	vertical-align: bottom;
+	border:none;
+	background-color: #ADADCA;
+	font-size: 11px;
+	padding: 0px;
+	margin: 0px;
+}
+
+.contenido-noborder {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	border: none;
+}
+.contenido-allborder {
+
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	border: 1px solid #999999;
+}
+.contenido-rborder {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	border-top: 1px none #999999;
+	border-right: 1px solid #999999;
+	border-bottom: 1px none #999999;
+	border-left: 1px none #999999;
+
+}
+.contenido-lborder {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	border-top: 1px none #999999;
+	border-right: 1px none #999999;
+	border-bottom: 1px none #999999;
+	border-left: 1px solid #999999;
+
+}
+.contenido-bborder {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	border-top: 1px none #999999;
+	border-right: 1px none #999999;
+	border-bottom: 1px solid #999999;
+	border-left: 1px none #999999;
+
+}
+.contenido-tborder {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	border-top: 1px solid #999999;
+	border-right: 1px none #999999;
+	border-bottom: 1px none #999999;
+	border-left: 1px none #999999;
+
+}
+.contenido-lrborder {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	border-top: 1px none #999999;
+	border-right: 1px solid #999999;
+	border-bottom: 1px none #999999;
+	border-left: 1px solid #999999;
+
+}
+.contenido-lbrborder {
+
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	border-top: 1px none #999999;
+	border-right: 1px solid #999999;
+	border-bottom: 1px solid #999999;
+	border-left: 1px solid #999999;
+}
+.contenido-mantenimiento {
+
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	border: none;
+}
+.contenido-lbborder {
+
+
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	border-top: 1px none #999999;
+	border-right: 1px none #999999;
+	border-bottom: 1px solid #999999;
+	border-left: 1px solid #999999;
+}
+.contenido-brborder {
+
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	border-top: 1px none #999999;
+	border-right: 1px solid #999999;
+	border-bottom: 1px solid #999999;
+	border-left: 1px none #999999;
+}

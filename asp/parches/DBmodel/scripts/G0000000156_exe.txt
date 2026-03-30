@@ -1,0 +1,971 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 206 - DBM 433: Tabla de Porcentaje Retiro Fiscal
+
+	         PARCHE:  Parche023_583_SIF_RetiroFiscal
+
+GENERADO EN:
+	SERVER:  http://mxvqapp34:8300
+	DSN:     minisif
+	FECHA:   09/01/2012 15:58:56
+*/
+
+/* INI_SCRIPT */
+
+/* ================================================================= */
+/*    ELIMINA FKs QUE YA NO SE UTILIZAN O CON CAMPOS MODIFICADOS     */
+/* ================================================================= */
+/* CHG_TABLE EIDeducciones */
+/* DEL_FK OP = (NO GENERAR): TIP="F", COLS="Ecodigo", REF="Empresas" */
+ALTER TABLE EIDeducciones DROP CONSTRAINT EIDeducciones_FK02 /* REFERENCES Empresas (Ecodigo) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_TABLE ETransacciones */
+/* DEL_FK OP = (OBSOLETO): TIP="F", COLS="Ecodigo,Icodigo", REF="Impuestos" */
+ALTER TABLE ETransacciones DROP CONSTRAINT ETransacciones_FK08 /* REFERENCES Impuestos (Ecodigo,Icodigo) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE AFTBResponsables: Bitácora de Transferencias de  */
+/* ======================================================================================== */
+/* CHG_COLUMN OP = (CAMBIO): AFTRechazado - Rechazado */
+ALTER TABLE AFTBResponsables ADD CONSTRAINT AFTBResponsables_DF20 DEFAULT 0 FOR AFTRechazado
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE AsientosRecursivos: AsientosRecursivos */
+/* ======================================================================================== */
+/* ADD_COLUMN OP = (NUEVO): FFECrecursivo - Fecha Fin del Asiento Recursivo */
+ALTER TABLE AsientosRecursivos ADD FFECrecursivo datetime NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE CCHarqueo: CCHarqueo */
+/* ======================================================================================== */
+/* ADD_COLUMN OP = (NUEVO): CCHobservacion - CCHobservacion */
+ALTER TABLE CCHarqueo ADD CCHobservacion varchar(255) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE CCTransacciones: Transacciones de Cuentas x Cob */
+/* ======================================================================================== */
+/* CHG_COLUMN OP = (CAMBIO): CCTcktr - Tipo Cheque o Transferencia */
+ALTER TABLE CCTransacciones DROP CONSTRAINT CCTransacciones_CK08 /* CHECK ([CCTcktr] IS NULL OR ([CCTcktr]='T' OR [CCTcktr]='C')) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE CCTransacciones ADD CONSTRAINT CCTransacciones_CK08 CHECK ([CCTcktr] IS NULL OR ([CCTcktr]='P' OR [CCTcktr]='T' OR [CCTcktr]='C'))
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE CDErrores: CDErrores */
+/* ======================================================================================== */
+/* CHG_COLUMN OP = (CAMBIO): ColumnName - ColumnName */
+ALTER TABLE CDErrores ALTER COLUMN ColumnName varchar(255) NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+UPDATE CDErrores SET ColumnName = RTRIM(ColumnName)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_COLUMN OP = (CAMBIO): ColumnType - ColumnType */
+ALTER TABLE CDErrores ALTER COLUMN ColumnType varchar(255) NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+UPDATE CDErrores SET ColumnType = RTRIM(ColumnType)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE CDRHHCargasCalculo: CDRHHCargasCalculo */
+/* ======================================================================================== */
+/* ADD_COLUMN OP = (NUEVO): CDRHHCCSalarioBase - CDRHHCCSalarioBase */
+ALTER TABLE CDRHHCargasCalculo ADD CDRHHCCSalarioBase money NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP = (NUEVO): CDRHHCCSalarioBaseCotizacion - CDRHHCCSalarioBaseCotizacion */
+ALTER TABLE CDRHHCargasCalculo ADD CDRHHCCSalarioBaseCotizacion money NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE CDRHHDeduccionesEmpleado: CDRHHDeduccionesEmpleado */
+/* ======================================================================================== */
+/* ADD_COLUMN OP = (NUEVO): CDRHHDmetodo - CDRHHDmetodo */
+ALTER TABLE CDRHHDeduccionesEmpleado ADD CDRHHDmetodo bit DEFAULT 1 NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP = (NUEVO): CDRHHDmonto - CDRHHDmonto */
+ALTER TABLE CDRHHDeduccionesEmpleado ADD CDRHHDmonto money NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE CDRHHIncidenciasCalculo: CDRHHIncidenciasCalculo */
+/* ======================================================================================== */
+/* ADD_COLUMN OP = (NUEVO): CDRHHICespecie - CDRHHICespecie */
+ALTER TABLE CDRHHIncidenciasCalculo ADD CDRHHICespecie bit DEFAULT 0 NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP = (NUEVO): CDRHHIfechacontrol - CDRHHIfechacontrol */
+ALTER TABLE CDRHHIncidenciasCalculo ADD CDRHHIfechacontrol datetime NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE CDRHHSalarioEmpleado: CDRHHSalarioEmpleado */
+/* ======================================================================================== */
+/* ADD_COLUMN OP = (NUEVO): CDRHHSEsalariobc - CDRHHSEsalariobc */
+ALTER TABLE CDRHHSalarioEmpleado ADD CDRHHSEsalariobc money NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP = (NUEVO): CDRHHSEespecie - CDRHHSEespecie */
+ALTER TABLE CDRHHSalarioEmpleado ADD CDRHHSEespecie money NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE Clasificaciones: Clasificaciones de Artículos */
+/* ======================================================================================== */
+/* ADD_COLUMN OP = (NUEVO): Cconsecutivo - Consecutivo de Clasificaciones */
+ALTER TABLE Clasificaciones ADD Cconsecutivo integer NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE CMProcesoCompra: CM Proceso de Compra */
+/* ======================================================================================== */
+/* ADD_COLUMN OP = (NUEVO): CMPjustificacionRechazo - Justificacion del Rechazo */
+ALTER TABLE CMProcesoCompra ADD CMPjustificacionRechazo varchar(100) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP = (NUEVO): CMPfechaAprob - Fecha Aprobacion Cotización */
+ALTER TABLE CMProcesoCompra ADD CMPfechaAprob datetime NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP = (NUEVO): CMPfechaEnvAprob - Fecha Envio Aprobación Solicitante */
+ALTER TABLE CMProcesoCompra ADD CMPfechaEnvAprob datetime NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE CMTipoOrden: Tipo de Orden de Compra */
+/* ======================================================================================== */
+/* ADD_COLUMN OP = (NUEVO): CMTOModDescripcion - Modifica Descripcion */
+ALTER TABLE CMTipoOrden ADD CMTOModDescripcion bit DEFAULT 0 NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP = (NUEVO): CMTOModFechaEntrega - Modifica Fecha Entrega */
+ALTER TABLE CMTipoOrden ADD CMTOModFechaEntrega bit DEFAULT 0 NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP = (NUEVO): CMTOModFechaRequerida - Modifica Fecha Requerida */
+ALTER TABLE CMTipoOrden ADD CMTOModFechaRequerida bit DEFAULT 0 NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP = (NUEVO): CMTOModImpuesto - Modifica Fecha Impuesto */
+ALTER TABLE CMTipoOrden ADD CMTOModImpuesto bit DEFAULT 0 NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE CMTiposSolicitud: CM Tipos de Solicitud */
+/* ======================================================================================== */
+/* ADD_COLUMN OP = (NUEVO): CMTSaprobarsolicitante - Cotizaciones Aprobadas por Solicitante */
+ALTER TABLE CMTiposSolicitud ADD CMTSaprobarsolicitante bit DEFAULT 0 NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* ADD_TABLE CPNAPdetallePago: Detalle de Movimientos de Pago */
+/* ======================================================================================== */
+
+CREATE TABLE CPNAPdetallePago (
+	 Ecodigo                        integer              NOT NULL
+	,CPNAPnum                       numeric(18)          NOT NULL
+	,CPNAPDPid                      numeric(18)          identity
+	,CPNAPDPdocumento               varchar(30)          NOT NULL
+	,CPcuenta                       numeric(18)          NOT NULL
+	,Ocodigo                        integer              NOT NULL
+	,CPNAPDPtipoMov                 char(2)              NOT NULL
+	 CONSTRAINT CPNAPdetallePago_CK07 CHECK ([CPNAPDPtipoMov]='P' OR [CPNAPDPtipoMov]='EJ')
+	,Mcodigo                        numeric(8)           NOT NULL
+	,CPNAPDPmontoOri                money                NOT NULL
+	,CPNAPDPtipoCambio              float                NOT NULL
+	,CPNAPDPmonto                   money                NOT NULL
+	,CPNAPDPconExceso               bit                  NOT NULL
+	,CPCano                         integer              NOT NULL
+	,CPCmes                         integer              NOT NULL
+	,BMUsucodigo                    numeric(18)          NULL
+	,ts_rversion                    timestamp           
+	)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP = (TAB NUEVA): TIP="P", SEC="0", COLS="Ecodigo,CPNAPnum,CPNAPDPid" */
+ALTER TABLE CPNAPdetallePago ADD CONSTRAINT CPNAPdetallePago_PK PRIMARY KEY NONCLUSTERED (Ecodigo,CPNAPnum,CPNAPDPid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (TAB NUEVA): TIP="I", SEC="1", COLS="CPcuenta,Ocodigo,CPNAPDPtipoMov" */
+CREATE NONCLUSTERED INDEX CPNAPdetallePago_ID01 ON CPNAPdetallePago (CPcuenta,Ocodigo,CPNAPDPtipoMov)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE CPresupuestoComprometidasNAPs: Bitacora de NAPs de Compromiso */
+/* ======================================================================================== */
+/* DEL_KEY OP = (OBSOLETO): TIP="P", COLS="CPPid,Ecodigo,CPNAPnum" */
+ALTER TABLE CPresupuestoComprometidasNAPs DROP CONSTRAINT CPresupuestoComprometid01_PK /* PRIMARY KEY (CPPid,Ecodigo,CPNAPnum) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (NUEVO): TIP="P", SEC="0", COLS="CPPid,Ecodigo,CPNAPnum" */
+ALTER TABLE CPresupuestoComprometidasNAPs ADD CONSTRAINT CPresupuestoComprometid01_PK PRIMARY KEY CLUSTERED (CPPid,Ecodigo,CPNAPnum)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE CtasMayor: Cuentas de Mayor */
+/* ======================================================================================== */
+/* CHG_COLUMN OP = (CAMBIO): CTCconversion - TC en Conversión de TC en Conversión de TC en Conv */
+ALTER TABLE CtasMayor DROP CONSTRAINT CtasMayor_CK11 /* CHECK ([CTCconversion]=(3) OR [CTCconversion]=(2) OR [CTCconversion]=(1) OR [CTCconversion]=(0)) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE CtasMayor ADD CONSTRAINT CtasMayor_CK11 CHECK ([CTCconversion]=(4) OR [CTCconversion]=(3) OR [CTCconversion]=(2) OR [CTCconversion]=(1) OR [CTCconversion]=(0))
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP = (NUEVO): TCHid - Id Historico Tipo de Cambio */
+ALTER TABLE CtasMayor ADD TCHid numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE DContratosCM: Detalle de Contratos de Compra */
+/* ======================================================================================== */
+/* ADD_COLUMN OP = (NUEVO): DCdiasEntrega - Dias de Entrega */
+ALTER TABLE DContratosCM ADD DCdiasEntrega integer NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE DDocumentosCxP: Detalle de Documentos sin Post */
+/* ======================================================================================== */
+/* ADD_KEY OP = (NUEVO): TIP="F", SEC="14", COLS="Ecodigo,Icodigo", REF="Impuestos" */
+CREATE INDEX DDocumentosCxP_FI14 ON DDocumentosCxP (Ecodigo,Icodigo)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE DLaboralesEmpleado: Datos Laborales Empleado */
+/* ======================================================================================== */
+/* CHG_COLUMN OP = (CAMBIO): DLreplicacion - Indicador de accion con replicacion a plazas recar */
+ALTER TABLE DLaboralesEmpleado ADD CONSTRAINT DLaboralesEmpleado_DF64 DEFAULT 0 FOR DLreplicacion
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE DPolizaDesalmacenaje: Detalle de Póliza de Desalmace */
+/* ======================================================================================== */
+/* ADD_COLUMN OP = (NUEVO): DPDfletesrealRCPar - Recalculo flete Real Desalmacena Parcial */
+ALTER TABLE DPolizaDesalmacenaje ADD DPDfletesrealRCPar money NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP = (NUEVO): DPDsegurosrealRCPar - Recalculo Seguro Real Desalmacena Parcial */
+ALTER TABLE DPolizaDesalmacenaje ADD DPDsegurosrealRCPar money NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP = (NUEVO): DPDaduanalesrealRCPar - Recalculo Gastos Aduanales Real Desalmacena Parcia */
+ALTER TABLE DPolizaDesalmacenaje ADD DPDaduanalesrealRCPar money NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP = (NUEVO): DPDimpuestosrealRCPar - Recalculo Impuestos Real Desalmacena Parcial */
+ALTER TABLE DPolizaDesalmacenaje ADD DPDimpuestosrealRCPar money NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP = (NUEVO): DPDimpuestosrecupRCPar - Recalculo Impuesto recuperable Desalmacena Parcial */
+ALTER TABLE DPolizaDesalmacenaje ADD DPDimpuestosrecupRCPar money NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE DTransacciones: Detalle de Transacciones de Fa */
+/* ======================================================================================== */
+/* ADD_KEY OP = (NUEVO): TIP="F", SEC="10", COLS="CFid", REF="CFuncional" */
+CREATE INDEX DTransacciones_FI10 ON DTransacciones (CFid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE DVacacionesEmpleado: Detalle de Vacaciones por Empl */
+/* ======================================================================================== */
+/* ADD_COLUMN OP = (NUEVO): DVEmanual - Es manual */
+ALTER TABLE DVacacionesEmpleado ADD DVEmanual bit DEFAULT 0 NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE EContables: Encabezado Documentos Contable */
+/* ======================================================================================== */
+/* ADD_COLUMN OP = (NUEVO): FFECrecursivo - Fecha Fin del Recursivo */
+ALTER TABLE EContables ADD FFECrecursivo datetime NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE EDocumentosI: Encabezado de Documentos de Im */
+/* ======================================================================================== */
+/* CHG_KEY OP = (CAMBIO): TIP="I", COLS="Ecodigo,EDIestado,EDItipo" */
+DROP INDEX EDocumentosI.EDocumentosI_ID02 /* INDEX (Ecodigo,EDIestado,EDItipo) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_COLUMN OP = (CAMBIO): EDIestado - Estado del Documento */
+ALTER TABLE EDocumentosI ADD CONSTRAINT EDocumentosI_CK16 CHECK ([EDIestado] IS NULL OR ([EDIestado]=(-10) OR [EDIestado]=(10) OR [EDIestado]=(0)))
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_KEY OP = (CAMBIO): TIP="I", SEC="2", COLS="Ecodigo,EDIestado,EDItipo" */
+CREATE NONCLUSTERED INDEX EDocumentosI_ID02 ON EDocumentosI (Ecodigo,EDIestado,EDItipo)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE EIDeducciones: Encabezado de Importación de D */
+/* ======================================================================================== */
+/* ADD_KEY OP = (NUEVO): TIP="F", SEC="3", COLS="Ecodigo,Tcodigo", REF="TiposNomina" */
+CREATE INDEX EIDeducciones_FI03 ON EIDeducciones (Ecodigo,Tcodigo)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE EIncidencias: EIncidencias */
+/* ======================================================================================== */
+/* CHG_COLUMN OP = (CAMBIO): EIestado - Estado */
+ALTER TABLE EIncidencias ADD CONSTRAINT EIncidencias_DF09 DEFAULT 0 FOR EIestado
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE EIncidencias ADD CONSTRAINT EIncidencias_CK09 CHECK ([EIestado] IS NULL OR ([EIestado]=(1) OR [EIestado]=(0)))
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (NUEVO): TIP="F", SEC="1", COLS="CIid", REF="CIncidentes" */
+CREATE INDEX EIncidencias_FI01 ON EIncidencias (CIid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (NUEVO): TIP="F", SEC="2", COLS="Ecodigo,Tcodigo", REF="TiposNomina" */
+CREATE INDEX EIncidencias_FI02 ON EIncidencias (Ecodigo,Tcodigo)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE EOrdenCM: Encabezado de Orden De Compra */
+/* ======================================================================================== */
+/* ADD_COLUMN OP = (NUEVO): CMPid - id de Proceso de Compra */
+ALTER TABLE EOrdenCM ADD CMPid numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP = (NUEVO): EOfechaEnvP - Fecha de envio de la orden al proveedor */
+ALTER TABLE EOrdenCM ADD EOfechaEnvP datetime NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (NUEVO): TIP="F", SEC="9", COLS="CMPid", REF="CMProcesoCompra" */
+CREATE INDEX EOrdenCM_FI09 ON EOrdenCM (CMPid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE EPolizaDesalmacenaje: Encabezado de Poliza de Desalm */
+/* ======================================================================================== */
+/* ADD_COLUMN OP = (NUEVO): PermiteDesParcial - Permite desalmacenaje Parcial */
+ALTER TABLE EPolizaDesalmacenaje ADD PermiteDesParcial bit DEFAULT 0 NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP = (NUEVO): EPDidpadre - Id de Doc desalmecenaje padre */
+ALTER TABLE EPolizaDesalmacenaje ADD EPDidpadre numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE ERequisicion: Encabezado de Requisición */
+/* ======================================================================================== */
+/* CHG_COLUMN OP = (CAMBIO): Estado - Estado */
+ALTER TABLE ERequisicion DROP CONSTRAINT ERequisicion_CK19 /* CHECK ([Estado]=(2) OR [Estado]=(1) OR [Estado]=(0)) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE ERequisicion ADD CONSTRAINT ERequisicion_CK19 CHECK ([Estado]=(4) OR [Estado]=(2) OR [Estado]=(1) OR [Estado]=(0))
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE ESolicitudCompraCM: Encabezado de Solicitud de Com */
+/* ======================================================================================== */
+/* ADD_COLUMN OP = (NUEVO): ESfechaAplica - Fecha Aplicacion */
+ALTER TABLE ESolicitudCompraCM ADD ESfechaAplica datetime NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE ETransacciones: Encabezado de Transacciones de */
+/* ======================================================================================== */
+/* DEL_KEY OP = (OBSOLETO): TIP="F", COLS="Ecodigo,Icodigo", REF="Impuestos" */
+DROP INDEX ETransacciones.ETransacciones_FI08 /* REFERENCES INDEX (Ecodigo,Icodigo) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* DEL_COLUMN OP = (OBSOLETO): Icodigo - Codigo de Impuesto */
+ALTER TABLE ETransacciones DROP COLUMN Icodigo
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_COLUMN OP = (NUEVO): ETnotaCredito - Generar Nota de Credito */
+ALTER TABLE ETransacciones ADD ETnotaCredito bit DEFAULT 0 NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (NUEVO): TIP="F", SEC="11", COLS="CFid", REF="CFuncional" */
+CREATE INDEX ETransacciones_FI11 ON ETransacciones (CFid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE FADCierres: Detalle del Cierre por Moneda */
+/* ======================================================================================== */
+/* ADD_COLUMN OP = (NUEVO): FADCdocumentos - Monto Documentos */
+ALTER TABLE FADCierres ADD FADCdocumentos money NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+UPDATE FADCierres SET FADCdocumentos = 0
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE FADCierres ALTER COLUMN FADCdocumentos money NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP = (NUEVO): FADCdocumentossis - Monto Documentos Sistema */
+ALTER TABLE FADCierres ADD FADCdocumentossis money NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+UPDATE FADCierres SET FADCdocumentossis = 0
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE FADCierres ALTER COLUMN FADCdocumentossis money NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE FAP000: ParametrosGenerales2 */
+/* ======================================================================================== */
+/* ADD_COLUMN OP = (NUEVO): FAPMSG - Mensaje para la Factura */
+ALTER TABLE FAP000 ADD FAPMSG varchar(80) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE FATarjetas: Tipos de tarjetas */
+/* ======================================================================================== */
+/* CHG_COLUMN OP = (CAMBIO): FATporccom - FATporccom */
+ALTER TABLE FATarjetas DROP CONSTRAINT DF__FATarjeta__FATpo__2645B050
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE FATarjetas ALTER COLUMN FATporccom numeric(5,2) NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE FATarjetas ADD CONSTRAINT FATarjetas_DF10 DEFAULT 0.0 FOR FATporccom
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE FPagos: Pagos por Transacción */
+/* ======================================================================================== */
+/* CHG_COLUMN OP = (CAMBIO): Tipo - Tipo */
+ALTER TABLE FPagos DROP CONSTRAINT FPagos_CK09 /* CHECK ([Tipo]='C' OR [Tipo]='D' OR [Tipo]='T' OR [Tipo]='E') */
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE FPagos ADD CONSTRAINT FPagos_CK09 CHECK ([Tipo]='A' OR [Tipo]='C' OR [Tipo]='D' OR [Tipo]='T' OR [Tipo]='E')
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE HERequisicion: Histórico de Encabezado de Req */
+/* ======================================================================================== */
+/* ADD_KEY OP = (NUEVO): TIP="F", SEC="1", COLS="CFid", REF="CFuncional" */
+CREATE INDEX HERequisicion_FI01 ON HERequisicion (CFid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* ADD_TABLE HPCReglas: Reglas por Máscara Cuenta y pe */
+/* ======================================================================================== */
+
+CREATE TABLE HPCReglas (
+	 PCRid                          numeric(18)          NOT NULL
+	,Ecodigo                        integer              NOT NULL
+	,Cmayor                         char(4)              NOT NULL
+	,PCEMid                         numeric(18)          NOT NULL
+	,OficodigoM                     varchar(10)          NULL
+	,PCRref                         numeric(18)          NULL
+	,PCRdescripcion                 varchar(255)         NULL
+	,PCRregla                       varchar(100)         NOT NULL
+	,PCRvalida                      bit                  DEFAULT 0 NOT NULL
+	,PCRdesde                       datetime             NOT NULL
+	,PCRhasta                       datetime             NOT NULL
+	,Usucodigo                      numeric(18)          NOT NULL
+	,Ulocalizacion                  char(2)              NOT NULL
+	,BMfechaalta                    datetime             NULL
+	,PCRGid                         numeric(18)          NOT NULL
+	,HBMfechaalta                   datetime             NOT NULL
+	,HUsucodigo                     numeric(18)          NOT NULL
+	,HPCRfechaVencimiento           datetime             NULL
+	,BMUsucodigo                    numeric(18)          NULL
+	,ts_rversion                    timestamp           
+	)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP = (TAB NUEVA): TIP="P", SEC="0", COLS="PCRid" */
+ALTER TABLE HPCReglas ADD CONSTRAINT HPCReglas_PK PRIMARY KEY CLUSTERED (PCRid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (TAB NUEVA): TIP="I", SEC="1", COLS="Ecodigo,OficodigoM" */
+CREATE NONCLUSTERED INDEX HPCReglas_ID01 ON HPCReglas (Ecodigo,OficodigoM)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (TAB NUEVA): TIP="I", SEC="2", COLS="Ecodigo,Cmayor,PCRregla,PCRdesde,PCRhasta" */
+CREATE NONCLUSTERED INDEX HPCReglas_ID02 ON HPCReglas (Ecodigo,Cmayor,PCRregla,PCRdesde,PCRhasta)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* ADD_TABLE HtiposcambioConversionD: Tipos de Cambios Historicos De */
+/* ======================================================================================== */
+
+CREATE TABLE HtiposcambioConversionD (
+	 TCHid                          numeric(18)          NULL
+	,Ecodigo                        integer              NULL
+	,Speriodo                       integer              NULL
+	,Smes                           integer              NULL
+	,Mcodigo                        numeric(18)          NULL
+	,TCHvalor                       float                NULL
+	,BMfecha                        datetime             NULL
+	,BMUsucodigo                    numeric(18)          NULL
+	,ts_rversion                    timestamp           
+	)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP = (TAB NUEVA): TIP="I", SEC="1", COLS="TCHid,Ecodigo,Speriodo,Smes,Mcodigo" */
+CREATE NONCLUSTERED INDEX HtiposcambioConversionD_ID01 ON HtiposcambioConversionD (TCHid,Ecodigo,Speriodo,Smes,Mcodigo)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* ADD_TABLE HtiposcambioConversionE: Tipos de Cambios Historicos En */
+/* ======================================================================================== */
+
+CREATE TABLE HtiposcambioConversionE (
+	 TCHid                          numeric(18)          identity
+	,Ecodigo                        integer              NULL
+	,TCHcodigo                      varchar(4)           NULL
+	,TCHdescripcion                 varchar(30)          NULL
+	,BMUsucodigo                    numeric(18)          NULL
+	,ts_rversion                    timestamp           
+	)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP = (TAB NUEVA): TIP="P", SEC="0", COLS="TCHid" */
+ALTER TABLE HtiposcambioConversionE ADD CONSTRAINT HtiposcambioConversionE_PK PRIMARY KEY CLUSTERED (TCHid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE Impuestos: Impuestos */
+/* ======================================================================================== */
+/* ADD_COLUMN OP = (NUEVO): IActdefault - Impuesto default para Activos */
+ALTER TABLE Impuestos ADD IActdefault bit NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+UPDATE Impuestos SET IActdefault = 0
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE Impuestos ALTER COLUMN IActdefault bit NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP = (NUEVO): IServdefault - Impuesto default para Servicios */
+ALTER TABLE Impuestos ADD IServdefault bit NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+UPDATE Impuestos SET IServdefault = 0
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE Impuestos ALTER COLUMN IServdefault bit NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE Incidencias: Incidencias */
+/* ======================================================================================== */
+/* ADD_KEY OP = (NUEVO): TIP="F", SEC="5", COLS="EIlote", REF="EIncidencias" */
+CREATE INDEX Incidencias_FI05 ON Incidencias (EIlote)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* ADD_TABLE RCuentasTipo_DistCargas: RCuentasTipo_DistCargas */
+/* ======================================================================================== */
+
+CREATE TABLE RCuentasTipo_DistCargas (
+	 RCTid                          numeric(18)          identity
+	,RCNid                          numeric(18)          NOT NULL
+	,Ecodigo                        integer              NOT NULL
+	,tiporeg                        integer              NOT NULL
+	,DEid                           numeric(18)          NOT NULL
+	,RHPPid                         numeric(18)          NULL
+	,referencia                     numeric(18)          NOT NULL
+	,cuenta                         varchar(100)         NULL
+	,valor                          varchar(100)         NULL
+	,valor2                         varchar(100)         NULL
+	,Cformato                       varchar(100)         NULL
+	,Ccuenta                        numeric(18)          NULL
+	,CFcuenta                       numeric(18)          NULL
+	,tipo                           char(1)              NULL
+	,CFid                           numeric(18)          NOT NULL
+	,Ocodigo                        integer              NOT NULL
+	,Dcodigo                        integer              NOT NULL
+	,montores                       float                NOT NULL
+	,vpresupuesto                   integer              DEFAULT 0 NOT NULL
+	 CONSTRAINT RCuentasTipo_DistCargas_CK19 CHECK ([vpresupuesto]=(1) OR [vpresupuesto]=(0))
+	,BMfechaalta                    datetime             NOT NULL
+	,Periodo                        integer              NULL
+	,Mes                            integer              NULL
+	,CFidAnt                        numeric(18)          NULL
+	,valorAnt                       varchar(100)         NULL
+	,BMUsucodigo                    numeric(18)          NOT NULL
+	,ts_rversion                    timestamp           
+	)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP = (TAB NUEVA): TIP="P", SEC="0", COLS="RCTid" */
+ALTER TABLE RCuentasTipo_DistCargas ADD CONSTRAINT RCuentasTipo_DistCargas_PK PRIMARY KEY NONCLUSTERED (RCTid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (TAB NUEVA): TIP="I", SEC="1", COLS="RCNid,Ecodigo" */
+CREATE NONCLUSTERED INDEX RCuentasTipo_DistCargas_ID01 ON RCuentasTipo_DistCargas (RCNid,Ecodigo)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (TAB NUEVA): TIP="I", SEC="2", COLS="RCNid,Ecodigo,DEid,CFid" */
+CREATE NONCLUSTERED INDEX RCuentasTipo_DistCargas_ID02 ON RCuentasTipo_DistCargas (RCNid,Ecodigo,DEid,CFid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE RHDescripPuestoP: RHDescripPuestoP */
+/* ======================================================================================== */
+/* ADD_COLUMN OP = (NUEVO): ObservacionesRechazo - ObservacionesRechazo */
+ALTER TABLE RHDescripPuestoP ADD ObservacionesRechazo varchar(1024) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE RHPTUD: RH nomina PTU detalle */
+/* ======================================================================================== */
+/* ADD_KEY OP = (NUEVO): TIP="F", SEC="2", COLS="Ecodigo,Tcodigo", REF="TiposNomina" */
+CREATE INDEX RHPTUD_FI02 ON RHPTUD (Ecodigo,Tcodigo)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE SaldosContablesConvertidos: SaldosContablesConvertidos */
+/* ======================================================================================== */
+/* CHG_COLUMN OP = (CAMBIO): CTCconversion - TC en Conversión de TC en Conversión de Estados Fi */
+ALTER TABLE SaldosContablesConvertidos DROP CONSTRAINT SaldosContablesConverti01_CK17 /* CHECK ([CTCconversion] IS NULL OR ([CTCconversion]=(3) OR [CTCconversion]=(2) OR [CTCconversion]=(1) OR [CTCconversion]=(0))) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE SaldosContablesConvertidos ADD CONSTRAINT SaldosContablesConverti01_CK17 CHECK ([CTCconversion] IS NULL OR ([CTCconversion]=(4) OR [CTCconversion]=(3) OR [CTCconversion]=(2) OR [CTCconversion]=(1) OR [CTCconversion]=(0)))
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP = (NUEVO): SLinicialGE - Saldo Inicial Local Corporativo */
+ALTER TABLE SaldosContablesConvertidos ADD SLinicialGE money DEFAULT 0 NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP = (NUEVO): SOinicialGE - Saldo Inicial Original Corporativo */
+ALTER TABLE SaldosContablesConvertidos ADD SOinicialGE money DEFAULT 0 NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP = (NUEVO): TCHid - ID Tipo Cambio Historico */
+ALTER TABLE SaldosContablesConvertidos ADD TCHid numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE SNContactos: Contactos de Socios de Negocio */
+/* ======================================================================================== */
+/* ADD_COLUMN OP = (NUEVO): SNCarea - Area del Contacto */
+ALTER TABLE SNContactos ADD SNCarea integer NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE TESmedioPago: TESmedioPago */
+/* ======================================================================================== */
+/* ADD_COLUMN OP = (NUEVO): TESenviaCorreo - Envia correo al Beneficiario */
+ALTER TABLE TESmedioPago ADD TESenviaCorreo bit DEFAULT 0 NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE TEStransferenciaP: Instruccion de pago o cuenta d */
+/* ======================================================================================== */
+/* ADD_COLUMN OP = (NUEVO): TESTPtipoDet - Detalle del tipo de cuenta */
+ALTER TABLE TEStransferenciaP ADD TESTPtipoDet varchar(50) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ================================================================= */
+/*            CREA FKs NUEVOS O CON CAMPOS MODIFICADOS               */
+/* ================================================================= */
+/* CHG_TABLE CPNAPdetallePago */
+/* ADD_FK OP = (TAB NUEVA): TIP="F", SEC="1", COLS="Ecodigo,CPNAPnum", REF="CPNAP" */
+ALTER TABLE CPNAPdetallePago ADD CONSTRAINT CPNAPdetallePago_FK01 FOREIGN KEY (Ecodigo,CPNAPnum) REFERENCES CPNAP (Ecodigo,CPNAPnum)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_TABLE DDocumentosCxP */
+/* ADD_FK OP = (NUEVO): TIP="F", SEC="14", COLS="Ecodigo,Icodigo", REF="Impuestos" */
+ALTER TABLE DDocumentosCxP ADD CONSTRAINT DDocumentosCxP_FK14 FOREIGN KEY (Ecodigo,Icodigo) REFERENCES Impuestos (Ecodigo,Icodigo)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_TABLE DTransacciones */
+/* ADD_FK OP = (NUEVO): TIP="F", SEC="10", COLS="CFid", REF="CFuncional" */
+ALTER TABLE DTransacciones ADD CONSTRAINT DTransacciones_FK10 FOREIGN KEY (CFid) REFERENCES CFuncional (CFid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_TABLE EIDeducciones */
+/* ADD_FK OP = (NUEVO): TIP="F", SEC="3", COLS="Ecodigo,Tcodigo", REF="TiposNomina" */
+ALTER TABLE EIDeducciones ADD CONSTRAINT EIDeducciones_FK03 FOREIGN KEY (Ecodigo,Tcodigo) REFERENCES TiposNomina (Ecodigo,Tcodigo)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_TABLE EIncidencias */
+/* ADD_FK OP = (NUEVO): TIP="F", SEC="1", COLS="CIid", REF="CIncidentes" */
+ALTER TABLE EIncidencias ADD CONSTRAINT EIncidencias_FK01 FOREIGN KEY (CIid) REFERENCES CIncidentes (CIid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_FK OP = (NUEVO): TIP="F", SEC="2", COLS="Ecodigo,Tcodigo", REF="TiposNomina" */
+ALTER TABLE EIncidencias ADD CONSTRAINT EIncidencias_FK02 FOREIGN KEY (Ecodigo,Tcodigo) REFERENCES TiposNomina (Ecodigo,Tcodigo)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_TABLE EOrdenCM */
+/* ADD_FK OP = (NUEVO): TIP="F", SEC="9", COLS="CMPid", REF="CMProcesoCompra" */
+ALTER TABLE EOrdenCM ADD CONSTRAINT EOrdenCM_FK09 FOREIGN KEY (CMPid) REFERENCES CMProcesoCompra (CMPid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_TABLE ETransacciones */
+/* ADD_FK OP = (NUEVO): TIP="F", SEC="11", COLS="CFid", REF="CFuncional" */
+ALTER TABLE ETransacciones ADD CONSTRAINT ETransacciones_FK11 FOREIGN KEY (CFid) REFERENCES CFuncional (CFid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_TABLE HERequisicion */
+/* ADD_FK OP = (NUEVO): TIP="F", SEC="1", COLS="CFid", REF="CFuncional" */
+ALTER TABLE HERequisicion ADD CONSTRAINT HERequisicion_FK01 FOREIGN KEY (CFid) REFERENCES CFuncional (CFid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_TABLE HPCReglas */
+/* ADD_FK OP = (TAB NUEVA): TIP="F", SEC="1", COLS="PCRref", REF="HPCReglas" */
+ALTER TABLE HPCReglas ADD CONSTRAINT HPCReglas_FK01 FOREIGN KEY (PCRref) REFERENCES HPCReglas (PCRid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_FK OP = (TAB NUEVA): TIP="F", SEC="2", COLS="PCEMid", REF="PCEMascaras" */
+ALTER TABLE HPCReglas ADD CONSTRAINT HPCReglas_FK02 FOREIGN KEY (PCEMid) REFERENCES PCEMascaras (PCEMid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_FK OP = (TAB NUEVA): TIP="F", SEC="3", COLS="Ecodigo,Cmayor", REF="CtasMayor" */
+ALTER TABLE HPCReglas ADD CONSTRAINT HPCReglas_FK03 FOREIGN KEY (Ecodigo,Cmayor) REFERENCES CtasMayor (Ecodigo,Cmayor)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_TABLE HtiposcambioConversionD */
+/* ADD_FK OP = (TAB NUEVA): TIP="F", SEC="1", COLS="TCHid", REF="HtiposcambioConversionE" */
+ALTER TABLE HtiposcambioConversionD ADD CONSTRAINT HtiposcambioConversionD_FK01 FOREIGN KEY (TCHid) REFERENCES HtiposcambioConversionE (TCHid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_TABLE Incidencias */
+/* ADD_FK OP = (NUEVO): TIP="F", SEC="5", COLS="EIlote", REF="EIncidencias" */
+ALTER TABLE Incidencias ADD CONSTRAINT Incidencias_FK05 FOREIGN KEY (EIlote) REFERENCES EIncidencias (EIlote)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_TABLE RHPTUD */
+/* ADD_FK OP = (NUEVO): TIP="F", SEC="2", COLS="Ecodigo,Tcodigo", REF="TiposNomina" */
+ALTER TABLE RHPTUD ADD CONSTRAINT RHPTUD_FK02 FOREIGN KEY (Ecodigo,Tcodigo) REFERENCES TiposNomina (Ecodigo,Tcodigo)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

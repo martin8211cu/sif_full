@@ -1,0 +1,521 @@
+<strong>INDICE:</strong><BR>- <A href='#COLs_CHG'>Columnas a modificarse</A><BR>- <A href='#COLs_ADD'>Columnas nuevas</A><BR>- <A href='#KEYs_DEL'>Llaves a eliminarse</A><BR>- <A href='#TABs_ADD'>Tablas nuevas</A><BR>- <A href='#KEYs_ADD'>Llaves nuevas o a regenerarse</A><BR>- <A href='#KEYs_FI'>Indices para llaves foráneas</A><BR><BR><BR>
+			<BR><strong><A name='COLs_CHG'>COLUMNAS QUE VAN A SER ALTERADAS EN LA BASE DE DATOS PORQUE TIENEN CARACTERISTICAS MODIFICADAS EN EL MODELO DBM</A></strong><BR>
+			<table>
+			<tr><td><strong>TABLA</strong></td><td><strong>COLUMNA</strong></td><td><strong>&nbsp;</strong></td><td><strong>TIPO</strong></td><td><strong>LON</strong></td><td><strong>DEC</strong></td><td><strong>obl</strong></td><td><strong>ide</strong></td><td><strong>dfl</strong></td><td><strong>rul</strong></td></tr>
+			
+				<tr>
+					<td>DLaboralesEmpleado</td><td>RHTid</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td>NUMERIC</td>
+					<td>18</td>
+					<td>0</td>
+					<td><strong>0</strong></td>
+					
+						<td>0</td>
+					
+					<td></td>
+					<td></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>NUMERIC</td>
+					<td>18</td>
+					<td>0</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					
+						<td><font color="#FF0000"></font></td>
+					
+					
+						<td><font color="#FF0000"></font></td>
+					
+				</tr>
+			
+			</table>
+		
+			<BR><strong><A name='COLs_ADD'>COLUMNAS NUEVAS EN EL MODELO DBM QUE SE VAN A CREAR EN LA BASE DE DATOS</A></strong><BR>
+			<table>
+			<tr><td><strong>TABLA</strong></td><td><strong>COLUMNA</strong></td><td><strong>TIPO</strong></td><td><strong>LON</strong></td><td><strong>DEC</strong></td><td><strong>obl</strong></td><td><strong>ide</strong></td><td><strong>dfl</strong></td><td><strong>rul</strong></td></tr>
+			
+				<tr><td>DLaboralesEmpleado&nbsp;&nbsp;</td><td>DLreplicacion&nbsp;&nbsp;</td><td>LOGIC&nbsp;&nbsp;</td><td>1</td><td>0</td><td>1</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>RHTipoAccion&nbsp;&nbsp;</td><td>BMfechamodif&nbsp;&nbsp;</td><td>DATE TIME&nbsp;&nbsp;</td><td>0</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>RHTipoAccion&nbsp;&nbsp;</td><td>RHTAplicaVaca&nbsp;&nbsp;</td><td>LOGIC&nbsp;&nbsp;</td><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td><td></td></tr>
+			
+			</table>
+		
+			<BR><strong><A name='KEYs_DEL'>LLAVES QUE SE VAN A ELIMINAR</A></strong><BR>
+			<table>
+			<tr><td><strong>TABLA</strong></td><td><strong>TIPO</strong></td><td><strong>CODIGO</strong></td><td><strong>COLUMNAS</strong></td><td><strong>TABLA REFERENCIADA</strong></td><td><strong>COLUMNAS REFERENCIADAS</strong></td><td><strong>RAZON</strong></td></tr>
+			
+				
+					<tr><td>DLaboralesEmpleado</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td>
+							
+								DLaboralesEmpleado_FK04
+							
+						</td>
+					
+					<td>RHTid</td><td>RHTipoAccion</td><td>RHTid</td>
+					<td>
+						
+							CAMPOS MODIFICADOS
+						
+					</td>
+					</tr>
+					
+				
+					<tr><td>DLaboralesEmpleado</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td>
+							
+								DLaboralesEmpleado_FI04
+							
+						</td>
+					
+					<td>RHTid</td><td>RHTipoAccion</td><td>RHTid</td>
+					<td>
+						
+							CAMPOS MODIFICADOS
+						
+					</td>
+					</tr>
+					
+				
+			
+			</table>
+		
+			<BR><strong><A name='TABs_ADD'>TABLAS NUEVAS EN EL MODELO DBM QUE SE VAN A CREAR EN LA BASE DE DATOS</A></strong><BR>
+			<table>
+			<tr><td><strong>TABLA</strong></td></tr>
+			
+				<tr><td>DDLaboralesEmpleadoRec</td></tr>
+			
+				<tr><td>DLaboralesEmpleadoRec</td></tr>
+			
+			</table>
+		
+			<BR><strong><A name='COLs_ADD'>LLAVES QUE SE VAN A CREAR.</font></A></strong><BR>
+			<table>
+			<tr><td><strong>TABLA</strong></td><td><strong>TIPO</strong></td><td><strong>SEC.</strong></td><td><strong>COLUMNAS</strong></td><td><strong>TABLA REFERENCIADA</strong></td><td><strong>COLUMNAS REFERENCIADAS</strong></td><td><strong>RAZON</strong></td></tr>
+			
+				
+					<tr><td>DDLaboralesEmpleadoRec</td><td align="center">
+						
+							PK 
+						
+					</td>
+					
+						<td align="center">
+							00
+						</td>
+					
+					<td>DLlinea,DEid,RHPid,CSid</td><td>*</td><td>*</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>DDLaboralesEmpleadoRec</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>DLlinea,DEid,RHPid</td><td>DLaboralesEmpleadoRec</td><td>DLlinea,DEid,RHPid</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>DDLaboralesEmpleadoRec</td><td align="center">
+						
+							ID 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>CSid</td><td>*</td><td>*</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>DDLaboralesEmpleadoRec</td><td align="center">
+						
+							ID 
+						
+					</td>
+					
+						<td align="center">
+							02
+						</td>
+					
+					<td>DLlinea</td><td>*</td><td>*</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>DLaboralesEmpleado</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							04
+						</td>
+					
+					<td>RHTid</td><td>RHTipoAccion</td><td>RHTid</td>
+					<td>
+						
+							CAMPOS MODIFICADOS
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>DLaboralesEmpleadoRec</td><td align="center">
+						
+							PK 
+						
+					</td>
+					
+						<td align="center">
+							00
+						</td>
+					
+					<td>DLlinea,DEid,RHPid</td><td>*</td><td>*</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>DLaboralesEmpleadoRec</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>DLlinea</td><td>DLaboralesEmpleado</td><td>DLlinea</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>DLaboralesEmpleadoRec</td><td align="center">
+						
+							ID 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>RVid</td><td>*</td><td>*</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>DLaboralesEmpleadoRec</td><td align="center">
+						
+							ID 
+						
+					</td>
+					
+						<td align="center">
+							02
+						</td>
+					
+					<td>RHJid</td><td>*</td><td>*</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>DLaboralesEmpleadoRec</td><td align="center">
+						
+							ID 
+						
+					</td>
+					
+						<td align="center">
+							03
+						</td>
+					
+					<td>RHPid</td><td>*</td><td>*</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>DLaboralesEmpleadoRec</td><td align="center">
+						
+							ID 
+						
+					</td>
+					
+						<td align="center">
+							04
+						</td>
+					
+					<td>RHTid</td><td>*</td><td>*</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>DLaboralesEmpleadoRec</td><td align="center">
+						
+							ID 
+						
+					</td>
+					
+						<td align="center">
+							05
+						</td>
+					
+					<td>DEid,Ecodigo</td><td>*</td><td>*</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>DLaboralesEmpleadoRec</td><td align="center">
+						
+							ID 
+						
+					</td>
+					
+						<td align="center">
+							06
+						</td>
+					
+					<td>Ecodigo,Dcodigo</td><td>*</td><td>*</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>DLaboralesEmpleadoRec</td><td align="center">
+						
+							ID 
+						
+					</td>
+					
+						<td align="center">
+							07
+						</td>
+					
+					<td>Ecodigo,Ocodigo</td><td>*</td><td>*</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>DLaboralesEmpleadoRec</td><td align="center">
+						
+							ID 
+						
+					</td>
+					
+						<td align="center">
+							08
+						</td>
+					
+					<td>Ecodigo,Tcodigo</td><td>*</td><td>*</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>DLaboralesEmpleadoRec</td><td align="center">
+						
+							ID 
+						
+					</td>
+					
+						<td align="center">
+							09
+						</td>
+					
+					<td>RHPcodigo,Ecodigo</td><td>*</td><td>*</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+			</table>
+		
+			<BR><strong><A name='KEYs_FI'>INDICES QUE SE VAN A CREAR EN LA BASE DE DATOS PARA SOPORTAR LLAVES FORANEAS</A></strong><BR>
+			<table>
+			<tr><td><strong>TABLA</strong></td><td><strong>TIPO</strong></td><td><strong>SEC.</strong></td><td><strong>COLUMNAS</strong></td><td><strong>TABLA REFERENCIADA</strong></td><td><strong>COLUMNAS REFERENCIADAS</strong></td><td><strong>RAZON</strong></td></tr>
+			
+				
+					<tr><td>DDLaboralesEmpleadoRec</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>DLlinea,DEid,RHPid</td><td>DLaboralesEmpleadoRec</td><td>DLlinea,DEid,RHPid</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>DLaboralesEmpleado</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							04
+						</td>
+					
+					<td>RHTid</td><td>RHTipoAccion</td><td>RHTid</td>
+					<td>
+						
+							CAMPOS MODIFICADOS
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>DLaboralesEmpleadoRec</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>DLlinea</td><td>DLaboralesEmpleado</td><td>DLlinea</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+			</table>
+		

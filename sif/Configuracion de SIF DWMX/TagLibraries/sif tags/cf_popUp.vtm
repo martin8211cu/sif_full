@@ -1,0 +1,17 @@
+<tag name="cf_popUp" endtag="no">
+    <tagformat /> 
+    
+  <attributes> 
+    <attrib name="url" TYPE="relativepath"/>
+    <attrib name="link"/>
+    <attrib name="boton" TYPE="enumerated"> 
+      <attriboption VALUE="true" />
+      <attriboption VALUE="false" />
+    </attrib>
+    <attrib name="width"/>
+    <attrib name="height"/>
+    <attrib name="left"/>
+    <attrib name="top"/>
+    <attrib name="name"/>
+  </attributes>
+  </tag>

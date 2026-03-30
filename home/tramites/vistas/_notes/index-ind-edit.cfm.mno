@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<info>
+	<infoitem key="UD_enc_vista" value="name:es_persona;datatype:" />
+	<infoitem key="UD_rsRegistro" value="name:id_campo;datatype:,name:valor;datatype:" />
+	<infoitem key="UD_rsEncab" value="name:id_persona;datatype:" />
+	<infoitem key="UD_qryPersona" value="name:id_persona;datatype:,name:nombre_persona;datatype:,name:id_tipoident;datatype:,name:identificacion_persona;datatype:" />
+</info>

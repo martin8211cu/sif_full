@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<Etiquetas>
+<!-- ******************* INGLÉS ******************* -->		
+		<Idioma id="EN">
+			<Titulo>
+				CRM
+			</Titulo>
+			<Greeting>
+				Welcome to the CRM  System!
+			</Greeting>
+			<SistemaRH>
+				CRM
+			</SistemaRH>
+			<Regresar>
+				Back
+			</Regresar>
+		</Idioma>
+<!-- ******************* ESPAÑOL ******************* -->		
+		<Idioma id="ES_CR">
+			<Titulo>
+				Recursos Humanos
+			</Titulo>
+			<Greeting>
+				¡Bienvenido al Sistema CRM!
+			</Greeting>
+			<SistemaCRM>
+				CRM
+			</SistemaCRM>
+			<Regresar>
+				Regresar
+			</Regresar>
+		</Idioma>
+</Etiquetas>

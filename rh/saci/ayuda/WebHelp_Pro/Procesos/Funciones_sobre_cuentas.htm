@@ -1,0 +1,403 @@
+<!doctype HTML public "-//W3C//DTD HTML 4.0 Frameset//EN">
+
+<html>
+
+<head>
+<title>Funciones sobre cuentas</title>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252">
+<meta name="generator" content="RoboHelp by eHelp Corporation www.ehelp.com">
+<link rel="stylesheet" href="../default_ns.css"><script type="text/javascript" language="JavaScript" title="WebHelpSplitCss">
+<!--
+if (navigator.appName !="Netscape")
+{   document.write("<link rel='stylesheet' href='../default.css'>");}
+//-->
+</script>
+<style type="text/css">
+<!--
+div.whs1 { width:100%; }
+img_whs2 { border:none; width:18px; height:16px; float:none; border-style:none; }
+img_whs3 { border:none; width:20px; height:15px; float:none; border-style:none; }
+table.whs4 { x-cell-content-align:top; float:aligncenter; border-left-color:#ff8000; border-left-style:Outset; border-top-color:#ff8000; border-top-style:Outset; border-right-color:#ff8000; border-right-style:Outset; border-bottom-color:#ff8000; border-bottom-style:Outset; border-left-width:2px; border-right-width:2px; border-top-width:2px; border-bottom-width:2px; left:39px; top:308px; width:782px; border-spacing:0px; }
+col.whs5 { width:20.308%; }
+col.whs6 { width:79.692%; }
+tr.whs7 { x-cell-content-align:top; }
+td.whs8 { width:100%; padding-right:10px; padding-left:10px; x-cell-content-align:center; border-left-color:#000000; border-left-style:Solid; border-top-style:Solid; border-top-color:#000000; border-right-color:#000000; border-right-style:Solid; border-bottom-style:Solid; border-bottom-color:#000000; border-bottom-width:1px; border-left-width:1px; border-top-width:1px; border-right-width:1px; background-color:#ffb76f; }
+p.whs9 { text-align:center; font-weight:bold; font-size:12pt; margin-left:0pt; margin-top:4.5pt; margin-bottom:4.5pt; }
+td.whs10 { width:20.308%; padding-right:10px; padding-left:10px; x-cell-content-align:center; border-left-style:Solid; border-left-color:#000000; border-right-style:Solid; border-right-color:#000000; border-bottom-color:#000000; border-bottom-style:Solid; border-right-width:1px; border-left-width:1px; border-bottom-width:1px; background-color:#ffb76f; }
+p.whs11 { text-align:center; font-style:italic; color:#000000; font-size:8pt; }
+td.whs12 { width:79.692%; padding-right:10px; padding-left:10px; x-cell-content-align:center; border-right-style:Solid; border-right-color:#000000; border-bottom-color:#000000; border-bottom-style:Solid; border-right-width:1px; border-bottom-width:1px; background-color:#ffb76f; }
+td.whs13 { width:20.308%; padding-right:10px; padding-left:10px; x-cell-content-align:center; border-left-width:1px; border-left-color:#000000; border-left-style:Solid; border-right-width:1px; border-right-color:#000000; border-right-style:Solid; border-bottom-style:Solid; border-bottom-color:#000000; border-bottom-width:1px; }
+p.whs14 { font-size:12pt; font-weight:bold; }
+td.whs15 { width:79.692%; padding-right:10px; padding-left:10px; x-cell-content-align:center; border-right-width:1px; border-right-color:#000000; border-right-style:Solid; border-bottom-style:Solid; border-bottom-color:#000000; border-bottom-width:1px; }
+ul.whs16 { list-style:url('../Recursos/vi_eta.jpg'); }
+td.whs17 { width:20.308%; padding-right:10px; padding-left:10px; x-cell-content-align:center; border-left-style:Solid; border-left-color:#000000; border-right-style:Solid; border-right-color:#000000; border-bottom-color:#000000; border-bottom-style:Solid; border-right-width:1px; border-left-width:1px; border-bottom-width:1px; background-color:#dfdfdf; }
+td.whs18 { width:79.692%; padding-right:10px; padding-left:10px; x-cell-content-align:center; border-right-style:Solid; border-right-color:#000000; border-bottom-color:#000000; border-bottom-style:Solid; border-right-width:1px; border-bottom-width:1px; background-color:#dfdfdf; }
+img_whs19 { border:none; width:15px; height:15px; float:none; border-style:none; }
+td.whs20 { width:20.308%; padding-right:10px; padding-left:10px; x-cell-content-align:center; border-left-style:Solid; border-left-color:#000000; border-right-style:Solid; border-right-color:#000000; border-bottom-color:#000000; border-bottom-style:Solid; border-right-width:1px; border-left-width:1px; background-color:#dfdfdf; border-bottom-width:1px; }
+td.whs21 { width:79.692%; padding-right:10px; padding-left:10px; x-cell-content-align:center; border-right-style:Solid; border-right-color:#000000; border-bottom-color:#000000; border-bottom-style:Solid; border-right-width:1px; background-color:#dfdfdf; border-bottom-width:1px; }
+img_whs22 { border:none; width:20px; height:15px; float:none; border-style:none; }
+ol.whs23 { list-style:url('../Recursos/vi_eta.jpg'); }
+td.whs24 { width:20.308%; padding-right:10px; padding-left:10px; x-cell-content-align:center; border-left-color:#000000; border-left-style:Solid; border-right-color:#000000; border-right-style:Solid; border-bottom-style:Solid; border-bottom-color:#000000; border-right-width:1px; border-left-width:1px; border-bottom-width:1px; background-color:#ffffff; }
+td.whs25 { width:79.692%; padding-right:10px; padding-left:10px; x-cell-content-align:center; border-right-color:#000000; border-right-style:Solid; border-bottom-style:Solid; border-bottom-color:#000000; border-bottom-width:1px; border-right-width:1px; background-color:#ffffff; }
+img_whs26 { border:none; float:none; width:20px; height:15px; border-style:none; }
+img_whs27 { border:none; float:none; width:15px; height:15px; border-style:none; }
+img_whs28 { border:none; float:none; width:18px; height:16px; border-style:none; }
+-->
+</style><script type="text/javascript" language="JavaScript">
+<!--
+if ((navigator.appName == "Netscape") && (parseInt(navigator.appVersion) == 4))
+{
+  var strNSS = "<style type='text/css'>";
+  strNSS += "p.whs9 {margin-left:1pt; }";
+  strNSS +="</style>";
+  document.write(strNSS);
+}
+//-->
+</script>
+<script type="text/javascript" language="JavaScript" title="WebHelpInlineScript">
+<!--
+function reDo() {
+  if (innerWidth != origWidth || innerHeight != origHeight)
+     location.reload();
+}
+if ((parseInt(navigator.appVersion) == 4) && (navigator.appName == "Netscape")) {
+	origWidth = innerWidth;
+	origHeight = innerHeight;
+	onresize = reDo;
+}
+onerror = null; 
+//-->
+</script>
+<style type="text/css">
+<!--
+div.WebHelpPopupMenu { position:absolute; left:0px; top:0px; z-index:4; visibility:hidden; }
+-->
+</style><script type="text/javascript" language="javascript1.2" src="../whmsg.js"></script>
+<script type="text/javascript" language="javascript" src="../whver.js"></script>
+<script type="text/javascript" language="javascript1.2" src="../whproxy.js"></script>
+<script type="text/javascript" language="javascript1.2" src="../whutils.js"></script>
+<script type="text/javascript" language="javascript1.2" src="../whtopic.js"></script>
+</head>
+<body><script type="text/javascript" language="javascript1.2">
+<!--
+if (window.gbWhTopic)
+{
+	if (window.addTocInfo)
+	{
+	addTocInfo("Procesos\nFunciones sobre cuentas");
+
+	}
+	if (window.writeBtnStyle)
+		writeBtnStyle();
+
+	if (window.writeIntopicBar)
+		writeIntopicBar(0);
+
+	if (window.setRelStartPage)
+	{
+	setRelStartPage("../SACI.htm");
+addSearchFormHref("javascript:document.ehelpform.submit()");
+
+		autoSync(1);
+		sendSyncInfo();
+		sendAveInfoOut();
+	}
+}
+else
+	if (window.gbIE4)
+		document.location.reload();
+//-->
+</script><script type="text/javascript" language="JavaScript1.2" src="../ehlpdhtm.js" x-save-method="compute-relative" name="EHELP_DHTM"></script>
+<script type="text/javascript"
+		language=JavaScript1.2>
+<!-- 
+if( typeof( kadovInitEffects ) != 'function' ) kadovInitEffects = new Function();if( typeof( kadovInitTrigger ) != 'function' ) kadovInitTrigger = new Function();if( typeof( kadovFilePopupInit ) != 'function' ) kadovFilePopupInit = new Function();if( typeof( kadovTextPopupInit ) != 'function' ) kadovTextPopupInit = new Function();
+ //-->
+</script>
+
+
+<div placeholder id="header" class="whs1">
+ <p class=Encabezado>Proceso</p>
+</div>
+<h1>Funciones sobre cuentas</h1>
+
+<h2>Concepto</h2>
+
+<p>Establece el alcance de tareas que puede realizarse para una cuenta 
+ en el sistema. &nbsp;Las 
+ tareas son invocadas desde la <a href="Administraci_n_de_cuentas.htm">Administración 
+ de cuentas<img src="../Recursos/Referencia.gif" x-maintain-ratio="TRUE" width="18px" height="16px" border="0" class="img_whs2"></a> o bien, con algunas restricciones desde la 
+ <a href="../Autogesti_n/Autogesti_n.htm">autogestión de servicios</a><img src="../Recursos/Referencia.gif" x-maintain-ratio="TRUE" width="18px" height="16px" border="0" class="img_whs2">.</p>
+
+<p>Para poder utilizar estas tareas es necesario ubicarse en el entorno 
+ de una cuenta específica, ya que todas las validaciones y reglas de negocio 
+ se definen en función de este, la información actualizada de su situación 
+ actual es definida y restringe la ejecución de las mismas.</p>
+
+<h2>Administración</h2>
+
+<p>Para la ejecución de tareas de la cuenta elegido, se utiliza un <a href="../Uso_del_Aplicativo/Formulario_selector.htm">formulario 
+ selector<img src="../Recursos/ReferenciaRapida.gif" x-maintain-ratio="TRUE" width="20px" height="15px" border="0" class="img_whs3"></a> desplegado a la derecha del menú de selección 
+ del nivel de la estructura de cuentas en el nivel adecuado.</p>
+
+<p>Las tareas disponibles se describen en la siguiente relación, sin embargo 
+ por aspectos de seguridad y alcance de los roles o perfiles de usuario 
+ algunas de estas podrían no estar disponibles en algunos casos, si esa 
+ fuera la situación la tarea no aparecerá del todo dentro de las opciones 
+ disponibles.</p>
+
+<p>&nbsp;</p>
+
+<div align=center>
+<table x-use-null-cells cellspacing="0" width="782" class="whs4">
+<col class="whs5">
+<col class="whs6">
+
+<tr valign="top" class="whs7">
+<td rowspan="1" colspan="2" bgcolor="#FFB76F" valign="middle" width="100%" class="whs8">
+<p align="center" class="whs9">Tareas sobre Cuentas</td>
+</tr>
+
+<tr valign="top" class="whs7">
+<td bgcolor="#FFB76F" valign="middle" width="20.308%" class="whs10">
+<p align="center" class="whs11">Tarea</td>
+<td rowspan="1" colspan="1" bgcolor="#FFB76F" valign="middle" width="79.692%" class="whs12">
+<p align="center" class="whs11">Funcionalidad</td></tr>
+
+<tr valign="top" class="whs7">
+<td colspan="1" rowspan="1" valign="middle" width="20.308%" class="whs13">
+<p class="whs14"><span style="font-size: 12pt; font-weight: bold;"><font size=3 style="font-size:12pt;"><B>Datos</B></font></span></td>
+<td colspan="1" rowspan="1" valign="middle" width="79.692%" class="whs15">
+<p>Corresponde a una consulta de los datos generales de la cuenta, para 
+ lo que se utiliza un <a href="javascript:void(0);" id="a3" onMouseOver="if (parseInt(navigator.appVersion) >= 4 && typeof(BSPSPopupOnMouseOver) == 'function') BSPSPopupOnMouseOver(event);" class="BSSCPopup" onclick="BSSCPopup('../Uso_del_Aplicativo/Formulario_de_Consulta.htm');return false;">formulario de consulta<img src="../Recursos/ReferenciaRapida.gif" x-maintain-ratio="TRUE" width="20px" height="15px" border="0" class="img_whs3"></a><script 
+ type="text/javascript"
+	language=JavaScript1.2><!--
+kadovFilePopupInit('a3');
+//--></script>, 
+ con los siguientes datos.</p>
+<ul class="whs16">
+	
+	<li class=kadov-p><p><a class="glossterm" href="javascript:kadovTextPopup(this)" id="A7">Número de cuenta</a><span class=glosstext style="display: 'none';" id=POPUP219254810 >   Este es un número asignado internamente por la empresa en el proceso 
+ de aprobación de cuentas, al incluir una nueva cuenta aparece la leyenda 
+ “Por asignar” o bien el número asignado cuando se refiera a una cuenta 
+ existente. Este campo no puede ser incluido ni modificado.</span> 
+ </p></li>
+	
+	<li class=kadov-p><p><a class="glossterm" href="javascript:kadovTextPopup(this)" id="a1">Apertura de cuenta</a><span class=glosstext style="display: 'none';" id=POPUP217069245 >   Es la fecha del sistema en el momento en que la cuenta es registrada. 
+ Puede ser referenciada como fecha de apertura. Se almacena internamente 
+ hasta segundos aunque su despliegue regular es hasta el día. Asignada 
+ por el sistema sin posibilidad de edición.</span> 
+ </p></li>
+	
+	<li class=kadov-p><p><a class="glossterm" href="javascript:kadovTextPopup(this)" id="A2">Observaciones</a><span class=glosstext style="display: 'none';" id=POPUP219224385 >   Es un texto no estructurado ni con funcionalidad específica en el sistema 
+ que permite agregar información u anotaciones relevantes de una entidad 
+ para efectos de desplegarla en consultas o alertar al lector de algún 
+ dato relevante. Usualmente este campo está reservado para uso interno 
+ de los representantes de la empresa. Puede contener valores nulos.</span> 
+ </p></li>
+	
+	<li class=kadov-p><p>Una relación con todos los paquetes asociados 
+ a la cuenta, que a su vez incluye las siguientes columnas</p></li>
+	
+	<ul class="whs16">
+		
+		<ul class="whs16">
+			
+			<li class=kadov-p><p><a class="glossterm" href="javascript:kadovTextPopup(this)" id="A8">Nombre de Producto</a><span class=glosstext style="display: 'none';" id=POPUP217991408 >   Nombre Comercial oficial de los productos o paquetes de la empresa, 
+ identifica de forma única cada producto para efectos de comercialización. 
+ Es un valor cuya longitud no puede ser menor a un caracter. La identificación 
+ de un producto a partir de su nombre es vital para el proceso atencional.</span> 
+ </p></li>
+			
+			<li class=kadov-p><p><a class="glossterm" href="javascript:kadovTextPopup(this)" id="A9">Descripción de Producto</a><span class=glosstext style="display: 'none';" id=POPUP218449580 >   Es un texto en lenguaje no estructurado, que explica y detalla en resumen 
+ la funcionalidad básica o alcance de cada producto, utilizado para efectos 
+ de ayuda y como complemento del nombre del producto para su entendimiento 
+ o manejo por parte del usuario.</span> 
+ </p></li>
+		</ul>
+	</ul>
+</ul></td></tr>
+
+<tr valign="top" class="whs7">
+<td colspan="1" rowspan="1" bgcolor="#DFDFDF" valign="middle" width="20.308%" class="whs17">
+<p class="whs14"><span style="font-size: 12pt; font-weight: bold;"><font size=3 style="font-size:12pt;"><B>Tareas 
+ programadas</B></font></span></td>
+<td colspan="1" rowspan="1" bgcolor="#DFDFDF" valign="middle" width="79.692%" class="whs18">
+<p>Las tareas programadas son procesos de cualquier tipo asociados a la 
+ cuenta que serán realizados en una fecha posterior ya programada, cuando 
+ esta fecha se cumpla el proceso se ejecutará con las condiciones de la 
+ cuenta en ese momento. &nbsp;Esta 
+ tarea consulta la programación de esos eventos con una relación que incluye 
+ las siguientes columnas:</p>
+<ul class="whs16">
+	
+	<li class=kadov-p><p><a class="glossterm" href="javascript:kadovTextPopup(this)" id="A6">Paquete</a><span class=glosstext style="display: 'none';" id=POPUP218606465 >   Es una referencia a la incidencia particular de un producto a partir 
+ del nombre de este.</span></p></li>
+	
+	<li class=kadov-p><p><a class="glossterm" href="javascript:kadovTextPopup(this)" id="A10">Tarea</a><span class=glosstext style="display: 'none';" id=POPUP218779312 >   Es un nombre de referencia a la incidencia particular de un proceso 
+ ejecutado, optativo o programado.</span></p></li>
+	
+	<li class=kadov-p><p><a class="glossterm" href="javascript:kadovTextPopup(this)" id="A4">Fecha</a><span class=glosstext style="display: 'none';" id=POPUP222152620 >   Fecha que determina la fecha real de un documento, evento o registro 
+ ingresado en el sistema. Captura y despliega su contenido con el formato 
+ dd/mm/aa.</span></p></li>
+</ul>
+<p>Es posible además eliminar cualquier tarea programada de la relación, 
+ anulando su ejecución.</td></tr>
+
+<tr valign="top" class="whs7">
+<td colspan="1" rowspan="1" valign="middle" width="20.308%" class="whs13">
+<p class="whs14">Forma de Cobro</td>
+<td colspan="1" rowspan="1" valign="middle" width="79.692%" class="whs15">
+<p><span class=glossterm>Consulta la forma de cobro asociada a la cuenta 
+ actualmente, de las alternativas existentes</span><a href="javascript:void(0);" id="a11" onMouseOver="if (parseInt(navigator.appVersion) >= 4 && typeof(BSPSPopupOnMouseOver) == 'function') BSPSPopupOnMouseOver(event);" class="BSSCPopup" onclick="BSSCPopup('../Lista_de_Valores/Forma_de_cobro.htm');return false;"><img src="../Recursos/i_black_sm.jpg" x-maintain-ratio="TRUE" width="15px" height="15px" border="0" class="img_whs19"></a><script type="text/javascript"
+											language=JavaScript1.2><!--
+kadovFilePopupInit('a11');
+//--></script>, 
+ utilizando un <a href="javascript:void(0);" id="a12" onMouseOver="if (parseInt(navigator.appVersion) >= 4 && typeof(BSPSPopupOnMouseOver) == 'function') BSPSPopupOnMouseOver(event);" class="BSSCPopup" onclick="BSSCPopup('../Uso_del_Aplicativo/Formulario_de_Consulta.htm');return false;">formulario de consulta<img src="../Recursos/ReferenciaRapida.gif" x-maintain-ratio="TRUE" width="20px" height="15px" border="0" class="img_whs3"></a><script 
+ type="text/javascript"
+	language=JavaScript1.2><!--
+kadovFilePopupInit('a12');
+//--></script> 
+ también es posible cambiar el valor actual de este indicador utilizando 
+ el botón cambiar, el que invocará una <a href="javascript:void(0);" id="a13" onMouseOver="if (parseInt(navigator.appVersion) >= 4 && typeof(BSPSPopupOnMouseOver) == 'function') BSPSPopupOnMouseOver(event);" class="BSSCPopup" onclick="BSSCPopup('../Uso_del_Aplicativo/Plantilla_de_registro.htm');return false;">plantilla de registro<img src="../Recursos/ReferenciaRapida.gif" x-maintain-ratio="TRUE" width="20px" height="15px" border="0" class="img_whs3"></a><script type="text/javascript"
+											language=JavaScript1.2><!--
+kadovFilePopupInit('a13');
+//--></script> 
+ con los siguientes campos:</p>
+<ul class="whs16">
+	
+	<li class=kadov-p><p><a class="glossterm" href="javascript:kadovTextPopup(this)" id="A5">Forma de cobro</a><span class=glosstext style="display: 'none';" id=POPUP220287886 >   Es un indicador de la forma en que se cobrará por la cuenta al cliente.</span> 
+ <a href="javascript:void(0);" id="a14" onMouseOver="if (parseInt(navigator.appVersion) >= 4 && typeof(BSPSPopupOnMouseOver) == 'function') BSPSPopupOnMouseOver(event);" class="BSSCPopup" onclick="BSSCPopup('../Lista_de_Valores/Forma_de_cobro.htm');return false;"><img src="../Recursos/i_black_sm.jpg" x-maintain-ratio="TRUE" width="15px" height="15px" border="0" class="img_whs19"></a><script type="text/javascript"
+														language=JavaScript1.2><!--
+kadovFilePopupInit('a14');
+//--></script></p></li>
+	
+	<li class=kadov-p><p><a href="javascript:void(0);" id="a15" onMouseOver="if (parseInt(navigator.appVersion) >= 4 && typeof(BSPSPopupOnMouseOver) == 'function') BSPSPopupOnMouseOver(event);" class="BSSCPopup" onclick="BSSCPopup('../Uso_del_Aplicativo/Opci_n_de_ejecuci_n.htm');return false;">Opción de ejecución<img src="../Recursos/ReferenciaRapida.gif" x-maintain-ratio="TRUE" width="20px" height="15px" border="0" class="img_whs3"></a><script 
+ type="text/javascript"
+	language=JavaScript1.2><!--
+kadovFilePopupInit('a15');
+//--></script></p></li>
+</ul>
+<p>Adicionalmente ofrece la consulta de las tareas programadas particularmente 
+ para el cambio de forma de cobro, brindando así al usuario la oportunidad 
+ de valorar su acción.</td></tr>
+
+<tr valign="top" class="whs7">
+<td colspan="1" rowspan="1" bgcolor="#DFDFDF" valign="middle" width="20.308%" class="whs20">
+<p class="whs14">Reprogramación</td>
+<td colspan="1" rowspan="1" bgcolor="#DFDFDF" valign="middle" width="79.692%" class="whs21">
+<p>Tarea para reprogramar paquetes y logines previamente retirados para 
+ la cuenta, estos deben corresponder con los contratos y alcances de los 
+ productos estipulados en estos. &nbsp;Esta 
+ no es la tarea para completar la programación original de logines. &nbsp;Para 
+ realizar la reprogramación se utiliza una <a href="../Uso_del_Aplicativo/Lista.htm">lista<img src="../Recursos/ReferenciaRapida.gif" x-maintain-ratio="TRUE" width="20px" height="15px" border="0" class="img_whs3"></a>, en la que se presenta una relación con los logines retirados 
+ o desprogramados en un <a href="javascript:void(0);" id="a22" onMouseOver="if (parseInt(navigator.appVersion) >= 4 && typeof(BSPSPopupOnMouseOver) == 'function') BSPSPopupOnMouseOver(event);" class="BSSCPopup" onclick="BSSCPopup('../Uso_del_Aplicativo/Portlet.htm');return false;">portlet<img src="../Recursos/ReferenciaRapida.gif" x-maintain-ratio="TRUE" width="20px" height="15px" border="0" class="img_whs22"></a><script 
+ type="text/javascript"
+	language=JavaScript1.2><!--
+kadovFilePopupInit('a22');
+//--></script> 
+ a la izquierda, abajo de la lista de tareas, agrupados por el paquete 
+ original, seleccionados de esta lista se invoca un mantenimiento con los 
+ siguientes campos:</p>
+<ul class="whs16">
+	
+	<li class=kadov-p><p><a class="glossterm" href="javascript:kadovTextPopup(this)" id="a19">Paquete</a><span class=glosstext style="display: 'none';" id=POPUP216509683 >   Es una referencia a la incidencia particular de un producto a partir 
+ del nombre de este.</span></p></li>
+	
+	<li class=kadov-p><p><span class=glossterm><a class="glossterm" href="javascript:kadovTextPopup(this)" id="A20">Ajuste a depósito 
+ de garantía</a><span class=glosstext style="display: 'none';" id=POPUP219248349 >   Es un monto o cantidad de dinero expresado en la moneda del producto 
+ complementario al depósito de garantía actual. Puede surgir por aspectos 
+ en el comercialización o configuración de la incidencia del producto o 
+ en a definición de depósitos previos.</span></span></p></li>
+	
+	<li class=kadov-p><p><span class=glossterm>Relación con todos los logines 
+ desprogramados para el paquete, que a la vez incluye las siguientes columnas:</span></p></li>
+	
+	<ol class="whs23">
+		
+		<ul class="whs16">
+			
+			<li class=kadov-p><p><span class=glossterm><a href="../Entidades/Login.htm">Login</span><img src="../Recursos/Referencia.gif" x-maintain-ratio="TRUE" width="18px" height="16px" border="0" class="img_whs2"></a></p></li>
+			
+			<li class=kadov-p><p><a class="glossterm" href="javascript:kadovTextPopup(this)" id="A21">Número de sobre</a><span class=glosstext style="display: 'none';" id=POPUP221837690 >   Es el identificador público del sobre, impreso en la parte externa y 
+ visible del sobre por la entidad impresora. Este campo será importado 
+ y no es posible modificar, establece la llave pública del sobre y las 
+ referencias al mismo.</span> 
+ </p></li>
+		</ul>
+	</ol>
+</ul>
+<p>Para realizar la acción se debe marcar cada login en el indicador de 
+ la izquierda y cuando se eligen los deseados se procede con el botón de 
+ &quot;Reactivar&quot;.</td></tr>
+
+<tr valign="top" class="whs7">
+<td bgcolor="#FFFFFF" valign="middle" width="20.308%" class="whs24">
+<p class="whs14">Contactos</td>
+<td rowspan="1" colspan="1" bgcolor="#FFFFFF" valign="middle" width="79.692%" class="whs25">
+<p>Es una relación de personas físicas a contactar en diversos aspectos. 
+ Este registro tiene sentido únicamente cuando el cliente corresponda a 
+ una persona jurídica. El registro corresponde a una <a href="javascript:void(0);" id="a16" onMouseOver="if (parseInt(navigator.appVersion) >= 4 && typeof(BSPSPopupOnMouseOver) == 'function') BSPSPopupOnMouseOver(event);" class="BSSCPopup" onclick="BSSCPopup('../Uso_del_Aplicativo/Lista.htm');return false;">lista<img src="../Recursos/ReferenciaRapida.gif" x-save-file="TRUE" x-save-method="compute-relative" width="20px" height="15px" border="0" class="img_whs26"></a><script type="text/javascript"
+											language=JavaScript1.2><!--
+kadovFilePopupInit('a16');
+//--></script> 
+ con los contactos ya ingresados en un <a href="javascript:void(0);" id="a18" onMouseOver="if (parseInt(navigator.appVersion) >= 4 && typeof(BSPSPopupOnMouseOver) == 'function') BSPSPopupOnMouseOver(event);" class="BSSCPopup" onclick="BSSCPopup('../Uso_del_Aplicativo/Portlet.htm');return false;">portlet<img src="../Recursos/ReferenciaRapida.gif" x-maintain-ratio="TRUE" width="20px" height="15px" border="0" class="img_whs3"></a><script type="text/javascript"
+											language=JavaScript1.2><!--
+kadovFilePopupInit('a18');
+//--></script> 
+ a la izquierda, abajo de la lista de tareas, los que pueden ser editados 
+ seleccionando el requerido o bien agregar uno nuevo; esta lista se complementa 
+ con un mantenimiento que captura y valida:</p>
+<ul class="whs16">
+	
+	<li class=kadov-p><p><a class="glossterm" href="javascript:kadovTextPopup(this)" id="A24">Tipo de contacto</a><span class=glosstext style="display: 'none';" id=POPUP219207309 >   Clasifica la relación entre una persona física y una jurídica o moral. 
+ La persona física puede ser nacional, extranjero o residente. Esta clasificación 
+ se valida contra una lista preestablecida de valores que definen la naturaleza 
+ de la representación.</span> 
+ &nbsp;<a href="javascript:void(0);" id="a17" onMouseOver="if (parseInt(navigator.appVersion) >= 4 && typeof(BSPSPopupOnMouseOver) == 'function') BSPSPopupOnMouseOver(event);" class="BSSCPopup" onclick="BSSCPopup('../Lista_de_Valores/Tipos_de_representante.htm');return false;"><img src="../Recursos/i_black_sm.jpg" x-save-file="TRUE" x-save-method="compute-relative" width="15px" height="15px" border="0" class="img_whs27"></a><script type="text/javascript"
+											language=JavaScript1.2><!--
+kadovFilePopupInit('a17');
+//--></script></p></li>
+	
+	<li class=kadov-p><p><a href="../Entidades/Persona.htm">Persona<img src="../Recursos/Referencia.gif" x-save-file="TRUE" x-save-method="compute-relative" width="18px" height="16px" border="0" class="img_whs28"></a></p></li>
+</ul></td></tr>
+</table>
+</div>
+
+<script language="javascript1.2" type="text/javascript"><!--
+kadovTextPopupInit('A7','POPUP219254810');
+//--></script><script language="javascript1.2" type="text/javascript"><!--
+kadovTextPopupInit('a1','POPUP217069245');
+//--></script><script language="javascript1.2" type="text/javascript"><!--
+kadovTextPopupInit('A2','POPUP219224385');
+//--></script><script language="javascript1.2" type="text/javascript"><!--
+kadovTextPopupInit('A8','POPUP217991408');
+//--></script><script language="javascript1.2" type="text/javascript"><!--
+kadovTextPopupInit('A9','POPUP218449580');
+//--></script><script language="javascript1.2" type="text/javascript"><!--
+kadovTextPopupInit('A6','POPUP218606465');
+//--></script><script language="javascript1.2" type="text/javascript"><!--
+kadovTextPopupInit('A10','POPUP218779312');
+//--></script><script language="javascript1.2" type="text/javascript"><!--
+kadovTextPopupInit('A4','POPUP222152620');
+//--></script><script language="javascript1.2" type="text/javascript"><!--
+kadovTextPopupInit('A5','POPUP220287886');
+//--></script><script language="javascript1.2" type="text/javascript"><!--
+kadovTextPopupInit('a19','POPUP216509683');
+//--></script><script language="javascript1.2" type="text/javascript"><!--
+kadovTextPopupInit('A20','POPUP219248349');
+//--></script><script language="javascript1.2" type="text/javascript"><!--
+kadovTextPopupInit('A21','POPUP221837690');
+//--></script><script language="javascript1.2" type="text/javascript"><!--
+kadovTextPopupInit('A24','POPUP219207309');
+//--></script><script type="text/javascript" language="javascript1.2">
+<!--
+if (window.writeIntopicBar)
+	writeIntopicBar(0);
+//-->
+</script>
+<form method="POST" action="http://www.helpcommunity.com/ehelpapi.asp?cmd=WebSave" name="ehelpform" target="_top" style="display:'none';">
+<input type="hidden" name="data" value="2A0D021700000046756E63696F6E657320736F627265206375656E74617311020800000050726F6365736F7312021700000046756E63696F6E657320736F627265206375656E74617313022C00000053697374656D612041646D696E6973747261646F72206465204375656E74617320646520496E7465726E6574150208000000534143492E68746D1703740100003C3F786D6C2076657273696F6E3D22312E30223F3E0D0A3C21444F43545950452053595354454D20226568656C706F70742E647464223E0D0A3C46494C452D4F5054494F4E532046494C452D56455253494F4E3D2232222046494C452D4B45593D2265653431643334395F656365375F343062375F626137325F373331306464653365636233223E0D0A3C2F46494C452D4F5054494F4E533E0D0A3C4548454C502D4F5054494F4E5320464F524D41542D56455253494F4E3D22312E30223E0D0A203C4F5054494F4E5320454E41424C45443D225945532220454D4245444445443D2259455322204D41494E2D57494E444F572D4F4E4C593D224E4F2220434F4D4D554E4954592D4E4F544946593D224E4F222046495253542D504147453D224E4F542D534554223E0D0A203C2F4F5054494F4E533E0D0A203C425554544F4E2D4C4142454C3E5765625365617263680D0A203C2F425554544F4E2D4C4142454C3E0D0A3C2F4548454C502D4F5054494F4E533E18010400000002000000702A">
+</form>
+</body>
+</html>

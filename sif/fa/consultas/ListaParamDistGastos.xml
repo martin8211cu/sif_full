@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiqueta>
+	<Idioma id="en">
+		<LB_ParametrosReporteDistribucionGastos>Parameters for Expenses Distribution Report</LB_ParametrosReporteDistribucionGastos>
+		<LB_Cuenta>Account</LB_Cuenta>
+		<LB_Descripcion>Description</LB_Descripcion>
+		<LB_Socio>Partner</LB_Socio>
+		<LB_PorcentajeDistribucion>Percentage Distribution</LB_PorcentajeDistribucion>
+	</Idioma>
+</Etiqueta>

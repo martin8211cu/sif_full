@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_Titulo>Document Reprint</LB_Titulo>
+		<LB_Archivo>Field</LB_Archivo>
+		<LB_Empleado>Employee</LB_Empleado>
+		<LB_Hasta>To</LB_Hasta>
+		<LB_Fecha>Date</LB_Fecha>
+		<LB_NumVale>Document Number</LB_NumVale>
+		<LB_Estado>Status</LB_Estado>
+		<LB_Aplicado>Applied</LB_Aplicado>
+		<LB_Cancelado>Canceled</LB_Cancelado>
+		<LB_PorLiquidar>To Settled</LB_PorLiquidar>
+		<LB_ValeCajaChica>Petty Cash Document</LB_ValeCajaChica>
+		<LB_Reimpresion>Reprint</LB_Reimpresion>
+		<LB_Impresion>Print</LB_Impresion>
+		<LB_CajaAsignada>Petty Cash Assigned</LB_CajaAsignada>
+		<LB_Empresa>Enterprise</LB_Empresa>
+		<LB_FechaVale>Document Date</LB_FechaVale>
+		<LB_CF>F.C.</LB_CF>
+		<LB_ValorLetras>Amount in Words</LB_ValorLetras>
+		<LB_PorConcepto>By Concept</LB_PorConcepto>
+		<LB_aFavor>Balance in favour of</LB_aFavor>
+		<LB_Emitido>Issued</LB_Emitido>
+		<LB_Hora>Hour</LB_Hora>
+		<LB_DetalleVale>Document Detail</LB_DetalleVale>
+		<LB_CuentaConcepto>Account Concept</LB_CuentaConcepto>
+		<LB_Monto>Amount</LB_Monto>
+		<LB_CustodioFondoCajaChica>Custodian of Petty Cash Fund</LB_CustodioFondoCajaChica>
+		<LB_AutorizadoPor>Authorized by</LB_AutorizadoPor>
+		<LB_RecibidoConforme>Received</LB_RecibidoConforme>
+	</Idioma>
+</Etiquetas>

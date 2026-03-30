@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='windows-1252' ?>
+<indexdata>
+<key name="Balances" >
+  <key name="Balance de comprobacion" >
+    <topic name="Balance_comprobacion" url="Balance_comprobacion.htm" />
+  </key>
+  <key name="Balance general" >
+    <topic name="Balance_general" url="Balance_general.htm" />
+  </key>
+</key>
+<key name="Catálogos" >
+  <key name="Agregar Catálogo al plan de cuentas" >
+    <topic name="Catalogo_cuentas" url="Catalogo_cuentas.htm" />
+  </key>
+  <key name="Conceptos contables" >
+    <topic name="Concepto_contable" url="Concepto_contable.htm" />
+  </key>
+  <key name="Cuentas de Mayor" >
+    <topic name="Cuentas_Mayor" url="Cuentas_Mayor.htm" />
+  </key>
+  <key name="Historicos tipo cambio" >
+    <topic name="Historico_tipo_cambio" url="Historico_tipo_cambio.htm" />
+  </key>
+  <key name="Mascaras de cuentas" >
+    <topic name="Mascaras_cuentas" url="Mascaras_cuentas.htm" />
+  </key>
+  <key name="Monedas" >
+    <topic name="Monedas" url="Monedas.htm" />
+  </key>
+  <key name="Subcuentas" >
+    <topic name="Subcuentas" url="Subcuentas.htm" />
+  </key>
+</key>
+<key name="Cierres" >
+  <key name="Cierre auxiliar" >
+    <topic name="Cierre_auxiliar" url="Cierre_auxiliar.htm" />
+  </key>
+  <key name="Cierre de mes contable" >
+    <topic name="Cierre_mes_contable" url="Cierre_mes_contable.htm" />
+  </key>
+</key>
+<key name="Consultas" >
+  <key name="Cuentas contables" >
+    <topic name="Cuentas_contables" url="Cuentas_contables.htm" />
+  </key>
+  <key name="Cuentas financieras" >
+    <topic name="Cuentas_financieras" url="Cuentas_financieras.htm" />
+  </key>
+  <key name="Polizas contabilizadas" >
+    <topic name="Poliza_contable" url="Poliza_contable.htm" />
+  </key>
+  <key name="Saldos y movimientos" >
+    <topic name="Saldos_movimientos" url="Saldos_movimientos.htm" />
+  </key>
+</key>
+<key name="Copiar" >
+  <key name="Copiar/Reversar documentos contables" >
+    <topic name="Reversar_documentos_contables" url="Reversar_documentos_contables.htm" />
+  </key>
+</key>
+<key name="Registro" >
+  <key name="Registro de documentos contables" >
+    <topic name="Registro_Documentos_Contables" url="Registro_Documentos_Contables.htm" />
+  </key>
+</key>
+
+</indexdata>

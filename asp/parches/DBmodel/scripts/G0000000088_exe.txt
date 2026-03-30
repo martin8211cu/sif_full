@@ -1,0 +1,118 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 201 - DBM 353: Se cambia el AK_1
+
+	         PARCHE:  Parche023_401_SIF_TCEMexico
+
+GENERADO EN:
+	SERVER:  http://mxpapp36:8300
+	DSN:     sifcim
+	FECHA:   13/10/2011 09:51:32
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* CHG_TABLE CCHespecialMovs: Movimientos de Caja Especial d */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): CCHTid_CCH - ID Transacción de CCH */
+ALTER TABLE CCHespecialMovs ADD CCHTid_CCH numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): CCHTid_reintegro - ID Transacción de Reintegro */
+ALTER TABLE CCHespecialMovs ADD CCHTid_reintegro numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(NUEVO): TIP="F", SEC="6", COLS="CCHTid_CCH", REF="CCHTransaccionesProceso" */
+CREATE INDEX CCHespecialMovs_FI06 ON CCHespecialMovs (CCHTid_CCH)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(NUEVO): TIP="F", SEC="7", COLS="CCHTid_reintegro", REF="CCHTransaccionesProceso" */
+CREATE INDEX CCHespecialMovs_FI07 ON CCHespecialMovs (CCHTid_reintegro)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE CCHImportes: Importes por Caja */
+/* ======================================================================================== */
+/* DEL_COLUMN OP=(OBSOLETO): CCHIdepositosRecibidos - Monto Depositos Recibidos */
+ALTER TABLE CCHImportes DROP CONSTRAINT DF__CCHImport__CCHId__0DB16EB5
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE CCHImportes DROP COLUMN CCHIdepositosRecibidos
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* DEL_COLUMN OP=(OBSOLETO): CCHIefectivoRecibido - Monto Efectivo Recibido */
+ALTER TABLE CCHImportes DROP CONSTRAINT DF__CCHImport__CCHIe__0CBD4A7C
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE CCHImportes DROP COLUMN CCHIefectivoRecibido
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_COLUMN OP=(NUEVO): CCHIsaldoInicial - Saldo Inicial */
+ALTER TABLE CCHImportes ADD CCHIsaldoInicial money DEFAULT 0 NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): CCHIentradas - Entradas */
+ALTER TABLE CCHImportes ADD CCHIentradas money DEFAULT 0 NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): CCHIsalidas - Salidas */
+ALTER TABLE CCHImportes ADD CCHIsalidas money DEFAULT 0 NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE ECuentaBancaria: Encabezado de Estado de Cuenta */
+/* ======================================================================================== */
+/* DEL_KEY OP=(OBSOLETO): TIP="A", COLS="Bid,ECfecha" */
+ALTER TABLE ECuentaBancaria DROP CONSTRAINT ECuentaBancaria_AK01 /* UNIQUE KEY (Bid,ECfecha) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(NUEVO): TIP="A", SEC="2", COLS="ECfecha,CBid" */
+ALTER TABLE ECuentaBancaria ADD CONSTRAINT ECuentaBancaria_AK02 UNIQUE NONCLUSTERED (ECfecha,CBid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ================================================================= */
+/*            CREA FKs NUEVOS O CON CAMPOS MODIFICADOS               */
+/* ================================================================= */
+/* CHG_TABLE CCHespecialMovs */
+/* ADD_FK OP=(NUEVO): TIP="F", SEC="6", COLS="CCHTid_CCH", REF="CCHTransaccionesProceso" */
+ALTER TABLE CCHespecialMovs ADD CONSTRAINT CCHespecialMovs_FK06 FOREIGN KEY (CCHTid_CCH) REFERENCES CCHTransaccionesProceso (CCHTid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_FK OP=(NUEVO): TIP="F", SEC="7", COLS="CCHTid_reintegro", REF="CCHTransaccionesProceso" */
+ALTER TABLE CCHespecialMovs ADD CONSTRAINT CCHespecialMovs_FK07 FOREIGN KEY (CCHTid_reintegro) REFERENCES CCHTransaccionesProceso (CCHTid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

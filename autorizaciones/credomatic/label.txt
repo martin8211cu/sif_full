@@ -1,0 +1,4 @@
+Credomatic de Costa Rica
+Conecta a credomatic de Costa Rica por internet
+utilizando el archivo .dat de pruebas de SOIN
+Úsese con cuidado, contiene información confidencial de SOIN

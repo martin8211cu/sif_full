@@ -1,0 +1,395 @@
+<cfoutput>
+<cfset vsPath_R = "#ExpandPath( GetContextRoot() )#">
+<cfif REFind('(cfmx)$',vsPath_R) gt 0> 
+	<cfset vsPath_R = "#Replace(vsPath_R,'cfmx','')#"> 
+<cfelse> 
+	<cfset vsPath_R = "#vsPath_R#\">
+</cfif>
+
+<cffunction name="obtenerRecibosPago" hint="Ejecuta el proceso de generacion de recibos de pago del ultimo corte cerrado de tipo D.">
+
+    <cfargument  name="dsn"                 type="string"   required="no"   default="#session.dsn#">
+    <cfargument  name="ecodigo"             type="string"   required="no"   default="#session.ecodigo#">
+    <cfargument  name="corte"            	type="string"  	required="no"   default="-1">
+    <cfargument  name="continuo"            type="boolean"  required="no"   default="false">
+    <cfargument  name="acumulado"           type="any"      required="false" default='0'> <!--- Validación para acumular documentos de un solo tipo ej. Activo --->
+
+	<cfset objEstadoCuenta = createObject( "component","crc.Componentes.CRCEstadosCuenta")>
+    <!--- Parámetro de valor que se acumulará --->
+    <cfquery name="parametroAcumulado" datasource="#arguments.dsn#">
+            SELECT coalesce(Pvalor,'') Pvalor
+            FROM CRCParametros
+            WHERE Ecodigo = #arguments.Ecodigo#
+            and Pcodigo = '30300112'
+    </cfquery>
+    
+    <cfset pAcum = parametroAcumulado.Pvalor>
+    
+	<cfif arguments.continuo>
+		<cfquery name="rsCorte" datasource="#arguments.Dsn#">
+            select * from CRCCortes where Codigo = '#arguments.corte#'
+        </cfquery>
+
+		<cfset vsPath_R = objEstadoCuenta.getPath()>
+		<cfset dir = objEstadoCuenta.CheckDir("#vsPath_R#DocCortes")>
+		<cfset dir = objEstadoCuenta.CheckDir("#vsPath_R#DocCortes\#arguments.corte#")>
+		<cfset finalPath = "#vsPath_R#DocCortes\#arguments.corte#">
+
+		<cfquery name="q_ReciboPagos" datasource="#arguments.dsn#">
+            select 
+                1 as primeraColumna, 
+                B.id,
+                S.SNnombre,
+                ct.Numero,
+                '#rsCorte.Codigo#' Codigo,
+                '#rsCorte.FechaInicio#' FechaInicio,
+                '#rsCorte.FechaFin#' FechaFin,
+                '#rsCorte.FechaInicioSV#' FechaInicioSV,
+                ct.Numero CURP,
+                B.Cliente,
+                B.Monto SaldoTotal,
+                isnull(cn.ComprasNuevas,0) NuevasCompras,
+                A.Descripcion Parcialidad,      <!--- NAva --->
+                A.MontoAPagar - (A.Pagado + A.Descuento) AbonoPagar,
+                A.MontoAPagar - (A.Pagado + A.Descuento) MinimoPagar,
+                case when (i.SaldoIntereses - (A.MontoAPagar - (A.Pagado + A.Descuento))) > 0
+                    then round((i.SaldoIntereses - (A.MontoAPagar - (A.Pagado + A.Descuento))) * (select Pvalor from CRCParametros where Pcodigo = '30000701' and Ecodigo = #arguments.ecodigo#)/100,2) 
+                    else 0
+                end as Intereses,
+                B.monto - isnull(C.Pagos,0) - (A.MontoAPagar - (A.Pagado + A.Descuento)) + A.MontoAPagar - (A.Pagado + A.Descuento) AS SaldoAnterior,
+                B.monto - isnull(C.Pagos,0) - (A.MontoAPagar - (A.Pagado + A.Descuento)) AS NuevoSaldo,
+                ct.CRCEstatusCuentasid 
+            from CRCMovimientoCuenta as A 
+            inner join CRCTransaccion B 
+                on A.CRCTransaccionid = B.id 
+            inner join CRCCuentas ct
+                on ct.id = B.CRCCuentasid
+            inner join SNegocios S
+                on ct.SNegociosSNid = S.SNid
+            inner join CRCTipoTransaccion TT
+                on TT.Codigo = B.TipoTransaccion
+                and TT.Ecodigo = B.Ecodigo
+            left join (
+                select CRCTransaccionid, Sum(A.Pagado)+ sum(A.Descuento) - sum(A.Intereses) + sum(A.Condonaciones) as Pagos
+                from CRCMovimientoCuenta A 
+                inner join CRCCortes B  on B.Codigo = A.Corte
+                where  B.FechaFin <= '#DateFormat(rsCorte.fechafin,'yyyy-mm-dd')#'
+                group by A.CRCTransaccionid
+            ) as C
+                on C.CRCTransaccionid = B.id
+            left join (
+                select t.CRCCuentasid CuentaId, t.Cliente, t.CURP, 
+                case when cc.parcialidad = 1 then sum(t.Monto) else 0 end ComprasNuevas
+                from CRCCortes cr
+                inner join CRCTransaccion t
+                    on t.FechaInicioPago between cr.FechaInicio and cr.FechaFin
+                    and t.TipoTransaccion = 'VC'
+                inner join (
+                    select CRCTransaccionid, count(CRCTransaccionid) parcialidad 
+                    from CRCMovimientoCuenta
+                    where Corte <= '#rsCorte.Codigo#'
+                    group by CRCTransaccionid
+                ) cc
+                    on t.id = cc.CRCTransaccionid
+                where cr.Codigo = '#rsCorte.Codigo#'
+                group by t.CRCCuentasid, t.Cliente, t.CURP, cc.parcialidad
+            ) cn
+                on B.Cliente = cn.Cliente and B.CURP = cn.CURP
+            left join (
+                select tr.Cliente, tr.CURP, tr.CRCCuentasid, sum((mc.MontoAPagar - (mc.Pagado + mc.Descuento)) ) as SaldoIntereses
+                from CRCMovimientoCuenta mc 
+                inner join	CRCTransaccion tr on tr.id = mc.CRCTransaccionid
+                inner join CRCCortes ct on ct.Codigo = mc.Corte and ct.status = 2
+                group by tr.Cliente,tr.CRCCuentasid, tr.CURP
+            ) i
+                on a.id = i.CRCCuentasid
+                and B.Cliente = i.Cliente and B.CURP = i.CURP
+            where ct.CRCEstatusCuentasid <!---in (
+                        select top 2 id 
+                        from CRCEstatusCuentas 
+                        where Ecodigo = #arguments.ecodigo# 
+                        order by Orden
+                )--->
+                < (select Pvalor 
+											from CRCParametros 
+											where Pcodigo = '30300110' and Ecodigo = #arguments.Ecodigo#)
+					
+                and A.Corte = '#arguments.corte#' 
+                and A.MontoAPagar - (A.Pagado + A.Descuento) > 0
+                and rtrim(ltrim(B.TipoTransaccion)) <> 'SG'
+                and A.CRCConveniosid is null
+                order by ct.Numero, B.Cliente; 
+        </cfquery>
+        
+		<!---  VARIABLES DE PAGINACION --->
+        <cfset e_paginas = []>
+        <cfset e_pagina = []>
+        <cfset e_cliente = structNew()>
+        <cfset result = 0>
+        <cfif q_ReciboPagos.recordCount gt 0>
+            <cfset crcParametros = createObject("component", "crc.Componentes.CRCParametros")>
+            <cfset diasPen = crcParametros.GetParametro(codigo="30006101", conexion=arguments.dsn, ecodigo = arguments.ecodigo) + 3>
+            
+            <!--- PAGINACION DE RESULTADOS DEL QUERY --->
+            <cfset _contador = 0> 
+            <cfloop query="#q_ReciboPagos#">
+                
+                <cfif arguments.acumulado eq 1 and q_ReciboPagos.CRCEstatusCuentasid lte pAcum> <!--- Validación de valor acumulado --->
+                    <cfset _contador += 1> 
+                    <cfset e_cliente.eFechaCorte           = "#DateFormat(q_ReciboPagos.FechaFin,'yyyy.mm.dd')#">
+                    <cfset e_cliente.ePagueAntes           = "#DateFormat(DateAdd("d",-diasPen,q_ReciboPagos.FechaInicioSV),'yyyy.mm.dd')#">
+                    <cfset e_cliente.eNumeroDistribuidor   = "#q_ReciboPagos.Numero#">
+                    <cfset e_cliente.eNombreDistribuidor   = "#q_ReciboPagos.SNnombre#">
+                    <cfset e_cliente.eParcialidad           = REMatch("\(\d+?\/\d+?\)",q_ReciboPagos.Parcialidad)[1]>  <!---  NAva --->
+                    <cfset e_cliente.eMinPago              = "#NumberFormat(q_ReciboPagos.MinimoPagar,'00.00')#">
+                    <cfset e_cliente.eNumeroCliente        = "#q_ReciboPagos.CURP#">
+                    <cfset e_cliente.eNombreCliente        = "#q_ReciboPagos.Cliente#">
+                    <cfset e_cliente.eSaldoAnterior        = "#NumberFormat(q_ReciboPagos.SaldoAnterior,'00.00')#">
+                    <cfset e_cliente.eCompraNueva          = "#NumberFormat(q_ReciboPagos.NuevasCompras,'00.00')#">
+                    <cfset e_cliente.eIntereses            = "#NumberFormat(q_ReciboPagos.Intereses,'00.00')#">
+                    <cfset e_cliente.eAbonoPagar           = "#NumberFormat(q_ReciboPagos.AbonoPagar,'00.00')#">
+                    <cfset e_cliente.eNuevoSaldo           = "#NumberFormat(q_ReciboPagos.NuevoSaldo,'00.00')#">
+                    <cfset arrayAppend(e_pagina, e_cliente)>
+                    <cfif arrayLen(e_pagina) eq 6>
+                        <cfset arrayAppend(e_paginas, e_pagina)>
+                        <cfset e_pagina = []>
+                    <cfelseif _contador eq q_ReciboPagos.recordCount>
+                        <cfset arrayAppend(e_paginas, e_pagina)>
+                    </cfif>
+                    <cfset e_cliente = structNew()>
+                </cfif>
+                <cfif arguments.acumulado neq 1>
+                    <cfset _contador += 1> 
+                    <cfset e_cliente.eFechaCorte           = "#DateFormat(q_ReciboPagos.FechaFin,'yyyy.mm.dd')#">
+                    <cfset e_cliente.ePagueAntes           = "#DateFormat(DateAdd("d",-diasPen,q_ReciboPagos.FechaInicioSV),'yyyy.mm.dd')#">
+                    <cfset e_cliente.eNumeroDistribuidor   = "#q_ReciboPagos.Numero#">
+                    <cfset e_cliente.eNombreDistribuidor   = "#q_ReciboPagos.SNnombre#">
+                    <cfset e_cliente.eParcialidad           = REMatch("\(\d+?\/\d+?\)",q_ReciboPagos.Parcialidad)[1]>  <!---  NAva --->
+                    <cfset e_cliente.eMinPago              = "#NumberFormat(q_ReciboPagos.MinimoPagar,'00.00')#">
+                    <cfset e_cliente.eNumeroCliente        = "#q_ReciboPagos.CURP#">
+                    <cfset e_cliente.eNombreCliente        = "#q_ReciboPagos.Cliente#">
+                    <cfset e_cliente.eSaldoAnterior        = "#NumberFormat(q_ReciboPagos.SaldoAnterior,'00.00')#">
+                    <cfset e_cliente.eCompraNueva          = "#NumberFormat(q_ReciboPagos.NuevasCompras,'00.00')#">
+                    <cfset e_cliente.eIntereses            = "#NumberFormat(q_ReciboPagos.Intereses,'00.00')#">
+                    <cfset e_cliente.eAbonoPagar           = "#NumberFormat(q_ReciboPagos.AbonoPagar,'00.00')#">
+                    <cfset e_cliente.eNuevoSaldo           = "#NumberFormat(q_ReciboPagos.NuevoSaldo,'00.00')#">
+                    <cfset arrayAppend(e_pagina, e_cliente)>
+                    <cfif arrayLen(e_pagina) eq 6>
+                        <cfset arrayAppend(e_paginas, e_pagina)>
+                        <cfset e_pagina = []>
+                    <cfelseif _contador eq q_ReciboPagos.recordCount>
+                        <cfset arrayAppend(e_paginas, e_pagina)>
+                    </cfif>
+                    <cfset e_cliente = structNew()>
+                </cfif>
+                
+            </cfloop>
+            
+            <cfloop index="i" from="#arrayLen(e_pagina)#" to="5">
+                <cfset e_cliente.eFechaCorte           = "">
+                <cfset e_cliente.ePagueAntes           = "">
+                <cfset e_cliente.eNumeroDistribuidor   = "">
+                <cfset e_cliente.eNombreDistribuidor   = "">
+                <cfset e_cliente.eParcialidad          = "">  <!--- NAva --->
+                <cfset e_cliente.eMinPago              = "">
+                <cfset e_cliente.eNumeroCliente        = "">
+                <cfset e_cliente.eNombreCliente        = "">
+                <cfset e_cliente.eSaldoAnterior        = "">
+                <cfset e_cliente.eCompraNueva          = "">
+                <cfset e_cliente.eIntereses            = "">
+                <cfset e_cliente.eAbonoPagar           = "">
+                <cfset e_cliente.eNuevoSaldo           = "">
+                <cfset arrayAppend(e_pagina, e_cliente)>
+                <cfif arrayLen(e_pagina) gt 6 and arrayLen(e_pagina) % 6 eq 1>
+                    <cfset arrayAppend(e_paginas, e_pagina)>
+                    <cfset e_pagina = []>
+                </cfif>
+                <cfset e_cliente = structNew()>
+            </cfloop>
+    
+            <!---Validación de acumulado y genera los archivos temporales--->
+            <cfif arguments.acumulado eq 1>
+                <cfif DirectoryExists("#finalPath#\Acumulados\tmp") >
+                    <cfdirectory action="delete" directory="#finalPath#\Acumulados\tmp" recurse="true">
+                </cfif>
+                <cfif !DirectoryExists("#finalPath#\Acumulados") >
+                    <cfset DirectoryCreate("#finalPath#\Acumulados")>
+                </cfif>
+                <cfif !DirectoryExists("#finalPath#\Acumulados\tmp") >
+                    <cfset DirectoryCreate("#finalPath#\Acumulados\tmp")>
+                </cfif>
+                
+                
+
+                  <!--- CREACION DE PAGINAS DE RECIBOS DE PAGO --->
+                <cfloop array="#e_paginas#" index="i" item="t">
+                    <cfset Recibo = e_paginas[i]>
+                    <cfoutput>
+                        <cfdocument 
+                            format = "PDF"
+                            marginBottom = "0"
+                            marginLeft = "0"
+                            marginRight = "0"
+                            marginTop = "0"
+                            pageType = "letter"
+                            pageHeight = "11"
+                            unit= "cm"
+                            filename = "#finalPath#\Acumulados\tmp\p#i#.pdf"
+                            overwrite = "yes"
+                        >
+                            <cfinclude template="../Plantillas/Plantilla_ValesDePagoFULL.cfm">
+                        </cfdocument>
+                    </cfoutput>
+                </cfloop>
+                <cfset result = _contador>
+                <cfif ArrayLen(e_paginas) gt 0>
+                    <!--- COMBINAR TODAS LAS PAGINAS EN UN SOLO PDF --->
+                    <cfpdf action="merge" destination="#finalPath#\Acumulados\Acumulados_#arguments.corte#_RD.pdf" overwrite="yes"> 
+                        <cfloop index="i" from="1" to="#ArrayLen(e_paginas)#">
+                            <cfpdfparam source="#finalPath#\Acumulados\tmp\p#i#.pdf"> 
+                        </cfloop>
+                    </cfpdf>
+                    <cfdirectory action="delete" recurse= "yes" directory="#finalPath#\Acumulados\tmp\" />
+                </cfif>
+             
+            <cfelse>
+                <!--- ELIMINACION DE DIRECTORIO/ARCHIVOS VIEJOS DEL CORTE PROCESADO --->
+                <cfif DirectoryExists("#finalPath#\paginasRE") >
+                    <cfdirectory action="delete" directory="#finalPath#\paginasRE" recurse="true">
+                </cfif>
+                <cfset DirectoryCreate("#finalPath#\paginasRE")>
+                    <!--- CREACION DE PAGINAS DE RECIBOS DE PAGO --->
+                <cfloop array="#e_paginas#" index="i" item="t">
+                    <cfset Recibo = e_paginas[i]>
+                    <cfoutput>
+                        <cfdocument 
+                            format = "PDF"
+                            marginBottom = "0"
+                            marginLeft = "0"
+                            marginRight = "0"
+                            marginTop = "0"
+                            pageType = "letter"
+                            pageHeight = "11"
+                            unit= "cm"
+                            filename = "#finalPath#\paginasRE\p#i#.pdf"
+                            overwrite = "yes"
+                        >
+                            <cfinclude template="../Plantillas/Plantilla_ValesDePagoFULL.cfm">
+                        </cfdocument>
+                    </cfoutput>
+                </cfloop>
+			    <cfset result = _contador>
+
+                
+                <cfif ArrayLen(e_paginas) gt 0>
+                    <!--- COMBINAR TODAS LAS PAGINAS EN UN SOLO PDF --->
+                    <cfpdf action="merge" destination="#finalPath#\#arguments.corte#_RD.pdf" overwrite="yes"> 
+                        <cfloop index="i" from="1" to="#ArrayLen(e_paginas)#">
+                            <cfpdfparam source="#finalPath#\paginasRE\p#i#.pdf"> 
+                        </cfloop>
+                    </cfpdf>
+                </cfif>
+                    
+            </cfif>
+
+           
+        </cfif>
+
+	<cfelse>
+		<!---Query para iterar la cuentas de las cuales se obtendran los recibos de pago --->
+		<cfquery name="qCuentasCorteD" datasource="#arguments.dsn#">
+
+			select 
+				co.Codigo Corte, 
+				ct.Numero Cuenta, 
+				co.Tipo tipoCorte, 
+				ct.Tipo tipoCuenta,
+				ct.id idCuenta 
+			from CRCCuentas ct
+				inner join CRCCortes co
+					on ct.Tipo = co.Tipo
+			where co.tipo = 'D'
+				and status = 1;
+		
+		</cfquery>
+		
+		<!---Se valida que existan resultados en el query que obtiene las cuentas a iterar. --->
+		<cfif qCuentasCorteD.recordCount neq 0>
+			<cftry>
+				<!--- instancia del objeto a utilizar para invocar al garbage collector.--->
+				<cfset javaRT = createobject("java","java.lang.Runtime").getRuntime() />
+				
+				<!---Se iteran las cuentas obtenidas en el query. --->
+				<cfloop query="qCuentasCorteD">
+
+					<cfset codCorte = qCuentasCorteD.Corte>
+
+					<!---Se verifica si el directorio en el que se guardaran los recibos de pago exista si no se crea. --->
+					<cfset dir = CheckDir("#vsPath_R#DocCortes")>
+					<cfset dir = CheckDir("#vsPath_R#DocCortes\#codCorte#")>
+
+					<cfset dirPath="#vsPath_R#DocCortes\#codCorte#\">
+
+					<cfset fileName="#codCorte#_#qCuentasCorteD.Cuenta#_RP">
+					<cfset fileNameTotal="#codCorte#_RP.pdf">
+					<cfset filePath="#dirPath##fileName#.pdf">
+
+						<!---Creacion de objeto para invocar a la funcion createReciboPago --->
+						<cfset pdf = objEstadoCuenta.createReciboPago(
+								CodigoSelect	= "#codCorte#"
+							,	CuentaId		= "#qCuentasCorteD.idCuenta#"
+							,	dsn				= "#arguments.dsn#"
+							,	ecodigo			= arguments.ecodigo
+							,	saveAs			= "#fileName#"
+							)>
+					
+				</cfloop>
+				
+				
+				<cfdirectory 
+					action="list" 
+					directory="#dirPath#" 
+					recurse="false" 
+					name="_documents"
+					filter="*_RP.pdf"
+					sort="Name"
+				>
+				<cfset fileCount=0>
+				<cfpdf action="merge" destination="#dirPath##fileNameTotal#" overwrite="yes"> 
+					<cfloop query="_documents">
+						<cfpdfparam source="#dirPath##_documents.Name#"> 
+						<cfset fileCount=fileCount+1>
+					</cfloop>
+				</cfpdf>
+				
+				<cfset result =fileCount>
+				<!---Limpieza de memoria --->
+				
+				<cfcatch>
+					<cfthrow Message="#cfcatch.Message#">
+					<!---Limpieza de memoria --->
+				</cfcatch>
+				
+
+				<cffinally>
+					<cfset javaRT.gc() />
+				</cffinally>
+			</cftry>	
+		<cfelse>
+			<cfset result = "No se encontraron cuentas asociadas al ultimo corte cerrado">
+		</cfif>
+	</cfif>
+	<cfreturn result>
+</cffunction>
+
+
+<cffunction  name="checkDir">
+	<cfargument  name="path" required="true">
+	<cfif !DirectoryExists("#arguments.path#") >
+		<cfset DirectoryCreate("#arguments.path#")>
+	</cfif>
+</cffunction>
+</cfoutput>
+
+
+ 

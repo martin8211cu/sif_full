@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_TipoH>Homologation Type</LB_TipoH>
+		<LB_CuentasH>Account Homologation</LB_CuentasH>
+		<BTN_Regresar>Return</BTN_Regresar>
+	</Idioma> 
+</Etiquetas>

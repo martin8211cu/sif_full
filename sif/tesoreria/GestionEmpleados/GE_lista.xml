@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_CentroFuncional>Functional Center</LB_CentroFuncional>
+		<LB_Solicitante>Requester</LB_Solicitante>
+		<LB_Empleado>Employee</LB_Empleado>
+		<LB_Fecha>Date</LB_Fecha>
+		<LB_Hasta>To</LB_Hasta>
+		<LB_NumAnticipo>Advance Number</LB_NumAnticipo>
+		<LB_NumAnticipos>Number of Advances</LB_NumAnticipos>
+		<LB_NumLiquidacion>Settlement Number</LB_NumLiquidacion>
+		<LB_NumLiquidaciones>Number of Settlements</LB_NumLiquidaciones>
+		<LB_NumTransaccion>Transaction Number</LB_NumTransaccion>
+		<LB_NumTransacciones>Number of Transactions</LB_NumTransacciones>
+		<LB_Moneda>Currency</LB_Moneda>
+		<LB_NumComision>Commission Number</LB_NumComision>
+		<LB_NumComisiones>Number of Comissions</LB_NumComisiones>
+		<LB_TodasLasMonedas>All Currencies</LB_TodasLasMonedas>
+		<LB_CualquierTipo>All</LB_CualquierTipo>
+		<LB_SolicitudAnticipos>Advance Request</LB_SolicitudAnticipos>
+		<LB_SolicitudComision>Commission Request</LB_SolicitudComision>
+		<LB_LiquidacionGastos>Settlement of Expenses</LB_LiquidacionGastos>
+		<BTN_Filtrar>Filter</BTN_Filtrar>
+		<LB_ListarCancelados>Cancelled List</LB_ListarCancelados>
+		<MSG_LaListaNoHaSidoFiiltrada>List not filtered</MSG_LaListaNoHaSidoFiiltrada>
+		<MSG_AsegureseDeQueHayaSeleccionadoLosFiltrosAdecuadosAntesDePresionar>Select appropriate filters before pressing</MSG_AsegureseDeQueHayaSeleccionadoLosFiltrosAdecuadosAntesDePresionar>
+		<LB_MotivoCancelacion>Cancel Reason</LB_MotivoCancelacion>
+		<LB_MotivoRechazoAnterior>Rejection Reason Previous</LB_MotivoRechazoAnterior>
+		<LB_MotivoRechazo>Rejection Reason</LB_MotivoRechazo>
+		<MSG_AunNoHayUnaListaImplementadaParaElTipo>No implemented list for type</MSG_AunNoHayUnaListaImplementadaParaElTipo>
+		<MSG_ElUsuario>The user</MSG_ElUsuario>
+		<MSG_NoEstaRegistradoComoEmpleado>is not registered as an Employee</MSG_NoEstaRegistradoComoEmpleado>
+		<LB_ListarComisionesCerradas>Closed Commissions List</LB_ListarComisionesCerradas>
+	</Idioma>
+</Etiquetas>

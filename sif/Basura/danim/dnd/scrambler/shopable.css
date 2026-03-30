@@ -1,0 +1,24 @@
+TD {color: black; font-family: Arial; font-size: 0.8em}
+H2 {font-size: 1.85em}
+
+SELECT {font-family: Arial; font-size: 1em}
+INPUT {font-family: Arial; font-size: 1em}
+TEXTAREA {font-family: Arial; font-size: 1em}
+
+.code {color:#990000}
+.easy {color:#009900}
+
+A {color: #003399; text-decoration: none}
+A.bigger {color: #003399; font-size: 1.25em; font-weight: bold;}
+A:visited {color: #660066}
+A:hover {color: #0000FF; text-decoration: underline}
+
+.navbar {color: #99CCCC}
+A.navbar:visited {color: #660099}
+A.navbar:hover {color: #CCFFFF}
+
+.thisnavbar {color: #CCFFFF; font-weight: bold}
+A.thisnavbar:visited {color: #9999FF}
+A.thisnavbar:hover {color: #CCFFFF}
+
+

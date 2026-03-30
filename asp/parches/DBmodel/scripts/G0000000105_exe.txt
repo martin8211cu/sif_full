@@ -1,0 +1,30 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 271 - DBM 183: Campo para indicar si el remgistro es man
+
+	         PARCHE:  Parche023_094_RH _VacacionesManuales
+
+GENERADO EN:
+	SERVER:  http://mxvqapp34:8300
+	DSN:     sifcim
+	FECHA:   06/01/2012 12:42:21
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* CHG_TABLE DVacacionesEmpleado: Detalle de Vacaciones por Empl */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): DVEmanual - Es manual */
+ALTER TABLE DVacacionesEmpleado ADD DVEmanual bit DEFAULT 0 NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

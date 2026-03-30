@@ -1,0 +1,30 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  sifControl
+	MODELO:  SIF Control.pdm
+	VERSION: 539 - DBM 491: se agrega campo charset varchar(15) tabla
+
+	         PARCHE:  Parche024_116_RH _SeleccionDeCodificadoParaExporta
+
+GENERADO EN:
+	SERVER:  http://mxvqapp34:8300
+	DSN:     sifcontrol
+	FECHA:   13/03/2012 09:48:25
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* CHG_TABLE EImportador: Encabezado de importación */
+/* ======================================================================================== */
+/* ADD_COLUMN OP = (NUEVO): charset - Tipo de charset */
+ALTER TABLE EImportador ADD charset varchar(15) DEFAULT 'utf-8' NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

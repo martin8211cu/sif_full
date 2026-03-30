@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<info>
+	<infoitem key="UD_rsMonedasPortal" value="name:Mcodigo;datatype:,name:Mnombre;datatype:,name:Msimbolo;datatype:,name:Miso4217;datatype:" />
+	<infoitem key="UD_data" value="name:id_apariencia;datatype:,name:descripcion;datatype:,name:template;datatype:,name:home;datatype:,name:login;datatype:,name:BMUsucodigo;datatype:,name:BMUlocalizacion;datatype:,name:BMUsulogin;datatype:" />
+</info>

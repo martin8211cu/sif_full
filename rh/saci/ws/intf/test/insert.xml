@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<dbStream xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://UOServer:8090/RepraWebApp/dtds/dbeventstream.xsd" environment="UOSERVER_RC.SACISIIC">
+  <dbEvent eventId="104:000000000171af7500242f5a000e00242f5a0004000097e500f916bc0000000000010000">
+    <insert schema="SSXSOB">
+      <values>
+        <cell name="SOBCON" type="VARCHAR">2006024635</cell>
+        <cell name="SOBEST" type="BIT">0</cell>
+        <cell name="SOBDUE" type="INT">38</cell>
+        <cell name="SOBACC" type="VARCHAR">6a92shbf</cell>
+        <cell name="SOBCOR" type="VARCHAR">6a92shbf</cell>
+        <cell name="timestamp" type="VARBINARY">0x000100004c4e4f8d</cell>
+        <cell name="row_version" type="INT">1</cell>
+        <cell name="update_time" type="DATETIME">Feb 17 2006  4:02:11PM</cell>
+      </values>
+    </insert>
+  </dbEvent>
+</dbStream>

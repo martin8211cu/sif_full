@@ -1,0 +1,30 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  asp
+	MODELO:  ASP Framework.pdm
+	VERSION: 428 - DBM 237: msapariencia
+
+	         PARCHE:  Parche023_433_RH _Nube
+
+GENERADO EN:
+	SERVER:  http://mxvqapp34:8300
+	DSN:     asp
+	FECHA:   06/01/2012 17:59:49
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* CHG_TABLE MSApariencia: MSApariencia */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): footer - footer */
+ALTER TABLE MSApariencia ADD footer varchar(255) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

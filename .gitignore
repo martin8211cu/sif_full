@@ -1,0 +1,18 @@
+-- Colfusion files
+/cf_scripts/
+/CFIDE/
+/WEB-INF/
+
+-- generated files
+/crc/images/
+/DocCortes/
+/DocsNomina/
+/DocumentosRecibidos/
+/imgQRTemp/
+
+
+-- Other files
+*.rar
+/respaldos/
+
+/crossdomain.xml

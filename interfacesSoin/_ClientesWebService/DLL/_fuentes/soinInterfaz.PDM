@@ -1,0 +1,80 @@
+[Root]
+Most Recent Package=SoinInterfaz
+
+
+[Package|SoinInterfaz|Root]
+SubWizProgID=PDWizard.SetupPkgSubWiz
+BuildFolder=L:\interfacesSoin\_ClientesWebService\DLL\_fuentes\Package
+
+[Package|SoinInterfaz|Configure DAO ISAMs]
+Applicable=No
+
+[Package|SoinInterfaz|Configure DAO ODBC]
+JetWorkspace=
+ODBCDirect=
+
+[Package|SoinInterfaz|Files Found]
+
+[Package|SoinInterfaz|Files Released]
+
+[Package|SoinInterfaz|Missing Dependency Information]
+C:\WINDOWS\system32\wininet.dll=
+
+[Package|SoinInterfaz|Out-of-Date Dependency Information]
+
+[Package|SoinInterfaz|Files Added]
+
+[Package|SoinInterfaz|Files Removed]
+
+[Package|SoinInterfaz|Files In Project]
+L:\interfacesSoin\_ClientesWebService\DLL\soinInterfaz.dll=Yes
+C:\WINDOWS\system32\msvbvm60.dll=Yes
+C:\WINDOWS\system32\oleaut32.dll=Yes
+C:\WINDOWS\system32\olepro32.dll=Yes
+C:\WINDOWS\system32\asycfilt.dll=Yes
+C:\WINDOWS\system32\stdole2.tlb=Yes
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\COMCAT.DLL=Yes
+C:\WINDOWS\system32\wininet.dll=Yes
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\SETUP.EXE=Yes
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\SETUP1.EXE=Yes
+C:\WINDOWS\system32\VB6STKIT.DLL=Yes
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\ST6UNST.EXE=Yes
+
+[Package|SoinInterfaz|Configure Registry Files]
+Applicable=No
+
+[Package|SoinInterfaz|Configure Remote Servers]
+Applicable=No
+
+[Package|SoinInterfaz|Install Locations]
+L:\interfacesSoin\_ClientesWebService\DLL\soinInterfaz.dll=$(AppPath)
+C:\WINDOWS\system32\msvbvm60.dll=$(WinSysPathSysFile)
+C:\WINDOWS\system32\oleaut32.dll=$(WinSysPathSysFile)
+C:\WINDOWS\system32\olepro32.dll=$(WinSysPathSysFile)
+C:\WINDOWS\system32\asycfilt.dll=$(WinSysPathSysFile)
+C:\WINDOWS\system32\stdole2.tlb=$(WinSysPathSysFile)
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\COMCAT.DLL=$(WinSysPathSysFile)
+C:\WINDOWS\system32\wininet.dll=$(WinSysPath)
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\SETUP.EXE=$(AppPath)
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\SETUP1.EXE=$(WinPath)
+C:\WINDOWS\system32\VB6STKIT.DLL=$(WinSysPathSysFile)
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\ST6UNST.EXE=$(WinPath)
+
+[Package|SoinInterfaz|Configure Shared Files]
+Applicable=Yes
+L:\interfacesSoin\_ClientesWebService\DLL\soinInterfaz.dll=No
+
+[Package|SoinInterfaz|Distribution]
+Type=single
+Size=
+Title=soinInterfaz
+
+[Package|SoinInterfaz|Package]
+PackageFolder=L:\interfacesSoin\_ClientesWebService\DLL\_fuentes\Package
+ProjectFolder=L:\interfacesSoin\_ClientesWebService\DLL\_fuentes
+ServerSideCab=
+File1=L:\interfacesSoin\_ClientesWebService\DLL\_fuentes\Package\setup.exe
+File2=L:\interfacesSoin\_ClientesWebService\DLL\_fuentes\Package\Setup.Lst
+File3=L:\interfacesSoin\_ClientesWebService\DLL\_fuentes\Package\soinInterfaz.CAB
+Handler1=PDWizard.FolderDplySubWiz
+Handler2=PDWizard.WebPostDplySubWiz

@@ -1,0 +1,88 @@
+﻿.gips-container
+{
+    height: 70px;
+    width: 252px;
+    position: absolute;
+}
+.gips-body
+{
+    color: White;
+    font-weight: bold;
+    font-family: Arial;
+    font-size: 10px;
+    width: 148px;
+    height: auto;
+    padding: 8px;
+    padding-right:25px;
+    position: relative;
+    float: left;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    left:12px;
+}
+.gips-text
+{
+    color: White;
+    font-weight: bold;
+    font-family: Arial;
+    font-size: 10px;
+    margin: 0;
+    text-align:justify;
+}
+.gips-body.red
+{
+    background-color: #CB2026;
+}
+.gips-close
+{
+    position: absolute;
+    cursor: pointer;
+    top: 10px;
+    left: 88%;
+}
+.gips-icon
+{
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 6px;
+    position: absolute;
+}
+/*icon at the bottom */
+.gips-icon-bottom
+{
+    margin-left: 12px;
+}
+.gips-icon-bottom.red
+{
+    border-color: #CB2026 transparent transparent transparent;
+}
+/*icon at the top*/
+.gips-icon-top
+{
+    margin-left: 12px;
+}
+.gips-icon-top.red
+{
+    border-color: transparent transparent #CB2026 transparent;
+}
+/*icon at the left*/
+.gips-icon-left
+{
+    margin-top: 12px; /*   float: left;*/
+}
+.gips-icon-left.red
+{
+    border-color: transparent #CB2026 transparent transparent;
+}
+/*icon at the right*/
+.gips-icon-right
+{
+    margin-top: 12px;
+}
+.gips-icon-right.red
+{
+    border-color: transparent transparent transparent #CB2026;
+}
+

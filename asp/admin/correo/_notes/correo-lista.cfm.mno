@@ -1,0 +1,4 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<info>
+	<infoitem key="UD_lista" value="name:SMTPid;datatype:,name:SMTPcreado;datatype:,name:SMTPdestinatario;datatype:,name:SMTPasunto;datatype:" />
+</info>

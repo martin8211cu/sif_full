@@ -1,0 +1,100 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 519 - DBM 470: CFinanciera en CxC
+
+	         PARCHE:  Parche024_005_SIF_CFcuenta CxC CxP
+
+GENERADO EN:
+	SERVER:  http://mxvqapp34:8300
+	DSN:     minisif
+	FECHA:   02/02/2012 18:22:52
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* CHG_TABLE CFuncional: Centros Funcionales */
+/* ======================================================================================== */
+/* CHG_COLUMN OP = (CAMBIO): CFcuentatransitoria - Cuenta Transitoria para Venta Credito */
+/* IF X GT 0:select count(1) as X from syscolumns where id=object_id('CFuncional') and name='CFcuentatransitoria__NEW' */
+LA SIGUIENTE INSTRUCCION NO SE VA A EJECUTAR PORQUE NO SE CUMPLIO LA CONDICION 'X GT 0':
+ALTER TABLE CFuncional DROP COLUMN CFcuentatransitoria__NEW
+go
+ALTER TABLE CFuncional ADD CFcuentatransitoria__NEW numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+UPDATE CFuncional SET CFcuentatransitoria__NEW = convert(numeric(28,10),CFcuentatransitoria)
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE CFuncional DROP COLUMN CFcuentatransitoria
+go
+EJECUCION EN BASE DE DATOS OK
+
+EXEC sp_rename 'CFuncional.CFcuentatransitoria__NEW', 'CFcuentatransitoria', 'COLUMN'
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE DDocumentos: Detalle de Documentos de CxC */
+/* ======================================================================================== */
+/* CHG_COLUMN OP = (CAMBIO): DesTransitoria - Es transitoria */
+ALTER TABLE DDocumentos ADD CONSTRAINT DDocumentos_DF32 DEFAULT 0 FOR DesTransitoria
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP = (NUEVO): CFcuenta - ID Cuenta Financiera */
+ALTER TABLE DDocumentos ADD CFcuenta numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE EDocumentosCP: Documentos de CxP */
+/* ======================================================================================== */
+/* ADD_COLUMN OP = (NUEVO): EDAdquirir - Si esta en false no se hace la Adquisicion del Act */
+ALTER TABLE EDocumentosCP ADD EDAdquirir bit DEFAULT 1 NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP = (NUEVO): EDexterno - Indica si proveniene de un sistema o modulo Extern */
+ALTER TABLE EDocumentosCP ADD EDexterno bit DEFAULT 0 NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE HDDocumentos: Histórico de Detalle de Docume */
+/* ======================================================================================== */
+/* ADD_COLUMN OP = (NUEVO): CFcuenta - ID Cuenta Financiera */
+ALTER TABLE HDDocumentos ADD CFcuenta numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE HEDocumentosCP: Histórico de Documentos de CxP */
+/* ======================================================================================== */
+/* ADD_COLUMN OP = (NUEVO): EDAdquirir - Si esta en false no se hace la Adquisicion del Act */
+ALTER TABLE HEDocumentosCP ADD EDAdquirir bit DEFAULT 1 NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP = (NUEVO): EDexterno - Indica si proveniene de un sistema o modulo Extern */
+ALTER TABLE HEDocumentosCP ADD EDexterno bit DEFAULT 0 NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

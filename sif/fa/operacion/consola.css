@@ -1,0 +1,96 @@
+.consola, .consola * td {
+	font-size:10pt;
+}
+
+.tree {
+}
+
+a {
+	color: black;
+}
+
+.boxtitle {
+	font-family: Verdana;
+	color: #000000;
+	background-color: #F5F5F5;
+	vertical-align: top;
+	font-weight: bold;
+	text-align: left;
+
+}
+.boxtitle a, .boxtitle a:hover {
+	color: #FFFFFF;
+	text-decoration: none;
+}
+.boxbody {
+	border: solid 1px #ADADCA;
+}
+.itemtit {
+	background-color: #CCCCCC;
+	overflow: hidden;
+	font-style: italic;
+	font-weight: bold;
+}
+.item1 {
+	background-color: #99CCCC;
+	overflow: hidden;
+}
+.item2 {
+	background-color: #EEEEEE;
+	overflow: hidden;
+}
+tr.item1sel, tr.item1sel td {
+	background-color: #bbeeee;
+	border-top:solid 2px black;
+	border-bottom:solid 2px black;
+	overflow: hidden;
+	font-weight: bold;
+}
+tr.item2sel, tr.item2sel td {
+	background-color: #FFFFFF;
+	border-top:solid 2px black;
+	border-bottom:solid 2px black;
+	overflow: hidden;
+	font-weight: bold;
+}
+tr.item1sel td a, tr.item2sel td a {
+	color: black;
+}
+
+a.linkActivo:visited,a.linkActivo     {
+	font-weight: bold;
+	color: #ffffff;
+	background-color: #ADADCA;
+}
+a.linkInactivo:visited,a.linkInactivo {
+	font-weight: normal;
+	color: #000000;
+	background-color: #ffffff;
+}
+a.linkInactivo:hover {
+	font-weight: normal;
+	color: #ADADCA;
+	background-color: #ffffff;
+}
+.fixedPeq {
+	overflow: hidden;
+	width:50px;
+	height:1.1em;
+}
+.fixedMed {
+	overflow: hidden;
+	width:100px;
+	height:1.1em;
+}
+.fixedGde {
+	overflow: hidden;
+	width:160px;
+	height:1.1em;
+}
+a.fixedPeq, a.fixedMed, a.fixedGde {
+	text-decoration:none;
+}
+input.filtro {
+	font-family: "Times New Roman", Times, serif;
+	width:100%;
+}

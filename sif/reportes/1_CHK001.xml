@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE jasperReport PUBLIC "-//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+
+<jasperReport name="Reporte" pageWidth="483" pageHeight="181" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="30" bottomMargin="30">
+	<parameter name="TESid" class="java.math.BigDecimal">
+	</parameter>
+	<queryString><![CDATA[select op.TESOPnumero,
+           op.TESOPfechaPago,
+           op.TESOPmontoPago,
+'Nombre' as TESOPbeneficiario,
+           op.TESOPobservaciones,
+           dp.TESDPmoduloOri, dp.TESDPdocumentoOri, dp.TESDPreferenciaOri,
+           dp.Miso4217Ori, dp.TESDPmontoAprobadoOri,
+           dp.Miso4217Pago, dp.TESDPmontoPago
+from TESordenPago op
+  inner join TESdetallePago dp
+     on dp.TESid = op.TESid
+     and dp.TESOPid = op.TESOPid
+where op.TESid = $P{TESid}
+  and op.TESOPestado = 12
+     ]]></queryString>
+	<field name="TESOPbeneficiario" class="java.lang.String">
+	</field>
+	<field name="TESOPfechaPago" class="java.util.Date">
+	</field>
+	<field name="TESOPtotalPago" class="java.lang.String">
+	</field>
+	<variable name="IS_LAST_PAGE" class="java.lang.Boolean" resetType="None">
+		<variableExpression><![CDATA[$V{IS_LAST_PAGE}]]></variableExpression>
+		<initialValueExpression><![CDATA[Boolean.FALSE]]></initialValueExpression>
+	</variable>
+	<background>
+		<band height="121">
+		</band>
+	</background>
+	<columnHeader>
+		<band>
+			<textField pattern="#0.00" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="12" y="32" width="335" height="14"/>
+				<textElement>
+					<font fontName="Arial" size="9" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{TESOPbeneficiario}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#0.00" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="243" y="10" width="217" height="14"/>
+				<textElement>
+					<font fontName="Arial" size="9" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression class="java.util.Date"><![CDATA[$F{TESOPfechaPago}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#0.00" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="372" y="31" width="99" height="14"/>
+				<textElement>
+					<font fontName="Arial" size="9" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{TESOPtotalPago}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="391" y="132" width="77" height="14"/>
+				<textElement>
+					<font fontName="Arial" size="9" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<text><![CDATA[ ]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="24">
+		</band>
+	</detail>
+	<pageFooter>
+		<band>
+		</band>
+	</pageFooter>
+	<summary>
+		<band>
+			<line direction="BottomUp">
+				<reportElement positionType="Float" x="10" y="10" width="5" height="10">
+					<printWhenExpression><![CDATA[Boolean.FALSE); variable_IS_LAST_PAGE.setValue(Boolean.TRUE]]></printWhenExpression>
+				</reportElement>
+				<graphicElement/>
+			</line>
+		</band>
+	</summary>
+</jasperReport>

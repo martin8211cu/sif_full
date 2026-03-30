@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+<!-- ******************* INGLÉS ******************* -->		
+		<Idioma id="EN">
+			<MenuPrin>
+				Main Menu
+			</MenuPrin>
+			<RegistroNomina>
+				Manual Registration of Payroll
+			</RegistroNomina>
+			<VerificacionNomina>
+				Verification of Payroll
+			</VerificacionNomina>
+			<AutorizacionNomina>
+				Authorization of Payroll
+			</AutorizacionNomina>
+			<PagoNomina>
+				Registry of Payment of List
+			</PagoNomina>
+			<CargaNomina>
+				Payroll File load
+			</CargaNomina>
+			<OperacionTitle>
+				Operation :
+			</OperacionTitle>
+			<ConsultasTitle>
+				Queries:
+			</ConsultasTitle>
+			<CatalogosTitle>
+				Catalogues:
+			</CatalogosTitle>
+			<NominasPend>
+				Pending Payrolls
+			</NominasPend>	
+			<TipoNomina>
+				Payroll Types
+			</TipoNomina>
+			<ErroresNomina>
+				Errors in  Payroll Payment 
+			</ErroresNomina>
+			<FExportacion>
+				Export Formats 
+			</FExportacion>
+			<ExportacionCheques>
+				Check export
+			</ExportacionCheques>
+		</Idioma>
+<!-- ******************* ESPAÑOL ******************* -->		
+		<Idioma id="ES_CR">
+			<MenuPrin>
+				Menú Principal
+			</MenuPrin>
+			<RegistroNomina>
+				Registro Manual de Nómina
+			</RegistroNomina>
+			<VerificacionNomina>
+				Verificación de Nómina
+			</VerificacionNomina>
+			<AutorizacionNomina>
+				Autorización de Nómina
+			</AutorizacionNomina>
+			<PagoNomina>
+				Registro de Pago de Nómina
+			</PagoNomina>
+			<CargaNomina>
+				Carga de Archivo de Nómina
+			</CargaNomina>
+			<OperacionTitle>
+				Operación:
+			</OperacionTitle>
+			<ConsultasTitle>
+				Consultas:
+			</ConsultasTitle>
+			<CatalogosTitle>
+				Catálogos:
+			</CatalogosTitle>
+			<NominasPend>
+				Nóminas Pendientes
+			</NominasPend>			
+			<TipoNomina>
+				Tipos de Nómina
+			</TipoNomina>
+			<ErroresNomina>
+				Errores en Pago de Nómina
+			</ErroresNomina>
+			<FExportacion>
+				Formatos de Exportación
+			</FExportacion>
+			<ExportacionCheques>
+				Exportación de Cheques
+			</ExportacionCheques>
+		</Idioma>
+<Idioma id="en"><AutorizacionNomina>Payroll Authorization</AutorizacionNomina><CargaNomina>Payroll Charge</CargaNomina><CatalogosTitle>Catalogues Title</CatalogosTitle><ConsultasTitle>Consults title</ConsultasTitle><ErroresNomina>Payroll errors</ErroresNomina><ExportacionCheques>Exportation checks</ExportacionCheques><FExportacion>Exportation</FExportacion><MenuPrin>Main Menu</MenuPrin><NominasPend>Pending Payrolls</NominasPend><OperacionTitle>Operation Title</OperacionTitle><PagoNomina>Payroll payed</PagoNomina><RegistroNomina>Payroll registration</RegistroNomina><TipoNomina>Type of Payroll</TipoNomina><VerificacionNomina>Verify Payroll</VerificacionNomina></Idioma></Etiquetas>

@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<info>
+	<infoitem key="UD_rsIdentificacion" value="name:TIcodigo;datatype:,name:TInombre;datatype:" />
+	<infoitem key="UD_rsPais" value="name:Ppais;datatype:,name:Pnombre;datatype:" />
+	<infoitem key="UD_rsIdiomas" value="name:LOCIdioma;datatype:,name:LOCIdescripcion;datatype:" />
+</info>

@@ -1,0 +1,29 @@
+/**
+ * Hoja de estilos de ejemplo.
+ * Cada plantilla incluye su propia versión de estos tabs
+ */
+.tab_div { background-image:url(/cfmx/sif/imagenes/tabs/div.gif);height:21px}
+.tab_nor_l { background-image:url(/cfmx/sif/imagenes/tabs/nor_l.gif);height:21px}
+.tab_nor_m { background-image:url(/cfmx/sif/imagenes/tabs/nor_m.gif);height:21px;
+cursor:pointer;
+font-family:Verdana,Arial,Helvetica,sans-serif;
+font-size:11px;
+}
+.tab_nor_r { background-image:url(/cfmx/sif/imagenes/tabs/nor_r.gif);height:21px}
+.tab_sel_l { background-image:url(/cfmx/sif/imagenes/tabs/sel_l.gif);height:21px}
+.tab_sel_m { background-image:url(/cfmx/sif/imagenes/tabs/sel_m.gif);height:21px;
+cursor:pointer;
+font-family:Verdana,Arial,Helvetica,sans-serif;
+font-size:11px;
+background-color:blue;
+}
+.tab_sel_r { background-image:url(/cfmx/sif/imagenes/tabs/sel_r.gif);height:21px}
+.tab_contents {
+	border-bottom:1px solid #CCCCCC;
+	border-left:1px solid #CCCCCC;
+	border-right:1px solid #CCCCCC;
+	background-color:#ffffff;
+	
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+	font-size:11px;
+}

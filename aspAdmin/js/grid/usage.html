@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+		<title>Grid Usage (WebFX)</title>
+		<script type="text/javascript" src="../../webfxlayout.js"></script>
+		<link type="text/css" rel="stylesheet" href="grid.css">
+		<script src="grid.js" type="text/javascript"></script>
+		<style type="text/css">
+			table { width: 500px; }
+			td { vertical-align: top; }
+		</style>
+	</head>
+	<body>
+		<!-- WebFX Layout Include -->
+		<script type="text/javascript">
+			var articleMenu= new WebFXMenu;
+			articleMenu.left  = 384;
+			articleMenu.top   = 86;
+			articleMenu.width = 140;
+			articleMenu.add(new WebFXMenuItem("History &amp; Introduction", "intro.html"));
+			articleMenu.add(new WebFXMenuItem("Usage", "usage.html"));
+			articleMenu.add(new WebFXMenuItem("API", "api.html"));
+			articleMenu.add(new WebFXMenuItem("Backend - Introduction", "backend.html"));
+			articleMenu.add(new WebFXMenuItem("Backend - Perl (cgi/mod_perl)", "perl.html"));
+			articleMenu.add(new WebFXMenuItem("Backend - C++ (cgi/isapi)", "cpp.html"));
+			articleMenu.add(new WebFXMenuItem("Backend - Java (servlet)", "java.html"));
+			articleMenu.add(new WebFXMenuItem("Demo", "javascript:window.open('demo.html','demo','scrollbars=yes,status=no,width=550,height=260,resizable=yes'); void(0);"));
+			articleMenu.add(new WebFXMenuSeparator);
+			articleMenu.add(new WebFXMenuItem("Download", "/download/grid10.zip"));
+			webfxMenuBar.add(new WebFXMenuButton("Article Menu", null, null, articleMenu));
+			webfxLayout.writeTitle("Grid (Usage)");
+			webfxLayout.writeMenu();
+			webfxLayout.writeDesignedByEdger();
+		</script>
+		<!-- end WebFX Layout Includes -->
+		<div class="webfx-main-body">
+			<p>
+				This grid widget is based on objects and all html code is generated from a js structure. To create a grid
+				you won't have to write a single line of html however you will have to learn how to create the grid,
+				row and cell objects.
+			</p>
+			<h2>Usage</h2>
+			<p>
+				The grid can either be created during the initial load phase of the page, using document.write, or it can be
+				generated and inserted into a document using innerHTML or similar.<br/>
+				The overall procedure is the same no matter when the grid is created. First of all an instance of the
+				<code>WebFXGrid</code> object is created, the constructor can either take a two dimensional array as
+				it's first, and only argument, or the desired number of rows as the first and the desired number of
+				cells as the second argument. Once the grid object has been created it will automatically create
+				row and cell objects according to the supplied arguments, thus there's no need to create those manually.
+				Now that the object(s) has been created it's time to set the column headers, row server ids and link
+				data, while all those are optional they have to be set at this stage if they are desired.
+				After all such settings has been made the grid object can be rendered. If  the grid is created during
+				the load phase use something like <code>document.write(oGrid);</code> where oGrid is the name of the
+				grid object. If that's not the case something like <code>document.getElementById('container').innerHTML
+				= oGrid;</code> could be used.
+				The HTML code has now been generated and written to the page, however the elements it
+				consists of are improperly positioned and sized, to fix this execute the method <code>calcSize</code>
+				on the grid object. Below are two examples that demonstrates the different ways of creating the grid object.
+			</p>
+			<h3>Examples</h3>
+			<pre>var oGrid = new WebFXGrid(5,5);
+oGrid.setHeaders(['1','2','3','4','5']);
+document.write(oGrid);
+oGrid.calcSize();</pre>
+			<p>
+				<img src="grid0.png" width="452" height="97" alt="Grid Example 1" />
+			</p>
+
+			<pre>var aData = [
+	['1.1','1.2','1.3','1.4','1.5'],
+	['2.1','2.2','2.3','2.4','2.5'],
+	['3.1','3.2','3.3','3.4','3.5'],
+	['4.1','4.2','4.3','4.4','4.5'],
+	['5.1','5.2','5.3','5.4','5.5']
+];
+var aHeaders = [
+	'Column 1',
+	'Column 2',
+	'Column 3',
+	'Column 4',
+	'Column 5'
+];
+var aRowIds = [1,2,3,4,5];
+var oGrid = new WebFXGrid(aData);
+oGrid.setHeaders(aHeaders);
+oGrid.setRowsServerIds(aRowIds);
+document.write(oGrid);
+oGrid.calcSize();</pre>
+			<p>
+				<img src="grid1.png" width="452" height="97" alt="Grid Example 2" />
+			</p>
+			<h3>Retrieving data</h3>
+			<p>
+				Creating a grid and entering data in it might be fun, but it's not that
+				useful if you can't retrieve the data from it, and since this component aims
+				at being useful there are several methods for doing just that. The first one,
+				<code>getGridData</code>, is made for clientside usage and returns a complete
+				data structure containing all the grid data. It's returned as a two dimensional
+				array and can be used directly to create a new grid with the same set of data.
+			</p>
+			<pre>new WebFXGrid(oGrid.getGridData());</pre>
+			<p>
+				While the first method was made for clientside use the second one was made for
+				server interaction. Unlike the first one it does not return the complete data
+				structure, but only the changes made since the grid was created, or since the
+				method was last invoked. The name of the method is <code>dump</code> and it
+				returns the base uri, set by the <code>setUri</code> method, followed by the
+				data. Please see the backend introduction for more information about
+				the format of this string.
+			</p>
+			<p>
+				<a href="intro.html">History & Introduction</a><br />
+				<b>Usage</b><br />
+				<a href="api.html">API</a><br />
+				<a href="backend.html">Backend - Introduction</a><br />
+				Backend - Perl (cgi/mod_perl)<br />
+				Backend - C++ (cgi/isapi)<br />
+				Backend - Java (servlet)<br />
+				<a href="javascript:window.open('demo.html','demo','scrollbars=yes,status=no,width=550,height=260,resizable=yes'); void(0);">Demo</a><br />
+				<a href="/download/grid10.zip">Download</a>
+			</p>
+			<p class="author">Author: Emil A Eklund</p>
+			<!-- end webfx-main-body -->
+		</div>
+	</body>
+</html>

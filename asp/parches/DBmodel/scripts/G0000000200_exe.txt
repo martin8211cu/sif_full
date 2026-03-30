@@ -1,0 +1,219 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 218 - DBM 147: RH_Certificacion_Varios_BD
+
+	         PARCHE:  Parche023_020_RH _Modificaicones_BD
+
+GENERADO EN:
+	SERVER:  http://mxvqapp34:8300
+	DSN:     sifcim
+	FECHA:   08/02/2012 15:32:58
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* CHG_TABLE CfuncionalConc: CfuncionalConc */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="Cid", REF="Conceptos" */
+CREATE INDEX CfuncionalConc_FI01 ON CfuncionalConc (Cid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="2", COLS="CFid", REF="CFuncional" */
+CREATE INDEX CfuncionalConc_FI02 ON CfuncionalConc (CFid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="3", COLS="Ecodigo", REF="Empresas" */
+CREATE INDEX CfuncionalConc_FI03 ON CfuncionalConc (Ecodigo)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE CPNAPpryFinanciados: Aprobacion de Proyectos con Fi */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="CPPFid", REF="CPproyectosFinanciados" */
+CREATE INDEX CPNAPpryFinanciados_FI01 ON CPNAPpryFinanciados (CPPFid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="2", COLS="Ecodigo,CPNAPnum", REF="CPNAP" */
+CREATE INDEX CPNAPpryFinanciados_FI02 ON CPNAPpryFinanciados (Ecodigo,CPNAPnum)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE CPNRPpryFinanciados: Rechazo de Proyectos sin Finan */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="CPPFid", REF="CPproyectosFinanciados" */
+CREATE INDEX CPNRPpryFinanciados_FI01 ON CPNRPpryFinanciados (CPPFid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="2", COLS="Ecodigo,CPNRPnum", REF="CPNRP" */
+CREATE INDEX CPNRPpryFinanciados_FI02 ON CPNRPpryFinanciados (Ecodigo,CPNRPnum)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE CPproyectosFinanciados: Configuracion de Cuentas de Pr */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="CPPFid_padre", REF="CPproyectosFinanciados" */
+CREATE INDEX CPproyectosFinanciados_FI01 ON CPproyectosFinanciados (CPPFid_padre)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE CPproyectosFinanciadosCFs: Centros Funcionales del Proyec */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="CFid", REF="CFuncional" */
+CREATE INDEX CPproyectosFinanciadosCFs_FI01 ON CPproyectosFinanciadosCFs (CFid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="2", COLS="CPPFid", REF="CPproyectosFinanciados" */
+CREATE INDEX CPproyectosFinanciadosCFs_FI02 ON CPproyectosFinanciadosCFs (CPPFid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="3", COLS="Ecodigo,CPPid", REF="CPresupuestoPeriodo" */
+CREATE INDEX CPproyectosFinanciadosCFs_FI03 ON CPproyectosFinanciadosCFs (Ecodigo,CPPid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE CPproyectosFinanciadosCtas: Cuentas del Proyecto */
+/* ======================================================================================== */
+/* DEL_COLUMN OP = (OBSOLETO): CPPFCtipo - Tipo Cta Ingreso o Egreso */
+ALTER TABLE CPproyectosFinanciadosCtas DROP CONSTRAINT "CPproyectosFinanciadosC01_CK06"
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE CPproyectosFinanciadosCtas DROP COLUMN CPPFCtipo
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="CPPFid", REF="CPproyectosFinanciados" */
+CREATE INDEX CPproyectosFinanciadosC01_FI01 ON CPproyectosFinanciadosCtas (CPPFid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="2", COLS="Ecodigo,CPPid", REF="CPresupuestoPeriodo" */
+CREATE INDEX CPproyectosFinanciadosC01_FI02 ON CPproyectosFinanciadosCtas (Ecodigo,CPPid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE CPresupuestoComprometidasNAPs: Bitacora de NAPs de Compromiso */
+/* ======================================================================================== */
+/* DEL_KEY OP = (OBSOLETO): TIP="P", COLS="CPPid,Ecodigo,CPNAPnum" */
+ALTER TABLE CPresupuestoComprometidasNAPs DROP CONSTRAINT CPresupuestoComprometid01_PK /* PRIMARY KEY (CPPid,Ecodigo,CPNAPnum) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (NUEVO): TIP="P", SEC="0", COLS="CPPid,Ecodigo,CPNAPnum" */
+ALTER TABLE CPresupuestoComprometidasNAPs ADD CONSTRAINT CPresupuestoComprometid01_PK PRIMARY KEY CLUSTERED (CPPid,Ecodigo,CPNAPnum)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE DCalendarioVentas: Detalle del Calendario de Vent */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="CVid", REF="ECalendarioVentas" */
+CREATE INDEX DCalendarioVentas_FI01 ON DCalendarioVentas (CVid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE DProveduriaCorporativa: DProveduriaCorporativa */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="EPCid", REF="EProveduriaCorporativa" */
+CREATE INDEX DProveduriaCorporativa_FI01 ON DProveduriaCorporativa (EPCid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE HtiposcambioConversionD: Tipos de Cambios Historicos De */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="TCHid", REF="HtiposcambioConversionE" */
+CREATE INDEX HtiposcambioConversionD_FI01 ON HtiposcambioConversionD (TCHid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE RHComisionMonge: RHComisionMonge */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="DEid", REF="DatosEmpleado" */
+CREATE INDEX RHComisionMonge_FI01 ON RHComisionMonge (DEid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="2", COLS="CPid", REF="CalendarioPagos" */
+CREATE INDEX RHComisionMonge_FI02 ON RHComisionMonge (CPid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE RHComisionMongeD: RHComisionMongeD */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="CIid", REF="CIncidentes" */
+CREATE INDEX RHComisionMongeD_FI01 ON RHComisionMongeD (CIid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="2", COLS="DEid", REF="DatosEmpleado" */
+CREATE INDEX RHComisionMongeD_FI02 ON RHComisionMongeD (DEid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="3", COLS="CPid", REF="CalendarioPagos" */
+CREATE INDEX RHComisionMongeD_FI03 ON RHComisionMongeD (CPid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE SalariosOtrosPatronos: SalariosOtrosPatronos */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="DEid", REF="DatosEmpleado" */
+CREATE INDEX SalariosOtrosPatronos_FI01 ON SalariosOtrosPatronos (DEid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="2", COLS="OPid", REF="RH_OtrosPatronos" */
+CREATE INDEX SalariosOtrosPatronos_FI02 ON SalariosOtrosPatronos (OPid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

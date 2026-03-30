@@ -1,0 +1,170 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<asmv1:assembly manifestVersion="1.0" xsi:schemaLocation="urn:schemas-microsoft-com:asm.v1 assembly.adaptive.xsd" xmlns:asmv3="urn:schemas-microsoft-com:asm.v3" xmlns:dsig="http://www.w3.org/2000/09/xmldsig#" xmlns="urn:schemas-microsoft-com:asm.v2" xmlns:asmv1="urn:schemas-microsoft-com:asm.v1" xmlns:asmv2="urn:schemas-microsoft-com:asm.v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:co.v1="urn:schemas-microsoft-com:clickonce.v1">
+  <asmv1:assemblyIdentity version="1.0.0.22" name="PDtoCF.exe" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="x86" type="win32" />
+  <description asmv2:iconFile="PDtoCF.ico" xmlns="urn:schemas-microsoft-com:asm.v1" />
+  <application />
+  <entryPoint>
+    <assemblyIdentity name="PDtoCF" version="1.0.4043.27998" language="neutral" processorArchitecture="x86" />
+    <commandLine file="PDtoCF.exe" parameters="" />
+  </entryPoint>
+  <trustInfo>
+    <security>
+      <applicationRequestMinimum>
+        <PermissionSet Unrestricted="true" ID="Custom" SameSite="site" />
+        <defaultAssemblyRequest permissionSetReference="Custom" />
+      </applicationRequestMinimum>
+      <requestedPrivileges xmlns="urn:schemas-microsoft-com:asm.v3">
+        <!-- UAC Manifest Options
+            If you want to change the Windows User Account Control level replace the 
+            requestedExecutionLevel node with one of the following.
+
+        <requestedExecutionLevel  level="asInvoker" uiAccess="false" />
+        <requestedExecutionLevel  level="requireAdministrator" uiAccess="false" />
+        <requestedExecutionLevel  level="highestAvailable" uiAccess="false" />
+
+            If you want to utilize File and Registry Virtualization for backward 
+            compatibility then delete the requestedExecutionLevel node.
+        -->
+        <requestedExecutionLevel level="asInvoker" uiAccess="false" />
+      </requestedPrivileges>
+    </security>
+  </trustInfo>
+  <dependency>
+    <dependentOS>
+      <osVersionInfo>
+        <os majorVersion="4" minorVersion="10" buildNumber="0" servicePackMajor="0" />
+      </osVersionInfo>
+    </dependentOS>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="preRequisite" allowDelayedBinding="true">
+      <assemblyIdentity name="Microsoft.Windows.CommonLanguageRuntime" version="2.0.50727.0" />
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Interop.CAPICOM.dll" size="81920">
+      <assemblyIdentity name="Interop.CAPICOM" version="2.1.0.0" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+        <dsig:DigestValue>bfiUoYF9AiMcOyAHwBdy0+SLHjs=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Interop.LibSubWCRev.dll" size="5632">
+      <assemblyIdentity name="Interop.LibSubWCRev" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+        <dsig:DigestValue>8DXtYRZxdmv2tlvceBgF+ip6DoI=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Interop.PdCommon.dll" size="1249280">
+      <assemblyIdentity name="Interop.PdCommon" version="15.0.0.0" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+        <dsig:DigestValue>kR0ugZD4nwTr2IYmYjII5jbgdYo=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Interop.PdPDM.dll" size="1056768">
+      <assemblyIdentity name="Interop.PdPDM" version="15.0.0.0" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+        <dsig:DigestValue>fr6lf/ty8gmkCECeKPavtBt8Cc8=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Interop.SHDocVw.dll" size="139264">
+      <assemblyIdentity name="Interop.SHDocVw" version="1.1.0.0" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+        <dsig:DigestValue>K/n8qpjJpeAQwqBXaDjpMEAVgAI=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Ionic.Zip.dll" size="348672">
+      <assemblyIdentity name="Ionic.Zip" version="1.7.2.6" publicKeyToken="EDBE51AD942A3F5C" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+        <dsig:DigestValue>HuhCGQa6fIyRbuRGSoX5igSwmTk=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Microsoft.VisualBasic.PowerPacks.Vs.dll" size="356352">
+      <assemblyIdentity name="Microsoft.VisualBasic.PowerPacks.Vs" version="9.0.0.0" publicKeyToken="B03F5F7F11D50A3A" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+        <dsig:DigestValue>yGqAkJQhXwbYfldrh42js2PeYLk=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="PDtoCF.exe" size="56320">
+      <assemblyIdentity name="PDtoCF" version="1.0.4043.27998" language="neutral" processorArchitecture="x86" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+        <dsig:DigestValue>8aYXGPx3AJC3K6euUHP3fqUQQVw=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="PDtoCF.XmlSerializers.dll" size="32768">
+      <assemblyIdentity name="PDtoCF.XmlSerializers" version="1.0.4043.27998" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+        <dsig:DigestValue>M5haaIrAzErKe2ISdJks5Owj6l8=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <file name="PDtoCF.exe.config" size="2109">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+      <dsig:DigestValue>2aWQGjO46YP7WQih75sikEWoImQ=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="PDtoCF.ico" size="1078">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+      <dsig:DigestValue>1QYH6eDq3Lwl4ZYjjah1Os6Nqwc=</dsig:DigestValue>
+    </hash>
+  </file>
+</asmv1:assembly>

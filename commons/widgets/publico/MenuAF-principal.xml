@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_ErrorParamPeriodo>Period is not defined on Auxiliary Systems, the process is canceled</LB_ErrorParamPeriodo>
+		<LB_ErrorParamMes>Month is not defined on Auxiliary Systems, the process is canceled</LB_ErrorParamMes>
+		<LB_IntroduzcaPlaca>Insert number plate for get the responsible</LB_IntroduzcaPlaca>
+		<LB_placa>Number plate</LB_placa>
+		<LB_buscar>Search</LB_buscar>
+		<LB_ValorAdq>Acq. Value</LB_ValorAdq>
+		<!--<LB_ValorMej>Mej. Value</LB_ValorMej>	
+		<LB_ValorRev>Rev. Value</LB_ValorRev> 
+		<LB_DepAcumAdq>Dep. Acum. Adq</LB_DepAcumAdq>
+		<LB_DepAcumMej>Dep. Acum. Mej</LB_DepAcumMej>
+		<LB_DepAcumRev>Dep. Acum. Rev</LB_DepAcumRev>-->
+		<LB_ValorLibros>Books value</LB_ValorLibros>
+		<LB_ValorRescate>Rescue value</LB_ValorRescate>
+		<LB_Depreciacion>Depreciation</LB_Depreciacion>
+		<LB_Depreciable>Depreciable</LB_Depreciable>
+		<LB_FechaIniDepr>Start date dep.</LB_FechaIniDepr>
+		<LB_VidaUtil>Useful life</LB_VidaUtil>
+		<LB_SaldoVidaUtil>Balance of useful life</LB_SaldoVidaUtil>
+		<LB_Revaluable>Revaluable</LB_Revaluable>
+		<LB_FechaIniRev>Start date rev.</LB_FechaIniRev>
+		<LB_ActivoDuplicado>File is duplicated</LB_ActivoDuplicado>
+		<LB_ActivoRetirado>File is removed</LB_ActivoRetirado>
+		<LB_ActivoNoExiste>File is not found</LB_ActivoNoExiste>
+	</Idioma>
+</Etiquetas>
+

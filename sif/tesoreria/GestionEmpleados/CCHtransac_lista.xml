@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_Caja>Cash</LB_Caja>
+		<LB_Fechas>Dates</LB_Fechas>
+		<LB_Desde>From</LB_Desde>
+		<LB_Hasta>To</LB_Hasta>
+		<LB_NumTransaccion>Transaction Number</LB_NumTransaccion>
+		<LB_Moneda>Currency</LB_Moneda>
+		<BTN_Filtrar>Filter</BTN_Filtrar>
+		<LB_ListaTransaccionesRechazadas>Rejected Transactions List</LB_ListaTransaccionesRechazadas>
+		<LB_ConfirmacionDepositos>Deposits Confirmation</LB_ConfirmacionDepositos>
+		<LB_Transaccion>Transaction</LB_Transaccion>
+		<LB_Estado>Status</LB_Estado>
+		<LB_Monto>Amount</LB_Monto>
+		<LB_Fecha>Date</LB_Fecha>
+		<LB_Reintegro>Reimbursement</LB_Reintegro>
+		<LB_Aumento>Increase</LB_Aumento>
+		<LB_Disminucion>Decrease</LB_Disminucion>
+		<LB_Cierre>Closing</LB_Cierre>
+	</Idioma>
+</Etiquetas>

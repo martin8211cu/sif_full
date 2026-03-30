@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_Caja>Cash</LB_Caja>
+		<LB_Fecha>Date</LB_Fecha>
+		<LB_Hasta>To</LB_Hasta>
+		<LB_EstadoAnticipo>Advance Status</LB_EstadoAnticipo>
+		<LB_AfectaMontoAsignado>Affect Assigned Amount</LB_AfectaMontoAsignado>
+		<LB_EntregaEfectivo>Cash Delivery</LB_EntregaEfectivo>
+		<LB_Reintegros>Reimbursements</LB_Reintegros>
+		<LB_Todos>All</LB_Todos>
+		<BTN_Consultar>Consult</BTN_Consultar>
+	</Idioma>
+</Etiquetas>

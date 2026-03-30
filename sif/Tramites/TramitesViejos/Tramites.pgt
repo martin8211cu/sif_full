@@ -1,0 +1,17 @@
+========== Description Part Begin ==========
+Description = Menu del Sistema de Activos Fijos
+LastUpdateTime = 37568.420335648
+PreviewPath = 
+ProgID = PageletServer.DynamicMenu
+Title = MenuAF
+Version = 4.00
+========== Description Part End ==========
+========== Parameter Part Begin ==========
+MenuBody0 = 5;0;0;2;0;0;0;0;0;0;0;0;0;90;1;1;1;12230816;12230816;12230816;12230816;12230816;0;;3
+MenuItem0_0 = 0;1;;;0;Nuevo trámite;0;0;1;Menú Principal del Sistema de Contabilidad;trpass01.cfm;_self;Iniciar un nuevo trámite;0;12230816;12230816;0;0;;;3;3;1;1;1;1;12230816;12230816;12230816;12230816;6710886;6710886;6710886;6710886;;;5;0;0;;;0;0;0;;;7;7;0;Verdana;Verdana;8;8;0;0;16777215;16777215;0;0;0;0;0;0;0;0;0;0;
+MenuItem0_1 = 0;0;;;0;1;0;1;;;0;0;0
+MenuItem0_2 = 0;1;;;0;Ver trámites pendientes;0;0;1;;pendientes.cfm;_self;Lista de trámites en proceso;0;12230816;12230816;0;0;;;3;3;1;1;1;1;12230816;12230816;12230816;12230816;6710886;6710886;6710886;6710886;;;8;0;0;;;0;0;0;;;7;7;0;Verdana;Verdana;8;8;0;0;16777215;16777215;0;0;0;0;0;0;0;0;0;0;
+MenuItem0_3 = 0;0;;;0;1;0;1;;;1;1;0
+MenuItem0_4 = 0;1;;;0;Trámites realizados;0;0;1;;historia.cfm;_self;Revisar los trámites realizados;0;12230816;12230816;0;0;;;3;3;1;1;1;1;12230816;12230816;12230816;12230816;12230816;12230816;12230816;12230816;;;8;0;0;;;0;0;0;;;7;7;0;Verdana;Verdana;8;8;0;0;16777215;16777215;0;0;0;0;0;0;0;0;0;0;
+TopMenuBody = 3;400;exnvfhr;0;1;1;0;0;0;1;150;100;100;<cfoutput>#session.rutajs#</cfoutput>DHTMLMenu3.5/;1;0;0
+========== Parameter Part End ==========

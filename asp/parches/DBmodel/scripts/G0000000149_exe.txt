@@ -1,0 +1,36 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 475 - DBM 415: Se cambia el formato de el campo CFcuenta
+
+	         PARCHE:  Parche023_564_SIF_CuentaTransitoria
+
+GENERADO EN:
+	SERVER:  http://mxvqapp34:8300
+	DSN:     sifcim
+	FECHA:   08/01/2012 20:01:22
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* CHG_TABLE CFuncional: Centros Funcionales */
+/* ======================================================================================== */
+/* ADD_COLUMN OP = (NUEVO): CFcuentatransitoria - Cuenta Transitoria para Venta Credito */
+ALTER TABLE CFuncional ADD CFcuentatransitoria varchar(100) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP = (NUEVO): CFACTransitoria - Aplica Cuenta */
+ALTER TABLE CFuncional ADD CFACTransitoria bit DEFAULT 0 NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<MSG_BalanceComprobacion>Trial Balance</MSG_BalanceComprobacion>
+		<MSG_BalanceSumasSaldos>Trial Balance Comparison</MSG_BalanceSumasSaldos>
+		<MSG_Cifras_en>Currency</MSG_Cifras_en>
+		<MSG_Periodo>Period</MSG_Periodo>
+		<LB_Todas>All</LB_Todas>
+		<LB_Oficina>Office</LB_Oficina>
+		<LB_TodasOficinas>All Offices</LB_TodasOficinas>
+		<LB_Empresas>Enterprise</LB_Empresas>
+		<MSG_Confidencial>Confidential</MSG_Confidencial>
+		<MSG_Movimientos>Bank Transactions</MSG_Movimientos>
+		<MSG_Distribucion>Distribution</MSG_Distribucion>
+		<MSG_MontoDistribucion>Distribution Amount</MSG_MontoDistribucion>
+		<MSG_Markup>Markup</MSG_Markup>
+		<MSG_Total>Total</MSG_Total>
+		<MSG_TotalGastos>Expenses Total</MSG_TotalGastos>
+		<MSG_TotalFactura>Invoice Total</MSG_TotalFactura>
+		<MSG_TotalesOficina>Office Totals</MSG_TotalesOficina>
+		
+	<MSG_Creditos>Credits</MSG_Creditos><MSG_CuentaDetalle>Detail Account</MSG_CuentaDetalle><MSG_Debe>Debit</MSG_Debe><MSG_Debitos>Debits</MSG_Debitos><MSG_Haber>Credit</MSG_Haber><MSG_MovNetos>Net Movements</MSG_MovNetos><MSG_SaldoFinal>Final Balance</MSG_SaldoFinal><MSG_SaldoInicial>Initial Balance</MSG_SaldoInicial><MSG_TotalesFinales>Finals Totals</MSG_TotalesFinales><MSG_TotalesGlobales>Globals Totals</MSG_TotalesGlobales></Idioma>
+</Etiquetas>

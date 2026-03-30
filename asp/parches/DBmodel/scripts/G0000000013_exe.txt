@@ -1,0 +1,504 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  aspMonitor
+	MODELO:  ASP Monitor.pdm
+	VERSION: 6 - DBM 114: BASE CERO: ASP Monitor
+
+	         PARCHE:  ParcheParche023_001_SIF_BASE0
+
+GENERADO EN:
+	SERVER:  http://localhost:8099
+	DSN:     aspmonitor
+	FECHA:   22/02/2011 12:40:19
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* CHG_TABLE AccesoDenegado: AccesoDenegado */
+/* ======================================================================================== */
+/* CHG_COLUMN OP=(CAMBIO): tipo_uri - tipo_uri */
+ALTER TABLE AccesoDenegado ADD CONSTRAINT AccesoDenegado_CK03 CHECK ([tipo_uri]='O' OR [tipo_uri]='D' OR [tipo_uri]='C' OR [tipo_uri]='J')
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): BMUsucodigo - Usucodigo para Log del Portal */
+ALTER TABLE AccesoDenegado ADD BMUsucodigo numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_KEY_PK (OP=RENAME): cols=id */
+EXEC sp_rename 'AccesoDenegado.PK_ACCESODENEGADO', 'AccesoDenegado_PK', 'INDEX'
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ======================================================================================== */
+/* CHG_TABLE KillSession: KillSession */
+/* ======================================================================================== */
+/* CHG_COLUMN OP=(CAMBIO): motivo_cierre - Motivo de cierre */
+ALTER TABLE KillSession ADD CONSTRAINT KillSession_CK04 CHECK ([motivo_cierre]='Y' OR [motivo_cierre]='R' OR [motivo_cierre]='K' OR [motivo_cierre]='T' OR [motivo_cierre]='L')
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): BMUsucodigo - Usucodigo para Log del Portal */
+ALTER TABLE KillSession ADD BMUsucodigo numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_KEY_PK (OP=RENAME): cols=sessionid,srvprocid */
+EXEC sp_rename 'KillSession.PK_KILLSESSION', 'KillSession_PK', 'INDEX'
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ======================================================================================== */
+/* CHG_TABLE LoginIncorrecto: Login Incorrecto */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): BMUsucodigo - Usucodigo para Log del Portal */
+ALTER TABLE LoginIncorrecto ADD BMUsucodigo numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_KEY_PK (OP=RENAME): cols=LIid */
+EXEC sp_rename 'LoginIncorrecto.PK_LOGININCORRECTO', 'LoginIncorrecto_PK', 'INDEX'
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ======================================================================================== */
+/* CHG_TABLE MonBitacora: Bitácora de Movimientos */
+/* ======================================================================================== */
+/* CHG_COLUMN OP=(CAMBIO): oper - Tipo de operacion I/U/D */
+ALTER TABLE MonBitacora ADD CONSTRAINT MonBitacora_CK02 CHECK ([oper]='D' OR [oper]='U' OR [oper]='I')
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): BMUsucodigo - Usucodigo para Log del Portal */
+ALTER TABLE MonBitacora ADD BMUsucodigo numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_KEY_PK (OP=RENAME): cols=bitacoraid */
+EXEC sp_rename 'MonBitacora.PK_MONBITACORA', 'MonBitacora_PK', 'INDEX'
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ======================================================================================== */
+/* CHG_TABLE MonDatabaseStats: MonDatabaseStats */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): BMUsucodigo - Usucodigo para Log del Portal */
+ALTER TABLE MonDatabaseStats ADD BMUsucodigo numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_KEY_PK (OP=RENAME): cols=fecha,srvprocid,datasource */
+EXEC sp_rename 'MonDatabaseStats.PK_MONDATABASESTATS', 'MonDatabaseStats_PK', 'INDEX'
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ======================================================================================== */
+/* CHG_TABLE MonDebugIException: MonDebugIException */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): BMUsucodigo - Usucodigo para Log del Portal */
+ALTER TABLE MonDebugIException ADD BMUsucodigo numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_KEY_PK (OP=RENAME): cols=debugid,debugline */
+EXEC sp_rename 'MonDebugIException.PK_MONDEBUGIEXCEPTION', 'MonDebugIException_PK', 'INDEX'
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ======================================================================================== */
+/* CHG_TABLE MonDebugIRequest: MonDebugIRequest */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): BMUsucodigo - Usucodigo para Log del Portal */
+ALTER TABLE MonDebugIRequest ADD BMUsucodigo numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_KEY_PK (OP=RENAME): cols=debugid */
+EXEC sp_rename 'MonDebugIRequest.PK_MONDEBUGIREQUEST', 'MonDebugIRequest_PK', 'INDEX'
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ======================================================================================== */
+/* CHG_TABLE MonDebugIScopeVars: MonDebugIScopeVars */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): BMUsucodigo - Usucodigo para Log del Portal */
+ALTER TABLE MonDebugIScopeVars ADD BMUsucodigo numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_KEY_PK (OP=RENAME): cols=debugid,scope,name */
+EXEC sp_rename 'MonDebugIScopeVars.PK_MONDEBUGISCOPEVARS', 'MonDebugIScopeVars_PK', 'INDEX'
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ======================================================================================== */
+/* CHG_TABLE MonDebugISQL: MonDebugISQL */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): BMUsucodigo - Usucodigo para Log del Portal */
+ALTER TABLE MonDebugISQL ADD BMUsucodigo numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_KEY_PK (OP=RENAME): cols=debugid,debugline */
+EXEC sp_rename 'MonDebugISQL.PK_MONDEBUGISQL', 'MonDebugISQL_PK', 'INDEX'
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ======================================================================================== */
+/* CHG_TABLE MonDebugISummary: MonDebugISummary */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): BMUsucodigo - Usucodigo para Log del Portal */
+ALTER TABLE MonDebugISummary ADD BMUsucodigo numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_KEY_PK (OP=RENAME): cols=debugid,debugline */
+EXEC sp_rename 'MonDebugISummary.PK_MONDEBUGISUMMARY', 'MonDebugISummary_PK', 'INDEX'
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ======================================================================================== */
+/* CHG_TABLE MonDebugITemplate: MonDebugITemplate */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): BMUsucodigo - Usucodigo para Log del Portal */
+ALTER TABLE MonDebugITemplate ADD BMUsucodigo numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_KEY_PK (OP=RENAME): cols=debugid,debugline */
+EXEC sp_rename 'MonDebugITemplate.PK_MONDEBUGITEMPLATE', 'MonDebugITemplate_PK', 'INDEX'
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ======================================================================================== */
+/* CHG_TABLE MonDebugQException: MonDebugQException */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): BMUsucodigo - Usucodigo para Log del Portal */
+ALTER TABLE MonDebugQException ADD BMUsucodigo numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_KEY_PK (OP=RENAME): cols=debugid,debugline */
+EXEC sp_rename 'MonDebugQException.PK_MONDEBUGQEXCEPTION', 'MonDebugQException_PK', 'INDEX'
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* CHG_KEY_INDEX (OP=RENAME): cols=fecha */
+EXEC sp_rename 'MonDebugQException.q_fecha', 'MonDebugQException_ID01', 'INDEX'
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* CHG_KEY_INDEX (OP=RENAME): cols=message */
+EXEC sp_rename 'MonDebugQException.q_message', 'MonDebugQException_ID02', 'INDEX'
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* CHG_KEY_INDEX (OP=RENAME): cols=template */
+EXEC sp_rename 'MonDebugQException.q_template', 'MonDebugQException_ID03', 'INDEX'
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* CHG_KEY_INDEX (OP=RENAME): cols=exceptionType */
+EXEC sp_rename 'MonDebugQException.q_exceptionType', 'MonDebugQException_ID04', 'INDEX'
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ======================================================================================== */
+/* CHG_TABLE MonDebugQRequest: MonDebugQRequest */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): BMUsucodigo - Usucodigo para Log del Portal */
+ALTER TABLE MonDebugQRequest ADD BMUsucodigo numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_KEY_PK (OP=RENAME): cols=debugid */
+EXEC sp_rename 'MonDebugQRequest.PK_MONDEBUGQREQUEST', 'MonDebugQRequest_PK', 'INDEX'
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* CHG_KEY_INDEX (OP=RENAME): cols=uri */
+EXEC sp_rename 'MonDebugQRequest.q_uri', 'MonDebugQRequest_ID01', 'INDEX'
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* CHG_KEY_INDEX (OP=RENAME): cols=requested */
+EXEC sp_rename 'MonDebugQRequest.q_requested', 'MonDebugQRequest_ID02', 'INDEX'
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* CHG_KEY_INDEX (OP=RENAME): cols=memoryDelta */
+EXEC sp_rename 'MonDebugQRequest.q_memoryDelta', 'MonDebugQRequest_ID03', 'INDEX'
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* CHG_KEY_INDEX (OP=RENAME): cols=executionTime */
+EXEC sp_rename 'MonDebugQRequest.q_executionTime', 'MonDebugQRequest_ID04', 'INDEX'
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ======================================================================================== */
+/* CHG_TABLE MonDebugQScopeVars: MonDebugQScopeVars */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): BMUsucodigo - Usucodigo para Log del Portal */
+ALTER TABLE MonDebugQScopeVars ADD BMUsucodigo numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_KEY_PK (OP=RENAME): cols=debugid,scope,name */
+EXEC sp_rename 'MonDebugQScopeVars.PK_MONDEBUGQSCOPEVARS', 'MonDebugQScopeVars_PK', 'INDEX'
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ======================================================================================== */
+/* CHG_TABLE MonDebugQSQL: MonDebugQSQL */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): BMUsucodigo - Usucodigo para Log del Portal */
+ALTER TABLE MonDebugQSQL ADD BMUsucodigo numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_KEY_PK (OP=RENAME): cols=debugid,debugline */
+EXEC sp_rename 'MonDebugQSQL.PK_MONDEBUGQSQL', 'MonDebugQSQL_PK', 'INDEX'
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* CHG_KEY_INDEX (OP=RENAME): cols=template */
+EXEC sp_rename 'MonDebugQSQL.q_template', 'MonDebugQSQL_ID01', 'INDEX'
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* CHG_KEY_INDEX (OP=RENAME): cols=queryParams */
+EXEC sp_rename 'MonDebugQSQL.q_queryName', 'MonDebugQSQL_ID02', 'INDEX'
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* CHG_KEY_INDEX (OP=RENAME): cols=executionTime */
+EXEC sp_rename 'MonDebugQSQL.q_executionTime', 'MonDebugQSQL_ID03', 'INDEX'
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ======================================================================================== */
+/* CHG_TABLE MonDebugQSummary: MonDebugQSummary */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): BMUsucodigo - Usucodigo para Log del Portal */
+ALTER TABLE MonDebugQSummary ADD BMUsucodigo numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_KEY_PK (OP=RENAME): cols=debugid,debugline */
+EXEC sp_rename 'MonDebugQSummary.PK_MONDEBUGQSUMMARY', 'MonDebugQSummary_PK', 'INDEX'
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* CHG_KEY_INDEX (OP=RENAME): cols=template */
+EXEC sp_rename 'MonDebugQSummary.q_template', 'MonDebugQSummary_ID01', 'INDEX'
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* CHG_KEY_INDEX (OP=RENAME): cols=instanceCount */
+EXEC sp_rename 'MonDebugQSummary.q_instanceCount', 'MonDebugQSummary_ID02', 'INDEX'
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* CHG_KEY_INDEX (OP=RENAME): cols=avgExecutionTime */
+EXEC sp_rename 'MonDebugQSummary.q_avgExecutionTime', 'MonDebugQSummary_ID03', 'INDEX'
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* CHG_KEY_INDEX (OP=RENAME): cols=totalExecutionTime */
+EXEC sp_rename 'MonDebugQSummary.q_totalExecutionTime', 'MonDebugQSummary_ID04', 'INDEX'
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ======================================================================================== */
+/* CHG_TABLE MonDebugQTemplate: MonDebugQTemplate */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): BMUsucodigo - Usucodigo para Log del Portal */
+ALTER TABLE MonDebugQTemplate ADD BMUsucodigo numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_KEY_PK (OP=RENAME): cols=debugid,debugline */
+EXEC sp_rename 'MonDebugQTemplate.PK_MONDEBUGQTEMPLATE', 'MonDebugQTemplate_PK', 'INDEX'
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ======================================================================================== */
+/* CHG_TABLE MonEmpresaStats: Estadísticas por empresa */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): BMUsucodigo - Usucodigo para Log del Portal */
+ALTER TABLE MonEmpresaStats ADD BMUsucodigo numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_KEY_PK (OP=RENAME): cols=Ecodigo,fecha,indicador */
+EXEC sp_rename 'MonEmpresaStats.PK_MONEMPRESASTATS', 'MonEmpresaStats_PK', 'INDEX'
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ======================================================================================== */
+/* CHG_TABLE MonErrores: MonErrores */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): BMUsucodigo - Usucodigo para Log del Portal */
+ALTER TABLE MonErrores ADD BMUsucodigo numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_KEY_PK (OP=RENAME): cols=errorid */
+EXEC sp_rename 'MonErrores.PK_MONERRORES', 'MonErrores_PK', 'INDEX'
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ======================================================================================== */
+/* CHG_TABLE MonHistoria: MonHistoria */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): BMUsucodigo - Usucodigo para Log del Portal */
+ALTER TABLE MonHistoria ADD BMUsucodigo numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_KEY_PK (OP=RENAME): cols=historiaid */
+EXEC sp_rename 'MonHistoria.PK_MONHISTORIA2', 'MonHistoria_PK', 'INDEX'
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* CHG_KEY_INDEX (OP=RENAME): cols=desde */
+EXEC sp_rename 'MonHistoria.DESDE', 'MonHistoria_ID01', 'INDEX'
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* CHG_KEY_INDEX (OP=RENAME): cols=Usucodigo */
+EXEC sp_rename 'MonHistoria.USUARIO', 'MonHistoria_ID02', 'INDEX'
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* CHG_KEY_INDEX (OP=RENAME): cols=sessionid */
+EXEC sp_rename 'MonHistoria.SESSION', 'MonHistoria_ID03', 'INDEX'
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ======================================================================================== */
+/* CHG_TABLE MonProcesos: MonProcesos */
+/* ======================================================================================== */
+/* CHG_COLUMN OP=(CAMBIO): motivo_cierre - Motivo de cierre */
+ALTER TABLE MonProcesos ADD CONSTRAINT MonProcesos_CK15 CHECK ([motivo_cierre] IS NULL OR ([motivo_cierre]='Y' OR [motivo_cierre]='R' OR [motivo_cierre]='K' OR [motivo_cierre]='T' OR [motivo_cierre]='L'))
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): BMUsucodigo - Usucodigo para Log del Portal */
+ALTER TABLE MonProcesos ADD BMUsucodigo numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_KEY_PK (OP=RENAME): cols=sessionid */
+EXEC sp_rename 'MonProcesos.PK_MONPROCESOS', 'MonProcesos_PK', 'INDEX'
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ======================================================================================== */
+/* CHG_TABLE MonRequest: MonRequest */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): BMUsucodigo - Usucodigo para Log del Portal */
+ALTER TABLE MonRequest ADD BMUsucodigo numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_KEY_PK (OP=RENAME): cols=requestid */
+EXEC sp_rename 'MonRequest.PK_MONHISTORIA', 'MonRequest_PK', 'INDEX'
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* CHG_KEY_INDEX (OP=RENAME): cols=sessionid */
+EXEC sp_rename 'MonRequest.SESSION', 'MonRequest_ID01', 'INDEX'
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ======================================================================================== */
+/* CHG_TABLE MonRequestTemplate: MonRequestTemplate */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): BMUsucodigo - Usucodigo para Log del Portal */
+ALTER TABLE MonRequestTemplate ADD BMUsucodigo numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_KEY_PK (OP=RENAME): cols=logid */
+EXEC sp_rename 'MonRequestTemplate.PK_MONREQUESTTEMPLATE', 'MonRequestTemplate_PK', 'INDEX'
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ======================================================================================== */
+/* CHG_TABLE MonServerProcess: MonServerProcess */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): BMUsucodigo - Usucodigo para Log del Portal */
+ALTER TABLE MonServerProcess ADD BMUsucodigo numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_KEY_PK (OP=RENAME): cols=srvprocid */
+EXEC sp_rename 'MonServerProcess.PK_MONSERVERPROCESS', 'MonServerProcess_PK', 'INDEX'
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ======================================================================================== */
+/* CHG_TABLE MonServerStats: MonServerStats */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): BMUsucodigo - Usucodigo para Log del Portal */
+ALTER TABLE MonServerStats ADD BMUsucodigo numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_KEY_PK (OP=RENAME): cols=srvprocid,fecha */
+EXEC sp_rename 'MonServerStats.PK_MONSERVERSTATS', 'MonServerStats_PK', 'INDEX'
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ======================================================================================== */
+/* CHG_TABLE UsuarioBloqueo: UsuarioBloqueo */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): BMUsucodigo - Usucodigo para Log del Portal */
+ALTER TABLE UsuarioBloqueo ADD BMUsucodigo numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_KEY_PK (OP=RENAME): cols=Usucodigo,bloqueo,CEcodigo */
+EXEC sp_rename 'UsuarioBloqueo.PK_USUARIOBLOQUEO', 'UsuarioBloqueo_PK', 'INDEX'
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* END_SCRIPT */

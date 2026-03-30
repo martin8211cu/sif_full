@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+</head>
+
+<body>
+    <div id="aph-sign"></div>
+    <script>
+        const params = {
+            'buttonTitle': 'Iniciar sesion con APH-SC',
+            'width': 500,
+            'height': 370,
+            'longtitle': true,
+            'sifURL': 'http://intranet.aph.mx:8703',
+            'onsuccess': onSuccess,
+            'onfailure': onFailure
+        };
+
+        function onSuccess(tokenData) {
+            console.log('Logged in as: ', tokenData);
+            sapi.verifyToken(tokenData.data.token, tokenData.data.usuario, params, (res) => {
+                console.log('Logged in as: ', res);
+            });
+        }
+
+        function onFailure(error) {
+            console.log(error);
+        }
+
+        function renderButton() {
+            sapi.render('aph-sign', params);
+        }
+    </script>
+
+    <script src="login-api.js"></script>
+</body>
+
+</html>

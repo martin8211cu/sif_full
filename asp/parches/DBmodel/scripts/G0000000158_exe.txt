@@ -1,0 +1,21 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  sifInterfaces
+	MODELO:  SIF Interfaces.pdm
+	VERSION: 451 - DBM 386: Parche Interfaz 711
+
+	         PARCHE:  Parche023_506_SIF_Interfaz711
+
+GENERADO EN:
+	SERVER:  http://mxvqapp34:8300
+	DSN:     sifinterfaces
+	FECHA:   11/01/2012 15:50:40
+*/
+
+/* INI_SCRIPT */
+
+/* END_SCRIPT */

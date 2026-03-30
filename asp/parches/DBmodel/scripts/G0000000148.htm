@@ -1,0 +1,513 @@
+<strong>INDICE:</strong><BR>- <A href='#COLs_CHG'>Columnas a modificarse</A><BR>- <A href='#COLs_ADD'>Columnas nuevas</A><BR>- <A href='#COLs_DEL'>Columnas a eliminarse</A><BR>- <A href='#KEYs_DEL'>Llaves a eliminarse</A><BR>- <A href='#TABs_ADD'>Tablas nuevas</A><BR>- <A href='#KEYs_ADD'>Llaves nuevas o a regenerarse</A><BR>- <A href='#KEYs_FI'>Indices para llaves foráneas</A><BR><BR><BR>
+			<BR><strong><A name='COLs_CHG'>COLUMNAS QUE VAN A SER ALTERADAS EN LA BASE DE DATOS PORQUE TIENEN CARACTERISTICAS MODIFICADAS EN EL MODELO DBM</A></strong><BR>
+			<table>
+			<tr><td><strong>TABLA</strong></td><td><strong>COLUMNA</strong></td><td><strong>&nbsp;</strong></td><td><strong>TIPO</strong></td><td><strong>LON</strong></td><td><strong>DEC</strong></td><td><strong>obl</strong></td><td><strong>ide</strong></td><td><strong>dfl</strong></td><td><strong>rul</strong></td></tr>
+			
+				<tr>
+					<td>CCTransacciones</td><td>CCTcktr</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td>CHAR</td>
+					<td>1</td>
+					<td>0</td>
+					<td>0</td>
+					
+						<td>0</td>
+					
+					<td></td>
+					<td><strong>([CCTcktr] IS NULL OR ([CCTcktr]='P' OR [CCTcktr]='T' OR [CCTcktr]='C'))</strong></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>CHAR</td>
+					<td>1</td>
+					<td>0</td>
+					<td>0</td>
+					
+						<td>0</td>
+					
+					
+						<td><font color="#FF0000"></font></td>
+					
+					
+						<td>([CCTcktr] IS NULL OR ([CCTcktr]='T' OR [CCTcktr]='C'))</td>
+					
+				</tr>
+			
+			</table>
+		
+			<BR><strong><A name='COLs_ADD'>COLUMNAS NUEVAS EN EL MODELO DBM QUE SE VAN A CREAR EN LA BASE DE DATOS</A></strong><BR>
+			<table>
+			<tr><td><strong>TABLA</strong></td><td><strong>COLUMNA</strong></td><td><strong>TIPO</strong></td><td><strong>LON</strong></td><td><strong>DEC</strong></td><td><strong>obl</strong></td><td><strong>ide</strong></td><td><strong>dfl</strong></td><td><strong>rul</strong></td></tr>
+			
+				<tr><td>Conceptos&nbsp;&nbsp;</td><td>Cporc&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>5</td><td>2</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>DListaPrecios&nbsp;&nbsp;</td><td>CVidD&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>18</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>DListaPrecios&nbsp;&nbsp;</td><td>CVidR&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>18</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>DListaPrecios&nbsp;&nbsp;</td><td>DLdescuento&nbsp;&nbsp;</td><td>MONEY&nbsp;&nbsp;</td><td>18</td><td>4</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>DListaPrecios&nbsp;&nbsp;</td><td>DLdescuentoTipo&nbsp;&nbsp;</td><td>CHAR&nbsp;&nbsp;</td><td>1</td><td>0</td><td>0</td><td>0</td><td></td><td>([DLdescuentoTipo] IS NULL OR ([DLdescuentoTipo]='M' OR [DLdescuentoTipo]='P'))</td></tr>
+			
+				<tr><td>DListaPrecios&nbsp;&nbsp;</td><td>DLrecargo&nbsp;&nbsp;</td><td>MONEY&nbsp;&nbsp;</td><td>18</td><td>4</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>DListaPrecios&nbsp;&nbsp;</td><td>DLrecargoTipo&nbsp;&nbsp;</td><td>CHAR&nbsp;&nbsp;</td><td>1</td><td>0</td><td>0</td><td>0</td><td></td><td>([DLrecargoTipo] IS NULL OR ([DLrecargoTipo]='M' OR [DLrecargoTipo]='P'))</td></tr>
+			
+				<tr><td>DTransacciones&nbsp;&nbsp;</td><td>CFcuenta&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>18</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>DTransacciones&nbsp;&nbsp;</td><td>CFid&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>18</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>DTransacciones&nbsp;&nbsp;</td><td>DTimpuesto&nbsp;&nbsp;</td><td>MONEY&nbsp;&nbsp;</td><td>18</td><td>4</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>DTransacciones&nbsp;&nbsp;</td><td>DTreclinea&nbsp;&nbsp;</td><td>MONEY&nbsp;&nbsp;</td><td>18</td><td>4</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>DTransacciones&nbsp;&nbsp;</td><td>Icodigo&nbsp;&nbsp;</td><td>CHAR&nbsp;&nbsp;</td><td>5</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>DTransacciones&nbsp;&nbsp;</td><td>Ocodigo&nbsp;&nbsp;</td><td>INTEGER&nbsp;&nbsp;</td><td>10</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>EListaPrecios&nbsp;&nbsp;</td><td>CFid&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>18</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>EListaPrecios&nbsp;&nbsp;</td><td>id_zona&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>18</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>ETransacciones&nbsp;&nbsp;</td><td>CFid&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>18</td><td>0</td><td>1</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>FATarjetas&nbsp;&nbsp;</td><td>FATcomplemento&nbsp;&nbsp;</td><td>VARCHAR&nbsp;&nbsp;</td><td>100</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>FPagos&nbsp;&nbsp;</td><td>FPautorizacion&nbsp;&nbsp;</td><td>VARCHAR&nbsp;&nbsp;</td><td>50</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>FPagos&nbsp;&nbsp;</td><td>TPid&nbsp;&nbsp;</td><td>INTEGER&nbsp;&nbsp;</td><td>10</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+			</table>
+		
+			<BR><strong><A name='COLs_DEL'>COLUMNAS QUE VAN A SER ELIMINADAS EN LA BASE DE DATOS PORQUE YA NO SE REQUIEREN EN EL MODELO DBM</A></strong><BR>
+			<table>
+			<tr><td><strong>TABLA</strong></td><td><strong>COLUMNA</strong></td><td><strong>TIPO</strong></td><td><strong>LON</strong></td><td><strong>DEC</strong></td><td><strong>obl</strong></td><td><strong>ide</strong></td><td><strong>dfl</strong></td><td><strong>rul</strong></td></tr>
+			
+				<tr><td>CPresupuestoComprometidasNAPs&nbsp;&nbsp;</td><td>CPNAPnumReversa&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>18</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+			</table>
+		
+			<BR><strong><A name='KEYs_DEL'>LLAVES QUE SE VAN A ELIMINAR</A></strong><BR>
+			<table>
+			<tr><td><strong>TABLA</strong></td><td><strong>TIPO</strong></td><td><strong>CODIGO</strong></td><td><strong>COLUMNAS</strong></td><td><strong>TABLA REFERENCIADA</strong></td><td><strong>COLUMNAS REFERENCIADAS</strong></td><td><strong>RAZON</strong></td></tr>
+			
+				
+					<tr><td>CPresupuestoComprometidasNAPs</td><td align="center">
+						
+							PK 
+						
+					</td>
+					
+						<td>
+							
+								CPresupuestoComprometid01_PK
+							
+						</td>
+					
+					<td>CPPid,Ecodigo,CPNAPnum</td><td>*</td><td>*</td>
+					<td>
+						
+							BORRADA EN DBM (DBM:DROP)
+						
+					</td>
+					</tr>
+					
+						
+			
+			</table>
+		
+			<BR><strong><A name='TABs_ADD'>TABLAS NUEVAS EN EL MODELO DBM QUE SE VAN A CREAR EN LA BASE DE DATOS</A></strong><BR>
+			<table>
+			<tr><td><strong>TABLA</strong></td></tr>
+			
+				<tr><td>CfuncionalConc</td></tr>
+			
+				<tr><td>DCalendarioVentas</td></tr>
+			
+				<tr><td>ECalendarioVentas</td></tr>
+			
+				<tr><td>ETransaccionesCalculo</td></tr>
+			
+			</table>
+		
+			<BR><strong><A name='COLs_ADD'>LLAVES QUE SE VAN A CREAR.</font></A></strong><BR>
+			<table>
+			<tr><td><strong>TABLA</strong></td><td><strong>TIPO</strong></td><td><strong>SEC.</strong></td><td><strong>COLUMNAS</strong></td><td><strong>TABLA REFERENCIADA</strong></td><td><strong>COLUMNAS REFERENCIADAS</strong></td><td><strong>RAZON</strong></td></tr>
+			
+				
+					<tr><td>CfuncionalConc</td><td align="center">
+						
+							PK 
+						
+					</td>
+					
+						<td align="center">
+							00
+						</td>
+					
+					<td>CFCid</td><td>*</td><td>*</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>CfuncionalConc</td><td align="center">
+						
+							UI 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>CFCid,Cid,CFid,Ecodigo</td><td>*</td><td>*</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>CfuncionalConc</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>Cid</td><td>Conceptos</td><td>Cid</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>CfuncionalConc</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							02
+						</td>
+					
+					<td>CFid</td><td>CFuncional</td><td>CFid</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>CfuncionalConc</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							03
+						</td>
+					
+					<td>Ecodigo</td><td>Empresas</td><td>Ecodigo</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>CPresupuestoComprometidasNAPs</td><td align="center">
+						
+							PK 
+						
+					</td>
+					
+						<td align="center">
+							00
+						</td>
+					
+					<td>CPPid,Ecodigo,CPNAPnum</td><td>*</td><td>*</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>DCalendarioVentas</td><td align="center">
+						
+							PK 
+						
+					</td>
+					
+						<td align="center">
+							00
+						</td>
+					
+					<td>CVlinea</td><td>*</td><td>*</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>DCalendarioVentas</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>CVid</td><td>ECalendarioVentas</td><td>CVid</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>DTransacciones</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							10
+						</td>
+					
+					<td>CFid</td><td>CFuncional</td><td>CFid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>ECalendarioVentas</td><td align="center">
+						
+							PK 
+						
+					</td>
+					
+						<td align="center">
+							00
+						</td>
+					
+					<td>CVid</td><td>*</td><td>*</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>ETransacciones</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							11
+						</td>
+					
+					<td>CFid</td><td>CFuncional</td><td>CFid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+			</table>
+		
+			<BR><strong><A name='KEYs_FI'>INDICES QUE SE VAN A CREAR EN LA BASE DE DATOS PARA SOPORTAR LLAVES FORANEAS</A></strong><BR>
+			<table>
+			<tr><td><strong>TABLA</strong></td><td><strong>TIPO</strong></td><td><strong>SEC.</strong></td><td><strong>COLUMNAS</strong></td><td><strong>TABLA REFERENCIADA</strong></td><td><strong>COLUMNAS REFERENCIADAS</strong></td><td><strong>RAZON</strong></td></tr>
+			
+				
+					<tr><td>CPresupuestoComprometidasNAPs</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							03
+						</td>
+					
+					<td>CPcuenta</td><td>CPresupuesto</td><td>CPcuenta</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>CPresupuestoComprometidasNAPs</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							04
+						</td>
+					
+					<td>Ecodigo,Ocodigo</td><td>Oficinas</td><td>Ecodigo,Ocodigo</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>CPresupuestoComprometidasNAPs</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							05
+						</td>
+					
+					<td>Ecodigo,CPPid</td><td>CPresupuestoPeriodo</td><td>Ecodigo,CPPid</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>CPresupuestoComprometidasNAPs</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							06
+						</td>
+					
+					<td>Ecodigo,CPCano,CPCmes</td><td>CPmeses</td><td>Ecodigo,CPCano,CPCmes</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>CPresupuestoComprometidasNAPs</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							07
+						</td>
+					
+					<td>Ecodigo,CPNAPnum,CPNAPDlinea</td><td>CPNAPdetalle</td><td>Ecodigo,CPNAPnum,CPNAPDlinea</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>DTransacciones</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							10
+						</td>
+					
+					<td>CFid</td><td>CFuncional</td><td>CFid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>ETransacciones</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							11
+						</td>
+					
+					<td>CFid</td><td>CFuncional</td><td>CFid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+			</table>
+		

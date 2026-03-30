@@ -1,0 +1,46 @@
+// Decompiled by DJ v3.2.2.67 Copyright 2002 Atanas Neshkov  Date: 06/10/2005 7:58:45 PM
+// Home Page : http://members.fortunecity.com/neshkov/dj.html  - Check often for new version!
+// Decompiler options: packimports(3) 
+// Source File Name:   prueba.java
+
+import com.soin.interfaces.interfazToSoinJava;
+import java.io.PrintStream;
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.util.Date;
+
+public class prueba
+{
+
+    public prueba()
+    {
+    }
+
+    public static void main(String args[])
+        throws Exception
+    {
+        interfazToSoinJava interfaztosoinjava = new interfazToSoinJava();
+        String s = "0011-03-02,0,2005-01-01,V";
+        String s1 = interfaztosoinjava.sendToSoinXML("http://localhost:8300/cfmx/interfacesSoin/webService/interfaz-serviceXML.cfm", "soin", "2", "marcel", "sup3rman", "17", s, "", "");
+        System.out.println("MSG=" + interfaztosoinjava.getMSG());
+        System.out.println("ID=" + interfaztosoinjava.getID());
+        System.out.println("XML_OE=" + interfaztosoinjava.getXML_OE());
+        System.out.println("XML_OD=" + interfaztosoinjava.getXML_OD());
+        System.out.println("XML_OS=" + interfaztosoinjava.getXML_OS());
+        Date date = new Date();
+        java.sql.Date date1 = new java.sql.Date(date.getTime());
+        Time time = new Time(date.getTime());
+        Timestamp timestamp = new Timestamp(date.getTime());
+        System.out.println(interfazToSoinJava.DATEencode(date));
+        System.out.println(interfazToSoinJava.DATEencode(date1));
+        System.out.println(interfazToSoinJava.DATEencode(time));
+        System.out.println(interfazToSoinJava.DATEencode(timestamp));
+        String s2 = "2005-10-06 16:16:35";
+        System.out.println(interfazToSoinJava.DATEdecode(s2));
+        s2 = "Est\u2122o \301vr\355a sido \24250 colones";
+        System.out.println(s2);
+        s2 = interfazToSoinJava.STRencode(s2);
+        System.out.println(s2);
+        System.out.println(interfazToSoinJava.STRdecode(s2));
+    }
+}

@@ -1,0 +1,229 @@
+/**
+ * Portlets
+ * se contemplan cinco tipos de portlet:
+ *  - portlet_*
+ *  - portlet_bold_*
+ *  - portlet_light_*
+ *  - portlet_mini_*
+ *  - portlet_box_*
+ */
+
+/* normal */
+/*td.portlet_thleft img {
+	visibility:hidden;
+}*/
+.portlet_thleft {
+	background-image: url(/cfmx/plantillas/sapiens/css/sapiens/portlet/blue_t.gif);
+	background-repeat:repeat-x;
+	background-position:left top;
+}
+.portlet_thcenter {
+	background-image: url(/cfmx/plantillas/sapiens/css/sapiens/portlet/blue_t.gif);
+	background-repeat:repeat-x;
+	background-position:top;
+}
+.portlet_thright{
+	background-image: url(/cfmx/plantillas/sapiens/css/sapiens/portlet/blue_tr.gif);
+	background-repeat:no-repeat;
+	background-position:right top;
+}
+.portlet_thleft, .portlet_thright, .portlet_thcenter {
+	background-image: url(/cfmx/plantillas/sapiens/css/sapiens/portlet/blue_t.gif);
+	background-repeat:repeat-x;
+	background-position:top;
+	
+	/*background-color:#31eb12;*/
+	padding-top: 2px;
+	padding-bottom: 1px;
+	color: #6d6f71;
+	font-weight:bold;
+	text-decoration:none;	
+}
+/*raya final de los portlets*/
+.portlet_tfleft, .portlet_tfright, .portlet_tfcenter {
+	background-color:#131c58;
+	height:2px;
+}
+.portlet_tdcontenido {
+	padding: 2px;
+	border-top-width: 1px;
+	border-right-width: 2px;
+	border-bottom-width: 2px;
+	border-left-width: 1px;
+	border-top-style: solid;
+	border-right-style: solid;
+	border-bottom-style: solid;
+	border-left-style: solid;
+	/*cuatro lados del cuadro del portled*/
+	border-top-color: #131c58;
+	border-right-color: #131c58;
+	border-bottom-color: #131c58;
+	border-left-color: #131c58;
+}
+
+
+/* bold */
+/*td.portlet_bold_thleft img {
+	visibility:hidden;
+	
+}*/
+.portlet_bold_thleft {
+	background-image: url(/cfmx/plantillas/sapiens/css/sapiens/portlet/boldblue_t.gif);
+	background-repeat:repeat-x;
+	background-position:left top;
+}
+.portlet_bold_thcenter {
+	background-image: url(/cfmx/plantillas/sapiens/css/sapiens/portlet/boldblue_t.gif);
+	background-repeat:repeat-x;
+	background-position:top;
+}
+.portlet_bold_thright {
+	background-image: url(/cfmx/plantillas/sapiens/css/sapiens/portlet/boldblue_tr.gif);
+	background-repeat:no-repeat;
+	background-position:right top;
+}
+.portlet_bold_thleft, .portlet_bold_thcenter, .portlet_bold_thright {
+	background-color:#31eb12;
+	padding-top: 2px;
+	padding-bottom: 1px;
+	color: #6d6f71; 
+	font-weight:bold;
+	text-decoration:none;
+}
+.portlet_bold_tfleft, .portlet_bold_tfright, .portlet_bold_tfcenter {
+	background-color:#172465;
+	height:1px;
+}
+.portlet_bold_tdcontenido {
+	padding: 2px;
+	border-top-width: 1px;
+	border-right-width: 2px;
+	border-bottom-width: 2px;
+	border-left-width: 1px;
+	border-top-style: solid;
+	border-right-style: solid;
+	border-bottom-style: solid;
+	border-left-style: solid;
+	border-top-color: #172465;
+	border-right-color: #172465;
+	border-bottom-color: #172465;
+	border-left-color: #172465;
+}
+
+
+/* light */
+/*td.portlet_light_thleft img {
+	visibility:hidden;
+}*/
+.portlet_light_thleft {
+	background-image: url(/cfmx/plantillas/sapiens/css/sapiens/portlet/lightblue_t.gif);
+	background-repeat:repeat-x;
+	background-position:left top;
+}
+.portlet_light_thcenter {
+	background-image: url(/cfmx/plantillas/sapiens/css/sapiens/portlet/lightblue_t.gif);
+	background-repeat:repeat-x;
+	background-position:top;
+}
+.portlet_light_thright {
+	background-image: url(/cfmx/plantillas/sapiens/css/sapiens/portlet/lightblue_tr.gif);
+	background-repeat:no-repeat;
+	background-position:right top;
+}
+.portlet_light_thleft, .portlet_light_thcenter, .portlet_light_thright {
+	background-color:#172465;
+	padding-top: 2px;
+	padding-bottom: 1px;
+	color: #6d6f71; 
+	font-weight:bold;
+	text-decoration:none;	
+}
+.portlet_light_tfleft, .portlet_light_tfright, .portlet_light_tfcenter {
+	background-color:#172465;
+	height:1px;
+}
+.portlet_light_tdcontenido {
+	padding: 2px;
+	border-top-width: 1px;
+	border-right-width: 2px;
+	border-bottom-width: 2px;
+	border-left-width: 1px;
+	border-top-style: solid;
+	border-right-style: solid;
+	border-bottom-style: solid;
+	border-left-style: solid;
+	border-top-color: #172465;
+	border-right-color: #172465;
+	border-bottom-color: #172465;
+	border-left-color: #172465;
+}
+
+
+/* mini */
+td.portlet_mini_thleft img {
+	visibility:hidden;
+}
+.portlet_mini_thleft {
+	background-image: url(/cfmx/plantillas/sapiens/css/sapiens/portlet/miniblue_t.gif);
+	background-repeat:repeat-x;
+	background-position:left top;
+}
+.portlet_mini_thcenter {
+	background-image: url(/cfmx/plantillas/sapiens/css/sapiens/portlet/miniblue_t.gif);
+	background-repeat:repeat-x;
+	background-position:top;
+}
+.portlet_mini_thright {
+	background-image: url(/cfmx/plantillas/sapiens/css/sapiens/portlet/miniblue_tr.gif);
+	background-repeat:no-repeat;
+	background-position:right top;
+}
+.portlet_mini_thleft, .portlet_mini_thcenter, .portlet_mini_thright {
+	background-color:#172465;
+	padding-top: 0px;
+	padding-bottom: 0px;
+	color: #6d6f71; 
+	font-weight:bold;
+	font-size:10px;
+	text-decoration:none;
+}
+.portlet_mini_tfleft, .portlet_mini_tfright, .portlet_mini_tfcenter {
+	background-color:#172465;
+	height:0px;
+}
+.portlet_mini_tdcontenido {
+	padding: 2px;
+	border-top-width: 1px;
+	border-right-width: 2px;
+	border-bottom-width: 2px;
+	border-left-width: 1px;
+	border-top-style: solid;
+	border-right-style: solid;
+	border-bottom-style: solid;
+	border-left-style: solid;
+	border-top-color: #172465;
+	border-right-color: #172465;
+	border-bottom-color: #172465;
+	border-left-color: #172465;
+}
+
+
+/* box */
+.portlet_box_thleft, .portlet_box_thright, .portlet_box_thcenter {
+	display:none;
+}
+.portlet_box_tdcontenido {
+	padding: 2px;
+	border-top-width: 1px;
+	border-right-width: 2px;
+	border-bottom-width: 2px;
+	border-left-width: 1px;
+	border-top-style: solid;
+	border-right-style: solid;
+	border-bottom-style: solid;
+	border-left-style: solid;
+	border-top-color: #172465;
+	border-right-color: #172465;
+	border-bottom-color: #172465;
+	border-left-color: #172465;
+}

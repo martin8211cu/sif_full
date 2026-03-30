@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_NumComision>Commission Number</LB_NumComision>
+		<LB_FechaSolicitud>Request Date</LB_FechaSolicitud>
+		<LB_Descripcion>Description</LB_Descripcion>
+		<LB_CentroFuncional>Functional Center</LB_CentroFuncional>
+		<LB_Desde>From</LB_Desde>
+		<LB_Hasta>To</LB_Hasta>
+		<LB_Empleado>Employee</LB_Empleado>
+		<LB_Tipo>Type</LB_Tipo>
+		<LB_Exterior>International</LB_Exterior>
+		<LB_Nacional>National</LB_Nacional>
+		<LB_Incluye>Includes</LB_Incluye>
+		<LB_Automovil>Car</LB_Automovil>
+		<LB_Hotel>Hotel</LB_Hotel>
+		<LB_Avion>Airplane</LB_Avion>
+		<LB_AnticiposAprobar>Advances to approve (each Advance have to be approved independently)</LB_AnticiposAprobar>
+		<LB_Anticipo>Advance</LB_Anticipo>
+		<LB_Moneda>Currency</LB_Moneda>
+		<LB_Total>Total</LB_Total>
+		<MSG_NoSePuedeIncluirUnaComisionManualmente>Can not include a commission manually</MSG_NoSePuedeIncluirUnaComisionManualmente>
+	</Idioma>
+</Etiquetas>

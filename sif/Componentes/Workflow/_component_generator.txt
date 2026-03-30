@@ -1,0 +1,18 @@
+select '<cfproperty name="' + convert (char(22), c.name +'"')+ ' type="'
++ 
+convert (char(10),
+case
+when t.name = 'bit' then 'boolean' 
+when t.name in('numeric', 'decimal', 'int', 'money', 'tinyint', 'smallint') then 'numeric' 
+when t.name in ('text' , 'char', 'varchar' ) then 'string' 
+when t.name in ('time' , 'date','datetime' ) then 'date' 
+
+else '?'+t.name end + '"') +
+
+' displayname="' + convert (char(22), c.name +'"')+ ' hint="">'
+from syscolumns c left outer join systypes t
+on c.usertype = t.usertype
+where id = object_id ('WfPackage')
+order by colid
+
+

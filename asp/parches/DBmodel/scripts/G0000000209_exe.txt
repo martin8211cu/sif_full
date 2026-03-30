@@ -1,0 +1,103 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 1 - Version 100: Actualizar hasta 27/01/2011
+
+	         PARCHE:  BASE CERO: SIF Sistemas
+
+GENERADO EN:
+	SERVER:  http://mxvqapp34:8300
+	DSN:     minisifext
+	FECHA:   08/02/2012 16:03:07
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* CHG_TABLE CFinanciera: Cuentas Financieras o de Ultim */
+/* ======================================================================================== */
+/* DEL_CHECK OP = (OBSOLETO): chk=(Ccuenta IS NOT NULL AND CFmovimiento='S' OR CFmovimiento<>'S') */
+ALTER TABLE CFinanciera DROP CONSTRAINT CFinanciera_CK
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_CHECK: chk=(Ccuenta is not null and CFmovimiento = 'S' or CFmovimiento <> 'S') */
+ALTER TABLE CFinanciera ADD CONSTRAINT CFinanciera_CK CHECK (Ccuenta is not null and CFmovimiento = 'S' or CFmovimiento <> 'S')
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ======================================================================================== */
+/* CHG_TABLE CPresupuestoComprometidasNAPs: Bitacora de NAPs de Compromiso */
+/* ======================================================================================== */
+/* DEL_KEY OP = (OBSOLETO): TIP="P", COLS="CPPid,Ecodigo,CPNAPnum" */
+ALTER TABLE CPresupuestoComprometidasNAPs DROP CONSTRAINT CPresupuestoComprometid01_PK /* PRIMARY KEY (CPPid,Ecodigo,CPNAPnum) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (NUEVO): TIP="P", SEC="0", COLS="CPPid,Ecodigo,CPNAPnum" */
+ALTER TABLE CPresupuestoComprometidasNAPs ADD CONSTRAINT CPresupuestoComprometid01_PK PRIMARY KEY CLUSTERED (CPPid,Ecodigo,CPNAPnum)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE CPtipoMov: Movimientos de Presupuesto */
+/* ======================================================================================== */
+/* DEL_KEY OP = (OBSOLETO): TIP="P", COLS="CPTMtipoMov" */
+ALTER TABLE CPtipoMov DROP CONSTRAINT CPtipoMov_PK /* PRIMARY KEY (CPTMtipoMov) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (NUEVO): TIP="P", SEC="0", COLS="CPTMtipoMov" */
+ALTER TABLE CPtipoMov ADD CONSTRAINT CPtipoMov_PK PRIMARY KEY NONCLUSTERED (CPTMtipoMov)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE PCDCatalogo: Detalle de Valores por Catálog */
+/* ======================================================================================== */
+/* ADD_KEY OP = (NUEVO): TIP="U", SEC="1", COLS="PCEcatid,PCDvalor,Ecodigo" */
+CREATE UNIQUE NONCLUSTERED INDEX PCDCatalogo_UI01 ON PCDCatalogo (PCEcatid,PCDvalor,Ecodigo)
+go
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]The CREATE UNIQUE INDEX statement terminated because a duplicate key was found for the object name 'dbo.PCDCatalogo' and the index name 'PCDCatalogo_UI01'. The duplicate key value is (53, 001, <NULL>).
+
+
+/* ======================================================================================== */
+/* CHG_TABLE WfActivity: Actividad */
+/* ======================================================================================== */
+/* DEL_CHECK OP = (OBSOLETO): chk=(IsStart=(0) OR IsFinish=(0)) */
+ALTER TABLE WfActivity DROP CONSTRAINT WfActivity_CK
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_CHECK: chk=(IsStart = 0 or IsFinish = 0) */
+ALTER TABLE WfActivity ADD CONSTRAINT WfActivity_CK CHECK (IsStart = 0 or IsFinish = 0)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ================================================================= */
+/*            CREA FKs NUEVOS O CON CAMPOS MODIFICADOS               */
+/* ================================================================= */
+/* CHG_TABLE CContables */
+/* ADD_FK OP = (NUEVO): TIP="F", SEC="1", COLS="Cpadre", REF="CContables" */
+ALTER TABLE CContables ADD CONSTRAINT CContables_FK01 FOREIGN KEY (Cpadre) REFERENCES CContables (Ccuenta)
+go
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]The ALTER TABLE statement conflicted with the FOREIGN KEY SAME TABLE constraint "CContables_FK01". The conflict occurred in database "sifextsyb2", table "dbo.CContables", column 'Ccuenta'.
+
+
+/* CHG_TABLE CFinanciera */
+/* ADD_FK OP = (NUEVO): TIP="F", SEC="3", COLS="CFpadre", REF="CFinanciera" */
+ALTER TABLE CFinanciera ADD CONSTRAINT CFinanciera_FK03 FOREIGN KEY (CFpadre) REFERENCES CFinanciera (CFcuenta)
+go
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]The ALTER TABLE statement conflicted with the FOREIGN KEY SAME TABLE constraint "CFinanciera_FK03". The conflict occurred in database "sifextsyb2", table "dbo.CFinanciera", column 'CFcuenta'.
+
+
+/* END_SCRIPT */

@@ -1,0 +1,60 @@
+select a.CPCmes,
+		   a.CPCpresupuestado,
+		   a.CPCmodificado,
+		   a.CPCmodificacion_Excesos, 
+		   a.CPCvariacion, 
+		   a.CPCtrasladado, 
+		   a.CPCtrasladadoE, 
+		   a.CPCreservado_Anterior, 
+		   a.CPCcomprometido_Anterior, 
+		   a.CPCreservado_Presupuesto, 
+		   a.CPCreservado, 
+		   a.CPCcomprometido, 
+
+		   a.CPCejecutado, a.CPCejecutadoNC,
+		   (a.CPCejecutado + a.CPCejecutadoNC) - case when a.CPCejercido <> 0 then a.CPCejercido else a.CPCpagado end as CPCdevengado,
+		   case when a.CPCejercido <> 0 then a.CPCejercido-a.CPCpagado else 0 end as CPCejercido,
+		   a.CPCpagado as CPCpagado,
+
+		   a.CPCnrpsPendientes,
+
+		   a.CPCpresupuestado			+
+		   a.CPCmodificado				+ 
+		   a.CPCmodificacion_Excesos +
+		   a.CPCvariacion				+
+		   a.CPCtrasladado				+
+		   a.CPCtrasladadoE				as PresupuestoAutorizado, 
+		   a.CPCreservado_Anterior 		+
+		   a.CPCcomprometido_Anterior 	+
+		   a.CPCreservado_Presupuesto 	+
+		   a.CPCreservado		+ 
+		   a.CPCcomprometido	+ 
+		   a.CPCejecutado + a.CPCejecutadoNC
+		   								as PresupuestoConsumido,
+		   a.CPCpresupuestado			+
+		   a.CPCmodificado 				+
+		   a.CPCmodificacion_Excesos +
+		   a.CPCvariacion 				+
+		   a.CPCtrasladado				+
+		   a.CPCtrasladadoE				-
+		   a.CPCreservado_Anterior 		-
+		   a.CPCcomprometido_Anterior 	-
+		   a.CPCreservado_Presupuesto 	-
+		   a.CPCreservado		- 
+		   a.CPCcomprometido	- 
+		   a.CPCejecutado - a.CPCejecutadoNC
+		   								as PresupuestoDisponible,
+substring(b.CPformato,6,4) as UnidadEjecutora,
+substring(b.CPformato,11,5) as Rubro,
+substring(b.CPformato,17,3) as Subrubro
+
+	  from CPresupuestoControl a
+		inner join CPresupuesto b
+			on b.CPcuenta = a.CPcuenta
+			and b.Ecodigo = a.Ecodigo
+where  a.CPCano = <?Año?>
+	  and substring(b.CPformato,6,4) = <?UE?>
+	  and substring(b.CPformato,11,5) = <?Rubro?>
+	  and substring(b.CPformato,17,3) =<?Subrubro?>
+	  and a.Ocodigo = <?Oficina?>
+          and a.Ecodigo = <?Ecodigo?>

@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_CuentaMayor>Ledger Account</LB_CuentaMayor>
+		<LB_Titulo>Financial Accounts List</LB_Titulo>
+		<LB_Activo>Active</LB_Activo>
+		<LB_Pasivo>Passive</LB_Pasivo>
+		<LB_Capital>Capital</LB_Capital>
+		<LB_Ingresos>Income</LB_Ingresos>
+		<LB_Gasto>Expense</LB_Gasto>
+		<MSG_NoTieneVigencia>No validity</MSG_NoTieneVigencia>
+		<MSG_CuentaMayorNoExiste>Ledger account does not exist</MSG_CuentaMayorNoExiste>
+		<MSG_CuentaMayorNoEs>Ledger account is not</MSG_CuentaMayorNoEs>
+		<LB_MascaraPlan>Chart of Account</LB_MascaraPlan>
+		<LB_CuentaFinanciera>Financial Account</LB_CuentaFinanciera>
+		<BTN_VerCuentasExistentes>Existing Accounts</BTN_VerCuentasExistentes>
+		<LB_Oficina>Office</LB_Oficina>
+		<LB_TodasOficinas>All Offices</LB_TodasOficinas>
+	<BTN_OK>Ok</BTN_OK><LB_CUENTAMAYORNOEXISTE>Ledger account does not exist</LB_CUENTAMAYORNOEXISTE><LB_CentroFuncional>Functional Center</LB_CentroFuncional><LB_ListaDeCuentasFinancieras>Financial Account List</LB_ListaDeCuentasFinancieras><LB_MascaraDeLaCuenta>Account Structure</LB_MascaraDeLaCuenta><LB_MascaraDelPlan>Chart of Account</LB_MascaraDelPlan><MSG_ConLaMascaraAsignadaALaCuentaMayor>Structure assigned to general ledger</MSG_ConLaMascaraAsignadaALaCuentaMayor><MSG_ErrorEnLaDefinicionDeLosNivelesDeLaMascaraPlandeCuentas>Error in levels definition for the account structure</MSG_ErrorEnLaDefinicionDeLosNivelesDeLaMascaraPlandeCuentas><MSG_NoHaEscogidoNingunaCuenta>Select an account</MSG_NoHaEscogidoNingunaCuenta></Idioma>
+</Etiquetas>

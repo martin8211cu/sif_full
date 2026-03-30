@@ -1,0 +1,4 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<info>
+	<infoitem key="UD_TESTVALUES_MB_ConciliacionBancaria" value="name:@Ecodigo;testValue:null,name:@ECid;testValue:null,name:@Preconciliar;testValue:N,name:@usuario;testValue:null,name:@debug;testValue:N" />
+</info>

@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_NumComision>Commission Number</LB_NumComision>
+		<LB_Planeado>Planned</LB_Planeado>
+		<LB_CentroFuncional>Functional Center</LB_CentroFuncional>
+		<LB_Aprobado>Approved</LB_Aprobado>
+		<LB_Empleado>Employee</LB_Empleado>
+		<LB_Tipo>Type</LB_Tipo>
+		<LB_NumLiquidacion>Settlement Number</LB_NumLiquidacion>
+		<LB_Fecha>Date</LB_Fecha>
+		<LB_Descripcion>Description</LB_Descripcion>
+		<LB_Moneda>Currency</LB_Moneda>
+		<LB_TipoCambio>Exchange Rate</LB_TipoCambio>
+		<LB_FechasReales>Real Dates</LB_FechasReales>
+		<LB_FormaPago>Payment Method</LB_FormaPago>	
+		<LB_DiasPlaneados>Planned Days</LB_DiasPlaneados>
+		<LB_UnDiaPlaneado>One Day Planned</LB_UnDiaPlaneado>
+		<LB_Desde>From</LB_Desde>
+		<LB_Hasta>to</LB_Hasta>
+		<LB_Oficina>Office</LB_Oficina>		
+		<MSG_NoSeHanAplicadoLiquidaciones>No Applied Settlements</MSG_NoSeHanAplicadoLiquidaciones>
+		<LB_DiasTotales>Total days</LB_DiasTotales>
+		<LB_UnDiaTotal>One Day Total</LB_UnDiaTotal>
+		<LB_Nacional>National</LB_Nacional>
+		<LB_Exterior>International</LB_Exterior>
+		<LB_Automovil>Car</LB_Automovil>
+		<LB_Hotel>Hotel</LB_Hotel>
+		<LB_Avion>Airplane</LB_Avion>
+		<LB_NuevaLiquidacion>New Settlement</LB_NuevaLiquidacion>
+		<LB_PorTesoreria>By Treasury</LB_PorTesoreria>
+		<LB_ConChequeTEF>Check or EFT</LB_ConChequeTEF>
+		<LB_PorCajaChica>By Petty Cash</LB_PorCajaChica>
+		<LB_ConEfectivoPorCajaEspecial>Cash by Petty Cash</LB_ConEfectivoPorCajaEspecial>
+		<LB_Viatico>Allowance</LB_Viatico>
+		<LB_Dias>Days</LB_Dias>
+		<LB_Dia>Day</LB_Dia>
+		<LB_MotivoRechazo>Rejection Reason</LB_MotivoRechazo>
+		<MSG_PorFavorReviseLosSiguientesDatos>Please review following data</MSG_PorFavorReviseLosSiguientesDatos>
+		<MSG_DeseaRechazarLaLiquidacion>Reject selected transaction</MSG_DeseaRechazarLaLiquidacion>
+		<MSG_DebeDigitarUnaRazonDeCambio>Define the change reason</MSG_DebeDigitarUnaRazonDeCambio>
+		<TB_Anticipos>Advance</TB_Anticipos>
+		<TB_DocumentosGastos>Expenses Documents</TB_DocumentosGastos>
+		<TB_DepositosBancarios>Bank Deposits</TB_DepositosBancarios>
+		<TB_DepositosEfectivo>Cash Deposits</TB_DepositosEfectivo>
+		<TB_Devoluciones>Repayment</TB_Devoluciones>
+		
+	</Idioma>
+</Etiquetas>

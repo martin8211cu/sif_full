@@ -1,0 +1,285 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+<!-- Created with iReport - A designer for JasperReports --><jasperReport bottomMargin="20" columnCount="1" columnSpacing="0" columnWidth="535" isSummaryNewPage="false" isTitleNewPage="false" leftMargin="30" name="classic" orientation="Portrait" pageHeight="842" pageWidth="595" printOrder="Vertical" rightMargin="30" topMargin="20" whenNoDataType="NoPages">
+	<queryString><![CDATA[select
+	c.CFid, evn.RHEEid , c.RHPid, c2.RHPid RHPid2,
+	isnull (evn.RHIHid, 0) RHIHid, isnull (evn.RHICid, 0) RHICid,
+	c.CFidresp, c.CFdescripcion, eve.RHEEdescripcion, 
+	convert (numeric(8,4), avg (evn.RHNEDpromedio)) prom1, convert (numeric(8,4), 0.00) prom2
+into #t
+from LineaTiempo a, RHPlazas b, CFuncional c, CFuncional c2,  RHListaEvalDes evd,
+	RHEEvaluacionDes eve, RHNotasEvalDes evn,
+	DatosEmpleado emp
+where eve.Ecodigo = 28
+  and eve.RHEEestado = 3
+  and eve.RHEEid = 28
+  and evd.Ecodigo = 28
+  and eve.RHEEid = evd.RHEEid
+  and evd.RHEEid = eve.RHEEid
+  and evn.RHEEid = evd.RHEEid
+  and evn.DEid = evd.DEid
+  and getdate() between a.LTdesde and a.LThasta 
+  and emp.Ecodigo = eve.Ecodigo
+  and eve.Ecodigo = a.Ecodigo
+  and emp.DEid = evd.DEid
+  and a.DEid = evd.DEid
+  and a.Ecodigo = evd.Ecodigo
+  and a.DEid = emp.DEid
+  and a.RHPid = b.RHPid
+  and eve.Ecodigo = c.Ecodigo
+  and eve.RHEEid = evd.RHEEid
+  and b.CFid = c.CFid
+  and c.CFidresp *= c2.CFid
+  and evd.DEid = emp.DEid
+  and evn.DEid = evd.DEid
+  and emp.DEid = a.DEid
+  and (evn.RHNEDnotajefe is not null or evn.RHNEDnotaauto is not null or evn.RHNEDpromotros is not null)
+ and c.CFid = 1592
+group by
+	c.CFid, evn.RHEEid , c.RHPid, c2.RHPid,
+	evn.RHIHid, evn.RHICid,
+	c.CFidresp, c.CFdescripcion, eve.RHEEdescripcion
+
+update #t
+set prom2 = isnull ((select avg (RHNEDpromedio)
+	from RHNotasEvalDes n
+	where n.RHEEid = 28
+	  and (n.RHICid = #t.RHICid or #t.RHICid = 0)
+	  and (n.RHIHid = #t.RHIHid or #t.RHIHid = 0)), 0)
+
+select
+	CFid, RHEEid , RHPid, RHPid2,
+	isnull (hab.RHHid, 0) RHHid, isnull (con.RHCid, 0) RHCid,
+	CFidresp, CFdescripcion, RHEEdescripcion,
+	avg (prom1) prom1, avg (prom2) prom2
+into #t2
+from #t, RHIHabilidad hab, RHIConocimiento con
+where hab.RHIHid =* #t.RHIHid
+  and con.RHICid =* #t.RHICid
+
+group by
+	CFid, RHEEid , RHPid, RHPid2,
+	isnull (hab.RHHid, 0), isnull (con.RHCid, 0),
+	CFidresp, CFdescripcion, RHEEdescripcion
+
+
+
+select
+	cia.Edescripcion, 
+	NombreJefe = isnull((select
+		DEnombre || ' ' || DEapellido1 || ' ' || DEapellido2 from DatosEmpleado
+		where DEid = isnull (
+			(select min(l.DEid) from LineaTiempo l where l.RHPid = t.RHPid  and getdate() between l.LTdesde and l.LThasta),
+			(select min(l.DEid) from LineaTiempo l where l.RHPid = t.RHPid2 and getdate() between l.LTdesde and l.LThasta))),'No Asignado'),
+	coalesce ( habil.RHHdescripcion, conoc.RHCdescripcion) descripcion,
+	t.*
+from #t2 t,
+	RHHabilidades habil, RHConocimientos conoc, Empresas cia
+where habil.RHHid =* t.RHHid
+  and conoc.RHCid =* t.RHCid
+  and cia.Ecodigo = 28
+order by descripcion
+
+drop table #t, #t2
+]]></queryString>
+	<field class="java.lang.String" name="Edescripcion"/>
+	<field class="java.lang.String" name="NombreJefe"/>
+	<field class="java.lang.String" name="descripcion"/>
+	<field class="java.lang.Double" name="CFid"/>
+	<field class="java.lang.Double" name="RHEEid"/>
+	<field class="java.lang.Double" name="RHPid"/>
+	<field class="java.lang.Double" name="RHPid2"/>
+	<field class="java.lang.Double" name="RHHid"/>
+	<field class="java.lang.Double" name="RHCid"/>
+	<field class="java.lang.Double" name="CFidresp"/>
+	<field class="java.lang.String" name="CFdescripcion"/>
+	<field class="java.lang.String" name="RHEEdescripcion"/>
+	<field class="java.lang.Double" name="prom1"/>
+	<field class="java.lang.Double" name="prom2"/>
+	<variable calculation="Nothing" class="java.lang.String" name="test" resetType="None">
+		<variableExpression><![CDATA["test"]]></variableExpression>
+		<initialValueExpression><![CDATA["test"		]]></initialValueExpression>
+	</variable>
+		<background>
+			<band height="0" isSplitAllowed="true">
+			</band>
+		</background>
+		<title>
+			<band height="55" isSplitAllowed="true">
+				<staticText>
+					<reportElement backcolor="#FFFFFF" forecolor="#000000" height="40" isPrintInFirstWholeBand="false" isPrintRepeatedValues="true" isPrintWhenDetailOverflows="false" isRemoveLineWhenBlank="false" mode="Transparent" positionType="FixRelativeToTop" width="412" x="61" y="5"/>
+					<textElement lineSpacing="Single" textAlignment="Center" verticalAlignment="Top">
+						<font fontName="Times-Roman" isBold="true" isItalic="false" isPdfEmbedded="false" isStrikeThrough="false" isUnderline="false" pdfEncoding="CP1252" pdfFontName="Times-Roman" size="30"/>
+					</textElement>
+				<text><![CDATA[Classic Report Template]]></text>
+				</staticText>
+				<line direction="TopDown">
+					<reportElement backcolor="#FFFFFF" forecolor="#000000" height="0" isPrintInFirstWholeBand="false" isPrintRepeatedValues="true" isPrintWhenDetailOverflows="false" isRemoveLineWhenBlank="false" mode="Opaque" positionType="FixRelativeToTop" width="534" x="0" y="48"/>
+					<graphicElement fill="Solid" pen="2Point" stretchType="NoStretch"/>
+				</line>
+				<line direction="TopDown">
+					<reportElement backcolor="#FFFFFF" forecolor="#000000" height="0" isPrintInFirstWholeBand="false" isPrintRepeatedValues="true" isPrintWhenDetailOverflows="false" isRemoveLineWhenBlank="false" mode="Opaque" positionType="FixRelativeToTop" width="534" x="0" y="3"/>
+					<graphicElement fill="Solid" pen="2Point" stretchType="NoStretch"/>
+				</line>
+			</band>
+		</title>
+		<pageHeader>
+			<band height="88" isSplitAllowed="true">
+				<textField evaluationTime="Now" hyperlinkType="None" isBlankWhenNull="true" isStretchWithOverflow="true" pattern="">					<reportElement backcolor="#FFFFFF" forecolor="#000000" height="15" isPrintInFirstWholeBand="false" isPrintRepeatedValues="true" isPrintWhenDetailOverflows="false" isRemoveLineWhenBlank="false" mode="Transparent" positionType="FixRelativeToTop" width="111" x="51" y="18"/>
+					<textElement lineSpacing="Single" textAlignment="Left" verticalAlignment="Top">
+						<font fontName="Times-Roman" isBold="false" isItalic="false" isPdfEmbedded="false" isStrikeThrough="false" isUnderline="false" pdfEncoding="CP1252" pdfFontName="Times-Roman" size="12"/>
+					</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{Edescripcion}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Now" hyperlinkType="None" isBlankWhenNull="true" isStretchWithOverflow="true" pattern="">					<reportElement backcolor="#FFFFFF" forecolor="#000000" height="15" isPrintInFirstWholeBand="false" isPrintRepeatedValues="true" isPrintWhenDetailOverflows="false" isRemoveLineWhenBlank="false" mode="Transparent" positionType="FixRelativeToTop" width="221" x="37" y="50"/>
+					<textElement lineSpacing="Single" textAlignment="Left" verticalAlignment="Top">
+						<font fontName="Times-Roman" isBold="false" isItalic="false" isPdfEmbedded="false" isStrikeThrough="false" isUnderline="false" pdfEncoding="CP1252" pdfFontName="Times-Roman" size="12"/>
+					</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{NombreJefe}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement backcolor="#FFFFFF" forecolor="#000000" height="15" isPrintInFirstWholeBand="false" isPrintRepeatedValues="true" isPrintWhenDetailOverflows="false" isRemoveLineWhenBlank="false" mode="Transparent" positionType="FixRelativeToTop" width="90" x="43" y="34"/>
+					<textElement lineSpacing="Single" textAlignment="Left" verticalAlignment="Top">
+						<font fontName="" isBold="false" isItalic="false" isPdfEmbedded="false" isStrikeThrough="false" isUnderline="false" pdfEncoding="Cp1250" pdfFontName="Times-Roman" size="12"/>
+					</textElement>
+				<text><![CDATA[NombreJefe]]></text>
+				</staticText>
+				<textField evaluationTime="Now" hyperlinkType="None" isBlankWhenNull="true" isStretchWithOverflow="true" pattern="">					<reportElement backcolor="#FFFFFF" forecolor="#000000" height="15" isPrintInFirstWholeBand="false" isPrintRepeatedValues="true" isPrintWhenDetailOverflows="false" isRemoveLineWhenBlank="false" mode="Transparent" positionType="FixRelativeToTop" width="38" x="238" y="16"/>
+					<textElement lineSpacing="Single" textAlignment="Left" verticalAlignment="Top">
+						<font fontName="Times-Roman" isBold="false" isItalic="false" isPdfEmbedded="false" isStrikeThrough="false" isUnderline="false" pdfEncoding="CP1252" pdfFontName="Times-Roman" size="12"/>
+					</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{RHEEid}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement backcolor="#FFFFFF" forecolor="#000000" height="15" isPrintInFirstWholeBand="false" isPrintRepeatedValues="true" isPrintWhenDetailOverflows="false" isRemoveLineWhenBlank="false" mode="Transparent" positionType="FixRelativeToTop" width="38" x="198" y="16"/>
+					<textElement lineSpacing="Single" textAlignment="Left" verticalAlignment="Top">
+						<font fontName="" isBold="false" isItalic="false" isPdfEmbedded="false" isStrikeThrough="false" isUnderline="false" pdfEncoding="Cp1250" pdfFontName="Times-Roman" size="12"/>
+					</textElement>
+				<text><![CDATA[RHEEid]]></text>
+				</staticText>
+				<textField evaluationTime="Now" hyperlinkType="None" isBlankWhenNull="true" isStretchWithOverflow="true" pattern="">					<reportElement backcolor="#FFFFFF" forecolor="#000000" height="15" isPrintInFirstWholeBand="false" isPrintRepeatedValues="true" isPrintWhenDetailOverflows="false" isRemoveLineWhenBlank="false" mode="Transparent" positionType="FixRelativeToTop" width="109" x="245" y="33"/>
+					<textElement lineSpacing="Single" textAlignment="Left" verticalAlignment="Top">
+						<font fontName="Times-Roman" isBold="false" isItalic="false" isPdfEmbedded="false" isStrikeThrough="false" isUnderline="false" pdfEncoding="CP1252" pdfFontName="Times-Roman" size="12"/>
+					</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{CFdescripcion}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement backcolor="#FFFFFF" forecolor="#000000" height="15" isPrintInFirstWholeBand="false" isPrintRepeatedValues="true" isPrintWhenDetailOverflows="false" isRemoveLineWhenBlank="false" mode="Transparent" positionType="FixRelativeToTop" width="38" x="202" y="33"/>
+					<textElement lineSpacing="Single" textAlignment="Left" verticalAlignment="Top">
+						<font fontName="" isBold="false" isItalic="false" isPdfEmbedded="false" isStrikeThrough="false" isUnderline="false" pdfEncoding="Cp1250" pdfFontName="Times-Roman" size="12"/>
+					</textElement>
+				<text><![CDATA[CFdescripcion]]></text>
+				</staticText>
+				<textField evaluationTime="Now" hyperlinkType="None" isBlankWhenNull="true" isStretchWithOverflow="true" pattern="">					<reportElement backcolor="#FFFFFF" forecolor="#000000" height="15" isPrintInFirstWholeBand="false" isPrintRepeatedValues="true" isPrintWhenDetailOverflows="false" isRemoveLineWhenBlank="false" mode="Transparent" positionType="FixRelativeToTop" width="122" x="381" y="33"/>
+					<textElement lineSpacing="Single" textAlignment="Left" verticalAlignment="Top">
+						<font fontName="Times-Roman" isBold="false" isItalic="false" isPdfEmbedded="false" isStrikeThrough="false" isUnderline="false" pdfEncoding="CP1252" pdfFontName="Times-Roman" size="12"/>
+					</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{RHEEdescripcion}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement backcolor="#FFFFFF" forecolor="#000000" height="15" isPrintInFirstWholeBand="false" isPrintRepeatedValues="true" isPrintWhenDetailOverflows="false" isRemoveLineWhenBlank="false" mode="Transparent" positionType="FixRelativeToTop" width="38" x="382" y="13"/>
+					<textElement lineSpacing="Single" textAlignment="Left" verticalAlignment="Top">
+						<font fontName="" isBold="false" isItalic="false" isPdfEmbedded="false" isStrikeThrough="false" isUnderline="false" pdfEncoding="Cp1250" pdfFontName="Times-Roman" size="12"/>
+					</textElement>
+				<text><![CDATA[RHEEdescripcion]]></text>
+				</staticText>
+			</band>
+		</pageHeader>
+		<columnHeader>
+			<band height="15" isSplitAllowed="true">
+				<rectangle radius="0">
+					<reportElement backcolor="#808080" forecolor="#000000" height="15" isPrintInFirstWholeBand="false" isPrintRepeatedValues="true" isPrintWhenDetailOverflows="false" isRemoveLineWhenBlank="false" mode="Opaque" positionType="FixRelativeToTop" width="535" x="0" y="0"/>
+					<graphicElement fill="Solid" pen="None" stretchType="NoStretch"/>
+				</rectangle>
+				<line direction="BottomUp">
+					<reportElement backcolor="#FFFFFF" forecolor="#000000" height="0" isPrintInFirstWholeBand="false" isPrintRepeatedValues="true" isPrintWhenDetailOverflows="false" isRemoveLineWhenBlank="false" mode="Opaque" positionType="FixRelativeToTop" width="535" x="0" y="0"/>
+					<graphicElement fill="Solid" pen="Thin" stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement backcolor="#FFFFFF" forecolor="#000000" height="0" isPrintInFirstWholeBand="false" isPrintRepeatedValues="true" isPrintWhenDetailOverflows="false" isRemoveLineWhenBlank="false" mode="Opaque" positionType="FixRelativeToTop" width="535" x="0" y="15"/>
+					<graphicElement fill="Solid" pen="Thin" stretchType="NoStretch"/>
+				</line>
+				<staticText>
+					<reportElement backcolor="#FFFFFF" forecolor="#FFFFFF" height="15" isPrintInFirstWholeBand="false" isPrintRepeatedValues="true" isPrintWhenDetailOverflows="false" isRemoveLineWhenBlank="false" mode="Transparent" positionType="FixRelativeToTop" width="175" x="76" y="0"/>
+					<textElement lineSpacing="Single" textAlignment="Left" verticalAlignment="Top">
+						<font fontName="" isBold="false" isItalic="false" isPdfEmbedded="false" isStrikeThrough="false" isUnderline="false" pdfEncoding="Cp1250" pdfFontName="Times-Roman" size="12"/>
+					</textElement>
+				<text><![CDATA[descripcion]]></text>
+				</staticText>
+				<staticText>
+					<reportElement backcolor="#FFFFFF" forecolor="#FFFFFF" height="15" isPrintInFirstWholeBand="false" isPrintRepeatedValues="true" isPrintWhenDetailOverflows="false" isRemoveLineWhenBlank="false" mode="Transparent" positionType="FixRelativeToTop" width="38" x="456" y="0"/>
+					<textElement lineSpacing="Single" textAlignment="Left" verticalAlignment="Top">
+						<font fontName="" isBold="false" isItalic="false" isPdfEmbedded="false" isStrikeThrough="false" isUnderline="false" pdfEncoding="Cp1250" pdfFontName="Times-Roman" size="12"/>
+					</textElement>
+				<text><![CDATA[Promedio Centro Funcional]]></text>
+				</staticText>
+				<staticText>
+					<reportElement backcolor="#FFFFFF" forecolor="#FFFFFF" height="15" isPrintInFirstWholeBand="false" isPrintRepeatedValues="true" isPrintWhenDetailOverflows="false" isRemoveLineWhenBlank="false" mode="Transparent" positionType="FixRelativeToTop" width="38" x="494" y="0"/>
+					<textElement lineSpacing="Single" textAlignment="Left" verticalAlignment="Top">
+						<font fontName="" isBold="false" isItalic="false" isPdfEmbedded="false" isStrikeThrough="false" isUnderline="false" pdfEncoding="Cp1250" pdfFontName="Times-Roman" size="12"/>
+					</textElement>
+				<text><![CDATA[Promedio Global]]></text>
+				</staticText>
+			</band>
+		</columnHeader>
+		<detail>
+			<band height="19" isSplitAllowed="true">
+				<line direction="TopDown">
+					<reportElement backcolor="#FFFFFF" forecolor="#808080" height="0" isPrintInFirstWholeBand="false" isPrintRepeatedValues="true" isPrintWhenDetailOverflows="false" isRemoveLineWhenBlank="false" mode="Opaque" positionType="FixRelativeToTop" width="535" x="0" y="17"/>
+					<graphicElement fill="Solid" pen="Thin" stretchType="NoStretch"/>
+				</line>
+				<textField evaluationTime="Now" hyperlinkType="None" isBlankWhenNull="true" isStretchWithOverflow="true" pattern="">					<reportElement backcolor="#FFFFFF" forecolor="#000000" height="15" isPrintInFirstWholeBand="false" isPrintRepeatedValues="true" isPrintWhenDetailOverflows="false" isRemoveLineWhenBlank="false" mode="Transparent" positionType="FixRelativeToTop" width="184" x="76" y="1"/>
+					<textElement lineSpacing="Single" textAlignment="Left" verticalAlignment="Top">
+						<font fontName="Times-Roman" isBold="false" isItalic="false" isPdfEmbedded="false" isStrikeThrough="false" isUnderline="false" pdfEncoding="CP1252" pdfFontName="Times-Roman" size="12"/>
+					</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{descripcion}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Now" hyperlinkType="None" isBlankWhenNull="true" isStretchWithOverflow="true" pattern="">					<reportElement backcolor="#FFFFFF" forecolor="#000000" height="15" isPrintInFirstWholeBand="false" isPrintRepeatedValues="true" isPrintWhenDetailOverflows="false" isRemoveLineWhenBlank="false" mode="Transparent" positionType="FixRelativeToTop" width="38" x="456" y="1"/>
+					<textElement lineSpacing="Single" textAlignment="Left" verticalAlignment="Top">
+						<font fontName="Times-Roman" isBold="false" isItalic="false" isPdfEmbedded="false" isStrikeThrough="false" isUnderline="false" pdfEncoding="CP1252" pdfFontName="Times-Roman" size="12"/>
+					</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{prom1}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Now" hyperlinkType="None" isBlankWhenNull="true" isStretchWithOverflow="true" pattern="">					<reportElement backcolor="#FFFFFF" forecolor="#000000" height="15" isPrintInFirstWholeBand="false" isPrintRepeatedValues="true" isPrintWhenDetailOverflows="false" isRemoveLineWhenBlank="false" mode="Transparent" positionType="FixRelativeToTop" width="38" x="494" y="1"/>
+					<textElement lineSpacing="Single" textAlignment="Left" verticalAlignment="Top">
+						<font fontName="Times-Roman" isBold="false" isItalic="false" isPdfEmbedded="false" isStrikeThrough="false" isUnderline="false" pdfEncoding="CP1252" pdfFontName="Times-Roman" size="12"/>
+					</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{prom2}]]></textFieldExpression>
+				</textField>
+			</band>
+		</detail>
+		<columnFooter>
+			<band height="0" isSplitAllowed="true">
+			</band>
+		</columnFooter>
+		<pageFooter>
+			<band height="27" isSplitAllowed="true">
+				<textField evaluationTime="Now" hyperlinkType="None" isBlankWhenNull="false" isStretchWithOverflow="false" pattern="">					<reportElement backcolor="#FFFFFF" forecolor="#000000" height="19" isPrintInFirstWholeBand="false" isPrintRepeatedValues="true" isPrintWhenDetailOverflows="false" isRemoveLineWhenBlank="false" mode="Transparent" positionType="FixRelativeToTop" width="174" x="325" y="4"/>
+					<textElement lineSpacing="Single" textAlignment="Right" verticalAlignment="Top">
+						<font fontName="Helvetica" isBold="false" isItalic="false" isPdfEmbedded="false" isStrikeThrough="false" isUnderline="false" pdfEncoding="CP1252" pdfFontName="Helvetica" size="10"/>
+					</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["PÃ¡gina " + $V{PAGE_NUMBER} + " of "]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Report" hyperlinkType="None" isBlankWhenNull="false" isStretchWithOverflow="false" pattern="">					<reportElement backcolor="#FFFFFF" forecolor="#000000" height="19" isPrintInFirstWholeBand="false" isPrintRepeatedValues="true" isPrintWhenDetailOverflows="false" isRemoveLineWhenBlank="false" mode="Transparent" positionType="FixRelativeToTop" width="36" x="499" y="4"/>
+					<textElement lineSpacing="Single" textAlignment="Left" verticalAlignment="Top">
+						<font fontName="Helvetica" isBold="false" isItalic="false" isPdfEmbedded="false" isStrikeThrough="false" isUnderline="false" pdfEncoding="CP1252" pdfFontName="Helvetica" size="10"/>
+					</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["" + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<line direction="TopDown">
+					<reportElement backcolor="#FFFFFF" forecolor="#000000" height="0" isPrintInFirstWholeBand="false" isPrintRepeatedValues="true" isPrintWhenDetailOverflows="false" isRemoveLineWhenBlank="false" mode="Opaque" positionType="FixRelativeToTop" width="535" x="0" y="1"/>
+					<graphicElement fill="Solid" pen="2Point" stretchType="NoStretch"/>
+				</line>
+				<textField evaluationTime="Now" hyperlinkType="None" isBlankWhenNull="false" isStretchWithOverflow="false" pattern="">					<reportElement backcolor="#FFFFFF" forecolor="#000000" height="19" isPrintInFirstWholeBand="false" isPrintRepeatedValues="true" isPrintWhenDetailOverflows="false" isRemoveLineWhenBlank="false" mode="Transparent" positionType="FixRelativeToTop" width="209" x="1" y="6"/>
+					<textElement lineSpacing="Single" textAlignment="Left" verticalAlignment="Top">
+						<font fontName="Times-Roman" isBold="false" isItalic="false" isPdfEmbedded="false" isStrikeThrough="false" isUnderline="false" pdfEncoding="CP1252" pdfFontName="Times-Roman" size="10"/>
+					</textElement>
+				<textFieldExpression class="java.util.Date"><![CDATA[new Date()]]></textFieldExpression>
+				</textField>
+			</band>
+		</pageFooter>
+		<summary>
+			<band height="0" isSplitAllowed="true">
+			</band>
+		</summary>
+<Idioma id="en"><AYUDA_EstaConsultaMuestraLasCompetenciasQuePoseeUnEmpleado></AYUDA_EstaConsultaMuestraLasCompetenciasQuePoseeUnEmpleado><AYUDA_EstaConsultaMuestraUnListadoDeLasCalificacionesParaUnEmpleadoSegunLaRelacionDeEvaluacionSeleccionada></AYUDA_EstaConsultaMuestraUnListadoDeLasCalificacionesParaUnEmpleadoSegunLaRelacionDeEvaluacionSeleccionada><AYUDA_EstaConsultaMuestraUnListadoDeLasCalificacionesParaUnEmpleadoSegunLaRelacionDeEvaluacionYElRangoDeFechasSeleccionadas></AYUDA_EstaConsultaMuestraUnListadoDeLasCalificacionesParaUnEmpleadoSegunLaRelacionDeEvaluacionYElRangoDeFechasSeleccionadas><AYUDA_EstaConsultaMuestraUnListadoDeLasCalisficacionesParaUnEmpleado></AYUDA_EstaConsultaMuestraUnListadoDeLasCalisficacionesParaUnEmpleado><AYUDA_EstaConsultaMuestraUnListadoDeLosColaboradoresAsocioadosALaRelacion></AYUDA_EstaConsultaMuestraUnListadoDeLosColaboradoresAsocioadosALaRelacion><AYUDA_ReporteDeCalificacionesDeEmpleadosEnUnPeriodoDado></AYUDA_ReporteDeCalificacionesDeEmpleadosEnUnPeriodoDado><AYUDA_ReporteDeEmpleadosQueCumplanEstrictamenteUnaCantidadDeMesesDeLaborarEnUnRangoDeFechas></AYUDA_ReporteDeEmpleadosQueCumplanEstrictamenteUnaCantidadDeMesesDeLaborarEnUnRangoDeFechas><Autoevaluacion></Autoevaluacion><Ayuda_EsteReporteMuestraLasRespuestasALasPreguntasQueSeLeRealizaronEnUnaDeterminadaEvaluacion></Ayuda_EsteReporteMuestraLasRespuestasALasPreguntasQueSeLeRealizaronEnUnaDeterminadaEvaluacion><CHK_MostrarSoloConNotaInferiorA></CHK_MostrarSoloConNotaInferiorA><CMB_Ambos></CMB_Ambos><CMB_ConNota></CMB_ConNota><CMB_SinNota></CMB_SinNota><LB_CalificacionesDeEmpleados></LB_CalificacionesDeEmpleados><LB_CantidadDeMeses></LB_CantidadDeMeses><LB_CedulaDesde></LB_CedulaDesde><LB_CedulaHasta></LB_CedulaHasta><LB_Colaborador></LB_Colaborador><LB_CompetenciasPorColaborador></LB_CompetenciasPorColaborador><LB_CompetenciasRequeridasPorElPuesto></LB_CompetenciasRequeridasPorElPuesto><LB_Conocimiento></LB_Conocimiento><LB_Conocimientos></LB_Conocimientos><LB_ConsultaComparativaRelacionDeEvaluacionPuesto></LB_ConsultaComparativaRelacionDeEvaluacionPuesto><LB_ConsultaDeCompetenciasPorColaborador></LB_ConsultaDeCompetenciasPorColaborador><LB_Criterio></LB_Criterio><LB_Dominio></LB_Dominio><LB_Empleado></LB_Empleado><LB_EmpleadosASerEvaluados></LB_EmpleadosASerEvaluados><LB_Evaluacion></LB_Evaluacion><LB_EvaluacionDelDesempenoPorCentroFuncional></LB_EvaluacionDelDesempenoPorCentroFuncional><LB_EvaluacionDelDesempenoPorColaborador></LB_EvaluacionDelDesempenoPorColaborador><LB_EvaluacionDelDesempenoPorRangoDeNotas></LB_EvaluacionDelDesempenoPorRangoDeNotas><LB_EvaluacionRealizadaA></LB_EvaluacionRealizadaA><LB_EvaluacionesPorCentroFuncional></LB_EvaluacionesPorCentroFuncional><LB_EvaluacionesPorColaborador></LB_EvaluacionesPorColaborador><LB_Excel></LB_Excel><LB_FechaDeInicio></LB_FechaDeInicio><LB_FechaDeLaConsulta></LB_FechaDeLaConsulta><LB_FechaDefinalizacion></LB_FechaDefinalizacion><LB_FechaDesde></LB_FechaDesde><LB_FechaHasta></LB_FechaHasta><LB_FechaUltimaRevision></LB_FechaUltimaRevision><LB_FinDelReporte></LB_FinDelReporte><LB_Flashpaper></LB_Flashpaper><LB_Habilidad></LB_Habilidad><LB_Habilidades></LB_Habilidades><LB_Hora></LB_Hora><LB_Identificacion></LB_Identificacion><LB_Imprimir></LB_Imprimir><LB_Incluir_Dependencias></LB_Incluir_Dependencias><LB_Inferior></LB_Inferior><LB_Justificacion></LB_Justificacion><LB_ListaDeEmpleados></LB_ListaDeEmpleados><LB_Lista_de_Centros_Funcionales></LB_Lista_de_Centros_Funcionales><LB_Lista_de_puestos></LB_Lista_de_puestos><LB_NoExistenDatosParaElReporte></LB_NoExistenDatosParaElReporte><LB_NoSeEncontraronRegistros></LB_NoSeEncontraronRegistros><LB_NombreCompleto></LB_NombreCompleto><LB_Nota></LB_Nota><LB_NotaMayorA></LB_NotaMayorA><LB_NotaMenorA></LB_NotaMenorA><LB_NotaMinima></LB_NotaMinima><LB_OtrasCompetencias></LB_OtrasCompetencias><LB_PDF></LB_PDF><LB_Pagina></LB_Pagina><LB_ParaElPuesto></LB_ParaElPuesto><LB_Peso></LB_Peso><LB_PesoObtenido></LB_PesoObtenido><LB_Pregunta></LB_Pregunta><LB_RangoDeFechas></LB_RangoDeFechas><LB_RangoDeNotas></LB_RangoDeNotas><LB_RelacionDeEvaluacion></LB_RelacionDeEvaluacion><LB_ReporteDeCalificacionesDeEmpleados></LB_ReporteDeCalificacionesDeEmpleados><LB_ReporteDeEmpleadosASerEvaluados></LB_ReporteDeEmpleadosASerEvaluados><LB_Respuesta></LB_Respuesta><LB_RespuestasDeUnaEvaluacion></LB_RespuestasDeUnaEvaluacion><LB_ResultadosDeLaEvaluacion></LB_ResultadosDeLaEvaluacion><LB_Superior></LB_Superior><MSG_DebeDigitarLaNotaInferiorYSuperiorParaElCampoRangoDeNota></MSG_DebeDigitarLaNotaInferiorYSuperiorParaElCampoRangoDeNota><MSG_DebeDigitarUnaNotaParaElCampoNotasMayorA></MSG_DebeDigitarUnaNotaParaElCampoNotasMayorA><MSG_DebeDigitarUnaNotaParaElCampoNotasMenorA></MSG_DebeDigitarUnaNotaParaElCampoNotasMenorA><MSG_DebeDigitarUnaOpcionDeNota></MSG_DebeDigitarUnaOpcionDeNota><MSG_DebeSeleccionarLaEvaluacion></MSG_DebeSeleccionarLaEvaluacion><MSG_DebeSeleccionarLaFechaDesdeYLaFechaHasta></MSG_DebeSeleccionarLaFechaDesdeYLaFechaHasta><MSG_DebeSeleccionarUnaRelaciondeEvaluacion></MSG_DebeSeleccionarUnaRelaciondeEvaluacion><MSG_ElCampoCentroFuncionalEsRequerido></MSG_ElCampoCentroFuncionalEsRequerido><MSG_ElCampoEmpleadoEsRequerido></MSG_ElCampoEmpleadoEsRequerido><MSG_ElCampoEmpleadoEsRequerido.></MSG_ElCampoEmpleadoEsRequerido.><MSG_ElCampoEvaluacionEsRequerido></MSG_ElCampoEvaluacionEsRequerido><MSG_ElCampoEvaluacionEsRequerido.></MSG_ElCampoEvaluacionEsRequerido.><MSG_SePresentaronLosSiguientesErrores></MSG_SePresentaronLosSiguientesErrores><RAD_NotaMayorA></RAD_NotaMayorA><RAD_NotaMenorA></RAD_NotaMenorA><RAD_RangoDeNotas></RAD_RangoDeNotas><REP_Autoeval></REP_Autoeval><REP_CentroFuncional></REP_CentroFuncional><REP_Colaborador></REP_Colaborador><REP_Empleado></REP_Empleado><REP_EmpleadosASerEvaluados></REP_EmpleadosASerEvaluados><REP_Evaluacion></REP_Evaluacion><REP_EvaluacionDelDesempenoPorArea></REP_EvaluacionDelDesempenoPorArea><REP_EvaluacionDelDesempenoPorColaborador></REP_EvaluacionDelDesempenoPorColaborador><REP_FechaCumplimiento></REP_FechaCumplimiento><REP_FechaIngreso></REP_FechaIngreso><REP_FinDelReporte></REP_FinDelReporte><REP_Habilidad></REP_Habilidad><REP_Identificacion></REP_Identificacion><REP_JCS></REP_JCS><REP_Jefatura></REP_Jefatura><REP_Nivel></REP_Nivel><REP_Nota></REP_Nota><REP_NotaMin></REP_NotaMin><REP_Otros>Others</REP_Otros><REP_Pagina>Page</REP_Pagina><REP_Peso></REP_Peso><REP_Promedio></REP_Promedio><REP_PromedioActual></REP_PromedioActual><REP_PromedioAnterior></REP_PromedioAnterior><REP_PromedioGlobal></REP_PromedioGlobal><REP_PromedioJCS></REP_PromedioJCS><REP_Puesto>Position</REP_Puesto></Idioma></jasperReport>

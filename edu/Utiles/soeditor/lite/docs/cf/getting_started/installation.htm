@@ -1,0 +1,185 @@
+<!doctype HTML public "-//W3C//DTD HTML 4.0 Frameset//EN">
+
+<html>
+
+<!--(==============================================================)-->
+<!--(Document created with RoboEditor. )============================-->
+<!--(==============================================================)-->
+
+<head>
+
+<title>Installation</title>
+
+<!--(Meta)==========================================================-->
+
+<meta http-equiv=content-type content="text/html; charset=windows-1252">
+<meta name="template" content="Main.htt">
+<meta name=generator content="RoboHELP by eHelp Corporation - www.ehelp.com">
+<meta name=generator-major-version content=0.1>
+<meta name=generator-minor-version content=1>
+<meta name=filetype content=kadov>
+<meta name=filetype-version content=1>
+<meta name=page-count content=1>
+<meta name=layout-height content=1385>
+<meta name=layout-width content=751>
+<meta name=x-ignored-words content=soeditor_litepro.cfm>
+
+
+<!--(Links)=========================================================-->
+
+ <link rel='stylesheet' href='../default_ns.css'>
+<script type="text/javascript" language="JavaScript" title="WebHelpSplitCss">
+<!--
+if (navigator.appName !="Netscape")
+{   document.write("<link rel='stylesheet' href='../default.css'>");}
+//-->
+</script>
+<style type="text/css">
+<!--
+div.whs1 {width: 100%; }
+ol.whs2 {list-style: decimal;}
+p.whs3 {text-align: center; font-size: 10pt;}
+-->
+</style>
+<script type="text/javascript" language="JavaScript" title="WebHelpInlineScript">
+<!--
+function reDo() {
+  if (innerWidth != origWidth || innerHeight != origHeight)
+     location.reload();
+}
+if ((parseInt(navigator.appVersion) == 4) && (navigator.appName == "Netscape")) {
+	origWidth = innerWidth;
+	origHeight = innerHeight;
+	onresize = reDo;
+}
+onerror = null; 
+//-->
+</script>
+<style type="text/css">
+<!--
+  div.WebHelpPopupMenu {position:absolute; left:0px; top:0px; z-index:4; visibility:hidden;}
+-->
+</style>
+<script type="text/javascript" language="javascript1.2" src="../whmsg.js"></script>
+<script type="text/javascript" language="javascript" src="../whver.js"></script>
+<script type="text/javascript" language="javascript1.2" src="../whproxy.js"></script>
+<script type="text/javascript" language="javascript1.2" src="../whutils.js"></script>
+<script type="text/javascript" language="javascript1.2" src="../whtopic.js"></script>
+</head>
+
+<!--(Body)==========================================================-->
+
+
+<body>
+
+<script type="text/javascript" language="javascript1.2">
+<!--
+if (window.gbWhTopic)
+{
+	if (window.addTocInfo)
+	{
+	addTocInfo("Getting Started\nInstallation");
+addButton("show",BTN_TEXT,"Show","","","","",0,0,"","","");
+
+	}
+	if (window.writeBtnStyle)
+		writeBtnStyle();
+
+	if (window.writeIntopicBar)
+		writeIntopicBar(1);
+
+	if (window.setRelStartPage)
+	{
+	setRelStartPage("../index.html");
+
+		autoSync(1);
+		sendSyncInfo();
+		sendAveInfoOut();
+	}
+}
+else
+	if (window.gbIE4)
+		document.location.reload();
+//-->
+</script>
+<div placeholder id="header" class="whs1">
+ <h3>Installation</h3>
+</div>
+<p>Follow these simple instructions to get soEditor up and running on your 
+ web server:</p>
+
+<p>&nbsp;</p>
+
+<ol type="1" class="whs2">
+	
+	<li style="x-condition: CF;"
+		class=kadov-p><p>Extract the entire zip into the root of your web 
+ server or into the root of the web site that you wish to install soEditor 
+ in.<br>&nbsp;</p></li>
+	
+	<li style="x-condition: CF;"
+		class=kadov-p><p>If you plan to call soEditor as a custom tag then 
+ you must copy soeditor_<span style="x-condition: LITE, CF;">lite</span>.cfm into a custom tag directory. 
+ <br>
+	(e.g. <span style="font-family: 'Courier New', monospace;">&lt;cf_soeditor_</span><span 
+ style="font-family: 'Courier New', monospace; x-condition: LITE, CF;">lite</span><span 
+ style="font-family: 'Courier New', monospace;"> </span><span style="font-family: 'Courier New', monospace;"><br>
+	field=&quot;fieldName&quot;<br>
+	form=&quot;formName&quot;<br>
+	scriptpath=&quot;/siteobjects/soeditor/</span><span style="font-family: 'Courier New', monospace; x-condition: LITE, CF;">lite</span><span 
+ style="font-family: 'Courier New', monospace;">/&quot;&gt;</span>)<br>&nbsp;</p></li>
+	
+	<li style="x-condition: CF;"
+		class=kadov-p><p>Alternatively you can call soeditor_<span style="x-condition: LITE, CF;">lite</span>.cfm via cfmodule<br>
+	(e.g. <span style="font-family: 'Courier New', monospace;">&lt;cfmodule 
+ <br>
+	template=&quot;/siteobjects/soeditor/</span><span style="font-family: 'Courier New', monospace; x-condition: LITE, CF;">lite</span><span 
+ style="font-family: 'Courier New', monospace;">/soeditor_</span><span 
+ style="x-condition: LITE, CF; font-family: 'Courier New', monospace;">lite</span><span 
+ style="font-family: 'Courier New', monospace;">.cfm&quot;<br>
+	field=&quot;fieldName&quot;<br>
+	form=&quot;formName&quot;<br>
+	scriptpath=&quot;/siteobjects/soeditor/</span><span style="font-family: 'Courier New', monospace; x-condition: LITE, CF;">lite</span><span 
+ style="font-family: 'Courier New', monospace;">/&quot;&gt;</span>)<br>&nbsp;</p></li>
+	
+	<li style="x-condition: CF;"
+		class=kadov-p><p>To test your installation, open Internet Explorer 
+ and access the example applications at:<br>
+	http://{www.yoursite.com}/siteobjects/soeditor/<span style="x-condition: LITE, CF;">lite</span>/examples/index.cfm<br>&nbsp;</p></li>
+	
+	<li style="x-condition: CF;"
+		class=kadov-p><p>If you extract the package into an alternative 
+ directory, you must change the templatepath and scriptpath variables in 
+ examples/Application.cfm to point to the new location in order for the 
+ examples to work correctly.<br>&nbsp;</p></li>
+	
+	<li style="x-condition: CF;"
+		class=kadov-p><p>Apache Users You will need to add the following 
+ line to your httpd.conf file &quot;AddType text/x-component .htc&quot; 
+ without quotes, make sure to restart the Apache daemon. <br>&nbsp;</p></li>
+	
+	<li style="x-condition: CF;"
+		class=kadov-p><p>Online help documentation is also available at:<br>
+	http://{www.yoursite.com}/siteobjects/soeditor/<span style="x-condition: CF, LITE;">lite</span>/docs/cf/index.html</p></li>
+</ol>
+
+<ol type="1" class="whs2">
+	
+	</ol>
+
+<ol type="1" class="whs2">
+	
+	</ol>
+
+<div placeholder id="footer" class="whs1">
+ <p align="center" class="whs3">&nbsp;</p>
+</div>
+<script type="text/javascript" language="javascript1.2">
+<!--
+if (window.writeIntopicBar)
+	writeIntopicBar(0);
+//-->
+</script>
+</body>
+
+</html>

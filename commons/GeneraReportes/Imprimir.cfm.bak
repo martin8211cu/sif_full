@@ -1,0 +1,627 @@
+
+<cfif isdefined("url.idver")>
+	<cfset Session.idver = "#url.idver#">
+<cfelseif isdefined("Session.idver")>
+	<cfset url.idver = "#Session.idver#">
+</cfif>
+<!--- Variable para almacenar el total general de los niveles agrupados --->
+<cfset totGenAgrupados = 0>
+<cfif isdefined("url.idver")>
+	<cfquery name="rsReporte" datasource="#Session.DSN#">
+		SELECT  rtr.RPCodigo, rtr.RPDescripcion,
+				rtrv.RPTVTipoGrafica, rtrv.RPTVActivo, rtrv.RPTVCodigo, rtrv.RPTVDescripcion,
+				rtrv.RVAAgrupacionTotal as MostrarTotal,
+				rtrv.RVAAgrupacionSubTotal as MostrarSubT
+		FROM RT_ReporteVersion rtrv
+		inner join RT_Reporte rtr
+			on rtr.RPTId = rtrv.RPTId
+			and rtrv.RPTVId = #url.idver#
+	</cfquery>
+	<cfquery name="rsVD" datasource="#Session.dsn#">
+		SELECT  RPTVDId,RPTVId,RPVDCampo,RPTVTipo
+		FROM RT_ReporteVersionDetalle
+		where  RPTVId = #url.idver#
+	</cfquery>
+	<cfquery dbtype="query" name="rsVDX">
+		select *
+		from rsVD
+		where RPTVTipo = 'X'
+	</cfquery>
+
+	<cfquery dbtype="query" name="rsVDV">
+		select *
+		from rsVD
+		where RPTVTipo = 'V'
+	</cfquery>
+	<cfif rsReporte.recordCount GT 0 >
+		<cfset LvarFile = '#rsReporte.RPCodigo#_#DateFormat(now(),'yyyy-mm-dd-')##TimeFormat(now(),'HH-mm-ss-lll')#'>
+
+		<cfinvoke component="commons.GeneraReportes.Componentes.GeneraReporte"
+			method="getSQL"
+			varRPCodigo="#rsReporte.RPCodigo#"
+			varIdver="#url.idver#"
+			returnvariable="strSQL"
+		/> <!--- Pasar el id del reporte url.--->
+		<cfset arrLista = arraynew(1)>
+
+		<cfquery name="rsDatos" datasource="#Session.DSN#">
+			#PreserveSingleQuotes(strSQL)#
+		</cfquery>
+		<cfset arrCol = Getmetadata(rsDatos)>
+
+		<!--- OPARRALES --->
+		<cfquery name="columnasGroup" datasource="#Session.Dsn#">
+			select ra.RVAColAgrupacion from RT_ReporteVersionAgrupacion ra
+			 where ra.RPTVId = #url.idver# order by ra.RVAId ASC
+		</cfquery>
+		<cfset count = 1>
+		<cfif columnasGroup.RecordCount gte 1>
+			<cfloop query="#columnasGroup#">
+				<cfset arrLista[count] = #columnasGroup['RVAColAgrupacion'][currentRow]#>
+				<cfset count+=1>
+			</cfloop>
+		</cfif>
+		<!--- OPARRALES --->
+	<cfif not isdefined("form.btnDownload") and not isdefined("url.btnDownload")>
+		<!DOCTYPE html>
+		<html>
+		<head>
+			<cfoutput>
+				<title>Reporte - #rsReporte.RPDescripcion#</title>
+			</cfoutput>
+			<cf_importLibs>
+			<cfif ((rsReporte.RPTVTipoGrafica NEQ "ND" and rsReporte.RPTVTipoGrafica NEQ "") and rsVDX.recordCount GT 0 and rsVDV.recordCount GT 0)>
+				<cfset varTipoGrafica = "column">
+				<cfif rsReporte.RPTVTipoGrafica EQ "P">
+					<cfset varTipoGrafica = "pie">
+				<cfelseif rsReporte.RPTVTipoGrafica EQ "L">
+					<cfset varTipoGrafica = "line">
+				</cfif>
+				<script type="text/javascript" src="../../../cfmx/jquery/librerias/jquery-1.8.2.min.js"></script>
+				<script type="text/javascript">
+					$(function () {
+					    $('#container').highcharts({
+					        data: {
+					            table: 'datatable'
+					        },
+					        chart: {
+					            type: '<cfoutput>#varTipoGrafica#</cfoutput>'
+					        },
+					        title: {
+					            text: 'Datos Tabla Dinamica'
+					        },
+					        yAxis: {
+					            allowDecimals: true,
+					            title: {
+					                text: 'Valor'
+					            }
+					        },
+					        tooltip: {
+					            formatter: function () {
+					                return '<b>' + this.series.name + '</b><br/>' +
+					                    this.point.y + ' ' + this.point.name.toLowerCase();
+					            }
+					        }
+					    });
+					});
+				</script>
+			</cfif>
+			<link rel="stylesheet" type="text/css" href="../../../cfmx/home/css/agrupados.css">
+		</head>
+		<body>
+
+			<cfif ((rsReporte.RPTVTipoGrafica NEQ "ND" and rsReporte.RPTVTipoGrafica NEQ "") and rsVDX.recordCount GT 0 and rsVDV.recordCount GT 0)>
+				<script src="../../../cfmx/jquery/librerias/Highcharts/js/highcharts.js"></script>
+				<script src="../../../cfmx/jquery/librerias/Highcharts/js/modules/data.js"></script>
+				<script src="../../../cfmx/jquery/librerias/Highcharts/js/modules/exporting.js"></script>
+			</cfif>
+	</cfif>
+			<div class="container">
+				<div class="row">
+					<div class="col col-md-12">
+						<cf_htmlreportsheaders
+				            title="#rsReporte.RPDescripcion#"
+				            filename="#LvarFile#-#Session.Usucodigo#.xls"
+				            back="false"
+				            close="true"
+				            ira="Imprimir.cfm?idver=#url.idver#"
+				        >
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col col-md-12">
+						<table  width="100%" align="center" cellpadding="0" cellspacing="0" border="0">
+				            <tr>
+				                <td colspan="<cfoutput>#arraylen(arrCol)#</cfoutput>" align="center">
+				                <h4><cfoutput>#Session.enombre#</cfoutput></h4>
+				                </td>
+				            </tr>
+				            <tr >
+				                <td colspan="<cfoutput>#arraylen(arrCol)#</cfoutput>" align="center" >
+				                    <h5><cfoutput>#rsReporte.RPDescripcion#</cfoutput></h5>
+				                </td>
+				            </tr>
+				        </table>
+						<cfif not isdefined("form.btnDownload") and not isdefined("url.btnDownload")>
+							<cfif ((rsReporte.RPTVTipoGrafica NEQ "ND" and rsReporte.RPTVTipoGrafica NEQ "") and rsVDX.recordCount GT 0 and rsVDV.recordCount GT 0 )>
+					        <hr>
+								<table  width="100%">
+									<tr>
+										<td>
+											<div class="cont">
+												<div class="row">
+													<cftry>
+														<div class="col col-md-6">
+															<div id="container" style="min-width: 300px; height: 300px; margin: 0 auto"></div>
+														</div>
+														<div class="col col-md-6" align="center">
+															<h4>Tabla Dinamica</h4>
+															<cfset a = getSQLTablaDinamica()>
+															<cfquery name="rsTD" datasource="#Session.dsn#">
+																#getSQLTablaDinamica()#
+															</cfquery>
+															<cfset arrResult = Getmetadata(rsTD)>
+															<div class="CSSTableGenerator">
+																<table id="datatable" class="principal">
+																	<thead>
+																		<tr class="niveles">
+																			<cfloop array="#arrResult#" index="colResult">
+																				<cfset vAlign = "left">
+																				<cfif ListContainsNoCase("int,money",#colResult.typename#) gt 0>
+																					<cfset vAlign = "right">
+																				<cfelseif ListContainsNoCase("date",#colResult.typename#) gt 0>
+																					<cfset vAlign = "center">
+																				</cfif>
+																					<th id="niveles" style="text-align:<cfoutput>#vAlign#</cfoutput>"><cfoutput>#colResult.Name#</cfoutput></th>
+																			</cfloop>
+																		</tr>
+																	</thead>
+																	<tbody>
+																		<cfloop query="rsTD">
+																			<tr class="niveles">
+																				<cfloop index="colResult" from = "1" to = "#arraylen(arrResult)#" >
+																					<cfset cstr = "">
+																					<cfif colResult EQ 1>
+																						<cfset cstr = "#arrResult[colResult].Name# - ">
+																					</cfif>
+																					<cfset vAlign = "left">
+																					<cfif ListContainsNoCase("int,money",#arrResult[colResult].typename#) gt 0>
+																						<cfset vAlign = "right">
+																					<cfelseif ListContainsNoCase("date",#arrResult[colResult].typename#) gt 0>
+																						<cfset vAlign = "center">
+																					</cfif>
+																					<cfset valor =  evaluate(#rsTD[arrResult[colResult].Name][currentrow]#)>
+																					<cfif alineaTexto(#arrResult[colResult].typename#) eq 'right'>
+																					<td class="nivel" style="text-align:right"><cfoutput>#numberformat(valor,"0.00")#</cfoutput></td>
+																					<cfelse>
+																					<td class="nivel" style="text-align:left"><cfoutput>#valor#</cfoutput></td>
+																					</cfif>
+																				</cfloop>
+																			</tr>
+																		</cfloop>
+																	</tbody>
+																</table>
+															</div>
+														</div>
+													<cfcatch type="any">
+														<label class="error" style="color:red" >No se puede imprimir debido a que los campos de la versi&oacute;n no esta actualizados o se encuentran repetidos.</label>
+														<label class="error" style="color:red" >Actualice la configuraci&oacute;n de la  versi&oacute;n.</label>
+														<cfquery datasource="#session.dsn#">
+															delete from RT_ReporteVersionDetalle
+															where RPTVId = #url.idver#
+														</cfquery>
+													</cfcatch>
+													</cftry>
+												</div>
+											</div>
+										</td>
+									</tr>
+								</table>
+								<hr>
+							</cfif>
+						</cfif>
+						<!---
+							OPARRALES
+							Bloque de codigo para pintar la tabla
+							con niveles de agrupacion
+						--->
+				        <cfif columnasGroup.RecordCount gte 1>
+							<cfset arrQuery = ArrayNew(1)>
+							<cfif not ArrayIsEmpty(arrLista)>
+								<cfoutput>
+									<!--- <table border="1"> --->
+									<div class="CSSTableGenerator">
+										<!--- <table class="table"> --->
+										<table class="principal">
+											<!--- Columna de encabezado para todos los niveles --->
+											<tr class="niveles">
+												<th id="niveles">&nbsp;</th>
+												<cfset levelsSize = arraylen(Getmetadata(rsDatos))>
+												<!--- Encabezados restantes despues de los niveles --->
+												<cfloop  index="i" from="1" to="#levelssize#">
+													<cfset col = #Getmetadata(rsDatos)[i].name#>
+													<cfif Arrayfind(arrLista,col)>
+														<cfcontinue>
+													</cfif>
+														<cfset alinea = alineaTexto(#Getmetadata(rsDatos)[i].typename#)>
+														<th class="sinEstilo">#col#</th>
+												</cfloop>
+
+											</tr>
+												#generaCode(1,arrLista,rsDatos,rsDatos)#
+
+												<!--- Calculando totales de cifras Numericas --->
+												<cfoutput>
+													<cfif rsReporte.MostrarTotal eq 1>
+														#sumTotales(1)#
+													</cfif>
+												</cfoutput>
+
+										</table>
+									</div>
+									</hr>
+								</cfoutput>
+							</cfif>
+							<cfelse>
+							<hr>
+								<table class="table">
+									<thead>
+										<cfloop array="#arrCol#" index="col">
+											<cfset vAlign = alineaTexto(#col.typename#)>
+											<th style="text-align:<cfoutput>#vAlign#</cfoutput>"><cfoutput>#col.Name#</cfoutput></th>
+										</cfloop>
+									</thead>
+									<tbody>
+										<cfloop query="rsDatos">
+											<tr>
+												<cfloop index="col" from = "1" to = "#arraylen(arrCol)#" >
+													<cfset vAlign = alineaTexto(#arrCol[col].typename#) >
+													<td style="text-align:<cfoutput>#vAlign#</cfoutput>"><cfoutput>#rsDatos[arrCol[col].Name][currentrow]#</cfoutput></td>
+												</cfloop>
+											</tr>
+										</cfloop>
+										<cfoutput>
+											<cfif rsReporte.MostrarTotal eq 1>
+												#sumTotales(1)#
+											</cfif>
+										</cfoutput>
+									</tbody>
+								</table>
+								<hr>
+						</cfif>
+						<!--- OPARRALES --->
+					</div>
+				</div>
+				<div class="row">
+					<div class="col col-md-12">&nbsp;</div>
+				</div>
+			</div>
+		<cfif not isdefined("form.btnDownload") and not isdefined("url.btnDownload")>
+			</body>
+			</html>
+		</cfif>
+	</cfif>
+<cfelse>
+	&nbsp;
+</cfif>
+
+<cffunction name="getColFormat" returntype="string">
+	<cfargument name="col" 	type="struct" required="true" >
+
+	<cfreturn "<td">
+</cffunction>
+
+<cffunction name="getSQLTablaDinamica" returntype="string">
+
+	<cfquery name="mdRSVDX" datasource="#Session.dsn#">
+		SELECT  top 1 RPVDCampo
+		FROM RT_ReporteVersionDetalle
+		where  RPTVId = #url.idver#
+			and RPTVTipo = 'X'
+	</cfquery>
+
+	<cfsavecontent  variable = "strTDSQL">
+		<cfoutput>
+			<cfset colValue = 1>
+			<cfset colName = 1>
+		    <cfquery name="mdRSVDV" datasource="#Session.dsn#">
+				SELECT  top 1 RPVDCampo
+				FROM RT_ReporteVersionDetalle
+				where  RPTVId = #url.idver#
+					and RPTVTipo = 'V'
+			</cfquery>
+			<cfset strCosl = "">
+			<cfloop query="rsVDV">
+				<cfset strCosl = "#strCosl#, [Suma de #rsVDV.RPVDCampo#]">
+				<cfset colName = colName + 1>
+			</cfloop>
+		    SELECT cat.[#mdRSVDX.RPVDCampo#] #strCosl#
+		    from (
+				select DISTINCT [#mdRSVDX.RPVDCampo#]
+				from (
+					#strSQL#
+				) a
+		    ) cat
+		    <cfloop query="rsVDV">
+				LEFT JOIN (
+					SELECT [#mdRSVDX.RPVDCampo#] as [#mdRSVDX.RPVDCampo##colValue#], SUM([#rsVDV.RPVDCampo#]) as [Suma de #rsVDV.RPVDCampo#]
+					from (
+						#strSQL#
+				    ) colvalue
+				    group by [#mdRSVDX.RPVDCampo#]
+				) colvalue#colValue#
+					ON cat.[#mdRSVDX.RPVDCampo#] = colvalue#colValue#.[#mdRSVDX.RPVDCampo##colValue#]
+				<cfset colValue = colValue + 1>
+			</cfloop>
+		    order by cat.[#mdRSVDX.RPVDCampo#]
+	    </cfoutput>
+	</cfsavecontent>
+	<cfreturn strTDSQL>
+</cffunction>
+
+<cffunction name="generaCode" returntype="string">
+	<cfargument name="iteracion" type="numeric">
+	<cfargument name="campos" type="array">
+	<cfargument name="queryname" type="query">
+	<cfargument name="queryOriginal" type="query">
+	<cfset vAlign = "">
+	<cfsavecontent variable="result">
+		<cfoutput>
+			<cfset rs = "rs#arguments.iteracion#">
+			<cfquery name="rs#arguments.iteracion#" dbtype="query">
+				select distinct
+					<cfif arguments.iteracion lte Arraylen(arguments.campos)>
+						<cfloop index = "campo" from = "1" to = "#arguments.iteracion#">
+							<cfset cc = campos[#campo#]>
+							<cfset completo = "[#cc#]">
+							 #IIf(campo gt 1, DE(",#completo#"), DE("#completo#"))#
+						</cfloop>
+					<cfelse>
+						*
+					</cfif>
+				from
+					<cfif arguments.iteracion lt Arraylen(arguments.campos)>
+						arguments.queryOriginal
+					<cfelse>
+						arguments.queryname
+					</cfif>
+				<cfif arguments.iteracion gt 1>
+					where
+						<cfloop index = "campo" from = "1" to = "#arguments.iteracion - 1#">
+							<cfset vInicial = "#request['1']#">
+							<cfset vCurr = "#request['#campo#']#">
+							 #IIf(campo gt 1, DE("AND  [#campos[campo]#] = '#vCurr#'"), DE("[#campos[campo]#] = '#vInicial#'"))#
+						</cfloop>
+				</cfif>
+			</cfquery>
+			<cfloop query="rs#arguments.iteracion#">
+				<cfif arguments.iteracion lte Arraylen(arguments.campos)>
+					<cfset colResult = #Getmetadata(queryOriginal)[arguments.iteracion]#>
+					<cfset vAlign = "left">
+					<!--- <cfif ListContainsNoCase("int,money,numeric,float,double",#colResult.typename#) gt 0>
+						<cfset totGenAgrupados =+ queryOriginal[#colResult.Name#][currentRow]>
+					</cfif> --->
+					<cfif alineaTexto(#colResult.typename#)  eq "right">
+						<cfset totGenAgrupados =+ queryOriginal[#colResult.Name#][currentRow]>
+					</cfif>
+					<tr class="bordeNiveles">
+						<cfset span = 1>
+						<cfif rsReporte.MostrarSubT neq 1>
+							<cfset span = listlen(rsDatos.ColumnList)- arraylen(arguments.campos) +1>
+						</cfif>
+						<cfset px = 0>
+									<cfif arguments.iteracion gt 1>
+							<cfset px = 30 * #arguments.iteracion#>
+									</cfif>
+						<td class="nivel" colspan="#span#" style="text-indent: <cfoutput>#px#</cfoutput>px">
+										<cfset f = evaluate("rs#arguments.iteracion#")['#arguments.campos[arguments.iteracion]#'][currentrow]>
+										<cfset request["#arguments.iteracion#"] = f>
+
+										<font class="nivel#arguments.iteracion#"><strong>#f#</strong></font>
+						</td>
+						<cfset arrReng = arraynew(1)>
+
+						<cfloop index="i" from="1" to="#listlen(queryOriginal.ColumnList) - arraylen(arguments.campos)#">
+							<cfset arrReng[i]=0>
+						</cfloop>
+						<cfset tmp2 = rsDatos['#arguments.campos[arguments.iteracion]#'][currentRow]>
+						<cfset arrCol = getmetadata(rsDatos)>
+						<cfloop query="#rsDatos#">
+							<cfset tmp1 = rsDatos['#arguments.campos[arguments.iteracion]#'][currentRow]>
+							<cfif tmp1 eq tmp2>
+								<cfset conta =1>
+								<cfset size = listlen(rsDatos.columnList)>
+								<cfloop array="#arrCol#" index="col">
+									<cfset bandera = False>
+									<cfloop array="#arguments.campos#" index="un">
+										<cfif un eq col.name>
+											<cfset bandera = True>
+											<cfbreak >
+										</cfif>
+									</cfloop>
+									<cfif bandera eq True >
+										<cfcontinue>
+									</cfif>
+									<cfset actual = rsDatos[col.name][currentRow]>
+									<cfif isnumeric(tostring(actual)) eq True>
+										<cfset arrReng[conta] = arrReng[conta] + actual >
+									<cfelse>
+										<cfset arrReng[conta] = "a">
+									</cfif>
+									<cfset conta += 1>
+								</cfloop>
+							</cfif>
+						</cfloop>
+
+
+						<!--- completa las columnas de los niveles --->
+						<cfif arguments.iteracion lte arraylen(arguments.campos)>
+							<cfif rsReporte.MostrarSubT eq 1>
+								<cfloop array="#arrReng#" index="val">
+									<cfif #val# eq "a">
+										<td class="nivel" style="text-align:left"><font>&nbsp;</td>
+									<cfelse>
+
+										<td class="nivel" style="text-align:right"><font><strong>#numberformat(val,"0.00")#</strong></font></td>
+									</cfif>
+								</cfloop>
+							<!--- <cfelse>
+								<cfloop index="i" from="1" to="#listlen(queryOriginal.ColumnList) - arraylen(arguments.campos)#">
+									<td class="nivel">
+										&nbsp;
+									</td>
+								</cfloop> --->
+
+							</cfif>
+						</cfif>
+						<!--- End completa columnas niveles --->
+					</tr>
+					<cfif arguments.iteracion lte Arraylen(arguments.campos)>
+						<!--- Recursividad --->
+						#generaCode(arguments.iteracion + 1,arrLista,rsDatos,rsDatos)#
+					</cfif>
+				<cfelse>
+					<cfset arrSubs = arraynew(1)>
+					<cfset contador = 1>
+					<cfset arrCol = Getmetadata(rsDatos)>
+					<cfloop array="#arrCol#" index="unaCol">
+						<cfset bandera=False>
+						<cfloop array="#arrLista#" index="unAgr">
+							<cfif unAgr eq unaCol.name>
+								<cfset bandera = True>
+								<cfbreak>
+							</cfif>
+						</cfloop>
+						<cfif bandera eq True>
+							<cfcontinue>
+						</cfif>
+						<cfset arrSubs[contador] = 0>
+						<cfset contador +=1>
+					</cfloop>
+				<!--- Pinta los detalles de las columnas que fueron agrupadas --->
+					<tr class="niveles">
+						<cfset lcampos = ArrayToList(arguments.campos)>
+						<cfset resultF = ArrayNew(1)>
+						<cfset limit = queryOriginal.RecordCount >
+						<td class="nivel"></td>
+						<cfset cont = 1>
+						<cfloop index = "qc" array="#getmetadata(rsDatos)#">
+							<cfif listFind(lcampos,trim("#qc.Name#")) eq 0>
+								<cfset vAlign = alineaTexto(#qc.typename#)>
+								<cfif alineaTexto(qc.typename)  eq "right">
+									<cfset vAlign = "right">
+									<cfset sub = queryOriginal[#qc.Name#][currentRow]>
+									<cfset anterior = arrSubs[cont]>
+									<cfset arrSubs[cont] = anterior + sub >
+									<cfelse>
+										<cfset arrSubs[cont] = "cadena" >
+								</cfif>
+								<cfset vAlign = alineaTexto(#qc.typename#)>
+								<td class="nivel" style="text-align:<cfoutput>#vAlign#</cfoutput>">
+									<cfset f = evaluate("rs#arguments.iteracion#")['#qc.Name#'][currentrow]>
+									<cfset request["#arguments.iteracion#"] = f>
+									<cfif isnumeric(tostring(#f#))>
+										<cfset f = numberformat(f,"0.00")>
+									</cfif>
+									<font>#f#</font>
+								</td>
+									<cfset cont +=1>
+							</cfif>
+						</cfloop>
+					</tr>
+				</cfif>
+			</cfloop>
+		</cfoutput>
+	</cfsavecontent>
+	<cfreturn result>
+</cffunction>
+
+<cffunction name="alineaTexto" returntype="string">
+	<cfargument name="tipo" type="string">
+	<cfset vAlign = "left">
+	<cfif ListContainsNoCase("identity,bit,decimal,int,money,bigint,double,real,integer,numeric identity,smallint,tinyint,float",#tipo#) gt 0>
+		<cfset vAlign = "right">
+	<cfelseif ListContainsNoCase("date",#tipo#) gt 0>
+		<cfset vAlign = "center">
+	</cfif>
+
+	<cfreturn vAlign>
+</cffunction>
+
+<!---
+	  Suma los totales por columna del query original guardandolos en un Array
+	  Los totales son guardados con la misma posicion de la columna sobre el Array.
+	  Las columnas que no son numericas del Query, se guardan con 0 en el Array.
+ --->
+<cffunction name="sumTotales" returntype="string">
+	<cfargument name="pintar" type="numeric">
+	<cfset colSum = arraynew(1)>
+	<cfset arrCol = Getmetadata(rsDatos)>
+	<cfset count = 1>
+	<cfloop array="#arrCol#" index="unaCol">
+		<cfset bandera=False>
+		<cfloop array="#arrLista#" index="unAgr">
+			<cfif unAgr eq unaCol.name>
+				<cfset bandera = True>
+				<cfbreak>
+			</cfif>
+		</cfloop>
+		<cfif bandera eq True>
+			<cfcontinue>
+		</cfif>
+		<cfif alineaTexto(unaCol.typename)  eq "right">
+			<cfset colSum[count] = unaCol.name>
+		<cfelse>
+			<cfset colSum[count] = 0>
+		</cfif>
+		<cfset count +=1>
+	</cfloop>
+	<cfset arrTots = arraynew(1)>
+	<cfset count=1>
+	<cfloop array="#colSum#" index="colT">
+		<cfif colT eq 0>
+			<cfset arrTots[count] = 0>
+		<cfelse>
+			<cfset tTemp = 0>
+			<cfloop query="#rsDatos#">
+				<cfset unaCant = rsDatos[colT][currentRow]>
+				<cfif not isnull(unaCant)>
+					<cfif isnumeric(tostring(unaCant))>
+						<cfset tTemp += unaCant>
+					</cfif>
+				</cfif>
+				<cfset arrTots[count] = tTemp>
+			</cfloop>
+		</cfif>
+		<cfset count+=1>
+	</cfloop>
+
+	<tr class="niveles">
+		<cfif arguments.pintar eq 1 >
+			<td class="nivel"><strong>Total: </strong></td>
+		</cfif>
+		<cfset count = 1>
+		<cfloop array="#colSum#" index="colT">
+			<cfset unVal = arrTots[count]>
+			<cfif colT eq 0>
+				<cfif alineaTexto(colT)  eq "right">
+					<cfoutput>
+						<td class="nivel" style="text-align:right"><strong>#unVal#</strong></td>
+					</cfoutput>
+				<cfelse>
+					<cfoutput>
+						<td class="nivel" style="text-align:left"><strong>0</strong></td>
+					</cfoutput>
+				</cfif>
+			<cfelse>
+				<cfoutput>
+						<td class="nivel" style="text-align:right"><strong>#numberformat(unVal,"0.00")#</strong></td>
+				</cfoutput>
+			</cfif>
+			<cfset count+=1>
+		</cfloop>
+	</tr>
+
+	<cfreturn "">
+</cffunction>

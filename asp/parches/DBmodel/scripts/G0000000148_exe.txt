@@ -1,0 +1,399 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 462 - DBM 398: Se le agrega la opcion de incluir tipo P 
+
+	         PARCHE:  Parche023_560_SIF_FundaTEC
+
+GENERADO EN:
+	SERVER:  http://mxvqapp34:8300
+	DSN:     sifcim
+	FECHA:   08/01/2012 19:59:35
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* CHG_TABLE CCTransacciones: Transacciones de Cuentas x Cob */
+/* ======================================================================================== */
+/* CHG_COLUMN OP = (CAMBIO): CCTcktr - Tipo Cheque o Transferencia */
+ALTER TABLE CCTransacciones DROP CONSTRAINT CCTransacciones_CK08 /* CHECK ([CCTcktr] IS NULL OR ([CCTcktr]='T' OR [CCTcktr]='C')) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE CCTransacciones ADD CONSTRAINT CCTransacciones_CK08 CHECK ([CCTcktr] IS NULL OR ([CCTcktr]='P' OR [CCTcktr]='T' OR [CCTcktr]='C'))
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* ADD_TABLE CfuncionalConc: CfuncionalConc */
+/* ======================================================================================== */
+
+CREATE TABLE CfuncionalConc (
+	 CFCid                          numeric(18)          identity
+	,Cid                            numeric(18)          NOT NULL
+	,CFid                           numeric(18)          NOT NULL
+	,Ecodigo                        integer              NOT NULL
+	,CFCid_Costo                    numeric(18)          NULL
+	,CFCporc                        numeric(5,2)         NULL
+	,CFCtipo                        bit                  NOT NULL
+	,CFidD                          numeric(18)          NULL
+	,Ocodigo                        integer              NULL
+	,BMUsucodigo                    numeric(18)          NULL
+	,ts_rversion                    timestamp           
+	)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP = (TAB NUEVA): TIP="P", SEC="0", COLS="CFCid" */
+ALTER TABLE CfuncionalConc ADD CONSTRAINT CfuncionalConc_PK PRIMARY KEY CLUSTERED (CFCid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (TAB NUEVA): TIP="U", SEC="1", COLS="CFCid,Cid,CFid,Ecodigo" */
+CREATE UNIQUE NONCLUSTERED INDEX CfuncionalConc_UI01 ON CfuncionalConc (CFCid,Cid,CFid,Ecodigo)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE Conceptos: Conceptos */
+/* ======================================================================================== */
+/* ADD_COLUMN OP = (NUEVO): Cporc - Porcentaje Costo */
+ALTER TABLE Conceptos ADD Cporc numeric(5,2) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE CPresupuestoComprometidasNAPs: Bitacora de NAPs de Compromiso */
+/* ======================================================================================== */
+/* DEL_KEY OP = (OBSOLETO): TIP="P", COLS="CPPid,Ecodigo,CPNAPnum" */
+ALTER TABLE CPresupuestoComprometidasNAPs DROP CONSTRAINT CPresupuestoComprometid01_PK /* PRIMARY KEY (CPPid,Ecodigo,CPNAPnum) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* DEL_COLUMN OP = (OBSOLETO): CPNAPnumReversa - NAP de Descompromiso Automático */
+ALTER TABLE CPresupuestoComprometidasNAPs DROP COLUMN CPNAPnumReversa
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP = (NUEVO): TIP="P", SEC="0", COLS="CPPid,Ecodigo,CPNAPnum" */
+ALTER TABLE CPresupuestoComprometidasNAPs ADD CONSTRAINT CPresupuestoComprometid01_PK PRIMARY KEY CLUSTERED (CPPid,Ecodigo,CPNAPnum)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="3", COLS="CPcuenta", REF="CPresupuesto" */
+CREATE INDEX CPresupuestoComprometid01_FI03 ON CPresupuestoComprometidasNAPs (CPcuenta)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="4", COLS="Ecodigo,Ocodigo", REF="Oficinas" */
+CREATE INDEX CPresupuestoComprometid01_FI04 ON CPresupuestoComprometidasNAPs (Ecodigo,Ocodigo)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="5", COLS="Ecodigo,CPPid", REF="CPresupuestoPeriodo" */
+CREATE INDEX CPresupuestoComprometid01_FI05 ON CPresupuestoComprometidasNAPs (Ecodigo,CPPid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="6", COLS="Ecodigo,CPCano,CPCmes", REF="CPmeses" */
+CREATE INDEX CPresupuestoComprometid01_FI06 ON CPresupuestoComprometidasNAPs (Ecodigo,CPCano,CPCmes)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="7", COLS="Ecodigo,CPNAPnum,CPNAPDlinea", REF="CPNAPdetalle" */
+CREATE INDEX CPresupuestoComprometid01_FI07 ON CPresupuestoComprometidasNAPs (Ecodigo,CPNAPnum,CPNAPDlinea)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* ADD_TABLE DCalendarioVentas: Detalle del Calendario de Vent */
+/* ======================================================================================== */
+
+CREATE TABLE DCalendarioVentas (
+	 CVlinea                        numeric(18)          identity
+	,CVid                           numeric(18)          NOT NULL
+	,CVfechaini                     datetime             NOT NULL
+	,CVfechafin                     datetime             NOT NULL
+	,Ecodigo                        integer              NOT NULL
+	,BMUsucodigo                    numeric(18)          NULL
+	,ts_rversion                    timestamp           
+	)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP = (TAB NUEVA): TIP="P", SEC="0", COLS="CVlinea" */
+ALTER TABLE DCalendarioVentas ADD CONSTRAINT DCalendarioVentas_PK PRIMARY KEY CLUSTERED (CVlinea)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE DListaPrecios: Detalle de Lista de precios de */
+/* ======================================================================================== */
+/* ADD_COLUMN OP = (NUEVO): DLdescuento - Monto o porcentaje de Descuento */
+ALTER TABLE DListaPrecios ADD DLdescuento money NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP = (NUEVO): DLrecargo - Monto o porcentaje de Recargos */
+ALTER TABLE DListaPrecios ADD DLrecargo money NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP = (NUEVO): DLdescuentoTipo - Modalidad del Descuento */
+ALTER TABLE DListaPrecios ADD DLdescuentoTipo char(1) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE DListaPrecios ADD CONSTRAINT DListaPrecios_CK29 CHECK ([DLdescuentoTipo] IS NULL OR ([DLdescuentoTipo]='M' OR [DLdescuentoTipo]='P'))
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP = (NUEVO): DLrecargoTipo - Modalidad del Recargo */
+ALTER TABLE DListaPrecios ADD DLrecargoTipo char(1) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE DListaPrecios ADD CONSTRAINT DListaPrecios_CK30 CHECK ([DLrecargoTipo] IS NULL OR ([DLrecargoTipo]='M' OR [DLrecargoTipo]='P'))
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP = (NUEVO): CVidD - Calendario del Descuento */
+ALTER TABLE DListaPrecios ADD CVidD numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP = (NUEVO): CVidR - Calendario del Recargo */
+ALTER TABLE DListaPrecios ADD CVidR numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE DTransacciones: Detalle de Transacciones de Fa */
+/* ======================================================================================== */
+/* ADD_COLUMN OP = (NUEVO): DTreclinea - Monto de recargo linea */
+ALTER TABLE DTransacciones ADD DTreclinea money NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP = (NUEVO): CFid - Centro Funcional */
+ALTER TABLE DTransacciones ADD CFid numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP = (NUEVO): Ocodigo - Codigo de la Oficina */
+ALTER TABLE DTransacciones ADD Ocodigo integer NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP = (NUEVO): CFcuenta - Cuenta Financiera */
+ALTER TABLE DTransacciones ADD CFcuenta numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP = (NUEVO): DTimpuesto - Monto del Impuesto */
+ALTER TABLE DTransacciones ADD DTimpuesto money NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP = (NUEVO): Icodigo - Codigo del Impuesto */
+ALTER TABLE DTransacciones ADD Icodigo char(5) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (NUEVO): TIP="F", SEC="10", COLS="CFid", REF="CFuncional" */
+CREATE INDEX DTransacciones_FI10 ON DTransacciones (CFid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* ADD_TABLE ECalendarioVentas: Encabezado de Calendarios de V */
+/* ======================================================================================== */
+
+CREATE TABLE ECalendarioVentas (
+	 CVid                           numeric(18)          identity
+	,CVCodigo                       varchar(20)          NOT NULL
+	,CVDescripcion                  varchar(100)         NOT NULL
+	,CVTipo                         char(1)              NOT NULL
+	 CONSTRAINT ECalendarioVentas_CK04 CHECK ([CVTipo]='R' OR [CVTipo]='D')
+	,Ecodigo                        integer              NOT NULL
+	,BMUsucodigo                    numeric(18)          NULL
+	,ts_rversion                    timestamp           
+	)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP = (TAB NUEVA): TIP="P", SEC="0", COLS="CVid" */
+ALTER TABLE ECalendarioVentas ADD CONSTRAINT ECalendarioVentas_PK PRIMARY KEY CLUSTERED (CVid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE EListaPrecios: Encabezado de Lista de Precios */
+/* ======================================================================================== */
+/* ADD_COLUMN OP = (NUEVO): id_zona - Zona de Venta */
+ALTER TABLE EListaPrecios ADD id_zona numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP = (NUEVO): CFid - Centro Funcional */
+ALTER TABLE EListaPrecios ADD CFid numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE ETransacciones: Encabezado de Transacciones de */
+/* ======================================================================================== */
+/* ADD_COLUMN OP = (NUEVO): CFid - Centro Funcional */
+ALTER TABLE ETransacciones ADD CFid numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+UPDATE ETransacciones SET CFid = 0
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE ETransacciones ALTER COLUMN CFid numeric(18) NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (NUEVO): TIP="F", SEC="11", COLS="CFid", REF="CFuncional" */
+CREATE INDEX ETransacciones_FI11 ON ETransacciones (CFid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* ADD_TABLE ETransaccionesCalculo: Historico de Transacciones de  */
+/* ======================================================================================== */
+
+CREATE TABLE ETransaccionesCalculo (
+	 FCid                           numeric(18)          NULL
+	,ETnumero                       numeric(18)          NULL
+	,CFCid                          numeric(18)          NULL
+	,Ccodigo                        varchar(10)          NULL
+	,Ocodigo                        numeric(18)          NULL
+	,Cid                            numeric(18)          NULL
+	,Porcentaje                     money                NULL
+	,MontoT                         money                NULL
+	,MontoA                         money                NULL
+	,CFid                           numeric(18)          NULL
+	,Periodo                        integer              NULL
+	,Mes                            integer              NULL
+	,Ecodigo                        integer              NULL
+	,Tipo                           varchar(1)           NULL
+	,Cdescripcion                   varchar(50)          NULL
+	,Cformato                       char(100)            NULL
+	,cuentac                        varchar(100)         NULL
+	,CFcuenta                       varchar(100)         NULL
+	,CFidD                          numeric(18)          NULL
+	,CCTcodigo                      char(2)              NULL
+	,Pcodigo                        char(20)             NULL
+	,BMUsucodigo                    numeric(18)          NULL
+	,ts_rversion                    timestamp           
+	)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ======================================================================================== */
+/* CHG_TABLE FATarjetas: Tipos de tarjetas */
+/* ======================================================================================== */
+/* ADD_COLUMN OP = (NUEVO): FATcomplemento - FATcomplemento */
+ALTER TABLE FATarjetas ADD FATcomplemento varchar(100) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE FPagos: Pagos por Transacción */
+/* ======================================================================================== */
+/* ADD_COLUMN OP = (NUEVO): FPautorizacion - Autorizacion pago Tarjeta */
+ALTER TABLE FPagos ADD FPautorizacion varchar(50) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP = (NUEVO): TPid - TPid */
+ALTER TABLE FPagos ADD TPid integer NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ================================================================= */
+/*            CREA FKs NUEVOS O CON CAMPOS MODIFICADOS               */
+/* ================================================================= */
+/* CHG_TABLE CfuncionalConc */
+/* ADD_FK OP = (TAB NUEVA): TIP="F", SEC="1", COLS="Cid", REF="Conceptos" */
+ALTER TABLE CfuncionalConc ADD CONSTRAINT CfuncionalConc_FK01 FOREIGN KEY (Cid) REFERENCES Conceptos (Cid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_FK OP = (TAB NUEVA): TIP="F", SEC="2", COLS="CFid", REF="CFuncional" */
+ALTER TABLE CfuncionalConc ADD CONSTRAINT CfuncionalConc_FK02 FOREIGN KEY (CFid) REFERENCES CFuncional (CFid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_FK OP = (TAB NUEVA): TIP="F", SEC="3", COLS="Ecodigo", REF="Empresas" */
+ALTER TABLE CfuncionalConc ADD CONSTRAINT CfuncionalConc_FK03 FOREIGN KEY (Ecodigo) REFERENCES Empresas (Ecodigo)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_TABLE DCalendarioVentas */
+/* ADD_FK OP = (TAB NUEVA): TIP="F", SEC="1", COLS="CVid", REF="ECalendarioVentas" */
+ALTER TABLE DCalendarioVentas ADD CONSTRAINT DCalendarioVentas_FK01 FOREIGN KEY (CVid) REFERENCES ECalendarioVentas (CVid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_TABLE DTransacciones */
+/* ADD_FK OP = (NUEVO): TIP="F", SEC="10", COLS="CFid", REF="CFuncional" */
+ALTER TABLE DTransacciones ADD CONSTRAINT DTransacciones_FK10 FOREIGN KEY (CFid) REFERENCES CFuncional (CFid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_TABLE ETransacciones */
+/* ADD_FK OP = (NUEVO): TIP="F", SEC="11", COLS="CFid", REF="CFuncional" */
+ALTER TABLE ETransacciones ADD CONSTRAINT ETransacciones_FK11 FOREIGN KEY (CFid) REFERENCES CFuncional (CFid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

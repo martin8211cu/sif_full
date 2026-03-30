@@ -1,0 +1,44 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 392 - DBM 323: CDErrores
+
+	         PARCHE:  Parche023_343_RH _VariosClientes
+
+GENERADO EN:
+	SERVER:  http://mxvqapp34:8300
+	DSN:     sifcim
+	FECHA:   06/01/2012 16:57:58
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* CHG_TABLE CDErrores: CDErrores */
+/* ======================================================================================== */
+/* CHG_COLUMN OP=(CAMBIO): ColumnName - ColumnName */
+ALTER TABLE CDErrores ALTER COLUMN ColumnName varchar(255) NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+UPDATE CDErrores SET ColumnName = RTRIM(ColumnName)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_COLUMN OP=(CAMBIO): ColumnType - ColumnType */
+ALTER TABLE CDErrores ALTER COLUMN ColumnType varchar(255) NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+UPDATE CDErrores SET ColumnType = RTRIM(ColumnType)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

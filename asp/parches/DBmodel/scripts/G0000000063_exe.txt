@@ -1,0 +1,54 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 152 - DBM 258: Cambios en algunos campos de la tabla CBD
+
+	         PARCHE:  Parche023_219_SIF_TCEPago
+
+GENERADO EN:
+	SERVER:  http://mxpapp36:8300
+	DSN:     sifcim
+	FECHA:   27/08/2011 14:40:02
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* CHG_TABLE CBDPagoTCEdetalle: CBDPagoTCEdetalle */
+/* ======================================================================================== */
+/* CHG_KEY OP=(CAMBIO): TIP="P", COLS="CBDPTCid" */
+ALTER TABLE CBDPagoTCEdetalle DROP CONSTRAINT CBDPagoTCEdetalle_PK /* PRIMARY KEY (CBDPTCid) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_COLUMN OP=(CAMBIO): CBDPTCid - CBDPTCid */
+/* IF X GT 0:select count(1) as X from syscolumns where id=object_id('CBDPagoTCEdetalle') and name='CBDPTCid__NEW' */
+LA SIGUIENTE INSTRUCCION NO SE VA A EJECUTAR PORQUE NO SE CUMPLIO LA CONDICION 'X GT 0':
+ALTER TABLE CBDPagoTCEdetalle DROP COLUMN CBDPTCid__NEW
+go
+ALTER TABLE CBDPagoTCEdetalle ADD  CBDPTCid__NEW numeric(18) identity
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE CBDPagoTCEdetalle DROP COLUMN CBDPTCid
+go
+EJECUCION EN BASE DE DATOS OK
+
+EXEC sp_rename 'CBDPagoTCEdetalle.CBDPTCid__NEW', 'CBDPTCid', 'COLUMN'
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_KEY OP=(CAMBIO): TIP="P", SEC="0", COLS="CBDPTCid" */
+ALTER TABLE CBDPagoTCEdetalle ADD CONSTRAINT CBDPagoTCEdetalle_PK PRIMARY KEY CLUSTERED (CBDPTCid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

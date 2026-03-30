@@ -1,0 +1,31 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  asp
+	MODELO:  ASP Framework.pdm
+	VERSION: 2 - Version 101: Actualizar hasta 27/01/2011
+
+	         PARCHE:  ACTUALIZACION COMPLETA ASP Framework.pdm
+
+GENERADO EN:
+	SERVER:  http://localhost:8099
+	DSN:     asp
+	FECHA:   01/03/2011 12:29:46
+*/
+
+/* INI_SCRIPT */
+
+/* ================================================================= */
+/*            CREA FKs NUEVOS O CON CAMPOS MODIFICADOS               */
+/* ================================================================= */
+/* CHG_TABLE Preferencias */
+/* ADD_FK OP=(NUEVO): TIP="F", SEC="2", COLS="Usucodigo", REF="Usuario" */
+ALTER TABLE Preferencias ADD CONSTRAINT Preferencias_FK02 FOREIGN KEY (Usucodigo) REFERENCES Usuario (Usucodigo)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

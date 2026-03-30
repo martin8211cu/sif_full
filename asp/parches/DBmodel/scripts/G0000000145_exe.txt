@@ -1,0 +1,94 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 454 - DBM 391: alter table Articulos add observacion var
+
+	         PARCHE:  Parche023_519_SIF_CorreccionesVariasNacion
+
+GENERADO EN:
+	SERVER:  http://mxvqapp34:8300
+	DSN:     sifcim
+	FECHA:   06/01/2012 18:54:45
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* CHG_TABLE Articulos: Articulos */
+/* ======================================================================================== */
+/* ADD_COLUMN OP = (NUEVO): Observacion - Observacion */
+ALTER TABLE Articulos ADD Observacion varchar(255) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE EDocumentosI: Encabezado de Documentos de Im */
+/* ======================================================================================== */
+/* CHG_KEY OP = (CAMBIO): TIP="I", COLS="Ecodigo,EDIestado,EDItipo" */
+DROP INDEX EDocumentosI.EDocumentosI_ID02 /* INDEX (Ecodigo,EDIestado,EDItipo) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_COLUMN OP = (CAMBIO): EDIestado - Estado del Documento */
+ALTER TABLE EDocumentosI ADD CONSTRAINT EDocumentosI_CK16 CHECK ([EDIestado] IS NULL OR ([EDIestado]=(-10) OR [EDIestado]=(10) OR [EDIestado]=(0)))
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_KEY OP = (CAMBIO): TIP="I", SEC="2", COLS="Ecodigo,EDIestado,EDItipo" */
+CREATE NONCLUSTERED INDEX EDocumentosI_ID02 ON EDocumentosI (Ecodigo,EDIestado,EDItipo)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE ERequisicion: Encabezado de Requisición */
+/* ======================================================================================== */
+/* CHG_COLUMN OP = (CAMBIO): Estado - Estado */
+ALTER TABLE ERequisicion DROP CONSTRAINT ERequisicion_CK19 /* CHECK ([Estado]=(2) OR [Estado]=(1) OR [Estado]=(0)) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE ERequisicion ADD CONSTRAINT ERequisicion_CK19 CHECK ([Estado]=(4) OR [Estado]=(2) OR [Estado]=(1) OR [Estado]=(0))
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP = (NUEVO): Impreso - Impreso */
+ALTER TABLE ERequisicion ADD Impreso bit DEFAULT 0 NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP = (NUEVO): Externo - Externo */
+ALTER TABLE ERequisicion ADD Externo bit DEFAULT 0 NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE HERequisicion: Histórico de Encabezado de Req */
+/* ======================================================================================== */
+/* ADD_COLUMN OP = (NUEVO): Externo - Externo */
+ALTER TABLE HERequisicion ADD Externo bit DEFAULT 0 NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE Kardex: Kardex */
+/* ======================================================================================== */
+/* ADD_COLUMN OP = (NUEVO): CFcuenta - Cuenta Finaciera */
+ALTER TABLE Kardex ADD CFcuenta numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

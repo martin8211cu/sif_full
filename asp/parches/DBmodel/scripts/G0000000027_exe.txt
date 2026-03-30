@@ -1,0 +1,1442 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  sifPublica
+	MODELO:  SIF Publica.pdm
+	VERSION: 8 - DBM 118: BASE CERO: SIF Publica
+
+	         PARCHE:  ParcheParche023_001_SIF_BASE0
+
+GENERADO EN:
+	SERVER:  http://mxvdapp10:8300
+	DSN:     sifcim
+	FECHA:   01/06/2011 12:55:50
+*/
+
+/* INI_SCRIPT */
+
+/* ================================================================= */
+/*    ELIMINA FKs QUE YA NO SE UTILIZAN O CON CAMPOS MODIFICADOS     */
+/* ================================================================= */
+/* CHG_TABLE CMNotas */
+/* DEL_FK OP=(NO DEFINIDO): TIP="F", COLS="CMPid", REF="CMProcesoCompra" */
+ALTER TABLE CMNotas DROP CONSTRAINT CMNotas_FK01 /* REFERENCES CMProcesoCompra (CMPid) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* DEL_FK OP=(NO DEFINIDO): TIP="F", COLS="CMTPAid", REF="CMTPActividades" */
+ALTER TABLE CMNotas DROP CONSTRAINT CMNotas_FK02 /* REFERENCES CMTPActividades (CMTPAid) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_TABLE DDocumentosAdjuntos */
+/* DEL_FK OP=(NO DEFINIDO): TIP="F", COLS="CMPid,DSlinea", REF="CMLineasProceso" */
+ALTER TABLE DDocumentosAdjuntos DROP CONSTRAINT DDocumentosAdjuntos_FK01 /* REFERENCES CMLineasProceso (CMPid,DSlinea) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_TABLE DListaPrecios */
+/* DEL_FK OP=(NO DEFINIDO): TIP="F", COLS="Aid", REF="Articulos" */
+ALTER TABLE DListaPrecios DROP CONSTRAINT DListaPrecios_FK02 /* REFERENCES Articulos (Aid) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* DEL_FK OP=(NO DEFINIDO): TIP="F", COLS="Alm_Aid", REF="Almacen" */
+ALTER TABLE DListaPrecios DROP CONSTRAINT DListaPrecios_FK04 /* REFERENCES Almacen (Aid) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* DEL_FK OP=(NO DEFINIDO): TIP="F", COLS="Cid", REF="Conceptos" */
+ALTER TABLE DListaPrecios DROP CONSTRAINT DListaPrecios_FK03 /* REFERENCES Conceptos (Cid) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* DEL_FK OP=(NO DEFINIDO): TIP="F", COLS="Ecodigo,Icodigo", REF="Impuestos" */
+ALTER TABLE DListaPrecios DROP CONSTRAINT DListaPrecios_FK07 /* REFERENCES Impuestos (Ecodigo,Icodigo) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* DEL_FK OP=(NO DEFINIDO): TIP="F", COLS="LPid", REF="EListaPrecios" */
+ALTER TABLE DListaPrecios DROP CONSTRAINT DListaPrecios_FK05 /* REFERENCES EListaPrecios (LPid) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* DEL_FK OP=(NO DEFINIDO): TIP="F", COLS="moneda,Ecodigo", REF="Monedas" */
+ALTER TABLE DListaPrecios DROP CONSTRAINT DListaPrecios_FK06 /* REFERENCES Monedas (Miso4217,Ecodigo) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_TABLE EListaPrecios */
+/* DEL_FK OP=(NO DEFINIDO): TIP="F", COLS="Ecodigo", REF="Empresas" */
+ALTER TABLE EListaPrecios DROP CONSTRAINT EListaPrecios_FK01 /* REFERENCES Empresas (Ecodigo) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE CMNotas: CM Notas del Proceso */
+/* ======================================================================================== */
+/* DEL_KEY OP=(NO DEFINIDO): TIP="I", COLS="CMPid" */
+DROP INDEX CMNotas.CMNotas_FI01 /* INDEX (CMPid) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* DEL_KEY OP=(NO DEFINIDO): TIP="I", COLS="CMTPAid" */
+DROP INDEX CMNotas.CMNotas_FI02 /* INDEX (CMTPAid) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): PCPid - id de Proceso de Compra Proveedor */
+ALTER TABLE CMNotas ADD PCPid numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+UPDATE CMNotas SET PCPid = 0
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE CMNotas ALTER COLUMN PCPid numeric(18) NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(NUEVO): TIP="F", SEC="1", COLS="PCPid", REF="ProcesoCompraProveedor" */
+CREATE INDEX CMNotas_FI01 ON CMNotas (PCPid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* ADD_TABLE CotizacionesProveedor: Cotizaciones por Proveedor */
+/* ======================================================================================== */
+
+CREATE TABLE CotizacionesProveedor (
+	 CPid                           numeric(18)          identity
+	,UsucodigoP                     numeric(18)          NOT NULL
+	,CPnumero                       char(10)             NOT NULL
+	,PCPid                          numeric(18)          NOT NULL
+	,CPfechacoti                    datetime             NOT NULL
+	,CPdescripcion                  varchar(100)         NOT NULL
+	,CPobs                          varchar(255)         NULL
+	,CPprocesado                    varchar(120)         NOT NULL
+	,CPsubtotal                     money                NOT NULL
+	,CPtotdesc                      money                NOT NULL
+	,CPtotimp                       money                NOT NULL
+	,CPtotal                        money                NOT NULL
+	,CPfechaaplica                  datetime             NULL
+	,CPestado                       integer              DEFAULT 0 NOT NULL
+	,Mcodigo                        numeric(18)          NOT NULL
+	,CPtipocambio                   float                NOT NULL
+	,CMIid                          numeric(18)          NULL
+	,CMFPid                         numeric(18)          NULL
+	,ECfechavalido                  datetime             NULL
+	,ECformaneg                     varchar(255)         NULL
+	,BMUsucodigo                    numeric(18)          NULL
+	,ts_rversion                    timestamp           
+	)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="P", SEC="0", COLS="CPid" */
+ALTER TABLE CotizacionesProveedor ADD CONSTRAINT CotizacionesProveedor_PK PRIMARY KEY NONCLUSTERED (CPid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="A", SEC="1", COLS="UsucodigoP,CPnumero" */
+ALTER TABLE CotizacionesProveedor ADD CONSTRAINT CotizacionesProveedor_AK01 UNIQUE NONCLUSTERED (UsucodigoP,CPnumero)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="F", SEC="1", COLS="PCPid", REF="ProcesoCompraProveedor" */
+CREATE INDEX CotizacionesProveedor_FI01 ON CotizacionesProveedor (PCPid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* ADD_TABLE DCotizacionProveedor: Detalle de Cotizacion del Prov */
+/* ======================================================================================== */
+
+CREATE TABLE DCotizacionProveedor (
+	 DCPlinea                       numeric(18)          identity
+	,CPid                           numeric(18)          NOT NULL
+	,LPCid                          numeric(18)          NOT NULL
+	,DCPcantidad                    float                NOT NULL
+	,DCPpreciou                     float                NOT NULL
+	,DCPgarantia                    integer              NULL
+	,DCPplazocredito                integer              NULL
+	,DCPplazoentrega                integer              NULL
+	,DCPimpuestos                   float                NOT NULL
+	,DCPdesclin                     money                NOT NULL
+	,DCPtotimp                      money                NOT NULL
+	,DCPtotallin                    money                NOT NULL
+	,DCPdescprov                    varchar(255)         NULL
+	,DCPunidadcot                   varchar(15)          NOT NULL
+	,DCPconversion                  float                DEFAULT 1 NOT NULL
+	,BMUsucodigo                    numeric(18)          NULL
+	,ts_rversion                    timestamp           
+	)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="P", SEC="0", COLS="DCPlinea" */
+ALTER TABLE DCotizacionProveedor ADD CONSTRAINT DCotizacionProveedor_PK PRIMARY KEY NONCLUSTERED (DCPlinea)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="F", SEC="1", COLS="CPid", REF="CotizacionesProveedor" */
+CREATE INDEX DCotizacionProveedor_FI01 ON DCotizacionProveedor (CPid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="F", SEC="2", COLS="LPCid", REF="LineasProcesoCompras" */
+CREATE INDEX DCotizacionProveedor_FI02 ON DCotizacionProveedor (LPCid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE DDocumentosAdjuntos: Detalle de Documentos Adjuntos */
+/* ======================================================================================== */
+/* CHG_KEY OP=(CAMBIO): TIP="P", COLS="DDAid" */
+ALTER TABLE DDocumentosAdjuntos DROP CONSTRAINT DDocumentosAdjuntos_PK /* PRIMARY KEY (DDAid) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* DEL_KEY OP=(NO DEFINIDO): TIP="I", COLS="CMPid,DSlinea" */
+DROP INDEX DDocumentosAdjuntos.DDocumentosAdjuntos_FI01 /* INDEX (CMPid,DSlinea) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_COLUMN OP=(CAMBIO): DDAid - id de Documento Adjunto */
+/* IF X GT 0:select count(1) as X from syscolumns where id=object_id('DDocumentosAdjuntos') and name='DDAid__NEW' */
+LA SIGUIENTE INSTRUCCION NO SE VA A EJECUTAR PORQUE NO SE CUMPLIO LA CONDICION 'X GT 0':
+ALTER TABLE DDocumentosAdjuntos DROP COLUMN DDAid__NEW
+go
+ALTER TABLE DDocumentosAdjuntos ADD DDAid__NEW numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+UPDATE DDocumentosAdjuntos SET DDAid__NEW = DDAid
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE DDocumentosAdjuntos DROP COLUMN DDAid
+go
+EJECUCION EN BASE DE DATOS OK
+
+EXEC sp_rename 'DDocumentosAdjuntos.DDAid__NEW', 'DDAid', 'COLUMN'
+go
+EJECUCION EN BASE DE DATOS OK
+
+UPDATE DDocumentosAdjuntos SET DDAid = 0 WHERE convert(varchar,DDAid) IS NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE DDocumentosAdjuntos ALTER COLUMN DDAid numeric(18) NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): LPCid - id de Línea de Proceso de Compra */
+ALTER TABLE DDocumentosAdjuntos ADD LPCid numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+UPDATE DDocumentosAdjuntos SET LPCid = 0
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE DDocumentosAdjuntos ALTER COLUMN LPCid numeric(18) NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): CEcodigo - CEcodigo */
+ALTER TABLE DDocumentosAdjuntos ADD CEcodigo numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+UPDATE DDocumentosAdjuntos SET CEcodigo = 0
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE DDocumentosAdjuntos ALTER COLUMN CEcodigo numeric(18) NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): Ecodigo - Empresa que emite el proceso */
+ALTER TABLE DDocumentosAdjuntos ADD Ecodigo integer NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+UPDATE DDocumentosAdjuntos SET Ecodigo = 0
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE DDocumentosAdjuntos ALTER COLUMN Ecodigo integer NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): EcodigoASP - Empresa Framework que emite el proceso */
+ALTER TABLE DDocumentosAdjuntos ADD EcodigoASP numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+UPDATE DDocumentosAdjuntos SET EcodigoASP = 0
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE DDocumentosAdjuntos ALTER COLUMN EcodigoASP numeric(18) NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): cncache - cncache */
+ALTER TABLE DDocumentosAdjuntos ADD cncache varchar(30) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+UPDATE DDocumentosAdjuntos SET cncache = ' '
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE DDocumentosAdjuntos ALTER COLUMN cncache varchar(30) NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_KEY OP=(CAMBIO): TIP="P", SEC="0", COLS="DDAid" */
+ALTER TABLE DDocumentosAdjuntos ADD CONSTRAINT DDocumentosAdjuntos_PK PRIMARY KEY NONCLUSTERED (DDAid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(NUEVO): TIP="F", SEC="1", COLS="LPCid", REF="LineasProcesoCompras" */
+CREATE INDEX DDocumentosAdjuntos_FI01 ON DDocumentosAdjuntos (LPCid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE DListaPrecios: Detalle de Lista de Precios */
+/* ======================================================================================== */
+/* DEL_KEY OP=(NO DEFINIDO): TIP="P", COLS="LPlinea" */
+ALTER TABLE DListaPrecios DROP CONSTRAINT DListaPrecios_PK /* PRIMARY KEY (LPlinea) */
+go
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]The constraint 'DListaPrecios_PK' is being referenced by table 'Paquetes', foreign key constraint 'Paquetes_FK04'.
+
+
+/* DEL_KEY OP=(NO DEFINIDO): TIP="I", COLS="moneda,Ecodigo" */
+DROP INDEX DListaPrecios.DListaPrecios_FI06 /* INDEX (moneda,Ecodigo) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* DEL_KEY OP=(NO DEFINIDO): TIP="I", COLS="Aid" */
+DROP INDEX DListaPrecios.DListaPrecios_FI02 /* INDEX (Aid) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* DEL_KEY OP=(NO DEFINIDO): TIP="I", COLS="Alm_Aid" */
+DROP INDEX DListaPrecios.DListaPrecios_FI04 /* INDEX (Alm_Aid) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* DEL_KEY OP=(NO DEFINIDO): TIP="I", COLS="Cid" */
+DROP INDEX DListaPrecios.DListaPrecios_FI03 /* INDEX (Cid) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* DEL_KEY OP=(NO DEFINIDO): TIP="I", COLS="Ecodigo" */
+DROP INDEX DListaPrecios.DListaPrecios_FI01 /* INDEX (Ecodigo) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* DEL_KEY OP=(NO DEFINIDO): TIP="I", COLS="Ecodigo,Icodigo" */
+DROP INDEX DListaPrecios.DListaPrecios_FI07 /* INDEX (Ecodigo,Icodigo) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* DEL_KEY OP=(NO DEFINIDO): TIP="I", COLS="LPid" */
+DROP INDEX DListaPrecios.DListaPrecios_FI05 /* INDEX (LPid) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): DLPlinea - Línea */
+ALTER TABLE DListaPrecios ADD DLPlinea numeric(18) identity
+go
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Multiple identity columns specified for table 'DListaPrecios'. Only one identity column per table is allowed.
+
+
+/* ADD_COLUMN OP=(NUEVO): ELPid - id de Lista de Precios */
+ALTER TABLE DListaPrecios ADD ELPid numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+UPDATE DListaPrecios SET ELPid = 0
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE DListaPrecios ALTER COLUMN ELPid numeric(18) NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): DLPcodigo - Código de Item del Proveedor */
+ALTER TABLE DListaPrecios ADD DLPcodigo char(25) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+UPDATE DListaPrecios SET DLPcodigo = ' '
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE DListaPrecios ALTER COLUMN DLPcodigo char(25) NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): DLPdescripcion - Descripción del Item */
+ALTER TABLE DListaPrecios ADD DLPdescripcion varchar(255) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+UPDATE DListaPrecios SET DLPdescripcion = ' '
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE DListaPrecios ALTER COLUMN DLPdescripcion varchar(255) NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): DLPdescalterna - Descripcion Alterna */
+ALTER TABLE DListaPrecios ADD DLPdescalterna varchar(255) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): DLPobservaciones - Observaciones */
+ALTER TABLE DListaPrecios ADD DLPobservaciones varchar(255) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): DLPcodbarras - Código de Barras del Fabricante */
+ALTER TABLE DListaPrecios ADD DLPcodbarras char(30) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): DLPgarantia - Garantía en Días */
+ALTER TABLE DListaPrecios ADD DLPgarantia integer NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+UPDATE DListaPrecios SET DLPgarantia = 0
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE DListaPrecios ALTER COLUMN DLPgarantia integer NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): DLPplazoentrega - Plazo de Entrega en Días */
+ALTER TABLE DListaPrecios ADD DLPplazoentrega integer NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+UPDATE DListaPrecios SET DLPplazoentrega = 0
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE DListaPrecios ALTER COLUMN DLPplazoentrega integer NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): DLPplazocredito - Plazo de Crédito en días */
+ALTER TABLE DListaPrecios ADD DLPplazocredito integer NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+UPDATE DListaPrecios SET DLPplazocredito = 0
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE DListaPrecios ALTER COLUMN DLPplazocredito integer NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): DLPprecio - Precio Unitario */
+ALTER TABLE DListaPrecios ADD DLPprecio float NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+UPDATE DListaPrecios SET DLPprecio = 0
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE DListaPrecios ALTER COLUMN DLPprecio float NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): DLPunidad - Unidad */
+ALTER TABLE DListaPrecios ADD DLPunidad char(15) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): DLPclase - Clasificacion */
+ALTER TABLE DListaPrecios ADD DLPclase varchar(60) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): Mcodigo - Moneda */
+ALTER TABLE DListaPrecios ADD Mcodigo numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): DLPporcimpuesto - % Impuestos */
+ALTER TABLE DListaPrecios ADD DLPporcimpuesto float NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): Usucodigo - Usucodigo */
+ALTER TABLE DListaPrecios ADD Usucodigo numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+UPDATE DListaPrecios SET Usucodigo = 0
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE DListaPrecios ALTER COLUMN Usucodigo numeric(18) NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): fechaalta - Fecha de Alta */
+ALTER TABLE DListaPrecios ADD fechaalta datetime NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+UPDATE DListaPrecios SET fechaalta = getdate()
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE DListaPrecios ALTER COLUMN fechaalta datetime NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(NUEVO): TIP="P", SEC="0", COLS="DLPlinea" */
+ALTER TABLE DListaPrecios ADD CONSTRAINT DListaPrecios_PK PRIMARY KEY NONCLUSTERED (DLPlinea)
+go
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Table 'DListaPrecios' already has a primary key defined on it.
+
+
+/* ADD_KEY OP=(NUEVO): TIP="F", SEC="1", COLS="ELPid", REF="EListaPrecios" */
+CREATE INDEX DListaPrecios_FI01 ON DListaPrecios (ELPid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* ADD_TABLE DTracking: DTracking */
+/* ======================================================================================== */
+
+CREATE TABLE DTracking (
+	 DTidtracking                   numeric(18)          identity
+	,ETidtracking                   numeric(18)          NOT NULL
+	,CEcodigo                       numeric(18)          NOT NULL
+	,EcodigoASP                     numeric(18)          NOT NULL
+	,Ecodigo                        integer              NOT NULL
+	,cncache                        varchar(30)          NULL
+	,DTactividad                    varchar(255)         NOT NULL
+	,DTubicacion                    varchar(255)         NULL
+	,Observaciones                  text                 NULL
+	,DTtipo                         char(1)              NOT NULL
+	 CONSTRAINT DTracking_CK10 CHECK ([DTtipo]='M' OR [DTtipo]='T' OR [DTtipo]='C' OR [DTtipo]='S' OR [DTtipo]='E')
+	,DTfecha                        datetime             NOT NULL
+	,DTfechaincidencia              datetime             NULL
+	,DTfechaest                     datetime             NULL
+	,CRid                           numeric(18)          NULL
+	,DTnumreferencia                varchar(50)          NULL
+	,DTcampousuario                 varchar(50)          NULL
+	,DTcampopwd                     varchar(50)          NULL
+	,ETcodigo                       integer              NOT NULL
+	,DTrecibidopor                  varchar(80)          NULL
+	,BMUsucodigo                    numeric(18)          NOT NULL
+	,ts_rversion                    timestamp           
+	)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="P", SEC="0", COLS="DTidtracking" */
+ALTER TABLE DTracking ADD CONSTRAINT DTracking_PK PRIMARY KEY NONCLUSTERED (DTidtracking)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="F", SEC="1", COLS="ETidtracking", REF="ETracking" */
+CREATE INDEX DTracking_FI01 ON DTracking (ETidtracking)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="F", SEC="2", COLS="Ecodigo,ETcodigo", REF="EstadosTracking" */
+CREATE INDEX DTracking_FI02 ON DTracking (Ecodigo,ETcodigo)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE EListaPrecios: Encabezado de Lista de Precios */
+/* ======================================================================================== */
+/* DEL_KEY OP=(NO DEFINIDO): TIP="P", COLS="LPid" */
+ALTER TABLE EListaPrecios DROP CONSTRAINT EListaPrecios_PK /* PRIMARY KEY (LPid) */
+go
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]The constraint 'EListaPrecios_PK' is being referenced by table 'ClienteDetallista', foreign key constraint 'ClienteDetallista_FK01'.
+
+
+/* DEL_KEY OP=(NO DEFINIDO): TIP="I", COLS="Ecodigo" */
+DROP INDEX EListaPrecios.EListaPrecios_FI01 /* INDEX (Ecodigo) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): ELPid - id de Lista de Precios */
+ALTER TABLE EListaPrecios ADD ELPid numeric(18) identity
+go
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Multiple identity columns specified for table 'EListaPrecios'. Only one identity column per table is allowed.
+
+
+/* ADD_COLUMN OP=(NUEVO): ELPUsucodigo - Usucodigo del Proveedor */
+ALTER TABLE EListaPrecios ADD ELPUsucodigo numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+UPDATE EListaPrecios SET ELPUsucodigo = 0
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE EListaPrecios ALTER COLUMN ELPUsucodigo numeric(18) NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): CEcodigo - CEcodigo */
+ALTER TABLE EListaPrecios ADD CEcodigo numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): Usucodigo - Usucodigo */
+ALTER TABLE EListaPrecios ADD Usucodigo numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): fechaalta - fecha de alta */
+ALTER TABLE EListaPrecios ADD fechaalta datetime NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+UPDATE EListaPrecios SET fechaalta = getdate()
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE EListaPrecios ALTER COLUMN fechaalta datetime NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): ELPfdesde - Vigencia desde */
+ALTER TABLE EListaPrecios ADD ELPfdesde datetime NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+UPDATE EListaPrecios SET ELPfdesde = getdate()
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE EListaPrecios ALTER COLUMN ELPfdesde datetime NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): ELPfhasta - Vigencia hasta */
+ALTER TABLE EListaPrecios ADD ELPfhasta datetime NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+UPDATE EListaPrecios SET ELPfhasta = getdate()
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE EListaPrecios ALTER COLUMN ELPfhasta datetime NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): Estado - Estado */
+ALTER TABLE EListaPrecios ADD Estado integer DEFAULT 0 NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): ELPdescripcion - Descripción */
+ALTER TABLE EListaPrecios ADD ELPdescripcion varchar(80) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+UPDATE EListaPrecios SET ELPdescripcion = ' '
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE EListaPrecios ALTER COLUMN ELPdescripcion varchar(80) NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): Observaciones - Observaciones */
+ALTER TABLE EListaPrecios ADD Observaciones varchar(255) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): ELPplazocredito - Plazo de Crédito */
+ALTER TABLE EListaPrecios ADD ELPplazocredito integer NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): ELPincimpuestos - Precios Incluyen Impuestos */
+ALTER TABLE EListaPrecios ADD ELPincimpuestos bit DEFAULT 0 NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(NUEVO): TIP="P", SEC="0", COLS="ELPid" */
+ALTER TABLE EListaPrecios ADD CONSTRAINT EListaPrecios_PK PRIMARY KEY NONCLUSTERED (ELPid)
+go
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Table 'EListaPrecios' already has a primary key defined on it.
+
+
+/* ======================================================================================== */
+/* CHG_TABLE EmpresaArea: Areas Funcionales */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): EACodigo - EACodigo */
+ALTER TABLE EmpresaArea ADD EACodigo char(10) NULL
+go
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot alter 'EmpresaArea' because it is not a table.
+
+
+/* ADD_KEY OP=(NUEVO): TIP="P", SEC="0", COLS="EAid" */
+ALTER TABLE EmpresaArea ADD CONSTRAINT EmpresaArea_PK PRIMARY KEY NONCLUSTERED (EAid)
+go
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot alter 'EmpresaArea' because it is not a table.
+
+
+/* ADD_KEY OP=(NUEVO): TIP="F", SEC="1", COLS="EEid", REF="EncuestaEmpresa" */
+CREATE INDEX EmpresaArea_FI01 ON EmpresaArea (EEid)
+go
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot create index on view 'EmpresaArea' because the view is not schema bound.
+
+
+/* ======================================================================================== */
+/* CHG_TABLE EmpresaOrganizacion: Tipo de Organizacion Encuestad */
+/* ======================================================================================== */
+/* ADD_KEY OP=(NUEVO): TIP="P", SEC="0", COLS="ETid" */
+ALTER TABLE EmpresaOrganizacion ADD CONSTRAINT EmpresaOrganizacion_PK PRIMARY KEY NONCLUSTERED (ETid)
+go
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot alter 'EmpresaOrganizacion' because it is not a table.
+
+
+/* ADD_KEY OP=(NUEVO): TIP="F", SEC="1", COLS="EEid", REF="EncuestaEmpresa" */
+CREATE INDEX EmpresaOrganizacion_FI01 ON EmpresaOrganizacion (EEid)
+go
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot create index on view 'EmpresaOrganizacion' because the view is not schema bound.
+
+
+/* ======================================================================================== */
+/* CHG_TABLE Encuesta: Encuesta */
+/* ======================================================================================== */
+/* ADD_KEY OP=(NUEVO): TIP="P", SEC="0", COLS="Eid" */
+ALTER TABLE Encuesta ADD CONSTRAINT Encuesta_PK PRIMARY KEY NONCLUSTERED (Eid)
+go
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot alter 'Encuesta' because it is not a table.
+
+
+/* ADD_KEY OP=(NUEVO): TIP="F", SEC="1", COLS="EEid", REF="EncuestaEmpresa" */
+CREATE INDEX Encuesta_FI01 ON Encuesta (EEid)
+go
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot create index on view 'Encuesta' because the view is not schema bound.
+
+
+/* ======================================================================================== */
+/* CHG_TABLE EncuestaEmpresa: Empresas Encuestadoras */
+/* ======================================================================================== */
+/* ADD_KEY OP=(NUEVO): TIP="P", SEC="0", COLS="EEid" */
+ALTER TABLE EncuestaEmpresa ADD CONSTRAINT EncuestaEmpresa_PK PRIMARY KEY NONCLUSTERED (EEid)
+go
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot alter 'EncuestaEmpresa' because it is not a table.
+
+
+/* ======================================================================================== */
+/* CHG_TABLE EncuestaPuesto: EncuestaPuesto */
+/* ======================================================================================== */
+/* ADD_KEY OP=(NUEVO): TIP="P", SEC="0", COLS="EPid" */
+ALTER TABLE EncuestaPuesto ADD CONSTRAINT EncuestaPuesto_PK PRIMARY KEY NONCLUSTERED (EPid)
+go
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot alter 'EncuestaPuesto' because it is not a table.
+
+
+/* ADD_KEY OP=(NUEVO): TIP="F", SEC="1", COLS="EAid", REF="EmpresaArea" */
+CREATE INDEX EncuestaPuesto_FI01 ON EncuestaPuesto (EAid)
+go
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot create index on view 'EncuestaPuesto' because the view is not schema bound.
+
+
+/* ADD_KEY OP=(NUEVO): TIP="F", SEC="2", COLS="EEid", REF="EncuestaEmpresa" */
+CREATE INDEX EncuestaPuesto_FI02 ON EncuestaPuesto (EEid)
+go
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot create index on view 'EncuestaPuesto' because the view is not schema bound.
+
+
+/* ======================================================================================== */
+/* CHG_TABLE EncuestaSalarios: Salarios por Encuesta */
+/* ======================================================================================== */
+/* CHG_COLUMN OP=(CAMBIO): ESvariacion - Coeficiente Variación */
+ALTER TABLE EncuestaSalarios ALTER COLUMN ESvariacion numeric(18,2) NOT NULL
+go
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot alter 'EncuestaSalarios' because it is not a table.
+
+
+/* ADD_KEY OP=(NUEVO): TIP="P", SEC="0", COLS="ESid" */
+ALTER TABLE EncuestaSalarios ADD CONSTRAINT EncuestaSalarios_PK PRIMARY KEY NONCLUSTERED (ESid)
+go
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot alter 'EncuestaSalarios' because it is not a table.
+
+
+/* ADD_KEY OP=(NUEVO): TIP="A", SEC="1", COLS="EEid,ETid,Eid,EPid,Moneda" */
+ALTER TABLE EncuestaSalarios ADD CONSTRAINT EncuestaSalarios_AK01 UNIQUE NONCLUSTERED (EEid,ETid,Eid,EPid,Moneda)
+go
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot alter 'EncuestaSalarios' because it is not a table.
+
+
+/* ADD_KEY OP=(NUEVO): TIP="F", SEC="1", COLS="Eid", REF="Encuesta" */
+CREATE INDEX EncuestaSalarios_FI01 ON EncuestaSalarios (Eid)
+go
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot create index on view 'EncuestaSalarios' because the view is not schema bound.
+
+
+/* ADD_KEY OP=(NUEVO): TIP="F", SEC="2", COLS="EPid", REF="EncuestaPuesto" */
+CREATE INDEX EncuestaSalarios_FI02 ON EncuestaSalarios (EPid)
+go
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot create index on view 'EncuestaSalarios' because the view is not schema bound.
+
+
+/* ADD_KEY OP=(NUEVO): TIP="F", SEC="3", COLS="EEid", REF="EncuestaEmpresa" */
+CREATE INDEX EncuestaSalarios_FI03 ON EncuestaSalarios (EEid)
+go
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot create index on view 'EncuestaSalarios' because the view is not schema bound.
+
+
+/* ADD_KEY OP=(NUEVO): TIP="F", SEC="4", COLS="ETid", REF="EmpresaOrganizacion" */
+CREATE INDEX EncuestaSalarios_FI04 ON EncuestaSalarios (ETid)
+go
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot create index on view 'EncuestaSalarios' because the view is not schema bound.
+
+
+/* ======================================================================================== */
+/* CHG_TABLE EstadosTracking: Estados de Tracking */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): BMUsucodigo - Usucodigo para Log del Portal */
+ALTER TABLE EstadosTracking ADD BMUsucodigo numeric(18) NULL
+go
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot alter 'EstadosTracking' because it is not a table.
+
+
+/* ADD_KEY OP=(NUEVO): TIP="P", SEC="0", COLS="Ecodigo,ETcodigo" */
+ALTER TABLE EstadosTracking ADD CONSTRAINT EstadosTracking_PK PRIMARY KEY NONCLUSTERED (Ecodigo,ETcodigo)
+go
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot alter 'EstadosTracking' because it is not a table.
+
+
+/* ======================================================================================== */
+/* CHG_TABLE ETracking: ETracking */
+/* ======================================================================================== */
+/* CHG_COLUMN OP=(CAMBIO): ETestado - Estado */
+ALTER TABLE ETracking ADD CONSTRAINT ETracking_DF16 DEFAULT 'P' FOR ETestado
+go
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot alter 'ETracking' because it is not a table.
+
+ALTER TABLE ETracking ADD CONSTRAINT ETracking_CK16 CHECK ([ETestado]='E' OR [ETestado]='T' OR [ETestado]='P')
+go
+NO SE EJECUTÓ LA INSTRUCCIÓN PORQUE HAY UN ERROR PREVIO
+
+
+/* CHG_COLUMN OP=(CAMBIO): ETmediotransporte - Medio de Transporte */
+ALTER TABLE ETracking ADD CONSTRAINT ETracking_DF20 DEFAULT 0 FOR ETmediotransporte
+go
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot alter 'ETracking' because it is not a table.
+
+ALTER TABLE ETracking ADD CONSTRAINT ETracking_CK20 CHECK ([ETmediotransporte]=(5) OR [ETmediotransporte]=(4) OR [ETmediotransporte]=(3) OR [ETmediotransporte]=(2) OR [ETmediotransporte]=(1) OR [ETmediotransporte]=(0))
+go
+NO SE EJECUTÓ LA INSTRUCCIÓN PORQUE HAY UN ERROR PREVIO
+
+
+/* ADD_KEY OP=(NUEVO): TIP="P", SEC="0", COLS="ETidtracking" */
+ALTER TABLE ETracking ADD CONSTRAINT ETracking_PK PRIMARY KEY NONCLUSTERED (ETidtracking)
+go
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot alter 'ETracking' because it is not a table.
+
+
+/* ADD_KEY OP=(NUEVO): TIP="A", SEC="1", COLS="ETnumtracking,Ecodigo" */
+ALTER TABLE ETracking ADD CONSTRAINT ETracking_AK01 UNIQUE NONCLUSTERED (ETnumtracking,Ecodigo)
+go
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot alter 'ETracking' because it is not a table.
+
+
+/* ADD_KEY OP=(NUEVO): TIP="F", SEC="1", COLS="Ecodigo,ETcodigo", REF="EstadosTracking" */
+CREATE INDEX ETracking_FI01 ON ETracking (Ecodigo,ETcodigo)
+go
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot create index on view 'ETracking' because the view is not schema bound.
+
+
+/* ======================================================================================== */
+/* CHG_TABLE ETrackingItems: ETrackingItems */
+/* ======================================================================================== */
+/* CHG_COLUMN OP=(CAMBIO): ETIestado - Estado */
+ALTER TABLE ETrackingItems ADD CONSTRAINT ETrackingItems_DF11 DEFAULT 0 FOR ETIestado
+go
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot alter 'ETrackingItems' because it is not a table.
+
+ALTER TABLE ETrackingItems ADD CONSTRAINT ETrackingItems_CK11 CHECK ([ETIestado]=(1) OR [ETIestado]=(0))
+go
+NO SE EJECUTÓ LA INSTRUCCIÓN PORQUE HAY UN ERROR PREVIO
+
+
+/* CHG_COLUMN OP=(CAMBIO): ETcostodirecto - Costo Directo (factura) */
+ALTER TABLE ETrackingItems ADD CONSTRAINT ETrackingItems_DF12 DEFAULT 0.00 FOR ETcostodirecto
+go
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot alter 'ETrackingItems' because it is not a table.
+
+
+/* CHG_COLUMN OP=(CAMBIO): ETcostoindfletes - Costo Indirecto fletes */
+ALTER TABLE ETrackingItems ADD CONSTRAINT ETrackingItems_DF13 DEFAULT 0.00 FOR ETcostoindfletes
+go
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot alter 'ETrackingItems' because it is not a table.
+
+
+/* CHG_COLUMN OP=(CAMBIO): ETcostoindseg - Costo Indirecto Seguros */
+ALTER TABLE ETrackingItems ADD CONSTRAINT ETrackingItems_DF14 DEFAULT 0.00 FOR ETcostoindseg
+go
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot alter 'ETrackingItems' because it is not a table.
+
+
+/* CHG_COLUMN OP=(CAMBIO): ETcostoindsegpropio - Costo Indirecto Seguros Propios */
+ALTER TABLE ETrackingItems ADD CONSTRAINT ETrackingItems_DF15 DEFAULT 0.00 FOR ETcostoindsegpropio
+go
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot alter 'ETrackingItems' because it is not a table.
+
+
+/* CHG_COLUMN OP=(CAMBIO): ETcostoindgastos - Costo Indirecto Gastos */
+ALTER TABLE ETrackingItems ADD CONSTRAINT ETrackingItems_DF16 DEFAULT 0.00 FOR ETcostoindgastos
+go
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot alter 'ETrackingItems' because it is not a table.
+
+
+/* CHG_COLUMN OP=(CAMBIO): ETcostoindimp - Costo Indirecto Impuestos */
+ALTER TABLE ETrackingItems ADD CONSTRAINT ETrackingItems_DF17 DEFAULT 0.00 FOR ETcostoindimp
+go
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot alter 'ETrackingItems' because it is not a table.
+
+
+/* CHG_COLUMN OP=(CAMBIO): ETcostoindfletesPoliza - Costo Indirecto fletes Poliza */
+ALTER TABLE ETrackingItems ADD CONSTRAINT ETrackingItems_DF18 DEFAULT 0.00 FOR ETcostoindfletesPoliza
+go
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot alter 'ETrackingItems' because it is not a table.
+
+
+/* CHG_COLUMN OP=(CAMBIO): ETcostoindsegPoliza - Costo Indirecto Seguros Poliza */
+ALTER TABLE ETrackingItems ADD CONSTRAINT ETrackingItems_DF19 DEFAULT 0.00 FOR ETcostoindsegPoliza
+go
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot alter 'ETrackingItems' because it is not a table.
+
+
+/* CHG_COLUMN OP=(CAMBIO): ETcostorecibido - Costo Recibido CIF */
+ALTER TABLE ETrackingItems ADD CONSTRAINT ETrackingItems_DF20 DEFAULT 0.00 FOR ETcostorecibido
+go
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot alter 'ETrackingItems' because it is not a table.
+
+
+/* CHG_COLUMN OP=(CAMBIO): ETcostodirectorec - Costo Directo  desalmacenado poliza */
+ALTER TABLE ETrackingItems ADD CONSTRAINT ETrackingItems_DF21 DEFAULT 0.00 FOR ETcostodirectorec
+go
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot alter 'ETrackingItems' because it is not a table.
+
+
+/* CHG_COLUMN OP=(CAMBIO): ETcostoindfletesrec - Costo Indirecto fletes  desalmacenado poliza */
+ALTER TABLE ETrackingItems ADD CONSTRAINT ETrackingItems_DF22 DEFAULT 0.00 FOR ETcostoindfletesrec
+go
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot alter 'ETrackingItems' because it is not a table.
+
+
+/* CHG_COLUMN OP=(CAMBIO): ETcostoindsegrec - Costo Indirecto Seguros desalmacenado poliza */
+ALTER TABLE ETrackingItems ADD CONSTRAINT ETrackingItems_DF23 DEFAULT 0.00 FOR ETcostoindsegrec
+go
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot alter 'ETrackingItems' because it is not a table.
+
+
+/* CHG_COLUMN OP=(CAMBIO): ETcostodirectofacorig - Costo Directo (factura)  no almac moneda origen */
+ALTER TABLE ETrackingItems ADD CONSTRAINT ETrackingItems_DF24 DEFAULT 0.00 FOR ETcostodirectofacorig
+go
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot alter 'ETrackingItems' because it is not a table.
+
+
+/* CHG_COLUMN OP=(CAMBIO): ETcostoindfletesfacorig - Costo Indirecto fletes  no almac moneda origen */
+ALTER TABLE ETrackingItems ADD CONSTRAINT ETrackingItems_DF25 DEFAULT 0.00 FOR ETcostoindfletesfacorig
+go
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot alter 'ETrackingItems' because it is not a table.
+
+
+/* CHG_COLUMN OP=(CAMBIO): ETcostoindsegfacorig - Costo Indirecto Seguros no almac moneda origen */
+ALTER TABLE ETrackingItems ADD CONSTRAINT ETrackingItems_DF26 DEFAULT 0.00 FOR ETcostoindsegfacorig
+go
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot alter 'ETrackingItems' because it is not a table.
+
+
+/* CHG_COLUMN OP=(CAMBIO): ETcantfactura - Cantidad Factura */
+ALTER TABLE ETrackingItems ADD CONSTRAINT ETrackingItems_DF27 DEFAULT 0.00 FOR ETcantfactura
+go
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot alter 'ETrackingItems' because it is not a table.
+
+
+/* CHG_COLUMN OP=(CAMBIO): ETcantrecibida - Cantidad Recibida */
+ALTER TABLE ETrackingItems ADD CONSTRAINT ETrackingItems_DF28 DEFAULT 0.00 FOR ETcantrecibida
+go
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot alter 'ETrackingItems' because it is not a table.
+
+
+/* ADD_COLUMN OP=(NUEVO): Ucodigo - Ucodigo */
+ALTER TABLE ETrackingItems ADD Ucodigo char(5) NULL
+go
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot alter 'ETrackingItems' because it is not a table.
+
+
+/* ADD_KEY OP=(NUEVO): TIP="P", SEC="0", COLS="ETIiditem" */
+ALTER TABLE ETrackingItems ADD CONSTRAINT ETrackingItems_PK PRIMARY KEY NONCLUSTERED (ETIiditem)
+go
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot alter 'ETrackingItems' because it is not a table.
+
+
+/* ADD_KEY OP=(NUEVO): TIP="F", SEC="1", COLS="ETidtracking", REF="ETracking" */
+CREATE INDEX ETrackingItems_FI01 ON ETrackingItems (ETidtracking)
+go
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot create index on view 'ETrackingItems' because the view is not schema bound.
+
+
+/* ADD_KEY OP=(NUEVO): TIP="I", SEC="1", COLS="DOlinea" */
+CREATE NONCLUSTERED INDEX ETrackingItems_ID01 ON ETrackingItems (DOlinea)
+go
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot create index on view 'ETrackingItems' because the view is not schema bound.
+
+
+/* ======================================================================================== */
+/* ADD_TABLE HCEstadosTracking: Historial de Cambios de Estado */
+/* ======================================================================================== */
+
+CREATE TABLE HCEstadosTracking (
+	 HCETid                         numeric(18)          identity
+	,ETidtracking                   numeric(18)          NOT NULL
+	,Ecodigo                        integer              NOT NULL
+	,ETcodigo                       integer              NOT NULL
+	,BMUsucodigo                    numeric(18)          NULL
+	,ts_rversion                    timestamp           
+	)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="P", SEC="0", COLS="HCETid" */
+ALTER TABLE HCEstadosTracking ADD CONSTRAINT HCEstadosTracking_PK PRIMARY KEY NONCLUSTERED (HCETid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="F", SEC="1", COLS="ETidtracking", REF="ETracking" */
+CREATE INDEX HCEstadosTracking_FI01 ON HCEstadosTracking (ETidtracking)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="F", SEC="2", COLS="Ecodigo,ETcodigo", REF="EstadosTracking" */
+CREATE INDEX HCEstadosTracking_FI02 ON HCEstadosTracking (Ecodigo,ETcodigo)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* ADD_TABLE InvitadosProcesoCompra: InvitadosProcesoCompra */
+/* ======================================================================================== */
+
+CREATE TABLE InvitadosProcesoCompra (
+	 PCPid                          numeric(18)          NOT NULL
+	,UsuarioP                       numeric(18)          NOT NULL
+	,BMUsucodigo                    numeric(18)          NULL
+	,ts_rversion                    timestamp           
+	)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="P", SEC="0", COLS="PCPid,UsuarioP" */
+ALTER TABLE InvitadosProcesoCompra ADD CONSTRAINT InvitadosProcesoCompra_PK PRIMARY KEY NONCLUSTERED (PCPid,UsuarioP)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="F", SEC="1", COLS="PCPid", REF="ProcesoCompraProveedor" */
+CREATE INDEX InvitadosProcesoCompra_FI01 ON InvitadosProcesoCompra (PCPid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* ADD_TABLE LineasProcesoCompras: Lineas del Proceso de Compras  */
+/* ======================================================================================== */
+
+CREATE TABLE LineasProcesoCompras (
+	 LPCid                          numeric(18)          identity
+	,PCPid                          numeric(18)          NOT NULL
+	,CEcodigo                       numeric(18)          NOT NULL
+	,Ecodigo                        integer              NOT NULL
+	,EcodigoASP                     numeric(18)          NOT NULL
+	,cncache                        varchar(30)          NOT NULL
+	,DSlinea                        numeric(18)          NOT NULL
+	,ESidsolicitud                  numeric(18)          NOT NULL
+	,DScant                         float                NOT NULL
+	,Unidad                         varchar(15)          NULL
+	,DSdescripcion                  varchar(255)         NOT NULL
+	,DSdescalterna                  varchar(1024)        NULL
+	,DSobservacion                  varchar(255)         NULL
+	,LPCdescCF                      varchar(60)          NULL
+	,BMUsucodigo                    numeric(18)          NULL
+	,ts_rversion                    timestamp           
+	)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="P", SEC="0", COLS="LPCid" */
+ALTER TABLE LineasProcesoCompras ADD CONSTRAINT LineasProcesoCompras_PK PRIMARY KEY NONCLUSTERED (LPCid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="F", SEC="1", COLS="PCPid", REF="ProcesoCompraProveedor" */
+CREATE INDEX LineasProcesoCompras_FI01 ON LineasProcesoCompras (PCPid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* ADD_TABLE ObjetosListaPrecios: Objetos Asociados Lista de Pre */
+/* ======================================================================================== */
+
+CREATE TABLE ObjetosListaPrecios (
+	 OLPid                          numeric(18)          identity
+	,ELPid                          numeric(18)          NOT NULL
+	,OLPdescripcion                 varchar(100)         NOT NULL
+	,Usucodigo                      numeric(18)          NOT NULL
+	,fechaalta                      datetime             NOT NULL
+	,OLParchivo                     varchar(100)         NULL
+	,OLPextension                   varchar(10)          NULL
+	,OLPdato                        image                NULL
+	,BMUsucodigo                    numeric(18)          NULL
+	,ts_rversion                    timestamp           
+	)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="P", SEC="0", COLS="OLPid" */
+ALTER TABLE ObjetosListaPrecios ADD CONSTRAINT ObjetosListaPrecios_PK PRIMARY KEY NONCLUSTERED (OLPid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="F", SEC="1", COLS="ELPid", REF="EListaPrecios" */
+CREATE INDEX ObjetosListaPrecios_FI01 ON ObjetosListaPrecios (ELPid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* ADD_TABLE PermisosListaPrecios: Permisos Lista de Precios */
+/* ======================================================================================== */
+
+CREATE TABLE PermisosListaPrecios (
+	 ELPid                          numeric(18)          NOT NULL
+	,EcodigoASP                     numeric(18)          NOT NULL
+	,Ecodigo                        integer              NOT NULL
+	,CEcodigo                       numeric(18)          NOT NULL
+	,Usucodigo                      numeric(18)          NOT NULL
+	,fechaalta                      datetime             NOT NULL
+	,BMUsucodigo                    numeric(18)          NULL
+	,ts_rversion                    timestamp           
+	)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="P", SEC="0", COLS="ELPid,EcodigoASP" */
+ALTER TABLE PermisosListaPrecios ADD CONSTRAINT PermisosListaPrecios_PK PRIMARY KEY NONCLUSTERED (ELPid,EcodigoASP)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="F", SEC="1", COLS="ELPid", REF="EListaPrecios" */
+CREATE INDEX PermisosListaPrecios_FI01 ON PermisosListaPrecios (ELPid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* ADD_TABLE ProcesoCompraProveedor: Proceso de Compra por Proveedo */
+/* ======================================================================================== */
+
+CREATE TABLE ProcesoCompraProveedor (
+	 PCPid                          numeric(18)          identity
+	,CMPid                          numeric(18)          NOT NULL
+	,CMPdescripcion                 varchar(100)         NOT NULL
+	,CEcodigo                       numeric(18)          NOT NULL
+	,Ecodigo                        integer              NOT NULL
+	,EcodigoASP                     numeric(18)          NOT NULL
+	,UsucodigoC                     numeric(18)          NOT NULL
+	,CMPfechapublica                datetime             NOT NULL
+	,CMPfmaxofertas                 datetime             NOT NULL
+	,cncache                        varchar(30)          NOT NULL
+	,Usucodigo                      numeric(18)          NOT NULL
+	,fechaalta                      datetime             NOT NULL
+	,PCPestado                      integer              DEFAULT 0 NOT NULL
+	,CMIid                          numeric(18)          NULL
+	,CMFPid                         numeric(18)          NULL
+	,CMPnumero                      numeric(18)          NULL
+	,BMUsucodigo                    numeric(18)          NULL
+	,ts_rversion                    timestamp           
+	)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="P", SEC="0", COLS="PCPid" */
+ALTER TABLE ProcesoCompraProveedor ADD CONSTRAINT ProcesoCompraProveedor_PK PRIMARY KEY NONCLUSTERED (PCPid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ================================================================= */
+/*            CREA FKs NUEVOS O CON CAMPOS MODIFICADOS               */
+/* ================================================================= */
+/* CHG_TABLE CMNotas */
+/* ADD_FK OP=(NUEVO): TIP="F", SEC="1", COLS="PCPid", REF="ProcesoCompraProveedor" */
+ALTER TABLE CMNotas ADD CONSTRAINT CMNotas_FK01 FOREIGN KEY (PCPid) REFERENCES ProcesoCompraProveedor (PCPid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_TABLE CotizacionesProveedor */
+/* ADD_FK OP=(TAB NUEVA): TIP="F", SEC="1", COLS="PCPid", REF="ProcesoCompraProveedor" */
+ALTER TABLE CotizacionesProveedor ADD CONSTRAINT CotizacionesProveedor_FK01 FOREIGN KEY (PCPid) REFERENCES ProcesoCompraProveedor (PCPid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_TABLE DCotizacionProveedor */
+/* ADD_FK OP=(TAB NUEVA): TIP="F", SEC="1", COLS="CPid", REF="CotizacionesProveedor" */
+ALTER TABLE DCotizacionProveedor ADD CONSTRAINT DCotizacionProveedor_FK01 FOREIGN KEY (CPid) REFERENCES CotizacionesProveedor (CPid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_FK OP=(TAB NUEVA): TIP="F", SEC="2", COLS="LPCid", REF="LineasProcesoCompras" */
+ALTER TABLE DCotizacionProveedor ADD CONSTRAINT DCotizacionProveedor_FK02 FOREIGN KEY (LPCid) REFERENCES LineasProcesoCompras (LPCid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_TABLE DDocumentosAdjuntos */
+/* ADD_FK OP=(NUEVO): TIP="F", SEC="1", COLS="LPCid", REF="LineasProcesoCompras" */
+ALTER TABLE DDocumentosAdjuntos ADD CONSTRAINT DDocumentosAdjuntos_FK01 FOREIGN KEY (LPCid) REFERENCES LineasProcesoCompras (LPCid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_TABLE DListaPrecios */
+/* ADD_FK OP=(NUEVO): TIP="F", SEC="1", COLS="ELPid", REF="EListaPrecios" */
+ALTER TABLE DListaPrecios ADD CONSTRAINT DListaPrecios_FK01 FOREIGN KEY (ELPid) REFERENCES EListaPrecios (ELPid)
+go
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Foreign key 'DListaPrecios_FK01' references invalid column 'ELPid' in referenced table 'EListaPrecios'.
+
+
+/* CHG_TABLE DTracking */
+/* ADD_FK OP=(TAB NUEVA): TIP="F", SEC="1", COLS="ETidtracking", REF="ETracking" */
+ALTER TABLE DTracking ADD CONSTRAINT DTracking_FK01 FOREIGN KEY (ETidtracking) REFERENCES ETracking (ETidtracking)
+go
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Foreign key 'DTracking_FK01' references object 'ETracking' which is not a user table.
+
+
+/* ADD_FK OP=(TAB NUEVA): TIP="F", SEC="2", COLS="Ecodigo,ETcodigo", REF="EstadosTracking" */
+ALTER TABLE DTracking ADD CONSTRAINT DTracking_FK02 FOREIGN KEY (Ecodigo,ETcodigo) REFERENCES EstadosTracking (Ecodigo,ETcodigo)
+go
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Foreign key 'DTracking_FK02' references object 'EstadosTracking' which is not a user table.
+
+
+/* CHG_TABLE EmpresaArea */
+/* ADD_FK OP=(NUEVO): TIP="F", SEC="1", COLS="EEid", REF="EncuestaEmpresa" */
+ALTER TABLE EmpresaArea ADD CONSTRAINT EmpresaArea_FK01 FOREIGN KEY (EEid) REFERENCES EncuestaEmpresa (EEid)
+go
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot alter 'EmpresaArea' because it is not a table.
+
+
+/* CHG_TABLE EmpresaOrganizacion */
+/* ADD_FK OP=(NUEVO): TIP="F", SEC="1", COLS="EEid", REF="EncuestaEmpresa" */
+ALTER TABLE EmpresaOrganizacion ADD CONSTRAINT EmpresaOrganizacion_FK01 FOREIGN KEY (EEid) REFERENCES EncuestaEmpresa (EEid)
+go
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot alter 'EmpresaOrganizacion' because it is not a table.
+
+
+/* CHG_TABLE Encuesta */
+/* ADD_FK OP=(NUEVO): TIP="F", SEC="1", COLS="EEid", REF="EncuestaEmpresa" */
+ALTER TABLE Encuesta ADD CONSTRAINT Encuesta_FK01 FOREIGN KEY (EEid) REFERENCES EncuestaEmpresa (EEid)
+go
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot alter 'Encuesta' because it is not a table.
+
+
+/* CHG_TABLE EncuestaPuesto */
+/* ADD_FK OP=(NUEVO): TIP="F", SEC="1", COLS="EAid", REF="EmpresaArea" */
+ALTER TABLE EncuestaPuesto ADD CONSTRAINT EncuestaPuesto_FK01 FOREIGN KEY (EAid) REFERENCES EmpresaArea (EAid)
+go
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot alter 'EncuestaPuesto' because it is not a table.
+
+
+/* ADD_FK OP=(NUEVO): TIP="F", SEC="2", COLS="EEid", REF="EncuestaEmpresa" */
+ALTER TABLE EncuestaPuesto ADD CONSTRAINT EncuestaPuesto_FK02 FOREIGN KEY (EEid) REFERENCES EncuestaEmpresa (EEid)
+go
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot alter 'EncuestaPuesto' because it is not a table.
+
+
+/* CHG_TABLE EncuestaSalarios */
+/* ADD_FK OP=(NUEVO): TIP="F", SEC="1", COLS="Eid", REF="Encuesta" */
+ALTER TABLE EncuestaSalarios ADD CONSTRAINT EncuestaSalarios_FK01 FOREIGN KEY (Eid) REFERENCES Encuesta (Eid)
+go
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot alter 'EncuestaSalarios' because it is not a table.
+
+
+/* ADD_FK OP=(NUEVO): TIP="F", SEC="2", COLS="EPid", REF="EncuestaPuesto" */
+ALTER TABLE EncuestaSalarios ADD CONSTRAINT EncuestaSalarios_FK02 FOREIGN KEY (EPid) REFERENCES EncuestaPuesto (EPid)
+go
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot alter 'EncuestaSalarios' because it is not a table.
+
+
+/* ADD_FK OP=(NUEVO): TIP="F", SEC="3", COLS="EEid", REF="EncuestaEmpresa" */
+ALTER TABLE EncuestaSalarios ADD CONSTRAINT EncuestaSalarios_FK03 FOREIGN KEY (EEid) REFERENCES EncuestaEmpresa (EEid)
+go
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot alter 'EncuestaSalarios' because it is not a table.
+
+
+/* ADD_FK OP=(NUEVO): TIP="F", SEC="4", COLS="ETid", REF="EmpresaOrganizacion" */
+ALTER TABLE EncuestaSalarios ADD CONSTRAINT EncuestaSalarios_FK04 FOREIGN KEY (ETid) REFERENCES EmpresaOrganizacion (ETid)
+go
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot alter 'EncuestaSalarios' because it is not a table.
+
+
+/* CHG_TABLE ETracking */
+/* ADD_FK OP=(NUEVO): TIP="F", SEC="1", COLS="Ecodigo,ETcodigo", REF="EstadosTracking" */
+ALTER TABLE ETracking ADD CONSTRAINT ETracking_FK01 FOREIGN KEY (Ecodigo,ETcodigo) REFERENCES EstadosTracking (Ecodigo,ETcodigo)
+go
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot alter 'ETracking' because it is not a table.
+
+
+/* CHG_TABLE ETrackingItems */
+/* ADD_FK OP=(NUEVO): TIP="F", SEC="1", COLS="ETidtracking", REF="ETracking" */
+ALTER TABLE ETrackingItems ADD CONSTRAINT ETrackingItems_FK01 FOREIGN KEY (ETidtracking) REFERENCES ETracking (ETidtracking)
+go
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Cannot alter 'ETrackingItems' because it is not a table.
+
+
+/* CHG_TABLE HCEstadosTracking */
+/* ADD_FK OP=(TAB NUEVA): TIP="F", SEC="1", COLS="ETidtracking", REF="ETracking" */
+ALTER TABLE HCEstadosTracking ADD CONSTRAINT HCEstadosTracking_FK01 FOREIGN KEY (ETidtracking) REFERENCES ETracking (ETidtracking)
+go
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Foreign key 'HCEstadosTracking_FK01' references object 'ETracking' which is not a user table.
+
+
+/* ADD_FK OP=(TAB NUEVA): TIP="F", SEC="2", COLS="Ecodigo,ETcodigo", REF="EstadosTracking" */
+ALTER TABLE HCEstadosTracking ADD CONSTRAINT HCEstadosTracking_FK02 FOREIGN KEY (Ecodigo,ETcodigo) REFERENCES EstadosTracking (Ecodigo,ETcodigo)
+go
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Foreign key 'HCEstadosTracking_FK02' references object 'EstadosTracking' which is not a user table.
+
+
+/* CHG_TABLE InvitadosProcesoCompra */
+/* ADD_FK OP=(TAB NUEVA): TIP="F", SEC="1", COLS="PCPid", REF="ProcesoCompraProveedor" */
+ALTER TABLE InvitadosProcesoCompra ADD CONSTRAINT InvitadosProcesoCompra_FK01 FOREIGN KEY (PCPid) REFERENCES ProcesoCompraProveedor (PCPid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_TABLE LineasProcesoCompras */
+/* ADD_FK OP=(TAB NUEVA): TIP="F", SEC="1", COLS="PCPid", REF="ProcesoCompraProveedor" */
+ALTER TABLE LineasProcesoCompras ADD CONSTRAINT LineasProcesoCompras_FK01 FOREIGN KEY (PCPid) REFERENCES ProcesoCompraProveedor (PCPid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_TABLE ObjetosListaPrecios */
+/* ADD_FK OP=(TAB NUEVA): TIP="F", SEC="1", COLS="ELPid", REF="EListaPrecios" */
+ALTER TABLE ObjetosListaPrecios ADD CONSTRAINT ObjetosListaPrecios_FK01 FOREIGN KEY (ELPid) REFERENCES EListaPrecios (ELPid)
+go
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Foreign key 'ObjetosListaPrecios_FK01' references invalid column 'ELPid' in referenced table 'EListaPrecios'.
+
+
+/* CHG_TABLE PermisosListaPrecios */
+/* ADD_FK OP=(TAB NUEVA): TIP="F", SEC="1", COLS="ELPid", REF="EListaPrecios" */
+ALTER TABLE PermisosListaPrecios ADD CONSTRAINT PermisosListaPrecios_FK01 FOREIGN KEY (ELPid) REFERENCES EListaPrecios (ELPid)
+go
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Foreign key 'PermisosListaPrecios_FK01' references invalid column 'ELPid' in referenced table 'EListaPrecios'.
+
+
+/* END_SCRIPT */

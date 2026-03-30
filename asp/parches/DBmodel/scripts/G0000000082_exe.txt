@@ -1,0 +1,42 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 185 - DBM 306: Diagram: Viaticos_por_Comision
+
+	         PARCHE:  Parche023_310_SIF_ViaticosComision
+
+GENERADO EN:
+	SERVER:  http://mxpapp36:8300
+	DSN:     sifcim
+	FECHA:   08/10/2011 07:51:28
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* CHG_TABLE GEliquidacionGasto: GEliquidacionGasto */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): CFcuenta2 - ID Cuenta Gasto No deducible */
+ALTER TABLE GEliquidacionGasto ADD CFcuenta2 numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): GELGnoDeducMonto - Monto Autorizado No deducible */
+ALTER TABLE GEliquidacionGasto ADD GELGnoDeducMonto money DEFAULT 0 NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): GELGnoDeducImpuesto - Impuesto No deducible */
+ALTER TABLE GEliquidacionGasto ADD GELGnoDeducImpuesto money DEFAULT 0 NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

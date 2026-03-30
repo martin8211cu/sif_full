@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_NumTransaccion>Transaction Number</LB_NumTransaccion>
+		<LB_NuevaSolicitudTransaccion>New Transaction Request</LB_NuevaSolicitudTransaccion>
+		<LB_Caja>Petty Cash</LB_Caja>
+		<LB_TipoTransaccion>Transaction Type</LB_TipoTransaccion>
+		<LB_Tipos>Types</LB_Tipos>
+		<LB_Reintegro>Reimbursement</LB_Reintegro>
+		<LB_Aumento>Increase</LB_Aumento>
+		<LB_Disminucion>Decrease</LB_Disminucion>
+		<LB_Cierre>Closing</LB_Cierre>
+		<LB_Monto>Amount</LB_Monto>
+		<LB_MontoAprobado>Amount Approved</LB_MontoAprobado>
+		<LB_Descripcion>Description</LB_Descripcion>
+		<LB_MotivoRechazo>Rejection Reason</LB_MotivoRechazo>
+		<LB_Estado>Status</LB_Estado>
+		<LB_RECHAZADA>REJECTED</LB_RECHAZADA>
+		<BTN_Agregar>Add</BTN_Agregar>
+		<BTN_Limpiar>Clean</BTN_Limpiar>
+		<BTN_Regresar>Return</BTN_Regresar>
+		<BTN_Nuevo>New</BTN_Nuevo>
+		<BTN_Modificar>Modify</BTN_Modificar>
+		<BTN_Eliminar>Delete</BTN_Eliminar>
+		<BTN_EnviarAprobar>Send to Approve</BTN_EnviarAprobar>
+		<BTN_Aprobar>Approve</BTN_Aprobar>
+		<MSG_DebeDeEscogerUnTipoDeTransaccion>Select Transaction Type</MSG_DebeDeEscogerUnTipoDeTransaccion>
+		<MSG_ElMontoSolicitadoDebeSerMayorDeCero>The amount requested must be greater than zero</MSG_ElMontoSolicitadoDebeSerMayorDeCero>
+		<MSG_DebeIndicarUnMonto>Define an amount</MSG_DebeIndicarUnMonto>
+		<MSG_NoSePuedeEscogerUnaTransaccionHastaQueDefinaLaCajaChica>You have to select a petty cash to select a transaction</MSG_NoSePuedeEscogerUnaTransaccionHastaQueDefinaLaCajaChica>
+	</Idioma>
+</Etiquetas>

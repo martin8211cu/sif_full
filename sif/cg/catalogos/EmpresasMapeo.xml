@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+
+	<Idioma id="en">
+		<LB_Titulo>Mapping Accounts by Enterprise</LB_Titulo>
+		<LB_Empresa>Enterprise</LB_Empresa>
+		<LB_Mapeo>Mapping</LB_Mapeo>
+		<LB_Datos>Data</LB_Datos>
+		<LB_MonedaConvertida>Converted Currency</LB_MonedaConvertida>
+	</Idioma>
+</Etiquetas>

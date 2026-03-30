@@ -1,0 +1,93 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 427 - DBM 225: PTU, añade Tcodigo en filtro
+
+	         PARCHE:  Parche023_433_RH _Nube
+
+GENERADO EN:
+	SERVER:  http://mxvqapp34:8300
+	DSN:     sifcim
+	FECHA:   06/01/2012 17:59:39
+*/
+
+/* INI_SCRIPT */
+
+/* ================================================================= */
+/*    ELIMINA FKs QUE YA NO SE UTILIZAN O CON CAMPOS MODIFICADOS     */
+/* ================================================================= */
+/* CHG_TABLE EIDeducciones */
+/* DEL_FK OP=(NO GENERAR): TIP="F", COLS="Ecodigo", REF="Empresas" */
+ALTER TABLE EIDeducciones DROP CONSTRAINT EIDeducciones_FK02 /* REFERENCES Empresas (Ecodigo) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE EIDeducciones: Encabezado de Importación de D */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): Tcodigo - Código de Tipo de Nómina */
+ALTER TABLE EIDeducciones ADD Tcodigo char(5) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): EIDdescripcion - Descripcion del Encabezado */
+ALTER TABLE EIDeducciones ADD EIDdescripcion varchar(60) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(NUEVO): TIP="F", SEC="3", COLS="Ecodigo,Tcodigo", REF="TiposNomina" */
+CREATE INDEX EIDeducciones_FI03 ON EIDeducciones (Ecodigo,Tcodigo)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE RHDepenAccionM: Dependencias por acciones masi */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): Tcodigo - Codigo de la nomina */
+ALTER TABLE RHDepenAccionM ADD Tcodigo numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE RHPTUD: RH nomina PTU detalle */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): Tcodigo - Código de Tipo de Nómina */
+ALTER TABLE RHPTUD ADD Tcodigo char(5) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(NUEVO): TIP="F", SEC="2", COLS="Ecodigo,Tcodigo", REF="TiposNomina" */
+CREATE INDEX RHPTUD_FI02 ON RHPTUD (Ecodigo,Tcodigo)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ================================================================= */
+/*            CREA FKs NUEVOS O CON CAMPOS MODIFICADOS               */
+/* ================================================================= */
+/* CHG_TABLE EIDeducciones */
+/* ADD_FK OP=(NUEVO): TIP="F", SEC="3", COLS="Ecodigo,Tcodigo", REF="TiposNomina" */
+ALTER TABLE EIDeducciones ADD CONSTRAINT EIDeducciones_FK03 FOREIGN KEY (Ecodigo,Tcodigo) REFERENCES TiposNomina (Ecodigo,Tcodigo)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_TABLE RHPTUD */
+/* ADD_FK OP=(NUEVO): TIP="F", SEC="2", COLS="Ecodigo,Tcodigo", REF="TiposNomina" */
+ALTER TABLE RHPTUD ADD CONSTRAINT RHPTUD_FK02 FOREIGN KEY (Ecodigo,Tcodigo) REFERENCES TiposNomina (Ecodigo,Tcodigo)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

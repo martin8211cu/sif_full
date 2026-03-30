@@ -1,0 +1,243 @@
+<!---SML. Modificacion para que se calculen dos deducciones de infonavit en una misma nomina calculada--->
+
+<cfif not isdefined('EsLiquidacionMX')>
+	<cfquery name="rsPeriodo" datasource="#session.dsn#">
+        select a.CPperiodo,a.CPmes, a.CPdesde, a.CPhasta, a.CPtipo, b.FactorDiasSalario, b.FactorDiasIMSS  <!---CPtipo => 0- Normal, 1- Especial--->
+            ,case b.Ttipopago  
+				when  0 then 1  <!---Semanal--->
+				when  1 then 1	<!---bisemanal--->
+				when  2 then 2	<!---Quincenal--->
+				when  3 then 2	<!---Mensual--->
+            end as OpcionCalculo,a.Tcodigo
+            
+        	from CalendarioPagos a 
+            inner join TiposNomina b
+                on a.Tcodigo = b.Tcodigo
+                and a.Ecodigo = b.Ecodigo
+            where CPid = <cfqueryparam cfsqltype="cf_sql_numeric" value="#Arguments.RCNid#">
+                and a.Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#session.Ecodigo#">
+	</cfquery> 
+<!---    <cfthrow message="#Arguments.TDcodigo#">--->
+    
+    
+   <!---Deducciones Infonavit--->
+    <cfinvoke component="rh.Componentes.RHParametros" method="get" datasource="#session.dsn#" 
+        ecodigo="#session.Ecodigo#" pvalor="2110" default="" returnvariable="lstInfonavit"/>    
+	<cfquery datasource="#Arguments.datasource#" name="rsDeducEmpleados">
+		select b.*
+		from DeduccionesCalculo a, DeduccionesEmpleado b
+		where a.RCNid =  <cfqueryparam cfsqltype="cf_sql_numeric" value="#Arguments.RCNid#">
+		  and b.Did = a.Did
+		  and b.TDid in (#TDid#)
+		  and a.DEid = b.DEid
+          <cfif IsDefined('#Arguments.pDEid1#')> and b.DEid = <cfqueryparam cfsqltype="cf_sql_numeric" value="#Arguments.pDEid1#"></cfif>
+	</cfquery>
+    
+	    
+    <cfinvoke component="rh.Componentes.RHParametros" method="get" datasource="#session.dsn#" 
+        ecodigo="#session.Ecodigo#" pvalor="2034" default="" returnvariable="vMtoSegInfonavit"/>
+        
+        
+	<cfset vMes 	= rsPeriodo.CPmes>
+    <cfset vPeriodo = rsPeriodo.CPperiodo>
+    <!---dias del bimestre --->
+    <cfinvoke component="rh.Componentes.RH_CalculoSDI" method="fnDiasBimestre" CPmes="#vMes#" CPperiodo="#vPeriodo#" default="0" returnvariable="DiasB"/> 
+	<!---calendarios del bimestre--->    
+	<cfinvoke component="rh.Componentes.RH_CalculoSDI" method="fnCalBimestre"  CPmes="#vMes#" CPperiodo="#vPeriodo#" default="0" Tcodigo = "#Arguments.Tcodigo#" returnvariable="CalB"/>  
+
+	<cfinvoke component="rh.Componentes.RHParametros" method="get" pvalor="2024" default="0" returnvariable="SZEsalarioMinimo"/>
+    
+	 <!---Modificacion para calcular el Infonavit SML.--->
+	<cfloop query="rsDeducEmpleados">
+        <cfquery datasource="#Arguments.datasource#" name="rsDiasTrab"> 
+            select a.DEid, sum(a.PEcantdias) as DiasTrab
+                from PagosEmpleado a
+                <!---inner join RHTipoAccion b
+                    on a.RHTid = b.RHTid
+                    and b.RHTcomportam not in (13,3,4,5)--->	
+                where a.RCNid= <cfqueryparam cfsqltype="cf_sql_numeric" value="#Arguments.RCNid#">
+                	<!---and a.PEtiporeg = 0--->
+                    and a.DEid = #rsDeducEmpleados.DEid#
+             	group by a.DEid
+        </cfquery>
+        
+        <cfquery datasource="#Arguments.datasource#" name="rsDiasNoTrab"> 
+            select a.DEid, sum(a.PEcantdias) as DiasNoTrab
+                from PagosEmpleado a
+                inner join RHTipoAccion b
+                    on a.RHTid = b.RHTid
+                    and b.RHTcomportam in (13,3,4,5)	<!---Faltas, Vacaciones, Permisos, Incapacidades--->
+                where a.RCNid= <cfqueryparam cfsqltype="cf_sql_numeric" value="#Arguments.RCNid#">
+                	<!---and a.PEtiporeg = 0--->
+                    and a.DEid = #rsDeducEmpleados.DEid#
+             	group by a.DEid
+        </cfquery>
+       
+        <cfquery datasource="#Arguments.datasource#" name="rsDiasNoTrabIni"> 
+            select a.DEid, sum(a.PEcantdias) as DiasNoTrabIni
+                from PagosEmpleado a
+                inner join RHTipoAccion b
+                    on a.RHTid = b.RHTid
+                    and b.RHTcomportam in (13,3,4,5)
+                where a.RCNid = <cfqueryparam cfsqltype="cf_sql_numeric" value="#Arguments.RCNid#">
+                	<!---and a.PEtiporeg = 0--->
+                    and a.DEid = #rsDeducEmpleados.DEid#
+                    and a.PEdesde >= '#DateFormat(rsDeducEmpleados.Dfechaini,'yyyy-MM-dd')#'
+                    and a.PEhasta <= '#DateFormat(rsPeriodo.CPhasta,'yyyy-MM-dd')#'
+             	group by a.DEid
+        </cfquery>
+        
+        <cfquery datasource="#Arguments.datasource#" name="rsDiasNoTrabFin"> 
+            select a.DEid, sum(a.PEcantdias) as DiasNoTrabFin
+                from PagosEmpleado a
+                inner join RHTipoAccion b
+                    on a.RHTid = b.RHTid
+                    and b.RHTcomportam in (13,3,4,5)
+                where a.RCNid = <cfqueryparam cfsqltype="cf_sql_numeric" value="#Arguments.RCNid#">
+                	<!---and a.PEtiporeg = 0--->
+                    and a.DEid = #rsDeducEmpleados.DEid#
+                    and a.PEdesde >= '#DateFormat(rsPeriodo.CPdesde,'yyyy-MM-dd')#'
+                    and a.PEhasta <= '#DateFormat(rsDeducEmpleados.Dfechafin,'yyyy-MM-dd')#'
+             	group by a.DEid
+        </cfquery>
+        
+       <cfset fechaInicioDIni = DateFormat(rsPeriodo.CPhasta,'yyyy-mm-dd')>
+       <cfset fechaHastaDIni = DateFormat(rsDeducEmpleados.Dfechaini,'yyyy-mm-dd')>
+       
+       <cfif isdefined('rsDiasNoTrabIni') and rsDiasNoTrabIni.RecordCount NEQ 0>
+            <cfset diasTrabajIni = DateDiff('d',fechaHastaDIni,fechaInicioDIni) + 1>
+            <cfset diasTrabajIni = diasTrabajIni - #rsDiasNoTrabIni.DiasNoTrabIni#>
+       <cfelse>
+            <cfset diasTrabajIni = DateDiff('d',fechaHastaDIni,fechaInicioDIni) + 1>
+       </cfif>
+       
+       <cfset fechaInicioDFin = DateFormat(rsPeriodo.CPdesde,'yyyy-mm-dd')>
+       <cfset fechaHastaDFin = DateFormat(rsDeducEmpleados.Dfechafin,'yyyy-mm-dd')>
+       
+       <cfif isdefined('rsDiasNoTrabFin') and rsDiasNoTrabFin.RecordCount NEQ 0>
+            <cfset diasTrabajFin = DateDiff('d',fechaInicioDFin,fechaHastaDFin) + 1>
+            <cfset diasTrabajFin = diasTrabajFin - #rsDiasNoTrabFin.DiasNoTrabFin#>
+       <cfelse>
+            <cfset diasTrabajFin = DateDiff('d',fechaInicioDFin,fechaHastaDFin) + 1>
+       </cfif>
+       
+       <cfif isdefined('rsDiasTrab') and rsDiasTrab.RecordCount NEQ 0>
+        	 <cfset diasTrabaj = rsDiasTrab.DiasTrab *(#rsPeriodo.FactorDiasIMSS# / #rsPeriodo.FactorDiasSalario#) >
+       <cfelse>
+			 <cfset diasTrabaj= 0>
+       </cfif>
+        
+        <cfif isdefined('rsDiasNoTrab') and rsDiasNoTrab.RecordCount NEQ 0>
+        	<cfset diasNoTrabaj = rsDiasNoTrab.DiasNoTrab>
+       <cfelse>
+			<cfset diasNoTrabaj = 0>
+       </cfif>
+
+       <cfif rsPeriodo.CPdesde LT rsDeducEmpleados.Dfechaini>
+             <cfset vDiasTrab = diasTrabajIni>   
+       <cfelseif rsPeriodo.CPhasta GT rsDeducEmpleados.Dfechafin>
+             <cfset vDiasTrab = diasTrabajFin>     
+       <cfelse>
+       		   <cfif diasTrabaj NEQ 0>
+               <cfset vDiasTrab = diasTrabaj - diasNoTrabaj>
+               <cfelse>
+               <cfset vDiasTrab = 0>
+               </cfif>
+             <!---<cfif isdefined('rsDiasTrab') and rsDiasTrab.RecordCount NEQ 0>
+        	      <cfset vDiasTrab = rsDiasTrab.DiasTrab *(#rsPeriodo.FactorDiasIMSS# / #rsPeriodo.FactorDiasSalario#) >
+             <cfelse>
+			      <cfset vDiasTrab = 0>
+             </cfif>--->
+       </cfif>
+		
+       <cfif rsDeducEmpleados.Dfechaini LTE rsPeriodo.CPdesde>
+        	<cfif #rsPeriodo.Tcodigo# EQ 01>
+        		<cfset vDiasTrab = vDiasTrab + 0.21>
+            </cfif>
+        </cfif>   
+
+       <cfif #rsPeriodo.CPtipo# EQ 1 or #rsPeriodo.CPtipo# EQ 0>
+            <cfquery datasource="#session.dsn#" name="rsDiasVac">
+                select coalesce(sum(a.ICmontores),0) as MtoVacac , coalesce(sum(a.ICvalor),0) as DiasVacac
+                        from IncidenciasCalculo a
+                        where a.DEid = #rsDeducEmpleados.DEid#
+                            and a.RCNid = <cfqueryparam cfsqltype="cf_sql_numeric" value="#Arguments.RCNid#">
+                            and CIid  in (select distinct a.CIid
+                                    from RHReportesNomina c
+                                        inner join RHColumnasReporte b
+                                                    inner join RHConceptosColumna a
+                                                    on a.RHCRPTid = b.RHCRPTid
+                                             on b.RHRPTNid = c.RHRPTNid
+                                            and b.RHCRPTcodigo = 'IncVac'		<!---Total Incidencias--->
+                                    where c.RHRPTNcodigo = 'PR002'				<!--- Codigo Reporte Dinamico --->
+                                      and c.Ecodigo = #session.Ecodigo#)
+            </cfquery>
+            <cfset vDiasTrab = ((vDiasTrab + #rsDiasVac.DiasVacac#) * (#LSNumberFormat(rsPeriodo.FactorDiasIMSS)# / #rsPeriodo.FactorDiasSalario#)) >
+        </cfif>
+        
+        <!---<cf_dump var ="#vDiasTrab#">--->
+        <cfif #rsPeriodo.OpcionCalculo# EQ 1>
+        	<cfset vActual = (((rsDeducEmpleados.Dvalor * 2 ) / #DiasB#) * #vDiasTrab#)>
+        <cfelse>
+        	<cfset vActual = (((rsDeducEmpleados.Dvalor )/#rsPeriodo.FactorDiasIMSS# )* #vDiasTrab#) >
+        </cfif>
+
+       <!---
+        TipoCalculo:<cfdump var="#rsPeriodo.OpcionCalculo#"> <br>
+        VSM:<cfdump var="#rsDeducEmpleados.Dvalor#"><br>
+        DiasLaborado:<cfdump var="#vDiasTrab#"><br>
+        DiasBimestre:<cfdump var="#DiasB#"><br>
+        NominasBimestre:<cfdump var="#CalB#"><br>
+        SMG:<cf_dump var="#SZEsalarioMinimo#"><br>
+        --->
+        
+        <cfinvoke component="rh.Componentes.RHParametros" method="get" datasource="#session.dsn#" 
+        ecodigo="#session.Ecodigo#" pvalor="2110" default="" returnvariable="TDeduccion"/>
+        
+        <cfif len(trim(TDeduccion)) GT 0>
+        	<cfquery name="rsValidaDeduccion" datasource="#session.dsn#">
+        		select b.*
+				from DeduccionesCalculo a, DeduccionesEmpleado b
+				where a.RCNid = <cfqueryparam cfsqltype="cf_sql_numeric" value="#Arguments.RCNid#">
+		  			and b.Did = a.Did
+		  			and b.TDid in (#TDeduccion#)
+		  			and b.TDid not in (#TDid#)
+		  			and a.DEid = b.DEid
+          			and b.DEid = #rsDeducEmpleados.DEid#
+        	</cfquery>
+        </cfif>
+        
+        <!---<cf_dump var = "#rsValidaDeduccion.RecordCount#">--->
+        <cfif #vActual# NEQ 0>
+        	<cfif isdefined('rsValidaDeduccion') and rsValidaDeduccion.RecordCount GT 0>
+        		<cfif rsDeducEmpleados.Dfechaini LTE rsPeriodo.CPdesde>
+        			<cfset vActual = vActual + (#vMtoSegInfonavit# / #CalB#)>
+            	<cfelseif rsDeducEmpleados.Dfechaini GT rsPeriodo.CPdesde> 
+            		<cfset vActual = vActual>
+            	</cfif>
+            <cfelse>
+            	<cfset vActual = vActual + (#vMtoSegInfonavit# / #CalB#)>
+            </cfif>
+        </cfif>
+		
+		<!---
+        rsDeducEmpleadosDvalor : <cfdump var="#rsDeducEmpleados.Dvalor#"> <br>
+        SMinimo:	<cfdump var="#SMinimo#"> <br>
+        vActual: 	<cfdump var="#vActual#"> <br>
+        --->	
+		<cfquery datasource="#session.DSN#">
+			update DeduccionesCalculo
+			set DCvalor = 	#vActual#
+			where Did= #rsDeducEmpleados.Did#
+			and RCNid = <cfqueryparam cfsqltype="cf_sql_numeric" value="#Arguments.RCNid#">			
+			and DEid = #rsDeducEmpleados.DEid#
+		</cfquery>	
+	</cfloop>
+<cfelse>
+	    <cfinvoke component="rh.Componentes.RHParametros" method="get" datasource="#session.dsn#" 
+        ecodigo="#session.Ecodigo#" pvalor="2034" default="" returnvariable="vMtoSegInfonavit"/>
+        
+	<cfset rsSMGA  = fnGetDato(2024,Arguments.Ecodigo,Arguments.Conexion)><!--- MEX - Salario minimo general zona A (SMGA) (mexico) --->
+    
+	<cfset Infonavit =  DeduccionValor >   <!---(DeduccionValor * rsSMGA.Pvalor) + #vMtoSegInfonavit#>--->
+</cfif>

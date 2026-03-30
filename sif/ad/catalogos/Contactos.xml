@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_NombreContacto>Contact Name</LB_NombreContacto>
+		<LB_Telefono>Phone Number</LB_Telefono>
+		<MSG_PrimeroDebeIngresarLos>Define the</MSG_PrimeroDebeIngresarLos>
+		<MSG_DatosGenerales>general data</MSG_DatosGenerales>
+		<MSG_DelSocioDeNegocios>of the partners</MSG_DelSocioDeNegocios>
+	</Idioma>
+</Etiquetas>

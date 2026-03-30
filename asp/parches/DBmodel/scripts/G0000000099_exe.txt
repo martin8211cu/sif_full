@@ -1,0 +1,342 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  sifControl
+	MODELO:  SIF Control.pdm
+	VERSION: 4 - DBM 113: BASE CERO: SIF Control
+
+	         PARCHE:  ParcheParche023_001_SIF_BASE0
+
+GENERADO EN:
+	SERVER:  http://mxvqapp34:8300
+	DSN:     sifcontrol
+	FECHA:   08/02/2012 15:19:01
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* CHG_TABLE Ayuda: Ayuda */
+/* ======================================================================================== */
+/* ADD_KEY OP = (NUEVO): TIP="U", SEC="1", COLS="Iid,Acodigo" */
+CREATE UNIQUE NONCLUSTERED INDEX Ayuda_UI01 ON Ayuda (Iid,Acodigo)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="Iid", REF="Idiomas" */
+CREATE INDEX Ayuda_FI01 ON Ayuda (Iid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE ConceptoDeduc: Conceptos de Deducción de Impu */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="IRcodigo", REF="ImpuestoRenta" */
+CREATE INDEX ConceptoDeduc_FI01 ON ConceptoDeduc (IRcodigo)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE DCCorreo: DC Correos por Formato */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="DCFGid", REF="DCFGrupo" */
+CREATE INDEX DCCorreo_FI01 ON DCCorreo (DCFGid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE DConceptoDeduc: Detalle de Conceptos de Deducc */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="CDid", REF="ConceptoDeduc" */
+CREATE INDEX DConceptoDeduc_FI01 ON DConceptoDeduc (CDid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="2", COLS="EIRid", REF="EImpuestoRenta" */
+CREATE INDEX DConceptoDeduc_FI02 ON DConceptoDeduc (EIRid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE DImpuestoRenta: Detalle de Historia de Impuest */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="EIRid", REF="EImpuestoRenta" */
+CREATE INDEX DImpuestoRenta_FI01 ON DImpuestoRenta (EIRid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE EIdioma: Etiquetas por Idioma */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="Iid", REF="Idiomas" */
+CREATE INDEX EIdioma_FI01 ON EIdioma (Iid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE EImportador: Encabezado de importación */
+/* ======================================================================================== */
+/* ADD_KEY OP = (NUEVO): TIP="I", SEC="1", COLS="EIcodigo,EImodulo,Ecodigo" */
+CREATE NONCLUSTERED INDEX EImportador_ID01 ON EImportador (EIcodigo,EImodulo,Ecodigo)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE EImportadorEmpresa: EImportadorEmpresa */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="EIid", REF="EImportador" */
+CREATE INDEX EImportadorEmpresa_FI01 ON EImportadorEmpresa (EIid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE EImportadorUsuario: EImportadorUsuario */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="EIid,Ecodigo", REF="EImportadorEmpresa" */
+CREATE INDEX EImportadorUsuario_FI01 ON EImportadorUsuario (EIid,Ecodigo)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE EImpuestoRenta: Encabezado de Historia de Impu */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="IRcodigo", REF="ImpuestoRenta" */
+CREATE INDEX EImpuestoRenta_FI01 ON EImpuestoRenta (IRcodigo)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE FMT010: FMT010 */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="FMT00COD", REF="FMT000" */
+CREATE INDEX FMT010_FI01 ON FMT010 (FMT00COD)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE FMT011: Datos del formato (Data Column */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="FMT00COD", REF="FMT000" */
+CREATE INDEX FMT011_FI01 ON FMT011 (FMT00COD)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE HYImpacto: HYImpacto */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="HYMgrado", REF="HYMagnitud" */
+CREATE INDEX HYImpacto_FI01 ON HYImpacto (HYMgrado)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE HYTHabilidades: HYTHabilidades */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="HYIHgrado", REF="HYInteraccionHumana" */
+CREATE INDEX HYTHabilidades_FI01 ON HYTHabilidades (HYIHgrado)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="2", COLS="HYHGcodigo", REF="HYHabilidadGerencia" */
+CREATE INDEX HYTHabilidades_FI02 ON HYTHabilidades (HYHGcodigo)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="3", COLS="HYHEcodigo", REF="HYHabilidadEspecializada" */
+CREATE INDEX HYTHabilidades_FI03 ON HYTHabilidades (HYHEcodigo)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE HYTResponsabilidad: HYTResponsabilidad */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="HYMgrado", REF="HYMagnitud" */
+CREATE INDEX HYTResponsabilidad_FI01 ON HYTResponsabilidad (HYMgrado)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="2", COLS="HYLAcodigo", REF="HYLibertadActuar" */
+CREATE INDEX HYTResponsabilidad_FI02 ON HYTResponsabilidad (HYLAcodigo)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="3", COLS="HYIcodigo,HYMgrado", REF="HYImpacto" */
+CREATE INDEX HYTResponsabilidad_FI03 ON HYTResponsabilidad (HYIcodigo,HYMgrado)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE HYTSolucionProblemas: HYTSolucionProblemas */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="HYMRcodigo", REF="HYMarcoReferencia" */
+CREATE INDEX HYTSolucionProblemas_FI01 ON HYTSolucionProblemas (HYMRcodigo)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="2", COLS="HYCPgrado", REF="HYComplejidadPensamiento" */
+CREATE INDEX HYTSolucionProblemas_FI02 ON HYTSolucionProblemas (HYCPgrado)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE IBitacora: Bitácora de importacion */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="EIid", REF="EImportador" */
+CREATE INDEX IBitacora_FI01 ON IBitacora (EIid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE IErrores: Detalle temporal de errores de */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="IBid", REF="IBitacora" */
+CREATE INDEX IErrores_FI01 ON IErrores (IBid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE ImpuestoRenta: Impuesto de Renta */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="IRcodigoPadre", REF="ImpuestoRenta" */
+CREATE INDEX ImpuestoRenta_FI01 ON ImpuestoRenta (IRcodigoPadre)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE OrigenProv: OrigenProveedor */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="Oorigen", REF="Origenes" */
+CREATE INDEX OrigenProv_FI01 ON OrigenProv (Oorigen)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="2", COLS="OPtabla", REF="OrigenTablaProv" */
+CREATE INDEX OrigenProv_FI02 ON OrigenProv (OPtabla)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE PortalCuestionarioParte: PortalCuestionarioParte */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="PCid", REF="PortalCuestionario" */
+CREATE INDEX PortalCuestionarioParte_FI01 ON PortalCuestionarioParte (PCid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE PortalCuestionarioU: PortalCuestionarioU */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="BUid", REF="BenzigerUsuario" */
+CREATE INDEX PortalCuestionarioU_FI01 ON PortalCuestionarioU (BUid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="2", COLS="PCid", REF="PortalCuestionario" */
+CREATE INDEX PortalCuestionarioU_FI02 ON PortalCuestionarioU (PCid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE PortalPregunta: PortalPregunta */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="PCid,PPparte", REF="PortalCuestionarioParte" */
+CREATE INDEX PortalPregunta_FI01 ON PortalPregunta (PCid,PPparte)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE PortalPreguntaU: PortalPreguntaU */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="PCUid", REF="PortalCuestionarioU" */
+CREATE INDEX PortalPreguntaU_FI01 ON PortalPreguntaU (PCUid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="2", COLS="PCid,PPid", REF="PortalPregunta" */
+CREATE INDEX PortalPreguntaU_FI02 ON PortalPreguntaU (PCid,PPid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE PortalRespuesta: PortalRespuesta */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="PCid,PPid", REF="PortalPregunta" */
+CREATE INDEX PortalRespuesta_FI01 ON PortalRespuesta (PCid,PPid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="2", COLS="PCid,PRira", REF="PortalPregunta" */
+CREATE INDEX PortalRespuesta_FI02 ON PortalRespuesta (PCid,PRira)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE PortalRespuestaU: PortalRespuestaU */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="PCid,PPid,PRid", REF="PortalRespuesta" */
+CREATE INDEX PortalRespuestaU_FI01 ON PortalRespuestaU (PCid,PPid,PRid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="2", COLS="PCUid,PCid,PPid", REF="PortalPreguntaU" */
+CREATE INDEX PortalRespuestaU_FI02 ON PortalRespuestaU (PCUid,PCid,PPid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE VSidioma: Valores de Sistema por Idioma */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="Iid", REF="Idiomas" */
+CREATE INDEX VSidioma_FI01 ON VSidioma (Iid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="2", COLS="VSgrupo", REF="VSgrupo" */
+CREATE INDEX VSidioma_FI02 ON VSidioma (VSgrupo)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

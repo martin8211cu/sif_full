@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_NumComision>Commission Number</LB_NumComision>
+		<LB_Planeado>Planned</LB_Planeado>
+		<LB_Desde>From</LB_Desde>
+		<LB_Hasta>To</LB_Hasta>
+		<LB_DiasPlaneados>Planned Days</LB_DiasPlaneados>
+		<LB_UnDiaPlaneado>One Day Planned</LB_UnDiaPlaneado>
+		<LB_CentroFuncional>Functional Center</LB_CentroFuncional>
+		<LB_Aprobado>Approved</LB_Aprobado>
+		<MSG_NoSeAplicaronLiquidaciones>No settlements applied</MSG_NoSeAplicaronLiquidaciones>
+		<LB_DiasTotales>Total Days</LB_DiasTotales>
+		<LB_UnDiaTotal>One Day Total</LB_UnDiaTotal>
+		<LB_Empleado>Employee</LB_Empleado>
+		<LB_Tipo>Type</LB_Tipo>
+		<LB_Nacional>National</LB_Nacional>
+		<LB_Exterior>International</LB_Exterior>
+		<LB_Automovil>Car</LB_Automovil>
+		<LB_Hotel>Hotel</LB_Hotel>
+		<LB_Avion>Airplane</LB_Avion>
+		<LB_NumLiquidacion>Settlement Number</LB_NumLiquidacion>
+		<LB_NuevaLiquidacion>New Settlement</LB_NuevaLiquidacion>
+		<LB_Fecha>Date</LB_Fecha>
+		<LB_ListaEmpleados>Employees List</LB_ListaEmpleados>
+		<LB_Identificacion>Identification</LB_Identificacion>
+		<LB_Nombre>Name</LB_Nombre>
+		<LB_Apellido1>First Name</LB_Apellido1>
+		<LB_Apellido2>Second Surname</LB_Apellido2>
+		<LB_Descripcion>Description</LB_Descripcion>
+		<LB_Moneda>Currency</LB_Moneda>
+		<LB_TipoCambio>Exchange Rate</LB_TipoCambio>
+		<LB_FechasReales>Real Dates</LB_FechasReales>
+		<LB_Dias>Days</LB_Dias>
+		<LB_Dia>Day</LB_Dia>
+		<LB_FormaPago>Payment Method</LB_FormaPago>
+		<LB_SeleccionarFormaPago>Select Payment Method</LB_SeleccionarFormaPago>
+		<LB_PorTesoreria>By Treasury</LB_PorTesoreria>
+		<LB_ConChequeTEF>Check or TEF</LB_ConChequeTEF>
+		<LB_PorCajaChica>By Petty Cash</LB_PorCajaChica>
+		<LB_ConEfectivoPorCajaEspecial>Cash by Petty Cash</LB_ConEfectivoPorCajaEspecial>
+		<LB_MotivoRechazo>Rejection Reason</LB_MotivoRechazo>
+		<LB_Viatico>Allowance</LB_Viatico>
+	<LB_FechaReales>Real Dates</LB_FechaReales><ListaEmpleados>Employees List</ListaEmpleados></Idioma>
+</Etiquetas>

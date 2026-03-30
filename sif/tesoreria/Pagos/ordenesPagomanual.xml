@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_Titulo>Issuance: Manual Payment</LB_Titulo>
+		<LB_FechaOrden>Order Date</LB_FechaOrden>	
+		<LB_Observaciones>Comments</LB_Observaciones>
+		<LB_TotalPagar>Total to Pay</LB_TotalPagar>
+		<LB_TipoCambio>Exchange Rate</LB_TipoCambio>
+		<LB_FechaPago>Payment Date</LB_FechaPago>
+		<LB_Solicitada>Requested</LB_Solicitada>
+		<LB_FechaGenManual>Generation Manual Date</LB_FechaGenManual>
+		<LB_BloqueFormularios>Block Forms</LB_BloqueFormularios>
+		<LB_LoteImpCheques>Batch printing of checks</LB_LoteImpCheques>
+		<LB_LoteReImpCheques>Batch Reprint of checks</LB_LoteReImpCheques>
+		<LB_NumeroFormulario>Number of Form</LB_NumeroFormulario>
+		<LB_RegistrarEntrega>Register Delivery</LB_RegistrarEntrega>
+		<LB_DatosEntrega>Data Delivery</LB_DatosEntrega>
+		<LB_EntregadoA>Delivered to</LB_EntregadoA>
+		<LB_FechaEntrega>Delivery Date</LB_FechaEntrega>
+		<LB_NumeroReferencia>Reference Number</LB_NumeroReferencia>
+		<LB_MotivoReimpresion>Reason Reprint</LB_MotivoReimpresion>
+		<LB_MotivoCancelacion>Cancellation Reason</LB_MotivoCancelacion>
+		<LB_Titulo1>Payment Orders Issued</LB_Titulo1>
+		<LB_TrabajarConTesoreria>Working with Treasury</LB_TrabajarConTesoreria>
+		<LB_EmpresaPago>Enterprise Payment</LB_EmpresaPago>
+		<LB_CuentaPago>Account Payment</LB_CuentaPago>
+		<LB_Beneficiario>Beneficary</LB_Beneficiario>
+		<LB_Estado>Status</LB_Estado>
+		<LB_Todos>All</LB_Todos>
+		<LB_EnPreparacion>Forthcoming</LB_EnPreparacion>
+		<LB_EnEmision>Issuing</LB_EnEmision>
+		<LB_SinAplicar>No Apply</LB_SinAplicar>
+		<LB_Emitidas>Issued</LB_Emitidas>
+		<LB_Anuladas>Canceled</LB_Anuladas>
+		<LB_MonedaPago>Currency Payment</LB_MonedaPago>
+		<LB_Moneda>Currency</LB_Moneda>
+		<LB_NumOrden>Order Number</LB_NumOrden>
+		<LB_HastaFecha>To Date</LB_HastaFecha>
+		<LB_DocumentoPago>Document Payment</LB_DocumentoPago>
+		<LB_TrabajarOrdenesEmision>Working with Issue Orders</LB_TrabajarOrdenesEmision>
+		<LB_EmpresaSolicitud>Enterprise Request</LB_EmpresaSolicitud>
+		<LB_NumSolicitud>Application Number</LB_NumSolicitud>
+		<LB_SocioNegocio>Bussines Partner</LB_SocioNegocio>
+		<LB_Socio>Partner</LB_Socio>
+		<LB_o>or</LB_o>
+		<LB_MonedaFactura>Currency Invoice</LB_MonedaFactura>
+		<LB_NumeroAcuerdo>Number Agreement</LB_NumeroAcuerdo>
+		<LB_BancoPago>Payment Bank</LB_BancoPago> 
+		<LB_Banco>Bank</LB_Banco>
+		<LB_CuentaBancariaPago>Payment Bank Account</LB_CuentaBancariaPago>
+		<LB_MedioPago>Means of Payment</LB_MedioPago>
+	</Idioma>
+</Etiquetas>

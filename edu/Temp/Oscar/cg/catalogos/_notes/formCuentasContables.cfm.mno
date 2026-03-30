@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+<info>
+	<infoitem key="UD_rsCuentasPadre" value="name:Ccuenta;datatype:,name:Cformato;datatype:" />
+	<infoitem key="UD_rsCaract" value="name:Mcodigo;datatype:,name:Cdescripcion;datatype:,name:Ctipo;datatype:" />
+	<infoitem key="UD_rsSubClase" value="name:SCid;datatype:,name:SCdescripcion;datatype:" />
+</info>

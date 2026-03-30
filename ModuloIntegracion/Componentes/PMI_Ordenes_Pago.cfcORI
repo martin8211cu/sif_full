@@ -1,0 +1,990 @@
+<!--- ABL: Integracion de Ordenenes de Pago para PMI-CIM--->
+<!--- La Integracion de Tesoreria, procesa todas las ordenes de pago generadas en el SOIN y las deposita en unas tablas intermedias en Tesoreria para que el procesos de TBS lo tome. --->
+<!--- La Interfaz solo funciona con versiones de Coldfusion 8.0 en adelante --->
+<!--- Elaboró: Maria de los Angeles Blanco López Junio 2011--->
+
+
+<cfcomponent extends="Interfaz_Base">
+	<cffunction name="Ejecuta" access="public" returntype="string" output="no">
+    	<cfargument name="Disparo" required="no" type="boolean" default="false"> <!----cambiar a false--->
+		
+		<cfset sifinterfacesdb = Application.dsinfo.sifinterfaces.schema>
+		
+		<!--- Rutina para Obtener Parametros a Ocupar --->
+		<cfset ParImp = true>
+		<!--- Crear un Parametro Ver 2.0 --->
+		<cfset ParBorrado = false>
+		
+		 <!---Obtiene los caches para la busqueda de las ordenes de pago --->
+        <cfquery datasource="asp" name="rscaches">
+            select e.Ereferencia as Ecodigo, e.CEcodigo, c.Ccache
+            from Empresa e
+                join Caches c
+                on e.Cid = c.Cid and e.Ereferencia is not null
+                and e.Ereferencia = 1
+        </cfquery>
+		
+				<cfset RegistrosOP = CargarRegistrosPago(rscaches)>	
+				<cfset ValidaCodigosSIF = ValidaCodigosSIF(rscaches)>	
+				<cfset ValidaEquivalencias = ValidaEquivalencias()>					
+				<cfset EnviaRegistrosTesoreria = EnviaRegistrosTesoreria()>	
+	</cffunction>		
+		
+    <cffunction name="CargarRegistrosPago">
+	   <cfargument name="rscaches" required="yes" type="query">
+	   <cfset caches = #Arguments.rscaches#> 
+	   <cfsilent>	  
+	   <cfloop query="caches">
+	   
+	   		<!---Invocar al GC para liberar memoria--->
+            <cfset javaRT = createobject("java","java.lang.Runtime").getRuntime()>
+            <cfset javaRT.gc()><!--- invoca el GC --->
+			<cfset OrdenError = 0>
+		
+			<!---LEE LAS ORDENES DE PAGO PENDIENTES DE EMITIR--->
+			<cfquery  name="rsPTesoreria" datasource="#caches.Ccache#">
+				select distinct OP.SNid as Socio, OP.EcodigoPago, OP.TESOPid, OP.TESOPnumero, OP.CBidPago, 			                OP.TESOPtotalPago, OP.TESOPfechaPago, 'SOIN_CIM' as Sistema, B.TESBeneficiarioId, 
+				isnull(TESBeneficiario,SNnombre) as TESBeneficiario, OP.TESTPid, 		                																		                convert(varchar(500),OP.TESOPobservaciones) as TESOPobservaciones,                 	                
+				isnull(X.TESTPbanco,Y.TESTPbanco) as Banco, isnull (X.TESTPid, Y.TESTPid) as TETPid,
+                isnull(X.CuentaB,Y.CuentaSN) as Cuenta, isnull(X.TESTPciudad,Y.TESTPciudad) as Ciudad,  
+				isnull(X.Ppais, Y.Ppais) as Codigo_Pais, isnull(X.Pnombre, Y.Pnombre) as Pais,
+				isnull(X1.TESTPbanco,Y1.TESTPbanco) as BancoOri,isnull (X1.TESTPid, Y1.TESTPid) as TETPidOri,
+				isnull(X1.CuentaB,Y1.CuentaSN) as CuentaOri, isnull(X1.TESTPciudad,Y1.TESTPciudad) as CiudadOri,  
+				isnull(X.Ppais, Y.Ppais) as Codigo_Pais_Ori, isnull(X.Pnombre, Y.Pnombre) as PaisOri,
+				OP.TESOPtipoCambioPago, OP.Miso4217Pago, OP.CBidPago, TESOPfechaGeneracion, CB.CBcodigo, 
+				OP.UsucodigoGenera, TESMPcodigo,
+				MonedaOri = (select top 1 Miso4217Ori from TESdetallePago where TESOPid = OP.TESOPid 
+				and EcodigoOri = #caches.Ecodigo#),
+				MontoOri = (select sum(TESDPmontoAprobadoOri) from TESdetallePago where TESOPid = OP.TESOPid 
+				and EcodigoOri = #caches.Ecodigo#),
+				TipoCambioOri = (select TESDPtipoCambioOri = sum(round(TESDPtipoCambioOri,2))/count(TESDPtipoCambioOri)                from TESdetallePago where TESOPid = OP.TESOPid 
+				and EcodigoOri = #caches.Ecodigo#) 
+                from TESordenPago OP
+                inner join CuentasBancos CB on CB.CBid = OP.CBidPago
+                left join TESbeneficiario B on B.TESBid = OP.TESBid 
+				left join SNegocios S on S.SNid = OP.SNid 
+                left join (select TESBid, TESid, TESTPid, TESTPcuenta as CuentaB, TESTPbanco, TESTPcuenta, TESTPciudad, 	                           PB.Ppais, Pnombre 
+				 		   from TEStransferenciaP TB
+                		   left join Pais PB on PB.Ppais = TB.Ppais) as X 
+			    on X.TESBid = B.TESBid and X.TESid = OP.TESid and OP.TESTPid = X.TESTPid
+				left join (select Miso4217, TESBid, TESid, TESTPid, TESTPcuenta as CuentaB, TESTPbanco, TESTPcuenta, 		                   TESTPciudad, PB.Ppais, Pnombre 
+				 		   from TEStransferenciaP TB
+                		   left join Pais PB on PB.Ppais = TB.Ppais) as X1 
+			    on X1.TESBid = B.TESBid and X1.TESid = OP.TESid 
+				and X1.Miso4217 = (select top 1 Miso4217Ori from TESdetallePago where TESOPid = OP.TESOPid 
+				and EcodigoOri = #caches.Ecodigo#)
+				and X1.TESTPid = (select top 1 TESTPid from TEStransferenciaP where TESBid =  B.TESBid and Miso4217 = 				                (select top 1 Miso4217Ori from TESdetallePago where TESOPid = OP.TESOPid)) 
+				left join (select  SNidP, TESid, TESTPbanco, TESTPcuenta, TESTPciudad, PS.Ppais, TESTPid, TESTPcuenta as                           CuentaSN, Pnombre from TEStransferenciaP TS
+                           left join Pais PS on PS.Ppais = TS.Ppais) as Y
+	            on Y.SNidP = OP.SNid and Y.TESid = OP.TESid and OP.TESTPid = Y.TESTPid
+				left join (select Miso4217, SNidP, TESid, TESTPbanco, TESTPcuenta, TESTPciudad, PS.Ppais, TESTPid, 			                           TESTPcuenta as CuentaSN, Pnombre from TEStransferenciaP TS
+                           left join Pais PS on PS.Ppais = TS.Ppais) as Y1
+	            on Y1.SNidP = OP.SNid and Y1.TESid = OP.TESid 
+				and Y1.Miso4217 = (select top 1 Miso4217Ori from TESdetallePago where TESOPid = OP.TESOPid 
+				and EcodigoOri = #caches.Ecodigo#)
+				and Y1.TESTPid = (select top 1 TESTPid from TEStransferenciaP where SNidP = OP.SNid and Miso4217 = (select 				top 1 Miso4217Ori from TESdetallePago where TESOPid = OP.TESOPid)) 
+				where OP.EcodigoPago = #caches.Ecodigo#
+				and OP.TESOPestado != 10 and OP.TESOPestado != 13
+				and OP.Integracion = 0				   
+			</cfquery>
+	   		
+			<cfif rsPTesoreria.recordcount GT 0>
+			<cfloop query="rsPTesoreria">
+			<cftry>
+			
+				<!---Se validan los detalles--->			
+				<cfset varCEcodigo = getCEcodigo(rsPTesoreria.EcodigoPago)>
+
+				<cfquery name="rsUsuario" datasource="#caches.Ccache#">
+					select Usucodigo, Usulogin
+					from Usuario
+        		    where Usucodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#rsPTesoreria.UsucodigoGenera#">
+            		and CEcodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#varCEcodigo#">
+				</cfquery>
+				
+				<cfif rsUsuario.recordcount GT 0>
+					<cfset UsuInterfaz = rsUsuario.Usulogin>
+				<cfelse>
+					<cfthrow message="No se ha podido obtener el código de Usuario">
+				</cfif>				
+				
+				<!---Obtener el ID maximo de la tabla--->
+				<cfquery name="rsMaxID" datasource="sifinterfaces">
+					select isnull(max(ID), 0) + 1 as Maximo 
+					from Enc_Ordenes_Pago_SOIN
+				</cfquery> 
+               
+			    <cfset Maximo = #rsMaxID.Maximo#>
+				
+				<cfquery datasource="sifinterfaces">
+					insert into Enc_Ordenes_Pago_SOIN	
+					(ID,
+					 SNcodigoext,
+					 Ecodigo,
+					 Id_Orden,
+					 Numero_Orden,
+					 Cuenta_Banco,
+					 Monto_Total,
+					 Tipo_Cambio,
+					 Moneda,
+					 Fecha_Pago,
+					 Sistema,
+					 Nom_Beneficiario,
+					 Banco_Beneficiario,
+					 Cuenta_Beneficiario,
+					 Ciudad,
+					 Pais,
+					 Fecha_Creacion,
+					 Usuario,
+					 TipoPago,
+					 Estatus,
+					 Observaciones)                      
+				values
+					(<cfqueryparam cfsqltype="cf_sql_integer" value="#Maximo#">,
+					<cfif rsPTesoreria.Socio NEQ ''>
+						<cfqueryparam cfsqltype="cf_sql_integer" value="#rsPTesoreria.Socio#">,
+					<cfelse>
+						null,
+					</cfif>
+					<cfqueryparam cfsqltype="cf_sql_integer" value="#rsPTesoreria.EcodigoPago#">,
+					<cfqueryparam cfsqltype="cf_sql_integer" value="#rsPTesoreria.TESOPid#">,
+					<cfqueryparam cfsqltype="cf_sql_integer" value="#rsPTesoreria.TESOPnumero#">,
+					<cfqueryparam cfsqltype="cf_sql_varchar" value="#rsPTesoreria.CBcodigo#">,
+					<cfif MonedaOri EQ 'MXP' or MonedaOri EQ 'USD'>
+						round(#rsPTesoreria.TESOPtotalPago#,2), 
+						round(#rsPTesoreria.TESOPtipoCambioPago#,4),
+						<cfqueryparam cfsqltype="cf_sql_varchar" value="#rsPTesoreria.Miso4217Pago#">,
+					<cfelse>
+						round(#rsPTesoreria.MontoOri#,2), 
+						round(#rsPTesoreria.TipoCambioOri#,4),
+						<cfqueryparam cfsqltype="cf_sql_varchar" value="#rsPTesoreria.MonedaOri#">,
+					</cfif>			
+					<cfqueryparam cfsqltype="cf_sql_date" value="#rsPTesoreria.TESOPfechaPago#">,
+					<cfqueryparam cfsqltype="cf_sql_varchar" value="#rsPTesoreria.Sistema#">,		
+					isnull(<cfqueryparam cfsqltype="cf_sql_varchar" value="#rsPTesoreria.TESBeneficiario#">,''),		
+					<cfif MonedaOri EQ 'MXP' or MonedaOri EQ 'USD'>
+						<cfqueryparam cfsqltype="cf_sql_varchar" value="#rsPTesoreria.Banco#">,		
+						<cfqueryparam cfsqltype="cf_sql_varchar" value="#rsPTesoreria.Cuenta#">,		
+						<cfqueryparam cfsqltype="cf_sql_varchar" value="#rsPTesoreria.Ciudad#">,		
+						<cfqueryparam cfsqltype="cf_sql_varchar" value="#rsPTesoreria.Pais#">,		
+					<cfelse>
+						<cfqueryparam cfsqltype="cf_sql_varchar" value="#rsPTesoreria.BancoOri#">,		
+						<cfqueryparam cfsqltype="cf_sql_varchar" value="#rsPTesoreria.CuentaOri#">,		
+						<cfqueryparam cfsqltype="cf_sql_varchar" value="#rsPTesoreria.CiudadOri#">,		
+						<cfqueryparam cfsqltype="cf_sql_varchar" value="#rsPTesoreria.PaisOri#">,
+					</cfif>
+					<cfqueryparam cfsqltype="cf_sql_date" value="#rsPTesoreria.TESOPfechaGeneracion#">,		
+					<cfqueryparam cfsqltype="cf_sql_varchar" value="#UsuInterfaz#">,
+					<cfqueryparam cfsqltype="cf_sql_varchar" value="#rsPTesoreria.TESMPcodigo#">,				
+					30,
+					<cfqueryparam cfsqltype="cf_sql_varchar" value="#rsPTesoreria.TESOPobservaciones#">)					
+				</cfquery>
+				
+				
+				<!----Detalle--->
+				<cfquery name="rsDPTesoreria" datasource="#caches.Ccache#">
+					select DP.Cid, DP.TESDPmoduloOri, DP.TESDPdocumentoOri, DP.TESDPreferenciaOri as Transaccion, 
+					'P' as TipoMov, DP.TESDPfechaVencimiento, DP.TESDPmontoPago, CFcuentaDB, TESDPidDocumento,
+					DP.TESSPid, SP.TESSPnumero
+					from TESdetallePago DP
+					inner join TESsolicitudPago SP on DP.TESSPid = SP.TESSPid
+					where DP.TESOPid = <cfqueryparam cfsqltype="cf_sql_integer" value="#rsPTesoreria.TESOPid#">
+					and EcodigoPago =  <cfqueryparam cfsqltype="cf_sql_integer" value="#rsPTesoreria.EcodigoPago#">			
+				</cfquery>
+				
+				<cfset Id_Detalle = 1>
+				<cfif rsDPTesoreria.recordcount GT 0>
+				<cfloop query="rsDPTesoreria">
+					<cfquery datasource="sifinterfaces">			
+						insert into Det_Ordenes_Pago_SOIN (ID,
+									 ID_Detalle,
+									 CConcepto,
+									 Concepto,
+									 Fecha_Vencimiento,
+									 Modulo_Origen,
+									 Documento,
+									 Transaccion, 
+									 Tipo_Mov,
+									 Numero_Solicitud,
+									 Solicitud_Id,
+									 Documento_Id,
+									 Monto_Linea)
+							 values
+							 		(<cfqueryparam cfsqltype="cf_sql_integer" value="#Maximo#">,
+									<cfqueryparam cfsqltype="cf_sql_integer" value="#Id_Detalle#">,
+									<cfqueryparam cfsqltype="cf_sql_varchar" value="#rsDPTesoreria.CFcuentaDB#">,
+									<cfqueryparam cfsqltype="cf_sql_varchar" value="#rsDPTesoreria.Cid#">,
+									<cfqueryparam cfsqltype="cf_sql_date" value="#rsDPTesoreria.TESDPfechaVencimiento#">,
+									<cfqueryparam cfsqltype="cf_sql_varchar" value="#rsDPTesoreria.TESDPmoduloOri#">,		
+									<cfqueryparam cfsqltype="cf_sql_varchar" value="#rsDPTesoreria.TESDPdocumentoOri#">,		
+									<cfqueryparam cfsqltype="cf_sql_varchar" value="#rsDPTesoreria.Transaccion#">,		
+									<cfqueryparam cfsqltype="cf_sql_varchar" value="#rsDPTesoreria.TipoMov#">,		
+									<cfqueryparam cfsqltype="cf_sql_integer" value="#rsDPTesoreria.TESSPnumero#">,		
+									<cfqueryparam cfsqltype="cf_sql_integer" value="#rsDPTesoreria.TESSPid#">,		
+									<cfqueryparam cfsqltype="cf_sql_integer" value="#rsDPTesoreria.TESDPidDocumento#">,		
+									round(#rsDPTesoreria.TESDPmontoPago#,2))
+					</cfquery>
+					<cfset Id_Detalle = Id_Detalle + 1>
+				</cfloop>
+				</cfif> <!----Detalle--->
+								
+				<cfquery datasource="#caches.Ccache#">
+				 	update TESordenPago set Integracion = 1   <!----cambiar a 1---->
+					where TESOPid = <cfqueryparam  cfsqltype="cf_sql_numeric" value="#rsPTesoreria.TESOPid#">
+				</cfquery>
+				
+				<!---Actualiza los registros insertados---->
+				<cfquery datasource="sifinterfaces">
+					update Enc_Ordenes_Pago_SOIN set Estatus = 31 where Estatus = 30
+					and ID = <cfqueryparam cfsqltype="cf_sql_integer" value="#Maximo#">
+				</cfquery>
+			<cfcatch>
+				<!---- Elimina registros que causaron error---->
+				<cfif isdefined("Maximo")>
+					<cfquery datasource="sifinterfaces">
+					   delete Det_Ordenes_Pago_SOIN where ID = <cfqueryparam cfsqltype="cf_sql_integer" value="#Maximo#">
+					</cfquery>
+					<cfquery datasource="sifinterfaces">
+					   delete Enc_Ordenes_Pago_SOIN where ID = <cfqueryparam cfsqltype="cf_sql_integer" value="#Maximo#">
+					</cfquery>
+					<cfquery datasource="#caches.Ccache#">
+					 	update TESordenPago set Integracion = 0
+						where TESOPid = <cfqueryparam  cfsqltype="cf_sql_numeric" value="#rsPTesoreria.TESOPid#">
+					</cfquery>
+				</cfif>						
+				<cfif isdefined("cfcatch.Message")>
+					<cfset Mensaje="#cfcatch.Message#">
+				<cfelse>
+					<cfset Mensaje="">
+        	    </cfif>
+            	<cfif isdefined("cfcatch.Detail")>
+	               	<cfset Detalle="#cfcatch.Detail#">
+				<cfelse>
+				<cfset Detalle="">
+	            </cfif>
+				<cfif isdefined("cfcatch.sql")>
+        	       	<cfset SQL="#cfcatch.sql#">
+				<cfelse>
+					<cfset SQL="">
+        	    </cfif>
+				<cfif isdefined("cfcatch.where")>
+    	           	<cfset PARAM="#cfcatch.where#">
+				<cfelse>
+					<cfset PARAM="">
+	            </cfif>
+				<cfif isdefined("cfcatch.StackTrace")>
+        	       	<cfset PILA="#cfcatch.StackTrace#">
+				<cfelse>
+					<cfset PILA="">				
+        	    </cfif>
+            	<cfset MensajeError= #Mensaje# & #Detalle#>
+				<cfthrow message="#MensajeError#">
+			</cfcatch>
+			</cftry>
+			</cfloop> <!---Encabezados--->
+			</cfif>
+		</cfloop>
+		</cfsilent>
+	</cffunction> 
+	
+	<cffunction name="ValidaCodigosSIF">
+	<cfargument name="rscaches" required="yes" type="query">
+	<cfset caches = #Arguments.rscaches#> 
+	
+	<cfsilent>  	
+	<cfloop query="caches">
+		
+		<cfquery name="rsEncCountReg" datasource="sifinterfaces">
+			select ID, SNcodigoext, Ecodigo, Cuenta_Banco, Usuario, Id_Orden
+			from Enc_Ordenes_Pago_SOIN 
+			where Estatus = 31			
+		</cfquery>  
+		
+		<cfif rsEncCountReg.recordcount GT 0>
+		<cfloop query="rsEncCountReg">
+				
+		<cfset varSocio = rsEncCountReg.SNcodigoext>
+		
+		<!----Lee los detalles de la Orden--->
+		<cfquery name="rsDetCountReg" datasource="sifinterfaces">
+			select ID_Detalle, CConcepto, Concepto, Modulo_Origen, Solicitud_Id, Documento_Id
+			from Det_Ordenes_Pago_SOIN 
+			where ID = <cfqueryparam cfsqltype="cf_sql_integer" value="#rsEncCountReg.ID#"> 			
+		</cfquery> 
+		
+		<cfset varCConcepto = rsDetCountReg.CConcepto>
+		<cfset varConcepto = rsDetCountReg.Concepto>
+		
+		<!---<cftransaction action="begin">--->
+		<cftry>
+		 	<!--- Busca el codigo externo para el Socio de Negocio--->
+			 <cfif rsEncCountReg.SNcodigoext NEQ ''>
+			   	 <cfquery datasource="#caches.Ccache#" name="rsSNcodigoext">
+    	         	select SNcodigoext 
+					from SNegocios 
+					where SNid = <cfqueryparam cfsqltype="cf_sql_integer" value="#rsEncCountReg.SNcodigoext#">
+					and Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#rsEncCountReg.Ecodigo#">
+				 </cfquery>
+		   
+			  	 <cfif rsSNcodigoext.recordcount EQ 0>
+			   	 	<cfthrow message="El socio de negocio #rsEncCountReg.SNcodigoext# no tiene parametrizado su codigo externo">
+	   			 <cfelse>
+					<cfquery datasource="sifinterfaces">
+						update Enc_Ordenes_Pago_SOIN set SNcodigoext = <cfqueryparam cfsqltype="cf_sql_varchar" 
+						value="#rsSNcodigoext.SNcodigoext#"> 
+						where ID = <cfqueryparam cfsqltype="cf_sql_integer" value="#rsEncCountReg.ID#">
+					</cfquery>
+				</cfif>	
+			</cfif>
+			
+			<cfif rsDetCountReg.recordcount GT 0>
+			<cfloop query="rsDetCountReg">
+			
+				<!---Obtiene el rubro y subrubro de la cuenta--->
+				<cfquery name ="rsRubySubR" datasource="#caches.Ccache#">
+					select Rubro = case  
+						    when Modulo_Origen = 'CPFC' then (select top 1 case DD.DDtipo 
+	    			                         when 'S' then (select substring (cuentac,1,5) from Conceptos where Cid = 					                                             DD.DDcoditem) 
+   					                         when 'F' then (select substring(cuentac,1,5) from Conceptos where                                             Ccodigo = 'AF') 
+					   					 	 end 
+											 from TESordenPago O
+  											 inner join TESdetallePago D on D.TESOPid = O.TESOPid
+  											 inner join HEDocumentosCP CP on CP.IDdocumento = D.TESDPidDocumento 
+  											 inner join HDDocumentosCP DD on DD.IDdocumento  = CP.IDdocumento 
+  											 where  D.TESSPid = <cfqueryparam cfsqltype="integer"  value="#rsDetCountReg.Solicitud_Id#">
+											 and TESDPidDocumento = <cfqueryparam cfsqltype="cf_sql_integer" value="#rsDetCountReg.Documento_Id#">
+		  									 and D.TESDPtipoDocumento = 1
+  											 and NOT (TESDPmontoAprobadoOri <= 0 and TESDPdescripcion like '- Credito:%')  	  		                                 and D.RlineaId is null and D.MlineaId is null)
+											 when Modulo_Origen = 'TESP' or Modulo_Origen = 'CCH' 
+											 or Modulo_Origen = 'TEPN' or Modulo_Origen = 'TEGE' 
+											 or Modulo_Origen = 'TEOP' then (select top 1 Rubro = case PCNid
+	 										 when 1 then substring(CFformato, 6,5) 
+					  	    				 when 2 then substring(CFformato, 6+4,5)
+	   										 when 3 then substring(CFformato, 6+8,5)
+	   										 when 4 then substring(CFformato, 6+12,5)
+	   										 when 5 then substring(CFformato, 6+16,5)
+	   										 when 6 then substring(CFformato, 6+20,5)
+	   						 				 when 7 then substring(CFformato, 6+24,5)
+	   										 when 8 then substring(CFformato, 6+28,5)
+	   										 when 9 then substring(CFformato, 6+32,5)
+				  	   						 when 10 then substring(CFformato, 6+36,5)
+	   										 when 11 then substring(CFformato, 6+40,5) 
+	   										 end
+											 from 
+						 					 TESdetallePago DP 
+					  					     inner join CFinanciera CF on DP.CFcuentaDB = CF.CFcuenta 
+											 and DP.EcodigoOri = CF.Ecodigo
+											 inner join CtasMayor CM on CF.Cmayor = CM.Cmayor and CF.Ecodigo = CM.Ecodigo
+											 inner join PCEMascaras M on M.PCEMid = CM.PCEMid 
+					  						 inner join PCNivelMascara D  on M.PCEMid = D.PCEMid 
+											 where CFcuentaDB = convert(integer, <cfqueryparam cfsqltype="cf_sql_varchar"                                             value="#rsDetCountReg.CConcepto#">)
+                    						 and PCNdescripcion  like 'RUBROS')
+							end,
+							SubRubro = case  
+						    when Modulo_Origen = 'CPFC' then (select top 1 Rubro = case DD.DDtipo
+				 	    			         when 'S' then (select substring (cuentac,6,3) from Conceptos where Cid =                                             DD.DDcoditem) 
+   					                         when 'F' then (select substring (cuentac,6,3) from Conceptos 
+										     where Ccodigo = 'AF') 
+					   					     end 
+		 								     from TESordenPago O
+  										     inner join TESdetallePago D on D.TESOPid = O.TESOPid
+  										     inner join HEDocumentosCP CP on CP.IDdocumento = D.TESDPidDocumento 
+  										     inner join HDDocumentosCP DD on DD.IDdocumento  = CP.IDdocumento 
+  		  								     where  D.TESSPid = <cfqueryparam cfsqltype="integer"  value="#rsDetCountReg.Solicitud_Id#">
+											 and TESDPidDocumento = <cfqueryparam cfsqltype="cf_sql_integer" value="#rsDetCountReg.Documento_Id#">
+  											 and D.TESDPtipoDocumento = 1
+  											 and NOT (TESDPmontoAprobadoOri <= 0 and TESDPdescripcion like '- Credito:%')  	  										 and D.RlineaId is null and D.MlineaId is null)
+						    when Modulo_Origen = 'TESP' or Modulo_Origen = 'CCH' or Modulo_Origen = 'TEPN'  		                                             or Modulo_Origen = 'TEGE' or Modulo_Origen = 'TEOP'
+											 then (select top 1 SubRubro = case PCNid
+	   										 when 1 then substring(CFformato, 12,3) 
+				  	   						 when 2 then substring(CFformato, 12+4,3)
+				  	   						 when 3 then substring(CFformato, 12+8,3)
+				 	  						 when 4 then substring(CFformato, 12+12,3)
+				 	   						 when 5 then substring(CFformato, 12+16,3)
+				 	   						 when 6 then substring(CFformato, 12+20,3)
+					   						 when 7 then substring(CFformato, 12+24,3)
+	   										 when 8 then substring(CFformato, 12+28,3)
+	   										 when 9 then substring(CFformato, 12+32,3)
+	  										 when 10 then substring(CFformato, 12+36,3)
+	   										 when 11 then substring(CFformato, 12+40,3) 
+	   						 				 end
+											 from TESdetallePago DP 
+					  					     inner join CFinanciera CF on DP.CFcuentaDB = CF.CFcuenta 
+											 and DP.EcodigoOri = CF.Ecodigo
+											 inner join CtasMayor CM on CF.Cmayor = CM.Cmayor and CF.Ecodigo = CM.Ecodigo
+											 inner join PCEMascaras M on M.PCEMid = CM.PCEMid 
+					  						 inner join PCNivelMascara D  on M.PCEMid = D.PCEMid 
+											 where CFcuentaDB = convert(integer, <cfqueryparam cfsqltype="cf_sql_varchar"                                             value="#rsDetCountReg.CConcepto#">)
+                    						 and PCNdescripcion  like 'RUBROS')
+							end 			
+					from  #sifinterfacesdb#..Det_Ordenes_Pago_SOIN 
+					where ID = <cfqueryparam cfsqltype="cf_sql_integer" value="#rsEncCountReg.ID#">
+				</cfquery>
+				
+				<cfif isdefined("rsRubySubR") and rsRubySubR.recordcount GT 0 and rsRubySubR.Rubro NEQ '' 
+				and rsRubySubR.SubRubro NEQ ''>
+					<cfquery datasource="sifinterfaces">
+						update Det_Ordenes_Pago_SOIN 
+							set CConcepto = convert (varchar(10),<cfqueryparam cfsqltype="cf_sql_integer" value="#rsRubySubR.Rubro#">), 
+							Concepto = convert (varchar(10),<cfqueryparam cfsqltype="cf_sql_integer" value="#rsRubySubR.SubRubro#">)
+							where ID = <cfqueryparam cfsqltype="cf_sql_integer" value="#rsEncCountReg.ID#">
+							and ID_Detalle = <cfqueryparam cfsqltype="cf_sql_integer" value="#rsDetCountReg.ID_Detalle#">
+					</cfquery>
+				<cfelse>
+					<!---Obtiene el concepto de servicio--->
+					<cfif trim(rsDetCountReg.Modulo_Origen) EQ 'TESP' or trim(rsDetCountReg.Modulo_Origen) EQ 'CCH' or trim(rsDetCountReg.Modulo_Origen) EQ 'TEPN' or trim(rsDetCountReg.Modulo_Origen) EQ 'TEGE'>
+						<cfquery datasource="#caches.Ccache#" name="rsConcepto">
+						   select CC.CCid, substring(C.cuentac,1,5) as CConcepto, substring(C.cuentac,6,3) as Concepto,  			                           Cid, Ccodigo
+						   from Conceptos C
+						   inner join CConceptos CC on CC.CCid = C.CCid
+						   where 1=1
+						   <cfif rsDetCountReg.Concepto EQ ''>
+						   		and Cid = 0
+						   <cfelseif rsDetCountReg.Concepto NEQ ''>						   
+						   		and Cid = convert(int,<cfqueryparam cfsqltype="cf_sql_varchar" value="#rsDetCountReg.Concepto#">)
+						   </cfif>
+						</cfquery>
+						
+						<cfif isdefined("rsConcepto") and rsConcepto.recordcount GT 0>
+							<cfif rsConcepto.CConcepto EQ '' or rsConcepto.Concepto EQ ''>
+								<cfthrow message=" El complemento para el concepto #rsConcepto.Ccodigo# no esta definido">
+							<cfelse>
+								<cfquery datasource="sifinterfaces">
+									update Det_Ordenes_Pago_SOIN 
+									set CConcepto = <cfqueryparam cfsqltype="cf_sql_varchar" value="#rsConcepto.CConcepto#">, 
+									Concepto = <cfqueryparam cfsqltype="cf_sql_varchar" value="#rsConcepto.Concepto#">
+									where ID = <cfqueryparam cfsqltype="cf_sql_integer" value="#rsEncCountReg.ID#">
+									and ID_Detalle = <cfqueryparam cfsqltype="cf_sql_integer" value="#rsDetCountReg.ID_Detalle#">
+								</cfquery>
+							</cfif>	
+						<!----Obtiene el codigo de servicio generico--->	
+				   		<cfelse>
+							<cfif trim(rsDetCountReg.Modulo_Origen) EQ 'CCH'>
+								<cfquery datasource="#caches.Ccache#" name="rsConceptoF">
+						  			select substring(C.cuentac,1,5) as CConcepto, substring(C.cuentac,6,3) as 			                                	Concepto, Cid, Ccodigo
+							   		from Conceptos C
+							   		where Ccodigo = 'CJ'
+								</cfquery>
+							<cfelseif trim(rsDetCountReg.Modulo_Origen) EQ 'TESP' or trim(rsDetCountReg.Modulo_Origen) EQ 'TEPN'>
+								<cfquery datasource="#caches.Ccache#" name="rsConceptoF">
+						  			select substring(C.cuentac,1,5) as CConcepto, substring(C.cuentac,6,3) as 			                                	Concepto, Cid, Ccodigo
+							   		from Conceptos C
+							   		where Ccodigo = 'TE'
+								</cfquery>
+							</cfif>						
+							<cfif isdefined("rsConceptoF") and rsConceptoF.recordcount GT 0 and rsConceptoF.CConcepto NEQ '' and rsConceptoF.Concepto NEQ ''>
+								<cfif rsConceptoF.CConcepto NEQ '' or rsConceptoF.Concepto NEQ ''>
+									<cfquery datasource="sifinterfaces">
+										update Det_Ordenes_Pago_SOIN 
+										set CConcepto = <cfqueryparam cfsqltype="cf_sql_varchar" value="#rsConceptoF.CConcepto#">, 
+										Concepto = <cfqueryparam cfsqltype="cf_sql_varchar" value="#rsConceptoF.Concepto#">
+										where ID = <cfqueryparam cfsqltype="cf_sql_integer" value="#rsEncCountReg.ID#">
+										and ID_Detalle = <cfqueryparam cfsqltype="cf_sql_integer" value="#rsDetCountReg.ID_Detalle#">
+									</cfquery>
+								</cfif>		
+							</cfif>
+						</cfif>
+					</cfif>
+			 	</cfif>
+			</cfloop>
+			</cfif> <!----Detalles--->
+			
+			<!---Actualiza los registros insertados---->
+			<cfquery datasource="sifinterfaces">
+				update Enc_Ordenes_Pago_SOIN set Estatus = 1
+				where Estatus = 31
+				and ID = <cfqueryparam cfsqltype="cf_sql_integer" value="#rsEncCountReg.ID#">
+			</cfquery>
+					
+	<!---	<cftransaction action="commit" />										--->
+		<cfcatch>	
+		<!---<cftransaction action="rollback" /> 	  		--->
+			<cfquery datasource="sifinterfaces">
+				update Det_Ordenes_Pago_SOIN 
+					set CConcepto = <cfqueryparam cfsqltype="cf_sql_varchar" value="#varCConcepto#">, 
+					Concepto = <cfqueryparam cfsqltype="cf_sql_varchar" value="#varConcepto#">
+				where ID =  <cfqueryparam cfsqltype="cf_sql_integer" value="#rsEncCountReg.ID#">
+				and ID_Detalle =  <cfqueryparam cfsqltype="cf_sql_integer" value="#rsDetCountReg.ID_Detalle#">
+			</cfquery>
+			
+			<cfif varSocio NEQ ''>
+				<cfquery datasource="sifinterfaces">
+					update Enc_Ordenes_Pago_SOIN 
+						set SNcodigoext = <cfqueryparam cfsqltype="cf_sql_integer" value="#varSocio#">
+					where ID = <cfqueryparam cfsqltype="cf_sql_integer" value="#rsEncCountReg.ID#">
+				</cfquery>
+			</cfif>
+		
+			<cfif isdefined("cfcatch.Message")>
+				<cfset Mensaje="#cfcatch.Message#">
+			<cfelse>
+				<cfset Mensaje="">
+            </cfif>
+            <cfif isdefined("cfcatch.Detail")>
+               	<cfset Detalle="#cfcatch.Detail#">
+			<cfelse>
+				<cfset Detalle="">
+            </cfif>
+			<cfif isdefined("cfcatch.sql")>
+               	<cfset SQL="#cfcatch.sql#">
+			<cfelse>
+				<cfset SQL="">
+            </cfif>
+			<cfif isdefined("cfcatch.where")>
+               	<cfset PARAM="#cfcatch.where#">
+			<cfelse>
+				<cfset PARAM="">
+            </cfif>
+			<cfif isdefined("cfcatch.StackTrace")>
+               	<cfset PILA="#cfcatch.StackTrace#">
+			<cfelse>
+				<cfset PILA="">
+            </cfif>
+            <cfset MensajeError= #Mensaje# & #Detalle#>
+			
+			<cfquery datasource="sifinterfaces" name="rsEquivalenciaEmp">
+               select  SIScodigo, CATcodigo, EQUempOrigen, EQUcodigoOrigen, EQUempSIF, EQUcodigoSIF, EQUidSIF  
+               from SIFLD_Equivalencia
+               where SIScodigo = 'ICTS'  
+                   and CATcodigo = 'CADENA'
+                   and EQUempSIF = <cfqueryparam cfsqltype="cf_sql_integer" value="#rsEncCountReg.Ecodigo#">
+            </cfquery>
+		   
+		    <cfif rsEquivalenciaEmp.recordcount GT 0>
+		   		<cfset varEcodigo = rsEquivalenciaEmp.EQUempOrigen>
+			</cfif>
+				
+			<cfquery datasource="sifinterfaces">
+            	insert into SIFLD_Errores 
+                        (Interfaz, Tabla, ID_Documento, MsgError, MsgErrorDet, MsgErrorSQL, MsgErrorParam, MsgErrorPila, Ecodigo, Usuario)
+                        select 'TS_OrdenP', 'Enc_Ordenes_Pago_SOIN', ID,
+                            <cfqueryparam cfsqltype="cf_sql_varchar" value="#Mensaje#">,
+                            <cfqueryparam cfsqltype="cf_sql_varchar" value="#Detalle#">,
+                            <cfqueryparam cfsqltype="cf_sql_varchar" value="#SQL#">,
+                            <cfqueryparam cfsqltype="cf_sql_varchar" value="#PARAM#">,
+                            <cfqueryparam cfsqltype="cf_sql_varchar" value="#PILA#">,				 
+                            <cfqueryparam cfsqltype="cf_sql_integer" value="#varEcodigo#">,
+                            <cfqueryparam cfsqltype="cf_sql_varchar" value="#rsEncCountReg.Usuario#">
+                        from Enc_Ordenes_Pago_SOIN
+                        where Estatus in (31)  
+                        and ID = <cfqueryparam cfsqltype="cf_sql_integer" value="#rsEncCountReg.ID#">
+             </cfquery>
+			  
+			 <cfquery datasource="sifinterfaces">
+				update Enc_Ordenes_Pago_SOIN set Estatus = 33 
+				where ID = <cfqueryparam cfsqltype="cf_sql_integer" value="#rsEncCountReg.ID#">
+			 </cfquery>
+
+		</cfcatch>
+		</cftry>
+		<!---</cftransaction>--->
+		</cfloop> <!---ENC---->
+		</cfif>		
+	</cfloop> <!---CACHE--->
+	</cfsilent>	
+	</cffunction>
+	
+	<!---Actualiza las equivalencias de las Ordenes de Pago Registradas---->		
+	<cffunction name="ValidaEquivalencias"> 
+	<cfsilent>
+	  
+		<!---Consulta el encabezado---->
+		<cfquery name="rsEncCountReg" datasource="sifinterfaces">
+			select ID, SNcodigoext, Ecodigo, Cuenta_Banco, Moneda, Usuario
+			from Enc_Ordenes_Pago_SOIN  
+			where Estatus = 1		
+		</cfquery>
+		
+		<cfif isdefined("rsEncCountReg") and rsEncCountReg.recordcount GT 0>
+		<cfloop query="rsEncCountReg">
+			<cftransaction action="begin">
+			<cftry>
+					
+			<cfset EcodigoP = #rsEncCountReg.Ecodigo#>
+												
+			<!--- Busca equivalencia con el codigo externo de Empresa --->
+ 			<cfquery datasource="sifinterfaces" name="rsEquivalenciaEmp">
+               select  SIScodigo, CATcodigo, EQUempOrigen, EQUcodigoOrigen, EQUempSIF, EQUcodigoSIF, EQUidSIF  
+               from SIFLD_Equivalencia
+               where SIScodigo = 'ICTS'  
+                   and CATcodigo = 'CADENA'
+                   and EQUempSIF = <cfqueryparam cfsqltype="cf_sql_integer" value="#EcodigoP#">
+            </cfquery>
+		   
+		    <cfif rsEquivalenciaEmp.recordcount EQ 0>
+		   		<cfthrow message="No existe equivalencia para la empresa">
+			<cfelse>
+				<cfquery datasource="sifinterfaces">
+				update Enc_Ordenes_Pago_SOIN 
+				set Ecodigo = convert(integer,<cfqueryparam cfsqltype="cf_sql_varchar" value="#rsEquivalenciaEmp.EQUcodigoOrigen#">) 
+				where ID = <cfqueryparam cfsqltype="cf_sql_integer" value="#rsEncCountReg.ID#">
+				</cfquery>				
+			</cfif>		
+			
+			<!--- Busca equivalencia para la Cuenta Bancaria --->
+		   	 <cfquery datasource="sifinterfaces" name="rsEquivalenciaCtaBanco">
+             	select  SIScodigo, CATcodigo, EQUempOrigen, EQUcodigoOrigen, EQUempSIF, EQUcodigoSIF, EQUidSIF  
+                from SIFLD_Equivalencia
+                where SIScodigo = 'TBS'  
+                   and CATcodigo = 'CTA_BANCO'
+                   and EQUempSIF = <cfqueryparam cfsqltype="cf_sql_integer" value="#EcodigoP#">
+                   and ltrim(rtrim(EQUcodigoSIF)) = ltrim(rtrim(<cfqueryparam cfsqltype= "cf_sql_varchar" value="#rsEncCountReg.Cuenta_Banco#">))
+           	 </cfquery>
+		   
+		   <cfif rsEquivalenciaCtaBanco.recordcount EQ 0>
+		   		<cfthrow message="No existe equivalencia para la cuenta de banco #rsEncCountReg.Cuenta_Banco# de la Orden de Pago">
+			<cfelse>
+				<cfquery datasource="sifinterfaces">
+					update Enc_Ordenes_Pago_SOIN set Cuenta_Banco = <cfqueryparam cfsqltype="cf_sql_varchar" 
+					value="#rsEquivalenciaCtaBanco.EQUcodigoOrigen#"> 
+					where ID = <cfqueryparam cfsqltype="cf_sql_integer" value="#rsEncCountReg.ID#">
+				</cfquery>
+			</cfif>	
+			
+			 <!--- Busca equivalencia con el codigo externo de Moneda --->
+			   <cfquery datasource="sifinterfaces" name="rsEquivalenciaMon">
+    	           select  SIScodigo, CATcodigo, EQUempOrigen, EQUcodigoOrigen, EQUempSIF, EQUcodigoSIF, EQUidSIF  
+        	       from SIFLD_Equivalencia
+            	   where SIScodigo = 'ICTS'  
+                   and CATcodigo = 'MONEDA'
+                   and EQUempSIF = <cfqueryparam cfsqltype="cf_sql_integer" value="#EcodigoP#">
+                   and EQUcodigoSIF = <cfqueryparam cfsqltype= "cf_sql_varchar" value="#rsEncCountReg.Moneda#">
+	           </cfquery>
+		   
+			   <cfif rsEquivalenciaMon.recordcount EQ 0>
+		   			<cfthrow message="No existe equivalencia para la moneda de la Orden de Pago">
+			   <cfelse>
+					<cfquery datasource="sifinterfaces">
+					   update Enc_Ordenes_Pago_SOIN 
+					   set Moneda = <cfqueryparam cfsqltype="cf_sql_varchar" value="#rsEquivalenciaMon.EQUcodigoOrigen#">   	                   where ID = <cfqueryparam cfsqltype="cf_sql_integer" value="#rsEncCountReg.ID#">
+					</cfquery>
+				</cfif>			
+		
+			<!----Lee los detalles de la Orden--->
+			<cfquery name="rsDetCountReg" datasource="sifinterfaces">
+				select  Modulo_Origen 
+				from Det_Ordenes_Pago_SOIN 
+				where ID = <cfqueryparam cfsqltype="cf_sql_integer" value="#rsEncCountReg.ID#"> 			
+			</cfquery>
+			
+		    <cfif rsDetCountReg.recordcount GT 0>
+		    <cfloop query="rsDetCountReg">
+		   	   
+			  	<!--- Busca la equivalencia para el Módulo Origen --->
+			   	<cfquery datasource="sifinterfaces" name="rsEquivalenciaModOri">
+    	         	select  SIScodigo, CATcodigo, EQUempOrigen, EQUcodigoOrigen, EQUempSIF, EQUcodigoSIF, EQUidSIF  
+        	        from SIFLD_Equivalencia
+            	    where SIScodigo = 'TBS'  
+                	   and CATcodigo = 'MODULO_ORI'
+	                   and EQUempSIF = <cfqueryparam cfsqltype="cf_sql_integer" value="#EcodigoP#">
+    	               and ltrim(rtrim(EQUcodigoSIF)) = ltrim(rtrim(<cfqueryparam cfsqltype= "cf_sql_varchar" value="#rsDetCountReg.Modulo_Origen#">))
+           		</cfquery>
+		   
+				<cfif rsEquivalenciaModOri.recordcount EQ 0>
+			   		<cfthrow message="No existe equivalencia para el Modulo Origen #rsDetCountReg.Modulo_Origen#">
+				<cfelse>
+					<cfquery datasource="sifinterfaces">
+						update Det_Ordenes_Pago_SOIN set Modulo_Origen = <cfqueryparam cfsqltype="cf_sql_varchar" 
+						value="#rsEquivalenciaModOri.EQUcodigoOrigen#"> 
+						where ID = <cfqueryparam cfsqltype="cf_sql_integer" value="#rsEncCountReg.ID#">
+					</cfquery>
+				</cfif>	
+				</cfloop>
+				</cfif> <!---Detalle--->
+			
+			<!---Se actualiza el registro de la tabla intermedia--->
+			<cfquery datasource="sifinterfaces">
+					update Enc_Ordenes_Pago_SOIN 
+					set Estatus = 4
+					where Estatus = 1 and ID = <cfqueryparam cfsqltype="cf_sql_integer" value="#rsEncCountReg.ID#">
+			</cfquery>		
+			
+			<cftransaction action="commit"/> 
+		<cfcatch>
+	  		<cftransaction action="rollback"/> 	  		
+			<cfif isdefined("cfcatch.Message")>
+				<cfset Mensaje="#cfcatch.Message#">
+			<cfelse>
+				<cfset Mensaje="">
+            </cfif>
+            <cfif isdefined("cfcatch.Detail")>
+               	<cfset Detalle="#cfcatch.Detail#">
+			<cfelse>
+				<cfset Detalle="">
+            </cfif>
+			<cfif isdefined("cfcatch.sql")>
+               	<cfset SQL="#cfcatch.sql#">
+			<cfelse>
+				<cfset SQL="">
+            </cfif>
+			<cfif isdefined("cfcatch.where")>
+               	<cfset PARAM="#cfcatch.where#">
+			<cfelse>
+				<cfset PARAM="">
+            </cfif>
+			<cfif isdefined("cfcatch.StackTrace")>
+               	<cfset PILA="#cfcatch.StackTrace#">
+			<cfelse>
+				<cfset PILA="">
+            </cfif>
+            <cfset MensajeError= #Mensaje# & #Detalle#>
+		
+			<cfquery datasource="sifinterfaces">
+                 insert into SIFLD_Errores 
+                        	(Interfaz, Tabla, ID_Documento, MsgError, MsgErrorDet, MsgErrorSQL, MsgErrorParam, 																																                             MsgErrorPila, Ecodigo, Usuario)
+	                        select 'TS_OrdenP', 'Enc_Ordenes_Pago_SOIN', ID,
+                            <cfqueryparam cfsqltype="cf_sql_varchar" value="#Mensaje#">,
+                            <cfqueryparam cfsqltype="cf_sql_varchar" value="#Detalle#">,
+                            <cfqueryparam cfsqltype="cf_sql_varchar" value="#SQL#">,
+                            <cfqueryparam cfsqltype="cf_sql_varchar" value="#PARAM#">,
+                            <cfqueryparam cfsqltype="cf_sql_varchar" value="#PILA#">,				 
+                            <cfqueryparam cfsqltype="cf_sql_integer" value="698">,
+                            <cfqueryparam cfsqltype="cf_sql_varchar" value="#Usuario#">
+                        from Enc_Ordenes_Pago_SOIN
+                        where Estatus in (1)  
+                        and ID = <cfqueryparam cfsqltype="cf_sql_integer" value="#rsEncCountReg.ID#">
+             	 </cfquery>
+			  
+			 	 <cfquery datasource="sifinterfaces">
+					update Enc_Ordenes_Pago_SOIN set Estatus = 3 
+					where ID = <cfqueryparam cfsqltype="cf_sql_integer" value="#rsEncCountReg.ID#">
+				</cfquery>
+			</cfcatch>
+			</cftry>
+			</cftransaction>
+		</cfloop>	
+		</cfif>	  <!---Encabezado--->
+	</cfsilent>
+	</cffunction>
+		
+	
+	<!---Actualiza las equivalencias de las Ordenes de Pago Registradas---->		
+	<cffunction name="EnviaRegistrosTesoreria"> 
+	<cfsilent>
+		<!---Lee los registros a insertar--->
+		<cfquery name="rsOrdenesPago" datasource="sifinterfaces">
+			select distinct	E.Estatus, E.ID, SNcodigoext, Ecodigo, Id_Orden, Cuenta_Banco, Usuario, Monto_Total, Moneda,            Fecha_Pago, Sistema, Nom_Beneficiario, Banco_Beneficiario, Cuenta_Beneficiario, Ciudad, Pais, Fecha_Creacion,            Usuario, Modulo_Origen, Observaciones,
+			Fecha_Vencimiento = (select top 1 Fecha_Vencimiento from Enc_Ordenes_Pago_SOIN O
+			inner join Det_Ordenes_Pago_SOIN DO on O.ID = DO.ID
+			where Estatus = 4 and DO.ID = E.ID),			
+			Documento = (select  top 1 Documento from Enc_Ordenes_Pago_SOIN O
+			inner join Det_Ordenes_Pago_SOIN DO on O.ID = DO.ID
+			where Estatus = 4 and DO.ID = E.ID), 
+	        Transaccion = (select top 1 Transaccion from Enc_Ordenes_Pago_SOIN O
+			inner join Det_Ordenes_Pago_SOIN DO on O.ID = DO.ID
+			where Estatus = 4 and DO.ID = E.ID), 			
+            CConcepto = (select top 1 CConcepto from Enc_Ordenes_Pago_SOIN O
+			inner join Det_Ordenes_Pago_SOIN DO on O.ID = DO.ID
+			where Estatus = 4 and DO.ID = E.ID),
+			Concepto = (select top 1 Concepto from Enc_Ordenes_Pago_SOIN O
+			inner join Det_Ordenes_Pago_SOIN DO on O.ID = DO.ID
+			where Estatus = 4 and DO.ID = E.ID),
+			Tipo_Mov, Numero_Orden, TipoPago
+			from Enc_Ordenes_Pago_SOIN E
+			inner join Det_Ordenes_Pago_SOIN D on E.ID = D.ID
+			where Estatus = 4			
+		</cfquery>
+		
+		<cfif rsOrdenesPago.recordcount GT 0>
+		<cfloop query="rsOrdenesPago">
+			<cftry>
+				
+				<cfif rsOrdenesPago.Cconcepto EQ ''>
+					<cfthrow message="No se ha podido obtener un Rubro valido">
+				</cfif>
+			
+				<cfif rsOrdenesPago.Concepto EQ ''>
+					<cfthrow message="No se ha podido obtener un SubRubro valido">
+				</cfif>
+			
+				<cfquery name="rsMaxNumero" datasource="tesoreria">
+					select isnull(max(agrup_numero_nap), 0) + 1 as MaxNumero
+					from PmiEntradasSoinCim
+				</cfquery>
+				
+				<cfset varMax = rsMaxNumero.MaxNumero>
+			
+				<cfquery datasource="tesoreria">
+					insert into PmiEntradasSoinCim(
+  								agrup_numero_nap, <!----???--->
+  								contraparte_id,
+								compania_prop_id,
+								concepto_id,
+								subcon_det_id,  
+ 							    documento_soin_id,
+								cuenta_bancaria_id,
+								monto_total,
+								saldo, 
+								fecha_vencimiento,
+								fecha_reprograma,
+								fecha_valor_soin,
+								origen_presup,
+								tipo_documento,
+								agrup_pago_cobro,
+								moneda,
+								moneda_pago_soin,
+								sistema_id,
+								documento,
+								agrup_nombre_largo, 
+								fecha_creacion,
+								banco_beneficiario,
+								cuenta_beneficiario,
+								Ciudad,
+								Pais,
+								observaciones)
+						values (<cfqueryparam cfsqltype="cf_sql_integer" value="#varMax#">,
+								<cfif isdefined("rsOrdenesPago.SNcodigoext") and rsOrdenesPago.SNcodigoext NEQ "">
+									<cfqueryparam cfsqltype="cf_sql_integer" value="#rsOrdenesPago.SNcodigoext#">,
+								<cfelse>
+									0, <!---checar--->
+								</cfif>
+								<cfqueryparam cfsqltype="cf_sql_integer" value="#rsOrdenesPago.Ecodigo#">,
+								<cfqueryparam cfsqltype="cf_sql_integer" value="#rsOrdenesPago.Cconcepto#">,
+								<cfqueryparam cfsqltype="cf_sql_integer" value="#rsOrdenesPago.Concepto#">,
+								<cfqueryparam cfsqltype="cf_sql_integer" value="#rsOrdenesPago.Numero_Orden#">,
+								<cfqueryparam cfsqltype="cf_sql_integer" value="#rsOrdenesPago.Cuenta_Banco#">,
+								round(#rsOrdenesPago.Monto_Total#,2),
+								round(#rsOrdenesPago.Monto_Total#,2),
+								<cfqueryparam cfsqltype="cf_sql_date" value="#rsOrdenesPago.Fecha_Pago#">,
+								<cfqueryparam cfsqltype="cf_sql_date" value="#rsOrdenesPago.Fecha_Pago#">,
+								<cfqueryparam cfsqltype="cf_sql_date" value="#rsOrdenesPago.Fecha_Pago#">,
+								<cfqueryparam cfsqltype="cf_sql_varchar" value="#rsOrdenesPago.Modulo_Origen#">,
+								<cfqueryparam cfsqltype="cf_sql_varchar" value="#rsOrdenesPago.Transaccion#">,
+								<cfqueryparam cfsqltype="cf_sql_varchar" value="#rsOrdenesPago.Tipo_Mov#">,
+								<cfqueryparam cfsqltype="cf_sql_varchar" value="#rsOrdenesPago.Moneda#">,
+								<cfqueryparam cfsqltype="cf_sql_varchar" value="#rsOrdenesPago.Moneda#">,
+								<cfqueryparam cfsqltype="cf_sql_varchar" value="#rsOrdenesPago.Sistema#">,
+								<cfqueryparam cfsqltype="cf_sql_varchar" value="#rsOrdenesPago.Documento#">,
+								<cfqueryparam cfsqltype="cf_sql_varchar" value="#rsOrdenesPago.Nom_Beneficiario#">,
+								getdate(),
+								<cfif trim(rsOrdenesPago.TipoPago) EQ 'CHEQUE'>
+									'CHEQUE',
+								<cfelse>
+									<cfqueryparam cfsqltype="cf_sql_varchar" value="#rsOrdenesPago.Banco_Beneficiario#">,
+								</cfif>
+								<cfqueryparam cfsqltype="cf_sql_varchar" value="#rsOrdenesPago.Cuenta_Beneficiario#">,
+								<cfqueryparam cfsqltype="cf_sql_varchar" value="#rsOrdenesPago.Ciudad#">,
+								<cfqueryparam cfsqltype="cf_sql_varchar" value="#rsOrdenesPago.Pais#">,
+								<cfqueryparam cfsqltype="cf_sql_varchar" value="#rsOrdenesPago.Observaciones#">)
+				</cfquery>
+				
+				<cfquery datasource="sifinterfaces" name="rsDetallesOrd">
+					select e.Numero_Orden, CConcepto, Concepto, Modulo_Origen, Documento, Transaccion, Tipo_Mov,         			                    Monto_Linea, Solicitud_Id, Documento_Id, Fecha_Vencimiento, Numero_Solicitud
+					from Det_Ordenes_Pago_SOIN	d
+					inner join Enc_Ordenes_Pago_SOIN e on d.ID = e.ID					
+					where d.ID = <cfqueryparam cfsqltype="cf_sql_integer" value="#rsOrdenesPago.ID#">			
+				</cfquery>
+				
+				<cfset varLinea = 1>
+				
+				<cfif rsDetallesOrd.recordcount GT 0>
+					<cfloop query="rsDetallesOrd">
+						<cfquery datasource="tesoreria">
+							insert PmiEntradasSoinCimDet( 			
+												agrup_numero_nap, 
+												agrup_numero_nap_lin,   
+												concepto_id_lin,
+												subcon_det_id_lin,
+												documento_soin_id_lin,
+												monto_linea,    
+												origen_presup,
+												tipo_documento,
+												documento,
+												documento_soin_id)
+										  values (<cfqueryparam cfsqltype="cf_sql_integer" value="#varMax#">,
+										  		  <cfqueryparam cfsqltype="cf_sql_integer" value="#varLinea#">,
+										  		  <cfqueryparam cfsqltype="cf_sql_integer" value="#rsDetallesOrd.Cconcepto#">,
+												  <cfqueryparam cfsqltype="cf_sql_integer" value="#rsDetallesOrd.Concepto#">,
+												  <cfqueryparam cfsqltype="cf_sql_integer" value="#rsDetallesOrd.Numero_Solicitud#">,
+												  <cfqueryparam cfsqltype="cf_sql_money" value="#rsDetallesOrd.Monto_Linea#">,
+												  <cfqueryparam cfsqltype="cf_sql_varchar" value="#rsDetallesOrd.Modulo_Origen#">,
+												  <cfqueryparam cfsqltype="cf_sql_varchar" value="#rsDetallesOrd.Transaccion#">,
+												  <cfqueryparam cfsqltype="cf_sql_varchar" value="#rsDetallesOrd.Documento#">,
+												  <cfqueryparam cfsqltype="cf_sql_integer" value="#rsDetallesOrd.Numero_Orden#">)
+						</cfquery>
+						
+					<cfset varLinea = varLinea + 1>						  
+					</cfloop>
+				</cfif>	
+				
+				<cfquery datasource="sifinterfaces"> 
+					update Enc_Ordenes_Pago_SOIN 
+					set Estatus = 2
+					where Estatus = 4 
+					and ID = <cfqueryparam cfsqltype="cf_sql_integer" value="#rsOrdenesPago.ID#">			
+				</cfquery>
+				
+			<cfcatch>
+	  		<!---Borrar los registros de la Orden--->
+			<cfif isdefined("rsOrdenesPago.Numero_Orden") and rsOrdenesPago.Numero_Orden NEQ ''>
+				<cfquery datasource="tesoreria">
+					delete PmiEntradasSoinCimDet
+					where documento_soin_id = <cfqueryparam cfsqltype="cf_sql_integer" value="#rsOrdenesPago.Numero_Orden#">
+				</cfquery>
+			</cfif>
+			
+			<cfquery datasource="tesoreria">
+				delete PmiEntradasSoinCim
+				where documento_soin_id = <cfqueryparam cfsqltype="cf_sql_integer" value="#rsOrdenesPago.Numero_Orden#">
+				and compania_prop_id = <cfqueryparam cfsqltype="cf_sql_integer" value="#rsOrdenesPago.Ecodigo#">
+			</cfquery>			
+					
+			<cfif isdefined("cfcatch.Message")>
+				<cfset Mensaje="#cfcatch.Message#">
+			<cfelse>
+				<cfset Mensaje="">
+            </cfif>
+            <cfif isdefined("cfcatch.Detail")>
+               	<cfset Detalle="#cfcatch.Detail#">
+			<cfelse>
+				<cfset Detalle="">
+            </cfif>
+			<cfif isdefined("cfcatch.sql")>
+               	<cfset SQL="#cfcatch.sql#">
+			<cfelse>
+				<cfset SQL="">
+            </cfif>
+			<cfif isdefined("cfcatch.where")>
+               	<cfset PARAM="#cfcatch.where#">
+			<cfelse>
+				<cfset PARAM="">
+            </cfif>
+			<cfif isdefined("cfcatch.StackTrace")>
+               	<cfset PILA="#cfcatch.StackTrace#">
+			<cfelse>
+				<cfset PILA="">
+            </cfif>
+            <cfset MensajeError= #Mensaje# & #Detalle#>
+		
+			<cfquery datasource="sifinterfaces">
+                 insert into SIFLD_Errores 
+                        	(Interfaz, Tabla, ID_Documento, MsgError, MsgErrorDet, MsgErrorSQL, MsgErrorParam, 																																                             MsgErrorPila, Ecodigo, Usuario)
+	                        select 'TS_OrdenP', 'Enc_Ordenes_Pago_SOIN', ID,
+                            <cfqueryparam cfsqltype="cf_sql_varchar" value="#Mensaje#">,
+                            <cfqueryparam cfsqltype="cf_sql_varchar" value="#Detalle#">,
+                            <cfqueryparam cfsqltype="cf_sql_varchar" value="#SQL#">,
+                            <cfqueryparam cfsqltype="cf_sql_varchar" value="#PARAM#">,
+                            <cfqueryparam cfsqltype="cf_sql_varchar" value="#PILA#">,				 
+                            <cfqueryparam cfsqltype="cf_sql_integer" value="698">,
+                            <cfqueryparam cfsqltype="cf_sql_varchar" value="#Usuario#">
+                        from Enc_Ordenes_Pago_SOIN
+                        where Estatus in (4)  
+                        and ID = <cfqueryparam cfsqltype="cf_sql_integer" value="#rsOrdenesPago.ID#">
+             	 </cfquery>
+			  
+			 	 <cfquery datasource="sifinterfaces">
+					update Enc_Ordenes_Pago_SOIN set Estatus = 6 
+					where ID = <cfqueryparam cfsqltype="cf_sql_integer" value="#rsOrdenesPago.ID#">
+				</cfquery>
+			</cfcatch>
+			</cftry>
+		</cfloop>
+		
+		<cfquery datasource="tesoreria">
+			exec sp_SendPmiEntrada
+		</cfquery>
+		
+		</cfif>					
+	</cfsilent>
+	</cffunction>	
+</cfcomponent>

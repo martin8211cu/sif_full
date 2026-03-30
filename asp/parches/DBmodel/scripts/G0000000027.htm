@@ -1,0 +1,2940 @@
+<strong>INDICE:</strong><BR>- <A href='#COLs_CHG'>Columnas a modificarse</A><BR>- <A href='#COLs_ADD'>Columnas nuevas</A><BR>- <A href='#KEYs_DEL'>Llaves a eliminarse</A><BR>- <A href='#TABs_ADD'>Tablas nuevas</A><BR>- <A href='#KEYs_ADD'>Llaves nuevas o a regenerarse</A><BR>- <A href='#KEYs_FI'>Indices para llaves foráneas</A><BR><BR><BR>
+			<BR><strong><A name='COLs_CHG'>COLUMNAS QUE VAN A SER ALTERADAS EN LA BASE DE DATOS PORQUE TIENEN CARACTERISTICAS MODIFICADAS EN EL MODELO DBM</A></strong><BR>
+			<table>
+			<tr><td><strong>TABLA</strong></td><td><strong>COLUMNA</strong></td><td><strong>&nbsp;</strong></td><td><strong>TIPO</strong></td><td><strong>LON</strong></td><td><strong>DEC</strong></td><td><strong>obl</strong></td><td><strong>ide</strong></td><td><strong>dfl</strong></td><td><strong>rul</strong></td></tr>
+			
+				<tr>
+					<td>DDocumentosAdjuntos</td><td>DDAid</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td>NUMERIC</td>
+					<td>18</td>
+					<td>0</td>
+					<td>1</td>
+					
+						<td><strong>0</strong></td>
+					
+					<td></td>
+					<td></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>NUMERIC</td>
+					<td>18</td>
+					<td>0</td>
+					<td>1</td>
+					
+						<td>1</td>
+					
+					
+						<td><font color="#FF0000"></font></td>
+					
+					
+						<td><font color="#FF0000"></font></td>
+					
+				</tr>
+			
+				<tr>
+					<td>EncuestaSalarios</td><td>ESvariacion</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td>NUMERIC</td>
+					<td><strong>18</strong></td>
+					<td>2</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					<td></td>
+					<td></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>NUMERIC</td>
+					<td>5</td>
+					<td>2</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					
+						<td><font color="#FF0000"></font></td>
+					
+					
+						<td><font color="#FF0000"></font></td>
+					
+				</tr>
+			
+				<tr>
+					<td>ETracking</td><td>ETestado</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td>CHAR</td>
+					<td>1</td>
+					<td>0</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					<td><strong>P</strong></td>
+					<td><strong>([ETestado]='E' OR [ETestado]='T' OR [ETestado]='P')</strong></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>CHAR</td>
+					<td>1</td>
+					<td>0</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					
+						<td></td>
+					
+					
+						<td></td>
+					
+				</tr>
+			
+				<tr>
+					<td>ETracking</td><td>ETmediotransporte</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td>INTEGER</td>
+					<td>10</td>
+					<td>0</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					<td><strong>0</strong></td>
+					<td><strong>([ETmediotransporte]=(5) OR [ETmediotransporte]=(4) OR [ETmediotransporte]=(3) OR [ETmediotransporte]=(2) OR [ETmediotransporte]=(1) OR [ETmediotransporte]=(0))</strong></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>INTEGER</td>
+					<td>10</td>
+					<td>0</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					
+						<td></td>
+					
+					
+						<td></td>
+					
+				</tr>
+			
+				<tr>
+					<td>ETrackingItems</td><td>ETIestado</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td>INTEGER</td>
+					<td>10</td>
+					<td>0</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					<td><strong>0</strong></td>
+					<td><strong>([ETIestado]=(1) OR [ETIestado]=(0))</strong></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>INTEGER</td>
+					<td>10</td>
+					<td>0</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					
+						<td></td>
+					
+					
+						<td></td>
+					
+				</tr>
+			
+				<tr>
+					<td>ETrackingItems</td><td>ETcostodirecto</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td>MONEY</td>
+					<td>18</td>
+					<td>4</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					<td><strong>0.00</strong></td>
+					<td></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>MONEY</td>
+					<td>18</td>
+					<td>4</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					
+						<td></td>
+					
+					
+						<td><font color="#FF0000"></font></td>
+					
+				</tr>
+			
+				<tr>
+					<td>ETrackingItems</td><td>ETcostoindfletes</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td>MONEY</td>
+					<td>18</td>
+					<td>4</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					<td><strong>0.00</strong></td>
+					<td></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>MONEY</td>
+					<td>18</td>
+					<td>4</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					
+						<td></td>
+					
+					
+						<td><font color="#FF0000"></font></td>
+					
+				</tr>
+			
+				<tr>
+					<td>ETrackingItems</td><td>ETcostoindseg</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td>MONEY</td>
+					<td>18</td>
+					<td>4</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					<td><strong>0.00</strong></td>
+					<td></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>MONEY</td>
+					<td>18</td>
+					<td>4</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					
+						<td></td>
+					
+					
+						<td><font color="#FF0000"></font></td>
+					
+				</tr>
+			
+				<tr>
+					<td>ETrackingItems</td><td>ETcostoindsegpropio</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td>MONEY</td>
+					<td>18</td>
+					<td>4</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					<td><strong>0.00</strong></td>
+					<td></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>MONEY</td>
+					<td>18</td>
+					<td>4</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					
+						<td></td>
+					
+					
+						<td><font color="#FF0000"></font></td>
+					
+				</tr>
+			
+				<tr>
+					<td>ETrackingItems</td><td>ETcostoindgastos</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td>MONEY</td>
+					<td>18</td>
+					<td>4</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					<td><strong>0.00</strong></td>
+					<td></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>MONEY</td>
+					<td>18</td>
+					<td>4</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					
+						<td></td>
+					
+					
+						<td><font color="#FF0000"></font></td>
+					
+				</tr>
+			
+				<tr>
+					<td>ETrackingItems</td><td>ETcostoindimp</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td>MONEY</td>
+					<td>18</td>
+					<td>4</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					<td><strong>0.00</strong></td>
+					<td></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>MONEY</td>
+					<td>18</td>
+					<td>4</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					
+						<td></td>
+					
+					
+						<td><font color="#FF0000"></font></td>
+					
+				</tr>
+			
+				<tr>
+					<td>ETrackingItems</td><td>ETcostoindfletesPoliza</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td>MONEY</td>
+					<td>18</td>
+					<td>4</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					<td><strong>0.00</strong></td>
+					<td></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>MONEY</td>
+					<td>18</td>
+					<td>4</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					
+						<td></td>
+					
+					
+						<td><font color="#FF0000"></font></td>
+					
+				</tr>
+			
+				<tr>
+					<td>ETrackingItems</td><td>ETcostoindsegPoliza</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td>MONEY</td>
+					<td>18</td>
+					<td>4</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					<td><strong>0.00</strong></td>
+					<td></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>MONEY</td>
+					<td>18</td>
+					<td>4</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					
+						<td></td>
+					
+					
+						<td><font color="#FF0000"></font></td>
+					
+				</tr>
+			
+				<tr>
+					<td>ETrackingItems</td><td>ETcostorecibido</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td>MONEY</td>
+					<td>18</td>
+					<td>4</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					<td><strong>0.00</strong></td>
+					<td></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>MONEY</td>
+					<td>18</td>
+					<td>4</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					
+						<td></td>
+					
+					
+						<td><font color="#FF0000"></font></td>
+					
+				</tr>
+			
+				<tr>
+					<td>ETrackingItems</td><td>ETcostodirectorec</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td>MONEY</td>
+					<td>18</td>
+					<td>4</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					<td><strong>0.00</strong></td>
+					<td></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>MONEY</td>
+					<td>18</td>
+					<td>4</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					
+						<td></td>
+					
+					
+						<td><font color="#FF0000"></font></td>
+					
+				</tr>
+			
+				<tr>
+					<td>ETrackingItems</td><td>ETcostoindfletesrec</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td>MONEY</td>
+					<td>18</td>
+					<td>4</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					<td><strong>0.00</strong></td>
+					<td></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>MONEY</td>
+					<td>18</td>
+					<td>4</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					
+						<td></td>
+					
+					
+						<td><font color="#FF0000"></font></td>
+					
+				</tr>
+			
+				<tr>
+					<td>ETrackingItems</td><td>ETcostoindsegrec</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td>MONEY</td>
+					<td>18</td>
+					<td>4</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					<td><strong>0.00</strong></td>
+					<td></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>MONEY</td>
+					<td>18</td>
+					<td>4</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					
+						<td></td>
+					
+					
+						<td><font color="#FF0000"></font></td>
+					
+				</tr>
+			
+				<tr>
+					<td>ETrackingItems</td><td>ETcostodirectofacorig</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td>MONEY</td>
+					<td>18</td>
+					<td>4</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					<td><strong>0.00</strong></td>
+					<td></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>MONEY</td>
+					<td>18</td>
+					<td>4</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					
+						<td></td>
+					
+					
+						<td><font color="#FF0000"></font></td>
+					
+				</tr>
+			
+				<tr>
+					<td>ETrackingItems</td><td>ETcostoindfletesfacorig</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td>MONEY</td>
+					<td>18</td>
+					<td>4</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					<td><strong>0.00</strong></td>
+					<td></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>MONEY</td>
+					<td>18</td>
+					<td>4</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					
+						<td></td>
+					
+					
+						<td><font color="#FF0000"></font></td>
+					
+				</tr>
+			
+				<tr>
+					<td>ETrackingItems</td><td>ETcostoindsegfacorig</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td>MONEY</td>
+					<td>18</td>
+					<td>4</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					<td><strong>0.00</strong></td>
+					<td></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>MONEY</td>
+					<td>18</td>
+					<td>4</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					
+						<td></td>
+					
+					
+						<td><font color="#FF0000"></font></td>
+					
+				</tr>
+			
+				<tr>
+					<td>ETrackingItems</td><td>ETcantfactura</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td>FLOAT</td>
+					<td>15</td>
+					<td>0</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					<td><strong>0.00</strong></td>
+					<td></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>FLOAT</td>
+					<td>15</td>
+					<td>0</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					
+						<td></td>
+					
+					
+						<td><font color="#FF0000"></font></td>
+					
+				</tr>
+			
+				<tr>
+					<td>ETrackingItems</td><td>ETcantrecibida</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td>FLOAT</td>
+					<td>15</td>
+					<td>0</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					<td><strong>0.00</strong></td>
+					<td></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>FLOAT</td>
+					<td>15</td>
+					<td>0</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					
+						<td></td>
+					
+					
+						<td><font color="#FF0000"></font></td>
+					
+				</tr>
+			
+			</table>
+		
+			<BR><strong><A name='COLs_ADD'>COLUMNAS NUEVAS EN EL MODELO DBM QUE SE VAN A CREAR EN LA BASE DE DATOS</A></strong><BR>
+			<table>
+			<tr><td><strong>TABLA</strong></td><td><strong>COLUMNA</strong></td><td><strong>TIPO</strong></td><td><strong>LON</strong></td><td><strong>DEC</strong></td><td><strong>obl</strong></td><td><strong>ide</strong></td><td><strong>dfl</strong></td><td><strong>rul</strong></td></tr>
+			
+				<tr><td>CMNotas&nbsp;&nbsp;</td><td>PCPid&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>18</td><td>0</td><td>1</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>DDocumentosAdjuntos&nbsp;&nbsp;</td><td>CEcodigo&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>18</td><td>0</td><td>1</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>DDocumentosAdjuntos&nbsp;&nbsp;</td><td>cncache&nbsp;&nbsp;</td><td>VARCHAR&nbsp;&nbsp;</td><td>30</td><td>0</td><td>1</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>DDocumentosAdjuntos&nbsp;&nbsp;</td><td>Ecodigo&nbsp;&nbsp;</td><td>INTEGER&nbsp;&nbsp;</td><td>10</td><td>0</td><td>1</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>DDocumentosAdjuntos&nbsp;&nbsp;</td><td>EcodigoASP&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>18</td><td>0</td><td>1</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>DDocumentosAdjuntos&nbsp;&nbsp;</td><td>LPCid&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>18</td><td>0</td><td>1</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>DListaPrecios&nbsp;&nbsp;</td><td>DLPclase&nbsp;&nbsp;</td><td>VARCHAR&nbsp;&nbsp;</td><td>60</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>DListaPrecios&nbsp;&nbsp;</td><td>DLPcodbarras&nbsp;&nbsp;</td><td>CHAR&nbsp;&nbsp;</td><td>30</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>DListaPrecios&nbsp;&nbsp;</td><td>DLPcodigo&nbsp;&nbsp;</td><td>CHAR&nbsp;&nbsp;</td><td>25</td><td>0</td><td>1</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>DListaPrecios&nbsp;&nbsp;</td><td>DLPdescalterna&nbsp;&nbsp;</td><td>VARCHAR&nbsp;&nbsp;</td><td>255</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>DListaPrecios&nbsp;&nbsp;</td><td>DLPdescripcion&nbsp;&nbsp;</td><td>VARCHAR&nbsp;&nbsp;</td><td>255</td><td>0</td><td>1</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>DListaPrecios&nbsp;&nbsp;</td><td>DLPgarantia&nbsp;&nbsp;</td><td>INTEGER&nbsp;&nbsp;</td><td>10</td><td>0</td><td>1</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>DListaPrecios&nbsp;&nbsp;</td><td>DLPlinea&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>18</td><td>0</td><td>1</td><td>1</td><td></td><td></td></tr>
+			
+				<tr><td>DListaPrecios&nbsp;&nbsp;</td><td>DLPobservaciones&nbsp;&nbsp;</td><td>VARCHAR&nbsp;&nbsp;</td><td>255</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>DListaPrecios&nbsp;&nbsp;</td><td>DLPplazocredito&nbsp;&nbsp;</td><td>INTEGER&nbsp;&nbsp;</td><td>10</td><td>0</td><td>1</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>DListaPrecios&nbsp;&nbsp;</td><td>DLPplazoentrega&nbsp;&nbsp;</td><td>INTEGER&nbsp;&nbsp;</td><td>10</td><td>0</td><td>1</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>DListaPrecios&nbsp;&nbsp;</td><td>DLPporcimpuesto&nbsp;&nbsp;</td><td>FLOAT&nbsp;&nbsp;</td><td>15</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>DListaPrecios&nbsp;&nbsp;</td><td>DLPprecio&nbsp;&nbsp;</td><td>FLOAT&nbsp;&nbsp;</td><td>15</td><td>0</td><td>1</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>DListaPrecios&nbsp;&nbsp;</td><td>DLPunidad&nbsp;&nbsp;</td><td>CHAR&nbsp;&nbsp;</td><td>15</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>DListaPrecios&nbsp;&nbsp;</td><td>ELPid&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>18</td><td>0</td><td>1</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>DListaPrecios&nbsp;&nbsp;</td><td>fechaalta&nbsp;&nbsp;</td><td>DATE TIME&nbsp;&nbsp;</td><td>0</td><td>0</td><td>1</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>DListaPrecios&nbsp;&nbsp;</td><td>Mcodigo&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>18</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>DListaPrecios&nbsp;&nbsp;</td><td>Usucodigo&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>18</td><td>0</td><td>1</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>EListaPrecios&nbsp;&nbsp;</td><td>CEcodigo&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>18</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>EListaPrecios&nbsp;&nbsp;</td><td>ELPdescripcion&nbsp;&nbsp;</td><td>VARCHAR&nbsp;&nbsp;</td><td>80</td><td>0</td><td>1</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>EListaPrecios&nbsp;&nbsp;</td><td>ELPfdesde&nbsp;&nbsp;</td><td>DATE TIME&nbsp;&nbsp;</td><td>0</td><td>0</td><td>1</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>EListaPrecios&nbsp;&nbsp;</td><td>ELPfhasta&nbsp;&nbsp;</td><td>DATE TIME&nbsp;&nbsp;</td><td>0</td><td>0</td><td>1</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>EListaPrecios&nbsp;&nbsp;</td><td>ELPid&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>18</td><td>0</td><td>1</td><td>1</td><td></td><td></td></tr>
+			
+				<tr><td>EListaPrecios&nbsp;&nbsp;</td><td>ELPincimpuestos&nbsp;&nbsp;</td><td>LOGIC&nbsp;&nbsp;</td><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td><td></td></tr>
+			
+				<tr><td>EListaPrecios&nbsp;&nbsp;</td><td>ELPplazocredito&nbsp;&nbsp;</td><td>INTEGER&nbsp;&nbsp;</td><td>10</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>EListaPrecios&nbsp;&nbsp;</td><td>ELPUsucodigo&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>18</td><td>0</td><td>1</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>EListaPrecios&nbsp;&nbsp;</td><td>Estado&nbsp;&nbsp;</td><td>INTEGER&nbsp;&nbsp;</td><td>10</td><td>0</td><td>1</td><td>0</td><td>0</td><td></td></tr>
+			
+				<tr><td>EListaPrecios&nbsp;&nbsp;</td><td>fechaalta&nbsp;&nbsp;</td><td>DATE TIME&nbsp;&nbsp;</td><td>0</td><td>0</td><td>1</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>EListaPrecios&nbsp;&nbsp;</td><td>Observaciones&nbsp;&nbsp;</td><td>VARCHAR&nbsp;&nbsp;</td><td>255</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>EListaPrecios&nbsp;&nbsp;</td><td>Usucodigo&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>18</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>EmpresaArea&nbsp;&nbsp;</td><td>EACodigo&nbsp;&nbsp;</td><td>CHAR&nbsp;&nbsp;</td><td>10</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>ETrackingItems&nbsp;&nbsp;</td><td>Ucodigo&nbsp;&nbsp;</td><td>CHAR&nbsp;&nbsp;</td><td>5</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>EstadosTracking&nbsp;&nbsp;</td><td>BMUsucodigo&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>18</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+			</table>
+		
+			<BR><strong><A name='KEYs_DEL'>LLAVES QUE SE VAN A ELIMINAR</A></strong><BR>
+			<table>
+			<tr><td><strong>TABLA</strong></td><td><strong>TIPO</strong></td><td><strong>CODIGO</strong></td><td><strong>COLUMNAS</strong></td><td><strong>TABLA REFERENCIADA</strong></td><td><strong>COLUMNAS REFERENCIADAS</strong></td><td><strong>RAZON</strong></td></tr>
+			
+				
+					<tr><td>CMNotas</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td>
+							
+								CMNotas_FK02
+							
+						</td>
+					
+					<td>CMTPAid</td><td>CMTPActividades</td><td>CMTPAid</td>
+					<td>
+						
+							NO DEFINIDA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>CMNotas</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td>
+							
+								CMNotas_FK01
+							
+						</td>
+					
+					<td>CMPid</td><td>CMProcesoCompra</td><td>CMPid</td>
+					<td>
+						
+							NO DEFINIDA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>CMNotas</td><td align="center">
+						
+							ID 
+						
+					</td>
+					
+						<td>
+							
+								CMNotas_FI01
+							
+						</td>
+					
+					<td>CMPid</td><td>*</td><td>*</td>
+					<td>
+						
+							NO DEFINIDA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>CMNotas</td><td align="center">
+						
+							ID 
+						
+					</td>
+					
+						<td>
+							
+								CMNotas_FI02
+							
+						</td>
+					
+					<td>CMTPAid</td><td>*</td><td>*</td>
+					<td>
+						
+							NO DEFINIDA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>DDocumentosAdjuntos</td><td align="center">
+						
+							PK 
+						
+					</td>
+					
+						<td>
+							
+								DDocumentosAdjuntos_PK
+							
+						</td>
+					
+					<td>DDAid</td><td>*</td><td>*</td>
+					<td>
+						
+							CAMPOS MODIFICADOS
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>DDocumentosAdjuntos</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td>
+							
+								DDocumentosAdjuntos_FK01
+							
+						</td>
+					
+					<td>CMPid,DSlinea</td><td>CMLineasProceso</td><td>CMPid,DSlinea</td>
+					<td>
+						
+							NO DEFINIDA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>DDocumentosAdjuntos</td><td align="center">
+						
+							ID 
+						
+					</td>
+					
+						<td>
+							
+								DDocumentosAdjuntos_FI01
+							
+						</td>
+					
+					<td>CMPid,DSlinea</td><td>*</td><td>*</td>
+					<td>
+						
+							NO DEFINIDA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>DListaPrecios</td><td align="center">
+						
+							PK 
+						
+					</td>
+					
+						<td>
+							
+								DListaPrecios_PK
+							
+						</td>
+					
+					<td>LPlinea</td><td>*</td><td>*</td>
+					<td>
+						
+							NO DEFINIDA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>DListaPrecios</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td>
+							
+								DListaPrecios_FK06
+							
+						</td>
+					
+					<td>moneda,Ecodigo</td><td>Monedas</td><td>Miso4217,Ecodigo</td>
+					<td>
+						
+							NO DEFINIDA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>DListaPrecios</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td>
+							
+								DListaPrecios_FK02
+							
+						</td>
+					
+					<td>Aid</td><td>Articulos</td><td>Aid</td>
+					<td>
+						
+							NO DEFINIDA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>DListaPrecios</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td>
+							
+								DListaPrecios_FK04
+							
+						</td>
+					
+					<td>Alm_Aid</td><td>Almacen</td><td>Aid</td>
+					<td>
+						
+							NO DEFINIDA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>DListaPrecios</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td>
+							
+								DListaPrecios_FK03
+							
+						</td>
+					
+					<td>Cid</td><td>Conceptos</td><td>Cid</td>
+					<td>
+						
+							NO DEFINIDA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>DListaPrecios</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td>
+							
+								DListaPrecios_FK07
+							
+						</td>
+					
+					<td>Ecodigo,Icodigo</td><td>Impuestos</td><td>Ecodigo,Icodigo</td>
+					<td>
+						
+							NO DEFINIDA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>DListaPrecios</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td>
+							
+								DListaPrecios_FK05
+							
+						</td>
+					
+					<td>LPid</td><td>EListaPrecios</td><td>LPid</td>
+					<td>
+						
+							NO DEFINIDA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>DListaPrecios</td><td align="center">
+						
+							ID 
+						
+					</td>
+					
+						<td>
+							
+								DListaPrecios_FI05
+							
+						</td>
+					
+					<td>LPid</td><td>*</td><td>*</td>
+					<td>
+						
+							NO DEFINIDA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>DListaPrecios</td><td align="center">
+						
+							ID 
+						
+					</td>
+					
+						<td>
+							
+								DListaPrecios_FI07
+							
+						</td>
+					
+					<td>Ecodigo,Icodigo</td><td>*</td><td>*</td>
+					<td>
+						
+							NO DEFINIDA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>DListaPrecios</td><td align="center">
+						
+							ID 
+						
+					</td>
+					
+						<td>
+							
+								DListaPrecios_FI03
+							
+						</td>
+					
+					<td>Cid</td><td>*</td><td>*</td>
+					<td>
+						
+							NO DEFINIDA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>DListaPrecios</td><td align="center">
+						
+							ID 
+						
+					</td>
+					
+						<td>
+							
+								DListaPrecios_FI01
+							
+						</td>
+					
+					<td>Ecodigo</td><td>*</td><td>*</td>
+					<td>
+						
+							NO DEFINIDA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>DListaPrecios</td><td align="center">
+						
+							ID 
+						
+					</td>
+					
+						<td>
+							
+								DListaPrecios_FI04
+							
+						</td>
+					
+					<td>Alm_Aid</td><td>*</td><td>*</td>
+					<td>
+						
+							NO DEFINIDA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>DListaPrecios</td><td align="center">
+						
+							ID 
+						
+					</td>
+					
+						<td>
+							
+								DListaPrecios_FI02
+							
+						</td>
+					
+					<td>Aid</td><td>*</td><td>*</td>
+					<td>
+						
+							NO DEFINIDA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>DListaPrecios</td><td align="center">
+						
+							ID 
+						
+					</td>
+					
+						<td>
+							
+								DListaPrecios_FI06
+							
+						</td>
+					
+					<td>moneda,Ecodigo</td><td>*</td><td>*</td>
+					<td>
+						
+							NO DEFINIDA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>EListaPrecios</td><td align="center">
+						
+							PK 
+						
+					</td>
+					
+						<td>
+							
+								EListaPrecios_PK
+							
+						</td>
+					
+					<td>LPid</td><td>*</td><td>*</td>
+					<td>
+						
+							NO DEFINIDA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>EListaPrecios</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td>
+							
+								EListaPrecios_FK01
+							
+						</td>
+					
+					<td>Ecodigo</td><td>Empresas</td><td>Ecodigo</td>
+					<td>
+						
+							NO DEFINIDA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>EListaPrecios</td><td align="center">
+						
+							ID 
+						
+					</td>
+					
+						<td>
+							
+								EListaPrecios_FI01
+							
+						</td>
+					
+					<td>Ecodigo</td><td>*</td><td>*</td>
+					<td>
+						
+							NO DEFINIDA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+			</table>
+		
+			<BR><strong><A name='TABs_ADD'>TABLAS NUEVAS EN EL MODELO DBM QUE SE VAN A CREAR EN LA BASE DE DATOS</A></strong><BR>
+			<table>
+			<tr><td><strong>TABLA</strong></td></tr>
+			
+				<tr><td>CotizacionesProveedor</td></tr>
+			
+				<tr><td>DCotizacionProveedor</td></tr>
+			
+				<tr><td>DTracking</td></tr>
+			
+				<tr><td>HCEstadosTracking</td></tr>
+			
+				<tr><td>InvitadosProcesoCompra</td></tr>
+			
+				<tr><td>LineasProcesoCompras</td></tr>
+			
+				<tr><td>ObjetosListaPrecios</td></tr>
+			
+				<tr><td>PermisosListaPrecios</td></tr>
+			
+				<tr><td>ProcesoCompraProveedor</td></tr>
+			
+			</table>
+		
+			<BR><strong><A name='COLs_ADD'>LLAVES QUE SE VAN A CREAR.</font></A></strong><BR>
+			<table>
+			<tr><td><strong>TABLA</strong></td><td><strong>TIPO</strong></td><td><strong>SEC.</strong></td><td><strong>COLUMNAS</strong></td><td><strong>TABLA REFERENCIADA</strong></td><td><strong>COLUMNAS REFERENCIADAS</strong></td><td><strong>RAZON</strong></td></tr>
+			
+				
+					<tr><td>CMNotas</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>PCPid</td><td>ProcesoCompraProveedor</td><td>PCPid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>CotizacionesProveedor</td><td align="center">
+						
+							PK 
+						
+					</td>
+					
+						<td align="center">
+							00
+						</td>
+					
+					<td>CPid</td><td>*</td><td>*</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>CotizacionesProveedor</td><td align="center">
+						
+							AK 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>UsucodigoP,CPnumero</td><td>*</td><td>*</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>CotizacionesProveedor</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>PCPid</td><td>ProcesoCompraProveedor</td><td>PCPid</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>DCotizacionProveedor</td><td align="center">
+						
+							PK 
+						
+					</td>
+					
+						<td align="center">
+							00
+						</td>
+					
+					<td>DCPlinea</td><td>*</td><td>*</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>DCotizacionProveedor</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>CPid</td><td>CotizacionesProveedor</td><td>CPid</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>DCotizacionProveedor</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							02
+						</td>
+					
+					<td>LPCid</td><td>LineasProcesoCompras</td><td>LPCid</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>DDocumentosAdjuntos</td><td align="center">
+						
+							PK 
+						
+					</td>
+					
+						<td align="center">
+							00
+						</td>
+					
+					<td>DDAid</td><td>*</td><td>*</td>
+					<td>
+						
+							CAMPOS MODIFICADOS
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>DDocumentosAdjuntos</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>LPCid</td><td>LineasProcesoCompras</td><td>LPCid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>DListaPrecios</td><td align="center">
+						
+							PK 
+						
+					</td>
+					
+						<td align="center">
+							00
+						</td>
+					
+					<td>DLPlinea</td><td>*</td><td>*</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>DListaPrecios</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>ELPid</td><td>EListaPrecios</td><td>ELPid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>DTracking</td><td align="center">
+						
+							PK 
+						
+					</td>
+					
+						<td align="center">
+							00
+						</td>
+					
+					<td>DTidtracking</td><td>*</td><td>*</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>DTracking</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>ETidtracking</td><td>ETracking</td><td>ETidtracking</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>DTracking</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							02
+						</td>
+					
+					<td>Ecodigo,ETcodigo</td><td>EstadosTracking</td><td>Ecodigo,ETcodigo</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>EListaPrecios</td><td align="center">
+						
+							PK 
+						
+					</td>
+					
+						<td align="center">
+							00
+						</td>
+					
+					<td>ELPid</td><td>*</td><td>*</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>EmpresaArea</td><td align="center">
+						
+							PK 
+						
+					</td>
+					
+						<td align="center">
+							00
+						</td>
+					
+					<td>EAid</td><td>*</td><td>*</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>EmpresaArea</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>EEid</td><td>EncuestaEmpresa</td><td>EEid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>EmpresaOrganizacion</td><td align="center">
+						
+							PK 
+						
+					</td>
+					
+						<td align="center">
+							00
+						</td>
+					
+					<td>ETid</td><td>*</td><td>*</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>EmpresaOrganizacion</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>EEid</td><td>EncuestaEmpresa</td><td>EEid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>Encuesta</td><td align="center">
+						
+							PK 
+						
+					</td>
+					
+						<td align="center">
+							00
+						</td>
+					
+					<td>Eid</td><td>*</td><td>*</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>Encuesta</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>EEid</td><td>EncuestaEmpresa</td><td>EEid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>EncuestaEmpresa</td><td align="center">
+						
+							PK 
+						
+					</td>
+					
+						<td align="center">
+							00
+						</td>
+					
+					<td>EEid</td><td>*</td><td>*</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>EncuestaPuesto</td><td align="center">
+						
+							PK 
+						
+					</td>
+					
+						<td align="center">
+							00
+						</td>
+					
+					<td>EPid</td><td>*</td><td>*</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>EncuestaPuesto</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>EAid</td><td>EmpresaArea</td><td>EAid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>EncuestaPuesto</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							02
+						</td>
+					
+					<td>EEid</td><td>EncuestaEmpresa</td><td>EEid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>EncuestaSalarios</td><td align="center">
+						
+							PK 
+						
+					</td>
+					
+						<td align="center">
+							00
+						</td>
+					
+					<td>ESid</td><td>*</td><td>*</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>EncuestaSalarios</td><td align="center">
+						
+							AK 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>EEid,ETid,Eid,EPid,Moneda</td><td>*</td><td>*</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>EncuestaSalarios</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>Eid</td><td>Encuesta</td><td>Eid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>EncuestaSalarios</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							02
+						</td>
+					
+					<td>EPid</td><td>EncuestaPuesto</td><td>EPid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>EncuestaSalarios</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							03
+						</td>
+					
+					<td>EEid</td><td>EncuestaEmpresa</td><td>EEid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>EncuestaSalarios</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							04
+						</td>
+					
+					<td>ETid</td><td>EmpresaOrganizacion</td><td>ETid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>EstadosTracking</td><td align="center">
+						
+							PK 
+						
+					</td>
+					
+						<td align="center">
+							00
+						</td>
+					
+					<td>Ecodigo,ETcodigo</td><td>*</td><td>*</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>ETracking</td><td align="center">
+						
+							PK 
+						
+					</td>
+					
+						<td align="center">
+							00
+						</td>
+					
+					<td>ETidtracking</td><td>*</td><td>*</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>ETracking</td><td align="center">
+						
+							AK 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>ETnumtracking,Ecodigo</td><td>*</td><td>*</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>ETracking</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>Ecodigo,ETcodigo</td><td>EstadosTracking</td><td>Ecodigo,ETcodigo</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>ETrackingItems</td><td align="center">
+						
+							PK 
+						
+					</td>
+					
+						<td align="center">
+							00
+						</td>
+					
+					<td>ETIiditem</td><td>*</td><td>*</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>ETrackingItems</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>ETidtracking</td><td>ETracking</td><td>ETidtracking</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>ETrackingItems</td><td align="center">
+						
+							ID 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>DOlinea</td><td>*</td><td>*</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>HCEstadosTracking</td><td align="center">
+						
+							PK 
+						
+					</td>
+					
+						<td align="center">
+							00
+						</td>
+					
+					<td>HCETid</td><td>*</td><td>*</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>HCEstadosTracking</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>ETidtracking</td><td>ETracking</td><td>ETidtracking</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>HCEstadosTracking</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							02
+						</td>
+					
+					<td>Ecodigo,ETcodigo</td><td>EstadosTracking</td><td>Ecodigo,ETcodigo</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>InvitadosProcesoCompra</td><td align="center">
+						
+							PK 
+						
+					</td>
+					
+						<td align="center">
+							00
+						</td>
+					
+					<td>PCPid,UsuarioP</td><td>*</td><td>*</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>InvitadosProcesoCompra</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>PCPid</td><td>ProcesoCompraProveedor</td><td>PCPid</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>LineasProcesoCompras</td><td align="center">
+						
+							PK 
+						
+					</td>
+					
+						<td align="center">
+							00
+						</td>
+					
+					<td>LPCid</td><td>*</td><td>*</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>LineasProcesoCompras</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>PCPid</td><td>ProcesoCompraProveedor</td><td>PCPid</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>ObjetosListaPrecios</td><td align="center">
+						
+							PK 
+						
+					</td>
+					
+						<td align="center">
+							00
+						</td>
+					
+					<td>OLPid</td><td>*</td><td>*</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>ObjetosListaPrecios</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>ELPid</td><td>EListaPrecios</td><td>ELPid</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>PermisosListaPrecios</td><td align="center">
+						
+							PK 
+						
+					</td>
+					
+						<td align="center">
+							00
+						</td>
+					
+					<td>ELPid,EcodigoASP</td><td>*</td><td>*</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>PermisosListaPrecios</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>ELPid</td><td>EListaPrecios</td><td>ELPid</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>ProcesoCompraProveedor</td><td align="center">
+						
+							PK 
+						
+					</td>
+					
+						<td align="center">
+							00
+						</td>
+					
+					<td>PCPid</td><td>*</td><td>*</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+			</table>
+		
+			<BR><strong><A name='KEYs_FI'>INDICES QUE SE VAN A CREAR EN LA BASE DE DATOS PARA SOPORTAR LLAVES FORANEAS</A></strong><BR>
+			<table>
+			<tr><td><strong>TABLA</strong></td><td><strong>TIPO</strong></td><td><strong>SEC.</strong></td><td><strong>COLUMNAS</strong></td><td><strong>TABLA REFERENCIADA</strong></td><td><strong>COLUMNAS REFERENCIADAS</strong></td><td><strong>RAZON</strong></td></tr>
+			
+				
+					<tr><td>CMNotas</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>PCPid</td><td>ProcesoCompraProveedor</td><td>PCPid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>CotizacionesProveedor</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>PCPid</td><td>ProcesoCompraProveedor</td><td>PCPid</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>DCotizacionProveedor</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>CPid</td><td>CotizacionesProveedor</td><td>CPid</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>DCotizacionProveedor</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							02
+						</td>
+					
+					<td>LPCid</td><td>LineasProcesoCompras</td><td>LPCid</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>DDocumentosAdjuntos</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>LPCid</td><td>LineasProcesoCompras</td><td>LPCid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>DListaPrecios</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>ELPid</td><td>EListaPrecios</td><td>ELPid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>DTracking</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>ETidtracking</td><td>ETracking</td><td>ETidtracking</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>DTracking</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							02
+						</td>
+					
+					<td>Ecodigo,ETcodigo</td><td>EstadosTracking</td><td>Ecodigo,ETcodigo</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>EmpresaArea</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>EEid</td><td>EncuestaEmpresa</td><td>EEid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>EmpresaOrganizacion</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>EEid</td><td>EncuestaEmpresa</td><td>EEid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>Encuesta</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>EEid</td><td>EncuestaEmpresa</td><td>EEid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>EncuestaPuesto</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>EAid</td><td>EmpresaArea</td><td>EAid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>EncuestaPuesto</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							02
+						</td>
+					
+					<td>EEid</td><td>EncuestaEmpresa</td><td>EEid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>EncuestaSalarios</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>Eid</td><td>Encuesta</td><td>Eid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>EncuestaSalarios</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							02
+						</td>
+					
+					<td>EPid</td><td>EncuestaPuesto</td><td>EPid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>EncuestaSalarios</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							03
+						</td>
+					
+					<td>EEid</td><td>EncuestaEmpresa</td><td>EEid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>EncuestaSalarios</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							04
+						</td>
+					
+					<td>ETid</td><td>EmpresaOrganizacion</td><td>ETid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>ETracking</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>Ecodigo,ETcodigo</td><td>EstadosTracking</td><td>Ecodigo,ETcodigo</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>ETrackingItems</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>ETidtracking</td><td>ETracking</td><td>ETidtracking</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>HCEstadosTracking</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>ETidtracking</td><td>ETracking</td><td>ETidtracking</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>HCEstadosTracking</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							02
+						</td>
+					
+					<td>Ecodigo,ETcodigo</td><td>EstadosTracking</td><td>Ecodigo,ETcodigo</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>InvitadosProcesoCompra</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>PCPid</td><td>ProcesoCompraProveedor</td><td>PCPid</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>LineasProcesoCompras</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>PCPid</td><td>ProcesoCompraProveedor</td><td>PCPid</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>ObjetosListaPrecios</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>ELPid</td><td>EListaPrecios</td><td>ELPid</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>PermisosListaPrecios</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>ELPid</td><td>EListaPrecios</td><td>ELPid</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+			</table>
+		

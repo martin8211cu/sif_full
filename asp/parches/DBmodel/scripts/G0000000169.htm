@@ -1,0 +1,80 @@
+<strong>INDICE:</strong><BR>- <A href='#KEYs_ADD'>Llaves nuevas o a regenerarse</A><BR>- <A href='#COLs_ADD'>Referencias Externas que deben agregarse manualmente</A><BR><BR><BR>
+			<BR><strong><A name='COLs_ADD'>LLAVES QUE SE VAN A CREAR.</font></A></strong><BR>
+			<table>
+			<tr><td><strong>TABLA</strong></td><td><strong>TIPO</strong></td><td><strong>SEC.</strong></td><td><strong>COLUMNAS</strong></td><td><strong>TABLA REFERENCIADA</strong></td><td><strong>COLUMNAS REFERENCIADAS</strong></td><td><strong>RAZON</strong></td></tr>
+			
+				
+					<tr><td>GEtipoGasto</td><td align="center">
+						
+							UI 
+						
+					</td>
+					
+						<td align="center">
+							02
+						</td>
+					
+					<td>Ecodigo,GETtipo</td><td>*</td><td>*</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+			</table>
+		
+			<BR><strong><A name='COLs_ADD'>REFERENCIAS EXTERNAS AL MODELO DBM ELIMINADAS DE LA BASE DE DATOS Y QUE DEBEN CREARSE MANUALMENTE</A></strong><BR>
+			<table>
+			<tr><td><strong>TABLA</strong></td><td><strong>TIPO</strong></td><td><strong>CODIGO</strong></td><td><strong>COLUMNAS</strong></td><td><strong>TABLA REFERENCIADA</strong></td><td><strong>COLUMNAS REFERENCIADAS</strong></td><td><strong>RAZON</strong></td></tr>
+			
+				
+					<tr><td>CajaCentroFuncional</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td>
+							
+								CajaCentro_1549609928
+							
+						</td>
+					
+					<td>FAM01COD</td><td>FAM001</td><td>FAM01COD</td>
+					<td>
+						
+							<font color="#FF0000"><strong>REFERENCIA&nbsp;EXTERNA</strong></font>
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>FAX04DET</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td>
+							
+								FAX04DET_1405609415
+							
+						</td>
+					
+					<td>FAM01COD,FAX01NTR,FAX04LIN</td><td>FAX004</td><td>FAM01COD,FAX01NTR,FAX04LIN</td>
+					<td>
+						
+							<font color="#FF0000"><strong>REFERENCIA&nbsp;EXTERNA</strong></font>
+						
+					</td>
+					</tr>
+					
+						
+			
+			</table>
+		

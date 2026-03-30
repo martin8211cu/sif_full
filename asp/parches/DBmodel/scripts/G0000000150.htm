@@ -1,0 +1,216 @@
+<strong>INDICE:</strong><BR>- <A href='#COLs_CHG'>Columnas a modificarse</A><BR>- <A href='#COLs_ADD'>Columnas nuevas</A><BR>- <A href='#TABs_ADD'>Tablas nuevas</A><BR>- <A href='#KEYs_ADD'>Llaves nuevas o a regenerarse</A><BR>- <A href='#KEYs_FI'>Indices para llaves foráneas</A><BR><BR><BR>
+			<BR><strong><A name='COLs_CHG'>COLUMNAS QUE VAN A SER ALTERADAS EN LA BASE DE DATOS PORQUE TIENEN CARACTERISTICAS MODIFICADAS EN EL MODELO DBM</A></strong><BR>
+			<table>
+			<tr><td><strong>TABLA</strong></td><td><strong>COLUMNA</strong></td><td><strong>&nbsp;</strong></td><td><strong>TIPO</strong></td><td><strong>LON</strong></td><td><strong>DEC</strong></td><td><strong>obl</strong></td><td><strong>ide</strong></td><td><strong>dfl</strong></td><td><strong>rul</strong></td></tr>
+			
+				<tr>
+					<td>CtasMayor</td><td>CTCconversion</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td>INTEGER</td>
+					<td>10</td>
+					<td>0</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					<td>0</td>
+					<td><strong>([CTCconversion]=(4) OR [CTCconversion]=(3) OR [CTCconversion]=(2) OR [CTCconversion]=(1) OR [CTCconversion]=(0))</strong></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>INTEGER</td>
+					<td>10</td>
+					<td>0</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					
+						<td>0</td>
+					
+					
+						<td>([CTCconversion]=(3) OR [CTCconversion]=(2) OR [CTCconversion]=(1) OR [CTCconversion]=(0))</td>
+					
+				</tr>
+			
+				<tr>
+					<td>SaldosContablesConvertidos</td><td>CTCconversion</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td>INTEGER</td>
+					<td>10</td>
+					<td>0</td>
+					<td>0</td>
+					
+						<td>0</td>
+					
+					<td>0</td>
+					<td><strong>([CTCconversion] IS NULL OR ([CTCconversion]=(4) OR [CTCconversion]=(3) OR [CTCconversion]=(2) OR [CTCconversion]=(1) OR [CTCconversion]=(0)))</strong></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>INTEGER</td>
+					<td>10</td>
+					<td>0</td>
+					<td>0</td>
+					
+						<td>0</td>
+					
+					
+						<td>0</td>
+					
+					
+						<td>([CTCconversion] IS NULL OR ([CTCconversion]=(3) OR [CTCconversion]=(2) OR [CTCconversion]=(1) OR [CTCconversion]=(0)))</td>
+					
+				</tr>
+			
+			</table>
+		
+			<BR><strong><A name='COLs_ADD'>COLUMNAS NUEVAS EN EL MODELO DBM QUE SE VAN A CREAR EN LA BASE DE DATOS</A></strong><BR>
+			<table>
+			<tr><td><strong>TABLA</strong></td><td><strong>COLUMNA</strong></td><td><strong>TIPO</strong></td><td><strong>LON</strong></td><td><strong>DEC</strong></td><td><strong>obl</strong></td><td><strong>ide</strong></td><td><strong>dfl</strong></td><td><strong>rul</strong></td></tr>
+			
+				<tr><td>CtasMayor&nbsp;&nbsp;</td><td>TCHid&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>18</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>EContablesImportacion&nbsp;&nbsp;</td><td>Oorigen&nbsp;&nbsp;</td><td>CHAR&nbsp;&nbsp;</td><td>4</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>EOrdenCM&nbsp;&nbsp;</td><td>EOfechaEnvP&nbsp;&nbsp;</td><td>DATE TIME&nbsp;&nbsp;</td><td>0</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>SaldosContablesConvertidos&nbsp;&nbsp;</td><td>SLinicialGE&nbsp;&nbsp;</td><td>MONEY&nbsp;&nbsp;</td><td>18</td><td>4</td><td>1</td><td>0</td><td>0</td><td></td></tr>
+			
+				<tr><td>SaldosContablesConvertidos&nbsp;&nbsp;</td><td>SOinicialGE&nbsp;&nbsp;</td><td>MONEY&nbsp;&nbsp;</td><td>18</td><td>4</td><td>1</td><td>0</td><td>0</td><td></td></tr>
+			
+				<tr><td>SaldosContablesConvertidos&nbsp;&nbsp;</td><td>TCHid&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>18</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>TESmedioPago&nbsp;&nbsp;</td><td>TESenviaCorreo&nbsp;&nbsp;</td><td>LOGIC&nbsp;&nbsp;</td><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td><td></td></tr>
+			
+			</table>
+		
+			<BR><strong><A name='TABs_ADD'>TABLAS NUEVAS EN EL MODELO DBM QUE SE VAN A CREAR EN LA BASE DE DATOS</A></strong><BR>
+			<table>
+			<tr><td><strong>TABLA</strong></td></tr>
+			
+				<tr><td>HtiposcambioConversionD</td></tr>
+			
+				<tr><td>HtiposcambioConversionE</td></tr>
+			
+			</table>
+		
+			<BR><strong><A name='COLs_ADD'>LLAVES QUE SE VAN A CREAR.</font></A></strong><BR>
+			<table>
+			<tr><td><strong>TABLA</strong></td><td><strong>TIPO</strong></td><td><strong>SEC.</strong></td><td><strong>COLUMNAS</strong></td><td><strong>TABLA REFERENCIADA</strong></td><td><strong>COLUMNAS REFERENCIADAS</strong></td><td><strong>RAZON</strong></td></tr>
+			
+				
+					<tr><td>DDocumentosCxP</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							14
+						</td>
+					
+					<td>Ecodigo,Icodigo</td><td>Impuestos</td><td>Ecodigo,Icodigo</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>HtiposcambioConversionD</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>TCHid</td><td>HtiposcambioConversionE</td><td>TCHid</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>HtiposcambioConversionD</td><td align="center">
+						
+							ID 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>TCHid,Ecodigo,Speriodo,Smes,Mcodigo</td><td>*</td><td>*</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>HtiposcambioConversionE</td><td align="center">
+						
+							PK 
+						
+					</td>
+					
+						<td align="center">
+							00
+						</td>
+					
+					<td>TCHid</td><td>*</td><td>*</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+			</table>
+		
+			<BR><strong><A name='KEYs_FI'>INDICES QUE SE VAN A CREAR EN LA BASE DE DATOS PARA SOPORTAR LLAVES FORANEAS</A></strong><BR>
+			<table>
+			<tr><td><strong>TABLA</strong></td><td><strong>TIPO</strong></td><td><strong>SEC.</strong></td><td><strong>COLUMNAS</strong></td><td><strong>TABLA REFERENCIADA</strong></td><td><strong>COLUMNAS REFERENCIADAS</strong></td><td><strong>RAZON</strong></td></tr>
+			
+				
+					<tr><td>DDocumentosCxP</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							14
+						</td>
+					
+					<td>Ecodigo,Icodigo</td><td>Impuestos</td><td>Ecodigo,Icodigo</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+			</table>
+		

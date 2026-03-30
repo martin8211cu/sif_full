@@ -1,0 +1,91 @@
+/**************************************************
+ ERRORES EN LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ **************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 25 - DBM 122: se agregan 2 campos nuevos
+
+	         PARCHE:  Parche023_047_SIF_Correcciones_México
+
+GENERADO EN:
+	SERVER:  http://mxvqapp34:8300
+	DSN:     minisiftrd
+	FECHA:   09/01/2012 16:11:24
+*/
+
+/* INI_SCRIPT */
+/* CHG_TABLE CuentasBancos */
+/* ADD_FK OP = (NUEVO): TIP="F", SEC="6", COLS="CBTCid", REF="CBTarjetaCredito" */
+ALTER TABLE CuentasBancos ADD CONSTRAINT CuentasBancos_FK06 FOREIGN KEY (CBTCid) REFERENCES CBTarjetaCredito (CBTCid)
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Foreign key 'CuentasBancos_FK06' references invalid table 'CBTarjetaCredito'.
+
+/* CHG_TABLE DAnualidad */
+/* ADD_FK OP = (TAB NUEVA): TIP="F", SEC="1", COLS="EAid", REF="EAnualidad" */
+ALTER TABLE DAnualidad ADD CONSTRAINT DAnualidad_FK01 FOREIGN KEY (EAid) REFERENCES EAnualidad (EAid)
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Foreign key 'DAnualidad_FK01' references invalid table 'EAnualidad'.
+
+/* CHG_TABLE FPDEstimacion */
+/* ADD_FK OP = (TAB NUEVA): TIP="F", SEC="4", COLS="FPCid", REF="FPConcepto" */
+ALTER TABLE FPDEstimacion ADD CONSTRAINT FPDEstimacion_FK04 FOREIGN KEY (FPCid) REFERENCES FPConcepto (FPCid)
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Foreign key 'FPDEstimacion_FK04' references invalid table 'FPConcepto'.
+
+
+/* ADD_FK OP = (TAB NUEVA): TIP="F", SEC="7", COLS="FPEPid", REF="FPEPlantilla" */
+ALTER TABLE FPDEstimacion ADD CONSTRAINT FPDEstimacion_FK07 FOREIGN KEY (FPEPid) REFERENCES FPEPlantilla (FPEPid)
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Foreign key 'FPDEstimacion_FK07' references invalid table 'FPEPlantilla'.
+
+
+/* ADD_FK OP = (TAB NUEVA): TIP="F", SEC="8", COLS="FPCCid", REF="FPCatConcepto" */
+ALTER TABLE FPDEstimacion ADD CONSTRAINT FPDEstimacion_FK08 FOREIGN KEY (FPCCid) REFERENCES FPCatConcepto (FPCCid)
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Foreign key 'FPDEstimacion_FK08' references invalid table 'FPCatConcepto'.
+
+
+/* ADD_FK OP = (TAB NUEVA): TIP="F", SEC="10", COLS="PCGDid", REF="PCGDplanCompras" */
+ALTER TABLE FPDEstimacion ADD CONSTRAINT FPDEstimacion_FK10 FOREIGN KEY (PCGDid) REFERENCES PCGDplanCompras (PCGDid)
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Foreign key 'FPDEstimacion_FK10' references invalid table 'PCGDplanCompras'.
+
+
+/* ADD_FK OP = (TAB NUEVA): TIP="F", SEC="11", COLS="PCGcuenta", REF="PCGcuentas" */
+ALTER TABLE FPDEstimacion ADD CONSTRAINT FPDEstimacion_FK11 FOREIGN KEY (PCGcuenta) REFERENCES PCGcuentas (PCGcuenta)
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Foreign key 'FPDEstimacion_FK11' references invalid table 'PCGcuentas'.
+
+/* CHG_TABLE GEliquidacion */
+/* ADD_FK OP = (NUEVO): TIP="F", SEC="1", COLS="CCHid", REF="CCHica" */
+ALTER TABLE GEliquidacion ADD CONSTRAINT GEliquidacion_FK01 FOREIGN KEY (CCHid) REFERENCES CCHica (CCHid)
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]There are no primary or candidate keys in the referenced table 'CCHica' that match the referencing column list in the foreign key 'GEliquidacion_FK01'.
+
+
+/* ADD_FK OP = (NUEVO): TIP="F", SEC="9", COLS="GECid", REF="GEcomision" */
+ALTER TABLE GEliquidacion ADD CONSTRAINT GEliquidacion_FK09 FOREIGN KEY (GECid) REFERENCES GEcomision (GECid)
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Foreign key 'GEliquidacion_FK09' references invalid table 'GEcomision'.
+
+/* CHG_TABLE TESdetallePago */
+/* ADD_FK OP = (NUEVO): TIP="F", SEC="2", COLS="CPCid", REF="CPCesion" */
+ALTER TABLE TESdetallePago ADD CONSTRAINT TESdetallePago_FK02 FOREIGN KEY (CPCid) REFERENCES CPCesion (CPCid)
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Foreign key 'TESdetallePago_FK02' references invalid table 'CPCesion'.
+
+
+/* ADD_FK OP = (NUEVO): TIP="F", SEC="15", COLS="CPDCid", REF="CPDistribucionCostos" */
+ALTER TABLE TESdetallePago ADD CONSTRAINT TESdetallePago_FK15 FOREIGN KEY (CPDCid) REFERENCES CPDistribucionCostos (CPDCid)
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Foreign key 'TESdetallePago_FK15' references invalid table 'CPDistribucionCostos'.
+
+/* CHG_TABLE TESmedioPago */
+/* ADD_FK OP = (NUEVO): TIP="F", SEC="3", COLS="TESTGid", REF="TEStransferenciaG" */
+ALTER TABLE TESmedioPago ADD CONSTRAINT TESmedioPago_FK03 FOREIGN KEY (TESTGid) REFERENCES TEStransferenciaG (TESTGid)
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Foreign key 'TESmedioPago_FK03' references invalid table 'TEStransferenciaG'.
+
+/* CHG_TABLE TESordenPago */
+/* ADD_FK OP = (NUEVO): TIP="F", SEC="15", COLS="CCHidPago", REF="CCHica" */
+ALTER TABLE TESordenPago ADD CONSTRAINT TESordenPago_FK15 FOREIGN KEY (CCHidPago) REFERENCES CCHica (CCHid)
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]There are no primary or candidate keys in the referenced table 'CCHica' that match the referencing column list in the foreign key 'TESordenPago_FK15'.
+
+/* CHG_TABLE TESsolicitudPago */
+/* ADD_FK OP = (NUEVO): TIP="F", SEC="11", COLS="TESAPid", REF="TESacuerdoPago" */
+ALTER TABLE TESsolicitudPago ADD CONSTRAINT TESsolicitudPago_FK11 FOREIGN KEY (TESAPid) REFERENCES TESacuerdoPago (TESAPid)
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]Foreign key 'TESsolicitudPago_FK11' references invalid table 'TESacuerdoPago'.
+
+/* END_SCRIPT */
+

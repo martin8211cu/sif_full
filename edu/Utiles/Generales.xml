@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<Etiquetas>
+<!-- ******************* INGLÉS ******************* -->		
+		<Idioma id="EN">
+			<ModuloCG>
+				General Ledger
+			</ModuloCG>
+			<ModuloCP>
+				Accounts Payable
+			</ModuloCP>
+			<ModuloCC>
+				Accounts Receivable
+			</ModuloCC>	
+			<ModuloIN>
+				Inventory Management
+			</ModuloIN>	
+			<ModuloAF>
+				Fixed Assets
+			</ModuloAF>
+			<ModuloAN>
+				Financial Reports
+			</ModuloAN>
+			<ModuloMB>
+				Banking
+			</ModuloMB>
+			<ModuloCM>
+				Shopping				
+			</ModuloCM>
+			<ModuloAdmin>
+				Administrative Reports
+			</ModuloAdmin>
+			<ModuloAD>
+				System Configuration
+			</ModuloAD>
+
+			<Titulo>
+				Integrated Financial System 
+			</Titulo>
+			<Greeting>
+				Welcome to the Integrated Financial System!
+			</Greeting>
+			<Idioma>
+				Languaje
+			</Idioma>
+
+			<Empresa>
+				Company:
+			</Empresa>
+			<Regresar>
+				Back
+			</Regresar>
+			<BotonAgregar>
+				Add New
+			</BotonAgregar>
+			<BotonBorrar>
+				Delete
+			</BotonBorrar>
+			<BotonCambiar>
+				Modify
+			</BotonCambiar>
+			<BotonNuevo>
+				New Record
+			</BotonNuevo>
+			<BotonLimpiar>
+				Clear
+			</BotonLimpiar>
+			<Descripcion>
+				Description
+			</Descripcion>
+			<Codigo>
+				Code
+			</Codigo>
+			<Filtrar>
+				Search
+			</Filtrar>
+		</Idioma>
+<!-- ******************* ESPAÑOL ******************* -->		
+		<Idioma id="ES_CR">
+			<ModuloCG>
+				Contabilidad General
+			</ModuloCG>
+			<ModuloCP>
+				Cuentas por Pagar
+			</ModuloCP>
+			<ModuloCC>
+				Cuentas por Cobrar
+			</ModuloCC>
+			<ModuloIN>
+				Inventarios
+			</ModuloIN>
+			<ModuloAF>
+				Activos Fijos
+			</ModuloAF>
+			<ModuloAN>
+				Anexos Financieros
+			</ModuloAN>
+			<ModuloMB>
+				Bancos
+			</ModuloMB>
+			<ModuloCM>
+				Compras
+			</ModuloCM>
+			<ModuloAdmin>
+				Consultas Administrativas
+			</ModuloAdmin>
+			<ModuloAD>
+				Administración del Sistema
+			</ModuloAD>
+					
+			<Titulo>
+				Sistema Financiero Integral
+			</Titulo>
+			<Greeting>
+				¡Bienvenido al Sistema Financiero Integral!
+			</Greeting>
+			<Idioma>
+				Idioma
+			</Idioma>
+			<Empresa>
+				Empresa:
+			</Empresa>
+			<Regresar>
+				Regresar
+			</Regresar>
+			<BotonAgregar>
+				Agregar
+			</BotonAgregar>
+			<BotonBorrar>
+				Eliminar
+			</BotonBorrar>
+			<BotonCambiar>
+				Modificar
+			</BotonCambiar>
+			<BotonNuevo>
+				Nuevo
+			</BotonNuevo>
+			<BotonLimpiar>
+				Limpiar
+			</BotonLimpiar>
+			<Descripcion>
+				Descripción
+			</Descripcion>
+			<Codigo>
+				Código
+			</Codigo>
+			<Filtrar>
+				Filtrar
+			</Filtrar>
+		</Idioma>
+</Etiquetas>

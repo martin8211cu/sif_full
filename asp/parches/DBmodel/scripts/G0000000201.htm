@@ -1,0 +1,238 @@
+<strong>INDICE:</strong><BR>- <A href='#TABs_DEL'>Tablas a eliminarse</A><BR>- <A href='#CHKs_DEL'>Reglas a eliminarse</A><BR>- <A href='#KEYs_DEL'>Llaves a eliminarse</A><BR>- <A href='#CHKs_ADD'>Reglas nuevas</A><BR>- <A href='#KEYs_ADD'>Llaves nuevas o a regenerarse</A><BR>- <A href='#KEYs_FI'>Indices para llaves foráneas</A><BR><BR><BR>
+			<BR><strong><A name='TABs_DEL'>TABLAS QUE VAN A SER ELIMINADAS EN LA BASE DE DATOS PORQUE YA NO SE REQUIEREN EN EL MODELO DBM</A></strong><BR>
+			<table>
+			<tr><td><strong>TABLA</strong></td></tr>
+			
+				<tr><td>CDParametros</td></tr>
+			
+				<tr><td>CPresupuestoEjercido</td></tr>
+			
+				<tr><td>TESreintegroCB</td></tr>
+			
+				<tr><td>TESREPconcepto</td></tr>
+			
+				<tr><td>TESREPconceptoCuentas</td></tr>
+			
+			</table>
+		
+			<BR><strong><A name='CHKs_DEL'>REGLAS A NIVEL DE TABLA QUE VAN A SER ELIMINADAS EN LA BASE DE DATOS PORQUE NO ESTAN DEFINIDAS EN EL MODELO DBM</A></strong><BR>
+			<table>
+			<tr><td><strong>TABLA</strong></td><td><strong>CHECK</strong></td><td><strong>REGLA</strong></td></tr>
+			
+				<tr><td>CFinanciera</td><td>CFinanciera_CK</td><td>(Ccuenta IS NOT NULL AND CFmovimiento='S' OR CFmovimiento<>'S')</td></tr>
+			
+				<tr><td>WfActivity</td><td>WfActivity_CK</td><td>(IsStart=(0) OR IsFinish=(0))</td></tr>
+			
+			</table>
+		
+			<BR><strong><A name='KEYs_DEL'>LLAVES QUE SE VAN A ELIMINAR</A></strong><BR>
+			<table>
+			<tr><td><strong>TABLA</strong></td><td><strong>TIPO</strong></td><td><strong>CODIGO</strong></td><td><strong>COLUMNAS</strong></td><td><strong>TABLA REFERENCIADA</strong></td><td><strong>COLUMNAS REFERENCIADAS</strong></td><td><strong>RAZON</strong></td></tr>
+			
+				
+					<tr><td>CPresupuestoComprometidasNAPs</td><td align="center">
+						
+							PK 
+						
+					</td>
+					
+						<td>
+							
+								CPresupuestoComprometid01_PK
+							
+						</td>
+					
+					<td>CPPid,Ecodigo,CPNAPnum</td><td>*</td><td>*</td>
+					<td>
+						
+							BORRADA EN DBM (DBM:DROP)
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>CPtipoMov</td><td align="center">
+						
+							PK 
+						
+					</td>
+					
+						<td>
+							
+								CPtipoMov_PK
+							
+						</td>
+					
+					<td>CPTMtipoMov</td><td>*</td><td>*</td>
+					<td>
+						
+							BORRADA EN DBM (DBM:DROP)
+						
+					</td>
+					</tr>
+					
+						
+			
+			</table>
+		
+			<BR><strong><A name='CHKs_ADD'>REGLAS A NIVEL DE TABLA NUEVAS EN POWER DESIGNER.</font></A></strong><BR>
+			<table>
+			<tr><td><strong>TABLA</strong></td><td><strong>CHECK</strong></td><td><strong>REGLA</strong></td></tr>
+			
+				<tr><td>CFinanciera</td><td><strong>REGLA NUEVA</strong></td><td>(Ccuenta is not null and CFmovimiento = 'S' or CFmovimiento <> 'S')</td></tr>
+			
+				<tr><td>WfActivity</td><td><strong>REGLA NUEVA</strong></td><td>(IsStart = 0 or IsFinish = 0)</td></tr>
+			
+			</table>
+		
+			<BR><strong><A name='COLs_ADD'>LLAVES QUE SE VAN A CREAR.</font></A></strong><BR>
+			<table>
+			<tr><td><strong>TABLA</strong></td><td><strong>TIPO</strong></td><td><strong>SEC.</strong></td><td><strong>COLUMNAS</strong></td><td><strong>TABLA REFERENCIADA</strong></td><td><strong>COLUMNAS REFERENCIADAS</strong></td><td><strong>RAZON</strong></td></tr>
+			
+				
+					<tr><td>CPresupuestoComprometidasNAPs</td><td align="center">
+						
+							PK 
+						
+					</td>
+					
+						<td align="center">
+							00
+						</td>
+					
+					<td>CPPid,Ecodigo,CPNAPnum</td><td>*</td><td>*</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>CPtipoMov</td><td align="center">
+						
+							PK 
+						
+					</td>
+					
+						<td align="center">
+							00
+						</td>
+					
+					<td>CPTMtipoMov</td><td>*</td><td>*</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+			</table>
+		
+			<BR><strong><A name='KEYs_FI'>INDICES QUE SE VAN A CREAR EN LA BASE DE DATOS PARA SOPORTAR LLAVES FORANEAS</A></strong><BR>
+			<table>
+			<tr><td><strong>TABLA</strong></td><td><strong>TIPO</strong></td><td><strong>SEC.</strong></td><td><strong>COLUMNAS</strong></td><td><strong>TABLA REFERENCIADA</strong></td><td><strong>COLUMNAS REFERENCIADAS</strong></td><td><strong>RAZON</strong></td></tr>
+			
+				
+					<tr><td>CPNAPdetallePago</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>Ecodigo,CPNAPnum</td><td>CPNAP</td><td>Ecodigo,CPNAPnum</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>HPCReglas</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>PCRref</td><td>HPCReglas</td><td>PCRid</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>HPCReglas</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							02
+						</td>
+					
+					<td>PCEMid</td><td>PCEMascaras</td><td>PCEMid</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>HPCReglas</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							03
+						</td>
+					
+					<td>Ecodigo,Cmayor</td><td>CtasMayor</td><td>Ecodigo,Cmayor</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>HtiposcambioConversionD</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>TCHid</td><td>HtiposcambioConversionE</td><td>TCHid</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+			</table>
+		

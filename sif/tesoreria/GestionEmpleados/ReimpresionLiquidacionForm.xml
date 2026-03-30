@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+			<LB_Titulo>Reprint of Checking Employee Allowance, for Employee Commission</LB_Titulo>
+			<LB_FormaPago>Payment Method</LB_FormaPago>
+			<LB_Beneficiario>Beneficiary</LB_Beneficiario>
+			<LB_Empleado>Employee</LB_Empleado>
+			<LB_NumLiquidacion>Settlement Number</LB_NumLiquidacion>
+			<LB_Solicitante>Requester</LB_Solicitante>
+			<LB_Moneda>Currency</LB_Moneda>
+			<LB_Hasta>To</LB_Hasta>
+			<LB_Fecha>Date</LB_Fecha>
+			<LB_CentroFuncional>Functional Center</LB_CentroFuncional>
+			<LB_ListaEmpleados>Employees List</LB_ListaEmpleados>
+			<LB_Identificacion>Identification</LB_Identificacion>
+			<LB_Nombre>Name</LB_Nombre>
+			<LB_ApellidoPaterno>Second Surname</LB_ApellidoPaterno>
+			<LB_ApellidoMaterno>First name</LB_ApellidoMaterno>
+			<LB_Todas>All</LB_Todas>
+			<LB_Comision>Commission</LB_Comision>
+			<LB_FechaLiquidacion>Settlement Day</LB_FechaLiquidacion>
+			<LB_Gastos>Expenses</LB_Gastos>
+			<LB_TipoPago>Payment Type</LB_TipoPago>
+			<LB_Tesoreria>Treasury</LB_Tesoreria>
+	</Idioma>
+</Etiquetas>

@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_Titulo>Commission Schedules Catalog</LB_Titulo>
+		<LB_CiudadOrigen>Origin City</LB_CiudadOrigen>
+		<LB_CiudadDestino>Destination City</LB_CiudadDestino>
+		<LB_FechaSalida>Departure Date</LB_FechaSalida>
+		<LB_HoraInicio>End Time</LB_HoraInicio>
+		<LB_HoraFin>Start Time</LB_HoraFin>
+		<LB_LineaAerea>Airline</LB_LineaAerea>
+		<LB_NumeroVuelo>Flight Number</LB_NumeroVuelo>
+	</Idioma>
+</Etiquetas>

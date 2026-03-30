@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_EncabezadoTransferencia>Transfer Header</LB_EncabezadoTransferencia>
+		<LB_Documento>Document</LB_Documento>
+		<LB_Descripcion>Description</LB_Descripcion>
+		<LB_Fecha>Date</LB_Fecha>
+		<BTN_Agregar>Add</BTN_Agregar>
+		<BTN_Limpiar>Clean</BTN_Limpiar>
+		<LB_DetalleTransferencia>Transfer Detail</LB_DetalleTransferencia>
+		<LB_CuentaOrigen>Origin Account</LB_CuentaOrigen>
+		<LB_TipoCambio>Exchange Rate</LB_TipoCambio>
+		<LB_CuentaDestino>Destination Account</LB_CuentaDestino>
+		<LB_DocumentoDestino>Destination Document</LB_DocumentoDestino>
+		<LB_Referencia>Reference</LB_Referencia>
+		<LB_ReferenciaDestino>Destination Reference</LB_ReferenciaDestino>
+		<LB_Monto>Amount</LB_Monto>
+		<LB_Comision>Commission</LB_Comision>
+		<LB_TotalDebitar>Debits Total</LB_TotalDebitar>
+		<LB_TotalAcreditar>Credits Total</LB_TotalAcreditar>
+		<BTN_Aplicar>Apply</BTN_Aplicar>
+		<BTN_BorrarTransferencia>Delete Transfer</BTN_BorrarTransferencia>
+		<BTN_Cambiar>Modify</BTN_Cambiar>
+		<BTN_BorrarLinea>Delete Line</BTN_BorrarLinea>
+		<BTN_NuevaLinea>New Line</BTN_NuevaLinea>
+	
+	<MSG_And>and</MSG_And><MSG_Correo>Define an email valid</MSG_Correo><MSG_Destino>Destination amount have to be different to zero</MSG_Destino><MSG_Errores>The following errors occurred</MSG_Errores><MSG_Numerico>Have to be numeric</MSG_Numerico><MSG_NumeroEntre>Have to be a number between</MSG_NumeroEntre><MSG_Origen>Origin amount have to be different to zero</MSG_Origen><MSG_Requerido>is required</MSG_Requerido><MSG_TipoCambio>Exchange rate have to be different to zero</MSG_TipoCambio><ALT_CuentaDestino>Destination Account</ALT_CuentaDestino><ALT_CuentaOrigen>Origin Account</ALT_CuentaOrigen><ALT_Documento>Document</ALT_Documento><ALT_DocumentoDestino>Destination Document</ALT_DocumentoDestino><ALT_MontoComision>Commission</ALT_MontoComision><ALT_MontoDestino>Destination Amount</ALT_MontoDestino><ALT_MontoOrigen>Origin Amount</ALT_MontoOrigen><ALT_Referencia>Reference</ALT_Referencia><ALT_TipoCambio>Exchange Rate</ALT_TipoCambio><MSG_Campo>Field</MSG_Campo><MSG_Aplica>Apply selected document?</MSG_Aplica><MSG_EliminaDet>Delete Line?</MSG_EliminaDet><MSG_EliminaTran>Delete Transfer?</MSG_EliminaTran><MSG_ErrorComision>Commission amount can not be greater than origin amount</MSG_ErrorComision><MSG_FechaIncorrecta>Fecha Incorrecta</MSG_FechaIncorrecta></Idioma>
+</Etiquetas>

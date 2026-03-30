@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE jasperReport PUBLIC "-//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+
+<jasperReport name="Reporte" pageWidth="792" pageHeight="612" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="14" bottomMargin="14">
+	<parameter name="Ecodigo" class="java.math.BigDecimal">
+	</parameter>
+	<parameter name="EOnumero" class="java.math.BigDecimal">
+	</parameter>
+	<parameter name="CMTOcodigo" class="java.lang.String">
+	</parameter>
+	<parameter name="FaxComprador" class="java.lang.String">
+	</parameter>
+	<parameter name="PhoneComprador" class="java.lang.String">
+	</parameter>
+	<parameter name="ApartadoComprador" class="java.lang.String">
+	</parameter>
+	<parameter name="EmailComprador" class="java.lang.String">
+	</parameter>
+	<queryString> </queryString>
+	<variable name="IS_LAST_PAGE" class="java.lang.Boolean" resetType="None">
+		<variableExpression></variableExpression>
+		<initialValueExpression><![CDATA[Boolean.FALSE]]></initialValueExpression>
+	</variable>
+	<background>
+		<band height="584">
+		</band>
+	</background>
+	<columnHeader>
+		<band>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="24">
+		</band>
+	</detail>
+	<pageFooter>
+		<band>
+		</band>
+	</pageFooter>
+	<summary>
+		<band>
+			<line direction="BottomUp">
+				<reportElement positionType="Float" x="10" y="10" width="5" height="10">
+					<printWhenExpression></printWhenExpression>
+				</reportElement>
+				<graphicElement/>
+			</line>
+		</band>
+	</summary>
+</jasperReport>

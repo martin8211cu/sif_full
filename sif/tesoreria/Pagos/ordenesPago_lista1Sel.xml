@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_Titulo>Payment Requests list to Select (Approved without Payment Order)</LB_Titulo>
+		<LB_EmpresaSolicitud>Requester Enterprise</LB_EmpresaSolicitud>
+		<LB_Origen>Origin</LB_Origen>
+		<LB_NumOrden>Order Number</LB_NumOrden>
+		<LB_Tipo>Type</LB_Tipo>
+		<LB_Socio>Partner</LB_Socio>
+		<LB_o>or</LB_o>
+		<LB_Beneficiario>Beneficiary</LB_Beneficiario>
+		<LB_FechaPago>Payment Date</LB_FechaPago>
+		<LB_Solicitada>Request Number</LB_Solicitada>
+		<LB_Monto>Amount</LB_Monto>
+		<LB_Moneda>Currency</LB_Moneda>
+		<LB_MonedaFactura>Currency Invoice</LB_MonedaFactura>
+		<LB_NumeroAcuerdo>Number Agreement</LB_NumeroAcuerdo>
+		<LB_Banco>Bank</LB_Banco>
+		
+	<LB_NumSolicitud>Requester Number</LB_NumSolicitud></Idioma>
+</Etiquetas>

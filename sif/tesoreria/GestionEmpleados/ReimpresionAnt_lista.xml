@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+			<LB_Titulo>Reprint Employee Advances</LB_Titulo>
+			<LB_FormaPago>Payment Method</LB_FormaPago>
+			<LB_Beneficiario>Beneficiary</LB_Beneficiario>
+			<LB_Empleado>Employee</LB_Empleado>
+			<LB_NumAnticipo>Advance Number</LB_NumAnticipo>
+			<LB_Solicitante>Requester</LB_Solicitante>
+			<LB_Moneda>Currency</LB_Moneda>
+			<LB_Hasta>To</LB_Hasta>
+			<LB_Fecha>Date</LB_Fecha>
+			<LB_CentroFuncional>Functional Center</LB_CentroFuncional>
+			<LB_FechaPagoSolicitada>Requested Payment Date</LB_FechaPagoSolicitada>
+			<LB_TotalPagoSolicitado>Total Payment Requested</LB_TotalPagoSolicitado>
+			<LB_TipoPago>Payment Type</LB_TipoPago>
+			
+	<Solicitante>Requester</Solicitante></Idioma>
+</Etiquetas>

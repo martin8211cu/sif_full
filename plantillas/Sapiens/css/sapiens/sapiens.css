@@ -1,0 +1,178 @@
+﻿/* CSS Document */
+/*Azul Sapiens=131c58*/
+/* colores en: styles.css */
+/*No se para que son estos*/
+SAPIENS { color:#39ef1b; background-color:#39ef1b; color:#39ef1b; color:#39ef1b }
+/*El color del plistas*/
+.listaNon { background-color:#FFFFFF; }
+/*El segundo color del plistas 31eb12*/
+.listaPar { background-color:#eaedf0; }
+/*El color de fondo que se presenta cuando paso el cursor sobre un registro del plistas f4f083--> amarillo*/
+.listaParSel, .listaNonSel { background-color:#b7d7f1; }
+/*Titulo del plistas en el corte de rangos--sif/af/empl x cf*/
+.listaCorte   { background-color: #d7dce0; }
+/*La clase titulo listas que se usa de encabezados para el plistas--el fondo de los filtros*/
+.tituloListas {	background-color: #d7dce0; }
+/*Titulo alterno del plistas af-consultas-traslados x mes*/
+.tituloAlterno {
+	background-color:#98b4cc;
+}
+/*
+
+
+/*barra de navegacion*/
+table.navbar, table.navbar a {
+	background-color:#ffffff;
+/*color de las letras de arriba que me muestran las direcciones*/
+	color:#131c58;
+}
+/*Color de la letras que me muestra en cual fuente estoy*/
+table.navbar .navbig, table.navbar .navbig a {
+	color:#131c58;
+	
+}
+
+table.navbar .navlast, table.navbar .navlast a {
+	color:31eb12;
+}
+.errormsg {
+	color:#993300;
+}
+
+
+/* colores en tabs.css*/
+/**
+ * Funcionalidad de los tabs
+ */
+.tab_sel_l { background-image:url(/cfmx/plantillas/Sapiens/css/sapiens/tabs/sel_l.gif);height:21px;}
+.tab_sel_m { background-image:url(/cfmx/plantillas/Sapiens/css/sapiens/tabs/sel_m.gif);height:21px;cursor:pointer;}
+.tab_sel_r { background-image:url(/cfmx/plantillas/Sapiens/css/sapiens/tabs/sel_r.gif);height:21px;}
+.tab_text ´{background:##FF0000}
+/*Color de la fuentes de la letra??????????????*/
+
+/*color del fondo del tab*/
+.tab_contents { background-color:#f7f9fa; }
+
+/* colores en template.css */
+.iconoTop {
+	background:url(/cfmx/plantillas/Sapiens/css/sapiens/images/02-01bv3.jpg);
+	background-repeat: repeat-x;
+}
+.logoTopRH  {	/*logob.png---logob2.gif*/
+	background:url(/cfmx/plantillas/Sapiens/css/sapiens/images/logoazul.png);
+	background-repeat: no-repeat;
+}
+* {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size:12px;
+}
+.logoTopSIF  {	/*logob.png---logob2.gif*/
+    background:url(/cfmx/plantillas/Sapiens/css/sapiens/images/logosif.png);
+	background-repeat: no-repeat;
+}
+* {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size:12px;
+}
+
+.logoTop  {	/*logob.png---logob2.gif*/
+    background:url(/cfmx/plantillas/Sapiens/css/sapiens/images/soin2.png);
+	background-repeat: no-repeat;
+}
+* {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size:12px;
+}
+/* colores en mlm_menu.css */
+.mlm_layer {
+	background-color:#31eb12;
+}
+.mlm_topbar {
+	background-color:#31eb12;
+}
+.mlm_topsel  {
+	background-color:#31eb12;
+}
+.mlm_item, .mlm_item * {
+	color:31eb12;
+}
+.mlm_sel, .mlm_sel * {
+	background-color:#31eb12;
+	color:31eb12;
+}
+/* colores en leftmenu.css--sif-contabilidad */
+.cfmenu_titulo {
+	background-color:#85abcc; 
+}
+.cfmenu_titulo a {
+	color: #777b7e; 
+}
+/*color  en el submenu--sif-contabilidad*/
+.cfmenu_menu, .cfmenu_submenu {
+	background-color: #96b9d6 ;
+}
+/*color de las letras en el submenu--sif-contabilidad*/
+.cfmenu_menu a, .cfmenu_submenu a {
+	color: #ffffff;
+}
+.cfmenu_bottom {
+	background-image:url(/cfmx/plantillas/Sapiens/css/sapiens/images/menubottom.gif);
+	background-position:right;
+	background-repeat:no-repeat;
+	background-color:#85abcc;
+}
+
+
+/*color de la flecha7b97d5*/
+/* nuevos menus */
+.imagen_sistema {
+	padding-top: 2px;
+	padding-bottom: 1px;
+	color: #a79fa3;
+	font-weight:bold;
+	text-decoration:none;	
+}
+
+
+/* kitar*/
+.menu_letra_prin{	font:Arial, Helvetica, sans-serif;
+					font-size:16px;
+					font-weight:bold;
+} 
+.menu_letra_titulo{	font:Arial, Helvetica, sans-serif;
+					font-size:18px;
+					font-weight:bold;
+					border-bottom:thin;
+					border-bottom-style:solid;
+} 
+
+.menu_link { text-decoration:none;color:#31eb128;
+			 font:Arial, Helvetica, sans-serif;
+			 font-size:16px;
+			 font-weight:bold;
+ }
+.menu_link:hover { text-decoration:underline;
+}
+
+.menu_letra_sec{	font:Arial, Helvetica, sans-serif;
+					font-size:10px;
+					font-weight:bold;
+					color: #31eb12;
+} 
+
+.menu_letra_opc{	font:Arial, Helvetica, sans-serif;
+					font-size:10px;
+					font-weight:bold;
+					color:#FFFFFF;
+					background-color: #31eb12;
+} 
+
+.menu_imagen_padding { padding-left: 10px; }
+
+.menu_tabla_sec{ background-color:#1e2c83; 
+				 border:#1e3bed thin solid; }
+.menu_flecha{ background:url(/cfmx/plantillas/Sapiens/css/sapiens/images/flecha.gif);
+			  background-repeat: no-repeat;
+			  background-position:center; }
+
+

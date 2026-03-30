@@ -1,0 +1,2051 @@
+﻿<!--- Componente: CC_AplicaDocumentoNeteo --->
+<cfcomponent>
+<cf_dbfunction name="OP_concat" returnvariable="_Cat">
+	<!--- Método: CC_AplicaDocumentoNeteo: Postea Una Transacción de Neteo de Documentos de CxC y CxP --->
+	<cffunction name="CC_AplicaDocumentoNeteo" access="public" returntype="boolean">
+		<cfargument name="idDocumentoNeteo" type="numeric" 	required="true">
+		<cfargument name="Ecodigo" 			type="numeric" 	required="false" default="#Session.Ecodigo#">
+		<cfargument name="Usucodigo" 		type="numeric" 	required="false" default="#Session.Usucodigo#">
+		<cfargument name="Usulogin" 		type="string" 	required="false" default="#Session.Usulogin#">
+		<cfargument name="Conexion" 		type="string" 	required="false" default="#Session.dsn#">
+		<cfargument name="Debug" 			type="boolean"	required="false" default="false">
+		<!--- Las siguientes variables son locales a esta función, por definición de lenguaje deben estar juntas en esta sección y no debe haber otro tipo de 
+			código que no sea la propia definición de las mismas hasta que termine la defnición de todas.
+		--->
+		<cfset var myResult=false>
+		<cfset var lvCCTcodigo="">
+		<cfset var lvPeriodo=0>
+		<cfset var lvMes=0>
+		<cfset var lvDocumentoNeteo=0>
+		<cfset var lvError=0>
+		<cfset var lvFecha=Now()>
+		<cfset var lvDescripcion="Documento de Neteo">
+		<cfset var lvBalance=0.00><!--- utilizada en el punto a. --->
+		<cfset var Lvar_Contabiliza = true>
+		<cfset var lvMonLoc = 0>
+
+		<!--- <cfset Arguments.Debug = true> --->
+		
+		<!--- No se crea la tabla temporal asiento porque no es necesario en este nuevo diseño, ya que el componente GeneraAsiento en su método GeneraAsiento 
+		nos va a devolver el IDcontable, en una variable, y este componente se encarga de crear la tabla. --->
+		<!--- Carga variables iniciales --->
+		<cfquery name="rsMonLoc" datasource="#Arguments.Conexion#">
+			select Mcodigo
+			from Empresas
+			where Ecodigo = #Arguments.Ecodigo#
+		</cfquery>
+		<cfif rsMonLoc.recordcount and len(trim(rsMonLoc.Mcodigo)) and isNumeric(rsMonLoc.Mcodigo) and rsMonLoc.Mcodigo>
+			<cfset lvMonLoc = rsMonLoc.Mcodigo>
+		<cfelse>
+			<cf_errorCode	code = "50969" msg = "CC_AplicaDocumentoNeteo: Error, No se ha definido la Moneda de la Empresa! Proceso Cancelado!">
+		</cfif>
+		<cfquery name="rsPeriodo" datasource="#Arguments.Conexion#">
+			select Pvalor as Periodo
+			from Parametros
+			where Ecodigo = #Arguments.Ecodigo#
+				and Mcodigo = 'GN'
+				and Pcodigo = 50
+		</cfquery>
+		<cfif rsPeriodo.recordcount and len(trim(rsPeriodo.Periodo)) and isNumeric(rsPeriodo.Periodo) and rsPeriodo.Periodo>
+			<cfset lvPeriodo = rsPeriodo.Periodo>
+		<cfelse>
+			<cf_errorCode	code = "50970" msg = "CC_AplicaDocumentoNeteo: Error, No se ha definido el parámetro de Periodo para los sistemas Auxiliares! Proceso Cancelado!">
+		</cfif>
+		<cfquery name="rsMes" datasource="#Arguments.Conexion#">
+			select Pvalor as Mes
+			from Parametros
+			where Ecodigo = #Arguments.Ecodigo#
+				and Mcodigo = 'GN'
+				and Pcodigo = 60
+		</cfquery>
+		<cfif rsMes.recordcount and len(trim(rsMes.Mes)) and isNumeric(rsMes.Mes) and rsMes.Mes>
+			<cfset lvMes = rsMes.Mes>
+		<cfelse>
+			<cf_errorCode	code = "50971" msg = "CC_AplicaDocumentoNeteo: Error, No se ha definido el parámetro de Mes para los sistemas Auxiliares! Proceso Cancelado!">
+		</cfif>
+		<cfquery name="rsDocumentoNeteo" datasource="#Arguments.Conexion#">
+			select CCTcodigo, DocumentoNeteo, Dfechadoc, Mcodigo, Ocodigo, TipoNeteoDocs
+			from DocumentoNeteo
+			where idDocumentoNeteo = #Arguments.idDocumentoNeteo#
+		</cfquery>
+		<cfif rsDocumentoNeteo.recordcount>
+			<cfif len(trim(rsDocumentoNeteo.DocumentoNeteo)) and len(trim(rsDocumentoNeteo.DocumentoNeteo))>
+				<cfset lvDocumentoNeteo = rsDocumentoNeteo.DocumentoNeteo>
+			<cfelse>
+				<cf_errorCode	code = "50972" msg = "CC_AplicaDocumentoNeteo: Error, No se ha definido el documento de neteo para el documento de neteo! Proceso Cancelado!">
+			</cfif>
+			<cfif len(trim(rsDocumentoNeteo.CCTcodigo)) and len(trim(rsDocumentoNeteo.CCTcodigo))>
+				<cfset lvCCTcodigo = rsDocumentoNeteo.CCTcodigo>
+			<cfelse>
+				<cf_errorCode	code = "50973" msg = "CC_AplicaDocumentoNeteo: Error, No se ha definido el tipo de transacción para el documento de neteo! Proceso Cancelado!">
+			</cfif>
+			<cfif len(trim(rsDocumentoNeteo.Dfechadoc)) and len(trim(rsDocumentoNeteo.Dfechadoc))>
+				<cfset lvFecha = rsDocumentoNeteo.Dfechadoc>
+			<cfelse>
+				<cf_errorCode	code = "50974" msg = "CC_AplicaDocumentoNeteo: Error, No se ha definido la fecha del documento de neteo! Proceso Cancelado!">
+			</cfif>
+			<cfset lvDescripcion = lvDescripcion & ' ' & rsDocumentoNeteo.DocumentoNeteo>
+			<cfset LvarMcodigo = rsDocumentoNeteo.Mcodigo>
+			<cfset LvarOcodigo = rsDocumentoNeteo.Ocodigo>
+
+			<cfset LvarTipoNeteoDocs = rsDocumentoNeteo.TipoNeteoDocs>
+			<cfif LvarTipoNeteoDocs EQ 0>
+				<cfset LvarTipoNeteoDocs = DeterminarTipoNeteoDocs(Arguments.idDocumentoNeteo)>
+				<cfif LvarTipoNeteoDocs EQ -1>
+					<cfthrow message="Hay una mezcla de Tipos de Documento incorrecta para netear">
+				</cfif>
+			<cfelse>
+				<cfset LvarTipoNeteoMSG = VerificarTipoNeteoDocs(Arguments.idDocumentoNeteo)>
+				<cfif LvarTipoNeteoMSG NEQ "">
+					<cfthrow message="#LvarTipoNeteoMSG#">
+				</cfif>
+			</cfif>
+		<cfelse>
+			<cf_errorCode	code = "50975" msg = "CC_AplicaDocumentoNeteo: Error, No se ha definido el documento de neteo! Proceso Cancelado!">
+		</cfif>
+		
+		<cfif Arguments.debug>
+			<cfoutput>
+				<h1>Variables Cargadas Antes de Iniciar el Proceso:</h1>
+				myResult = #myResult#<br>
+				lvCCTcodigo = #lvCCTcodigo#<br>
+				lvPeriodo = #lvPeriodo#<br>
+				lvMes = #lvMes#<br>
+				lvDocumentoNeteo = #lvDocumentoNeteo#<br>
+				lvError = #lvError#<br>
+				lvFecha = #lvFecha#<br>
+				lvDescripcion = #lvDescripcion#<br>
+			</cfoutput>
+		</cfif>
+
+		<!--- 
+			Calculo de Retención:
+				Si no es de anticipo lo deja en CERO
+				Si no tiene retención lo deja en CERO
+				Si se digitó monto se respeta
+				Si no tiene monto, lo calcula con base en monto a netear:
+					DmontoDoc = Dmonto / (1 - Porcentaje)
+					DmontoRet = DmontoDoc * Porcetaje
+					DmontoRet = Dmonto / (1 - Porcentaje) * Porcentaje
+		--->
+
+		<!--- Retencion CxC: join por Ecodigo, CCTcodigo, Ddocumento --->
+		<cfquery datasource="#Arguments.Conexion#">
+			<cfif LvarTipoNeteoDocs NEQ 2>
+				update DocumentoNeteoDCxC
+				   set DmontoRet = 0
+				 where idDocumentoNeteo = #Arguments.idDocumentoNeteo#
+			<cfelse>
+				update DocumentoNeteoDCxC
+				   set DmontoRet = 
+				   		case
+							when (
+									select d.Rcodigo 
+									  from Documentos d 
+									 where d.Ecodigo	= DocumentoNeteoDCxC.Ecodigo
+									   and d.CCTcodigo	= DocumentoNeteoDCxC.CCTcodigo
+									   and d.Ddocumento	= DocumentoNeteoDCxC.Ddocumento
+								  ) is null	then 0
+							when DmontoRet = 0 then
+								coalesce(
+									(
+										select DocumentoNeteoDCxC.Dmonto / (1 - r.Rporcentaje/100) * r.Rporcentaje/100
+										  from Documentos d
+											inner join Retenciones r
+												 on r.Ecodigo = d.Ecodigo
+												and r.Rcodigo = d.Rcodigo
+										 where d.Ecodigo	= DocumentoNeteoDCxC.Ecodigo
+										   and d.CCTcodigo	= DocumentoNeteoDCxC.CCTcodigo
+										   and d.Ddocumento	= DocumentoNeteoDCxC.Ddocumento
+									), 0)
+							else DmontoRet
+						end
+				where idDocumentoNeteo = #Arguments.idDocumentoNeteo#
+			</cfif>
+		</cfquery>
+		<cfquery datasource="#Arguments.Conexion#">
+			<cfif LvarTipoNeteoDocs NEQ 3>
+				update DocumentoNeteoDCxP
+				   set DmontoRet = 0
+				where idDocumentoNeteo = #Arguments.idDocumentoNeteo#
+			<cfelse>
+				update DocumentoNeteoDCxP
+				   set DmontoRet = 
+				   		case
+							when (
+									select d.Rcodigo 
+									  from EDocumentosCP d 
+									 where d.IDdocumento = DocumentoNeteoDCxP.idDocumento
+								  ) is null	then 0
+							when DmontoRet = 0 then
+								coalesce(
+									(
+										select DocumentoNeteoDCxP.Dmonto / (1 - r.Rporcentaje/100) * r.Rporcentaje/100
+										  from EDocumentosCP d
+											inner join Retenciones r
+												 on r.Ecodigo = d.Ecodigo
+												and r.Rcodigo = d.Rcodigo
+										 where d.IDdocumento = DocumentoNeteoDCxP.idDocumento
+									), 0)
+							else DmontoRet
+						end
+				where idDocumentoNeteo = #Arguments.idDocumentoNeteo#
+			</cfif>
+		</cfquery>
+					   
+		<!---
+		a. verificar que los documentos estén balanceados 
+			La suma de los documentos de CxC a netear
+			Debe corresponder a la suma de los documentos de CxP a netear
+			La diferencia debe estar reflejada en el encabezado.
+			Se debe considerar que el tipo de transacción es significativo en 
+			ambos sistemas.
+			La suma de debitos - creditos en CxC
+			debe ser igual a la suma de creditos - debitos en CxP
+			Si hay una diferencia, debe corresponder al monto del encabezado
+		b.1. Verificar que los documentos tengan un saldo >= al monto que se aplica
+		b.2. No se puede afectar el mismo documento mas de una vez
+		c. Afectar el asiento contable, saldos de documentos y las tablas de bitacora.
+			c.1.  
+				A los documentos de CxC, se les hace un movimiento contable con transaccion contraria 
+				al signo de la transaccion, en la cuenta del documento	
+			c.2. 
+				A los documentos de CxP se les hace un movimiento contable con transaccion contraria
+				al signo de la transaccion en la cuenta del documento
+			c.3. 
+				Si existe diferencia en los totales, se debe generar el documento del encabezado
+				como un documento a favor en CxC. Para esto se utiliza el tipo de transaccion
+				el numero del documento y el monto del encabezado.
+			c.4.
+				Se afectan los saldos de los documentos por el monto de la tabla de detalles.
+			c.5. 
+				Se afectan las tablas de bitacora de movimientos de CxP y CxC
+			c.6. 
+				Se invoca la generación del asiento contable.
+		--->
+		<!--- a. Balance de las tablas de detalle y encabezado --->
+		<!--- La siguiente suma siempre debe de ser 0.00 --->
+		<cfquery name="rsBalance1" datasource="#Arguments.Conexion#">
+			select sum(a.Dmonto * case when b.CCTtipo = 'D' then 1 else -1 end) as Balance
+			from DocumentoNeteoDCxC a <cf_dbforceindex name="Idx1_DocumentoNeteoDCxC">
+				inner join CCTransacciones b <cf_dbforceindex name="PK_CCTRANSACCIONES">
+					on b.CCTcodigo = a.CCTcodigo 
+					and b.Ecodigo = a.Ecodigo
+			where a.idDocumentoNeteo =#Arguments.idDocumentoNeteo#
+		</cfquery>
+		<cfif rsBalance1.recordcount and len(rsBalance1.Balance) GT 0>
+			<cfset lvBalance = lvBalance + rsBalance1.Balance>
+		</cfif>
+		<cfquery name="rsBalance2" datasource="#Arguments.Conexion#">
+			select sum(a.Dmonto * case when b.CPTtipo = 'D' then 1 else -1 end) as Balance
+			from DocumentoNeteo aa <cf_dbforceindex name="PK_DOCUMENTONETEO">
+				inner join DocumentoNeteoDCxP a <cf_dbforceindex name="Idx1_DocumentoNeteoDCxP">
+					on a.idDocumentoNeteo = aa.idDocumentoNeteo
+				inner join CPTransacciones b <cf_dbforceindex name="PK_CPTRANSACCIONES">
+					on b.CPTcodigo = a.CPTcodigo 
+					and b.Ecodigo = aa.Ecodigo
+			where aa.idDocumentoNeteo = #Arguments.idDocumentoNeteo#
+		</cfquery>
+		<cfif rsBalance2.recordcount and len(rsBalance2.Balance) GT 0>
+			<cfset lvBalance = lvBalance + rsBalance2.Balance>
+		</cfif>
+		<cfquery name="rsBalance3" datasource="#Arguments.Conexion#">
+			select coalesce(a.Dmonto * case when b.CCTtipo = 'D' then 1 else -1 end, 0.00) as Balance
+			from DocumentoNeteo a
+				inner join CCTransacciones b
+					on b.CCTcodigo = a.CCTcodigo
+					and b.Ecodigo = a.Ecodigo
+			where a.idDocumentoNeteo = #Arguments.idDocumentoNeteo#
+		</cfquery>
+		<cfif rsBalance3.recordcount and len(rsBalance3.Balance) GT 0>
+			<cfset lvBalance = lvBalance + rsBalance3.Balance>
+		</cfif>
+		<cfif lvBalance Neq 0.00>
+			<cf_errorCode	code = "50976" msg = "CC_AplicaDocumentoNeteo: Error, Los documentos no están balanceados! Proceso Cancelado!">
+		</cfif>
+		<!--- b. Verificar que los documentos tengan un saldo >= al monto que se aplica --->
+		<!--- Existencia de los Documentos de CxC --->
+		<cfquery name="rsDocumentoNeteoDCxC" datasource="#Arguments.Conexion#">
+			select count(1) as CantidadDocNeteo
+			from DocumentoNeteoDCxC a <cf_dbforceindex name="Idx1_DocumentoNeteoDCxC">
+			where idDocumentoNeteo = #Arguments.idDocumentoNeteo#
+			and not exists (
+				select 1 from Documentos b <cf_dbforceindex name="PK_DOCUMENTOS">
+				where b.Ecodigo = a.Ecodigo
+				and b.CCTcodigo = a.CCTcodigo
+				and b.Ddocumento = a.Ddocumento
+			)
+		</cfquery>
+		<cfif rsDocumentoNeteoDCxC.CantidadDocNeteo gt 0>
+			<cf_errorCode	code = "50977" msg = "CC_AplicaDocumentoNeteo: Existen Documentos Inconsistentes en la Transaccion de CxC. Proceso Cancelado!">
+		</cfif>
+		<!--- Saldos de Documentos de CxC --->
+		<cfquery name="rsDocumentoNeteoDCxC" datasource="#Arguments.Conexion#">
+			select 1 
+			from DocumentoNeteoDCxC a <cf_dbforceindex name="Idx1_DocumentoNeteoDCxP">
+				inner join Documentos b <cf_dbforceindex name="PK_EDOCUMENTOSCP">
+					 on b.Ecodigo = a.Ecodigo
+					and b.CCTcodigo = a.CCTcodigo
+					and b.Ddocumento = a.Ddocumento
+					and b.Dsaldo < (a.Dmonto+a.DmontoRet)
+			where a.idDocumentoNeteo = #Arguments.idDocumentoNeteo#
+		</cfquery>
+		<cfif rsDocumentoNeteoDCxC.recordcount>
+			<cfthrow  message="CC_AplicaDocumentoNeteo: Existen Documentos con Saldo menor al monto a Eliminar en CxC. Proceso Cancelado!">
+		</cfif>
+
+		<!--- Existencia de los Documentos de CxP --->
+		<cfquery name="rsDocumentoNeteoDCxP" datasource="#Arguments.Conexion#">
+			select count(1) as cantidad
+			from DocumentoNeteoDCxP a 
+			where idDocumentoNeteo = #Arguments.idDocumentoNeteo#
+			and not exists (
+				select 1 
+				from EDocumentosCP b 
+				where a.idDocumento = b.IDdocumento
+			)
+		</cfquery>
+		<cfif rsDocumentoNeteoDCxP.cantidad gt 0>
+			<cf_errorCode	code = "50978" msg = "CC_AplicaDocumentoNeteo: Existen Documentos Inconsistentes en la Transaccion de CxP. Proceso Cancelado!">
+		</cfif>
+		<!--- Saldos de Documentos de CxP --->
+		<cfquery name="rsDocumentoNeteoDCxP" datasource="#Arguments.Conexion#">
+			select 1 
+			from DocumentoNeteoDCxP a <cf_dbforceindex name="Idx1_DocumentoNeteoDCxP">
+				inner join EDocumentosCP b <cf_dbforceindex name="PK_EDOCUMENTOSCP">
+					on b.IDdocumento = a.idDocumento
+					and b.EDsaldo < (a.Dmonto+a.DmontoRet)
+			where a.idDocumentoNeteo = #Arguments.idDocumentoNeteo#
+		</cfquery>
+		<cfif rsDocumentoNeteoDCxP.recordcount>
+			<cf_errorCode	code = "50979" msg = "CC_AplicaDocumentoNeteo: Existen Documentos con Saldo menor al monto a Eliminar en CxP. Proceso Cancelado!">
+		</cfif>
+		<!--- Obtiene el Tipo de Cambio de la moneda del neteo --->
+		<cfset TC = 1>
+		<cfquery name="rsTC" datasource="#Arguments.Conexion#">
+			select Mcodigo, Dfechadoc
+			from DocumentoNeteo
+			where idDocumentoNeteo = #Arguments.idDocumentoNeteo#
+		</cfquery>
+		<cfif rsTC.recordcount>
+			<cfset TC = getTipoCambio(rsTC.Mcodigo, rsTC.Dfechadoc, Arguments.Conexion, Arguments.Ecodigo)>
+		</cfif>
+		
+		<!--- Creación de la tabla INTARC, El nombre de la tabla para utilizarla en los quieres es guardado en la variable #INTARC# --->
+		<cfinvoke component="sif.Componentes.CG_GeneraAsiento" method="CreaIntarc" returnvariable="INTARC" conexion="#Arguments.Conexion#"/>
+		<!--- Creación de la tabla INTpresupuesto #INTpresupusto# --->
+		<cfinvoke component="sif.Componentes.CG_GeneraAsiento" method="CreaIntarc" returnvariable="INTARC" conexion="#Arguments.Conexion#"/>
+		<cfif Lvar_Contabiliza>
+			<cfquery name="rsCuentaIngDifCambiario" datasource="#Arguments.Conexion#">
+				select p.Pvalor as CuentaIngDifCam
+				from Parametros p
+				where Ecodigo = #Arguments.Ecodigo#
+				  and Pcodigo = 110
+			</cfquery>
+			<cfset LvarCuentaIngDifCambiario = rsCuentaIngDifCambiario.CuentaIngDifCam>
+			
+			<cfquery name="rsCuentaGasDifCambiario" datasource="#Arguments.Conexion#">
+				select p.Pvalor as CuentaGasDifCam
+				from Parametros p
+				where Ecodigo = #Arguments.Ecodigo#
+				  and Pcodigo = 120
+			</cfquery>
+			<cfset LvarCuentaGasDifCambiario = rsCuentaGasDifCambiario.CuentaGasDifCam>
+		</cfif>
+		
+		<cfquery name="rsCuentabalancemultimoneda" datasource="#Arguments.Conexion#">
+			select p.Pvalor as Pvalor
+			from Parametros p
+			where Ecodigo = #Arguments.Ecodigo#
+			  and Pcodigo = 200
+		</cfquery>
+		<cfif isdefined("rsCuentabalancemultimoneda") and rsCuentabalancemultimoneda.recordcount gt 0>
+			<cfset LvarCuentabalancemultimoneda = rsCuentabalancemultimoneda.Pvalor>
+		<cfelse>
+			<cf_errorCode	code = "50980" msg = "No se ha definido la Cuenta de Balance Multimoneda.">
+		</cfif>
+
+		<cftransaction>
+			<!--- Solo se contabiliza cuando interactua mas de una cuenta --->
+			 <cfif Lvar_Contabiliza>
+				 <cfset contabilizarNeteo(Arguments.Ecodigo, arguments.conexion, lvFecha, lvPeriodo, lvMes, idDocumentoNeteo, lvMonLoc, Debug, lvCCTcodigo, lvDescripcion, lvDocumentoNeteo)>
+			 </cfif>
+
+			<!--- Insertar en el Histórico (Bitacora de movimientos) de CxC --->
+			<!--- 
+				Mcodigo = Moneda Pago = Mcodigoref = Moneda Documento	===> BMfactor = 1
+				Dtotal			= Monto Pagado (sin Retención) Moneda Pago
+				Dtotalloc		= Monto Pagado (sin Retención) Moneda Local
+				Dtotalref		= Monto Aplicado (Pagado+Retención) Moneda Doc
+				BMmontoretori	= Monto Retención
+				BMmontoref		= Monto Pagado (sin Retención) Moneda Doc
+			--->
+			<cfquery datasource="#Arguments.Conexion#">
+				insert into BMovimientos (
+						Ecodigo, CCTcodigo, Ddocumento, CCTRcodigo, DRdocumento, 
+						BMfecha, SNcodigo, 
+						Dfecha, Dvencimiento, BMperiodo, BMmes, Ocodigo, BMusuario, 
+
+						Mcodigo, Dtipocambio, Dtotal, Dtotalloc, 
+						Mcodigoref, Dtotalref, BMmontoretori, BMmontoref, BMfactor
+						
+						<cfif isdefined("IDcontable")>, IDcontable</cfif>)
+				select 	a.Ecodigo, c.CCTcodigo, c.DocumentoNeteo, a.CCTcodigo, a.Ddocumento, 
+						<cf_dbfunction name="now">, a.SNcodigo, 
+						<cf_jdbcquery_param cfsqltype="cf_sql_timestamp" value="#lvFecha#">, 
+						<cf_jdbcquery_param cfsqltype="cf_sql_timestamp" value="#lvFecha#">, 
+						#lvPeriodo#, #lvMes#, a.Ocodigo, '#Arguments.Usulogin#', 
+
+						c.Mcodigo, a.Dtcultrev, b.Dmonto, round(b.Dmonto * a.Dtcultrev,2), 
+						a.Mcodigo, (b.Dmonto+b.DmontoRet), b.DmontoRet, b.Dmonto, 1 
+						
+						<cfif isdefined("IDcontable")>, #IDcontable#</cfif>
+				from DocumentoNeteoDCxC b <cf_dbforceindex name="Idx1_DocumentoNeteoDCxC">
+					inner join Documentos a <cf_dbforceindex name="PK_DOCUMENTOS">
+						on a.Ecodigo = b.Ecodigo
+						and a.CCTcodigo = b.CCTcodigo
+						and a.Ddocumento = b.Ddocumento
+					inner join DocumentoNeteo c <cf_dbforceindex name="PK_DOCUMENTONETEO">
+						on c.idDocumentoNeteo = b.idDocumentoNeteo
+				where b.idDocumentoNeteo = #Arguments.idDocumentoNeteo#
+			</cfquery>
+			
+			<!--- Insertar en el Histórico (Bitacora de movimientos) de CxP --->
+			<!--- 
+				Mcodigo = Moneda Pago = Mcodigoref = Moneda Documento	===> BMfactor = 1
+				Dtotal			= Monto Pagado (sin Retención) Moneda Pago
+				BMmontoref		= Monto Aplicado (Pagado+Retención) Moneda Doc
+				BMmontoretori	= Monto Retención
+			--->
+			<cfquery datasource="#Arguments.Conexion#">
+				insert into BMovimientosCxP (
+						Ecodigo, CPTcodigo, Ddocumento, CPTRcodigo, DRdocumento, BMfecha, Ccuenta, Ocodigo, SNcodigo, 
+						Dfecha, Dvencimiento, BMperiodo, BMmes, BMusuario, 
+						
+						Mcodigo, Dtipocambio, Dtotal, 
+						Mcodigoref, BMmontoref, BMmontoretori, BMfactor
+						
+						<cfif isdefined("IDcontable")>, IDcontable</cfif>)
+				select 	a.Ecodigo, c.CCTcodigo, c.DocumentoNeteo, a.CPTcodigo, a.Ddocumento, <cf_dbfunction name="now">, a.Ccuenta, a.Ocodigo, a.SNcodigo, 
+						<cf_jdbcquery_param cfsqltype="cf_sql_timestamp" value="#lvFecha#">, 
+						<cf_jdbcquery_param cfsqltype="cf_sql_timestamp" value="#lvFecha#">, 
+						#lvPeriodo#, #lvMes#, '#Arguments.Usulogin#', 
+
+						c.Mcodigo, a.EDtcultrev, b.Dmonto, 
+						a.Mcodigo, (b.Dmonto+b.DmontoRet), b.DmontoRet, 1 
+						
+						<cfif isdefined("IDcontable")>, #IDcontable#</cfif>
+				from DocumentoNeteoDCxP b <cf_dbforceindex name="Idx1_DocumentoNeteoDCxP">
+					inner join EDocumentosCP a <cf_dbforceindex name="PK_EDOCUMENTOSCP">
+						on a.IDdocumento = b.idDocumento
+					inner join DocumentoNeteo c <cf_dbforceindex name="PK_DOCUMENTONETEO">
+						on c.idDocumentoNeteo = b.idDocumentoNeteo
+				where b.idDocumentoNeteo = #Arguments.idDocumentoNeteo#
+			</cfquery>
+				
+			<!--- Actualizar el saldo de los documentos afectados en CxC --->
+			<cfquery datasource="#Arguments.Conexion#">
+				update Documentos
+				set Dsaldo = Dsaldo - 
+						coalesce((
+							select sum(c.Dmonto+c.DmontoRet) 
+							from DocumentoNeteoDCxC c
+							  where c.idDocumentoNeteo = #Arguments.idDocumentoNeteo#
+								and c.Ecodigo 		   = Documentos.Ecodigo
+								and c.CCTcodigo 	   = Documentos.CCTcodigo
+								and c.Ddocumento 	   = Documentos.Ddocumento
+								and c.Ecodigo = #Arguments.Ecodigo#), 0.00)
+				where (select count(1)
+				        from DocumentoNeteoDCxC b
+					  where b.idDocumentoNeteo    = #Arguments.idDocumentoNeteo#
+						and Documentos.Ecodigo    = b.Ecodigo
+						and Documentos.CCTcodigo  = b.CCTcodigo
+						and Documentos.Ddocumento = b.Ddocumento
+						and b.Ecodigo = #Arguments.Ecodigo#
+						) > 0
+			</cfquery>
+			
+			<!--- Actualizar el saldo de los documentos afectados en CxP --->
+			<cfquery datasource="#Arguments.Conexion#">
+				update EDocumentosCP
+				set EDsaldo = EDsaldo - 
+						coalesce((
+							select sum(c.Dmonto+c.DmontoRet) 
+							from DocumentoNeteoDCxP c
+							 where c.idDocumentoNeteo = #Arguments.idDocumentoNeteo#
+								and c.idDocumento = EDocumentosCP.IDdocumento
+								and c.CPTcodigo   = EDocumentosCP.CPTcodigo
+								and c.Ddocumento  = EDocumentosCP.Ddocumento
+								and EDocumentosCP.Ecodigo = #Arguments.Ecodigo#), 0.00)
+				where (select count(1)
+				from DocumentoNeteoDCxP b
+				where b.idDocumentoNeteo = #Arguments.idDocumentoNeteo#
+					and EDocumentosCP.IDdocumento = b.idDocumento
+					and EDocumentosCP.CPTcodigo   = b.CPTcodigo
+					and EDocumentosCP.Ddocumento  = b.Ddocumento
+					and EDocumentosCP.Ecodigo     = #Arguments.Ecodigo#
+					) > 0
+					
+			</cfquery>
+			
+			<!--- Actualiza el Documento de Neteo --->
+			<cfquery datasource="#Arguments.Conexion#">
+				update DocumentoNeteo 
+				set Aplicado = 1
+				where idDocumentoNeteo = #Arguments.idDocumentoNeteo#
+			</cfquery>
+			
+			<cfif Arguments.Debug>
+				<cfif Lvar_Contabiliza>
+					<cfquery name="rsDebug" datasource="#Arguments.Conexion#">
+					 select * from #INTARC#
+					</cfquery>
+					<cfdump var="#rsDebug#">
+				<cfelse>
+					<cfdump var="#rsCheckContabiliza#">
+					<h2>No Contabilizó porque todas las cuentas son iguales.</h2>
+				</cfif>
+				<cftransaction action="rollback"/>
+				<cf_abort errorInterfaz="">
+			</cfif>
+		</cftransaction>
+		<cfreturn myResult>
+	</cffunction>
+	<cffunction name="contabilizarNeteo" access="private" returntype="any" output="false">
+		<cfargument name="Ecodigo" 			type="numeric" 	required="false">
+		<cfargument name="Conexion" 		type="string" 	required="true">
+		<cfargument name="lvFecha"  		type="date" 	required="true">
+		<cfargument name="lvPeriodo"  		type="numeric" 	required="true">
+		<cfargument name="lvMes"  			type="numeric" 	required="true">
+		<cfargument name="idDocumentoNeteo" type="numeric" 	required="true">
+		<cfargument name="lvMonLoc" 		type="numeric" 	required="true">
+		<cfargument name="Debug" 			type="boolean"  required="false">
+		<cfargument name="lvCCTcodigo" 		type="string" 	required="true">
+		<cfargument name="lvDescripcion" 	type="string" 	required="true">
+		<cfargument name="lvDocumentoNeteo"	type="string" 	required="true">
+		
+		<cfquery name="rsDocumentoNeteo" datasource="#Arguments.Conexion#">
+			select Ocodigo
+			from DocumentoNeteo
+			where idDocumentoNeteo = #Arguments.idDocumentoNeteo#
+		</cfquery>
+		
+		<cfquery name="rsValidaImpuesto" datasource="#Arguments.Conexion#">
+			  select i.Idescripcion,i.CcuentaCxC, i.CcuentaCxCAcred	
+				from DocumentoNeteo aa <cf_dbforceindex name="PK_DOCUMENTONETEO">
+					inner join DocumentoNeteoDCxC a <cf_dbforceindex name="Idx1_DocumentoNeteoDCxC">
+						on a.idDocumentoNeteo = aa.idDocumentoNeteo
+					inner join Documentos b <cf_dbforceindex name="PK_DOCUMENTOS">
+						on b.Ecodigo = a.Ecodigo
+						and b.CCTcodigo = a.CCTcodigo
+						and b.Ddocumento = a.Ddocumento
+					inner join CCTransacciones  cc <cf_dbforceindex name="PK_CCTRANSACCIONES">
+						on cc.CCTcodigo = b.CCTcodigo
+						and cc.Ecodigo = b.Ecodigo
+					inner join ImpDocumentosCxC fi
+						on  fi.Ecodigo     = b.Ecodigo 
+						and fi.CCTcodigo   = b.CCTcodigo 
+						and fi.Documento  = b.Ddocumento
+					inner join Impuestos i
+						on  i.Ecodigo = fi.Ecodigo 
+						and i.Icodigo = fi.Icodigo
+				where aa.idDocumentoNeteo = #Arguments.idDocumentoNeteo#
+		</cfquery>
+		<cfif not (len(trim(rsValidaImpuesto.CcuentaCxC))or len(trim(rsValidaImpuesto.CcuentaCxCAcred)))>
+			<cf_errorCode	code = "51679" msg = "No se han definido las facturas cliente o facturas Cliente Acreditadas para el impuesto: @errorDat_1@."
+					        errorDat_1="#rsValidaImpuesto.Idescripcion#">			
+		</cfif>
+		
+		<cfif TC NEQ 1.00>
+		<!--- Afectar Diferencial Cambiario de los documentos --->
+		<cf_dbfunction name="OP_concat" returnvariable="_Cat">
+			<cfquery datasource="#Arguments.Conexion#">
+				insert into #INTARC# ( 
+						INTORI, INTREL, INTDOC, INTREF, 
+						INTTIP, INTDES, INTFEC, 
+						Periodo, Mes, Ccuenta, 
+						Mcodigo, Ocodigo, 
+						INTMOE, INTCAM, INTMON
+						)
+				select 	'CCND',
+						1,
+						<cf_dbfunction name="sPart"		args="b.CCTcodigo #_Cat# ' ' #_Cat# b.Ddocumento;1;20" delimiters=";">,
+       					<cf_dbfunction name="sPart"		args="aa.CCTcodigo #_Cat# ' ' #_Cat# aa.DocumentoNeteo;1;25" delimiters=";">,
+						case when cc.CCTtipo = 'D' then 'D' else 'C' end,
+						<cf_dbfunction name="concat" args="'CxC: Diferencial Cambiario ' + b.CCTcodigo + ' ' + b.Ddocumento" delimiters="+">,
+						'#YEAR(arguments.lvFecha)##RepeatString('0',2-Len(MONTH(arguments.lvFecha)))##MONTH(arguments.lvFecha)##RepeatString('0',2-Len(DAY(arguments.lvFecha)))##DAY(arguments.lvFecha)#',
+						#arguments.lvPeriodo#,
+						#arguments.lvMes#,
+						b.Ccuenta,
+						b.Mcodigo,
+						b.Ocodigo,
+						0.00, 1.00,  
+                    	round(
+							round(a.Dmonto+a.DmontoRet,2) 
+						* (#TC# - b.Dtcultrev), 2)
+				from DocumentoNeteo aa <cf_dbforceindex name="PK_DOCUMENTONETEO">
+					inner join DocumentoNeteoDCxC a <cf_dbforceindex name="Idx1_DocumentoNeteoDCxC">
+						on a.idDocumentoNeteo = aa.idDocumentoNeteo
+					inner join Documentos b <cf_dbforceindex name="PK_DOCUMENTOS">
+						on b.Ecodigo = a.Ecodigo
+						and b.CCTcodigo = a.CCTcodigo
+						and b.Ddocumento = a.Ddocumento
+					inner join CCTransacciones  cc <cf_dbforceindex name="PK_CCTRANSACCIONES">
+						on cc.CCTcodigo = b.CCTcodigo
+						and cc.Ecodigo = b.Ecodigo
+				where aa.idDocumentoNeteo = #Arguments.idDocumentoNeteo#
+				  and 	round(
+				  			round(a.Dmonto+a.DmontoRet,2) 
+						* (#TC# - b.Dtcultrev), 2) <> 0.00
+			</cfquery>
+			
+			<cfquery datasource="#Arguments.Conexion#">
+				insert into #INTARC# ( 
+						INTORI, INTREL, INTDOC, INTREF, 
+						INTTIP, INTDES, INTFEC, 
+						Periodo, Mes, Ccuenta, 
+						Mcodigo, Ocodigo, 
+						INTMOE, INTCAM, INTMON
+						)
+				select 'CCND',
+						1,
+						<cf_dbfunction name="sPart"		args="b.CPTcodigo #_Cat# ' ' #_Cat# b.Ddocumento;1;20" delimiters=";">,
+       					<cf_dbfunction name="sPart"		args="aa.CCTcodigo #_Cat# ' ' #_Cat# aa.DocumentoNeteo;1;25" delimiters=";">,
+						case when cc.CPTtipo = 'D' then 'D' else 'C' end,
+						<cf_dbfunction name="concat" args="'CxP: Diferencial Cambiario ' + b.CPTcodigo + ' ' + b.Ddocumento" delimiters="+">,
+						'#YEAR(arguments.lvFecha)##RepeatString('0',2-Len(MONTH(arguments.lvFecha)))##MONTH(arguments.lvFecha)##RepeatString('0',2-Len(DAY(arguments.lvFecha)))##DAY(arguments.lvFecha)#',
+						#arguments.lvPeriodo#,
+						#arguments.lvMes#,
+						b.Ccuenta,
+						b.Mcodigo,
+						b.Ocodigo,
+						0.00, 1.00, 
+                        round(
+							round(a.Dmonto+a.DmontoRet,2) 
+						* (#TC# - b.EDtcultrev), 2)
+				from DocumentoNeteo aa <cf_dbforceindex name="PK_DOCUMENTONETEO">
+					inner join DocumentoNeteoDCxP a <cf_dbforceindex name="Idx1_DocumentoNeteoDCxP">
+						on a.idDocumentoNeteo = aa.idDocumentoNeteo
+					inner join EDocumentosCP b <cf_dbforceindex name="PK_EDOCUMENTOSCP">
+						on b.IDdocumento = a.idDocumento
+					inner join CPTransacciones  cc <cf_dbforceindex name="PK_CPTRANSACCIONES">
+						on cc.CPTcodigo = b.CPTcodigo
+						and cc.Ecodigo = b.Ecodigo
+				where aa.idDocumentoNeteo = #Arguments.idDocumentoNeteo#
+				  and 	round(
+				  			round(a.Dmonto+a.DmontoRet,2) 
+						* (#TC# - b.EDtcultrev), 2) <> 0.00
+			</cfquery>
+		</cfif>
+
+		<!--- Afectar contabilidad por Impuestos Crédito Fiscal --->
+			<!--- a. Diferencial Cambiario por Impuesto Crédito Fiscal de Facturas de CxC --->
+			<cfquery datasource="#Arguments.Conexion#">
+				insert into #INTARC# ( 
+						INTORI, INTREL, INTDOC, INTREF, 
+						INTTIP, INTDES, INTFEC, 
+						Periodo, Mes, Ccuenta, 
+						Mcodigo, Ocodigo, 
+						INTMOE, INTCAM, INTMON
+						)
+				select 	'CCND',
+						1,
+						<cf_dbfunction name="sPart"		args="b.CCTcodigo #_Cat# ' ' #_Cat# b.Ddocumento;1;20" delimiters=";">,
+       					<cf_dbfunction name="sPart"		args="aa.CCTcodigo #_Cat# ' ' #_Cat# aa.DocumentoNeteo;1;25" delimiters=";">,
+						case when cc.CCTtipo = 'D' then 'C' else 'D' end,
+						<cf_dbfunction name="concat" args="'CxC: Diferencial Cambiario ' + b.CCTcodigo + ' ' + b.Ddocumento" delimiters="+">,
+						'#YEAR(arguments.lvFecha)##RepeatString('0',2-Len(MONTH(arguments.lvFecha)))##MONTH(arguments.lvFecha)##RepeatString('0',2-Len(DAY(arguments.lvFecha)))##DAY(arguments.lvFecha)#',
+						#arguments.lvPeriodo#,
+						#arguments.lvMes#,
+						i.CcuentaCxC,
+						b.Mcodigo,
+						b.Ocodigo,
+						0.00, 1.00,  
+                        round(
+							round((a.Dmonto+a.DmontoRet) * fi.MontoCalculado / fi.TotalFac,2)
+						* (#TC# - b.Dtcultrev), 2)
+				from DocumentoNeteo aa <cf_dbforceindex name="PK_DOCUMENTONETEO">
+					inner join DocumentoNeteoDCxC a <cf_dbforceindex name="Idx1_DocumentoNeteoDCxC">
+						on a.idDocumentoNeteo = aa.idDocumentoNeteo
+					inner join Documentos b <cf_dbforceindex name="PK_DOCUMENTOS">
+						on b.Ecodigo = a.Ecodigo
+						and b.CCTcodigo = a.CCTcodigo
+						and b.Ddocumento = a.Ddocumento
+					inner join CCTransacciones  cc <cf_dbforceindex name="PK_CCTRANSACCIONES">
+						on cc.CCTcodigo = b.CCTcodigo
+						and cc.Ecodigo = b.Ecodigo
+						
+					inner join ImpDocumentosCxC fi
+						on  fi.Ecodigo     = b.Ecodigo 
+						and fi.CCTcodigo   = b.CCTcodigo 
+						and fi.Documento  = b.Ddocumento
+					inner join Impuestos i
+						on  i.Ecodigo = fi.Ecodigo 
+						and i.Icodigo = fi.Icodigo
+
+						
+				where aa.idDocumentoNeteo = #Arguments.idDocumentoNeteo#
+				  and 	round(
+							round((a.Dmonto+a.DmontoRet) * fi.MontoCalculado / fi.TotalFac,2)
+						* (#TC# - b.Dtcultrev), 2) <> 0
+			</cfquery>
+	
+			<!--- b. Diferencial Cambiario por Impuesto Crédito Fiscal de Facturas de CxP --->
+			<cfquery datasource="#Arguments.Conexion#">
+				insert into #INTARC# ( 
+						INTORI, INTREL, INTDOC, INTREF, 
+						INTTIP, INTDES, INTFEC, 
+						Periodo, Mes, Ccuenta, 
+						Mcodigo, Ocodigo, 
+						INTMOE, INTCAM, INTMON
+						)
+				select 'CCND',
+						1,
+						<cf_dbfunction name="sPart"		args="b.CPTcodigo #_Cat# ' ' #_Cat# b.Ddocumento;1;20" delimiters=";">,
+       					<cf_dbfunction name="sPart"		args="aa.CCTcodigo #_Cat# ' ' #_Cat# aa.DocumentoNeteo;1;25" delimiters=";">,
+						case when cc.CPTtipo = 'D' then 'C' else 'D' end,
+						<!--- 'CxP: Diferencial Cambiario ' + b.CPTcodigo + ' ' + b.Ddocumento, --->
+						<cf_dbfunction name="concat" args="'CxP: Impuesto : ' + b.CPTcodigo + ' ' + b.Ddocumento" delimiters="+">,
+						'#YEAR(arguments.lvFecha)##RepeatString('0',2-Len(MONTH(arguments.lvFecha)))##MONTH(arguments.lvFecha)##RepeatString('0',2-Len(DAY(arguments.lvFecha)))##DAY(arguments.lvFecha)#',
+						#arguments.lvPeriodo#,
+						#arguments.lvMes#,
+						i.Ccuenta,
+						b.Mcodigo,
+						b.Ocodigo,
+						0.00, 1.00, 
+                        round(
+							round((a.Dmonto+a.DmontoRet) * fi.MontoCalculado / fi.TotalFac,2)
+						* (#TC# - b.EDtcultrev), 2)
+				from DocumentoNeteo aa <cf_dbforceindex name="PK_DOCUMENTONETEO">
+					inner join DocumentoNeteoDCxP a <cf_dbforceindex name="Idx1_DocumentoNeteoDCxP">
+						on a.idDocumentoNeteo = aa.idDocumentoNeteo
+					inner join EDocumentosCP b <cf_dbforceindex name="PK_EDOCUMENTOSCP">
+						on b.IDdocumento = a.idDocumento
+					inner join CPTransacciones  cc <cf_dbforceindex name="PK_CPTRANSACCIONES">
+						on cc.CPTcodigo = b.CPTcodigo
+						and cc.Ecodigo = b.Ecodigo
+
+					inner join ImpDocumentosCxP fi
+						on fi.IDdocumento = a.idDocumento
+					inner join Impuestos i
+						on  i.Ecodigo = fi.Ecodigo 
+						and i.Icodigo = fi.Icodigo
+
+				where aa.idDocumentoNeteo = #Arguments.idDocumentoNeteo#
+				  and	round(
+							round((a.Dmonto+a.DmontoRet) * fi.MontoCalculado / fi.TotalFac,2)
+						* (#TC# - b.EDtcultrev), 2) <> 0
+			</cfquery>
+			
+			<!--- / Afectar contabilidad por Impuestos Crédito Fiscal --->
+
+			<!--- Ingreso o Gasto por Diferencial cambiario --->
+			<cfset LvarINTTIP = "C">
+			<cfset LvarCuentaDifCambiario = LvarCuentaIngDifCambiario>
+			<cfset LvarINTMON = 0>
+
+			<cfquery name="rsMontoIngGasto" datasource="#Arguments.Conexion#">
+				select sum(INTMON * case INTTIP when 'D' then 1.00 else -1.00 end) as Monto
+				from #INTARC#
+			</cfquery>
+			
+			<cfif rsMontoIngGasto.recordcount GT 0 and rsMontoIngGasto.Monto NEQ 0>
+				<cfset LvarINTMON = rsMontoIngGasto.Monto>
+			</cfif>			
+
+			<cfif LvarINTMON LT 0>
+				<cfset LvarINTTIP = "D">
+				<cfif len(trim(LvarINTMON)) eq 0>
+					<cfset LvarINTMON = 0>	
+				</cfif>
+				<cfset LvarINTMON = -1 * LvarINTMON>
+				<cfset LvarCuentaDifCambiario = LvarCuentaGasDifCambiario>
+			</cfif>
+			<cfset LvarINTMON = round(LvarINTMON*100)/100>
+			
+			<cfif LvarINTMON NEQ 0.00>
+				<cfquery datasource="#Arguments.Conexion#">
+					insert into #INTARC# ( 
+							INTORI, INTREL, INTDOC, INTREF, 
+							INTTIP, INTDES, INTFEC, 
+							Periodo, Mes, Ccuenta, 
+							Mcodigo, Ocodigo, 
+							INTMOE, INTCAM, INTMON
+							)
+					values ('CCND',
+							1,
+							<cf_dbfunction name="sPart"		args="'#arguments.lvDocumentoNeteo#';1;20" delimiters=";">,
+       						<cf_dbfunction name="sPart"		args="'#arguments.lvCCTcodigo#';1;25" delimiters=";">,
+							'#LvarINTTIP#',
+							'Diferencial Cambiario ',
+							'#YEAR(arguments.lvFecha)##RepeatString('0',2-Len(MONTH(arguments.lvFecha)))##MONTH(arguments.lvFecha)##RepeatString('0',2-Len(DAY(arguments.lvFecha)))##DAY(arguments.lvFecha)#',
+							#arguments.lvPeriodo#,
+							#arguments.lvMes#,
+							#LvarCuentaDifCambiario#,
+							#LvarMcodigo#,
+							#LvarOcodigo#,
+							0.00, 1.00, 
+                            #NumberFormat(LvarINTMON, '0.00')#
+							)
+				</cfquery>
+			</cfif>
+
+			<!--- c. Afectar el asiento contable, saldos de documentos y las tablas de bitacora. --->
+
+			<!--- Afectar contabilidad por Impuestos Crédito Fiscal --->
+            
+				<!--- a. Reversión Impuesto Crédito Fiscal de Facturas de CxC --->
+				<cfquery datasource="#Arguments.Conexion#">
+					insert into #INTARC# ( 
+							INTORI, INTREL, INTDOC, INTREF, 
+							INTTIP, INTDES, INTFEC, 
+							Periodo, Mes, Ccuenta, 
+							Mcodigo, Ocodigo, 
+							INTMOE, INTCAM, INTMON
+							)
+
+					select 	'CCND',
+							1,
+							<cf_dbfunction name="sPart"		args="b.CCTcodigo #_Cat# ' ' #_Cat# b.Ddocumento;1;20" delimiters=";">,
+       						<cf_dbfunction name="sPart"		args="aa.CCTcodigo #_Cat# ' ' #_Cat# aa.DocumentoNeteo;1;25" delimiters=";">,
+							case when cc.CCTtipo = 'D' then 'D' else 'C' end,
+							<cf_dbfunction name="concat" args="'CxC: Impuesto: ' + b.CCTcodigo + ' ' + b.Ddocumento" delimiters="+">,
+							'#YEAR(arguments.lvFecha)##RepeatString('0',2-Len(MONTH(arguments.lvFecha)))##MONTH(arguments.lvFecha)##RepeatString('0',2-Len(DAY(arguments.lvFecha)))##DAY(arguments.lvFecha)#',
+							#arguments.lvPeriodo#,
+							#arguments.lvMes#,
+							i.CcuentaCxC,
+							b.Mcodigo,
+							b.Ocodigo,
+								round((a.Dmonto+a.DmontoRet) * fi.MontoCalculado / fi.TotalFac, 2),
+							#TC#,  
+							round(
+								round((a.Dmonto+a.DmontoRet) * fi.MontoCalculado / fi.TotalFac, 2) 
+							* #TC#, 2)
+					from DocumentoNeteo aa <cf_dbforceindex name="PK_DOCUMENTONETEO">
+						inner join DocumentoNeteoDCxC a <cf_dbforceindex name="Idx1_DocumentoNeteoDCxC">
+							on a.idDocumentoNeteo = aa.idDocumentoNeteo
+						inner join Documentos b <cf_dbforceindex name="PK_DOCUMENTOS">
+							on b.Ecodigo = a.Ecodigo
+							and b.CCTcodigo = a.CCTcodigo
+							and b.Ddocumento = a.Ddocumento
+						inner join CCTransacciones  cc <cf_dbforceindex name="PK_CCTRANSACCIONES">
+							on cc.CCTcodigo = b.CCTcodigo
+							and cc.Ecodigo = b.Ecodigo
+							
+						inner join ImpDocumentosCxC fi
+							on  fi.Ecodigo     = b.Ecodigo 
+							and fi.CCTcodigo   = b.CCTcodigo 
+							and fi.Documento  = b.Ddocumento
+						inner join Impuestos i
+							on  i.Ecodigo = fi.Ecodigo 
+							and i.Icodigo = fi.Icodigo
+
+							
+					where aa.idDocumentoNeteo = #Arguments.idDocumentoNeteo#
+				</cfquery>
+
+				<!--- ** --->
+				<cfquery name="rsImpuestosCxC" datasource="#Arguments.Conexion#">
+					select 	
+							fi.CCTcodigo,
+							fi.Documento,
+							fi.Icodigo,
+							fi.Ecodigo,
+								round((a.Dmonto+a.DmontoRet) * fi.MontoCalculado / fi.TotalFac , 2) as MontoPagado,
+							round(
+								round((a.Dmonto+a.DmontoRet) * fi.MontoCalculado / fi.TotalFac , 2)
+							* #TC#, 2) as MontoPagadoLocal,
+							
+							aa.CCTcodigo as CCTcodigoNeteo,
+							aa.DocumentoNeteo as DocumentoNeteo, 
+							cc.CCTtipo,
+							
+							i.Idescripcion,
+							i.CcuentaCxCAcred,
+							b.Ocodigo
+					from DocumentoNeteo aa <cf_dbforceindex name="PK_DOCUMENTONETEO">
+						inner join DocumentoNeteoDCxC a <cf_dbforceindex name="Idx1_DocumentoNeteoDCxC">
+							on a.idDocumentoNeteo = aa.idDocumentoNeteo
+						inner join Documentos b <cf_dbforceindex name="PK_DOCUMENTOS">
+							on b.Ecodigo = a.Ecodigo
+							and b.CCTcodigo = a.CCTcodigo
+							and b.Ddocumento = a.Ddocumento
+						inner join CCTransacciones  cc <cf_dbforceindex name="PK_CCTRANSACCIONES">
+							on cc.CCTcodigo = b.CCTcodigo
+							and cc.Ecodigo = b.Ecodigo
+							
+						inner join ImpDocumentosCxC fi
+							on  fi.Ecodigo     = b.Ecodigo 
+							and fi.CCTcodigo   = b.CCTcodigo 
+							and fi.Documento  = b.Ddocumento
+						inner join Impuestos i
+							on  i.Ecodigo = fi.Ecodigo 
+							and i.Icodigo = fi.Icodigo
+					where aa.idDocumentoNeteo = #Arguments.idDocumentoNeteo#
+				</cfquery>					
+
+				<cfloop query="rsImpuestosCxC">
+					<!--- Actualizar Monto Pagado --->
+					<cfquery datasource="#Arguments.Conexion#">
+						update ImpDocumentosCxC
+						set MontoPagado = MontoPagado + #MontoPagado#
+						where Ecodigo    = #Ecodigo#
+						  and CCTcodigo  = '#CCTcodigo#'
+						  and Documento = '#Documento#'
+						  and Icodigo    = '#Icodigo#'
+					</cfquery>
+					
+					<!--- Inserta Monto Pagado en Tabla de Detalle --->
+					<cfquery datasource="#Arguments.Conexion#">
+						insert into ImpDocumentosCxCMov 
+						(
+							CCTcodigo, Documento, Icodigo, Ecodigo, 
+							Fecha, MontoPagado, 
+							TipoPago, DocumentoPago, 
+							CcuentaAC, Periodo, Mes, 
+							BMUsucodigo, BMFecha, TpoCambio, 
+							MontoPagadoLocal
+						)
+						select 
+							'#CCTcodigo#', '#Documento#', '#Icodigo#', #Ecodigo#,
+							<cfqueryparam cfsqltype="cf_sql_date" value="#LvFecha#">, #MontoPagado#,
+							'#CCTcodigoNeteo#', '#DocumentoNeteo#',
+							#CcuentaCxCAcred#, #arguments.lvPeriodo#, #arguments.lvMes#,
+							#session.Usucodigo#, <cfqueryparam cfsqltype="cf_sql_date" value="#now()#">, #TC#,
+							#MontoPagadoLocal#
+						from dual
+					</cfquery>
+                    
+					<!--- Traslado de Impuestos CxC  Contabilizacion --->
+					<cfquery datasource="#Arguments.Conexion#">
+						insert into #INTARC# ( 
+								INTORI, INTREL, INTDOC, INTREF, 
+								INTTIP, INTDES, INTFEC, 
+								Periodo, Mes, Ccuenta, 
+								Mcodigo, Ocodigo, 
+								INTMOE, INTCAM, INTMON
+								)
+						select 	'CCND' as INTORI,
+								1 as INTREL,
+								<cf_dbfunction name="sPart"		args="'#CCTcodigo#' #_Cat# ' ' #_Cat# '#Documento#';1;20" delimiters=";"> as INTDOC,
+       							<cf_dbfunction name="sPart"		args="'#CCTcodigoNeteo#' #_Cat# ' ' #_Cat# '#DocumentoNeteo#';1;25" delimiters=";"> as INTrEF,
+								<cfif CCTtipo EQ 'C'>'D'<cfelse>'C'</cfif> as INTTIP,
+								'CxC: #Idescripcion# : #CCTcodigo# #Documento# (Acreditada)' as INTDES,
+								'#YEAR(arguments.lvFecha)##RepeatString('0',2-Len(MONTH(arguments.lvFecha)))##MONTH(arguments.lvFecha)##RepeatString('0',2-Len(DAY(arguments.lvFecha)))##DAY(arguments.lvFecha)#',
+								#arguments.lvPeriodo#,
+								#arguments.lvMes#,
+								#CcuentaCxCAcred#,
+								#arguments.lvMonLoc#,
+								#Ocodigo#,
+                            	#MontoPagadoLocal#,
+								1,  
+								#MontoPagadoLocal# 
+						from dual
+					</cfquery>
+				</cfloop>
+
+
+				<!--- Balance Multimoneda CxC --->
+				<cfquery datasource="#Arguments.Conexion#">
+					insert into #INTARC# ( 
+							INTORI, INTREL, INTDOC, INTREF, 
+							INTTIP, INTDES, INTFEC, 
+							Periodo, Mes, Ccuenta, 
+							Mcodigo, Ocodigo, 
+							INTMOE, INTCAM, INTMON
+							)
+
+					select 	'CCND',
+							1,
+							<cf_dbfunction name="sPart"		args="b.CCTcodigo #_Cat# ' ' #_Cat# b.Ddocumento;1;20" delimiters=";">,
+       						<cf_dbfunction name="sPart"		args="aa.CCTcodigo #_Cat# ' ' #_Cat# aa.DocumentoNeteo;1;25" delimiters=";">,
+							case when cc.CCTtipo = 'C' then 'D' else 'C' end,
+							<cf_dbfunction name="concat" args="'CxC: ' + i.Idescripcion + ' :' + b.CCTcodigo + ' ' + b.Ddocumento + ' (CuentaBalancemultimoneda)'" delimiters="+">,
+							'#YEAR(arguments.lvFecha)##RepeatString('0',2-Len(MONTH(arguments.lvFecha)))##MONTH(arguments.lvFecha)##RepeatString('0',2-Len(DAY(arguments.lvFecha)))##DAY(arguments.lvFecha)#',
+							#arguments.lvPeriodo#,
+							#arguments.lvMes#,
+							#LvarCuentabalancemultimoneda#,
+							b.Mcodigo,
+							b.Ocodigo,
+								round((a.Dmonto+a.DmontoRet) * fi.MontoCalculado / fi.TotalFac, 2),
+							#TC#,  
+                            round(
+								round((a.Dmonto+a.DmontoRet) * fi.MontoCalculado / fi.TotalFac, 2) 
+							* #TC#, 2)
+					from DocumentoNeteo aa <cf_dbforceindex name="PK_DOCUMENTONETEO">
+						inner join DocumentoNeteoDCxC a <cf_dbforceindex name="Idx1_DocumentoNeteoDCxC">
+							on a.idDocumentoNeteo = aa.idDocumentoNeteo
+						inner join Documentos b <cf_dbforceindex name="PK_DOCUMENTOS">
+							on b.Ecodigo = a.Ecodigo
+							and b.CCTcodigo = a.CCTcodigo
+							and b.Ddocumento = a.Ddocumento
+						inner join CCTransacciones  cc <cf_dbforceindex name="PK_CCTRANSACCIONES">
+							on cc.CCTcodigo = b.CCTcodigo
+							and cc.Ecodigo = b.Ecodigo
+							
+						inner join ImpDocumentosCxC fi
+							on  fi.Ecodigo     = b.Ecodigo 
+							and fi.CCTcodigo   = b.CCTcodigo 
+							and fi.Documento  = b.Ddocumento
+						inner join Impuestos i
+							on  i.Ecodigo = fi.Ecodigo 
+							and i.Icodigo = fi.Icodigo
+
+							
+					where aa.idDocumentoNeteo = #Arguments.idDocumentoNeteo#
+					and b.Mcodigo != #arguments.lvMonLoc#
+				</cfquery>
+                
+                
+				<cfquery datasource="#Arguments.Conexion#">
+					insert into #INTARC# ( 
+							INTORI, INTREL, INTDOC, INTREF, 
+							INTTIP, INTDES, INTFEC, 
+							Periodo, Mes, Ccuenta, 
+							Mcodigo, Ocodigo, 
+							INTMOE, INTCAM, INTMON
+							)
+					select 	'CCND',
+							1,
+							<cf_dbfunction name="sPart"		args="b.CCTcodigo #_Cat# ' ' #_Cat# b.Ddocumento;1;20" delimiters=";">,
+       						<cf_dbfunction name="sPart"		args="aa.CCTcodigo #_Cat# ' ' #_Cat# aa.DocumentoNeteo;1;25" delimiters=";">,
+							case when cc.CCTtipo = 'D' then 'D' else 'C' end,
+							<cf_dbfunction name="concat" args="'CxC: ' + i.Idescripcion + ' :' + b.CCTcodigo + ' ' + b.Ddocumento + ' (CuentaBalancemultimoneda)'" delimiters="+">,
+							'#YEAR(arguments.lvFecha)##RepeatString('0',2-Len(MONTH(arguments.lvFecha)))##MONTH(arguments.lvFecha)##RepeatString('0',2-Len(DAY(arguments.lvFecha)))##DAY(arguments.lvFecha)#',
+							#arguments.lvPeriodo#,
+							#arguments.lvMes#,
+							#LvarCuentabalancemultimoneda#,
+							#lvmonloc#,
+							b.Ocodigo,
+                            round(
+								round((a.Dmonto+a.DmontoRet) * fi.MontoCalculado / fi.TotalFac,2)
+							* #TC#, 2),
+							1,  
+                            round(
+								round((a.Dmonto+a.DmontoRet) * fi.MontoCalculado / fi.TotalFac,2)
+							* #TC#, 2)
+					from DocumentoNeteo aa <cf_dbforceindex name="PK_DOCUMENTONETEO">
+						inner join DocumentoNeteoDCxC a <cf_dbforceindex name="Idx1_DocumentoNeteoDCxC">
+							on a.idDocumentoNeteo = aa.idDocumentoNeteo
+						inner join Documentos b <cf_dbforceindex name="PK_DOCUMENTOS">
+							on b.Ecodigo = a.Ecodigo
+							and b.CCTcodigo = a.CCTcodigo
+							and b.Ddocumento = a.Ddocumento
+						inner join CCTransacciones  cc <cf_dbforceindex name="PK_CCTRANSACCIONES">
+							on cc.CCTcodigo = b.CCTcodigo
+							and cc.Ecodigo = b.Ecodigo
+							
+						inner join ImpDocumentosCxC fi
+							on  fi.Ecodigo     = b.Ecodigo 
+							and fi.CCTcodigo   = b.CCTcodigo 
+							and fi.Documento  = b.Ddocumento
+						inner join Impuestos i
+							on  i.Ecodigo = fi.Ecodigo 
+							and i.Icodigo = fi.Icodigo
+
+							
+					where aa.idDocumentoNeteo = #Arguments.idDocumentoNeteo#
+					and b.Mcodigo != #arguments.lvMonLoc#
+				</cfquery>
+                
+                
+				<!--- b. Reversión Impuesto Crédito Fiscal de Facturas de CxP --->
+				<cfquery datasource="#Arguments.Conexion#">
+					insert into #INTARC# ( 
+							INTORI, INTREL, INTDOC, INTREF, 
+							INTTIP, INTDES, INTFEC, 
+							Periodo, Mes, Ccuenta, 
+							Mcodigo, Ocodigo, 
+							INTMOE, INTCAM, INTMON
+							)
+					select 'CCND',
+							1,
+							<cf_dbfunction name="sPart"		args="b.CPTcodigo #_Cat# ' ' #_Cat# b.Ddocumento;1;20" delimiters=";">,
+       						<cf_dbfunction name="sPart"		args="aa.CCTcodigo #_Cat# ' ' #_Cat# aa.DocumentoNeteo;1;25" delimiters=";">,
+							case when cc.CPTtipo = 'D' then 'D' else 'C' end,
+							<cf_dbfunction name="concat" args="'CxP: Impuesto: ' + b.CPTcodigo + ' ' + b.Ddocumento" delimiters="+">,
+							'#YEAR(arguments.lvFecha)##RepeatString('0',2-Len(MONTH(arguments.lvFecha)))##MONTH(arguments.lvFecha)##RepeatString('0',2-Len(DAY(arguments.lvFecha)))##DAY(arguments.lvFecha)#',
+							#arguments.lvPeriodo#,
+							#arguments.lvMes#,
+							i.Ccuenta,
+							b.Mcodigo,
+							b.Ocodigo,
+								round((a.Dmonto+a.DmontoRet) * fi.MontoCalculado / fi.TotalFac, 2),
+							#TC#, 
+                            round(
+								round((a.Dmonto+a.DmontoRet) * fi.MontoCalculado / fi.TotalFac, 2)
+							* #TC#, 2)
+					from DocumentoNeteo aa <cf_dbforceindex name="PK_DOCUMENTONETEO">
+						inner join DocumentoNeteoDCxP a <cf_dbforceindex name="Idx1_DocumentoNeteoDCxP">
+							on a.idDocumentoNeteo = aa.idDocumentoNeteo
+						inner join EDocumentosCP b <cf_dbforceindex name="PK_EDOCUMENTOSCP">
+							on b.IDdocumento = a.idDocumento
+						inner join CPTransacciones  cc <cf_dbforceindex name="PK_CPTRANSACCIONES">
+							on cc.CPTcodigo = b.CPTcodigo
+							and cc.Ecodigo = b.Ecodigo
+
+						inner join ImpDocumentosCxP fi
+							on fi.IDdocumento = a.idDocumento
+						inner join Impuestos i
+							on  i.Ecodigo = fi.Ecodigo 
+							and i.Icodigo = fi.Icodigo
+
+					where aa.idDocumentoNeteo = #Arguments.idDocumentoNeteo#
+				</cfquery>
+				
+				
+				<!--- *** --->
+				<cfquery name="rsImpuestosCxP" datasource="#Arguments.Conexion#">
+					select 	
+						b.CPTcodigo,
+						b.Ddocumento,
+						fi.Icodigo,
+						fi.Ecodigo,
+							round((a.Dmonto+a.DmontoRet) * fi.MontoCalculado / fi.TotalFac , 2) as MontoPagado,
+						round(
+							round((a.Dmonto+a.DmontoRet) * fi.MontoCalculado / fi.TotalFac , 2)
+						* #TC#, 2) as MontoPagadoLocal,
+
+						aa.CCTcodigo as CCTcodigoNeteo,
+						aa.DocumentoNeteo as DocumentoNeteo, 
+						cc.CPTtipo,
+						
+						i.Idescripcion,
+						i.CcuentaCxPAcred,
+						b.Ocodigo,
+						a.idDocumento
+							
+					from DocumentoNeteo aa <cf_dbforceindex name="PK_DOCUMENTONETEO">
+						inner join DocumentoNeteoDCxP a <cf_dbforceindex name="Idx1_DocumentoNeteoDCxP">
+							on a.idDocumentoNeteo = aa.idDocumentoNeteo
+						inner join EDocumentosCP b <cf_dbforceindex name="PK_EDOCUMENTOSCP">
+							on b.IDdocumento = a.idDocumento
+						inner join CPTransacciones  cc <cf_dbforceindex name="PK_CPTRANSACCIONES">
+							on cc.CPTcodigo = b.CPTcodigo
+							and cc.Ecodigo = b.Ecodigo
+
+						inner join ImpDocumentosCxP fi
+							on fi.IDdocumento = a.idDocumento
+
+						inner join Impuestos i
+							on  i.Ecodigo = fi.Ecodigo 
+							and i.Icodigo = fi.Icodigo
+
+					where aa.idDocumentoNeteo =  #Arguments.idDocumentoNeteo#
+				</cfquery>					
+
+				<cfloop query="rsImpuestosCxP">
+					<!--- Actualizar Monto Pagado CxP--->
+					<cfquery datasource="#Arguments.Conexion#">
+						update ImpDocumentosCxP
+						set MontoPagado = MontoPagado + #MontoPagado#
+						where IDdocumento = #idDocumento#
+							and Icodigo    = '#Icodigo#'
+							and	Ecodigo    = #Ecodigo#
+					</cfquery>
+					
+					<!--- Inserta Monto Pagado en Tabla de Detalle CxP--->
+					<cfquery datasource="#Arguments.Conexion#">
+					
+						insert into ImpDocumentosCxPMov 
+						(
+							IDdocumento, Icodigo, Ecodigo, Fecha, 
+							MontoPagado, CPTcodigo, Ddocumento, CPTpago, 
+							CcuentaAC, Periodo, Mes, BMUsucodigo, 
+							BMFecha, TpoCambio, MontoPagadoLocal)
+						select #idDocumento#, '#Icodigo#', #Ecodigo#, <cfqueryparam cfsqltype="cf_sql_date" value="#LvFecha#">, 
+								#MontoPagado#, '#CCTcodigoNeteo#', '#DocumentoNeteo#', 0, 
+								#CcuentaCxPAcred#, #arguments.lvPeriodo#, #arguments.lvMes#, #session.Usucodigo#, 
+								<cfqueryparam cfsqltype="cf_sql_date" value="#now()#">, #TC#, #MontoPagadoLocal#
+						from dual
+					</cfquery>
+                    
+					<!--- Traslado Impuestos CxP  Contabilizacion --->
+					<cfquery datasource="#Arguments.Conexion#">
+						insert into #INTARC# ( 
+								INTORI, INTREL, INTDOC, INTREF, 
+								INTTIP, INTDES, INTFEC, 
+								Periodo, Mes, Ccuenta, 
+								Mcodigo, Ocodigo, 
+								INTMOE, INTCAM, INTMON
+								)
+						select 	'CCND' as INTORI,
+								1 as INTREL,
+								<cf_dbfunction name="sPart"		args="'#CPTcodigo#' #_Cat# ' ' #_Cat# '#Ddocumento#';1;20" delimiters=";"> as INTDOC,
+       							<cf_dbfunction name="sPart"		args="'#CCTcodigoNeteo#' #_Cat# ' ' #_Cat# '#DocumentoNeteo#';1;25" delimiters=";"> as INTrEF,
+								<cfif CPTtipo EQ 'C'>'D'<cfelse>'C'</cfif> as INTTIP,
+								'CxP: #Idescripcion# : #CCTcodigo# #Ddocumento# (Acreditada)' as INTDES,
+								'#YEAR(arguments.lvFecha)##RepeatString('0',2-Len(MONTH(arguments.lvFecha)))##MONTH(arguments.lvFecha)##RepeatString('0',2-Len(DAY(arguments.lvFecha)))##DAY(arguments.lvFecha)#',
+								#arguments.lvPeriodo#,
+								#arguments.lvMes#,
+								#CcuentaCxPAcred#,
+								#arguments.lvMonLoc#,
+								#Ocodigo#,
+                                #MontoPagadoLocal#,
+								1,  
+								#MontoPagadoLocal# 
+						from dual
+					</cfquery>
+				</cfloop>
+				<!--- *** --->
+				
+				<!--- Balance multimoneda CxP --->
+				<cfquery datasource="#Arguments.Conexion#">
+					insert into #INTARC# ( 
+							INTORI, INTREL, INTDOC, INTREF, 
+							INTTIP, INTDES, INTFEC, 
+							Periodo, Mes, Ccuenta, 
+							Mcodigo, Ocodigo, 
+							INTMOE, INTCAM, INTMON
+							)
+					select 'CCND',
+							1,
+							<cf_dbfunction name="sPart"		args="b.CPTcodigo #_CAT# ' ' #_CAT# b.Ddocumento;1;20" delimiters=";">,
+       						<cf_dbfunction name="sPart"		args="aa.CCTcodigo #_CAT# ' ' #_CAT# aa.DocumentoNeteo;1;25" delimiters=";">,
+							case when cc.CPTtipo = 'C' then 'D' else 'C' end,
+							<cf_dbfunction name="concat" args="'CxP: ' + i.Idescripcion + ' :' + b.CPTcodigo + ' ' + b.Ddocumento + ' (CuentaBalancemultimoneda)'" delimiters="+">,
+							'#YEAR(arguments.lvFecha)##RepeatString('0',2-Len(MONTH(arguments.lvFecha)))##MONTH(arguments.lvFecha)##RepeatString('0',2-Len(DAY(arguments.lvFecha)))##DAY(arguments.lvFecha)#',
+							#arguments.lvPeriodo#,
+							#arguments.lvMes#,
+							#LvarCuentabalancemultimoneda#,
+							b.Mcodigo,
+							b.Ocodigo,
+								round((a.Dmonto+a.DmontoRet) * fi.MontoCalculado / fi.TotalFac, 2),
+							#TC#, 
+                        	round(
+								round((a.Dmonto+a.DmontoRet) * fi.MontoCalculado / fi.TotalFac, 2)
+							* #TC#, 2)
+					from DocumentoNeteo aa <cf_dbforceindex name="PK_DOCUMENTONETEO">
+						inner join DocumentoNeteoDCxP a <cf_dbforceindex name="Idx1_DocumentoNeteoDCxP">
+							on a.idDocumentoNeteo = aa.idDocumentoNeteo
+						inner join EDocumentosCP b <cf_dbforceindex name="PK_EDOCUMENTOSCP">
+							on b.IDdocumento = a.idDocumento
+						inner join CPTransacciones  cc <cf_dbforceindex name="PK_CPTRANSACCIONES">
+							on cc.CPTcodigo = b.CPTcodigo
+							and cc.Ecodigo = b.Ecodigo
+
+						inner join ImpDocumentosCxP fi
+							on fi.IDdocumento = a.idDocumento
+						inner join Impuestos i
+							on  i.Ecodigo = fi.Ecodigo 
+							and i.Icodigo = fi.Icodigo
+
+					where aa.idDocumentoNeteo = #Arguments.idDocumentoNeteo#
+					and b.Mcodigo != #arguments.lvMonLoc#
+				</cfquery>
+                
+
+				<cfquery datasource="#Arguments.Conexion#">
+					insert into #INTARC# ( 
+							INTORI, INTREL, INTDOC, INTREF, 
+							INTTIP, INTDES, INTFEC, 
+							Periodo, Mes, Ccuenta, 
+							Mcodigo, Ocodigo, 
+							INTMOE, INTCAM, INTMON
+							)
+					select 'CCND',
+							1,
+							<cf_dbfunction name="sPart"		args="b.CPTcodigo #_CAT# ' ' #_CAT# b.Ddocumento;1;20" delimiters=";">,
+       						<cf_dbfunction name="sPart"		args="aa.CCTcodigo #_CAT# ' ' #_CAT# aa.DocumentoNeteo;1;25" delimiters=";">,
+                            
+							case when cc.CPTtipo = 'D' then 'D' else 'C' end,
+							<cf_dbfunction name="concat" args="'CxP: ' + i.Idescripcion + ' :' + b.CPTcodigo + ' ' + b.Ddocumento + ' (CuentaBalancemultimoneda)'" delimiters="+">,
+							'#YEAR(arguments.lvFecha)##RepeatString('0',2-Len(MONTH(arguments.lvFecha)))##MONTH(arguments.lvFecha)##RepeatString('0',2-Len(DAY(arguments.lvFecha)))##DAY(arguments.lvFecha)#',
+							#arguments.lvPeriodo#,
+							#arguments.lvMes#,
+							#LvarCuentabalancemultimoneda#,
+							#arguments.lvMonLoc#,
+							b.Ocodigo,
+                            round(
+								round((a.Dmonto+a.DmontoRet) * fi.MontoCalculado / fi.TotalFac,2)
+							* #TC#, 2),
+							1, 
+                            round(
+								round((a.Dmonto+a.DmontoRet) * fi.MontoCalculado / fi.TotalFac,2)
+							* #TC#, 2)
+					from DocumentoNeteo aa <cf_dbforceindex name="PK_DOCUMENTONETEO">
+						inner join DocumentoNeteoDCxP a <cf_dbforceindex name="Idx1_DocumentoNeteoDCxP">
+							on a.idDocumentoNeteo = aa.idDocumentoNeteo
+						inner join EDocumentosCP b <cf_dbforceindex name="PK_EDOCUMENTOSCP">
+							on b.IDdocumento = a.idDocumento
+						inner join CPTransacciones  cc <cf_dbforceindex name="PK_CPTRANSACCIONES">
+							on cc.CPTcodigo = b.CPTcodigo
+							and cc.Ecodigo = b.Ecodigo
+
+						inner join ImpDocumentosCxP fi
+							on fi.IDdocumento = a.idDocumento
+						inner join Impuestos i
+							on  i.Ecodigo = fi.Ecodigo 
+							and i.Icodigo = fi.Icodigo
+
+					where aa.idDocumentoNeteo = #Arguments.idDocumentoNeteo#
+					and b.Mcodigo != #arguments.lvMonLoc#
+				</cfquery>
+
+				<!--- Documentos de Cuentas x Cobrar --->
+				<cfquery datasource="#Arguments.Conexion#">
+					insert into #INTARC# ( 
+							INTORI, INTREL, INTDOC, INTREF, 
+							INTTIP, INTDES, INTFEC, 
+							Periodo, Mes, Ccuenta, Ocodigo, 
+							Mcodigo, 
+							INTMOE, INTCAM, INTMON
+							)
+					select 	'CCND',
+							1,
+							<cf_dbfunction name="sPart"		args="b.CCTcodigo #_CAT# ' ' #_CAT# b.Ddocumento;1;20" delimiters=";">,
+       						<cf_dbfunction name="sPart"		args="aa.CCTcodigo #_CAT# ' ' #_CAT# aa.DocumentoNeteo;1;25" delimiters=";">,
+							case when cc.CCTtipo = 'D' then 'C' else 'D' end,
+							<cf_dbfunction name="concat" args="'CxC: Eliminación Saldo Documento ' + b.CCTcodigo + ' ' + b.Ddocumento" delimiters="+">,
+							'#YEAR(arguments.lvFecha)##RepeatString('0',2-Len(MONTH(arguments.lvFecha)))##MONTH(arguments.lvFecha)##RepeatString('0',2-Len(DAY(arguments.lvFecha)))##DAY(arguments.lvFecha)#',
+							#arguments.lvPeriodo#,
+							#arguments.lvMes#,
+							b.Ccuenta,
+							b.Ocodigo,
+							b.Mcodigo, 
+								round(a.Dmonto+a.DmontoRet,2), 
+							#TC#, 
+							round(
+								round(a.Dmonto+a.DmontoRet,2)
+							* #TC#, 2)
+					from DocumentoNeteo aa <cf_dbforceindex name="PK_DOCUMENTONETEO">
+						inner join DocumentoNeteoDCxC a <cf_dbforceindex name="Idx1_DocumentoNeteoDCxC">
+							on a.idDocumentoNeteo = aa.idDocumentoNeteo
+						inner join Documentos b <cf_dbforceindex name="PK_DOCUMENTOS">
+							on b.Ecodigo = a.Ecodigo
+							and b.CCTcodigo = a.CCTcodigo
+							and b.Ddocumento = a.Ddocumento
+						inner join CCTransacciones cc <cf_dbforceindex name="PK_CCTRANSACCIONES">
+							on cc.CCTcodigo = b.CCTcodigo
+							and cc.Ecodigo = b.Ecodigo
+					where a.idDocumentoNeteo = #Arguments.idDocumentoNeteo#
+				</cfquery>
+
+				<!--- Documentos de Cuentas por Pagar --->
+				<cfquery datasource="#Arguments.Conexion#">
+					insert into #INTARC# ( 
+							INTORI, INTREL, INTDOC, INTREF, 
+							INTTIP, INTDES, INTFEC, 
+							Periodo, Mes, Ccuenta, Ocodigo,
+							Mcodigo, 
+							INTMOE, INTCAM, INTMON
+							)
+					select 'CCND',
+							1,
+							<cf_dbfunction name="sPart"		args="b.CPTcodigo #_CAT# ' ' #_CAT# b.Ddocumento;1;20" delimiters=";">,
+							<cf_dbfunction name="sPart"		args="aa.CCTcodigo #_CAT# ' ' #_CAT# aa.DocumentoNeteo;1;25" delimiters=";">,
+							case when cc.CPTtipo = 'D' then 'C' else 'D' end,
+							<cf_dbfunction name="concat" args="'CxP: Eliminación Saldo Documento ',b.CPTcodigo,'',b.Ddocumento">,
+							'#YEAR(arguments.lvFecha)##RepeatString('0',2-Len(MONTH(arguments.lvFecha)))##MONTH(arguments.lvFecha)##RepeatString('0',2-Len(DAY(arguments.lvFecha)))##DAY(arguments.lvFecha)#',
+							#arguments.lvPeriodo#,
+							#arguments.lvMes#,
+							b.Ccuenta,
+							b.Ocodigo,
+							b.Mcodigo, 
+								abs(round(a.Dmonto+a.DmontoRet,2)),
+							#TC#, 
+							round(
+								abs(round(a.Dmonto+a.DmontoRet,2))
+							* #TC#, 2)
+					from DocumentoNeteo  aa <cf_dbforceindex name="PK_DOCUMENTONETEO">
+						inner join DocumentoNeteoDCxP a <cf_dbforceindex name="Idx1_DocumentoNeteoDCxP">
+							on a.idDocumentoNeteo = aa.idDocumentoNeteo
+						inner join EDocumentosCP b <cf_dbforceindex name="PK_EDOCUMENTOSCP">
+							on b.IDdocumento = a.idDocumento
+						inner join CPTransacciones cc <cf_dbforceindex name="PK_CPTRANSACCIONES">
+							on cc.CPTcodigo = b.CPTcodigo
+							and cc.Ecodigo = b.Ecodigo
+					where a.idDocumentoNeteo = #Arguments.idDocumentoNeteo#
+				</cfquery>
+				
+				<!--- Retenciones: unicamente cuando es Aplicación de Anticipos --->
+
+				<!--- Retencion de Cuentas x Cobrar --->
+				<cfif LvarTipoNeteoDocs EQ 2>
+					<cfquery datasource="#Arguments.Conexion#">
+						insert into #INTARC# ( 
+								INTORI, INTREL, INTDOC, INTREF, 
+								INTTIP, INTDES, INTFEC, 
+								Periodo, Mes, Ccuenta, Ocodigo, 
+								Mcodigo, 
+								INTMOE, INTCAM, INTMON
+								)
+						select 	'CCND',
+								1,
+								<cf_dbfunction name="sPart"		args="b.CCTcodigo #_CAT# ' ' #_CAT# b.Ddocumento;1;20" delimiters=";">,
+								<cf_dbfunction name="sPart"		args="aa.CCTcodigo #_CAT# ' ' #_CAT# aa.DocumentoNeteo;1;25" delimiters=";">,
+								case when cc.CCTtipo = 'D' then 'C' else 'D' end,
+								<cf_dbfunction name="concat" args="'CxC: Eliminación Saldo Documento ' + b.CCTcodigo + ' ' + b.Ddocumento" delimiters="+">,
+								'#YEAR(arguments.lvFecha)##RepeatString('0',2-Len(MONTH(arguments.lvFecha)))##MONTH(arguments.lvFecha)##RepeatString('0',2-Len(DAY(arguments.lvFecha)))##DAY(arguments.lvFecha)#',
+								#arguments.lvPeriodo#,
+								#arguments.lvMes#,
+								b.Ccuenta,
+								b.Ocodigo,
+								<!--- Mcodigo, INTMOE, INTCAM, INTMON--->
+								case 
+									when coalesce(r.Conta_MonOri,0) = 1
+									then b.Mcodigo
+									else #arguments.lvMonLoc#
+								end as Mcodigo,
+	
+								round(
+									case 
+										when coalesce(r.Conta_MonOri,0) = 1
+										then 
+											a.DmontoRet 
+										else
+											round(a.DmontoRet * #TC#, 2) 
+										<!---RETENCION COMPUESTA--->
+									end * coalesce (rd.Rporcentaje, r.Rporcentaje) / r.Rporcentaje 
+								,2) as INTMOE,
+	
+								case 
+									when coalesce(r.Conta_MonOri,0) = 1
+									then #TC#
+									else 1
+								end as INTCAM,
+	
+								round(
+									round(a.DmontoRet * #TC#, 2) 
+									 <!---RETENCION COMPUESTA--->
+									 * coalesce (rd.Rporcentaje, r.Rporcentaje) / r.Rporcentaje
+								,2) as INTMON
+						from DocumentoNeteo aa <cf_dbforceindex name="PK_DOCUMENTONETEO">
+							inner join DocumentoNeteoDCxC a <cf_dbforceindex name="Idx1_DocumentoNeteoDCxC">
+								on a.idDocumentoNeteo = aa.idDocumentoNeteo
+							inner join Documentos b <cf_dbforceindex name="PK_DOCUMENTOS">
+								on b.Ecodigo = a.Ecodigo
+								and b.CCTcodigo = a.CCTcodigo
+								and b.Ddocumento = a.Ddocumento
+							inner join CCTransacciones cc <cf_dbforceindex name="PK_CCTRANSACCIONES">
+								on cc.CCTcodigo = b.CCTcodigo
+								and cc.Ecodigo = b.Ecodigo
+							inner join Retenciones r 		<!--- retencion documento (simple/comp) --->
+								on r.Ecodigo = b.Ecodigo
+								and r.Rcodigo = b.Rcodigo
+							left outer join RetencionesComp rc
+								on rc.Ecodigo = r.Ecodigo
+								and rc.Rcodigo = r.Rcodigo
+							left outer join Retenciones rd 	<!--- retencion hija --->
+								on rd.Ecodigo = rc.Ecodigo
+								and rd.Rcodigo = rc.RcodigoDet
+						where a.idDocumentoNeteo = #Arguments.idDocumentoNeteo#
+					</cfquery>
+
+					<!--- Genera los movimientos de Presupuesto en Efectivo (EJERCIDO Y PAGADO) a partir del NAP de las facturas pagadas --->
+					<cfquery name="rsSQL" datasource="#Arguments.Conexion#">
+						select Pvalor
+						  from Parametros
+						 where Ecodigo = #Arguments.Ecodigo#
+						   and Pcodigo = 1140
+					</cfquery>
+					<cfset LvarGenerarEjercido = (rsSQL.Pvalor EQ "S")>
+					<cfif LvarGenerarEjercido>
+						<!--- Movimientos de EJERCIDO Y PAGADO: Unicamente si está prendido parámetro de Contabilidad Presupuestaria --->
+						<cfset sbPresupuestoAntsEfectivo_CxC (arguments.Conexion,Arguments.idDocumentoNeteo,arguments.lvFecha,arguments.lvPeriodo,arguments.lvMes,false,'EJ')>
+						<cfset sbPresupuestoAntsEfectivo_CxC (arguments.Conexion,Arguments.idDocumentoNeteo,arguments.lvFecha,arguments.lvPeriodo,arguments.lvMes,false,'P')>
+					<cfelse>
+						<!--- Movimientos de PAGADO: Presupuesto normal --->
+						<cfset sbPresupuestoAntsEfectivo_CxC (arguments.Conexion,Arguments.idDocumentoNeteo,arguments.lvFecha,arguments.lvPeriodo,arguments.lvMes,false,'P')>
+					</cfif>
+				</cfif>
+
+				<!--- Retencion de Cuentas por Pagar --->
+				<cfif LvarTipoNeteoDocs EQ 3>
+					<cfquery datasource="#Arguments.Conexion#">
+						insert into #INTARC# ( 
+								INTORI, INTREL, INTDOC, INTREF, 
+								INTTIP, INTDES, INTFEC, 
+								Periodo, Mes, Ccuenta, Ocodigo,
+								Mcodigo, 
+								INTMOE, INTCAM, INTMON
+								)
+						select 'CCND',
+								1,
+								<cf_dbfunction name="sPart"		args="b.CPTcodigo #_CAT# ' ' #_CAT# b.Ddocumento;1;20" delimiters=";">,
+								<cf_dbfunction name="sPart"		args="aa.CCTcodigo #_CAT# ' ' #_CAT# aa.DocumentoNeteo;1;25" delimiters=";">,
+								cc.CPTtipo,
+								<cf_dbfunction name="concat" args="'CxP: Retencion Documento ',b.CPTcodigo,'',b.Ddocumento">,
+								'#YEAR(arguments.lvFecha)##RepeatString('0',2-Len(MONTH(arguments.lvFecha)))##MONTH(arguments.lvFecha)##RepeatString('0',2-Len(DAY(arguments.lvFecha)))##DAY(arguments.lvFecha)#',
+								#arguments.lvPeriodo#,
+								#arguments.lvMes#,
+								b.Ccuenta,
+								b.Ocodigo,
+	
+								<!--- Mcodigo, INTMOE, INTCAM, INTMON--->
+								case 
+									when coalesce(r.Conta_MonOri,0) = 1
+									then b.Mcodigo
+									else #arguments.lvMonLoc#
+								end as Mcodigo,
+	
+								round(
+									case 
+										when coalesce(r.Conta_MonOri,0) = 1
+										then 
+											a.DmontoRet 
+										else
+											round(a.DmontoRet * #TC#, 2) 
+										<!---RETENCION COMPUESTA--->
+									end * coalesce (rd.Rporcentaje, r.Rporcentaje) / r.Rporcentaje 
+								,2) as INTMOE,
+	
+								case 
+									when coalesce(r.Conta_MonOri,0) = 1
+									then #TC#
+									else 1
+								end as INTCAM,
+	
+								round(
+									round(a.DmontoRet * #TC#, 2) 
+									 <!---RETENCION COMPUESTA--->
+									 * coalesce (rd.Rporcentaje, r.Rporcentaje) / r.Rporcentaje
+								,2) as INTMON
+	
+						from DocumentoNeteo  aa
+							inner join DocumentoNeteoDCxP a
+								on a.idDocumentoNeteo = aa.idDocumentoNeteo
+							inner join EDocumentosCP b
+								on b.IDdocumento = a.idDocumento
+							inner join CPTransacciones cc
+								on cc.CPTcodigo = b.CPTcodigo
+								and cc.Ecodigo = b.Ecodigo
+							inner join Retenciones r 		<!--- retencion documento (simple/comp) --->
+								on r.Ecodigo = b.Ecodigo
+								and r.Rcodigo = b.Rcodigo
+							left outer join RetencionesComp rc
+								on rc.Ecodigo = r.Ecodigo
+								and rc.Rcodigo = r.Rcodigo
+							left outer join Retenciones rd 	<!--- retencion hija --->
+								on rd.Ecodigo = rc.Ecodigo
+								and rd.Rcodigo = rc.RcodigoDet
+						where a.idDocumentoNeteo = #Arguments.idDocumentoNeteo#
+					</cfquery>
+
+					<!--- Genera los movimientos de Presupuesto en Efectivo (EJERCIDO Y PAGADO) a partir del NAP de las facturas pagadas --->
+					<cfquery name="rsSQL" datasource="#Arguments.Conexion#">
+						select Pvalor
+						  from Parametros
+						 where Ecodigo = #Arguments.Ecodigo#
+						   and Pcodigo = 1140
+					</cfquery>
+					<cfset LvarGenerarEjercido = (rsSQL.Pvalor EQ "S")>
+					<cfif LvarGenerarEjercido>
+						<!--- Movimientos de EJERCIDO Y PAGADO: Unicamente si está prendido parámetro de Contabilidad Presupuestaria --->
+						<cfset sbPresupuestoAntsEfectivo_CxP (arguments.Conexion,Arguments.idDocumentoNeteo,arguments.lvFecha,arguments.lvPeriodo,arguments.lvMes,false,'EJ')>
+						<cfset sbPresupuestoAntsEfectivo_CxP (arguments.Conexion,Arguments.idDocumentoNeteo,arguments.lvFecha,arguments.lvPeriodo,arguments.lvMes,false,'P')>
+					<cfelse>
+						<!--- Movimientos de PAGADO: Presupuesto normal --->
+						<cfset sbPresupuestoAntsEfectivo_CxP (arguments.Conexion,Arguments.idDocumentoNeteo,arguments.lvFecha,arguments.lvPeriodo,arguments.lvMes,false,'P')>
+					</cfif>
+				</cfif>
+
+				<!--- Encabezado de Neteo, cuando no es balanceado ??? --->
+				<cfquery datasource="#Arguments.Conexion#">
+					insert into #INTARC# ( 
+							INTORI, INTREL, INTDOC, INTREF, 
+							INTTIP, INTDES, INTFEC, 
+							Periodo, Mes, Ccuenta, 
+							Mcodigo, Ocodigo, 
+							INTMOE, INTCAM, INTMON
+							)
+					select 
+							'CCND',
+							1,
+							<cf_dbfunction name="sPart"		args="a.CCTcodigo #_CAT# ' ' #_CAT# a.DocumentoNeteo;1;20" delimiters=";">,
+       						<cf_dbfunction name="sPart"		args="a.CCTcodigo #_CAT# ' ' #_CAT# a.DocumentoNeteo;1;25" delimiters=";">,
+							case when b.CCTtipo = 'D' then 'C' else 'D' end,
+							<cf_dbfunction name="concat" args="'Neteo: Eliminación de Saldos de Documento ' + a.DocumentoNeteo" delimiters="+">,
+							'#YEAR(arguments.lvFecha)##RepeatString('0',2-Len(MONTH(arguments.lvFecha)))##MONTH(arguments.lvFecha)##RepeatString('0',2-Len(DAY(arguments.lvFecha)))##DAY(arguments.lvFecha)#',
+							
+							#arguments.lvPeriodo#,
+							#arguments.lvMes#,				
+							c.SNcuentacxc,
+							
+							a.Mcodigo,
+							a.Ocodigo,
+								abs(round(a.Dmonto, 2)),
+							#TC#, 
+							round(
+								abs(round(a.Dmonto, 2))
+							* #TC#, 2)
+					from DocumentoNeteo a <cf_dbforceindex name="PK_DOCUMENTONETEO">
+						inner join CCTransacciones b <cf_dbforceindex name="PK_CCTRANSACCIONES">
+							on b.CCTcodigo = a.CCTcodigo
+							and b.Ecodigo = a.Ecodigo
+						inner join SNegocios c <cf_dbforceindex name="PK_SNEGOCIOS">
+							on c.Ecodigo = a.Ecodigo
+							and c.SNcodigo = a.SNcodigo
+					where a.idDocumentoNeteo = #Arguments.idDocumentoNeteo#
+					and a.Dmonto > 0
+				</cfquery>
+				
+				<cfif Arguments.Debug>
+					<cfquery name="rsDebug" datasource="#Arguments.Conexion#">
+					 select * from #INTARC#
+					</cfquery>
+					<cfdump var="#rsDebug#">
+					<cftransaction action="rollback"/>
+					<cf_abort errorInterfaz="">
+				</cfif>
+				
+				<cfinvoke 
+					component="sif.Componentes.CG_GeneraAsiento" 
+					method="GeneraAsiento"
+					returnvariable="IDcontable"
+					oorigen="CCND"
+					eperiodo="#arguments.lvPeriodo#"
+					emes="#arguments.lvMes#"
+					efecha="#arguments.lvFecha#"
+					edescripcion="#arguments.lvDescripcion#"
+					edocbase="#arguments.lvDocumentoNeteo#"
+					ereferencia="#arguments.lvCCTcodigo#"
+					debug="#Arguments.Debug#"
+					Ocodigo="#rsDocumentoNeteo.Ocodigo#"/>
+	</cffunction>
+
+	<!--- Método: getTipoCambio: Obtiene el Tipo de Cambio en el Histórico dada una Fecha y Moneda --->
+	<cffunction access="private" name="getTipoCambio" output="false" returntype="numeric">
+		<cfargument name="vMcodigo" required="yes" type="string">
+		<cfargument name="vDfecha" required="no" type="string">
+		<cfargument name="Conexion" required="yes" type="string">
+		<cfargument name="Ecodigo" required="yes" type="string">		
+
+		<cfset var retTC = 1>
+
+		<cfif isdefined('Arguments.vDfecha') and len(trim(Arguments.vDfecha))>
+			<cfset lvDfecha = Arguments.vDfecha>
+		<cfelse>
+			<cfset lvDfecha = Now()>
+		</cfif>
+		
+		<cfquery name="rsMonedaDesc" datasource="#Arguments.Conexion#">
+			select Mnombre 
+			from Monedas 
+			where Mcodigo = <cfqueryparam cfsqltype="cf_sql_numeric" value="#Arguments.vMcodigo#">
+			and Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#Arguments.Ecodigo#">
+		</cfquery>
+
+		<cfquery name="rsMaxFecha" datasource="#Arguments.Conexion#">
+			select max(Hfecha) as maxFecha
+			from Htipocambio
+			where Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#Arguments.Ecodigo#">
+			and Mcodigo = <cfqueryparam cfsqltype="cf_sql_numeric" value="#Arguments.vMcodigo#">
+			and <cf_dbfunction name="to_datechar" args="Hfecha"> <= <cfqueryparam cfsqltype="cf_sql_date" value="#lvDfecha#">
+		</cfquery>
+
+		<cfif isdefined('rsMaxFecha') and rsMaxFecha.recordCount GT 0>
+			<cfquery name="rsTC" datasource="#Arguments.Conexion#">
+				select TCcompra
+				from Htipocambio
+				where Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#Arguments.Ecodigo#">
+				and Mcodigo = <cfqueryparam cfsqltype="cf_sql_numeric" value="#Arguments.vMcodigo#">
+				and Hfecha = <cfqueryparam cfsqltype="cf_sql_date" value="#rsMaxFecha.maxFecha#">
+			</cfquery>			
+		<cfelse>
+			<cf_errorCode	code = "50981"
+							msg  = "Error en CP_InterfazPagos. No se encontró el Tipo de Cambio para la Moneda @errorDat_1@ para la fecha @errorDat_2@."
+							errorDat_1="#rsMonedaDesc.Mnombre#"
+							errorDat_2="#lvDfecha#"
+			>
+		</cfif>
+
+		<cfif isdefined('rsTC') and rsTC.recordCount GT 0 and rsTC.TCcompra GT 0>
+			<cfset retTC = rsTC.TCcompra>
+		</cfif>
+
+		<cfreturn retTC>
+	</cffunction>
+
+	<cffunction name="DeterminarTipoNeteoDocs" returntype="numeric" access="public">
+		<cfargument name="idDoc" type="numeric">
+		<cfargument name="Ecodigo" type="string" default="#session.Ecodigo#">
+		<cfargument name="conexion" type="string" default="#session.dsn#">
+
+		<!--- Periodo/Mes de Auxiliares --->
+		<cfquery name="rsPeriodo" datasource="#Arguments.Conexion#">
+			select Pvalor
+			  from Parametros 
+			 where Ecodigo = #Arguments.Ecodigo#
+			   and Pcodigo = 50
+		</cfquery>
+		<cfquery name="rsMes" datasource="#Arguments.Conexion#">
+			select Pvalor
+			  from Parametros 
+			 where Ecodigo = #Arguments.Ecodigo#
+			   and Pcodigo = 60
+		</cfquery>
+		<cfset LvarAnoMesAux = rsPeriodo.Pvalor * 100 + rsMes.Pvalor>
+		
+		<!--- Periodo de Presupuesto --->
+		<cfquery name="rsSQL" datasource="#Arguments.Conexion#">
+			select CPPid, CPPestado
+			  from CPresupuestoPeriodo
+			 where Ecodigo = #Arguments.Ecodigo#
+			   and #LvarAnoMesAux# between CPPanoMesDesde and CPPanoMesHasta
+		</cfquery>
+
+		<!--- Sin Presupuesto no hay restricciones --->
+		<cfif rsSQL.CPPid EQ "" OR rsSQL.CPPestado EQ "5">
+			<cfreturn 0>
+		</cfif>
+
+		<!--- En alta se indica que puede ser cualquiera con restricciones --->
+		<cfif Arguments.idDoc EQ "-1">
+			<cfreturn 1>
+		</cfif>
+		
+		<cfset sbQueryDocs(Arguments.idDoc)>
+		
+		<cfif rsDocs.CxCs+rsDocs.CxPs EQ 0>
+			<!--- Sin Documentos puede ser cualquiera con restricciones --->
+			<cfreturn 1>
+		<cfelseif rsDocs.cxcANTs+rsDocs.cxpANTs EQ 0>
+			<!--- Sin Anticipos es Neteo Documentos --->
+			<cfset LvarTipo = 1>
+		<cfelseif rsDocs.cxcANTs GT 0 AND rsDocs.cxcFAVs EQ 0 AND rsDocs.CxPs EQ 0>
+			<!--- Anticipos CxC sin CxC a favor ni CxP es Aplicacion Anticipos CxC --->
+			<cfset LvarTipo = 2>
+		<cfelseif rsDocs.cxpANTs GT 0 AND rsDocs.cxpFAVs EQ 0 AND rsDocs.CxCs EQ 0>
+			<!--- Anticipos CxP sin CxP a favor ni CxC es Aplicacion Anticipos CxP --->
+			<cfset LvarTipo = 3>
+		<cfelseif rsDocs.cxcDOCs+rsDocs.cxcFAVs EQ 0 AND rsDocs.cxpDOCs+rsDocs.cxpFAVs EQ 0>
+			<!--- Sólo Anticipos es Neteo Anticipos --->
+			<cfset LvarTipo = 4>
+		<cfelse>
+			<!--- ERROR --->
+			<cfreturn -1>
+		</cfif>
+		<cfquery name="rsSQL" datasource="#Arguments.Conexion#">
+			update DocumentoNeteo
+			   set TipoNeteoDocs = #LvarTipo#
+			 where idDocumentoNeteo = <cfqueryparam cfsqltype="cf_sql_numeric" value="#Arguments.idDoc#">
+			   and Ecodigo = #Arguments.Ecodigo#
+		</cfquery>
+		<cfreturn LvarTipo>
+	</cffunction>
+
+	<cffunction name="VerificarTipoNeteoDocs" returntype="string" access="public">
+		<cfargument name="idDoc" type="numeric">
+		<cfargument name="Ecodigo" type="string" default="#session.Ecodigo#">
+		<cfargument name="conexion" type="string" default="#session.dsn#">
+
+		<cfset sbQueryDocs(Arguments.idDoc)>
+		
+		<cfif rsDocs.CxCs+rsDocs.CxPs EQ 0>
+			<!--- Sin Documentos puede ser cualquiera --->
+			<cfreturn "">
+		<cfelseif rsDocs.TipoNeteoDocs EQ 1 AND NOT (rsDocs.cxcANTs+rsDocs.cxpANTs EQ 0)>
+			<!--- Sin Anticipos es Neteo Documentos --->
+			<cfreturn "Neteo de Documentos de CxC y CxP: No se permiten Anticipos de Efectivo">
+		<cfelseif rsDocs.TipoNeteoDocs EQ 2 AND NOT (rsDocs.cxcANTs GTE 0 AND rsDocs.CxPs EQ 0)>
+			<!--- Anticipos CxC sin CxP es Aplicacion Anticipos CxC --->
+			<cfreturn "Aplicación de Anticipos de CxC: No se permiten Documentos de CxP">
+		<cfelseif rsDocs.TipoNeteoDocs EQ 2 AND NOT (rsDocs.cxcANTs GTE 0 AND rsDocs.cxcFAVs EQ 0)>
+			<!--- Anticipos CxC sin CxP es Aplicacion Anticipos CxC --->
+			<cfreturn "Aplicación de Anticipos de CxC: No se permiten Documentos a favor de CxC que no sean de Anticipos">
+		<cfelseif rsDocs.TipoNeteoDocs EQ 3 AND NOT (rsDocs.cxpANTs GTE 0 AND rsDocs.CxCs EQ 0)>
+			<!--- Anticipos CxP sin CxC es Aplicacion Anticipos CxP --->
+			<cfreturn "Aplicación de Anticipos de CxP: No se permiten Documentos de CxC">
+		<cfelseif rsDocs.TipoNeteoDocs EQ 3 AND NOT (rsDocs.cxpANTs GTE 0 AND rsDocs.cxpFAVs EQ 0)>
+			<!--- Anticipos CxP sin CxC es Aplicacion Anticipos CxP --->
+			<cfreturn "Aplicación de Anticipos de CxP: No se permiten Documentos a favor que no sean de Anticipos">
+		<cfelseif rsDocs.TipoNeteoDocs EQ 4 AND NOT (rsDocs.cxcDOCs+rsDocs.cxcFAVs EQ 0 AND rsDocs.cxpDOCs+rsDocs.cxpFAVs EQ 0)>
+			<!--- Sólo Anticipos es Neteo Anticipos --->
+			<cfreturn "Neteo de Anticipos de CxC y CxP: No se permiten Documentos que no son Anticipos de Efectivo">
+		</cfif>
+		<cfreturn "">
+	</cffunction>
+
+	<cffunction name="sbQueryDocs" returntype="void" access="private"> 
+		<cfargument name="idDoc" type="numeric">
+		<cfargument name="Ecodigo" type="string" default="#session.Ecodigo#">
+		<cfargument name="conexion" type="string" default="#session.dsn#">
+
+		<cfif isdefined("rsDocs")>
+			<cfreturn>
+		</cfif>
+		
+		<cfquery datasource="#Arguments.Conexion#">
+			delete from DocumentoNeteoDCxC
+			 where (
+					select count(1)
+					  from Documentos d
+					 where d.Ddocumento	= DocumentoNeteoDCxC.Ddocumento
+					   and d.CCTcodigo	= DocumentoNeteoDCxC.CCTcodigo
+					   and d.Ecodigo	= DocumentoNeteoDCxC.Ecodigo
+					) = 0
+		</cfquery>
+		
+		<cfquery datasource="#Arguments.Conexion#">
+			delete from DocumentoNeteoDCxP
+			 where (
+					select count(1)
+					  from EDocumentosCP d
+					 where d.IDdocumento = DocumentoNeteoDCxP.idDocumento
+					) = 0
+		</cfquery>
+		
+		<cfquery name="rsDocs" datasource="#Arguments.Conexion#">
+			select	TipoNeteoDocs,
+					coalesce(
+						(
+							select count(1)
+							  from DocumentoNeteoDCxC b
+							 where b.idDocumentoNeteo = DocumentoNeteo.idDocumentoNeteo
+						)
+					,0) as CXCs,
+					coalesce(
+						(
+							select count(1)
+							  from DocumentoNeteoDCxC b
+								inner join CCTransacciones t
+									 on t.CCTcodigo	= b.CCTcodigo
+									and t.Ecodigo 	= DocumentoNeteo.Ecodigo
+							 where b.idDocumentoNeteo = DocumentoNeteo.idDocumentoNeteo
+							   and t.CCTtipo = 'D'
+						)
+					,0) as cxcDOCs,
+					coalesce(
+						(
+							select count(1)
+							  from DocumentoNeteoDCxC b
+								inner join CCTransacciones t
+									 on t.CCTcodigo	= b.CCTcodigo
+									and t.Ecodigo 	= b.Ecodigo
+							 where b.idDocumentoNeteo = DocumentoNeteo.idDocumentoNeteo
+							   and t.CCTtipo = 'C'
+							   and (
+							   		select count(1)
+									  from DDocumentos d
+									 where d.Ddocumento	= b.Ddocumento
+									   and d.CCTcodigo	= b.CCTcodigo
+									   and d.Ecodigo	= b.Ecodigo
+									) > 0
+						)
+					,0) as cxcFAVs,
+					coalesce(
+						(
+							select count(1)
+							  from DocumentoNeteoDCxC b
+								inner join CCTransacciones t
+									 on t.CCTcodigo	= b.CCTcodigo
+									and t.Ecodigo 	= b.Ecodigo
+							 where b.idDocumentoNeteo = DocumentoNeteo.idDocumentoNeteo
+							   and t.CCTtipo = 'C'
+							   and (
+							   		select count(1)
+									  from DDocumentos d
+									 where d.Ddocumento	= b.Ddocumento
+									   and d.CCTcodigo	= b.CCTcodigo
+									   and d.Ecodigo	= b.Ecodigo
+									) = 0
+						)
+					,0) as cxcANTs,
+					coalesce(
+						(
+							select count(1)
+							  from DocumentoNeteoDCxP b
+							 where b.idDocumentoNeteo = DocumentoNeteo.idDocumentoNeteo
+						)
+					,0) as CxPs,
+					coalesce(
+						(
+							select count(1)
+							  from DocumentoNeteoDCxP b
+								inner join CPTransacciones t
+									 on t.CPTcodigo	= b.CPTcodigo
+									and t.Ecodigo 	= DocumentoNeteo.Ecodigo
+							 where b.idDocumentoNeteo = DocumentoNeteo.idDocumentoNeteo
+							   and t.CPTtipo = 'C'
+						)
+					,0) as cxpDOCs,
+					coalesce(
+						(
+							select count(1)
+							  from DocumentoNeteoDCxP b
+								inner join CPTransacciones t
+									 on t.CPTcodigo	= b.CPTcodigo
+									and t.Ecodigo 	= DocumentoNeteo.Ecodigo
+							 where b.idDocumentoNeteo = DocumentoNeteo.idDocumentoNeteo
+							   and t.CPTtipo = 'D'
+							   and (
+							   		select count(1)
+									  from DDocumentosCP d
+									 where d.IDdocumento	= b.idDocumento
+									) > 0
+						)
+					,0) as cxpFAVs,
+					coalesce(
+						(
+							select count(1)
+							  from DocumentoNeteoDCxP b
+								inner join CPTransacciones t
+									 on t.CPTcodigo	= b.CPTcodigo
+									and t.Ecodigo 	= DocumentoNeteo.Ecodigo
+							 where b.idDocumentoNeteo = DocumentoNeteo.idDocumentoNeteo
+							   and t.CPTtipo = 'D'
+							   and (
+							   		select count(1)
+									  from DDocumentosCP d
+									 where d.IDdocumento	= b.idDocumento
+									) = 0
+						)
+					,0) as cxpANTs
+			  from DocumentoNeteo
+			 where idDocumentoNeteo = <cfqueryparam cfsqltype="cf_sql_numeric" value="#Arguments.idDoc#">
+			   and Ecodigo = #Arguments.Ecodigo#
+		</cfquery>
+	</cffunction>
+
+	<cffunction name="sbPresupuestoAntsEfectivo_CxC" access="private">
+		<cfargument name="Conexion">
+		<cfargument name="idDocumentoNeteo">
+		<cfargument name="Fecha">
+		<cfargument name="Periodo">
+		<cfargument name="Mes">
+		<cfargument name="Anulacion">
+		<cfargument name="TipoMov">
+		
+		<!--- Convierte las Ejecuciones del NAP de CxP a Pagado --->
+		<!--- OJO, cuando se implemente Contabilizacion en Recepcion, hay que tomar en cuenta el NAP de la Recepción --->
+		<cf_dbfunction name="to_char" args="sp.TESSPnumero" returnVariable="LvarTESSPnumero">
+		<cfset LvarMontoPagado = "round((d.Dmonto + d.DmontoRet) / cc.Dtotal * nap.CPNAPDmontoOri,2)">
+		<cfquery datasource="#Arguments.Conexion#">
+			insert into #request.intPresupuesto#
+				(
+					ModuloOrigen,
+					NumeroDocumento,
+					NumeroReferencia,
+					DocumentoPagado,
+					FechaDocumento,
+					AnoDocumento,
+					MesDocumento,
+					NumeroLinea, 
+					NumeroLineaID, 
+					CFcuenta,
+					Ocodigo,
+					Mcodigo,
+					MontoOrigen,
+					TipoCambio,
+					Monto,
+					TipoMovimiento,
+					NAPreferencia,	LINreferencia,
+					PCGDid,
+					PCGDcantidad
+				)
+			<!--- 'EJ/P:PAGADO' --->
+			select  'CCND',					
+					aa.DocumentoNeteo,
+					aa.CCTcodigo,
+					<cf_dbfunction name="concat" args="'CxC: ';cc.CCTcodigo;'-';cc.Ddocumento" delimiters=";">,
+					<cf_jdbcquery_param cfsqltype="cf_sql_timestamp" value="#Arguments.Fecha#">,
+					#Arguments.Periodo# as Periodo,
+					#Arguments.Mes# as Mes,		
+	
+					coalesce((select max(INTLIN) from #request.intarc#),0)+1 as NumeroLinea,
+					<cfif Arguments.TipoMov NEQ 'P'>-</cfif>idDetalle as NumeroLineaID,
+					nap.CFcuenta,																				<!--- CFuenta --->
+					nap.Ocodigo,																				<!--- Oficina --->
+	
+						nap.Mcodigo,																				<!--- Mcodigo --->
+						<cfif Arguments.Anulacion>-</cfif>#LvarMontoPagado# as MontoOrigen,
+						#TC# as TC,
+						<cfif Arguments.Anulacion>-</cfif>round(#LvarMontoPagado# * #TC#, 2) as MontoLocal,
+	
+					'#Arguments.TipoMov#' as Tipo,
+					nap.CPNAPnum, nap.CPNAPDlinea,
+					nap.PCGDid,
+					<cfif Arguments.Anulacion>-</cfif>nap.PCGDcantidad as Cantidad_1
+				from DocumentoNeteo aa
+					inner join DocumentoNeteoDCxC d
+						 on d.idDocumentoNeteo = aa.idDocumentoNeteo
+					inner join Documentos cc
+						 on cc.Ecodigo		= d.Ecodigo
+						and cc.CCTcodigo	= d.CCTcodigo
+						and cc.Ddocumento	= d.Ddocumento
+					inner join CPNAP nape
+						  on nape.Ecodigo				= cc.Ecodigo
+						 and nape.CPNAPmoduloOri		= 'CCFC'
+						 and nape.CPNAPdocumentoOri		= cc.Ddocumento
+						 and nape.CPNAPreferenciaOri	= cc.CCTcodigo
+					inner join CPNAPdetalle nap
+						  on nap.Ecodigo		= nape.Ecodigo
+						 and nap.CPNAPnum		= nape.CPNAPnum
+						 and nap.CPNAPDtipoMov = 'E'
+				where aa.idDocumentoNeteo = #Arguments.idDocumentoNeteo#
+		</cfquery>
+	</cffunction>
+
+	<cffunction name="sbPresupuestoAntsEfectivo_CxP" access="private">
+		<cfargument name="Conexion">
+		<cfargument name="idDocumentoNeteo">
+		<cfargument name="Fecha">
+		<cfargument name="Periodo">
+		<cfargument name="Mes">
+		<cfargument name="Anulacion">
+		<cfargument name="TipoMov">
+		
+		<!--- Convierte las Ejecuciones del NAP de CxP a Pagado --->
+		<!--- OJO, cuando se implemente Contabilizacion en Recepcion, hay que tomar en cuenta el NAP de la Recepción --->
+		<cfset LvarMontoPagado = "round((d.Dmonto + d.DmontoRet) / cp.Dtotal * nap.CPNAPDmontoOri,2)">
+		<cfquery datasource="#Arguments.Conexion#">
+			insert into #request.intPresupuesto#
+				(
+					ModuloOrigen,
+					NumeroDocumento,
+					NumeroReferencia,
+					DocumentoPagado,
+					FechaDocumento,
+					AnoDocumento,
+					MesDocumento,
+					NumeroLinea, 
+					NumeroLineaID, 
+					CFcuenta,
+					Ocodigo,
+					Mcodigo,
+					MontoOrigen,
+					TipoCambio,
+					Monto,
+					TipoMovimiento,
+					NAPreferencia,	LINreferencia,
+					PCGDid,
+					PCGDcantidad
+				)
+			<!--- 'EJ/P:PAGADO' --->
+			select  'CCND',					
+					aa.DocumentoNeteo,
+					aa.CCTcodigo,
+					<cf_dbfunction name="concat" args="'CxP: ';cp.CPTcodigo;'-';rtrim(cp.Ddocumento)" delimiters=";">,
+					<cf_jdbcquery_param cfsqltype="cf_sql_timestamp" value="#Arguments.Fecha#">,
+					#Arguments.Periodo# as Periodo,
+					#Arguments.Mes# as Mes,		
+	
+					coalesce((select max(INTLIN) from #request.intarc#),0)+1 as NumeroLinea,
+					<cfif Arguments.TipoMov NEQ 'P'>-</cfif>idDetalle as NumeroLineaID,
+					nap.CFcuenta,																				<!--- CFuenta --->
+					nap.Ocodigo,																				<!--- Oficina --->
+
+						nap.Mcodigo,																				<!--- Mcodigo --->
+						<cfif Arguments.Anulacion>-</cfif>#LvarMontoPagado# as MontoOrigen,
+						#TC# as TC,
+						<cfif Arguments.Anulacion>-</cfif>round(#LvarMontoPagado# * #TC#, 2) as MontoLocal,
+
+					'#Arguments.TipoMov#' as Tipo,
+					nap.CPNAPnum, nap.CPNAPDlinea,
+					nap.PCGDid,
+					<cfif Arguments.Anulacion>-</cfif>nap.PCGDcantidad as Cantidad_1
+				from DocumentoNeteo  aa
+					inner join DocumentoNeteoDCxP d
+						on d.idDocumentoNeteo = aa.idDocumentoNeteo
+					inner join HEDocumentosCP cp
+						on cp.IDdocumento = d.idDocumento
+					inner join CPNAPdetalle nap
+						  on nap.Ecodigo		= cp.Ecodigo
+						 and nap.CPNAPnum		= cp.NAP
+						 and nap.CPNAPDtipoMov = 'E'
+				where aa.idDocumentoNeteo = #Arguments.idDocumentoNeteo#
+		</cfquery>
+	</cffunction>
+</cfcomponent>
+

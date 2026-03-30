@@ -1,0 +1,48 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 376 - DBM 304: CMTipoOrden
+
+	         PARCHE:  Parche023_309_SIF_MejorasNacion
+
+GENERADO EN:
+	SERVER:  http://mxvqapp34:8300
+	DSN:     sifcim
+	FECHA:   06/01/2012 16:37:28
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* CHG_TABLE CMTipoOrden: Tipo de Orden de Compra */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): CMTOModDescripcion - Modifica Descripcion */
+ALTER TABLE CMTipoOrden ADD CMTOModDescripcion bit DEFAULT 0 NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): CMTOModFechaEntrega - Modifica Fecha Entrega */
+ALTER TABLE CMTipoOrden ADD CMTOModFechaEntrega bit DEFAULT 0 NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): CMTOModFechaRequerida - Modifica Fecha Requerida */
+ALTER TABLE CMTipoOrden ADD CMTOModFechaRequerida bit DEFAULT 0 NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): CMTOModImpuesto - Modifica Fecha Impuesto */
+ALTER TABLE CMTipoOrden ADD CMTOModImpuesto bit DEFAULT 0 NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

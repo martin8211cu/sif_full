@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+<info>
+	<infoitem key="UD_rsCtaEmpresarial" value="name:cliente_empresarial;datatype:,name:nombre;datatype:" />
+	<infoitem key="UD_rsTiposIdentif" value="name:TIcodigo;datatype:,name:TInombre;datatype:" />
+</info>

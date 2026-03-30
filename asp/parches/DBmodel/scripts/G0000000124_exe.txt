@@ -1,0 +1,141 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  sifInterfaces
+	MODELO:  SIF Interfaces.pdm
+	VERSION: 408 - DBM 341: Creacion de las tablas para la Interfaz 7
+
+	         PARCHE:  Parche023_390_SIF_InterfacesNacion
+
+GENERADO EN:
+	SERVER:  http://mxvqapp34:8300
+	DSN:     sifinterfaces
+	FECHA:   11/01/2012 15:50:27
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* CHG_TABLE ID711: Interfaz 711 Solicitud de Pago */
+/* ======================================================================================== */
+/* DEL_COLUMN OP = (OBSOLETO): CFformato - Cuenta */
+ALTER TABLE ID711 DROP COLUMN CFformato
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* DEL_COLUMN OP = (OBSOLETO): Icodigo - Codigo de Impuesto */
+ALTER TABLE ID711 DROP COLUMN Icodigo
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* DEL_COLUMN OP = (OBSOLETO): TESDPdescripcion - Descripcion del DP */
+ALTER TABLE ID711 DROP COLUMN TESDPdescripcion
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* DEL_COLUMN OP = (OBSOLETO): TESDPdocumentoOri - Numero de Documento */
+ALTER TABLE ID711 DROP COLUMN TESDPdocumentoOri
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* DEL_COLUMN OP = (OBSOLETO): TESDPfechaVencimiento - Fecha Vencimiento DP */
+ALTER TABLE ID711 DROP COLUMN TESDPfechaVencimiento
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* DEL_COLUMN OP = (OBSOLETO): TESDPmontoVencimientoOri - Monto a Pagar Ori */
+ALTER TABLE ID711 DROP COLUMN TESDPmontoVencimientoOri
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* DEL_COLUMN OP = (OBSOLETO): TESDPreferenciaOri - Valor de la Referencia */
+ALTER TABLE ID711 DROP COLUMN TESDPreferenciaOri
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP = (NUEVO): TIP="P", SEC="0", COLS="ID,SecOrden,SecSolicitud" */
+ALTER TABLE ID711 ADD CONSTRAINT ID711_PK PRIMARY KEY CLUSTERED (ID,SecOrden,SecSolicitud)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="2", COLS="ID,SecOrden", REF="IE711" */
+CREATE INDEX ID711_FI02 ON ID711 (ID,SecOrden)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE IE707: Movimientos Bancarios */
+/* ======================================================================================== */
+/* DEL_COLUMN OP = (OBSOLETO): CFcodigo - Centro Funcional */
+ALTER TABLE IE707 DROP COLUMN CFcodigo
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ======================================================================================== */
+/* CHG_TABLE IE711: Encabezado 711 Orden Pago */
+/* ======================================================================================== */
+/* DEL_COLUMN OP = (OBSOLETO): CFcodigo - Codigo Centro Funcional */
+ALTER TABLE IE711 DROP COLUMN CFcodigo
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* DEL_COLUMN OP = (OBSOLETO): Miso4217 - Moneda Origen del Pago */
+ALTER TABLE IE711 DROP COLUMN Miso4217
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* DEL_COLUMN OP = (OBSOLETO): TESSPfechaPagar - Fecha del Pago */
+ALTER TABLE IE711 DROP COLUMN TESSPfechaPagar
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* DEL_COLUMN OP = (OBSOLETO): TESSPfechaSolicitud - Fecha de la SP */
+ALTER TABLE IE711 DROP COLUMN TESSPfechaSolicitud
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* DEL_COLUMN OP = (OBSOLETO): TESSPobservaciones - Observaciones de la SP */
+ALTER TABLE IE711 DROP COLUMN TESSPobservaciones
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* DEL_COLUMN OP = (OBSOLETO): TESSPtipoCambioOriManual - Tipo de Cambio Moneda Ori */
+ALTER TABLE IE711 DROP COLUMN TESSPtipoCambioOriManual
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* DEL_COLUMN OP = (OBSOLETO): TESSPtipoDocumento - Tipo de Documento */
+ALTER TABLE IE711 DROP COLUMN TESSPtipoDocumento
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* DEL_COLUMN OP = (OBSOLETO): TESSPtotalPagarOri - Total a pagar Ori */
+ALTER TABLE IE711 DROP COLUMN TESSPtotalPagarOri
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ======================================================================================== */
+/* CHG_TABLE IS711: Interfaz 711 Detalle Orden de  */
+/* ======================================================================================== */
+/* ADD_KEY OP = (NUEVO): TIP="F", SEC="1", COLS="ID,SecOrden,SecSolicitud", REF="ID711" */
+CREATE INDEX IS711_FI01 ON IS711 (ID,SecOrden,SecSolicitud)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ================================================================= */
+/*            CREA FKs NUEVOS O CON CAMPOS MODIFICADOS               */
+/* ================================================================= */
+/* CHG_TABLE IS711 */
+/* ADD_FK OP = (NUEVO): TIP="F", SEC="1", COLS="ID,SecOrden,SecSolicitud", REF="ID711" */
+ALTER TABLE IS711 ADD CONSTRAINT IS711_FK01 FOREIGN KEY (ID,SecOrden,SecSolicitud) REFERENCES ID711 (ID,SecOrden,SecSolicitud)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

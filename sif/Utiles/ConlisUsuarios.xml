@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_Titulo>Users List</LB_Titulo>
+		<LB_Usuario>User</LB_Usuario>
+		<LB_Identificacion>Identification</LB_Identificacion>
+		<LB_Nombre>Name</LB_Nombre>
+		<LB_Solicitante>Applicant</LB_Solicitante>
+		<LB_Aprobador>Approver</LB_Aprobador>
+		<LB_MontoMaximo>Maximum Amount</LB_MontoMaximo>
+		<LB_aAprobar>to Approve</LB_aAprobar>
+		<LB_PuedeCambiar>can change</LB_PuedeCambiar>
+		<LB_Tesoreria>Treasury</LB_Tesoreria>
+	</Idioma>
+</Etiquetas>

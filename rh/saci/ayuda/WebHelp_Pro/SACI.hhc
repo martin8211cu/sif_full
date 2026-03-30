@@ -1,0 +1,324 @@
+<html>
+<!-- Sitemap 1.0 -->
+<object type="text/site properties">
+  <param name="FrameName" value="bsscright">
+  <param name="SiteType" value="toc">
+  <param name="Image Width" value="16">
+</object>
+<ul>
+  <li><object type="text/sitemap">
+    <param name="Name" value="Autogestión">
+  </object>
+  <ul>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Autogestión">
+      <param name="Local" value="Autogesti_n/Autogesti_n.htm">
+    </object>
+    </ul>
+  <li><object type="text/sitemap">
+    <param name="Name" value="Catalogos">
+  </object>
+  <ul>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Actividad económica">
+      <param name="Local" value="Catalogos/Actividad_econ_mica.htm">
+    </object>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Atributos Extendidos">
+      <param name="Local" value="Catalogos/Atributos_Extendidos.htm">
+    </object>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Clase de Cuenta">
+      <param name="Local" value="Catalogos/Clase_de_Cuenta.htm">
+    </object>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Compañía de Medios">
+      <param name="Local" value="Catalogos/Compa__a_de_Medios.htm">
+    </object>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Entidad Financiera">
+      <param name="Local" value="Catalogos/Entidades_Financieras.htm">
+    </object>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Grupo de Cobro">
+      <param name="Local" value="Catalogos/Grupo_de_Cobro.htm">
+    </object>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Localidad">
+      <param name="Local" value="Catalogos/Localidad.htm">
+    </object>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Moneda">
+      <param name="Local" value="Catalogos/Moneda.htm">
+    </object>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Motivo de retiro">
+      <param name="Local" value="Catalogos/Motivo_de_retiro.htm">
+    </object>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Oficina Postal">
+      <param name="Local" value="Catalogos/Oficina_Postal.htm">
+    </object>
+    <li><object type="text/sitemap">
+      <param name="Name" value="País">
+      <param name="Local" value="Catalogos/Pa_s.htm">
+    </object>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Razón de bloqueo">
+      <param name="Local" value="Catalogos/Raz_n_de_bloqueo.htm">
+    </object>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Servicio">
+      <param name="Local" value="Catalogos/servicio.htm">
+    </object>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Sobre de acceso">
+      <param name="Local" value="Catalogos/Sobre_de_acceso.htm">
+    </object>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Tarifa">
+      <param name="Local" value="Catalogos/Tarifa.htm">
+    </object>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Tipo de Garantía">
+      <param name="Local" value="Catalogos/Tipo_de_Garant_a.htm">
+    </object>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Tipo de inconsistencia">
+      <param name="Local" value="Catalogos/Inconsistencias.htm">
+    </object>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Valores del atributo">
+      <param name="Local" value="Catalogos/Valores_del_atributo.htm">
+    </object>
+    </ul>
+  <li><object type="text/sitemap">
+    <param name="Name" value="Entidades">
+  </object>
+  <ul>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Agente Autorizado">
+      <param name="Local" value="Entidades/Agente_Autorizado.htm">
+    </object>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Cuenta">
+      <param name="Local" value="Entidades/Cuenta.htm">
+    </object>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Login">
+      <param name="Local" value="Entidades/Login.htm">
+    </object>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Persona">
+      <param name="Local" value="Entidades/Persona.htm">
+    </object>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Producto">
+      <param name="Local" value="Entidades/Producto.htm">
+    </object>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Prospecto">
+      <param name="Local" value="Entidades/Prospecto.htm">
+    </object>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Vendedor">
+      <param name="Local" value="Entidades/Vendedor.htm">
+    </object>
+    </ul>
+  <li><object type="text/sitemap">
+    <param name="Name" value="Lista de Valores">
+  </object>
+  <ul>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Datos Básicos">
+      <param name="Local" value="Lista_de_Valores/Datos_B_sicos.htm">
+    </object>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Día de la semana">
+      <param name="Local" value="Lista_de_Valores/D_a_de_la_semana.htm">
+    </object>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Enviar copia">
+      <param name="Local" value="Lista_de_Valores/Enviar_copia.htm">
+    </object>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Estado">
+      <param name="Local" value="Lista_de_Valores/Estado.htm">
+    </object>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Estado de la cuenta">
+      <param name="Local" value="Lista_de_Valores/Estadop_de_la_cuenta.htm">
+    </object>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Estado de la inconsistencia">
+      <param name="Local" value="Lista_de_Valores/Estado_de_la_inconsistencia.htm">
+    </object>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Estado de la razón de bloqueo">
+      <param name="Local" value="Lista_de_Valores/Estado_de_la_raz_n_de_bloqueo.htm">
+    </object>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Estado del prepago">
+      <param name="Local" value="Lista_de_Valores/Estado_del_prepago.htm">
+    </object>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Estado del sobre">
+      <param name="Local" value="Lista_de_Valores/Estado_del_sobre.htm">
+    </object>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Forma de cobro">
+      <param name="Local" value="Lista_de_Valores/Forma_de_cobro.htm">
+    </object>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Personería">
+      <param name="Local" value="Lista_de_Valores/Personer_a.htm">
+    </object>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Responsable">
+      <param name="Local" value="Lista_de_Valores/Responsable.htm">
+    </object>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Severidad de la inconsistencia">
+      <param name="Local" value="Lista_de_Valores/Severidad_de_la_inconsistencia.htm">
+    </object>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Tipo de dato">
+      <param name="Local" value="Lista_de_Valores/Tipo_de_dato.htm">
+    </object>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Tipo de envío">
+      <param name="Local" value="Lista_de_Valores/Tipo_de_env_o.htm">
+    </object>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Tipo de incidencia">
+      <param name="Local" value="Lista_de_Valores/Tipo_de_incidencia.htm">
+    </object>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Tipos de Comisión">
+      <param name="Local" value="Lista_de_Valores/Tipos_de_Comisi_n.htm">
+    </object>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Tipos de representante">
+      <param name="Local" value="Lista_de_Valores/Tipos_de_representante.htm">
+    </object>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Unidad de Cobro">
+      <param name="Local" value="Lista_de_Valores/Unidad_de_Cobro.htm">
+    </object>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Valoración de incidencia">
+      <param name="Local" value="Lista_de_Valores/Valoraci_n_de_incidencia.htm">
+    </object>
+    </ul>
+  <li><object type="text/sitemap">
+    <param name="Name" value="Procesos">
+  </object>
+  <ul>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Administración de cuentas">
+      <param name="Local" value="Procesos/Administraci_n_de_cuentas.htm">
+    </object>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Administración de Prepagos">
+      <param name="Local" value="Procesos/Administraci_n_de_Prepagos.htm">
+    </object>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Administración de Usuarios 900">
+      <param name="Local" value="Procesos/Administraci_n_de_Usuarios_900.htm">
+    </object>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Administración de ventas">
+      <param name="Local" value="Procesos/Administraci_n_de_ventas.htm">
+    </object>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Aprobación de ventas">
+      <param name="Local" value="Procesos/Aprobaci_n_de_ventas.htm">
+    </object>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Atención de prospectos">
+      <param name="Local" value="Procesos/Atenci_n_de_prospectos.htm">
+    </object>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Consulta de tráfico">
+      <param name="Local" value="Procesos/Consulta_de_tr_fico.htm">
+    </object>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Funciones sobre clientes">
+      <param name="Local" value="Procesos/Funciones_sobre_clientes.htm">
+    </object>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Funciones sobre cuentas">
+      <param name="Local" value="Procesos/Funciones_sobre_cuentas.htm">
+    </object>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Funciones sobre logines">
+      <param name="Local" value="Procesos/Funciones_sobre_logines.htm">
+    </object>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Funciones sobre paquetes">
+      <param name="Local" value="Procesos/Funciones_sobre_paquetes.htm">
+    </object>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Incidencias del Agente">
+      <param name="Local" value="Procesos/Incidencias_del_Agente.htm">
+    </object>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Revisa unicidad">
+      <param name="Local" value="Procesos/Revisa_unicidad.htm">
+    </object>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Seguimiento de ventas general">
+      <param name="Local" value="Procesos/Seguimiento_de_ventas_general.htm">
+    </object>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Venta de servicios">
+      <param name="Local" value="Procesos/Venta_de_servicios.htm">
+    </object>
+    </ul>
+  <li><object type="text/sitemap">
+    <param name="Name" value="Uso del Aplicativo">
+  </object>
+  <ul>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Calendario">
+      <param name="Local" value="Uso_del_Aplicativo/Calendario.htm">
+    </object>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Catálogo preestablecido">
+      <param name="Local" value="Uso_del_Aplicativo/Cat_logo_preestablecido.htm">
+    </object>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Formulario de Consulta">
+      <param name="Local" value="Uso_del_Aplicativo/Formulario_de_Consulta.htm">
+    </object>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Formulario selector">
+      <param name="Local" value="Uso_del_Aplicativo/Formulario_selector.htm">
+    </object>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Lista">
+      <param name="Local" value="Uso_del_Aplicativo/Lista.htm">
+    </object>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Lista de Selección">
+      <param name="Local" value="Uso_del_Aplicativo/Lista_de_Selecci_n.htm">
+    </object>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Opción de ejecución">
+      <param name="Local" value="Uso_del_Aplicativo/Opci_n_de_ejecuci_n.htm">
+    </object>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Plantilla de registro">
+      <param name="Local" value="Uso_del_Aplicativo/Plantilla_de_registro.htm">
+    </object>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Portlet">
+      <param name="Local" value="Uso_del_Aplicativo/Portlet.htm">
+    </object>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Usuario">
+      <param name="Local" value="Uso_del_Aplicativo/Usuario.htm">
+    </object>
+    </ul>
+</ul>
+</html>

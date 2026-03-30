@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		
+		<LB_Mes>Month</LB_Mes>
+		<LB_Mensaje>Select Location or Variable to Work</LB_Mensaje>
+		<LB_Ubicacion>Location</LB_Ubicacion>
+		<LB_Seleccion>All</LB_Seleccion>
+		<LB_VariablesEmpresa>Enterprise Variables</LB_VariablesEmpresa>
+		<LB_GruposEmpresas>All Enterprise Groups</LB_GruposEmpresas>
+		<LB_GruposOficinas>All Office Groups</LB_GruposOficinas>
+		<LB_Oficinas>All Offices</LB_Oficinas>
+		<LB_OficinaCentral>Central Office</LB_OficinaCentral>
+		<LB_Valor>Value</LB_Valor>
+		<LB_ValorAnual>Annual Value</LB_ValorAnual>
+		<BTN_Filtrar>Filter</BTN_Filtrar>
+		<BTN_Lista>List</BTN_Lista>
+		
+	</Idioma> 
+</Etiquetas>

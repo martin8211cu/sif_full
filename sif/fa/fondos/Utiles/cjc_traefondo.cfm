@@ -1,0 +1,85 @@
+﻿<!--- Recibe conexion, form, name y desc --->
+
+<script language="JavaScript" type="text/javascript">
+function Asignar(name,desc) {
+	if (window.opener != null) {
+		<cfoutput>
+		window.opener.document.#Url.form#.#Url.name#.value = name;
+		window.opener.document.#Url.form#.#Url.desc#.value = desc;
+		</cfoutput>
+		window.close();
+	}
+}
+</script>
+
+<cfif isdefined("Url.CJM00COD") and not isdefined("Form.CJM00COD")>
+	<cfparam name="Form.CJM00COD" default="#Url.CJM00COD#">
+</cfif>
+
+<cfif isdefined("Url.CJM00DES") and not isdefined("Form.CJM00DES")>
+	<cfparam name="Form.CJM00DES" default="#Url.CJM00DES#">
+</cfif>
+
+
+<cfset filtro = "">
+<cfset navegacion = "">
+<cfset cond = "">
+<cfif isdefined("Form.CJM00COD") and Len(Trim(Form.CJM00COD)) NEQ 0>
+	<cfset cond = " and">
+	<cfset filtro = filtro & cond & " upper(CJM000.CJM00COD) like '%" & #UCase(Form.CJM00COD)# & "%'">
+	<cfset navegacion = navegacion & Iif(Len(Trim(navegacion)) NEQ 0, DE("&"), DE("")) & "CJM000.CJM00COD=" & Form.CJM00COD>
+</cfif>
+<cfif isdefined("Form.CJM00DES") and Len(Trim(Form.CJM00DES)) NEQ 0>
+	<cfset cond = " and">
+ 	<cfset filtro = filtro & cond & " upper(CJM00DES) like '%" & #UCase(Form.CJM00DES)# & "%'">
+	<cfset navegacion = navegacion & Iif(Len(Trim(navegacion)) NEQ 0, DE("&"), DE("")) & "CJM00DES=" & Form.CJM00DES>
+</cfif>
+<html>
+<head>
+<title>Catálogo de Fondos</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<cf_templatecss>
+</head>
+<body>
+<cfoutput>
+	<form style="margin:0; " name="filtroFondos" method="post">
+	
+		<table width="100%" border="0" cellpadding="2" cellspacing="0" class="areaFiltro">
+			<tr>
+				<td align="right"><strong>Código</strong></td>
+				<td> 
+					<input name="CJM00COD" type="text" id="name" size="5" maxlength="5" value="<cfif isdefined("Form.CJM00COD")>#Form.CJM00COD#</cfif>">
+				</td>
+				<td align="right"><strong>Descripción</strong></td>
+				<td> 
+					<input name="CJM00DES" type="text" id="desc" size="40" maxlength="80" value="<cfif isdefined("Form.CJM00DES")>#Form.CJM00DES#</cfif>">
+				</td>
+				<td align="center">
+					<input name="btnFiltrar" type="submit" id="btnFiltrar" value="Filtrar">
+				</td>
+			</tr>
+		</table>
+	</form>
+</cfoutput>
+<cfinvoke 
+ component="sif.fondos.Componentes.pListas"
+ method="pLista"
+ returnvariable="pListaRet">
+	<cfinvokeargument name="tabla" value="CJM000"/>
+ 	<cfinvokeargument name="columnas" value="CJM00COD,CJM00DES"/>
+	<cfinvokeargument name="desplegar" value="CJM00COD,CJM00DES"/>
+	<cfinvokeargument name="etiquetas" value="Código,Descripción"/>
+	<cfinvokeargument name="formatos" value=""/>
+	<cfinvokeargument name="filtro" value=" CJM00EST='A' #filtro#"/>
+	<cfinvokeargument name="align" value="left, left"/>
+	<cfinvokeargument name="ajustar" value=""/>
+	<cfinvokeargument name="irA" value="cjcConlis.cfm"/>
+	<cfinvokeargument name="formName" value="listaFondos"/>
+	<cfinvokeargument name="MaxRows" value="20"/>
+	<cfinvokeargument name="funcion" value="Asignar"/>
+	<cfinvokeargument name="fparams" value="CJM00COD,CJM00DES"/>
+	<cfinvokeargument name="navegacion" value="#navegacion#"/>
+	<cfinvokeargument name="Conexion" value="#url.conexion#"/>
+</cfinvoke>
+</body>
+</html>

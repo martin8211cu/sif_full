@@ -1,0 +1,185 @@
+<strong>INDICE:</strong><BR>- <A href='#TABs_ADD'>Tablas nuevas</A><BR>- <A href='#KEYs_ADD'>Llaves nuevas o a regenerarse</A><BR><BR><BR>
+			<BR><strong><A name='TABs_ADD'>TABLAS NUEVAS EN EL MODELO DBM QUE SE VAN A CREAR EN LA BASE DE DATOS</A></strong><BR>
+			<table>
+			<tr><td><strong>TABLA</strong></td></tr>
+			
+				<tr><td>CPresupuestoComprometidas</td></tr>
+			
+				<tr><td>CPresupuestoComprometidasNAPs</td></tr>
+			
+			</table>
+		
+			<BR><strong><A name='COLs_ADD'>LLAVES QUE SE VAN A CREAR.</font></A></strong><BR>
+			<table>
+			<tr><td><strong>TABLA</strong></td><td><strong>TIPO</strong></td><td><strong>SEC.</strong></td><td><strong>COLUMNAS</strong></td><td><strong>TABLA REFERENCIADA</strong></td><td><strong>COLUMNAS REFERENCIADAS</strong></td><td><strong>RAZON</strong></td></tr>
+			
+				
+					<tr><td>CPresupuestoComprometidas</td><td align="center">
+						
+							PK 
+						
+					</td>
+					
+						<td align="center">
+							00
+						</td>
+					
+					<td>CPCCid</td><td>*</td><td>*</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>CPresupuestoComprometidas</td><td align="center">
+						
+							ID 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>CPPid,Ecodigo,Cmayor,CPCCmascara</td><td>*</td><td>*</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>CPresupuestoComprometidasNAPs</td><td align="center">
+						
+							PK 
+						
+					</td>
+					
+						<td align="center">
+							00
+						</td>
+					
+					<td>CPPid,Ecodigo,CPNAPnum</td><td>*</td><td>*</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>CPresupuestoComprometidasNAPs</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							03
+						</td>
+					
+					<td>CPcuenta</td><td>CPresupuesto</td><td>CPcuenta</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>CPresupuestoComprometidasNAPs</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							04
+						</td>
+					
+					<td>Ecodigo,Ocodigo</td><td>Oficinas</td><td>Ecodigo,Ocodigo</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>CPresupuestoComprometidasNAPs</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							05
+						</td>
+					
+					<td>Ecodigo,CPPid</td><td>CPresupuestoPeriodo</td><td>Ecodigo,CPPid</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>CPresupuestoComprometidasNAPs</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							06
+						</td>
+					
+					<td>Ecodigo,CPCano,CPCmes</td><td>CPmeses</td><td>Ecodigo,CPCano,CPCmes</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>CPresupuestoComprometidasNAPs</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							07
+						</td>
+					
+					<td>Ecodigo,CPNAPnum,CPNAPDlinea</td><td>CPNAPdetalle</td><td>Ecodigo,CPNAPnum,CPNAPDlinea</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+			</table>
+		

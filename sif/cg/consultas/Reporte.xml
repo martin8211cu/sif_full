@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+
+	<Idioma id="en">
+		<BTN_ExportarE>Export to  Excel</BTN_ExportarE>
+		<LB_Reporte>Report</LB_Reporte>
+		<LB_Cuenta>Account</LB_Cuenta>
+		<LB_Descripcion>Description</LB_Descripcion>
+		<LB_Cuentas>Accounts</LB_Cuentas>
+		<LB_Inicial>Initial</LB_Inicial>
+		<LB_Debitos>Debits</LB_Debitos>
+		<LB_Creditos>Credits</LB_Creditos>
+		<LB_Oficina>Office</LB_Oficina>
+		<LB_Oficinas>Offices</LB_Oficinas>
+		<LB_Empresas>Enterprises</LB_Empresas>
+		<LB_Parametros>Parameters</LB_Parametros>
+		<LB_De>From</LB_De>
+		<LB_a>To</LB_a>
+		<LB_ReporteSaldos>Accounting Balances Report by Account</LB_ReporteSaldos>
+		<LB_ReporteRangoCuentas>Accounting Balances Report by Account Range</LB_ReporteRangoCuentas>
+		<LB_ReporteListaCuentas>Accounting Balances Report  by an Account List</LB_ReporteListaCuentas>
+		<LB_Resumido>Summarized</LB_Resumido>
+		<LB_DetalladoMes>Detailed by Month</LB_DetalladoMes>
+		<LB_DetalladoAsiento>Detailed by Entry</LB_DetalladoAsiento>
+		<LB_DetalladoConsecutivo>Detailed by Consecutive</LB_DetalladoConsecutivo>
+		<LB_Consecutivo>Consecutive</LB_Consecutivo>
+		<LB_Asiento>Entry</LB_Asiento>
+		<LB_Periodo>Period</LB_Periodo>
+		<LB_Mes>Month</LB_Mes>
+	</Idioma>
+</Etiquetas>

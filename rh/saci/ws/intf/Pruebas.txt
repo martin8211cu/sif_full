@@ -1,0 +1,28 @@
+=Cisco ACS=
+				createUser					Crea un usuario en Cisco. Tiene varias modalidades según los parámetros (cisco/CLI/AddProfile -u) 
+				deleteUser					Borra un usuario de Cisco (cisco/CLI/DeleteProfile -u)
+NEW		updatePassword			Modifica la contraseña de un usuario (cisco/CLI/UpdatePassword -u)
+
+				changeUserParent		Bloqueo y desbloqueo de usuarios, cambio de paquete (cisco/CLI/ChangeParent)
+NEW		updateTimeout			Modifica el timeout (update a base de datos csdb)
+NEW		updateTelefono			Modifica el teléfono al que está ligado un usuario (update a base de datos csdb)
+
+				getUserInfo					Lee la información de un usuario (cisco/CLI/ViewProfile -u)
+NEW		renameUser				Modifica el nombre de un usuario (update a base de datos csdb)
+
+				createPackage				Crea un paquete en cisco (cisco/CLI/AddProfile -g)
+NEW		deletePackage				Elimina un grupo de Cisco (cisco/CLI/DeleteProfile -g) 
+
+=iPlanet=
+				add								Crea un usuario en servidor de correo iPlanet/SunONE
+				update							Modifica los datos de la cuenta en el servidor iplanet directory server
+				addMailForward			Agrega un mail forward
+				deleteMailForward		Elimina un forwarding address
+				lock								Bloquea la cuenta en el servidor iplanet directory server
+				unlock							Desbloquea la cuenta en el servidor iplanet directory server.
+				delete							Borra un usuario en servidor de correo iPlanet/SunONE
+NEW		rename						Renombra un login
+
+: iPass :
+				agregarLoginIpass			Añade el usuario al archivo de restricciones policy.txt.  Regresa 0 si OK, otro si es error
+				borrarLoginIpass			Borra el usuario del archivo de restricciones policy.txt.  Regresa 0 si OK, otro si es error

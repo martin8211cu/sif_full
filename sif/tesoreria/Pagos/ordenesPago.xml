@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_Titulo>Payment Orders</LB_Titulo>
+		<LB_TrabajarConTesoreria>Working with Treasury</LB_TrabajarConTesoreria>
+		<LB_EmpresaPago>Enterprise Payment</LB_EmpresaPago>
+		<LB_CuentaPago>Account Payment</LB_CuentaPago>
+		<LB_Beneficiario>Beneficary</LB_Beneficiario>
+		<LB_Estado>Status</LB_Estado>
+		<LB_Todos>All</LB_Todos>
+		<LB_EnPreparacion>Forthcoming</LB_EnPreparacion>
+		<LB_EnEmision>Issuing</LB_EnEmision>
+		<LB_SinAplicar>No Apply</LB_SinAplicar>
+		<LB_Emitidas>Issued</LB_Emitidas>
+		<LB_Anuladas>Canceled</LB_Anuladas>
+		<LB_MonedaPago>Currency Payment</LB_MonedaPago>
+		<LB_Moneda>Currency</LB_Moneda>
+		<LB_NumOrden>Order Number</LB_NumOrden>
+		<LB_HastaFecha>To Date</LB_HastaFecha>
+		<LB_DocumentoPago>Document Payment</LB_DocumentoPago>
+		<LB_TrabajarOrdenesEmision>Working with Issue Orders</LB_TrabajarOrdenesEmision>
+		<LB_EmpresaSolicitud>Enterprise Request</LB_EmpresaSolicitud>
+		<LB_NumSolicitud>Application Number</LB_NumSolicitud>
+		<LB_SocioNegocio>Bussines Partner</LB_SocioNegocio>
+		<LB_Socio>Partner</LB_Socio>
+		<LB_o>or</LB_o>
+		<LB_MonedaFactura>Currency Invoice</LB_MonedaFactura>
+		<LB_NumeroAcuerdo>Number Agreement</LB_NumeroAcuerdo>
+		<LB_Banco>Bank</LB_Banco>
+		<LB_CuentaBancariaPago>Payment Bank Account</LB_CuentaBancariaPago>
+		<LB_MedioPago>Means of Payment</LB_MedioPago>
+		<LB_TipoSocioBeneficiario>Partner or Beneficiary Type</LB_TipoSocioBeneficiario>
+		<LB_AgruparSolicitudes>Applications Group selected by Corporate Business Partner</LB_AgruparSolicitudes>
+		<LB_SocioCorporativo>Corporate Partner</LB_SocioCorporativo>
+		<LB_ClienteDetallista>Customer Retailer</LB_ClienteDetallista>	
+		<LB_FechaOrden>Order Date</LB_FechaOrden>	
+		<LB_Observaciones>Comments</LB_Observaciones>
+		<LB_TotalPagar>Total to Pay</LB_TotalPagar>
+		<LB_TipoCambio>Exchange Rate</LB_TipoCambio>
+		<LB_FechaPago>Payment Date</LB_FechaPago>
+		<LB_Solicitada>Requested</LB_Solicitada>
+	<LB_TrbajarOrdenesEmision>Working with Issue Orders</LB_TrbajarOrdenesEmision><LBMoneda>Currency</LBMoneda><LB_BancoPago>Payment Bank</LB_BancoPago><LB_Documento>Document</LB_Documento><LB_FactorConver>Conversion Factor</LB_FactorConver><LB_FecSolicitud>Request Date</LB_FecSolicitud><LB_FechaGenManual>Manual Payment Date</LB_FechaGenManual><LB_InstruccionBanco>Bank Instruction</LB_InstruccionBanco><LB_MontoDoc>Document Amount</LB_MontoDoc><LB_MotivoReimpresion>Reprint Reason</LB_MotivoReimpresion><LB_NumeroReferencia>Reference Number</LB_NumeroReferencia><LB_Origen>Origin</LB_Origen><LB_Referencia>Reference</LB_Referencia><LB_TCDoc>Document ER</LB_TCDoc><LB_CtaYMedioPago>Account and Payment Method</LB_CtaYMedioPago><LB_FecPago>Payment Date</LB_FecPago><LB_FecPagoSolicitada>Payment Request Date</LB_FecPagoSolicitada><LB_MonedaDctos>Doc. Currency</LB_MonedaDctos><LB_MontoPagoSolicitado>Payment Amount Requested</LB_MontoPagoSolicitado></Idioma>
+</Etiquetas>

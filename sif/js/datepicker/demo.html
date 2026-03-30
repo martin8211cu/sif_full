@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html>
+<head>
+<title>Date Picker Demo (WebFX)</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link type="text/css" rel="StyleSheet" href="css/datepicker.css" />
+<script type="text/javascript" src="js/datepicker.js"></script>
+<style type="text/css">
+
+body, html {
+	border:		0;
+	background:	ButtonFace;
+	font:		MessageBox;
+	font:		Message-Box;
+}
+
+.buttonRow button {
+	width:			150px;
+	font:			Caption;
+	font-weight:	normal !important;
+}
+
+.datePicker {
+-moz-user-focus: normal;
+}
+
+</style>
+</head>
+<body>
+
+<p class="buttonRow">
+<button onclick="dp.setDate(new Date(0))">0</button>
+<button onclick="dp.setDate(null)">Null</button>
+<button onclick="dp.goToToday()">Today</button>
+<button onclick="dp.setShowNone( !dp.getShowNone() )">Toggle None</button>
+<button onclick="dp.setShowToday( !dp.getShowToday() )">Toggle Today</button>
+<button onclick="dp.setRedWeekDay(6)">Sunday is red</button>
+<button onclick="dp.setRedWeekDay(4)">Friday is red</button>
+<button onclick="dp.setFirstWeekDay(0)">Monday starts week</button>
+<button onclick="dp.setFirstWeekDay(5)">Saturday starts week</button>
+</p>
+
+
+<script type="text/javascript">
+var d = new Date();
+var dp = new DatePicker(d);
+document.body.appendChild(dp.create());
+</script>
+
+<p>Below is another date picker. The date pickers are synchronized by linking the onchange "events".</p>
+
+<script type="text/javascript">
+var dp2 = new DatePicker(d);
+document.body.appendChild(dp2.create());
+
+dp.onchange = function () {
+	dp2.setDate(dp.getDate());
+};
+
+dp2.onchange = function () {
+	dp.setDate(dp2.getDate());
+};
+</script>
+
+<p>And a third one using American format (where the weekend is not at the end of the week) :-)</p>
+
+<script type="text/javascript">
+d = new Date( 1975, 7, 19 );
+var dp3 = new DatePicker(d);
+document.body.appendChild(dp3.create());
+dp3.setFirstWeekDay(6);
+</script>
+
+<p><a href="javascript:document.location='view-source:'+document.location; void 0;">View Page source</a>.</p>
+
+</body>
+</html>

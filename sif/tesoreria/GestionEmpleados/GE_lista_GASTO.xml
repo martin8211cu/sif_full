@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_NumLiquidacion>Settlement Number</LB_NumLiquidacion>
+		<LB_Tipo>Type</LB_Tipo>
+		<LB_NumTransaccion>Transaction Number</LB_NumTransaccion>
+		<LB_OfiCentroFuncional>Functional Center</LB_OfiCentroFuncional>
+		<LB_NombreEmpleado>Employee Name</LB_NombreEmpleado>
+		<LB_Fecha>Date</LB_Fecha>
+		<LB_Moneda>Currency</LB_Moneda>
+		<LB_Gastos>Expenses</LB_Gastos>
+		<LB_Estado>Status</LB_Estado>
+		<LB_Solicitante>Requester</LB_Solicitante>
+	</Idioma>
+</Etiquetas>

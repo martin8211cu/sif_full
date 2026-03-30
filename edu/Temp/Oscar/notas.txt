@@ -1,0 +1,29 @@
+calificarEvaluaciones:
+
+Si al planear un período de un curso se indica una tabla para una evaluación, aparece la tabla en la columna correspondiente, si no se digita el porcentaje.
+Si al planear la materia se indica una tabla de evaluacion, aparece la tabla en las columnas del período, si no aparecen porcentajes.
+La calificación es con base en 100%. Cada valor de la tabla tiene un porcentaje equivalente con base en 100% también.
+Se puede calificar un período de cualquier curso vigente que no sea electivo ni complementario
+Promedios por estudiante:
+  Nota de Progreso: Porcentaje ganado unicamente con base en las evaluaciones ya calificadas
+  Nota de Promedio ganada: Porcentaje ganado con base en todas las evaluaciones (las no calificadas se concideran como cero)
+  Ajuste: Porcentaje digitado manualmente
+  Nota Asignada:
+    Si tiene Ajuste, se asigna el Ajuste
+    Si no tiene Ajuste y el período no esta cerrado, se asigna la nota de Promedio ganada
+    Si no tiene Ajuste y el período ya esta cerrado, se asigna la nota de Progreso
+
+calificarCurso:
+
+Si al planear la materia se indica una tabla de evaluacion, aparece la tabla en las columnas de los períodos y en la del curso, si no aparecen porcentajes.
+Se puede calificar cualquier curso vigente que no sea electivo ni sea un curso complemento de un complementario
+Promedios de los cursos complementarios:
+  En cada período aparece el promedio del curso complemento impartido en el período correspondiente
+  OJO (FALTA EL CONTROL DE QUE UN CURSO COMPLEMENTO SOLO SE PUEDA IMPARTIR EN UN SOLO PERÍODO DE EVALUACION)
+Promedios por estudiante:
+  Promedio de Progreso: Promedio de los períodos calificados
+  Promedio Ganado: Promedio de los períodos ya calificados, más los no calificados que no han sido cerrados
+  Ajuste: Porcentaje digitado manualmente
+  Resultado Asignado:
+    Si tiene Ajuste, se asigna el Ajuste
+    Si no tiene Ajuste, se asigna el Promedio Ganado

@@ -1,0 +1,54 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  asp
+	MODELO:  ASP Framework.pdm
+	VERSION: 7 - DBM 117: BASE CERO: ASP Framework
+
+	         PARCHE:  ParcheParche023_001_SIF_BASE0
+
+GENERADO EN:
+	SERVER:  http://mxvqapp34:8300
+	DSN:     asp
+	FECHA:   13/03/2012 18:58:26
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* CHG_TABLE SMS: SMS */
+/* ======================================================================================== */
+/* CHG_COLUMN OP = (CAMBIO): reintentos - reintentos */
+ALTER TABLE SMS ADD CONSTRAINT SMS_DF16 DEFAULT 0 FOR reintentos
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_COLUMN OP = (CAMBIO): SMSid - SMSid */
+/* IF X GT 0:select count(1) as X from syscolumns where id=object_id('SMS') and name='SMSid__NEW' */
+LA SIGUIENTE INSTRUCCION NO SE VA A EJECUTAR PORQUE NO SE CUMPLIO LA CONDICION 'X GT 0':
+ALTER TABLE SMS DROP COLUMN SMSid__NEW
+go
+ALTER TABLE SMS ADD  SMSid__NEW numeric(18) identity
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE SMS DROP COLUMN SMSid
+go
+EJECUCION EN BASE DE DATOS OK
+
+EXEC sp_rename 'SMS.SMSid__NEW', 'SMSid', 'COLUMN'
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (NUEVO): TIP="P", SEC="0", COLS="SMSid" */
+ALTER TABLE SMS ADD CONSTRAINT SMS_PK PRIMARY KEY NONCLUSTERED (SMSid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

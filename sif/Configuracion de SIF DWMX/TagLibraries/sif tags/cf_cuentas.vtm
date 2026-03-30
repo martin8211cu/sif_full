@@ -1,0 +1,25 @@
+<tag name="cf_cuentas" endtag="no">
+    <tagformat nlbeforetag="0" nlaftertag="0" /> 
+    
+  <attributes> 
+    <attrib name="Conexion"/>
+    <attrib name="query" TYPE="text"/>
+    <attrib name="CONLIS" TYPE="enumerated" casesensitive="yes"> 
+      <attriboption VALUE="S" />
+      <attriboption VALUE="N" />
+    </attrib>
+    <attrib name="Cformato"/>
+    <attrib name="Ccuenta"/>
+    <attrib name="Cdescripcion"/>
+    <attrib name="form"/>
+    <attrib name="MOVIMIENTO" TYPE="enumerated" casesensitive="yes"> 
+      <attriboption VALUE="S" />
+      <attriboption VALUE="N" />
+    </attrib>
+    <attrib name="AUXILIARES" TYPE="enumerated" casesensitive="yes"> 
+      <attriboption VALUE="S" />
+      <attriboption VALUE="N" />
+    </attrib>
+    <attrib name="frame"/>
+  </attributes>
+  </tag>

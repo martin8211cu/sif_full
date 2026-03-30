@@ -1,0 +1,149 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 148 - DBM 253: Diagram: Comision_de_Viaticos
+
+	         PARCHE:  Parche023_215_SIF_ViaticosComision
+
+GENERADO EN:
+	SERVER:  http://mxpapp36:8300
+	DSN:     sifcim
+	FECHA:   27/08/2011 14:36:12
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* CHG_TABLE CCHTransaccionesProceso: TRANSACCIONES DE CAJA EN PROCE */
+/* ======================================================================================== */
+/* CHG_COLUMN OP=(CAMBIO): CCHTtipo - Tipo Transaccion */
+ALTER TABLE CCHTransaccionesProceso DROP CONSTRAINT CCHTransaccionesProceso_CK15 /* CHECK ([CCHTtipo]='GASTO' OR [CCHTtipo]='ANTICIPO' OR [CCHTtipo]='DISMINUCION' OR [CCHTtipo]='CIERRE' OR [CCHTtipo]='AUMENTO' OR [CCHTtipo]='REINTEGRO' OR [CCHTtipo]='APERTURA') */
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE CCHTransaccionesProceso ADD CONSTRAINT CCHTransaccionesProceso_CK15 CHECK ([CCHTtipo]='COMISION' OR [CCHTtipo]='GASTO' OR [CCHTtipo]='ANTICIPO' OR [CCHTtipo]='DISMINUCION' OR [CCHTtipo]='CIERRE' OR [CCHTtipo]='AUMENTO' OR [CCHTtipo]='REINTEGRO' OR [CCHTtipo]='APERTURA')
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE GEanticipo: GEanticipo */
+/* ======================================================================================== */
+/* CHG_COLUMN OP=(CAMBIO): GEAmanual - Tipo de cambio de la moneda trabajada */
+ALTER TABLE GEanticipo ALTER COLUMN GEAmanual float NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE GEanticipoDet: GEanticipoDet */
+/* ======================================================================================== */
+/* CHG_COLUMN OP=(CAMBIO): GEADtipocambio - Tipo de Cambio para el viatico en otra moneda */
+ALTER TABLE GEanticipoDet ALTER COLUMN GEADtipocambio float NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE GEcomision: Comision de Viaticos */
+/* ======================================================================================== */
+/* CHG_COLUMN OP=(CAMBIO): GECdescripcion - Descripcion */
+UPDATE GEcomision SET GECdescripcion = ' ' WHERE convert(varchar,GECdescripcion) IS NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE GEcomision ALTER COLUMN GECdescripcion varchar(50) NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_COLUMN OP=(CAMBIO): GECestado - Estado Comision */
+ALTER TABLE GEcomision DROP CONSTRAINT GEcomision_CK21 /* CHECK ([GECestado]=(4) OR [GECestado]=(3) OR [GECestado]=(1) OR [GECestado]=(0)) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE GEcomision DROP CONSTRAINT DF__GEcomisio__GECes__145E6C44
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE GEcomision ALTER COLUMN GECestado numeric(1) NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE GEcomision ADD CONSTRAINT GEcomision_DF21 DEFAULT 1 FOR GECestado
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE GEcomision ADD CONSTRAINT GEcomision_CK21 CHECK ([GECestado]=(4) OR [GECestado]=(3) OR [GECestado]=(2) OR [GECestado]=(1))
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_COLUMN OP=(CAMBIO): GECfechaSolicitud - Fecha Creacion Comision */
+UPDATE GEcomision SET GECfechaSolicitud = getdate() WHERE convert(varchar,GECfechaSolicitud) IS NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE GEcomision ALTER COLUMN GECfechaSolicitud datetime NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): UsucodigoSolicitud - Usuario que solicita */
+ALTER TABLE GEcomision ADD UsucodigoSolicitud numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+UPDATE GEcomision SET UsucodigoSolicitud = 0
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE GEcomision ALTER COLUMN UsucodigoSolicitud numeric(18) NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE STransaccionesProceso: Seguimiento de transacciones e */
+/* ======================================================================================== */
+/* CHG_COLUMN OP=(CAMBIO): CCHTtipo - Tipo de transaccion */
+ALTER TABLE STransaccionesProceso DROP CONSTRAINT STransaccionesProceso_CK04 /* CHECK ([CCHTtipo]='REINTEGRO' OR [CCHTtipo]='GASTO' OR [CCHTtipo]='DISMINUCION' OR [CCHTtipo]='CIERRE' OR [CCHTtipo]='AUMENTO' OR [CCHTtipo]='APERTURA' OR [CCHTtipo]='ANTICIPO') */
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE STransaccionesProceso ADD CONSTRAINT STransaccionesProceso_CK04 CHECK ([CCHTtipo]='COMISION' OR [CCHTtipo]='REINTEGRO' OR [CCHTtipo]='GASTO' OR [CCHTtipo]='DISMINUCION' OR [CCHTtipo]='CIERRE' OR [CCHTtipo]='AUMENTO' OR [CCHTtipo]='APERTURA' OR [CCHTtipo]='ANTICIPO')
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE TESbeneficiario: Beneficiario */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): Bid - ID de Banco Equivalente */
+ALTER TABLE TESbeneficiario ADD Bid numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(NUEVO): TIP="F", SEC="5", COLS="Bid", REF="Bancos" */
+CREATE INDEX TESbeneficiario_FI05 ON TESbeneficiario (Bid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ================================================================= */
+/*            CREA FKs NUEVOS O CON CAMPOS MODIFICADOS               */
+/* ================================================================= */
+/* CHG_TABLE TESbeneficiario */
+/* ADD_FK OP=(NUEVO): TIP="F", SEC="5", COLS="Bid", REF="Bancos" */
+ALTER TABLE TESbeneficiario ADD CONSTRAINT TESbeneficiario_FK05 FOREIGN KEY (Bid) REFERENCES Bancos (Bid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

@@ -1,0 +1,225 @@
+<strong>INDICE:</strong><BR>- <A href='#COLs_CHG'>Columnas a modificarse</A><BR>- <A href='#COLs_ADD'>Columnas nuevas</A><BR>- <A href='#TABs_ADD'>Tablas nuevas</A><BR>- <A href='#KEYs_ADD'>Llaves nuevas o a regenerarse</A><BR>- <A href='#RENAMES'>Objetos a Renombrase</A><BR><BR><BR>
+			<BR><strong><A name='COLs_CHG'>COLUMNAS QUE VAN A SER ALTERADAS EN LA BASE DE DATOS PORQUE TIENEN CARACTERISTICAS MODIFICADAS EN EL MODELO DBM</A></strong><BR>
+			<table>
+			<tr><td><strong>TABLA</strong></td><td><strong>COLUMNA</strong></td><td><strong>&nbsp;</strong></td><td><strong>TIPO</strong></td><td><strong>LON</strong></td><td><strong>DEC</strong></td><td><strong>obl</strong></td><td><strong>ide</strong></td><td><strong>dfl</strong></td><td><strong>rul</strong></td></tr>
+			
+				<tr>
+					<td>IE6</td><td>Imodo</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td>CHAR</td>
+					<td>1</td>
+					<td>0</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					<td>A</td>
+					<td><strong>([Imodo]='B' OR [Imodo]='A')</strong></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>CHAR</td>
+					<td>1</td>
+					<td>0</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					
+						<td>A</td>
+					
+					
+						<td></td>
+					
+				</tr>
+			
+			</table>
+		
+			<BR><strong><A name='COLs_ADD'>COLUMNAS NUEVAS EN EL MODELO DBM QUE SE VAN A CREAR EN LA BASE DE DATOS</A></strong><BR>
+			<table>
+			<tr><td><strong>TABLA</strong></td><td><strong>COLUMNA</strong></td><td><strong>TIPO</strong></td><td><strong>LON</strong></td><td><strong>DEC</strong></td><td><strong>obl</strong></td><td><strong>ide</strong></td><td><strong>dfl</strong></td><td><strong>rul</strong></td></tr>
+			
+				<tr><td>IE6&nbsp;&nbsp;</td><td>Ecodigo&nbsp;&nbsp;</td><td>INTEGER&nbsp;&nbsp;</td><td>10</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>IE6&nbsp;&nbsp;</td><td>TRcodigo&nbsp;&nbsp;</td><td>CHAR&nbsp;&nbsp;</td><td>4</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+			</table>
+		
+			<BR><strong><A name='TABs_ADD'>TABLAS NUEVAS EN EL MODELO DBM QUE SE VAN A CREAR EN LA BASE DE DATOS</A></strong><BR>
+			<table>
+			<tr><td><strong>TABLA</strong></td></tr>
+			
+				<tr><td>ID707</td></tr>
+			
+				<tr><td>ID711</td></tr>
+			
+				<tr><td>IE707</td></tr>
+			
+				<tr><td>IE711</td></tr>
+			
+				<tr><td>IS711</td></tr>
+			
+			</table>
+		
+			<BR><strong><A name='COLs_ADD'>LLAVES QUE SE VAN A CREAR.</font></A></strong><BR>
+			<table>
+			<tr><td><strong>TABLA</strong></td><td><strong>TIPO</strong></td><td><strong>SEC.</strong></td><td><strong>COLUMNAS</strong></td><td><strong>TABLA REFERENCIADA</strong></td><td><strong>COLUMNAS REFERENCIADAS</strong></td><td><strong>RAZON</strong></td></tr>
+			
+				
+					<tr><td>ID707</td><td align="center">
+						
+							PK 
+						
+					</td>
+					
+						<td align="center">
+							00
+						</td>
+					
+					<td>ID</td><td>*</td><td>*</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>ID707</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>ID</td><td>IE707</td><td>ID</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>ID711</td><td align="center">
+						
+							PK 
+						
+					</td>
+					
+						<td align="center">
+							00
+						</td>
+					
+					<td>ID,SecOrden,SecSolicitud</td><td>*</td><td>*</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>ID711</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							02
+						</td>
+					
+					<td>ID,SecOrden</td><td>IE711</td><td>ID,SecOrden</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>IE707</td><td align="center">
+						
+							PK 
+						
+					</td>
+					
+						<td align="center">
+							00
+						</td>
+					
+					<td>ID</td><td>*</td><td>*</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>IE711</td><td align="center">
+						
+							PK 
+						
+					</td>
+					
+						<td align="center">
+							00
+						</td>
+					
+					<td>ID,SecOrden</td><td>*</td><td>*</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>IS711</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>ID,SecOrden,SecSolicitud</td><td>ID711</td><td>ID,SecOrden,SecSolicitud</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+			</table>
+		
+			<BR><strong><A name='RENAMES'>OBJETOS QUE SE VAN A RENOMBRAR EN LA BASE DE DATOS PORQUE SU NOMENCLATURA NO SIGUE LOS STANDARES DBM</A></strong><BR>
+			<table>
+			<tr><td><strong>TABLA</strong></td><td><strong>TIPO</strong></td><td><strong>NOMBRE ACTUAL</strong></td><td><strong>NUEVO NOMBRE</strong></td><td><strong>COLS</strong></td></tr>
+			
+				<tr><td>IE6&nbsp;&nbsp;</td><td>KEY_PK&nbsp;&nbsp;</td><td>PK_IE6&nbsp;&nbsp;</td><td>IE6_PK&nbsp;&nbsp;</td><td>ID</td></tr>
+			
+			</table>
+		

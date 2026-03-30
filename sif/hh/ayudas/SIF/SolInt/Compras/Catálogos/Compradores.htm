@@ -1,0 +1,165 @@
+<!doctype HTML public "-//W3C//DTD HTML 4.0 Frameset//EN">
+
+<html>
+
+<!--(==============================================================)-->
+<!--(Document created with RoboEditor. )============================-->
+<!--(==============================================================)-->
+
+<head>
+
+<title>3 - Compradores</title>
+
+<!--(Meta)==========================================================-->
+
+<meta http-equiv=content-type content="text/html; charset=windows-1252">
+<meta name=generator content="RoboHELP by eHelp Corporation - www.ehelp.com">
+<meta name=generator-major-version content=0.1>
+<meta name=generator-minor-version content=1>
+<meta name=filetype content=kadov>
+<meta name=filetype-version content=1>
+<meta name=page-count content=1>
+<meta name=layout-height content=1305>
+<meta name=layout-width content=1005>
+
+
+<!--(Links)=========================================================-->
+
+<link rel=StyleSheet href="..\..\default.css">
+
+
+
+</head>
+
+<!--(Body)==========================================================-->
+
+
+<body>
+
+<h1 style="text-align: center; color: #000080;"
+	align=center>Compradores</h1>
+
+<p style="font-size: 10pt; text-align: justify;">En este catálogo se van 
+ a crear los compradores, que son los encargados de realizar las órdenes 
+ de compra dentro del sistema; este mantenimiento además de crear los compradores, 
+ permite indicar los tipos de solicitudes que serán atendidos por cada 
+ comprador, definir la jerarquía de mando dentro de la empresa y los montos 
+ máximos de compra posibles por comprador.</p>
+
+<p style="font-size: 10pt; text-align: justify;">&nbsp;</p>
+
+<p style="font-size: 10pt; text-align: justify;">Se debe de crear un código, 
+ asignarle un usuario, el jefe de ese usuario, la moneda y el monto máximo 
+ que puede trabajar. Si se deja el monto en cero, significa que no tiene 
+ un límite de monto. Seleccionar si esta activo, si es un comprador default; 
+ este indicador es de suma importancia ya que le indica al sistema si es 
+ un comprador “en uso” para realizar la asignación de cargas de trabajo 
+ al momento de aprobarse las solicitudes de compra por parte de los solicitantes 
+ de la empresa.</p>
+
+<p style="font-size: 10pt; text-align: justify;">&nbsp;</p>
+
+<p style="font-size: 10pt; text-align: justify;">Es importante mencionar 
+ que los montos máximos de compra asociados a cada comprador se indican 
+ en una única moneda y es el sistema quien se encarga de realizar las conversiones 
+ requeridas a fin de definir si un comprador tiene o no la potestad de 
+ realizar una compra en una orden de compra en moneda diferente.</p>
+
+<p style="font-size: 10pt; text-align: justify;">&nbsp;</p>
+
+<p style="font-size: 10pt; text-align: justify;">Además se le debe de asociar 
+ los tipos de compra (artículos, activos fijos o servicios) que podrá registrar 
+ en las órdenes de compra.</p>
+
+<p style="font-size: 10pt; text-align: justify;">&nbsp;</p>
+
+<p style="font-size: 10pt; text-align: justify;">Para que un comprador, 
+ aparte de llevar a cabo el proceso de compra, sea un autorizador de la 
+ misma, se tiene que activar el check <span style="color: #ff0000;"><img 
+ src="checkAutorizador.jpg"
+	x-maintain-ratio=TRUE
+	style="border: none;
+			width: 93px;
+			height: 17px;
+			float: none;
+			border-style: none;
+			border-style: none;"
+	width=93
+	height=17
+	border=0></span> cuando se esta creando a dicho comprador.</p>
+
+<p style="font-size: 10pt;">&nbsp;</p>
+
+<p style="font-size: 10pt; color: #ff0000;"><img src="Compradores01.jpg"
+												x-maintain-ratio=TRUE
+												style="border: none;
+														width: 985px;
+														height: 281px;
+														float: none;
+														border-style: none;
+														border-style: none;"
+												width=985
+												height=281
+												border=0></p>
+
+<p style="font-size: 10pt;">&nbsp;</p>
+
+<p style="font-size: 10pt; text-align: justify;">Una vez creado el comprador, 
+ se le debe de asignar los tipos de solicitud con los que puede realizar 
+ órdenes de compra:</p>
+
+<p style="font-size: 10pt;">&nbsp;</p>
+
+<p style="font-size: 10pt; text-align: center;"
+	align=center><img src="Compradores02.jpg"
+						x-maintain-ratio=TRUE
+						style="border: none;
+								width: 846px;
+								height: 327px;
+								float: none;
+								border-style: none;
+								border-style: none;"
+						width=846
+						height=327
+						border=0></p>
+
+<p style="font-size: 10pt;">&nbsp;</p>
+
+<p style="font-size: 10pt; text-align: justify;">Otro aspecto a considerar 
+ es que en caso de no asignarse tipos de solicitud para la especialización 
+ del comprador, se le esta indicando al sistema que este comprador no realiza 
+ ese tipo de compras, por lo que la asignación de trabajo se realizará 
+ por centro funcional o por cargas de trabajo; el orden de asignación de 
+ trabajo a los compradores es el siguiente:</p>
+
+<p style="font-size: 10pt; text-align: justify;">&nbsp;</p>
+
+<p style="font-size: 10pt;
+			margin-left: 40px;
+			text-align: justify;">1. Centros funcionales asociados.</p>
+
+<p style="font-size: 10pt;
+			margin-left: 40px;
+			text-align: justify;">2. Especialización de tipos de solicitud.</p>
+
+<p style="font-size: 10pt;
+			margin-left: 40px;
+			text-align: justify;">3. Cargas de trabajo (cantidad de solicitudes 
+ pendientes de surtir).</p>
+
+<p style="font-size: 10pt;
+			margin-left: 40px;
+			text-align: justify;">4. Es o no el comprador por defecto del 
+ sistema.</p>
+
+<p style="font-size: 10pt; text-align: justify;">&nbsp;</p>
+
+<p style="font-size: 10pt; text-align: justify;">Con base en los criterios 
+ anteriores la aplicación decide a quien debe asignarse una solicitud de 
+ compra; en caso de no encontrar ningún comprador que cumpla los criterios 
+ anteriores, la solicitud de compra es asignada al comprador definido como 
+ “default”.</p>
+
+</body>
+
+</html>

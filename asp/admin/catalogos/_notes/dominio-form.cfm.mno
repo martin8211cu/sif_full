@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<info>
+	<infoitem key="UD_ctaemp" value="name:CEcodigo;datatype:,name:CEnombre;datatype:,name:CEaliaslogin;datatype:" />
+	<infoitem key="UD_empresa" value="name:Ecodigo;datatype:,name:Enombre;datatype:" />
+	<infoitem key="UD_apariencia" value="name:id_apariencia;datatype:,name:descripcion;datatype:,name:template;datatype:,name:home;datatype:,name:login;datatype:" />
+	<infoitem key="UD_procs" value="name:SScodigo;datatype:,name:SMcodigo;datatype:,name:SPcodigo;datatype:,name:SPdescripcion;datatype:" />
+</info>

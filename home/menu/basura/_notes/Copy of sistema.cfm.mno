@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<info>
+	<infoitem key="UD_empresa" value="name:Enombre;datatype:" />
+	<infoitem key="UD_sistema" value="name:SSdescripcion;datatype:" />
+</info>

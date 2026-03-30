@@ -1,0 +1,27 @@
+<Etiquetas>
+	<Idioma id="en">
+		<LB_Titulo>Value of goods in their heritage</LB_Titulo>
+		<LB_Periodo>Period</LB_Periodo>
+		<LB_Mes>To</LB_Mes>
+		<LB_Categoria>Category</LB_Categoria>
+		<LB_Placa>Code</LB_Placa>
+		<LB_Desc>Description of Property</LB_Desc>
+		<LB_Cifras></LB_Cifras>
+		<LB_Bienes>Movable or immovable</LB_Bienes>
+		<LB_Monto>Value</LB_Monto>
+		<LB_Fecha>Date</LB_Fecha>
+		<LB_Hora>Time</LB_Hora>
+		<LB_Enero>January</LB_Enero>
+		<LB_Febrero>February</LB_Febrero>
+		<LB_Marzo>March</LB_Marzo>
+		<LB_Abril>April</LB_Abril>
+		<LB_Mayo>May</LB_Mayo>
+		<LB_Junio>June</LB_Junio>
+		<LB_Julio>July</LB_Julio>
+		<LB_Agosto>August</LB_Agosto>
+		<LB_Septiembre>September</LB_Septiembre>
+		<LB_Octubre>October</LB_Octubre>
+		<LB_Noviembre>November</LB_Noviembre>
+		<LB_Diciembre>December</LB_Diciembre>
+	</Idioma>
+</Etiquetas>

@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<info>
+	<infoitem key="UD_dataEstados" value="name:ETcodigo;datatype:,name:ETdescripcion;datatype:" />
+	<infoitem key="UD_rsCourier" value="name:CRid;datatype:,name:CRcodigo;datatype:,name:CRdescripcion;datatype:" />
+	<infoitem key="UD_rsEstadosTracking" value="name:ETcodigo;datatype:,name:ETdescripcion;datatype:" />
+</info>

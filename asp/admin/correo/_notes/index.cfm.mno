@@ -1,0 +1,4 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<info>
+	<infoitem key="UD_datos" value="name:SMTPid;datatype:,name:SMTPremitente;datatype:,name:SMTPdestinatario;datatype:,name:SMTPasunto;datatype:,name:SMTPtexto;datatype:,name:SMTPintentos;datatype:,name:SMTPcreado;datatype:,name:SMTPenviado;datatype:,name:SMTPhtml;datatype:" />
+</info>

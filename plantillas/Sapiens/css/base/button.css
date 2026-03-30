@@ -1,0 +1,98 @@
+/**
+ * Los botones se clasifican como uno de los siguientes tipos:
+ *   Corrientes:  Botones comunes a los catalogos y registros.
+ *   Acciones:    Botones que realizan un proceso o acción especial en la base de datos.
+ *   Navegacion:  Botones que no afectan la base de datos, solamente navegan en el portal.
+ *
+ * Para cada uno de estos tipos se establecen distintos selectores que permiten
+ * personalizar en cada plantilla la apariencia de estos botones, posiblemente con
+ * iconos especializados.
+ *   Corrientes:  guardar, eliminar, nuevo, filtrar, limpiar
+ *   Acciones:    aplicar, email, publicar
+ *   Navegacion:  detalle, anterior, siguiente
+ *
+ *
+ * En el estilo "anterior" se engloban los botones de Regresar, Cancelar, Ir a lista, etc.
+ */
+
+label {
+	font-style:oblique;
+	font-stretch:ultra-condensed;
+	font-weight:bolder;
+}
+
+.btnNormal, .btnGuardar, .btnEliminar, .btnNuevo, .btnFiltrar, .btnLimpiar, .btnImprimir, .btnRefresh {
+	background-color:#FFFFFF;
+	color:#111c52;
+}
+
+.btnAplicar, .btnEmail, .btnPublicar {
+	background-color:#d9e9f6;
+	color:#111c52;
+	font-weight:bold;
+}
+
+.btnDetalle, .btnAnterior, .btnSiguiente {
+	background-color:#FFFFFF;
+	color:#111c52;
+}
+
+.btnNormal {
+	margin-left:5px; margin-right:5px;
+	margin-top:2px; margin-bottom:2px;
+}
+.btnGuardar, .btnEliminar, .btnNuevo, .btnFiltrar, .btnLimpiar,
+.btnAplicar, .btnEmail, .btnPublicar, .btnImprimir, .btnRefresh,
+.btnDetalle, .btnAnterior, .btnSiguiente {
+	background-repeat:no-repeat;
+	background-position:left;
+	margin-left:5px; margin-right:5px;
+	margin-top:2px; margin-bottom:2px;
+	padding-left:18px;
+	text-align:center;
+}
+
+
+.btnGuardar{
+	background-image:url(/cfmx/plantillas/Sapiens/css/images/btnGuardar.gif);
+}
+.btnEliminar{
+	background-image:url(/cfmx/plantillas/Sapiens/css/images/btnEliminar.gif);
+}
+.btnNuevo{
+	background-image:url(/cfmx/plantillas/Sapiens/css/images/btnNuevo.gif);
+}
+.btnFiltrar{
+	background-image:url(/cfmx/plantillas/Sapiens/css/images/btnFiltrar.gif);
+}
+.btnLimpiar{
+	background-image:url(/cfmx/plantillas/Sapiens/css/images/btnLimpiar.gif);
+}
+.btnImprimir{
+	background-image:url(/cfmx/plantillas/Sapiens/css/images/btnImprimir.gif);
+}
+.btnRefresh{
+	background-image:url(/cfmx/plantillas/Sapiens/css/images/btnRefresh.gif);
+}
+
+.btnAplicar{
+	background-image:url(/cfmx/plantillas/Sapiens/css/images/btnAplicar.gif);
+}
+.btnEmail{
+	background-image:url(/cfmx/plantillas/Sapiens/css/images/btnEmail.gif);
+}
+.btnPublicar{
+	background-image:url(/cfmx/plantillas/Sapiens/css/images/btnPublicar.gif);
+}
+
+
+
+.btnDetalle{
+	background-image:url(/cfmx/plantillas/Sapiens/css/images/btnDetalle.gif);
+}
+.btnAnterior{
+	background-image:url(/cfmx/plantillas/Sapiens/css/images/btnAnterior.gif);
+}
+.btnSiguiente{
+	background-image:url(/cfmx/plantillas/Sapiens/css/images/btnSiguiente.gif);
+}

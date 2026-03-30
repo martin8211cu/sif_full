@@ -1,0 +1,30 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 170 - DBM 279: Se agrego el campo CBPTCorden, correspond
+
+	         PARCHE:  Parche023_252_SIF_PagoTCE
+
+GENERADO EN:
+	SERVER:  http://mxpapp36:8300
+	DSN:     sifcim
+	FECHA:   06/09/2011 19:01:04
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* CHG_TABLE CBEPagoTCE: CBEPagoTCE */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): CBPTCorden - Numero OP */
+ALTER TABLE CBEPagoTCE ADD CBPTCorden integer NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

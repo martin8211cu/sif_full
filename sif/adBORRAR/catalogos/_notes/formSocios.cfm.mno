@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<info>
+	<infoitem key="UD_rsPaises" value="name:Ppais;datatype:,name:Pnombre;datatype:" />
+	<infoitem key="UD_rsIdiomas" value="name:LOCIdioma;datatype:,name:Descripcion;datatype:" />
+</info>

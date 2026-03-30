@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_Formato>Format</LB_Formato>
+		<LB_Espere>Please Wait</LB_Espere>
+		<LB_Proceso>The process can take several minutes</LB_Proceso>
+		<BTN_Regresar>Return</BTN_Regresar>
+		<BTN_Generar>Generate</BTN_Generar>
+		
+	</Idioma>
+</Etiquetas>

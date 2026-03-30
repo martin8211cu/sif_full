@@ -1,0 +1,30 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 421 - DBM 358: Se agrega la columna descalterna
+
+	         PARCHE:  Parche023_418_SIF_validacionCompradores
+
+GENERADO EN:
+	SERVER:  http://mxvqapp34:8300
+	DSN:     sifcim
+	FECHA:   06/01/2012 17:48:47
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* CHG_TABLE Articulos: Articulos */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): descalterna - descalterna */
+ALTER TABLE Articulos ADD descalterna varchar(1024) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

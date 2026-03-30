@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<Etiquetas>
+		<Idioma id="EN">
+			<RptProgTit01>
+				Please choose an option:
+			</RptProgTit01>
+			<RptProgTit02>
+				PROGRESS REPORT
+			</RptProgTit02>
+			<RptProgTit03>
+				Subject
+			</RptProgTit03>
+			<RptProgTit04>
+				% Evaluate 
+			</RptProgTit04>
+			<RptProgTit05>
+				% Earned 
+			</RptProgTit05>
+			<RptProgTit06>
+				% Grades Earned for this Date
+			</RptProgTit06>
+			<RptProgTit07>
+				Additional Comments
+			</RptProgTit07>
+			<RptProgTit08>
+				Date
+			</RptProgTit08>
+			<RptProgTit09>
+				Student
+			</RptProgTit09>
+			<RptProgTit10>
+				Grading Period 
+			</RptProgTit10>
+			<RptProgTit11>
+				Grade
+			</RptProgTit11>
+			<RptProgTit12>
+				There isn't some information about the chosen period. Please try again.
+			</RptProgTit12>
+			<RptProgTit13>
+				There isn't some information about the chosen grade.
+			</RptProgTit13>
+			<RptProgTit14>
+				Key
+			</RptProgTit14>
+			<RptProgTit15>
+				Teacher Guide:
+			</RptProgTit15>
+			<RptProgTit16>
+				Teacher
+			</RptProgTit16>
+			<RptProgTit17>
+				Director
+			</RptProgTit17>
+			<RptProgTit18>
+				Signature
+			</RptProgTit18>
+			<RptProgTit19>
+				Additional
+			</RptProgTit19>
+			<RptProgTit20>
+				Age:
+			</RptProgTit20>
+			<RptProgTit21>
+				Years
+			</RptProgTit21>
+			<RptProgTit22>
+				Months
+			</RptProgTit22>
+			<RptProgTit23>
+				Days
+			</RptProgTit23>
+			<RptProgTit24>
+				Code:
+			</RptProgTit24>
+			<RptProgTit25>
+				Level
+			</RptProgTit25>
+			<RptProgTit26>
+				Year
+			</RptProgTit26>
+			<RptProgTit27>
+				%Course's Average
+			</RptProgTit27>
+			<RptProgTit28>
+				State 
+			</RptProgTit28>
+			<RptProgTit29>
+				FINAL AVERAGE
+			</RptProgTit29>
+			<RptProgTit30>
+				Report's End
+			</RptProgTit30>			
+		</Idioma>
+		<Idioma id="ES_CR">
+			<RptProgTit01>
+				Seleccione una opción:
+			</RptProgTit01>
+			<RptProgTit02>
+				REPORTE DE PROGRESO
+			</RptProgTit02>
+			<RptProgTit03>
+				Nombre de la Materia
+			</RptProgTit03>
+			<RptProgTit04>
+				% Total Evaluado
+			</RptProgTit04>
+			<RptProgTit05>
+				% Total Ganado
+			</RptProgTit05>
+			<RptProgTit06>
+				% Total Progreso obtenido a la fecha
+			</RptProgTit06>
+			<RptProgTit07>
+				Comentarios adicionales
+			</RptProgTit07>
+			<RptProgTit08>
+				Fecha
+			</RptProgTit08>
+			<RptProgTit09>
+				Estudiante
+			</RptProgTit09>
+			<RptProgTit10>
+				Periodo de Evaluación
+			</RptProgTit10>
+			<RptProgTit11>
+				Grupo
+			</RptProgTit11>
+			<RptProgTit12>
+				No existe información para el periodo escogido. Por favor trate de nuevo.
+			</RptProgTit12>
+			<RptProgTit13>
+				No existe informacion para este grupo seleccionado.
+			</RptProgTit13>
+			<RptProgTit14>
+				Llave
+			</RptProgTit14>
+			<RptProgTit15>
+				Profesor Guía:
+			</RptProgTit15>
+			<RptProgTit16>
+				Profesor
+			</RptProgTit16>
+			<RptProgTit17>
+				Director
+			</RptProgTit17>
+			<RptProgTit18>
+				Firma
+			</RptProgTit18>
+			<RptProgTit19>
+				Adicional
+			</RptProgTit19>
+			<RptProgTit20>
+				Edad:
+			</RptProgTit20>
+			<RptProgTit21>
+				Años
+			</RptProgTit21>
+			<RptProgTit22>
+				Meses
+			</RptProgTit22>
+			<RptProgTit23>
+				Días
+			</RptProgTit23>
+			<RptProgTit24>
+				Codificación:
+			</RptProgTit24>
+			<RptProgTit25>
+				Nivel
+			</RptProgTit25>
+			<RptProgTit26>
+				Curso Lectivo
+			</RptProgTit26>
+			<RptProgTit27>
+				%Promedio del curso
+			</RptProgTit27>
+			<RptProgTit28>
+				Estado
+			</RptProgTit28>
+			<RptProgTit29>
+				PROMEDIO FINAL
+			</RptProgTit29>
+			<RptProgTit30>
+				Fin del Reporte
+			</RptProgTit30>	
+		</Idioma>
+</Etiquetas>

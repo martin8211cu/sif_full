@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_Titulo>Logbook Closing Consult</LB_Titulo>
+		<LB_Todos>All</LB_Todos>
+		<LB_Periodo>Period</LB_Periodo>	
+		<LB_Mes>Month</LB_Mes>
+		<LB_TipoCierre>Consult</LB_TipoCierre>
+		<LB_CierreAuxiliar>Subsidiary Ledger Closing</LB_CierreAuxiliar>
+		<LB_CierreContable>Month end Closing</LB_CierreContable>
+		<LB_Mensaje>Displays the logbook by closing type: Subsidiary Ledger Closing and Month end Closing.</LB_Mensaje>
+	</Idioma>
+</Etiquetas>

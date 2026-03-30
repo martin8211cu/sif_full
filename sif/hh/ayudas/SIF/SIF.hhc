@@ -1,0 +1,83 @@
+<html>
+<!-- Sitemap 1.0 -->
+<object type="text/site properties">
+  <param name="SiteType" value="toc">
+  <param name="Image Width" value="16">
+  <param name="Window Styles" value="0x800002">
+  <param name="ExWindow Styles" value="0x100">
+</object>
+<ul>
+  <li><object type="text/sitemap">
+    <param name="Name" value="Consulta Balance de Comprobacion">
+    <param name="Local" value="Balance_comprobacion.htm">
+  </object>
+  <li><object type="text/sitemap">
+    <param name="Name" value="Consulta Balance General">
+    <param name="Local" value="Balance_general.htm">
+  </object>
+  <li><object type="text/sitemap">
+    <param name="Name" value="Agregar Catalogo al plan de Cuentas">
+    <param name="Local" value="Catalogo_cuentas.htm">
+  </object>
+  <li><object type="text/sitemap">
+    <param name="Name" value="Cierre de auxiliares">
+    <param name="Local" value="Cierre_auxiliar.htm">
+  </object>
+  <li><object type="text/sitemap">
+    <param name="Name" value="Cierre de mes contable">
+    <param name="Local" value="Cierre_mes_contable.htm">
+  </object>
+  <li><object type="text/sitemap">
+    <param name="Name" value="Catálogo de Conceptos contables">
+    <param name="Local" value="Concepto_contable.htm">
+  </object>
+  <li><object type="text/sitemap">
+    <param name="Name" value="Consulta Cuentas contables">
+    <param name="Local" value="Cuentas_contables.htm">
+  </object>
+  <li><object type="text/sitemap">
+    <param name="Name" value="Consulta  Cuentas financieras">
+    <param name="Local" value="Cuentas_financieras.htm">
+  </object>
+  <li><object type="text/sitemap">
+    <param name="Name" value="Catálogo de Cuentas de Mayor">
+    <param name="Local" value="Cuentas_Mayor.htm">
+  </object>
+  <li><object type="text/sitemap">
+    <param name="Name" value="Catálogo de Historicos de tipo de cambio">
+    <param name="Local" value="Historico_tipo_cambio.htm">
+  </object>
+  <li><object type="text/sitemap">
+    <param name="Name" value="Introduccion">
+    <param name="Local" value="Introduccion.htm">
+  </object>
+  <li><object type="text/sitemap">
+    <param name="Name" value="Catálogo de  Mascaras del plan de cuentas">
+    <param name="Local" value="Mascaras_cuentas.htm">
+  </object>
+  <li><object type="text/sitemap">
+    <param name="Name" value="Catálogo de Monedas">
+    <param name="Local" value="Monedas.htm">
+  </object>
+  <li><object type="text/sitemap">
+    <param name="Name" value="Consulta de Polizas contables">
+    <param name="Local" value="Poliza_contable.htm">
+  </object>
+  <li><object type="text/sitemap">
+    <param name="Name" value="Registro de documentos contables">
+    <param name="Local" value="Registro_Documentos_Contables.htm">
+  </object>
+  <li><object type="text/sitemap">
+    <param name="Name" value="Reversar/Copiar documentos contables">
+    <param name="Local" value="Reversar_documentos_contables.htm">
+  </object>
+  <li><object type="text/sitemap">
+    <param name="Name" value="Consulta de Saldos y movimientos">
+    <param name="Local" value="Saldos_movimientos.htm">
+  </object>
+  <li><object type="text/sitemap">
+    <param name="Name" value="Catálogo de Subcuentas">
+    <param name="Local" value="Subcuentas.htm">
+  </object>
+</ul>
+</html>

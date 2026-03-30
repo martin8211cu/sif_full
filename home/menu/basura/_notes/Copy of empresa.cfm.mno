@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<info>
+	<infoitem key="UD_rsContents" value="name:SScodigo;datatype:,name:SMcodigo;datatype:,name:SSdescripcion;datatype:,name:SShomeuri;datatype:,name:SMdescripcion;datatype:,name:SMhomeuri;datatype:" />
+	<infoitem key="UD_empresa" value="name:Enombre;datatype:" />
+</info>

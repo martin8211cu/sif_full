@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_DisponibleCajaChica>Available in Petty Cash</LB_DisponibleCajaChica>
+		<LB_CajaChica>Petty Cash</LB_CajaChica>
+		<LB_EnPreparacion>In preparation</LB_EnPreparacion>
+		<LB_EnAprobacion>In approval</LB_EnAprobacion>
+		<LB_Aprobada>Approved</LB_Aprobada>
+		<LB_Rechazada>Rejected</LB_Rechazada>
+		<LB_Pagada>Paid</LB_Pagada>
+		<LB_Liquidada>Settled</LB_Liquidada>
+		<LB_PCD>PCD</LB_PCD>
+		<LB_EstadoDesconocido>Unknown Status</LB_EstadoDesconocido>
+		<LB_Finalizada>Completed</LB_Finalizada>
+		<LB_PorReintegrar>To Reimbursement</LB_PorReintegrar>
+		<LB_GraficoMontos>Amounts Graphic</LB_GraficoMontos>
+		<LB_TotalAsignado>Total Assigned</LB_TotalAsignado>
+		<LB_Anticipos>Advances</LB_Anticipos>
+		<LB_AnticiposSinLiquidar>Advances not Settled</LB_AnticiposSinLiquidar>
+		<LB_NoSeEncontraronRegistros>No Records Found</LB_NoSeEncontraronRegistros>
+		<LB_NoAnticipo>Advance Number</LB_NoAnticipo>
+		<LB_Empleado>Employee</LB_Empleado>
+		<LB_Descripcion>Description</LB_Descripcion>
+		<LB_FechaAnticipo>Advance Date</LB_FechaAnticipo>
+		<LB_Estado>Status</LB_Estado>
+		<LB_Total>Total</LB_Total>
+		<LB_Moneda>Currency</LB_Moneda>
+		<LB_AnticiposLiquidados>Settled Advances</LB_AnticiposLiquidados>
+		<LB_TotalAnticipos>Total Advances</LB_TotalAnticipos>
+		<LB_Rembolsos>Refund</LB_Rembolsos>
+		<LB_TotalRembolsos>Total Refund</LB_TotalRembolsos>
+		<LB_Devoluciones>Repayment</LB_Devoluciones>
+		<LB_Gastos>Expenses</LB_Gastos>
+		<LB_LiquidacionesSinRegistro>Settlements without Register</LB_LiquidacionesSinRegistro>
+		<LB_LiquidacionesConReintegroSinEmitir>Settlements with Reimbursement - Not issued</LB_LiquidacionesConReintegroSinEmitir>
+		<LB_NoLiquidacion>Settlement Number</LB_NoLiquidacion>
+		<LB_TotalDevoluciones>Total Repayment</LB_TotalDevoluciones>
+		<LB_TotalGastos>Total Expenses</LB_TotalGastos>
+		<LB_Disponible>Available</LB_Disponible>
+	</Idioma>
+</Etiquetas>

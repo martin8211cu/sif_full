@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<info>
+	<infoitem key="UD_rsDominio" value="name:id_dominio;datatype:,name:dominio;datatype:,name:Scodigo;datatype:,name:cliente_empresarial;datatype:,name:Ecodigo;datatype:,name:modulo;datatype:,name:servicio;datatype:" />
+	<infoitem key="UD_ctaemp" value="name:cliente_empresarial;datatype:,name:nombre;datatype:" />
+	<infoitem key="UD_empresa" value="name:Ecodigo;datatype:,name:nombre_comercial;datatype:" />
+</info>

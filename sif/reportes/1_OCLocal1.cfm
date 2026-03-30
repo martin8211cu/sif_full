@@ -1,0 +1,109 @@
+﻿<cfquery datasource="#session.DSN#" name="rsReporte">
+select 
+	'#session.enombre#' as TituloEmpresa, 
+	a.EOplazo as TerminoPlazo,
+	a.Mcodigo as CodigoMoneda,
+	a.EOdesc as DescuentoOC,
+	a.EOfecha as FechaOC, 
+	a.Impuesto as ImpuestoOC,
+	a.SNcodigo as CodigoProveedor,
+	coalesce(a.Observaciones,'') as ObservacionEncabezado,
+	a.EOnumero as NumeroOC,
+	
+	b.DOconsecutivo as NumeroLinea,
+	b.DOcantidad as Cantidad,
+	b.DOpreciou as PrecioUnitario,
+	b.DOtotal as TotalLinea,
+	coalesce(b.DOobservaciones,'') as Observacion,
+	b.DOfechareq as FechaReq,
+	b.DOfechaes as FechaEs,
+	coalesce(rtrim(b.DOalterna),'') as DescripcionAltena,
+	
+	e.CMCnombre as NombreComprador, 
+		
+	coalesce(f.SNtelefono,'') as TelefonoProveedor, 
+	coalesce(f.SNFax,'') as FaxProveedor, 
+	coalesce(f.SNemail,'') as EmailProveedor, 
+	f.SNdireccion as Direccion,
+	f.SNnombre as NombreProveedor,
+	f.SNidentificacion as CedulaJuridica,
+	
+	coalesce(g.ESnumero,0) as NumeroCotizacion,
+	coalesce(g.ESnumero,0) as NumeroSolicitud,
+	
+	h.Ucodigo as TipoUnidad,
+	
+	i.Mnombre as NombreMoneda,
+	i.Msimbolo as SimboloMoneda,
+	
+	coalesce('#session.datos_personales.oficina#','') as TelefonoComprador,
+	coalesce('#session.datos_personales.fax#','') as FaxComprador,
+	coalesce('#session.datos_personales.email2#','') as ApartadoComprador,
+	coalesce('#session.datos_personales.email1#','') as EmailComprador,
+	
+	coalesce(alm.Bdescripcion,'') as Bodega,
+	
+	case CMtipo when 'A' then coalesce(j.Adescripcion,'') 
+	when 'S' then coalesce(k.Cdescripcion,'')
+	when 'F' then coalesce(ac.ACdescripcion,'') 
+	end as Descripcion,
+	case CMtipo when 'A' then coalesce(j.Acodalterno,'') else '' end as NumeroParte,
+	coalesce(rtrim(b.DOdescripcion),'') as DescripcionDetalle,
+	
+	(select sum (b1.DOtotal) from DOrdenCM b1
+	where b1.Ecodigo=a.Ecodigo
+	and b1.EOidorden=a.EOidorden  ) as SubtotalOC,
+	
+	(select sum (b1.DOtotal) from DOrdenCM b1
+	where b1.Ecodigo=a.Ecodigo
+	and b1.EOidorden=a.EOidorden ) - a.EOdesc + a.Impuesto as TotalOC	
+	
+	from  EOrdenCM a 
+                        inner join CMCompradores e
+                                    on a.Ecodigo = e.Ecodigo 
+                                    and a.CMCid = e.CMCid
+									
+						inner join SNegocios f
+                                    on a.Ecodigo = f.Ecodigo
+                                    and a.SNcodigo = f.SNcodigo
+					  
+					  inner join Monedas i
+							on  a.Ecodigo = i.Ecodigo
+							and a.Mcodigo = i.Mcodigo 		
+							
+					
+					left outer join DOrdenCM b
+						inner join Unidades h
+						on   b.Ucodigo = h.Ucodigo
+						
+						left outer join DSolicitudCompraCM g
+						on  g.DSlinea = b.DSlinea 
+						
+						left outer join Articulos j
+						on b.Aid=j.Aid
+						
+						left outer join Conceptos k
+						on b.Cid=k.Cid
+						 
+						left outer join AClasificacion ac
+						on b.Ecodigo = ac.Ecodigo
+						and b.ACcodigo = ac.ACcodigo
+						and b.ACid = ac.ACid  
+						
+						left outer join ACategoria atl
+						on b.Ecodigo = atl.Ecodigo
+						and b.ACcodigo = atl.ACcodigo
+						
+						left outer join Almacen alm
+						on b.Alm_Aid = alm.Aid
+						
+					on a.Ecodigo = b.Ecodigo
+					and a.EOidorden = b.EOidorden
+                      
+where a.Ecodigo = <cfqueryparam cfsqltype="cf_sql_numeric" value="#session.ecodigo#">
+   and a.EOnumero = <cfqueryparam cfsqltype="cf_sql_numeric" value="#rsTipoOrden.EOnumero#">
+  and a.CMTOcodigo = <cfqueryparam cfsqltype="cf_sql_char" value="#rsTipoOrden.CMTOCODIGO#">
+</cfquery>
+<cfreport format="flashpaper" template="1_OCLocal1.cfr" query="rsReporte"></cfreport>
+	
+

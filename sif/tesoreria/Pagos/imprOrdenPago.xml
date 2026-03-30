@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_Titulo>Print Payment Orders</LB_Titulo>
+		<LB_Archivo>PaymentOrders.xls</LB_Archivo>
+		<LB_TrabajarConTesoreria>Working with Treasury</LB_TrabajarConTesoreria>
+		<LB_EmpresaPago>Enterprise Payment</LB_EmpresaPago>
+		<LB_CuentaPago>Account Payment</LB_CuentaPago>
+		<LB_Beneficiario>Beneficary</LB_Beneficiario>
+		<LB_Estado>Status</LB_Estado>
+		<LB_Todos>All</LB_Todos>
+		<LB_EnPreparacion>Forthcoming</LB_EnPreparacion>
+		<LB_EnEmision>Issuing</LB_EnEmision>
+		<LB_SinAplicar>No Apply</LB_SinAplicar>
+		<LB_Emitidas>Issued</LB_Emitidas>
+		<LB_Anuladas>Canceled</LB_Anuladas>
+		<LB_MonedaPago>Currency Payment</LB_MonedaPago>
+		<LB_Moneda>Currency</LB_Moneda>
+		<LB_NumOrden>Order Number</LB_NumOrden>
+		<LB_HastaFecha>To Date</LB_HastaFecha>
+		<LB_DocumentoPago>Document Payment</LB_DocumentoPago>
+		<LB_TrabajarOrdenesEmision>Working with Issue Orders</LB_TrabajarOrdenesEmision>
+		<LB_EmpresaSolicitud>Enterprise Request</LB_EmpresaSolicitud>
+		<LB_NumSolicitud>Application Number</LB_NumSolicitud>
+		<LB_SocioNegocio>Bussines Partner</LB_SocioNegocio>
+		<LB_Socio>Partner</LB_Socio>
+		<LB_o>or</LB_o>
+		<LB_MonedaFactura>Currency Invoice</LB_MonedaFactura>
+		<LB_NumeroAcuerdo>Number Agreement</LB_NumeroAcuerdo>
+		<LB_Banco>Bank</LB_Banco>
+		<LB_CuentaBancariaPago>Payment Bank Account</LB_CuentaBancariaPago>
+		<LB_MedioPago>Means of Payment</LB_MedioPago>
+	</Idioma>
+</Etiquetas>

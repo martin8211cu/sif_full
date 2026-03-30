@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+<info>
+	<infoitem key="UD_rsEmpresas" value="name:Ecodigo;datatype:,name:nombre_comercial;datatype:,name:cuenta_maestra;datatype:,name:cliente_empresarial;datatype:" />
+	<infoitem key="UD_rsFormEH" value="name:Usucodigo;datatype:,name:Ulocalizacion;datatype:,name:cliente_empresarial;datatype:,name:Ecodigo;datatype:,name:nombre_comercial;datatype:,name:cuenta_maestra;datatype:" />
+</info>

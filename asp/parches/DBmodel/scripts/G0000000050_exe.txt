@@ -1,0 +1,70 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 116 - DBM 224: RHHistoricoSDI
+
+	         PARCHE:  Parche023_151_RH _HistoricoSDI
+
+GENERADO EN:
+	SERVER:  http://mxpapp36:8300
+	DSN:     sifcim
+	FECHA:   27/07/2011 18:33:09
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* ADD_TABLE RHHistoricoSDI: RHHistoricoSDI */
+/* ======================================================================================== */
+
+CREATE TABLE RHHistoricoSDI (
+	 RHHid                          numeric(18)          identity
+	,DEid                           numeric(18)          NOT NULL
+	,Ecodigo                        integer              NOT NULL
+	,RHHmonto                       money                NOT NULL
+	,RHHfecha                       datetime             NOT NULL
+	,RHHfuente                      integer              DEFAULT 0 NOT NULL
+	 CONSTRAINT RHHistoricoSDI_CK06 CHECK ([RHHfuente]=(2) OR [RHHfuente]=(1) OR [RHHfuente]=(0))
+	,RHHperiodo                     integer              NOT NULL
+	,RHHmes                         integer              NOT NULL
+	,BMfecha                        datetime             NOT NULL
+	,BMUsucodigo                    numeric(18)          NULL
+	,ts_rversion                    timestamp           
+	)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="P", SEC="0", COLS="RHHid" */
+ALTER TABLE RHHistoricoSDI ADD CONSTRAINT RHHistoricoSDI_PK PRIMARY KEY NONCLUSTERED (RHHid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="F", SEC="1", COLS="DEid", REF="DatosEmpleado" */
+CREATE INDEX RHHistoricoSDI_FI01 ON RHHistoricoSDI (DEid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="I", SEC="1", COLS="DEid,RHHfecha" */
+CREATE NONCLUSTERED INDEX RHHistoricoSDI_ID01 ON RHHistoricoSDI (DEid,RHHfecha)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ================================================================= */
+/*            CREA FKs NUEVOS O CON CAMPOS MODIFICADOS               */
+/* ================================================================= */
+/* CHG_TABLE RHHistoricoSDI */
+/* ADD_FK OP=(TAB NUEVA): TIP="F", SEC="1", COLS="DEid", REF="DatosEmpleado" */
+ALTER TABLE RHHistoricoSDI ADD CONSTRAINT RHHistoricoSDI_FK01 FOREIGN KEY (DEid) REFERENCES DatosEmpleado (DEid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

@@ -1,0 +1,11 @@
+[PropertyInfo]
+enter,JButton,false,false, , ,false,<default>
+history,JList,false,false, , ,false,<default>
+input,JTextArea,false,false, , ,false,<default>
+paneLayout1,PaneLayout,false,false, , ,false,<default>
+symtable,JList,false,false, , ,false,<default>
+[IconNames]
+
+
+
+

@@ -1,0 +1,1399 @@
+﻿<!--- VARIABLES DE TRADUCCION --->
+<cfinvoke Key="LB_ListaDeCargasObreroPatronales" Default="Lista de Cargas Obrero Patronales" returnvariable="LB_ListaDeCargasObreroPatronales" component="sif.Componentes.Translate" method="Translate"/>
+<cfinvoke component="sif.Componentes.Translate" method="Translate" key="MSG_DebeSeleccionarLaCarga" default="Debe seleccionar la carga obrero patronal" returnvariable="MSG_DebeSeleccionarLaCarga"/>
+<cfinvoke component="sif.Componentes.Translate" method="Translate" key="MSG_NoSeEncotraronRegistros" default="No se encontraron registros" returnvariable="MSG_NoSeEncotraronRegistros"/>
+<cfinvoke key="MSG_DebeDigitarUnPorcentajeEntre0Y100" default="Debe digitar un porcentaje entre 0 y 100%" returnvariable="MSG_DebeDigitarUnPorcentajeEntre0Y100" component="sif.Componentes.Translate" method="Translate"/>
+<cfinvoke key="LB_MESAJEERROR1" default="El Código de Acción ya existe." returnvariable="LB_MESAJEERROR1" component="sif.Componentes.Translate" method="Translate"/>
+<cfinvoke key="LB_TITULOCONLISCONCEPTOSPAGO" default="Lista de Conceptos de Pago" returnvariable="LB_TITULOCONLISCONCEPTOSPAGO" component="sif.Componentes.Translate" method="Translate"/>
+<cfinvoke key="LB_MESAJEERROR2" default="Se presentaron los siguientes errores:\n\nEl campo Concepto de Pago es requerido." returnvariable="LB_MESAJEERROR2" component="sif.Componentes.Translate" method="Translate"/>
+<cfinvoke key="LB_MESAJEERROR3" default="¿Desea eliminar el Concepto de Pago?" returnvariable="LB_MESAJEERROR3" component="sif.Componentes.Translate" method="Translate"/>
+<cfinvoke key="BTN_Agregar" default="Agregar" returnvariable="BTN_Agregar" component="sif.Componentes.Translate" method="Translate" xmlfile="/sif/rh/generales.xml"/>
+<cfinvoke key="BTN_Permisos" default="Permisos" returnvariable="BTN_Permisos" component="sif.Componentes.Translate" method="Translate"/>
+<cfinvoke key="BTN_Firmas" default="Firmas" returnvariable="BTN_Firmas" component="sif.Componentes.Translate" method="Translate"/>
+<cfinvoke key="BTN_Componentes" default="Componentes a Pagar" returnvariable="BTN_Componentes" component="sif.Componentes.Translate" method="Translate"/>
+<cfinvoke key="MSG_ConceptoSAT" default="Concepto SAT" returnvariable="MSG_ConceptoSAT" component="sif.Componentes.Translate" method="Translate"/>
+
+
+<!--- FIN VARIABLES DE TRADUCCION --->
+
+<!-- Establecimiento del modo -->
+<cfif isdefined('form.RHTid') and form.RHTid GT 0>
+	<cfset form.modo = 'CAMBIO'>
+</cfif>
+<cfif isdefined("form.Cambio")>
+	<cfset modo="CAMBIO">
+<cfelse>
+	<cfif not isdefined("Form.modo")>
+		<cfset modo="ALTA">
+	<cfelseif form.modo EQ "CAMBIO">
+		<cfset modo="CAMBIO">
+	<cfelse>
+		<cfset modo="ALTA">
+	</cfif>
+</cfif>
+
+<!--- Consultas --->
+<cfif modo neq 'ALTA'>
+	<!--- Form --->
+	<cfquery name="rsForm" datasource="#session.DSN#">
+		select RHTid, RHTcodigo, RHTdesc, RHTpaga, RHTpfijo,coalesce(RHTNoMuestraCS,0) as RHTNoMuestraCS,
+		       RHTpmax, RHTcomportam, RHTposterior, RHTautogestion, RHTindefinido, coalesce(RHTporcPlazaCHK,0) as RHTporcPlazaCHK,
+			   RHTctiponomina, RHTcregimenv, RHTcoficina, RHTcdepto, RHTcplaza, RHTcpuesto, RHCatParcial,
+			   RHTccomp, RHTcsalariofijo, RHTcjornada, RHTvisible, RHTccatpaso, RHTcempresa,
+			   RHTidtramite, RHTnorenta, RHTnocargas, RHTnodeducciones, RHTcuentac, RHTnoretroactiva,
+			   RHTcantdiascont, CIncidente1, CIncidente2, RHTliquidatotal, RHTnocargasley, ts_rversion,
+			   RHTdatoinforme, RHTpension, RHTnoveriplaza, RHTalerta, coalesce(RHTdiasalerta, 0) as RHTdiasalerta,
+			   RHTtiponomb,RHTafectafantig,RHTafectafvac,RHTnopagaincidencias,
+			   coalesce(RHTporc, 100) as RHTporc,coalesce(RHTporcsal,100) as  RHTporcsal,
+			   coalesce(RHTsubcomportam,0) as RHTsubcomportam,RHAcumAnualidad,
+               coalesce(RHTfactorfalta,1) as  RHTfactorfalta,RHIncapid,coalesce(RHTIncluirFactorNomina,0) AS RHTIncluirFactorNomina
+		from RHTipoAccion
+		where Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#session.Ecodigo#">
+		and RHTid = <cfqueryparam cfsqltype="cf_sql_numeric" value="#form.RHTid#">
+	</cfquery>
+</cfif>
+
+<!--- registros existentes --->
+<cfquery name="rsCodigos" datasource="#session.DSN#">
+	select rtrim(RHTcodigo) as RHTcodigo
+	from RHTipoAccion
+	where Ecodigo=<cfqueryparam cfsqltype="cf_sql_integer" value="#session.Ecodigo#">
+	<cfif modo neq 'ALTA'>
+		and RHTid <> <cfqueryparam cfsqltype="cf_sql_numeric" value="#form.RHTid#">
+	</cfif>
+</cfquery>
+<!--- registros existentes CCSS--->
+<!--- <cfquery name="rsCodigosCCSS" datasource="#session.DSN#">
+	select rtrim(RHTdatoinforme) as RHTdatoinforme
+	from RHTipoAccion
+	where Ecodigo=<cfqueryparam cfsqltype="cf_sql_integer" value="#session.Ecodigo#">
+	<cfif modo neq 'ALTA'>
+		and RHTid <> <cfqueryparam cfsqltype="cf_sql_numeric" value="#form.RHTid#">
+	</cfif>
+</cfquery> --->
+<!--- Seleccion del paquete de RH --->
+<cfinvoke component="sif.Componentes.Workflow.plantillas" method="CrearPkg" returnvariable="WfPackage">
+	<cfinvokeargument name="PackageBaseName" value="RH" />
+</cfinvoke>
+
+<cfquery name="rsProcesos" datasource="#Session.DSN#">
+	select ProcessId, Name, upper(Name) as upper_name, PublicationStatus
+	from WfProcess
+	where WfProcess.Ecodigo = #session.Ecodigo#
+	  and (PackageId = <cfqueryparam cfsqltype="cf_sql_numeric" value="#WfPackage.PackageId#">
+	       and PublicationStatus = 'RELEASED'
+	<cfif IsDefined('rsForm') and Len(rsForm.RHTidtramite)>
+	or ProcessId = <cfqueryparam cfsqltype="cf_sql_numeric" value="#rsForm.RHTidtramite#">
+	</cfif>)
+	order by upper_name
+</cfquery>
+
+<!--- Javascript --->
+<script language="JavaScript1.2" src="/cfmx/rh/js/utilesMonto.js"></script>
+
+<script src="/cfmx/sif/js/qForms/qforms.js"></script>
+<script language="JavaScript1.2" type="text/javascript">
+	function codigos(obj){
+		if (obj.value != "") {
+			var empresa = <cfoutput>#session.Ecodigo#</cfoutput>
+			var dato    = obj.value + "|" + empresa;
+			var temp    = new String();
+
+			<cfloop query="rsCodigos">
+				temp = '<cfoutput>#rsCodigos.RHTcodigo#</cfoutput>' + "|" + empresa
+				if (dato == temp){
+					alert('<cfoutput>#LB_MESAJEERROR1#</cfoutput>');
+					obj.value = "";
+					obj.focus();
+					return false;
+				}
+			</cfloop>
+		}
+		return true;
+	}
+
+
+	function validar(f) {
+			f.obj.RHTpmax.value = qf(f.obj.RHTpmax.value);
+			document.form1.RHTpfijo.disabled	= false;
+			activar(false);
+			return true;
+	}
+
+	function maximo(obj){
+		if (obj.checked){
+			document.form1.RHTpmax.disabled =  false;
+		}
+		else{
+			document.form1.RHTpmax.value    =  0;
+			document.form1.RHTpmax.disabled =  true;
+		}
+	}
+
+	function alerta(obj){
+		if (obj.checked){
+			document.form1.RHTdiasalerta.disabled =  false;
+		}
+		else{
+			document.form1.RHTdiasalerta.value    =  0;
+			document.form1.RHTdiasalerta.disabled =  true;
+		}
+	}
+
+
+	function activar(activo){
+		document.form1.RHTctiponomina.disabled  = activo;
+		document.form1.RHTcregimenv.disabled    = activo;
+		document.form1.RHTcoficina.disabled     = activo;
+		document.form1.RHTcjornada.disabled     = activo;
+		document.form1.RHTcdepto.disabled       = activo;
+		document.form1.RHTccomp.disabled        = activo;
+		document.form1.RHTcpuesto.disabled 	    = activo;
+		document.form1.RHTccatpaso.disabled 	= activo;
+	}
+
+	function marcar(valor){
+		document.form1.RHTctiponomina.checked  = valor;
+		document.form1.RHTcregimenv.checked    = valor;
+		document.form1.RHTcoficina.checked     = valor;
+		document.form1.RHTcjornada.checked     = valor;
+		document.form1.RHTcdepto.checked       = valor;
+		document.form1.RHTccomp.checked        = valor;
+		document.form1.RHTcpuesto.checked 	   = valor;
+		<!--- document.form1.RHTcsalariofijo.checked = valor; --->
+		document.form1.RHTccatpaso.checked	   = valor;
+	}
+
+	function getIncapacidad(t) {
+		var a = document.getElementById("trIncapacidad");
+		if (t) {
+			a.style.display = '';
+		} else {
+			a.style.display = 'none';
+		}
+		validarCampos(t);
+	}
+
+	function revisaAfectacion(){
+		revisaPlazoFijo();
+	}
+
+	function revisaPlazoFijo(){
+		var valorNombramiento = parseInt(document.form1.RHTcomportam.value);
+		var _divAfectacion = document.getElementById("idAfectacion");
+		var _divAlerta = document.getElementById("idAlerta");
+
+		if(document.form1.RHTpfijo.checked && (valorNombramiento > 2 && valorNombramiento <= 9))
+			_divAfectacion.style.display = '';
+		else
+			_divAfectacion.style.display = 'none';
+
+		if(document.form1.RHTpfijo.checked && valorNombramiento != 2){
+			_divAlerta.style.display = '';
+		}else{
+			_divAlerta.style.display = 'none';
+		}
+	}
+
+	function comportamiento(obj) {
+	// RESULTADO:
+	// Valida el tipo de accion que se selecciono:
+	// Si es Nombramiento, marca y desactiva todos los cheks de modificar
+	// Si es Cese, desmarca y desactiva todos los cheks de modificar
+		var _divTipoNomb = document.getElementById("divTipoNomb");
+			_divTipoInca = document.getElementById("divTipoInca");
+			_divTipoFalta = document.getElementById("divTipoFalta");
+			_divTipoDeduc = document.getElementById("divTipoDeduc");
+
+		switch(obj.value) {
+			case '1' :
+				document.form1.RHTpfijo.disabled	= false;
+				getIncapacidad(false);
+				marcar(true);
+				activar(true);
+				document.form1.RHTliquidatotal.disabled	= true;
+				document.form1.RHTcempresa.disabled	= true;
+				_divTipoNomb.style.display = '';
+				_divTipoInca.style.display = 'none';
+				_divTipoFalta.style.display = 'none';
+				revisaPlazoFijo();
+				document.form1.RHCatParcial.disabled	= true;
+				_divTipoDeduc.style.display = 'none';
+			break;
+
+			case '2' :
+				document.form1.RHTpfijo.disabled	= false;
+				getIncapacidad(false);
+				marcar(false);
+				activar(true);
+				document.form1.RHTliquidatotal.disabled	= false;
+				document.form1.RHTcempresa.disabled	= true;
+				_divTipoNomb.style.display = 'none';
+				_divTipoFalta.style.display = 'none';
+				_divTipoDeduc.style.display = 'none';
+				revisaPlazoFijo();
+				document.form1.RHCatParcial.disabled	= true;
+				_divTipoInca.style.display = 'none';
+				revisaPlazoFijo();
+			break;
+
+			case '3' :
+				document.form1.RHTpfijo.checked     = true;
+				document.form1.RHTpfijo.disabled	= true;
+				maximo(document.form1.RHTpfijo);
+				_divTipoNomb.style.display = 'none';
+				_divTipoInca.style.display = 'none';
+				_divTipoFalta.style.display = 'none';
+				revisaAfectacion();
+				getIncapacidad(false);
+				document.form1.RHCatParcial.disabled	= true;
+				_divTipoDeduc.style.display = 'none';
+			break;
+
+
+			case '5' :
+				document.form1.RHTpfijo.disabled	= false;
+				getIncapacidad(true);
+				<cfif modo eq 'ALTA'>
+					marcar(false);
+				</cfif>
+				activar(false);
+				document.form1.RHTliquidatotal.disabled	= true;
+				document.form1.RHTcempresa.disabled	= true;
+				_divTipoNomb.style.display = 'none';
+				_divTipoFalta.style.display = 'none';
+				_divTipoDeduc.style.display = 'none';
+				revisaPlazoFijo();
+				document.form1.RHCatParcial.disabled	= true;
+
+				_divTipoInca.style.display = '';
+				revisaPlazoFijo();
+
+			break;
+
+			case '6' :
+				document.form1.RHCatParcial.disabled	= false;
+				_divTipoInca.style.display = 'none';
+				_divTipoDeduc.style.display = 'none';
+				<cfif modo eq 'ALTA'>
+					marcar(false);
+				</cfif>
+				activar(false);
+			break;
+
+			case '9' :
+				document.form1.RHTpfijo.disabled	= false;
+				getIncapacidad(false);
+				<cfif modo eq 'ALTA'>
+					marcar(true);
+					document.form1.RHTcempresa.checked = true;
+				</cfif>
+				activar(false);
+				document.form1.RHTliquidatotal.disabled	= true;
+				document.form1.RHTcempresa.disabled	= false;
+				_divTipoNomb.style.display = 'none';
+				_divTipoFalta.style.display = 'none';
+				_divTipoDeduc.style.display = 'none';
+				revisaPlazoFijo();
+				document.form1.RHCatParcial.disabled	= true;
+
+				_divTipoInca.style.display = 'none';
+				revisaPlazoFijo();
+
+			break;
+
+			case '13' :
+				document.form1.RHTpfijo.disabled	= false;
+				document.form1.RHCatParcial.disabled	= true;
+				getIncapacidad(false);
+				<cfif modo eq 'ALTA'>
+					marcar(false);
+				</cfif>
+				activar(false);
+				document.form1.RHTliquidatotal.disabled	= true;
+				document.form1.RHTcempresa.disabled	= true;
+				_divTipoNomb.style.display = 'none';
+				_divTipoInca.style.display = 'none';
+				_divTipoFalta.style.display = '';
+				_divTipoDeduc.style.display = '';
+				revisaPlazoFijo();
+			break;
+
+			default:
+				document.form1.RHTpfijo.disabled	= false;
+				document.form1.RHCatParcial.disabled	= true;
+				getIncapacidad(false);
+				<cfif modo eq 'ALTA'>
+					marcar(false);
+				</cfif>
+				activar(false);
+				document.form1.RHTliquidatotal.disabled	= true;
+				document.form1.RHTcempresa.disabled	= true;
+				_divTipoNomb.style.display = 'none';
+				_divTipoInca.style.display = 'none';
+				_divTipoFalta.style.display = 'none';
+				_divTipoDeduc.style.display = 'none';
+				revisaPlazoFijo();
+		}
+	}
+
+	// specify the path where the "/qforms/" subfolder is located
+	qFormAPI.setLibraryPath("/cfmx/sif/js/qForms/");
+	// loads all default libraries
+	qFormAPI.include("*");
+
+	function deshabilitarValidacion(){
+		objForm.RHTcodigo.required = false;
+		objForm.RHTdesc.required = false;
+		objForm.RHTpmax.required = false;
+	}
+
+	function fm_2(campo,ndec){
+		var s = "";
+		if (campo.name){
+			s=campo.value
+		}
+		else{
+			s=campo
+		}
+
+		if( s=='' && ndec>0 ){
+			s='0'
+		}
+
+	   var nc=""
+	   var s1=""
+	   var s2=""
+
+		if (s != '') {
+			str = new String("")
+			str_temp = new String(s)
+			t1 = str_temp.length
+			cero_izq = false
+
+			if (t1 > 0) {
+				for(i=0;i<t1;i++) {
+					c = str_temp.charAt(i)
+					str += c
+				}
+			}
+
+			t1 = str.length
+			p1 = str.indexOf(".")
+			p2 = str.lastIndexOf(".")
+
+			if ((p1 == p2) && t1 > 0){
+
+				if (p1>0){
+					str+="00000000"
+				}
+				else{
+					str+=".0000000"
+				}
+
+				p1 = str.indexOf(".")
+				s1 = str.substring(0,p1)
+				s2 = str.substring(p1+1,p1+1+ndec)
+				t1 = s1.length
+				n = 0
+
+				for(i=t1-1;i>=0;i--) {
+					c=s1.charAt(i)
+					if (c == ".") { flag=0;nc="."+nc;n=0 }
+
+					if (c>="0" && c<="9") {
+					if (n < 2) {
+					   nc = c+nc;
+					   n++;
+					}
+					else {
+						n=0
+						nc=c+nc
+						if (i > 0){
+							nc = nc
+						 }
+					}
+				}
+			}
+			if (nc != "" && ndec > 0)
+				nc+="."+s2
+			}
+			else {ok=1}
+		}
+
+		if(campo.name) {
+			if(ndec>0) {
+				campo.value=nc
+			}
+			else {
+				campo.value=qf(nc)
+			}
+		}
+		else {
+			return nc
+		}
+	}
+
+	function snumber_2(obj,e,d){
+		str= new String("")
+		str= obj.value
+		var tam=obj.size
+		var t=Key(e)
+		var ok=false
+
+		if(tam>d) {tam=tam-d}
+		if(tam>1) {tam=tam-1}
+
+		if(t==9 || t==8 || t==13 || t==20 || t==27 || t==45 || t==46)  return true;
+
+		// acepta guiones
+		//if(t==109 || t==189)  return true;
+
+		if(t>=16 && t<=20) return false;
+		if(t>=33 && t<=40) return false;
+		if(t>=112 && t<=123) return false;
+		if(!ints(str,tam)) obj.value=str.substring(0,str.length-1)
+		if(!decimals(str,d)) obj.value=str.substring(0,str.length-1)
+
+		if(t>=48 && t<=57)  ok=true
+		if(t>=96 && t<=105) ok=true
+		//if(d>=0) {if(t==188) ok=true} //LA COMA
+
+		if(d>0)
+		{
+		if(t==110) ok=true
+		if(t==190) ok=true
+		}
+
+		if(!ok){
+			str=fm_2(str,d)
+			obj.value=str
+		}
+
+		return true
+	}
+
+	function goTipo(f) {
+		location.href =  "TipoAccionUsuario.cfm<cfif isdefined("form.RHTid")>?RHTid=<cfoutput>#form.RHTid#</cfoutput></cfif>&especial=N";
+	}
+	function gofirmas(f) {
+		location.href =  "TipoAccionFirmas.cfm<cfif isdefined("form.RHTid")>?RHTid=<cfoutput>#form.RHTid#</cfoutput></cfif>";
+	}
+	function goComp() {
+		location.href =  "ComponentesPagar.cfm<cfif isdefined("form.RHTid")>?RHTid=<cfoutput>#form.RHTid#</cfoutput></cfif>";
+	}
+
+</script>
+
+<cfset pagina = 1 >
+<cfif isdefined("form.pagenum")>
+	<cfset pagina = form.pagenum >
+<cfelseif isdefined("url.PageNum_Lista") and not isdefined("form.nuevo")>
+	<cfset pagina = url.PageNum_Lista >
+</cfif>
+<form name="form1" method="post" action="SQLTipoAccion.cfm" onsubmit="javascript: return validar(this);">
+	<input type="hidden" name="pagina" value="<cfoutput>#pagina#</cfoutput>">
+
+	<cfset ts = "">
+<cfif modo neq "ALTA">
+		<cfinvoke
+			component="sif.Componentes.DButils"
+			method="toTimeStamp"
+			returnvariable="ts">
+			<cfinvokeargument name="arTimeStamp" value="#rsForm.ts_rversion#"/>
+		</cfinvoke>
+	</cfif>
+	<input type="hidden" name="ts_rversion" value="<cfif modo NEQ 'ALTA'><cfoutput>#ts#</cfoutput></cfif>">
+  <cfoutput>
+
+  <table width="101%" border="0" cellpadding="1" cellspacing="0">
+    <tr>
+      <td colspan="4" align="center" class="tituloAlterno">
+	  	  <cfif modo NEQ 'ALTA'>
+	  		<cf_translate key="LB_Tcambio">Modificaci&oacute;n de Tipo de Acci&oacute;n</cf_translate>
+          <cfelse>
+            <cf_translate key="LB_Tnuevo">Nuevo Tipo de Acci&oacute;n </cf_translate>
+		  </cfif> </td>
+    </tr>
+
+	<tr>
+      <td width="21%" align="right">#LB_CODIGO#:&nbsp;</td>
+      <td>
+			<input name="RHTcodigo" type="text" value="<cfif modo neq 'ALTA'>#HTMLEditFormat(trim(rsForm.RHTcodigo))#</cfif>" size="5" maxlength="3" onblur="javascript:codigos(this);" onfocus="javascript:this.select();" alt="El C&oacute;digo de Acci&oacute;n" >
+			<cfif modo neq 'ALTA'>
+				<input type="hidden" name="RHTid" value="#rsForm.RHTid#" >
+			</cfif>
+	  </td>
+      <td colspan="2" align="left"><cf_translate XmlFile="/rh/generales.xml" key="LB_TRAMITE"></cf_translate></td>
+      </tr>
+	<tr>
+	  <td align="right">#LB_DESCRIPCION#:</td>
+	  <td colspan="3"><input name="RHTdesc" type="text" value="<cfif modo neq 'ALTA'>#HTMLEditFormat(rsForm.RHTdesc)#</cfif>" size="60" maxlength="60" onfocus="javascript:this.select();" alt="La Descripci&oacute;n" /></td>
+	  </tr>
+
+	<tr>
+      <td align="right"><cf_translate key="LB_Comportamiento">Comportamiento</cf_translate>:&nbsp;</td>
+      <td width="18%">
+			<select name="RHTcomportam" onchange="javascript:comportamiento(this);">
+			  <option value="1" <cfif modo neq 'ALTA' and rsForm.RHTcomportam eq 1 >selected</cfif> ><cf_translate key="LB_RHTcomportam1">Nombramiento</cf_translate></option>
+			  <option value="2" <cfif modo neq 'ALTA' and rsForm.RHTcomportam eq 2 >selected</cfif> ><cf_translate key="LB_RHTcomportam2">Cese</cf_translate></option>
+			  <option value="3" <cfif modo neq 'ALTA' and rsForm.RHTcomportam eq 3 >selected</cfif> ><cf_translate key="LB_RHTcomportam3">Vacaciones</cf_translate></option>
+			  <option value="4" <cfif modo neq 'ALTA' and rsForm.RHTcomportam eq 4 >selected</cfif> ><cf_translate key="LB_RHTcomportam4">Permiso</cf_translate></option>
+			  <option value="5" <cfif modo neq 'ALTA' and rsForm.RHTcomportam eq 5 >selected</cfif> ><cf_translate key="LB_RHTcomportam5">Incapacidad</cf_translate></option>
+			  <option value="6" <cfif modo neq 'ALTA' and rsForm.RHTcomportam eq 6 >selected</cfif> ><cf_translate key="LB_RHTcomportam6">Cambio</cf_translate></option>
+			  <option value="7" <cfif modo neq 'ALTA' and rsForm.RHTcomportam eq 7 >selected</cfif> ><cf_translate key="LB_RHTcomportam7">Anulaci&oacute;n</cf_translate></option>
+			  <option value="8" <cfif modo neq 'ALTA' and rsForm.RHTcomportam eq 8 >selected</cfif> ><cf_translate key="LB_RHTcomportam8">Aumento</cf_translate></option>
+			  <option value="9" <cfif modo neq 'ALTA' and rsForm.RHTcomportam eq 9 >selected</cfif> ><cf_translate key="LB_RHTcomportam9">Cambio de Empresa</cf_translate></option>
+			  <option value="12" <cfif modo neq 'ALTA' and rsForm.RHTcomportam eq 12 >selected</cfif> ><cf_translate key="LB_RHTcomportam12">Recargos Plaza</cf_translate></option>
+			  <option value="13" <cfif modo neq 'ALTA' and rsForm.RHTcomportam eq 13 >selected</cfif> ><cf_translate key="LB_RHTcomportam13">Ausencias / Faltas</cf_translate></option>
+              <option value="15" <cfif modo neq 'ALTA' and rsForm.RHTcomportam eq 15 >selected</cfif> ><cf_translate key="LB_RHTcomportam13">Finalizar Recargos</cf_translate></option>
+			</select>
+	  </td>
+	  <td colspan="2">
+		<table id="divTipoNomb" width="100%"  border="0" cellspacing="0" cellpadding="0">
+
+		<cfif modo eq 'ALTA' or( isdefined('rsForm') and rsForm.RHTcomportam eq 1)>
+		  <tr>
+			<td width="55%" align="right" nowrap><cf_translate key="LB_TPONOMBRAMIENTO"></cf_translate>
+			  <cf_translate key="LB_TPONOMBRAMIENTO">Tipo </cf_translate>:
+			</td>
+			<td width="45%"><select name="RHTtiponomb">
+			  <option value="0" <cfif modo neq 'ALTA' and rsForm.RHTtiponomb eq 0 >selected</cfif> >
+			    <cf_translate key="LB_RHTtiponomb1">Permanente</cf_translate>
+			    </option>
+			  <option value="1" <cfif modo neq 'ALTA' and rsForm.RHTtiponomb eq 1 >selected</cfif> >
+			    <cf_translate key="LB_RHTtiponomb2">Practicante</cf_translate>
+			    </option>
+			  <option value="2" <cfif modo neq 'ALTA' and rsForm.RHTtiponomb eq 2 >selected</cfif> >
+			    <cf_translate key="LB_RHTtiponomb3">Transitorio</cf_translate>
+			    </option>
+			  <option value="3" <cfif modo neq 'ALTA' and rsForm.RHTtiponomb eq 3 >selected</cfif> >
+			    <cf_translate key="LB_RHTtiponomb4">Ocasional</cf_translate>
+			    </option>
+			  </select></td>
+		  </tr>
+		 </cfif>
+		</table>
+        <table id="divTipoDeduc" width="100%"  border="0" cellspacing="0" cellpadding="0">
+          <tr>
+			<td align="right" width="55%">#MSG_ConceptoSAT#:</td>
+            <td width="40%">
+                <cfquery name="rsConceptoSAT" datasource="#session.DSN#">
+                    select RHCSATid,RHCSATcodigo,RHCSATdescripcion from dbo.RHCFDIConceptoSAT
+                    where Ecodigo = <cfqueryparam cfsqltype="cf_sql_numeric" value="#session.Ecodigo#">
+                    and RHCSATtipo = 'D'
+                    order by RHCSATcodigo
+                </cfquery>
+                <select name="ConceptoSAT" id="ConceptoSAT">
+                    <option value=0>-<cf_translate key="LB_seleccionar" xmlfile="/rh/generales.xml">seleccionar</cf_translate> -</option>
+                    <cfloop query="rsConceptoSAT">
+                        <option value="#rsConceptoSAT.RHCSATid#" <cfif modo NEQ "ALTA" and rsConceptoSAT.RHCSATid eq rsForm.RHIncapid>selected</cfif> >#rsConceptoSAT.RHCSATcodigo# #rsConceptoSAT.RHCSATdescripcion#</option>
+                    </cfloop>
+                </select>
+            </td>
+          </tr>
+		</table>
+		<table id="divTipoInca" width="100%"  border="0" cellspacing="0" cellpadding="0">
+		  <tr>
+			<td width="55%" align="right" nowrap><cf_translate key="LB_TPONOMBRAMIENTO"></cf_translate>
+			  <cf_translate key="LB_TPONOMBRAMIENTO">Tipo </cf_translate>:
+			</td>
+			<td width="45%"><select name="RHTsubcomportam">
+			   <option value="0" <cfif modo neq 'ALTA' and rsForm.RHTsubcomportam eq 0 >selected</cfif> >
+			    <cf_translate key="LB_RHTtipoinca1">-- Ninguno --</cf_translate>
+			    </option>
+			  <option value="1" <cfif modo neq 'ALTA' and rsForm.RHTsubcomportam eq 1 >selected</cfif> >
+			    <cf_translate key="LB_RHTtipoinca1">Riesgo de Trabajo</cf_translate>
+			    </option>
+			  <option value="2" <cfif modo neq 'ALTA' and rsForm.RHTsubcomportam eq 2 >selected</cfif> >
+			    <cf_translate key="LB_RHTtipoinca2">Enfermedad General</cf_translate>
+			    </option>
+			  <option value="3" <cfif modo neq 'ALTA' and rsForm.RHTsubcomportam eq 3 >selected</cfif> >
+			    <cf_translate key="LB_RHTtipoinca3">Maternidad</cf_translate>
+			    </option>
+			  </select></td>
+		  </tr>
+          <tr>
+			<td align="right" width="55%">#MSG_TipoIncSAT#:</td>
+            <td width="40%">
+                <cfquery name="rsIncapacidadSAT" datasource="#session.DSN#">
+                    select RHIncapid,RHIncapcodigo,RHIncapdescripcion from dbo.RHCFDIIncapacidad
+                    where Ecodigo = <cfqueryparam cfsqltype="cf_sql_numeric" value="#session.Ecodigo#">
+                    order by RHIncapcodigo
+                </cfquery>
+                <select name="IncapacidadSAT" id="IncapacidadSAT">
+                    <option value=0>-<cf_translate key="LB_seleccionar" xmlfile="/rh/generales.xml">seleccionar</cf_translate> -</option>
+                    <cfloop query="rsIncapacidadSAT">
+                        <option value="#rsIncapacidadSAT.RHIncapid#" <cfif modo NEQ "ALTA" and rsIncapacidadSAT.RHIncapid eq rsForm.RHIncapid>selected</cfif> >#rsIncapacidadSAT.RHIncapcodigo# #rsIncapacidadSAT.RHIncapdescripcion#</option>
+                    </cfloop>
+                </select>
+            </td>
+          </tr>
+		</table>
+
+        <table id="divTipoFalta" width="100%"  border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td width="20%" align="left" nowrap><cf_translate key="LB_factorfalta"></cf_translate>
+              <cf_translate key="LB_factorfalta">Factor Pago </cf_translate>:
+              <input name="RHTfactorfalta"
+					onFocus="this.value=qf(this); this.select();"
+					onBlur="javascript: fm(this,6);"
+					onKeyUp="if(snumber(this,event,6)){ if(Key(event)=='13') {this.blur();}}"
+					style="text-align: right;"
+					type="text"
+					value="<cfif modo neq 'ALTA'>#LSnumberFormat(rsForm.RHTfactorfalta,'999.999999')#<cfelse>#LSnumberFormat(1,'999.999999')#</cfif>"
+					size="8" maxlength="8">
+
+            </td>
+			<td>
+				&nbsp;
+				<input type="checkbox" name="chkIncluirFactor" <cfif modo neq 'ALTA' and rsForm.RHTIncluirFactorNomina eq 1>checked</cfif>>
+				<cf_translate key="LB_factorfaltaIMSS">Aplica para IMSS</cf_translate>
+			</td>
+          </tr>
+        </table>
+
+
+	  </td>
+	</tr>
+
+	<tr>
+      <td align="right"><cf_translate key="LB_TPONOMBRAMIENTO"></cf_translate><cf_translate XmlFile="/rh/generales.xml" key="LB_TRAMITE">Tr&aacute;mite</cf_translate>
+:&nbsp;</td>
+      <td colspan="3">
+
+
+<select name="RHTidtramite">
+  <option value="N"> --
+  <cf_translate key="LB_Ninguno">Ninguno</cf_translate>
+    -- </option>
+  <cfloop query="rsProcesos">
+    <option value="#rsProcesos.ProcessId#" <cfif modo NEQ 'ALTA' and isdefined('rsForm') and rsForm.RHTidtramite EQ rsProcesos.ProcessId> selected</cfif>>#rsProcesos.Name#
+      <cfif rsProcesos.PublicationStatus neq 'RELEASED'>
+        (#rsProcesos.PublicationStatus#)
+      </cfif>
+      </option>
+  </cfloop>
+</select></td>
+    </tr>
+
+	<tr>
+		<td align="right" nowrap><cf_translate key="LB_OBJGASTO">Objeto de Gasto</cf_translate>:&nbsp;</td>
+		<td colspan="3">
+			<input name="RHTcuentac" type="text" value="<cfif modo NEQ "ALTA">#trim(rsForm.RHTcuentac)#</cfif>" size="50" maxlength="100" style="text-align:left" onkeyup="if(snumber_2(this,event,0)){ if(Key(event)=='13') {this.blur();}}" onblur="javascript:fm_2(this,0);" onfocus="javascript:this.select();"  >
+		</td>
+	</tr>
+
+	<tr>
+		<td align="right" nowrap><cf_translate key="LB_Porcentaje_de_Plaza">Porcentaje de Plaza</cf_translate>:&nbsp;</td>
+		<td><input 	name="RHTporc"
+					onFocus="this.value=qf(this); this.select();"
+					onBlur="javascript: fm(this,2);"
+					onKeyUp="if(snumber(this,event,2)){ if(Key(event)=='13') {this.blur();}}"
+					style="text-align: right;"
+					type="text"
+					value="<cfif modo neq 'ALTA'>#LSCurrencyFormat(rsForm.RHTporc,'none')#<cfelse>100.00</cfif>"
+					size="8" maxlength="6">%</td>
+
+		<td align="left" nowrap><cf_translate key="LB_Porcentaje_de_SalarioFijo">Porcentaje de Salario Fijo</cf_translate>:&nbsp;</td>
+		<td width="41%">
+					<input 	name="RHTporcsal"
+					onFocus="this.value=qf(this); this.select();"
+					onBlur="javascript: fm(this,2);"
+					onKeyUp="if(snumber(this,event,2)){ if(Key(event)=='13') {this.blur();}}"
+					style="text-align: right;"
+					type="text"
+					value="<cfif modo neq 'ALTA'>#LSCurrencyFormat(rsForm.RHTporcsal,'none')#<cfelse>100.00</cfif>"
+					size="8" maxlength="6">%</td>
+	</tr>
+
+	<tr>
+		<td align="right" nowrap><cf_translate key="LB_DATOCCSS">Dato CCSS</cf_translate>:&nbsp;</td>
+		<td><input name="RHTdatoinforme" type="text" value="<cfif modo neq 'ALTA'>#trim(rsForm.RHTdatoinforme)#</cfif>" size="5" maxlength="3"  onfocus="javascript:this.select();" alt="El C&oacute;digo de despliegue para la CCSS" ></td>
+		<td width="20%"><div align="left">
+		  <input name="RHTpension" type="checkbox" <cfif modo neq 'ALTA' and rsForm.RHTpension eq 1>checked</cfif> value="checkbox">
+	    <cf_translate key="LB_AfectaLaPension">Afecta la pensi&oacute;n</cf_translate></div></td>
+		<td width="41%"></td>
+
+	</tr>
+	<tr>
+	  <td align="left" nowrap>&nbsp;</td>
+	  <td>&nbsp;</td>
+	  <td>&nbsp;</td>
+	  <td></td>
+	  </tr>
+
+    <tr>
+      <td colspan="4" align="center">
+	    <table width="80%" border="0" cellpadding="1" cellspacing="0" align="center">
+
+			<tr>
+				<td width="3%" align="right" nowrap > <input name="RHTpfijo" type="checkbox" <cfif modo neq 'ALTA' and rsForm.RHTpfijo eq 1>checked</cfif> value="checkbox" onclick="javascript:maximo(this);revisaAfectacion();" ></td>
+				<td width="11%" align="left" nowrap><cf_translate key="LB_plazofijo">Plazo Fijo:</cf_translate></td>
+				<td width="10%" align="left" nowrap>&nbsp; </td>
+				<td width="22%" align="right" nowrap><cf_translate key="LB_plazodiasmax">Plazo D&iacute;as M&aacute;ximo</cf_translate>
+				<input name="RHTpmax" type="text"
+				<cfif modo eq 'ALTA' >disabled="true"</cfif>
+				value="<cfif modo neq 'ALTA'>#rsForm.RHTpmax#<cfelse>0</cfif>"
+				size="8" maxlength="4"
+				style="text-align: right;"
+				onblur="javascript: fm(this,-1);"
+				onfocus="javascript:this.value=qf(this); this.select();"
+				onkeyup="javascript:if(snumber(this,event,0)){ if(Key(event)=='13') {this.blur();}}"
+				alt="El Plazo D&iacute;as M&aacute;ximo" /></td>
+				<td width="3%" nowrap><cf_translate key="LB_plazodiasmax"></cf_translate></td>
+			<td width="43%"><cf_translate key="LB_plazodiasmax"></cf_translate></td>
+		    <td>&nbsp;</td>
+		</tr>
+          <tr>
+            <td align="right" nowrap><input name="RHTpaga" type="checkbox" <cfif modo neq 'ALTA' and rsForm.RHTpaga eq 1>checked</cfif> value="checkbox" onclick="javascript: muestraBoton();"></td>
+            <td colspan="3" align="left" nowrap><cf_translate key="LB_nopaga">*No Paga</cf_translate></td>
+            <td nowrap="nowrap" align="right"><input type="checkbox" <cfif modo eq 'ALTA'>checked<cfelseif rsForm.RHTvisible eq 1 >checked</cfif> name="RHTvisible" value="checkbox" /></td>
+            <td align="left" nowrap="nowrap"><cf_translate key="LB_RHTvisible">Visible para Tr&aacute;mites de Empleado</cf_translate></td>
+			<td width="8%" nowrap>&nbsp;</td>
+          </tr>
+          <tr>
+            <td align="right" nowrap><input type="checkbox" <cfif modo neq 'ALTA' and rsForm.RHTautogestion eq 1>checked</cfif> name="RHTautogestion" value="checkbox"></td>
+            <td colspan="3" align="left" nowrap><cf_translate key="LB_INCLUIRAUTOGESTION">Incluir en Autogesti&oacute;n</cf_translate></td>
+            <td align="right" nowrap="nowrap"><input type="checkbox" <cfif modo neq 'ALTA' and rsForm.RHTnocargas eq 1>checked</cfif> name="RHTnocargas" value="checkbox" /></td>
+            <td align="left" nowrap="nowrap"><cf_translate key="LB_NOAPLICACARGA">No aplica cargas</cf_translate></td>
+            <td nowrap>&nbsp;</td>
+          </tr>
+
+          <tr>
+            <td align="right" nowrap><input type="checkbox" <cfif modo neq 'ALTA' and rsForm.RHTnorenta eq 1>checked</cfif> name="RHTnorenta" value="checkbox"></td>
+            <td colspan="3" align="left" nowrap><cf_translate key="LB_NOAPLICARENTA">No aplica Renta</cf_translate></td>
+            <td align="right" nowrap="nowrap"><input  type="checkbox" <cfif modo neq 'ALTA' and rsForm.RHTnoretroactiva eq 1>checked</cfif> name="RHTnoretroactiva" value="checkbox" /></td>
+            <td align="left" nowrap="nowrap" title="<cf_translate key="LB_NOCALCULARETRO">No Calcula Retroactivo</cf_translate>"><cf_translate key="LB_MODIFLINEATIEMPO">No modifica L&iacute;nea de Tiempo</cf_translate></td>
+			<td nowrap>&nbsp;</td>
+          </tr>
+
+          <tr>
+            <td align="right" nowrap><input type="checkbox" <cfif modo neq 'ALTA' and rsForm.RHTnodeducciones eq 1>checked</cfif> name="RHTnodeducciones" value="checkbox"></td>
+            <td colspan="3" align="left" nowrap><cf_translate key="LB_NOAPLICADEDUCCIONES">No aplica deducciones</cf_translate></td>
+            <td align="right" nowrap="nowrap"><input type="checkbox" <cfif modo neq 'ALTA' and rsForm.RHTnoveriplaza eq 1>checked</cfif> name="RHTnoveriplaza" value="1" /></td>
+            <td align="left" nowrap="nowrap"><cf_translate key="LB_VERIFICAOCUPACIONPLAZA">No verifica ocupación de plaza</cf_translate></td>
+            <td nowrap>&nbsp;</td>
+          </tr>
+
+          <tr>
+            <td align="right" nowrap><input type="checkbox" <cfif modo neq 'ALTA' and rsForm.RHTnocargasley eq 1>checked</cfif> name="RHTnocargasley" value="checkbox"></td>
+            <td colspan="3" align="left" nowrap><cf_translate key="LB_NOAPLICAGARGASDELEY">No aplica cargas de ley</cf_translate></td>
+            <td align="right" nowrap="nowrap"><input type="checkbox" <cfif modo neq 'ALTA' and rsForm.RHTafectafvac eq 1>checked</cfif> name="RHTafectafvac" value="1" /></td>
+            <td align="left" nowrap="nowrap"><cf_translate key="LB_RHTafectafvac">****Afecta la Fecha de Vacaciones</cf_translate></td>
+            <td nowrap>&nbsp;</td>
+          </tr>
+
+          <tr id="idAfectacion">
+            <td align="right" nowrap><input type="checkbox" <cfif modo neq 'ALTA' and rsForm.RHTafectafantig eq 1>checked</cfif> name="RHTafectafantig" value="1"></td>
+            <td colspan="3" align="left" nowrap><cf_translate key="LB_RHTafectafantig">****Afecta la fecha de Antiguedad</cf_translate></td>
+            <td align="right" nowrap>&nbsp;</td>
+            <td align="left" nowrap>&nbsp;</td>
+			<td nowrap>&nbsp;</td>
+          </tr>
+
+          <tr id="idAlerta">
+            <td align="right" nowrap><input name="RHTalerta" type="checkbox" <cfif modo neq 'ALTA' and rsForm.RHTalerta eq 1>checked</cfif> value="checkbox" onclick="javascript:alerta(this);" ></td>
+            <td colspan="3" align="left" nowrap><cf_translate key="LB_RHTalerta">Notificar antes de conclusi&oacute;n de plazo</cf_translate></td>
+			<td colspan="2" align="center" nowrap>&nbsp;&nbsp;&nbsp;<cf_translate key="LB_RHTdiasalerta">D&iacute;as antes para notificar</cf_translate>:<input name="RHTdiasalerta" type="text"  <cfif modo eq 'ALTA' >disabled="true"</cfif> value="<cfif modo neq 'ALTA'>#rsForm.RHTdiasalerta#<cfelse>0</cfif>" size="7" maxlength="6" style="text-align: right;" onblur="javascript: fm(this,-1);"  onfocus="javascript:this.value=qf(this); this.select();"  onkeyup="javascript:if(snumber(this,event,2)){ if(Key(event)=='13') {this.blur();}}" alt="El Plazo D&iacute;as M&aacute;ximo" ></td>
+			<td width="8%" nowrap>&nbsp;</td>
+          </tr>
+ 		  <tr>
+            <td align="right" nowrap><input name="RHTnopagaincidencias" type="checkbox" <cfif modo neq 'ALTA' and rsForm.RHTnopagaincidencias eq 1>checked</cfif> value="checkbox" ></td>
+            <td colspan="6" align="left" nowrap><cf_translate  key="LB_No_incluir_conceptos_de_pago_incidentes_entre_las_fechas_de_vigencia_de_la_accion">No incluir conceptos de pago incidentes entre las fechas de vigencia de la acci&oacute;n</cf_translate></td>
+          </tr>
+		  <tr>
+            <td align="right" nowrap><input name="RHTNoMuestraCS" type="checkbox" <cfif modo neq 'ALTA' and rsForm.RHTNoMuestraCS eq 1>checked</cfif> value="checkbox" ></td>
+            <td colspan="3" align="left" nowrap><cf_translate  key="LB_Ocultar_area_de_componentes_salariales">Ocultar &aacute;rea de componentes salariales</cf_translate></td>
+			<td align="right" nowrap><input name="RHCatParcial" disabled="disabled" type="checkbox" <cfif modo neq 'ALTA' and rsForm.RHCatParcial eq 1>checked</cfif> value="checkbox" ></td>
+            <td align="left" nowrap><cf_translate  key="LB_Calculo_Categoria_Parcial">C&aacute;lculo de Categor&iacute;a Parcial</cf_translate></td>
+          </tr>
+		  <tr>
+		    <td align="right" nowrap="nowrap"><input type="checkbox" <cfif modo neq 'ALTA' and rsForm.RHTposterior eq 0>checked</cfif> name="RHTposterior" value="checkbox" /></td>
+		    <td colspan="3" align="left" nowrap="nowrap"><cf_translate key="LB_NOMOVANTERIORES">**No Permite movimientos Posteriores</cf_translate></td>
+		    <td align="right" nowrap><input name="RHAcum" type="checkbox" <cfif modo neq 'ALTA' and rsForm.RHAcumAnualidad eq 1>checked</cfif> value="checkbox" ></td>
+            <td align="left" nowrap><cf_translate  key="LB_No_Acumula_Anualidad">No calcula anualidad</cf_translate></td>
+		    <td align="left" nowrap>&nbsp;</td>
+		    </tr>
+          <tr>
+            <td colspan="7" align="left" nowrap><cf_translate key="LB_CONCEPTONEGATIVO">Concepto para salario Negativo</cf_translate>:
+              <cfif isdefined("rsForm.CIncidente1") and len(trim(rsForm.CIncidente1)) gt 0>
+                <cfquery name="rsCI" datasource="#session.DSN#">
+					select CIid as CIid1, CIcodigo as CIcodigo1, CIdescripcion as CIdescripcion1,
+							CInegativo as CInegativo1
+					from CIncidentes
+					where CIid = <cfqueryparam value="#rsForm.CIncidente1#" cfsqltype="cf_sql_numeric"> <!---#rsForm.CIncidente1#  --->
+				</cfquery>
+                <cfset va_cambiosalnegativo = ArrayNew(1)> <!---Variable para cargar los valores en modo cambio del concepto para salario negativo---->
+                <cfset ArrayAppend(va_cambiosalnegativo, rsCI.CIid1)>
+                <cfset ArrayAppend(va_cambiosalnegativo, rsCI.CIcodigo1)>
+                <cfset ArrayAppend(va_cambiosalnegativo, rsCI.CIdescripcion1)>
+                <cfset ArrayAppend(va_cambiosalnegativo, rsCI.CInegativo1)>
+
+                <cf_conlis
+					campos="CIid1, CIcodigo1, CIdescripcion1, CInegativo1"
+					asignar="CIid1, CIcodigo1, CIdescripcion1, CInegativo1"
+					size="0,8,30,0"
+					desplegables="N,S,S,N"
+					modificables="N,S,N,N"
+					title="#LB_TITULOCONLISCONCEPTOSPAGO#"
+					tabla="CIncidentes a"
+					columnas="CIid as CIid1, CIcodigo as CIcodigo1, CIdescripcion as CIdescripcion1, CInegativo as CInegativo1"
+					filtro="Ecodigo = #Session.Ecodigo#
+							and CItipo = 2
+							and CIcarreracp = 0
+							and not exists (select 1
+											from ComponentesSalariales b
+											where a.CIid = b.CIid
+												and b.Ecodigo = #Session.Ecodigo#
+											)"
+					filtrar_por="CIcodigo, CIdescripcion"
+					desplegar="CIcodigo1, CIdescripcion1"
+					etiquetas="#LB_CODIGO#,#LB_DESCRIPCION#"
+					formatos="S,S"
+					align="left,left"
+					asignarFormatos="S,S,S,S"
+					form="form1"
+					showEmptyListMsg="true"
+					EmptyListMsg=" --- No se encontraron registros --- "
+					valuesArray="#va_cambiosalnegativo#"
+				/>
+                <cfelse>
+                <cf_conlis
+					campos="CIid1, CIcodigo1, CIdescripcion1, CInegativo1"
+					asignar="CIid1, CIcodigo1, CIdescripcion1, CInegativo1"
+					size="0,8,30,0"
+					desplegables="N,S,S,N"
+					modificables="N,S,N,N"
+					title="#LB_TITULOCONLISCONCEPTOSPAGO#"
+					tabla="CIncidentes a"
+					columnas="CIid as CIid1, CIcodigo as CIcodigo1, CIdescripcion as CIdescripcion1, CInegativo as CInegativo1"
+					filtro="Ecodigo = #Session.Ecodigo#
+							and CItipo = 2
+							and CIcarreracp = 0
+							and not exists (select 1
+											from ComponentesSalariales b
+											where a.CIid = b.CIid
+												and b.Ecodigo = #Session.Ecodigo#
+											)"
+					filtrar_por="CIcodigo,CIdescripcion"
+					desplegar="CIcodigo1,CIdescripcion1"
+					etiquetas="#LB_CODIGO#,#LB_DESCRIPCION#"
+					formatos="S,S"
+					align="left,left"
+					asignarFormatos="S,S,S,S"
+					form="form1"
+					showEmptyListMsg="true"
+					EmptyListMsg=" --- No se encontraron registros --- "
+				/>
+              </cfif>            </td>
+			</tr>
+          <tr>
+            <td colspan="7" align="left" nowrap><cf_translate key="LB_CONCEPTORETRO">Concepto para Retroactivo</cf_translate>:
+				<cfif isdefined("rsForm.CIncidente2") and len(trim(rsForm.CIncidente2)) gt 0>
+					<cfquery name="rsCI" datasource="#session.DSN#">
+						select CIid as CIid2, CIcodigo as CIcodigo2, CIdescripcion as CIdescripcion2,
+								CInegativo as CInegativo2
+						from CIncidentes
+						where CIid = <cfqueryparam value="#rsForm.CIncidente2#" cfsqltype="cf_sql_numeric"> <!---#rsForm.CIncidente2#--->
+					</cfquery>
+					<cfset va_cambioretroactivo = ArrayNew(1)> <!---Variable para cargar los valores en modo cambio del concepto para retroactivo--->
+					<cfset ArrayAppend(va_cambioretroactivo, rsCI.CIid2)>
+					<cfset ArrayAppend(va_cambioretroactivo, rsCI.CIcodigo2)>
+					<cfset ArrayAppend(va_cambioretroactivo, rsCI.CIdescripcion2)>
+					<cfset ArrayAppend(va_cambioretroactivo, rsCI.CInegativo2)>
+					<cf_conlis
+						campos="CIid2, CIcodigo2, CIdescripcion2, CInegativo2"
+						asignar="CIid2, CIcodigo2, CIdescripcion2, CInegativo2"
+						size="0,8,30,0"
+						desplegables="N,S,S,N"
+						modificables="N,S,N,N"
+						title="#LB_TITULOCONLISCONCEPTOSPAGO#"
+						tabla="CIncidentes a"
+						columnas="CIid as CIid2, CIcodigo as CIcodigo2, CIdescripcion as CIdescripcion2, CInegativo as CInegativo2"
+						filtro="Ecodigo = #Session.Ecodigo#
+								and CItipo = 2
+								and CIcarreracp = 0
+								and not exists (select 1
+												from ComponentesSalariales b
+												where a.CIid = b.CIid
+													and b.Ecodigo = #Session.Ecodigo#
+												)"
+						filtrar_por="CIcodigo, CIdescripcion"
+						desplegar="CIcodigo2, CIdescripcion2"
+						etiquetas="#LB_CODIGO#,#LB_DESCRIPCION#"
+						formatos="S,S"
+						align="left,left"
+						asignarFormatos="S,S,S,S"
+						form="form1"
+						showEmptyListMsg="true"
+						EmptyListMsg=" --- No se encontraron registros --- "
+						valuesArray="#va_cambioretroactivo#"
+					/>
+                    <cfelse>
+					<cf_conlis
+						campos="CIid2, CIcodigo2, CIdescripcion2, CInegativo2"
+						asignar="CIid2, CIcodigo2, CIdescripcion2, CInegativo2"
+						size="0,8,30,0"
+						desplegables="N,S,S,N"
+						modificables="N,S,N,N"
+						title="#LB_TITULOCONLISCONCEPTOSPAGO#"
+						tabla="CIncidentes a"
+						columnas="CIid as CIid2, CIcodigo as CIcodigo2, CIdescripcion as CIdescripcion2, CInegativo as CInegativo2"
+						filtro="Ecodigo = #Session.Ecodigo#
+								and CItipo = 2
+								and CIcarreracp = 0
+								and not exists (select 1
+												from ComponentesSalariales b
+												where a.CIid = b.CIid
+													and b.Ecodigo = #Session.Ecodigo#
+												)"
+						filtrar_por="CIcodigo, CIdescripcion"
+						desplegar="CIcodigo2, CIdescripcion2"
+						etiquetas="#LB_CODIGO#,#LB_DESCRIPCION#"
+						formatos="S,S"
+						align="left,left"
+						asignarFormatos="S,S,S,S"
+						form="form1"
+						showEmptyListMsg="true"
+						EmptyListMsg=" --- No se encontraron registros --- "
+					/>
+				</cfif>			</td>
+            </tr>
+        </table></td>
+    </tr>
+
+	<tr>
+      <td colspan="4" align="center"> <fieldset>
+        <legend><b>&nbsp;<cf_translate  key="LB_PERMITEMODIFICAR">Permite modificar</cf_translate>&nbsp;</b></legend>
+
+		<table width="80%" border="0" cellpadding="1" cellspacing="0">
+          <tr>
+            <td><input type="checkbox" <cfif modo neq 'ALTA' and rsForm.RHTctiponomina eq 1>checked</cfif> name="RHTctiponomina" value="checkbox"></td>
+            <td nowrap><cf_translate key="LB_RHTctiponomina">Tipo de N&oacute;mina</cf_translate></td>
+            <td><input type="checkbox" <cfif modo neq 'ALTA' and rsForm.RHTcregimenv eq 1>checked</cfif> name="RHTcregimenv" value="checkbox"></td>
+            <td nowrap><cf_translate key="LB_RHTcregimenv">R&eacute;gimen de Vacaciones</cf_translate></td>
+            <td><input type="checkbox" <cfif modo neq 'ALTA' and rsForm.RHTcoficina eq 1>checked</cfif> name="RHTcoficina" value="checkbox"></td>
+            <td nowrap><cf_translate XmlFile="/rh/generales.xml" key="LB_Oficina">Oficina</cf_translate></td>
+
+          </tr>
+		  <tr>
+		  	<td><input type="checkbox" <cfif modo neq 'ALTA' and rsForm.RHTcjornada eq 1>checked</cfif> name="RHTcjornada" value="checkbox"></td>
+            <td nowrap><cf_translate XmlFile="/rh/generales.xml" key="LB_Jornada">Jornada</cf_translate></td>
+
+			<td><input type="checkbox" <cfif modo neq 'ALTA' and rsForm.RHTliquidatotal eq 1>checked</cfif> name="RHTliquidatotal" value="checkbox"></td>
+            <td nowrap ><cf_translate  key="LB_RHTliquidatotal">Excluir Salario de N&oacute;mina</cf_translate></td>
+
+
+			<td><input type="checkbox" <cfif modo neq 'ALTA' and rsForm.RHTcempresa eq 1>checked</cfif> name="RHTcempresa" value="checkbox"></td>
+            <td nowrap><cf_translate XmlFile="/rh/generales.xml" key="LB_EMPRESA">Empresa</cf_translate></td>
+		  </tr>
+          <tr>
+            <td><input type="checkbox" <cfif modo neq 'ALTA' and rsForm.RHTcdepto eq 1>checked</cfif> name="RHTcdepto" value="checkbox"></td>
+            <td nowrap><cf_translate XmlFile="/rh/generales.xml" key="LB_DEPARTAMENTO">Departamento</cf_translate></td>
+            <td><input type="checkbox" <cfif modo neq 'ALTA' and rsForm.RHTccomp eq 1>checked</cfif> name="RHTccomp" value="checkbox"></td>
+            <td nowrap><cf_translate  key="LB_COMPONENTESALARIAL">Componentes Salariales</cf_translate></td>
+            <td><input type="checkbox" <cfif modo neq 'ALTA' and rsForm.RHTcpuesto eq 1>checked</cfif> name="RHTcpuesto" value="checkbox"></td>
+            <td nowrap><cf_translate XmlFile="/rh/generales.xml" key="LB_PUESTO">Puesto</cf_translate></td>
+
+          </tr>
+          <tr>
+            <td><input type="checkbox" <cfif modo neq 'ALTA' and rsForm.RHTccatpaso eq 1>checked</cfif> name="RHTccatpaso" value="checkbox"></td>
+            <td nowrap><cf_translate  key="LB_RHTccatpaso">Categor&iacute;a / Paso</cf_translate></td>
+			<td><input type="checkbox" <cfif modo neq 'ALTA' and rsForm.RHTcsalariofijo eq 1>checked</cfif> name="RHTcsalariofijo" value="checkbox"></td>
+            <td nowrap><cf_translate  key="LB_SALARIO">% Salario Fijo</cf_translate></td>
+			<td><input type="checkbox" <cfif modo neq 'ALTA' and rsForm.RHTporcPlazaCHK eq 1>checked</cfif> name="RHTporcPlazaCHK" value="checkbox"></td>
+            <td nowrap><cf_translate  key="LB_Plaza">% Plaza</cf_translate></td>
+
+          </tr>
+
+        </table>
+
+        </fieldset></td>
+    </tr>
+    <cfif modo neq "ALTA">
+      <tr>
+        <td colspan="4" align="center">
+			<!--------------------------------------------------------------- Conceptos de Pago --------------------------------------------------------------->
+			<cfquery name="rsConceptosTipoAccion" datasource="#Session.DSN#">
+				select b.CIid, b.CIcodigo, CTAsalario, b.CIdescripcion,
+					case CTAsalario
+						when 1 then 'Monto de Salario'
+						when 0 then 'Incidencia'
+						when 2 then 'Monto a rebajar'
+						when 3 then 'Monto a pagar'
+					end as CTAsalarioDesc
+				from ConceptosTipoAccion a, CIncidentes b
+				where a.RHTid = <cfqueryparam cfsqltype="cf_sql_numeric" value="#form.RHTid#">
+				and a.CIid = b.CIid
+			</cfquery>
+			<script language="JavaScript1.2" type="text/javascript">
+				function AgregarCTA() {
+					if (document.form1.CIid.value!="") {
+						document.form1.CTAAccion.value = "ALTA";
+						return true;
+					}
+					alert('<cfoutput>#LB_MESAJEERROR2#</cfoutput>');
+					return false;
+				}
+
+				function AgregarCarga(){ //Agregar Cargas
+					if (document.form1.DClinea.value=="") {
+						alert('<cfoutput>#MSG_DebeSeleccionarLaCarga#</cfoutput>');
+						return false;
+					}
+					if(parseFloat(document.form1.RHCPEporcentaje.value) > 100){
+						alert('#MSG_DebeDigitarUnPorcentajeEntre0Y100#');
+						return false;
+					}
+					return true;
+				}
+
+
+				function EliminarCTA(id) {
+					if (confirm('<cfoutput>#LB_MESAJEERROR3#</cfoutput>')) {
+						document.form1.CIid.value=id;
+						document.form1.CTAAccion.value = "BAJA";
+						return true;
+					}
+					return false;
+				}
+
+				function EliminarCarga(prn_dclinea){
+					if(prn_dclinea != ''){
+						document.form1.DClineaEliminar.value = prn_dclinea;
+						document.form1.CargaAccion.value = 'BAJA';
+						return true;
+						//return false;
+					}
+					return false;
+				}
+			</script>
+			<fieldset>
+				<legend><b>&nbsp;<cf_translate  key="LB_CALCULOSESPECIALES">C&aacute;lculos Especiales</cf_translate>&nbsp;</b></legend>
+				<table width="90%" border="0" align="center" cellpadding="1" cellspacing="0">
+					<input type="hidden" name="CTAAccion" id="CTAAccion" value="">
+					<tr>
+						<td nowrap align="left" colspan="3">
+							<table  border="0" cellspacing="0" cellpadding="0">
+							  <tr>
+								<td align="left">
+									<cf_rhCIncidentes IncluirTipo="3,1">
+								</td>
+
+								<td>&nbsp;&nbsp;&nbsp;<cf_translate  key="LB_TIPO">***Tipo:</cf_translate></td>
+								<td>
+									<select name="CTAsalario">
+										<option value="1"><cf_translate  key="LB_CTAsalario1">Monto de Salario</cf_translate></option>
+										<option value="0"><cf_translate  key="LB_CTAsalario0">Incidencia</cf_translate></option>
+										<option value="2"><cf_translate  key="LB_CTAsalario2">Monto a rebajar</cf_translate></option>
+										<option value="3"><cf_translate  key="LB_CTAsalario3">Monto a pagar</cf_translate></option>
+									</select>
+								</td>
+							</tr>
+							<tr>
+								<td colspan="3" nowrap align="center"><br><input type="submit" name="CTAAlta" id="CTAAlta" value="<cfoutput>#BTN_Agregar#</cfoutput>" class="btnGuardar" onclick="javascript: return AgregarCTA();"></td>
+							</tr>
+							</table>
+						</td>
+					</tr>
+					<tr><td colspan="3">&nbsp;</td></tr>
+					<tr>
+						<td class="tituloListas"><cf_translate  key="LB_TITULOLISTA1">Concepto de Pago</cf_translate></td>
+						<td class="tituloListas"><cf_translate  key="LB_TITULOLISTA2">Incidencia</cf_translate></td>
+						<td align="center" class="tituloListas"></td>
+					</tr>
+
+					<cfloop query="rsConceptosTipoAccion">
+						<tr nowrap align="left" class=<cfif CurrentRow MOD 2>"listaNon"<cfelse>"listaPar"</cfif> onmouseover="style.backgroundColor='##E4E8F3';" onmouseout="style.backgroundColor='<cfif CurrentRow MOD 2>##FFFFFF<cfelse>##FAFAFA</cfif>';">
+							<td nowrap>#CIcodigo# - #CIdescripcion#</td>
+							<td nowrap>
+								#rsConceptosTipoAccion.CTAsalarioDesc#
+							</td>
+							<td nowrap align="right">
+								<input name="btnEliminar#CIid#" type="image" alt="Eliminar Concepto" onclick="javascript: return EliminarCTA(#CIid#);" src="/cfmx/rh/imagenes/Borrar01_T.gif" width="16" height="16" tabindex="-1">
+							</td>
+						</tr>
+					</cfloop>
+
+				</table>
+			</fieldset>
+			<!------------------------------------------------------------------------------------------------------------------------------------------------->
+        </td>
+      </tr>
+    </cfif>
+	<!---============================== Cargas en periodo especial ==============================---->
+	<cfif modo neq "ALTA">
+		<cfquery name="rsCargasPEspecial" datasource="#session.DSN#">
+			select 	b.DClinea,
+					b.DCcodigo,
+					b.DCdescripcion,
+					a.RHCPEporcentaje as porcarga
+			from RHCargasPeriodoEspecial a
+				inner join DCargas b
+					on a.DClinea = b.DClinea
+			where a.RHTid = <cfqueryparam cfsqltype="cf_sql_numeric" value="#form.RHTid#">
+		</cfquery>
+		<input type="hidden" name="CargaAccion" id="CargaAccion" value="">
+		<input type="hidden" name="DClineaEliminar" value="" /><!----DClinea a eliminar--->
+		<tr>
+			<td colspan="4" align="center">
+				<fieldset><legend><b>&nbsp;<cf_translate  key="LB_CalculoDeCargasEnPeriodoEspecial">C&aacute;lculo de Cargas en Periodo Especial</cf_translate>&nbsp;</b></legend>
+					<table width="90%" border="0" align="center" cellpadding="1" cellspacing="0">
+						<!-----Ingreso de datos de la carga---->
+						<tr>
+							<td>
+								<table width="100%" border="0">
+									<tr>
+										<td align="right"><cf_translate key="LB_Carga">Carga</cf_translate>:&nbsp;</td>
+										<td>
+											<cf_conlis title="#LB_ListaDeCargasObreroPatronales#"
+												campos = "DClinea,DCcodigo,DCdescripcion"
+												desplegables = "N,S,S"
+												modificables = "N,S,N"
+												size = "0,10,30"
+												asignar="DClinea,DCcodigo,DCdescripcion"
+												asignarformatos="I,S,S"
+												tabla="	DCargas a"
+												columnas="DClinea,DCcodigo,DCdescripcion"
+												filtro="a.Ecodigo =#session.Ecodigo#"
+												desplegar="DCcodigo,DCdescripcion"
+												etiquetas="	#LB_CODIGO#,
+															#LB_DESCRIPCION#"
+												formatos="S,S"
+												align="left,left"
+												showEmptyListMsg="true"
+												debug="false"
+												form="form1"
+												width="800"
+												height="500"
+												left="70"
+												top="20"
+												filtrar_por="DCcodigo,DCdescripcion"
+												>
+												<!----valuesarray="#va_arrayHabilidad#"----->
+										</td>
+										<td width="1%">&nbsp;</td>
+										<td>
+											<input type="text" name="RHCPEporcentaje" value="0.00" size="7" maxlength="6" onFocus="this.value=qf(this); this.select();"
+												onBlur="javascript: fm(this,2);"
+												onKeyUp="if(snumber(this,event,2)){ if(Key(event)=='13') {this.blur();}}"
+												style="text-align: right;" />%
+										</td>
+									</tr>
+									<tr>
+										<td colspan="5" align="center">
+											<input type="submit" name="btn_agregarcarga" value="#BTN_Agregar#" class="btnGuardar" onclick="javascript: return AgregarCarga();"/>
+										</td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+						<tr><td>&nbsp;</td></tr>
+						<!----Lista de cargas agregadas--->
+						<tr>
+							<td>
+								<table border="0" width="100%">
+									<tr class="tituloListas">
+										<td width="60%"><strong><cf_translate key="LB_Carga">Carga</cf_translate></strong></td>
+										<td width="40%"><strong><cf_translate key="LB_Porcentaje">Porcentaje</cf_translate></strong></td>
+										<td>&nbsp;</td>
+									</tr>
+									<cfif rsCargasPEspecial.RecordCount NEQ 0>
+										<cfloop query="rsCargasPEspecial">
+											<tr>
+												<td>#trim(rsCargasPEspecial.DCcodigo)# - #trim(rsCargasPEspecial.DCdescripcion)#</td>
+												<td>#LSNumberFormat(rsCargasPEspecial.porcarga,'999.99')#</td>
+												<td>
+													<!----<a href="javascript: return EliminarCarga(#rsCargasPEspecial.DClinea#);"><img src="/cfmx/rh/imagenes/Borrar01_S.gif" border="0"/></a>---->
+													<input name="btnEliminarCarga" type="image" onclick="javascript: return EliminarCarga(#rsCargasPEspecial.DClinea#);" src="/cfmx/rh/imagenes/Borrar01_T.gif" width="16" height="16" tabindex="-1">
+												</td>
+											</tr>
+										</cfloop>
+									<cfelse>
+										<tr><td colspan="2" align="center">--- #MSG_NoSeEncotraronRegistros# ---</td></tr>
+									</cfif>
+								</table>
+							</td>
+						</tr>
+					</table>
+				</fieldset>
+			</td>
+		</tr>
+	</cfif>
+    <!---============================== FIN de Cargas en periodo especial ==============================---->
+	<tr id="trIncapacidad" style="display: none; ">
+      <td colspan="4" align="center">
+	  	<table width="100%"  border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td width="50%" align="right" nowrap><cf_translate  key="LB_CANTDIASINCAPACIDAD">Cantidad de d&iacute;as para Continuidad de Incapacidad</cf_translate>: </td>
+            <td style="padding-left: 10px;" nowrap><input name="RHTcantdiascont" type="text" style="text-align: right;"  onfocus="javascript:this.value=qf(this); this.select();" onblur="javascript: fm(this,-1);"  onkeyup="javascript:if(snumber(this,event,2)){ if(Key(event)=='13') {this.blur();}}" size="10" value="<cfif modo neq 'ALTA' and rsForm.RHTcomportam eq 5>#rsForm.RHTcantdiascont#</cfif>"></td>
+          </tr>
+        </table>
+	  </td>
+    </tr>
+    <tr>
+      <td colspan="4" align="center">&nbsp;</td>
+    </tr>
+    <tr>
+      <td colspan="4" align="center">
+	  	<cfinclude template="/rh/portlets/pBotones.cfm">
+	  	<cfif modo neq "ALTA">
+			<input type="button" name="CompPaga" id="CompPaga" style="display:none;" value="<cfoutput>#BTN_Componentes#</cfoutput>" class="btnNormal" onclick="javascript: goComp(this.form);">
+			<input type="button" name="TipoAccion" value="<cfoutput>#BTN_Permisos#</cfoutput>" class="btnNormal" onclick="javascript: goTipo(this.form);">
+			<input type="button" name="BTN_Firmas" value="<cfoutput>#BTN_Firmas#</cfoutput>"   class="btnNormal" onclick="javascript: gofirmas(this.form);">
+		</cfif>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="4" align="center">&nbsp;</td>
+    </tr>
+    <tr>
+      <td colspan="4" align="center"> <table width="100%" border="0" align="center" cellpadding="2" cellspacing="2" class="ayuda">
+		  <tr>
+            <td>
+			<cf_translate  key="LB_AYUDA0">
+			 &nbsp;<b>No Calcula Retroactivo:</b> &nbsp;Cuando se selecciona esta opci&oacute;n , los check de &quot;No paga&quot;  y &quot;No incluir conceptos de pago incidentes entre las fechas de vigencia de la acci&oacute;n&quot; autom&aacute;ticamente quedan desmarcados. </cf_translate></td>
+          </tr>
+		  <tr>
+            <td>
+			<cf_translate  key="LB_AYUDA1">
+			&nbsp;<b>*No Paga:</b> &nbsp;Una Acci&oacute;n de este tipo implicar&aacute;
+              que no se pague Salario al funcionario durante la vigencia de la
+              Acci&oacute;n.</cf_translate></td>
+          </tr>
+          <tr>
+            <td><cf_translate  key="LB_AYUDA2"> &nbsp;<b>**No Permite movimientos Posteriores:</b> Una vez aplicada
+              una Acci&oacute;n de Personal de este tipo el sistema controlar&aacute;
+              que NO se permita el registro posterior de ning&uacute;n otro tipo
+              de acciones.</cf_translate></td>
+          </tr>
+          <tr>
+            <td> <cf_translate  key="LB_AYUDA3">&nbsp;<b>****Afecta fecha de Antiguedad/Vacaciones:</b> Las acciones de plazo fijo que no son &quot;Nombramiento y Cese&quot; modifican la fecha de antiguedad del empleado agregando a la fecha original la diferencia de d&iacute;as de la nueva.</cf_translate></td>
+          </tr>
+	      <cfif modo neq "ALTA">
+            <tr>
+              <td> <cf_translate  key="LB_AYUDA4">&nbsp;<b>***Tipo:</b>
+				<li><strong>Monto de Salario:</strong>&nbsp;C&aacute;lculo de salario que aplica durante la vigencia de la Acci&oacute;n.</li>
+				<li><strong>Incidencia:</strong>&nbsp;Pago total del monto resultante en la siguiente n&oacute;mina.</li>
+				<li><strong>Monto a rebajar:</strong>&nbsp;Monto que se rebajar&aacute; de acuerdo con los d&iacute;as trabajados.</li>
+				<li><strong>Monto a pagar:</strong>&nbsp;Monto que se pagar&aacute; de acuerdo con los d&iacute;as trabajados.</li>
+				</cf_translate>
+			  </td>
+          	</tr>
+		  </cfif>
+        </table></td>
+    </tr>
+  </table>
+  </cfoutput>
+</form>
+
+<script language="JavaScript1.2" type="text/javascript">
+	<cfoutput>
+	function __isPorcentajeSalario() {
+		if (objForm.RHTporcsal.value < 0 || objForm.RHTporcsal.value > 100 ){
+				this.error = "#MSG_DebeDigitarUnPorcentajeEntre0Y100#"
+			}
+		}
+	 _addValidator("isPorcentajeSalario", __isPorcentajeSalario);
+
+	function __isPorcentajePlaza() {
+		if (objForm.RHTporc.value < 0 || objForm.RHTporc.value > 100 ){
+				this.error = "#MSG_DebeDigitarUnPorcentajeEntre0Y100#"
+			}
+		}
+     _addValidator("isPorcentajePlaza", __isPorcentajePlaza);
+
+	</cfoutput>
+
+	<cfinvoke component="sif.Componentes.Translate"
+	method="Translate"
+	Key="LB_MESAJEERROR7"
+	Default="Cantidad de días para Continuidad de Incapacidad"
+	returnvariable="LB_MESAJEERROR7"/>
+
+	function validarCampos(t) {
+		if (t) {
+			objForm.RHTcantdiascont.required = true;
+			objForm.RHTcantdiascont.description = "<cfoutput>#LB_MESAJEERROR7#</cfoutput>";
+		} else {
+			objForm.RHTcantdiascont.required = false;
+		}
+	}
+
+	<cfinvoke component="sif.Componentes.Translate"
+	method="Translate"
+	Key="LB_MESAJEERROR4"
+	Default="Código de Tipo de Acción"
+	returnvariable="LB_MESAJEERROR4"/>
+
+	<cfinvoke component="sif.Componentes.Translate"
+	method="Translate"
+	Key="LB_MESAJEERROR5"
+	Default="Descripción"
+	returnvariable="LB_MESAJEERROR5"/>
+
+	<cfinvoke component="sif.Componentes.Translate"
+	method="Translate"
+	Key="LB_MESAJEERROR6"
+	Default="El Plazo Días Máximo"
+	returnvariable="LB_MESAJEERROR6"/>
+
+	<cfinvoke component="sif.Componentes.Translate"
+	method="Translate"
+	Key="LB_MESAJEERROR8"
+	Default="Porcentaje de Plaza"
+	returnvariable="LB_MESAJEERROR8"/>
+
+
+	<cfinvoke component="sif.Componentes.Translate"
+	method="Translate"
+	Key="LB_MESAJEERROR9"
+	Default="Porcentaje de Salario Fijo"
+	returnvariable="LB_MESAJEERROR9"/>
+
+
+
+	qFormAPI.errorColor = "#FFFFCC";
+	objForm = new qForm("form1");
+
+	objForm.RHTcodigo.required = true;
+	objForm.RHTcodigo.description="<cfoutput>#LB_MESAJEERROR4#</cfoutput>";
+
+	objForm.RHTdesc.required = true;
+	objForm.RHTdesc.description="<cfoutput>#LB_MESAJEERROR5#</cfoutput>";
+
+	objForm.RHTpmax.required = true;
+	objForm.RHTpmax.description = '<cfoutput>#LB_MESAJEERROR6#</cfoutput>';
+
+	if (objForm.RHTcomportam==5){
+	objForm.RHTcantdiascont.required = true;
+	objForm.RHTcantdiascont.description = "<cfoutput>#LB_MESAJEERROR7#</cfoutput>";
+	}
+	objForm.RHTporc.required = true;
+	objForm.RHTporc.description="<cfoutput>#LB_MESAJEERROR8#</cfoutput>";
+
+	objForm.RHTporcsal.required = true;
+	objForm.RHTporcsal.description="<cfoutput>#LB_MESAJEERROR9#</cfoutput>";
+
+
+	 objForm.RHTporcsal.validatePorcentajeSalario();
+	 objForm.RHTporc.validatePorcentajePlaza();
+
+	// llama a maximo, solo en modo cambio
+	<cfif modo neq 'ALTA'>
+		maximo(document.form1.RHTpfijo);
+		alerta(document.form1.RHTalerta);
+		muestraBoton();
+	</cfif>
+	comportamiento(document.form1.RHTcomportam);
+	function muestraBoton() {
+		var a = document.getElementById("CompPaga");
+		if (document.form1.RHTpaga.checked) {
+			if (a) a.style.display = "";
+		} else {
+			if (a) a.style.display = "none";
+		}
+	}
+
+</script>

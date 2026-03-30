@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html>
+<head>
+<title>DHTML Menu 4 Demos (WebFX)</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script type="text/javascript" src="local/webfxlayout.js"></script>
+</head>
+<body>
+<!-- WebFX Layout Include -->
+<script type="text/javascript">
+
+var articleMenu= new WebFXMenu;
+articleMenu.left  = 384;
+articleMenu.top   = 86;
+articleMenu.width = 140;
+articleMenu.add(new WebFXMenuItem("Introduction", "menu4.html"));
+articleMenu.add(new WebFXMenuItem("Menu Creation", "menucreation.html"));
+articleMenu.add(new WebFXMenuItem("Menu Bar Creation", "menubarcreation.html"));
+articleMenu.add(new WebFXMenuItem("Usage", "usage.html"));
+articleMenu.add(new WebFXMenuItem("API", "api.html"));
+articleMenu.add(new WebFXMenuItem("Customizing look &amp; feel", "looknfeel.html"));
+articleMenu.add(new WebFXMenuItem("Demos", "demos.html"));
+articleMenu.add(new WebFXMenuSeparator);
+articleMenu.add(new WebFXMenuItem("Download", "menu4.zip"));
+webfxMenuBar.add(new WebFXMenuButton("Article Menu", null, null, articleMenu));
+
+webfxLayout.writeTitle("DHTML Menu 4");
+webfxLayout.writeMenu();
+webfxLayout.writeDesignedByEdger();
+
+</script>
+<div class="webfx-main-body">
+<!-- end WebFX Layout Includes -->
+
+<h2>Demos</h2>
+
+<p>There are quite a few demos available. These are briefly described
+below.</p>
+
+
+<h3>Simple Demo</h3>
+
+<p><a href="simpledemo.html">simpledemo.html</a></p>
+
+<p>This demo shows the menu structure defined in the
+<a href="usage.html">usage</a> page.</p>
+
+
+<h3>Context Menu</h3>
+
+<p><a href="contextdemo.html">contextdemo.html</a></p>
+
+<p>This demo show how to use a menu as a context menu. When the document fires
+the <code>oncontextmenu</code> a menu is shown. Before the menu is shown the
+source of the event is found and in case of an anchor beeing clicked then some
+anchor related items are made visible.</p>
+
+<h3>IE Menu Structure Demo</h3>
+
+<p><a href="iemenustructure.html">iemenustructure.html</a></p>
+
+<p>This demo was made as a proof of concept. It creates a menu structure that
+looks exactly like the menus in Interner Explorer (well not exactly, some items
+have been removed).</p>
+
+
+<h3>WebFX Menu Structure Demo</h3>
+
+<p><a href="webfxmenustructure.html">webfxmenustructure.html</a></p>
+
+<p>This demo uses a modified server side script of the script that creates the
+navigation menu system used here at WebFX. The server side script generates
+the needed js for the menu. This demo is not availble when running offline.</p>
+
+<h3>Scrollable Menu</h3>
+
+<p><a href="scrollmenudemo.html">scrollmenudemo.html</a></p>
+
+<p>This demo shows what happens if there isn't enough vertical space. In these
+cases it shows scroll buttons at teh top and bottom.</p>
+
+<p>
+<a href="menu4.html">Introduction</a><br />
+<a href="menucreation.html">Menu Creation</a><br />
+<a href="menubarcreation.html">Menu Bar Creation</a><br />
+<a href="usage.html">Usage</a><br />
+<a href="api.html">API</a><br />
+<a href="looknfeel.html">Customizing look &amp; feel<br />
+<a href="demos.html">Demos</a><br />
+<a href="menu4.zip">Download</a>
+</p>
+
+<p class="author">Author: Erik Arvidsson</p>
+
+<!-- end webfx-main-body -->
+</div>
+
+</body>
+</html>

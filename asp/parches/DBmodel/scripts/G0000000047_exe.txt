@@ -1,0 +1,42 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 108 - DBM 223: Cambios en el campo AFCcodigoclas de 5 a 
+
+	         PARCHE:  Parche023_150_SIF_Catalogo_Tipos
+
+GENERADO EN:
+	SERVER:  http://mxpapp36:8300
+	DSN:     sifcim
+	FECHA:   27/07/2011 15:29:14
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* CHG_TABLE AFClasificaciones: Clasificaciones de Activos Fij */
+/* ======================================================================================== */
+/* CHG_KEY OP=(CAMBIO): TIP="U", COLS="Ecodigo,AFCcodigoclas" */
+DROP INDEX AFClasificaciones.AFClasificaciones_UI01 /* UNIQUE INDEX (Ecodigo,AFCcodigoclas) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_COLUMN OP=(CAMBIO): AFCcodigoclas - Código alterno de Clasificacion */
+ALTER TABLE AFClasificaciones ALTER COLUMN AFCcodigoclas char(20) NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_KEY OP=(CAMBIO): TIP="U", SEC="1", COLS="Ecodigo,AFCcodigoclas" */
+CREATE UNIQUE NONCLUSTERED INDEX AFClasificaciones_UI01 ON AFClasificaciones (Ecodigo,AFCcodigoclas)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

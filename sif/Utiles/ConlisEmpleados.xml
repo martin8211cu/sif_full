@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_TituloListaEmpleados>List of Employees</LB_TituloListaEmpleados>
+		<LB_Nombre>Name</LB_Nombre>
+		<LB_Apellidos>Last Name</LB_Apellidos>
+		<BTN_Filtrar>Filter</BTN_Filtrar>
+		<LB_Identificacion>Identification</LB_Identificacion>
+	</Idioma>
+</Etiquetas>

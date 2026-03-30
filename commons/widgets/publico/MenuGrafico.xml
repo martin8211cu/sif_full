@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<idioma id="en">
+	    <LB_CLIENTE>Client</LB_CLIENTE>
+        <LB_Moneda>Currency</LB_Moneda>
+		<LB_Documento>Document</LB_Documento>
+		<LB_DocPendXPag>Pending payment documents</LB_DocPendXPag>
+		<LB_Analisis>Analysis by</LB_Analisis>
+		<LB_VerDet>See details</LB_VerDet> 
+		<LB_CerrarDet>Close details</LB_CerrarDet> 
+	    <LB_Total>Total</LB_Total>
+		<LB_Saldo>Balance</LB_Saldo>
+		<LB_VerDoc>See documents</LB_VerDoc>
+		<LB_CerrarDoc>Close documents</LB_CerrarDoc>
+	</idioma>
+
+<!-- 	<Idioma id="en">
+	    <LB_CLIENTE>Cliente</LB_CLIENTE>
+        <LB_Moneda>Moneda</LB_Moneda>
+		<LB_Documento>Documento</LB_Documento>
+		<LB_DocPendXPag>Documentos pendientes por pagar de</LB_DocPendXPag>
+		<LB_Analisis>Analisis por</LB_Analisis>
+		<LB_VerDet>Ver Detalles</LB_VerDet> 
+		<LB_CerrarDet>Cerrar Detalles</LB_CerrarDet> 
+	 	<LB_Total>Total</LB_Total> 
+		<LB_Saldo>Saldo</LB_Saldo>
+		<LB_VerDoc>Ver Documentos</LB_VerDoc>
+		<LB_CerrarDoc>Cerrar Documentos</LB_CerrarDoc>
+	</Idioma> -->	
+</Etiquetas>
+

@@ -1,0 +1,86 @@
+[MAS SUPPORT]
+SupportMas_Prj=1
+
+[Target:WebHelp]
+SupportMas_Prj=1
+ResultFileName=!SSL!\WebHelp\SIF.htm
+SSLayoutType=2
+CreateProjectTime=
+CreateProjectUser=
+SupportMas_MPJ=1
+ActionID For Generation=1001
+Remove Folder with prompt=1
+ViewFileName=!SSL!\WebHelp\SIF.htm
+ResultStatus=0
+BuildTimeHi=29666252
+BuildTimeLow=728457908
+
+[Target:WebHelp Pro]
+SupportMas_Prj=1
+ResultFileName=!SSL!\WebHelp_Pro\SIF.htm
+SSLayoutType=32
+ServerProjectName=SIF
+CreateProjectTime=16:51, October 19, 2004
+CreateProjectUser=marcel
+SupportMas_MPJ=1
+Enable Result Dialog=1
+ActionID For Generation=1002
+Remove Folder with prompt=1
+ViewFileName=!SSL!\WebHelp_Pro\SIF.htm
+ResultStatus=0
+BuildTimeHi=29668910
+BuildTimeLow=822188890
+MindReader Server=http://10.7.7.162
+
+[Target:Microsoft HTML Help]
+ResultFileName=!SSL!\Microsoft_HTML_Help\SIF.chm
+SSLayoutType=1
+CreateProjectTime=
+CreateProjectUser=
+SupportMas_MPJ=1
+
+[Target:FlashHelp]
+ResultFileName=!SSL!\FlashHelp\SIF.htm
+SSLayoutType=2
+CreateProjectTime=16:54, October 19, 2004
+CreateProjectUser=marcel
+SupportMas_MPJ=1
+ActionID For Generation=1001
+Remove Folder with prompt=1
+ViewFileName=!SSL!\FlashHelp\SIF.htm
+
+[Target:Printed Documentation]
+ResultFileName=!SSL!\Printed_Documentation\SIF.doc
+SSLayoutType=7
+ActionID For Generation=1001
+Remove Folder with prompt=1
+
+[Target:XML Output]
+ResultFileName=!SSL!\XML_Output\SIF.xml
+SSLayoutType=8192
+
+[PreSingleSource]
+Html Help Project=X:\sif\hh\ayudas\SIF\SIF.hhp
+Table Of Content=X:\sif\hh\ayudas\SIF\SIF.hhc
+Index=X:\sif\hh\ayudas\SIF\SIF_merged$.hhk
+See Also Index=X:\sif\hh\ayudas\SIF\SIF.hha
+Browse Sequence=X:\sif\hh\ayudas\SIF\SIF.brs
+Topic Properties=X:\sif\hh\ayudas\SIF\SIF.trs
+Active Folders=X:\sif\hh\ayudas\SIF\SIF.trf
+Baggage Files=X:\sif\hh\ayudas\SIF\SIF.trb
+Skin List=X:\sif\hh\ayudas\SIF\SIF.trk
+OriginalHhk=X:\sif\hh\ayudas\SIF\SIF.hhk
+Active Layout Names=X:\sif\hh\ayudas\SIF\SIF.trl
+Default Topic=X:\sif\hh\ayudas\SIF\Sistema_Financiero_Integrado.htm
+Build Tags0=11715;Print | Online
+Build Tags=
+Build Expression=
+Language ID=3082
+Language Name=Español
+Language=X:\sif\hh\ayudas\SIF\RoboHHRE.lng
+Stop List=X:\sif\hh\ayudas\SIF\SIF.stp
+[Server:websdc]
+Time Stamp=1096643311
+[Layout Settings]
+MRULayoutCount=1
+MRULayout0=WebHelp Pro]10/04/04]0

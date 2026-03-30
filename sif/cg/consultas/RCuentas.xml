@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_Titulo>General Ledger Accounts</LB_Titulo>
+		<LB_CuentaIni>Initial Account</LB_CuentaIni>
+		<LB_CuentaFin>Final Account</LB_CuentaFin>
+		
+	</Idioma>
+</Etiquetas>

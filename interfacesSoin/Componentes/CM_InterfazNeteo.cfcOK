@@ -1,0 +1,403 @@
+﻿<cfcomponent>
+	<!--- Métodos para inicializar y cambiar el contexto del componente --->
+	<!--- Init: Define los valores de las variables globales del componente. --->
+	<cffunction name="init" access="public" returntype="boolean">
+		<cfargument name="EcodigoSDC" required="no" type="numeric" default="0">
+		<cfargument name="Conexion" required="no" type="string" default="#Session.Dsn#">
+		<cfargument name="Ecodigo" required="no" type="numeric" default="#Session.Ecodigo#">
+		<cfargument name="Usucodigo" required="no" type="string" default="#Session.Usucodigo#">
+		<cfargument name="Usulogin" required="no" type="string" default="#Session.Usulogin#">
+		<cfargument name="Fecha" required="no" type="date" default="#Now()#">		
+		<!---- Si se recibe el EcodigoSDC se busca el Ecodigo que corresponda en minisif ---->
+		<cfif Arguments.EcodigoSDC GT 0>
+			<cfquery name="rsEcodigo" datasource="#Arguments.Conexion#">
+				select Ereferencia
+				from Empresa
+				where Ecodigo = <cfqueryparam cfsqltype="cf_sql_numeric" value="#Arguments.EcodigoSDC#">
+				  and Ereferencia = <cfqueryparam cfsqltype="cf_sql_integer" value="#Session.Ecodigo#">
+			</cfquery>
+			<!---- Si existe el Ecodigo en minisif ----->
+			<cfif rsEcodigo.recordcount NEQ 0 and rsEcodigo.Ereferencia NEQ ''>
+				<cfset Arguments.Ecodigo = rsEcodigo.Ereferencia>
+			<cfelse>
+				<cfthrow message="CM_InterfazNeteo: El valor del par&aacute;metro EcodigoSDC es incorrecto o no corresponde con el Código de Empresa de la Sesion. Proceso Cancelado!">
+			</cfif>
+		</cfif>
+		<cfif not isdefined("Request.CM_InterfazNeteo.Initialized")>
+			<!--- <cfobject name="LobjInterfaz" component="interfacesSoin.Componentes.interfaces"> --->
+			<cfset Request.CM_InterfazNeteo.Initialized = true>
+			<cfset Request.CM_InterfazNeteo.GvarConexion = Arguments.Conexion>
+			<cfset Request.CM_InterfazNeteo.GvarEcodigo = Arguments.Ecodigo>	
+			<cfset Request.CM_InterfazNeteo.GvarUsucodigo = Arguments.Usucodigo>
+			<cfset Request.CM_InterfazNeteo.GvarUsulogin = Arguments.Usulogin>
+			<cfset Request.CM_InterfazNeteo.GvarFecha = Arguments.Fecha>	
+		</cfif>
+		<cfreturn true>
+	</cffunction>
+	<!--- changeContext: Cambia los valores de las variables globales del componente. --->
+	<cffunction name="changeContext" access="public" returntype="boolean">
+		<cfargument name="Conexion" required="yes" type="string">
+		<cfargument name="Ecodigo" required="yes" type="numeric">
+		<cfargument name="Usucodigo" required="no" type="string" default="#Session.Usucodigo#">
+		<cfargument name="Usulogin" required="no" type="string" default="#Session.Usulogin#">
+		<cfargument name="Fecha" required="no" type="date" default="#Now()#">
+		<cfset Request.CM_InterfazNeteo.GvarConexion = Arguments.Conexion>
+		<cfset Request.CM_InterfazNeteo.GvarEcodigo = Arguments.Ecodigo>	
+		<cfset Request.CM_InterfazNeteo.GvarUsucodigo = Arguments.Usucodigo>
+		<cfset Request.CM_InterfazNeteo.GvarUsulogin = Arguments.Usulogin>
+		<cfset Request.CM_InterfazNeteo.GvarFecha = Arguments.Fecha>	
+		<cfreturn true>
+	</cffunction>
+
+	<!--- Esta funcion sirve para aplicar el documento de neteo invocando el procedimiento de aplicación --->
+	<cffunction name="Aplica_Documento" access="public" output="false" returntype="boolean">
+		<cfargument name="idDocumentoNeteo" required="yes" type="string">
+
+		<!--- <cfset var Doc = getNotNull_vIntegridad(Arguments.idDocumentoNeteo,'idDocumentoNeteo','Aplica_Documento')>
+			<cfinvoke 
+				component="sif.Componentes.CC_AplicaDocumentoNeteo" 
+				method="CC_AplicaDocumentoNeteo" 
+				returnvariable="resultado"
+				idDocumentoNeteo="#Arguments.idDocumentoNeteo#"
+				/> --->
+		<cfreturn true>
+	</cffunction>
+
+	<!--- Esta funcion sirve para insertar un documento de Neteo --->
+	<cffunction name="Alta_DocNeteo" access="public" returntype="numeric">	
+		<cfargument name="Moneda" type="string" required="true">
+		<cfargument name="Documento" type="string" required="true">
+		<cfargument name="SocioExterno" type="string" required="true">
+		<cfargument name="FechaAplicacion" type="string" required="yes">
+		<cfargument name="Observaciones" type="string" required="true">
+		
+		<!--- Valida si existen los campos antes de insertar. --->
+		<cfset var Mcodigo = obtenerMoneda(getNotNull_vIntegridad(Arguments.Moneda,'Moneda','Alta_DocNeteo'))>
+		<cfset var DocumentoNeteo = getNotNull_vIntegridad(Arguments.Documento,'Documento','Alta_DocNeteo')>
+		<cfset var Observ = getNotNull_vIntegridad(Arguments.Observaciones,'Observaciones','Alta_DocNeteo')>
+
+		<cfset Socio = "">
+		<cfset Socio = obtenerSocio(getNotNull_vIntegridad(Arguments.SocioExterno,'SocioExterno','Alta_DocNeteo'))>
+
+		<cfif not isdate(Arguments.FechaAplicacion)>
+			<cfset LvarFechaAplicacion = now()>
+		<cfelse>
+			<cfset LvarFechaAplicacion = Arguments.FechaAplicacion>
+		</cfif>
+
+		<cfquery name="rsTransaccion" datasource="#Request.CM_InterfazNeteo.GvarConexion#">
+			select min(CCTcodigo) as CCTcodigo
+			from CCTransacciones
+			where Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#Request.CM_InterfazNeteo.GvarEcodigo#">
+			  and CCTtranneteo = 1
+		</cfquery>
+		<cfif rsTransaccion.recordcount GT 0>
+			<cfset LvarCCTcodigo = rsTransaccion.CCTcodigo>
+		<cfelse>
+			<cfset LvarCCTcodigo = "NE">
+		</cfif>
+		<cfquery name="rsOficina" datasource="#Request.CM_InterfazNeteo.GvarConexion#">
+			select min(Ocodigo) as Ocodigo
+			from Oficinas
+			where Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#Request.CM_InterfazNeteo.GvarEcodigo#">
+		</cfquery>
+		<cfif rsOficina.recordcount GT 0>
+			<cfset LvarOficina = rsOficina.Ocodigo>
+		<cfelse>
+			<cfset LvarOficina = "0">
+		</cfif>
+		<!--- Insertar. Alta en Documento Neteo --->
+		<cfquery name="insDocNeteo" datasource="#Request.CM_InterfazNeteo.GvarConexion#">
+			insert into DocumentoNeteo ( Ecodigo, Mcodigo, CCTcodigo, DocumentoNeteo, SNcodigo, Dfechadoc, Ocodigo, Dmonto, BMUsucodigo, Observaciones, Aplicado)
+			values (
+				<cfqueryparam cfsqltype="cf_sql_integer" value="#Request.CM_InterfazNeteo.GvarEcodigo#">,
+				<cfqueryparam cfsqltype="cf_sql_numeric" value="#Mcodigo#">,
+				<cfqueryparam cfsqltype="cf_sql_char" value="#LvarCCTcodigo#">, 
+				<cfqueryparam cfsqltype="cf_sql_char" value="#DocumentoNeteo#">, 
+				<cfif len(Socio) GT 0 and Socio GT -1>#Socio#<cfelse>null</cfif>, 
+
+				<cfqueryparam cfsqltype="cf_sql_date" value="#LvarFechaAplicacion#">,
+				#LvarOficina#,
+				0.00, 
+				<cfqueryparam cfsqltype="cf_sql_numeric" value="#Request.CM_InterfazNeteo.GvarUsucodigo#">, 
+				<cfqueryparam cfsqltype="cf_sql_varchar" value="#Observ#">, 
+				0
+			)
+			<cf_dbidentity1 datasource="#Request.CM_InterfazNeteo.GvarConexion#" verificar_transaccion="false">
+		</cfquery>
+		<cf_dbidentity2 datasource="#Request.CM_InterfazNeteo.GvarConexion#" verificar_transaccion="false" name="insDocNeteo">
+		<cfreturn insDocNeteo.identity>
+	</cffunction>
+
+	<cffunction name="Alta_DocNeteoDet" access="public" returntype="boolean">	
+		<cfargument name="Modulo" type="string" required="true">
+		<cfargument name="IDDocumentoNeteo" type="string" required="true">
+		<cfargument name="CodigoTransaccionExterno" type="string" required="true">
+		<cfargument name="SocioExterno" type="string" required="true">
+		<cfargument name="Monto" type="string" required="true">
+		<cfargument name="Documento" type="string" required="true">
+		<cfargument name="Referencia" type="string" required="false">
+		
+		<cfset var ModuloIns = "">
+		<cfset var idDocNeteo = "">
+		<cfset var CodigoTrans = "">
+		<cfset var Socio = "">
+		<cfset var Dmonto = "">
+		<cfset var Ddocumento = "">
+		
+		<!--- Valida si existen los campos antes de insertar. --->
+		<cfset ModuloIns = getNotNull_vIntegridad(Arguments.Modulo,'Modulo','Alta_DocNeteoDet')>
+		<cfset idDocNeteo = getNotNull_vIntegridad(Arguments.IDDocumentoNeteo,'IDDocumentoNeteo','Alta_DocNeteoDet')>
+		<cfset CodigoTrans = obtenerCodigoTrans(ModuloIns, getNotNull_vIntegridad(Arguments.CodigoTransaccionExterno,'CodigoTransaccionExterno','Alta_DocNeteoDet'))>
+		<!--- Obtener el Código de Transacción desde la tabla de parámetros si no se ha obtenido ninguno por el Código de Transacción Externo --->
+		<cfif CodigoTrans EQ 0>
+			<!--- Realizar la consulta a la tabla de Parametros --->
+			<cfif ModuloIns EQ 'CP'>
+				<cfquery name="rsParam" datasource="#Request.CM_InterfazNeteo.GvarConexion#">
+					select rtrim(Pvalor) as codigo
+					from Parametros
+					where Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#Request.CM_InterfazNeteo.GvarEcodigo#">
+					and Pcodigo = 590
+				</cfquery>
+			<cfelseif ModuloIns EQ 'CC'>
+				<cfquery name="rsParam" datasource="#Request.CM_InterfazNeteo.GvarConexion#">
+					select rtrim(Pvalor) as codigo
+					from Parametros
+					where Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#Request.CM_InterfazNeteo.GvarEcodigo#">
+					and Pcodigo = 600
+				</cfquery>
+			</cfif>
+			<cfif rsParam.recordCount>
+				<cfset CodigoTrans = rsParam.codigo>
+			<cfelse>
+				<cfthrow message="Alta_DocNeteoDet: El código de transacción #Arguments.CodigoTransaccionExterno# no existe y no se ha podido obtener un código de transacción por defecto de la tabla de Parámetros. Proceso Cancelado!">
+			</cfif>
+		</cfif>
+		<cfset Socio = obtenerSocio(getNotNull_vIntegridad(Arguments.SocioExterno,'SocioExterno','Alta_DocNeteoDet'))>
+		<cfif Len(Trim(Socio)) EQ 0>
+			<cfthrow message="Alta_DocNeteoDet: No se puede encontrar un socio de negocio asociado al código de socio externo. Proceso Cancelado!">
+		</cfif>
+		<cfset Dmonto = getNotNull_vIntegridad(Arguments.Monto,'Monto','Alta_DocNeteoDet')>
+		<cfset Ddocumento = validaDocumento(ModuloIns, CodigoTrans, Socio, Dmonto, getNotNull_vIntegridad(Arguments.Documento,'Documento','Alta_DocNeteoDet'),'Alta_DocNeteoDet')>
+
+		<!--- Insertar. Alta en Detalle de Documento Neteo --->
+		<cfif ModuloIns EQ 'CC'>
+			<cfquery datasource="#Request.CM_InterfazNeteo.GvarConexion#">
+				insert into DocumentoNeteoDCxC(idDocumentoNeteo, Ecodigo, CCTcodigo, Ddocumento, Dmonto, BMUsucodigo, Referencia)
+				values (
+					<cfqueryparam cfsqltype="cf_sql_numeric" value="#idDocNeteo#">, 
+					<cfqueryparam cfsqltype="cf_sql_integer" value="#Request.CM_InterfazNeteo.GvarEcodigo#">,
+					<cfqueryparam cfsqltype="cf_sql_char" value="#CodigoTrans#">, 
+					<cfqueryparam cfsqltype="cf_sql_varchar" value="#Ddocumento#">, 
+					<cfqueryparam cfsqltype="cf_sql_money" value="#Dmonto#">, 
+					<cfqueryparam cfsqltype="cf_sql_numeric" value="#Request.CM_InterfazNeteo.GvarUsucodigo#">, 
+					<cfqueryparam cfsqltype="cf_sql_varchar" value="#Arguments.Referencia#">
+				)
+			</cfquery>
+		<cfelseif ModuloIns EQ 'CP'>
+			<cfquery name="rsDoc" datasource="#Request.CM_InterfazNeteo.GvarConexion#">
+				select IDdocumento
+				from EDocumentosCP
+				where Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#Request.CM_InterfazNeteo.GvarEcodigo#">
+				and SNcodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#Socio#">
+				and CPTcodigo = <cfqueryparam cfsqltype="cf_sql_char" value="#CodigoTrans#">
+				and Ddocumento = <cfqueryparam cfsqltype="cf_sql_char" value="#Ddocumento#">
+			</cfquery>
+			<cfquery datasource="#Request.CM_InterfazNeteo.GvarConexion#">
+				insert into DocumentoNeteoDCxP(idDocumentoNeteo, idDocumento, CPTcodigo, Ddocumento, Dmonto, BMUsucodigo, Referencia)
+				values (
+					<cfqueryparam cfsqltype="cf_sql_numeric" value="#idDocNeteo#">, 
+					<cfqueryparam cfsqltype="cf_sql_numeric" value="#rsDoc.IDdocumento#">,
+					<cfqueryparam cfsqltype="cf_sql_char" value="#CodigoTrans#">, 
+					<cfqueryparam cfsqltype="cf_sql_varchar" value="#Ddocumento#">, 
+					<cfqueryparam cfsqltype="cf_sql_money" value="#Dmonto#">, 
+					<cfqueryparam cfsqltype="cf_sql_numeric" value="#Request.CM_InterfazNeteo.GvarUsucodigo#">, 
+					<cfqueryparam cfsqltype="cf_sql_varchar" value="#Arguments.Referencia#">
+				)
+			</cfquery>
+		</cfif>
+		
+		<cfreturn true>
+	</cffunction>
+
+	<!--- Se validan los campos necesarios para hacer cualquier modificación en la base de datos de SIF --->
+	<!--- Valida que el campo no sea vacío. --->
+	<cffunction access="private" name="getNotNull_vIntegridad" output="false" returntype="string">
+		<cfargument name="Value" required="yes" type="string">
+		<cfargument name="Name" required="yes" type="string">
+		<!--- Nombre del método que lo invoca --->
+		<cfargument name="InvokerName" required="no" type="string" default="">
+		<cfif len(trim(Arguments.Value)) EQ 0>
+			<cfthrow message="#Arguments.InvokerName#: El valor del par&aacute;metro #Arguments.Name# es Requerido y no puede ser vac&iacute;o. Proceso Cancelado!">
+		</cfif>
+		<cfreturn trim(Arguments.Value)>
+	</cffunction>
+
+	<!--- Obtener el Código de Transacción Inteno según el Código de Transacción Externo --->
+	<cffunction access="private" name="obtenerCodigoTrans" output="false" returntype="string">
+		<cfargument name="Modulo" type="string" required="yes">
+		<cfargument name="CodigoTransaccionExterno" type="string" required="yes">
+
+		<cfset var CodigoTrans = "0">
+		<cfif Arguments.Modulo EQ 'CC'>
+			<cfquery name="rsTransaccion" datasource="#Request.CM_InterfazNeteo.GvarConexion#">
+				select CCTcodigo
+				from CCTransacciones
+				where Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#Request.CM_InterfazNeteo.GvarEcodigo#">
+				and CCTcodigoext = <cfqueryparam cfsqltype="cf_sql_varchar" value="#Arguments.CodigoTransaccionExterno#">
+			</cfquery>
+			<cfif rsTransaccion.recordCount>
+				<cfset CodigoTrans = rsTransaccion.CCTcodigo>
+			</cfif>
+			
+		<cfelseif Arguments.Modulo EQ 'CP'>
+			<cfquery name="rsTransaccion" datasource="#Request.CM_InterfazNeteo.GvarConexion#">
+				select CPTcodigo
+				from CPTransacciones
+				where Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#Request.CM_InterfazNeteo.GvarEcodigo#">
+				and CPTcodigoext = <cfqueryparam cfsqltype="cf_sql_varchar" value="#Arguments.CodigoTransaccionExterno#">
+			</cfquery>
+			<cfif rsTransaccion.recordCount>
+				<cfset CodigoTrans = rsTransaccion.CPTcodigo>
+			</cfif>
+		</cfif>
+		<cfreturn CodigoTrans>
+	</cffunction>
+	
+	<!--- Obtener el Socio de Negocio Interno según el código de Socio de Negocio Externo --->
+	<cffunction access="private" name="obtenerSocio" output="false" returntype="string">
+		<cfargument name="SocioExterno" type="string" required="yes">
+		<cfset var Socio = "-1">
+		<cfset Arguments.SocioExterno = trim(Arguments.SocioExterno)>
+		<cfquery name="rsSocio" datasource="#Request.CM_InterfazNeteo.GvarConexion#">
+			select min(SNcodigo) as SNcodigo
+			from SNDirecciones
+			where Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#Request.CM_InterfazNeteo.GvarEcodigo#">
+			and SNcodigoext = <cfqueryparam cfsqltype="cf_sql_char" value="#Arguments.SocioExterno#">
+		</cfquery>
+		<cfif rsSocio.recordCount>
+			<cfset Socio = rsSocio.SNcodigo>
+			<cfreturn Socio>
+		</cfif>
+		<cfquery name="rsSocio" datasource="#Request.CM_InterfazNeteo.GvarConexion#">
+			select min(SNcodigo) as SNcodigo
+			from SNDirecciones
+			where Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#Request.CM_InterfazNeteo.GvarEcodigo#">
+			and SNDcodigo = <cfqueryparam cfsqltype="cf_sql_char" value="#Arguments.SocioExterno#">
+		</cfquery>
+		<cfif rsSocio.recordCount>
+			<cfset Socio = rsSocio.SNcodigo>
+			<cfreturn Socio>
+		</cfif>
+		<cfquery name="rsSocio" datasource="#Request.CM_InterfazNeteo.GvarConexion#">
+			select min(SNcodigo) as SNcodigo
+			from SNegocios
+			where Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#Request.CM_InterfazNeteo.GvarEcodigo#">
+			and SNcodigoext = <cfqueryparam cfsqltype="cf_sql_char" value="#Arguments.SocioExterno#">
+		</cfquery>
+		<cfif rsSocio.recordCount>
+			<cfset Socio = rsSocio.SNcodigo>
+			<cfreturn Socio>
+		</cfif>
+		<cfquery name="rsSocio" datasource="#Request.CM_InterfazNeteo.GvarConexion#">
+			select min(SNcodigo) as SNcodigo
+			from SNegocios
+			where Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#Request.CM_InterfazNeteo.GvarEcodigo#">
+			and SNnumero = <cfqueryparam cfsqltype="cf_sql_char" value="#Arguments.SocioExterno#">
+		</cfquery>
+		<cfif rsSocio.recordCount>
+			<cfset Socio = rsSocio.SNcodigo>
+			<cfreturn Socio>
+		</cfif>
+		<cfreturn Socio>
+	</cffunction>
+
+	<!--- Obtener la Moneda según el código ABA --->
+	<cffunction access="private" name="obtenerMoneda" output="false" returntype="string">
+		<cfargument name="MonedaABA" type="string" required="yes">
+
+		<cfset var Moneda = "0">
+		<cfquery name="rsMoneda" datasource="#Request.CM_InterfazNeteo.GvarConexion#">
+			select Mcodigo
+			from Monedas
+			where Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#Request.CM_InterfazNeteo.GvarEcodigo#">
+			and Miso4217 = <cfqueryparam cfsqltype="cf_sql_char" value="#Arguments.MonedaABA#">
+		</cfquery>
+		<cfif rsMoneda.recordCount>
+			<cfset Moneda = rsMoneda.Mcodigo>
+		</cfif>
+		<cfreturn Moneda>
+	</cffunction>
+
+	<!--- Validar que el Documento exista en los documentos posteados --->
+	<cffunction access="private" name="validaDocumento" output="false" returntype="string">
+		<cfargument name="Modulo" type="string" required="yes">
+		<cfargument name="CodigoTransaccion" type="string" required="yes">
+		<cfargument name="Socio" type="string" required="yes">
+		<cfargument name="Dmonto" type="string" required="yes">
+		<cfargument name="Ddocumento" type="string" required="yes">
+		<!--- Nombre del método que lo invoca --->
+		<cfargument name="InvokerName" required="no" type="string" default="">
+		
+		<cfif Modulo EQ 'CC'>
+			<cfquery name="checkDocumento" datasource="#Request.CM_InterfazNeteo.GvarConexion#">
+				select round(Dsaldo, 2) as saldo
+				from Documentos
+				where Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#Request.CM_InterfazNeteo.GvarEcodigo#">
+				and SNcodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#Arguments.Socio#">
+				and CCTcodigo = <cfqueryparam cfsqltype="cf_sql_char" value="#Arguments.CodigoTransaccion#">
+				and Ddocumento = <cfqueryparam cfsqltype="cf_sql_char" value="#Arguments.Ddocumento#">
+			</cfquery>
+		<cfelseif Modulo EQ 'CP'>
+			<cfquery name="checkDocumento" datasource="#Request.CM_InterfazNeteo.GvarConexion#">
+				select round(EDsaldo, 2) as saldo
+				from EDocumentosCP
+				where Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#Request.CM_InterfazNeteo.GvarEcodigo#">
+				and SNcodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#Arguments.Socio#">
+				and CPTcodigo = <cfqueryparam cfsqltype="cf_sql_char" value="#Arguments.CodigoTransaccion#">
+				and Ddocumento = <cfqueryparam cfsqltype="cf_sql_char" value="#Arguments.Ddocumento#">
+			</cfquery>
+		</cfif>
+		<cfif not isdefined('checkDocumento') OR checkDocumento.RECORDCOUNT EQ 0>
+			<cfthrow message="#Arguments.InvokerName#: El Documento #Arguments.Ddocumento# no existe entre los documentos posteados en la Base de Datos. Proceso Cancelado!">
+		<cfelseif checkDocumento.saldo LE 0>
+			<cfthrow message="#Arguments.InvokerName#: El saldo del Documento #Arguments.Ddocumento# (#LSNumberFormat(Arguments.Dmonto, ',9.00')#) no puede ser menor igual a cero. Proceso Cancelado!">
+		<cfelseif Abs(checkDocumento.saldo) LT Abs(Arguments.Dmonto)>
+			<cfthrow message="#Arguments.InvokerName#: El monto a aplicar en el Documento #Arguments.Ddocumento# (#NumberFormat(Arguments.Dmonto, ',9.0000')#) es mayor a su saldo disponible (#NumberFormat(checkDocumento.saldo, ',9.0000')#). Proceso Cancelado!">
+		</cfif>
+		<cfreturn Arguments.Ddocumento>
+	</cffunction>
+	
+	<!--- Validar que el Documento exista en los documentos posteados --->
+	<cffunction access="public" name="validaMonedas" output="false" returntype="boolean">
+		<cfargument name="MonedaOrigen" type="string" required="yes">
+		<cfargument name="MonedaDestino" type="string" required="yes">
+
+		<cfset result = true>
+		<cfif Trim(Arguments.MonedaOrigen) NEQ Trim(Arguments.MonedaDestino)>
+			<cfset result = false>
+			<cfthrow message="La Moneda Origen y Moneda Destino deben iguales. Proceso Cancelado!">
+		</cfif>
+		<cfreturn result>
+		
+	</cffunction>
+
+	<!--- Validar que el Documento exista en los documentos posteados --->
+	<cffunction access="public" name="validaModulos" output="false" returntype="boolean">
+		<cfargument name="ModuloOrigen" type="string" required="yes">
+		<cfargument name="ModuloDestino" type="string" required="yes">
+
+		<cfset result = true>
+		<cfif Trim(Arguments.ModuloOrigen) NEQ 'CC' and Trim(Arguments.ModuloOrigen) NEQ 'CP'>
+			<cfset result = false>
+			<cfthrow message="El Modulo Origen debe ser CC o CP. Proceso Cancelado!">
+		</cfif>
+		<cfif Trim(Arguments.ModuloDestino) NEQ 'CC' and Trim(Arguments.ModuloDestino) NEQ 'CP'>
+			<cfset result = false>
+			<cfthrow message="El Modulo Destino debe ser CC o CP. Proceso Cancelado!">
+		</cfif>
+		<cfreturn result>
+		
+	</cffunction>
+
+</cfcomponent>

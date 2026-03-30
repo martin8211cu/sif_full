@@ -1,0 +1,21 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 524 - DBM 476: Compromiso y Ejecucion de Nomina
+
+	         PARCHE:  Parche024_026_SIF_RH_presupuesto
+
+GENERADO EN:
+	SERVER:  http://mxvqapp34:8300
+	DSN:     minisiftrd
+	FECHA:   08/02/2012 16:02:44
+*/
+
+/* INI_SCRIPT */
+
+/* END_SCRIPT */

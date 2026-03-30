@@ -1,0 +1,4 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<info>
+	<infoitem key="UD_rsTipoTarjeta" value="name:tc_tipo;datatype:,name:nombre_tipo_tarjeta;datatype:,name:mascara;datatype:,name:BMUsucodigo;datatype:,name:BMfechamod;datatype:" />
+</info>

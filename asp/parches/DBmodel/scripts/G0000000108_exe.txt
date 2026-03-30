@@ -1,0 +1,120 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 358 - DBM 271: Añade, Cotizaciones Aprobadas por Solicit
+
+	         PARCHE:  Parche023_239_SIF_MejorasNacion
+
+GENERADO EN:
+	SERVER:  http://mxvqapp34:8300
+	DSN:     sifcim
+	FECHA:   06/01/2012 16:01:36
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* CHG_TABLE CMTiposSolicitud: CM Tipos de Solicitud */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): CMTSaprobarsolicitante - Cotizaciones Aprobadas por Solicitante */
+ALTER TABLE CMTiposSolicitud ADD CMTSaprobarsolicitante bit DEFAULT 0 NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE Conceptos: Conceptos */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): Cd151 - Aplica para Reporte D151 */
+ALTER TABLE Conceptos ADD Cd151 bit DEFAULT 1 NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* ADD_TABLE EIncidencias: EIncidencias */
+/* ======================================================================================== */
+
+CREATE TABLE EIncidencias (
+	 EIlote                         numeric(18)          NOT NULL
+	,CIid                           numeric(18)          NOT NULL
+	,EIdescripcion                  varchar(60)          NOT NULL
+	,Edescripcion                   varchar(60)          NOT NULL
+	,Ecodigo                        integer              NOT NULL
+	,Tcodigo                        char(5)              NULL
+	,EIfecha                        datetime             NULL
+	,EIfechaaplic                   datetime             NULL
+	,EIestado                       integer              DEFAULT 0 NULL
+	 CONSTRAINT EIncidencias_CK09 CHECK ([EIestado] IS NULL OR ([EIestado]=(1) OR [EIestado]=(0)))
+	,Mcodigo                        numeric(18)          NULL
+	,SNcodigo                       integer              NULL
+	,Usucodigo                      numeric(18)          NULL
+	,Ulocalizacion                  char(2)              NULL
+	,BMUsucodigo                    numeric(18)          NULL
+	,ts_rversion                    timestamp           
+	)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="P", SEC="0", COLS="EIlote" */
+ALTER TABLE EIncidencias ADD CONSTRAINT EIncidencias_PK PRIMARY KEY CLUSTERED (EIlote)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="F", SEC="1", COLS="CIid", REF="CIncidentes" */
+CREATE INDEX EIncidencias_FI01 ON EIncidencias (CIid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="F", SEC="2", COLS="Ecodigo,Tcodigo", REF="TiposNomina" */
+CREATE INDEX EIncidencias_FI02 ON EIncidencias (Ecodigo,Tcodigo)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE Incidencias: Incidencias */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): EIlote - Lote del las Incidencias */
+ALTER TABLE Incidencias ADD EIlote numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(NUEVO): TIP="F", SEC="5", COLS="EIlote", REF="EIncidencias" */
+CREATE INDEX Incidencias_FI05 ON Incidencias (EIlote)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ================================================================= */
+/*            CREA FKs NUEVOS O CON CAMPOS MODIFICADOS               */
+/* ================================================================= */
+/* CHG_TABLE EIncidencias */
+/* ADD_FK OP=(TAB NUEVA): TIP="F", SEC="1", COLS="CIid", REF="CIncidentes" */
+ALTER TABLE EIncidencias ADD CONSTRAINT EIncidencias_FK01 FOREIGN KEY (CIid) REFERENCES CIncidentes (CIid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_FK OP=(TAB NUEVA): TIP="F", SEC="2", COLS="Ecodigo,Tcodigo", REF="TiposNomina" */
+ALTER TABLE EIncidencias ADD CONSTRAINT EIncidencias_FK02 FOREIGN KEY (Ecodigo,Tcodigo) REFERENCES TiposNomina (Ecodigo,Tcodigo)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_TABLE Incidencias */
+/* ADD_FK OP=(NUEVO): TIP="F", SEC="5", COLS="EIlote", REF="EIncidencias" */
+ALTER TABLE Incidencias ADD CONSTRAINT Incidencias_FK05 FOREIGN KEY (EIlote) REFERENCES EIncidencias (EIlote)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

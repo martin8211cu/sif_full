@@ -1,0 +1,75 @@
+<html>
+<head>
+<title>Servicios Digitales al Ciudadano</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<script type='text/javascript' language='JavaScript' src='login.js'></script>
+</head>
+
+<body text="#000000" leftmargin="0" topmargin="0" bgcolor="ffffff">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+  <tr> 
+    <td rowspan="2" width="500" valign="top"> 
+      <div align="center"><br>
+        <img src="cr.jpg" width="413" height="454" align="top"></div>
+    </td>
+    <td height="5" width="451"> 
+      <div align="center"></div>
+    </td>
+  </tr>
+  <tr> 
+    <td width="451" valign="top" height="350"> 
+      <p align="center"><br>
+        <img src="LOGO-migestion.gif" width="303" height="171"> </p>
+    		  <form name="login" onsubmit="prepare();" action="" method="POST" autocomplete="off">
+		      <table border=0 cellpadding=2 cellspacing=2 width="80%" align="center" bgcolor="#E4E4E4" bordercolor="#999999" height="110">
+		        <tr> 
+		          <td align=left valign=top width="50%"> 
+		            <div align="center"><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#00000">&#160;<b>Usuario</b></font></div>
+		          </td>
+		          <td align=left valign=top width=0% rowspan=2>&nbsp;</td>
+		          <td align=left valign=top width="\"> 
+		            <div align="center"><font face="Verdana, Arial, Helvetica, sans-serif" size="1" color="#00000">&#160;<b><font size="2">Contrase&ntilde;a</font></b></font></div>
+		          </td>
+		        </tr>
+		        <tr> 
+		          <td align=left valign=top width="50%" height="59"> 
+		              <div align="center"><font face="verdana, helvetica, arial" size=2 color="#ffffff"> 
+		                <input type="text" name="usu" size="14" tabindex="1" onfocus="this.select()">
+		                </font> </div>
+		          </td>
+		          <td align=left valign=top width="\" height="59"> 
+		            <div align="center"><font face="verdana, helvetica, arial" size=2 color="#ffffff"> 
+		              <input type="password" name="pwd" size="14" tabindex="2" onfocus="this.select()">
+		              </font> </div>
+		          </td>
+		        </tr>
+		        <tr> 
+		          <td align=left valign=top colspan="3"> 
+		            <div align="center"><font size="1"> <font face="Verdana, Arial, Helvetica, sans-serif"> 
+		              <input type="checkbox" name="recordar" value="checkbox">
+		              <font color="#000000">Recordar usuario y contrase&ntilde;a en este 
+		              computador </font></font></font></div>
+		          </td>
+		        </tr>
+		      </table>
+		      <p align="center"> 
+		        <input type="submit" name="Submit" value="Conectarse">
+		      </p>
+		      </form>
+		    <p>&nbsp;</p></td>
+		  </tr>
+		</table>
+<p align="center"><font color="004282" face="Verdana, Arial, Helvetica, sans-serif" size="2">Todos 
+  los derechos reservados &copy; 2002 </font></p>
+<script type="text/javascript">
+<!--
+function prepare() {
+	document.login.action = "https://" + location.hostname + "/SDC/inicio.html";
+	validarLogin();
+}
+llenarLogin();
+-->
+</script>
+
+</body>
+</html>

@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_Anticipos>Advances</LB_Anticipos>
+		<LB_AnticiposLiquidar>Advances to Settlement</LB_AnticiposLiquidar>
+		<LB_Gastos>Expenses Documents</LB_Gastos>
+		<LB_DocumentosGastosLiquidar>Expenses Documents to Settlement</LB_DocumentosGastosLiquidar>
+		<LB_Devoluciones>Repayment</LB_Devoluciones>
+		<LB_DevolucionesDepositosEfectivo>Repayment - Cash Deposits</LB_DevolucionesDepositosEfectivo>
+		<LB_DepositosBcos>Bank Deposits</LB_DepositosBcos>
+		<LB_DevolucionesDepositosBancarios>Repayment - Bank Deposits</LB_DevolucionesDepositosBancarios>
+		<LB_DepositosEfectivo>Cash Deposits</LB_DepositosEfectivo>
+		<LB_Comision>Comission</LB_Comision>
+		<LB_DatosComision>Comission Data</LB_DatosComision>
+	</Idioma>
+</Etiquetas>

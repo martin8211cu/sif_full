@@ -1,0 +1,1 @@
+﻿<cflocation url="paginas/inicio.cfm">

@@ -1,0 +1,281 @@
+<strong>INDICE:</strong><BR>- <A href='#COLs_CHG'>Columnas a modificarse</A><BR>- <A href='#COLs_ADD'>Columnas nuevas</A><BR>- <A href='#COLs_DEL'>Columnas a eliminarse</A><BR>- <A href='#KEYs_DEL'>Llaves a eliminarse</A><BR>- <A href='#KEYs_ADD'>Llaves nuevas o a regenerarse</A><BR>- <A href='#KEYs_FI'>Indices para llaves foráneas</A><BR><BR><BR>
+			<BR><strong><A name='COLs_CHG'>COLUMNAS QUE VAN A SER ALTERADAS EN LA BASE DE DATOS PORQUE TIENEN CARACTERISTICAS MODIFICADAS EN EL MODELO DBM</A></strong><BR>
+			<table>
+			<tr><td><strong>TABLA</strong></td><td><strong>COLUMNA</strong></td><td><strong>&nbsp;</strong></td><td><strong>TIPO</strong></td><td><strong>LON</strong></td><td><strong>DEC</strong></td><td><strong>obl</strong></td><td><strong>ide</strong></td><td><strong>dfl</strong></td><td><strong>rul</strong></td></tr>
+			
+				<tr>
+					<td>TESdetallePago</td><td>TESDPestado</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td><strong>NUMERIC</strong></td>
+					<td>3</td>
+					<td>0</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					<td>0</td>
+					<td>([TESDPestado]=(312) OR [TESDPestado]=(302) OR [TESDPestado]=(13) OR [TESDPestado]=(12) OR [TESDPestado]=(110) OR [TESDPestado]=(11) OR [TESDPestado]=(103) OR [TESDPestado]=(101) OR [TESDPestado]=(10) OR [TESDPestado]=(23) OR [TESDPestado]=(3) OR [TESDPestado]=(212) OR [TESDPestado]=(202) OR [TESDPestado]=(2) OR [TESDPestado]=(1) OR [TESDPestado]=(0))</td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>INTEGER</td>
+					<td>3</td>
+					<td>0</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					
+						<td>0</td>
+					
+					
+						<td>([TESDPestado]=(312) OR [TESDPestado]=(302) OR [TESDPestado]=(13) OR [TESDPestado]=(12) OR [TESDPestado]=(110) OR [TESDPestado]=(11) OR [TESDPestado]=(103) OR [TESDPestado]=(101) OR [TESDPestado]=(10) OR [TESDPestado]=(23) OR [TESDPestado]=(3) OR [TESDPestado]=(212) OR [TESDPestado]=(202) OR [TESDPestado]=(2) OR [TESDPestado]=(1) OR [TESDPestado]=(0))</td>
+					
+				</tr>
+			
+				<tr>
+					<td>TESsolicitudPago</td><td>TESSPestado</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td><strong>NUMERIC</strong></td>
+					<td>3</td>
+					<td>0</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					<td>0</td>
+					<td>([TESSPestado]=(312) OR [TESSPestado]=(302) OR [TESSPestado]=(13) OR [TESSPestado]=(12) OR [TESSPestado]=(110) OR [TESSPestado]=(11) OR [TESSPestado]=(103) OR [TESSPestado]=(101) OR [TESSPestado]=(10) OR [TESSPestado]=(23) OR [TESSPestado]=(3) OR [TESSPestado]=(212) OR [TESSPestado]=(202) OR [TESSPestado]=(2) OR [TESSPestado]=(1) OR [TESSPestado]=(0))</td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>INTEGER</td>
+					<td>3</td>
+					<td>0</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					
+						<td>0</td>
+					
+					
+						<td>([TESSPestado]=(312) OR [TESSPestado]=(302) OR [TESSPestado]=(13) OR [TESSPestado]=(12) OR [TESSPestado]=(110) OR [TESSPestado]=(11) OR [TESSPestado]=(103) OR [TESSPestado]=(101) OR [TESSPestado]=(10) OR [TESSPestado]=(23) OR [TESSPestado]=(3) OR [TESSPestado]=(212) OR [TESSPestado]=(202) OR [TESSPestado]=(2) OR [TESSPestado]=(1) OR [TESSPestado]=(0))</td>
+					
+				</tr>
+			
+			</table>
+		
+			<BR><strong><A name='COLs_ADD'>COLUMNAS NUEVAS EN EL MODELO DBM QUE SE VAN A CREAR EN LA BASE DE DATOS</A></strong><BR>
+			<table>
+			<tr><td><strong>TABLA</strong></td><td><strong>COLUMNA</strong></td><td><strong>TIPO</strong></td><td><strong>LON</strong></td><td><strong>DEC</strong></td><td><strong>obl</strong></td><td><strong>ide</strong></td><td><strong>dfl</strong></td><td><strong>rul</strong></td></tr>
+			
+				<tr><td>CCHespecialMovs&nbsp;&nbsp;</td><td>CCHEMdescripcion&nbsp;&nbsp;</td><td>VARCHAR&nbsp;&nbsp;</td><td>255</td><td>0</td><td>1</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>CCHespecialMovs&nbsp;&nbsp;</td><td>CCHTCid_entrega&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>18</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>GEliquidacionGasto&nbsp;&nbsp;</td><td>GELGreferencia&nbsp;&nbsp;</td><td>VARCHAR&nbsp;&nbsp;</td><td>100</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+			</table>
+		
+			<BR><strong><A name='COLs_DEL'>COLUMNAS QUE VAN A SER ELIMINADAS EN LA BASE DE DATOS PORQUE YA NO SE REQUIEREN EN EL MODELO DBM</A></strong><BR>
+			<table>
+			<tr><td><strong>TABLA</strong></td><td><strong>COLUMNA</strong></td><td><strong>TIPO</strong></td><td><strong>LON</strong></td><td><strong>DEC</strong></td><td><strong>obl</strong></td><td><strong>ide</strong></td><td><strong>dfl</strong></td><td><strong>rul</strong></td></tr>
+			
+				<tr><td>CCHespecialMovs&nbsp;&nbsp;</td><td>CCHTAid&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>18</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+			</table>
+		
+			<BR><strong><A name='KEYs_DEL'>LLAVES QUE SE VAN A ELIMINAR</A></strong><BR>
+			<table>
+			<tr><td><strong>TABLA</strong></td><td><strong>TIPO</strong></td><td><strong>CODIGO</strong></td><td><strong>COLUMNAS</strong></td><td><strong>TABLA REFERENCIADA</strong></td><td><strong>COLUMNAS REFERENCIADAS</strong></td><td><strong>RAZON</strong></td></tr>
+			
+				
+					<tr><td>CCHespecialMovs</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td>
+							
+								CCHespecialMovs_FK04
+							
+						</td>
+					
+					<td>CCHTAid</td><td>CCHTransaccionesAplicadas</td><td>CCHTAid</td>
+					<td>
+						
+							BORRADA EN DBM (DBM:DROP)
+						
+					</td>
+					</tr>
+					
+				
+					<tr><td>CCHespecialMovs</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td>
+							
+								CCHespecialMovs_FI04
+							
+						</td>
+					
+					<td>CCHTAid</td><td>CCHTransaccionesAplicadas</td><td>CCHTAid</td>
+					<td>
+						
+							BORRADA EN DBM (DBM:DROP)
+						
+					</td>
+					</tr>
+					
+				
+			
+				
+					<tr><td>TESdetallePago</td><td align="center">
+						
+							ID 
+						
+					</td>
+					
+						<td>
+							
+								TESdetallePago_ID01
+							
+						</td>
+					
+					<td>TESDPidDocumento,EcodigoOri,TESDPestado</td><td>*</td><td>*</td>
+					<td>
+						
+							CAMPOS MODIFICADOS
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TESsolicitudPago</td><td align="center">
+						
+							ID 
+						
+					</td>
+					
+						<td>
+							
+								TESsolicitudPago_ID02
+							
+						</td>
+					
+					<td>EcodigoOri,TESSPestado,TESSPfechaPagar</td><td>*</td><td>*</td>
+					<td>
+						
+							CAMPOS MODIFICADOS
+						
+					</td>
+					</tr>
+					
+						
+			
+			</table>
+		
+			<BR><strong><A name='COLs_ADD'>LLAVES QUE SE VAN A CREAR.</font></A></strong><BR>
+			<table>
+			<tr><td><strong>TABLA</strong></td><td><strong>TIPO</strong></td><td><strong>SEC.</strong></td><td><strong>COLUMNAS</strong></td><td><strong>TABLA REFERENCIADA</strong></td><td><strong>COLUMNAS REFERENCIADAS</strong></td><td><strong>RAZON</strong></td></tr>
+			
+				
+					<tr><td>CCHespecialMovs</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							05
+						</td>
+					
+					<td>CCHTCid_entrega</td><td>CCHTransaccionesCProceso</td><td>CCHTCid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TESdetallePago</td><td align="center">
+						
+							ID 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>TESDPidDocumento,EcodigoOri,TESDPestado</td><td>*</td><td>*</td>
+					<td>
+						
+							CAMPOS MODIFICADOS
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TESsolicitudPago</td><td align="center">
+						
+							ID 
+						
+					</td>
+					
+						<td align="center">
+							02
+						</td>
+					
+					<td>EcodigoOri,TESSPestado,TESSPfechaPagar</td><td>*</td><td>*</td>
+					<td>
+						
+							CAMPOS MODIFICADOS
+						
+					</td>
+					</tr>
+					
+						
+			
+			</table>
+		
+			<BR><strong><A name='KEYs_FI'>INDICES QUE SE VAN A CREAR EN LA BASE DE DATOS PARA SOPORTAR LLAVES FORANEAS</A></strong><BR>
+			<table>
+			<tr><td><strong>TABLA</strong></td><td><strong>TIPO</strong></td><td><strong>SEC.</strong></td><td><strong>COLUMNAS</strong></td><td><strong>TABLA REFERENCIADA</strong></td><td><strong>COLUMNAS REFERENCIADAS</strong></td><td><strong>RAZON</strong></td></tr>
+			
+				
+					<tr><td>CCHespecialMovs</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							05
+						</td>
+					
+					<td>CCHTCid_entrega</td><td>CCHTransaccionesCProceso</td><td>CCHTCid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+			</table>
+		

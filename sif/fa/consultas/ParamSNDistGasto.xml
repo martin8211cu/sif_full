@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiqueta>
+	<Idioma id="en">
+		<LB_ParametrosReporteDistribucionGastos>Parameters for Expenses Distribution Report</LB_ParametrosReporteDistribucionGastos>
+		<LB_SocioNegocios>Partner</LB_SocioNegocios>
+		<BTN_Consultar>Consult</BTN_Consultar>
+		
+	</Idioma>
+</Etiqueta>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+<info>
+	<infoitem key="UD_qryPeriodos" value="name:Codigo;datatype:,name:Descripcion;datatype:,name:Actual;datatype:" />
+	<infoitem key="UD_qryProfesores" value="name:Codigo;datatype:,name:Descripcion;datatype:" />
+	<infoitem key="UD_qryCursos" value="name:Codigo;datatype:,name:Descripcion;datatype:" />
+	<infoitem key="UD_qryPlanes" value="name:tipo;datatype:,name:curso;datatype:,name:codigo;datatype:,name:nombre;datatype:,name:fecha;datatype:,name:cubierto;datatype:" />
+	<infoitem key="UD_qryHorarios" value="name:HRdia;datatype:" />
+	<infoitem key="UD_qryEvento" value="name:CPcodigo;datatype:,name:CPnombre;datatype:,name:CPdescripcion;datatype:,name:CPfecha;datatype:,name:CPduracion;datatype:,name:CPcubierto;datatype:,name:CPorden;datatype:,name:MPcodigo;datatype:,name:CPusucodigo;datatype:" />
+</info>

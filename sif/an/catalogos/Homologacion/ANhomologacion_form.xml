@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_Titulo>Accounts Homologation Types</LB_Titulo>
+		<LB_Codigo>Code</LB_Codigo>
+		<LB_TipoH>HomologationType</LB_TipoH>
+		<BTN_Homologar>Homologate</BTN_Homologar>
+	</Idioma> 
+</Etiquetas>

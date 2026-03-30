@@ -1,0 +1,21 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  sifControl
+	MODELO:  SIF Control.pdm
+	VERSION: 80 - DBM 204: quitando ck07 DImportador, DCPGrupo, DCFG
+
+	         PARCHE:  Parche023_117_SIF_Aph importador multitablas
+
+GENERADO EN:
+	SERVER:  http://mxpapp36:8300
+	DSN:     sifcontrol
+	FECHA:   14/07/2011 15:16:32
+*/
+
+/* INI_SCRIPT */
+
+/* END_SCRIPT */

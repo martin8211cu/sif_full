@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_Orden>Order</LB_Orden>
+		<LB_Beneficiario>Beneficiary</LB_Beneficiario>
+		<LB_FechaPago>Payment Date</LB_FechaPago>
+		<LB_Estado>Status</LB_Estado>
+		<LB_EmpresaPago>Enterprise Payment</LB_EmpresaPago>
+		<LB_CuentaPago>Account Payment</LB_CuentaPago>
+		<LB_Banco>Bank</LB_Banco>
+		<LB_Lote>Batch</LB_Lote>
+		<LB_Pago>Payment</LB_Pago>
+		<LB_Moneda>Currency</LB_Moneda>
+		<LB_MontoPagar>Amount Due</LB_MontoPagar>
+		
+	<LB_TodasMonedas>All</LB_TodasMonedas></Idioma>
+</Etiquetas>

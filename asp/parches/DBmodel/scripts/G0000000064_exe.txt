@@ -1,0 +1,30 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 153 - DBM 233: SIF.BANCOS
+
+	         PARCHE:  Parche023_220_SIF_Bancos
+
+GENERADO EN:
+	SERVER:  http://mxpapp36:8300
+	DSN:     sifcim
+	FECHA:   27/08/2011 14:41:13
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* CHG_TABLE Bancos: Bancos */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): Blogo - Logo del Banco */
+ALTER TABLE Bancos ADD Blogo image NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

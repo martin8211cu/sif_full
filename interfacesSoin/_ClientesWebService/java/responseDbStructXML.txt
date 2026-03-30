@@ -1,0 +1,42 @@
+<!--
+<response name="XML_OE">
+  <dbstruct>
+    <column name="ID" type="N" len="18" ent="18" dec="0" mandatory="1"/>
+    <column name="NAP" type="N" len="18" ent="18" dec="0" mandatory="1"/>
+    <column name="NRP" type="N" len="18" ent="18" dec="0" mandatory="1"/>
+    <column name="MSG" type="S" len="255" ent="" dec="" mandatory="1"/>
+  </dbstruct>
+  <recordset>
+    <row>
+      <ID>41832</ID>
+      <NAP>0</NAP>
+      <NRP>0</NRP>
+      <MSG>OK</MSG>
+    </row>
+  </recordset>
+</response>
+-->
+
+<!--
+<response name="XML_OD">
+  <dbstruct>
+    <column name="ID" type="N" len="18" ent="18" dec="0" mandatory="1"/>
+    <column name="NumeroLinea" type="N" len="9" ent="9" dec="0" mandatory="1"/>
+    <column name="AnoPresupuesto" type="N" len="9" ent="9" dec="0" mandatory="1"/>
+    <column name="MesPresupuesto" type="N" len="9" ent="9" dec="0" mandatory="1"/>
+    <column name="CuentaPresupuesto" type="S" len="100" ent="" dec="" mandatory="1"/>
+    <column name="CodigoOficina" type="S" len="10" ent="" dec="" mandatory="1"/>
+    <column name="TipoControl" type="N" len="3" ent="4" dec="0" mandatory="1"/>
+    <column name="CalculoControl" type="N" len="3" ent="4" dec="0" mandatory="1"/>
+    <column name="TipoMovimiento" type="S" len="2" ent="" dec="" mandatory="1"/>
+    <column name="SignoMovimiento" type="N" len="4" ent="4" dec="0" mandatory="1"/>
+    <column name="MontoMovimiento" type="N" len="18" ent="14" dec="4" mandatory="1"/>
+    <column name="DisponibleAnterior" type="N" len="18" ent="14" dec="4" mandatory="1"/>
+    <column name="DisponibleGenerado" type="N" len="18" ent="14" dec="4" mandatory="1"/>
+    <column name="ExcesoGenerado" type="N" len="18" ent="14" dec="4" mandatory="1"/>
+    <column name="ProvocoRechazo" type="N" len="1" ent="1" dec="0" mandatory="1"/>
+  </dbstruct>
+  <recordset>
+  </recordset>
+</response>
+-->

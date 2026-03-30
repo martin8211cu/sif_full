@@ -1,0 +1,7 @@
+@w_QPTPANSOIN =  5061040000001033   
+@w_FechaSOIN = Apr 17 2009 12:00AM
+@w_causaSOIN = 815  
+@w_monedaSOIN = CRC
+@w_montoSOIN = 18000.00
+@w_montolocalSOIN = 18000.00
+@w_referenciaSOIN = Tag #. 5061040000001033   

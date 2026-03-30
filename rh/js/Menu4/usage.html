@@ -1,0 +1,214 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html>
+<head>
+<title>DHTML Menu 4 Usage (WebFX)</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script type="text/javascript" src="local/webfxlayout.js"></script>
+</head>
+<body>
+<!-- WebFX Layout Include -->
+<script type="text/javascript">
+
+var articleMenu= new WebFXMenu;
+articleMenu.left  = 384;
+articleMenu.top   = 86;
+articleMenu.width = 140;
+articleMenu.add(new WebFXMenuItem("Introduction", "menu4.html"));
+articleMenu.add(new WebFXMenuItem("Menu Creation", "menucreation.html"));
+articleMenu.add(new WebFXMenuItem("Menu Bar Creation", "menubarcreation.html"));
+articleMenu.add(new WebFXMenuItem("Usage", "usage.html"));
+articleMenu.add(new WebFXMenuItem("API", "api.html"));
+articleMenu.add(new WebFXMenuItem("Customizing look &amp; feel", "looknfeel.html"));
+articleMenu.add(new WebFXMenuItem("Demos", "demos.html"));
+articleMenu.add(new WebFXMenuSeparator);
+articleMenu.add(new WebFXMenuItem("Download", "menu4.zip"));
+webfxMenuBar.add(new WebFXMenuButton("Article Menu", null, null, articleMenu));
+
+webfxLayout.writeTitle("DHTML Menu 4");
+webfxLayout.writeMenu();
+webfxLayout.writeDesignedByEdger();
+
+</script>
+<div class="webfx-main-body">
+<!-- end WebFX Layout Includes -->
+
+<h2>Usage</h2>
+
+<h3>Files to Include</h3>
+
+<p>To use the DHTML Menu 4 system you first need to include a few different
+files. There are three JavaScript files and one CSS file that needs to be
+included.</p>
+
+<pre>
+&lt;script type="text/javascript" src="<a href="js/poslib.js">js/poslib.js</a>"&gt;&lt;/script&gt;
+&lt;script type="text/javascript" src="<a href="js/scrollbutton.js">js/scrollbutton.js</a>"&gt;&lt;/script&gt;
+&lt;script type="text/javascript" src="<a href="js/menu4.js">js/menu4.js</a>"&gt;&lt;/script&gt;
+</pre>
+
+<p>If you plan to use a menu bar you also need to include the CSS file.The file
+to include depends on the look and feel you want for the menu bar. Below is
+the code needed to include the CSS file that describes a menu bar that looks
+like a Windows Classic menu bar.</p>
+
+<pre>
+&lt;link type="text/css" rel="StyleSheet" href="<a href="skins/winclassic.css">skins/winclassic.css</a>" /&gt;
+</pre>
+
+<h3>Create your menus</h3>
+
+<p>If you haven't already read the <a href="menucreation">Menu Creation</a> and
+<a href="menubarcreation">Menu Bar Creation</a> pages you should read these first.</p>
+
+<p>Below is the code for a complete simple menu system.</p>
+
+<p>First we set the default css file to use for all menus.</p>
+
+<pre>
+// set default css file to use
+Menu.prototype.cssFile = "skins/winclassic.css";
+</pre>
+
+<p>Then we start with a simple menu with a few menu items using both URIs and
+functions for the actions</p>
+
+<pre>
+var testMenu = new Menu();
+
+testMenu.add(tmp = new MenuItem("New Window", document.location.href));
+tmp.target = "_blank";
+tmp.mnemonic = 'n';
+tmp.shortcut = "Ctrl+N";
+
+testMenu.add(tmp = new MenuItem("WebFX Home", "http://webfx.eae.net", "http://webfx.eae.net/images/favicon.gif"));
+tmp.mnemonic = 'w';
+
+testMenu.add(tmp = new MenuItem("Alert", function () { alert("Clicked " + this.text); }) );
+tmp.mnemonic = 'a';
+
+testMenu.add(new MenuSeparator);
+
+testMenu.add(tmp = new MenuItem("Close", function () { window.close(); }) );
+tmp.mnemonic = 'c';
+</pre>
+
+<p>After this we reuse the check box menu from earlier...</p>
+
+<pre>
+// Check box menu
+
+var cbm = new Menu();
+
+function onCheckBoxChanged() {
+   alert("The menu item with the text " + this.text +
+         " is now " + (this.checked ? "checked" : "unchecked"));
+}
+
+cbm.add( new CheckBoxMenuItem("Check Me 1", false, onCheckBoxChanged) );
+cbm.add( new CheckBoxMenuItem("Check Me 2", false, onCheckBoxChanged) );
+</pre>
+
+<p>...and the radio button menu.</p>
+
+<pre>
+// Radio Menu
+
+var rm = new Menu();
+
+function onRadioChanged() {	
+   var text;
+   if (rb1.checked)
+      text = rb1.text;
+   else if (rb2.checked)
+      text = rb2.text;
+   else if (rb3.checked)
+      text = rb3.text;
+   alert("You selected " + text);
+};
+
+var rb1 = new RadioButtonMenuItem("Vanilla", false, "flavorGroup", onRadioChanged);
+var rb2 = new RadioButtonMenuItem("Chocolate", true, "flavorGroup", onRadioChanged);
+var rb3 = new RadioButtonMenuItem("Strawberry", false, "flavorGroup", onRadioChanged);
+rm.add(rb1);
+rm.add(rb2);
+rm.add(rb3);
+</pre>
+
+<p>After this we create a menu with a few sub menus. First we create one
+manually and after that we use a loop to create some menus.</p>
+
+<pre>
+// sub menus
+
+var sm = new Menu();
+
+// manual
+var sm2 = new Menu();
+sm.add( tmp = new MenuItem( "Item with sub", null, null, sm2) );
+sm2.add( new MenuItem("Item inside sub menu") );
+
+sm.add( new MenuSeparator() );
+
+// loop
+for (var i = 0; i &lt; 5; i++) {
+   tmp = new Menu;
+   sm.add( new MenuItem("Sub Menu " + i, null, null, tmp) );
+   for (var j = 0; j &lt; 5; j++) {
+      tmp2 = new Menu();
+      tmp.add( new MenuItem("Item " + i + "." + j, null, null, tmp2) );
+      for (var k = 0; k &lt; 5; k++) {
+         tmp2.add( new MenuItem("Item " + i + "." + j + "." + k) );	
+      }
+   }	
+}
+</pre>
+
+<p>Then we create the menu bar and buttons that opens up the menus.</p>
+
+<pre>
+// menu bar
+
+var menuBar = new MenuBar();
+
+var testButton = new MenuButton("Test", testMenu);
+testButton.mnemonic = "t";
+menuBar.add(testButton);
+
+menuBar.add( tmp = new MenuButton("Check Box Menu", cbm) );
+tmp.mnemonic = 'c';
+
+menuBar.add( tmp = new MenuButton("Radio Menu", rm) );
+tmp.mnemonic = 'r';
+
+menuBar.add( tmp = new MenuButton("Sub Menus", sm) );
+tmp.mnemonic = 's';
+</pre>
+
+<p>And finally we use the <code>write</code> method to create the menu bar.</p>
+
+<pre>
+menuBar.write();
+</pre>
+
+<p>This menu can be seen in action in the file <a href="simpledemo.html">simpledemo.html</a> </p>
+
+<p>
+<a href="menu4.html">Introduction</a><br />
+<a href="menucreation.html">Menu Creation</a><br />
+<a href="menubarcreation.html">Menu Bar Creation</a><br />
+<a href="usage.html">Usage</a><br />
+<a href="api.html">API</a><br />
+<a href="looknfeel.html">Customizing look &amp; feel<br />
+<a href="demos.html">Demos</a><br />
+<a href="menu4.zip">Download</a>
+</p>
+
+<p class="author">Author: Erik Arvidsson</p>
+
+<!-- end webfx-main-body -->
+</div>
+
+</body>
+</html>

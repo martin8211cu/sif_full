@@ -1,0 +1,252 @@
+// FrontEnd Plus GUI for JAD
+// DeCompiled : dropTemporalUsers.class
+
+package com.soin.isp.billing;
+
+import com.soin.isp.ProcessesInterface;
+import com.soin.isp.tools.ConfigFile;
+import com.soin.isp.tools.Instances;
+import com.sybase.CORBA.jdbc11.IDL;
+import com.sybase.CORBA.jdbc11.SQL;
+import java.io.PrintStream;
+import java.sql.ResultSet;
+import soincore.execSQL;
+import soinisp.CUsers;
+
+public class dropTemporalUsers extends Thread
+    implements ProcessesInterface
+{
+
+    private ConfigFile _ConfigFile;
+    private boolean _AllowRunning;
+    private boolean _IsRunning;
+    private boolean _ProcessStateOk;
+    private boolean _ProcessActive;
+    private boolean _WaitTimeout;
+    private long _LastPerformance;
+    private long _NextPerformance;
+    private long _PerformancePeriod;
+    private long _ProcessInitTime;
+    private byte _MonitorStatus;
+    private String _URL;
+    private String _UserName;
+    private String _Password;
+    private execSQL _ExecSQL;
+    private CUsers _CUsers;
+    private boolean _DebugMode;
+
+    public dropTemporalUsers()
+    {
+        _ConfigFile = null;
+        _AllowRunning = false;
+        _IsRunning = false;
+        _ProcessStateOk = false;
+        _ProcessActive = false;
+        _WaitTimeout = false;
+        _LastPerformance = 0L;
+        _NextPerformance = 0L;
+        _PerformancePeriod = 0L;
+        _ProcessInitTime = 0L;
+        _MonitorStatus = 0;
+        _URL = null;
+        _UserName = null;
+        _Password = null;
+        _ExecSQL = null;
+        _CUsers = null;
+        _DebugMode = false;
+        _ConfigFile = null;
+        _IsRunning = true;
+        _ProcessStateOk = true;
+        _ProcessActive = true;
+        _WaitTimeout = true;
+        _URL = null;
+        _UserName = null;
+        _Password = null;
+        _ExecSQL = null;
+        _CUsers = null;
+        _DebugMode = false;
+    }
+
+    private void activeDropTemporalUsers()
+    {
+        String Fecha = "";
+        if(_ProcessStateOk)
+        {
+            if(_DebugMode)
+                System.out.println("!!! dropTemporalUsers begin the Process.....");
+            ResultSet vResultSet = null;
+            ResultSet vTmpResultSet = null;
+            TabularResults.ResultSet vTabularResultSet = null;
+            Long vCodUsuario = new Long(0L);
+            long vResultado = 0L;
+            try
+            {
+                _ExecSQL.doQuery("Select convert(varchar, getDate(), 109) Date");
+                vResultSet = _ExecSQL.getResultSet();
+                vResultSet.next();
+                Fecha = vResultSet.getString("Date");
+                _ExecSQL.doQuery("select SAI01COD, SAI01LOG, convert(varchar, SAI01FIN, 109) SAI01FIN from SAI001 where SAI01BOR = 0   and   SAI01TMP = 1   and   SAI01FIN < '" + Fecha + "'");
+                vTmpResultSet = _ExecSQL.getResultSet();
+                vTabularResultSet = IDL.getResultSet(vTmpResultSet);
+                vTmpResultSet.close();
+                vTmpResultSet = null;
+                for(vResultSet = SQL.getResultSet(vTabularResultSet); vResultSet.next();)
+                    try
+                    {
+                        vCodUsuario = new Long(vResultSet.getLong("SAI01COD"));
+                        String login = new String(vResultSet.getString("SAI01LOG"));
+                        String fec = new String(vResultSet.getString("SAI01FIN"));
+                        if(_DebugMode)
+                            System.out.println("Borrando Usuario [" + login + "] con fecha final '" + fec + "'............");
+                        vResultado = _CUsers.delete("SAI01COD=" + vCodUsuario.toString());
+                        if(vResultado > 0L)
+                        {
+                            if(_DebugMode)
+                                System.out.println("!!! El Usuario " + vCodUsuario.toString() + " fue borrado exitosamente.....");
+                        } else
+                        {
+                            System.out.println("!!! El Prepago " + login + " " + vCodUsuario.toString() + " no pudo ser borrado.....");
+                            System.out.println("\tCUsers.delete() retorno el siguiente resultado : " + String.valueOf(vResultado));
+                        }
+                    }
+                    catch(Exception e)
+                    {
+                        System.out.println("\tERROR : [" + e.getMessage() + "]");
+                    }
+
+                vResultSet.close();
+                vResultSet = null;
+            }
+            catch(Exception e)
+            {
+                System.out.println("\tERROR : [" + e.getMessage() + "]");
+            }
+            if(_DebugMode)
+                System.out.println("!!! dropTemporalUsers finish the Process.....");
+        }
+    }
+
+    public void initProcess()
+    {
+        try
+        {
+            setPriority(1);
+            _ConfigFile = new ConfigFile("./dropTemporalUsers.cfg");
+            _URL = "jdbc:odbc:" + _ConfigFile.getParameter("DBConnection", "DSN_ODBC");
+            _UserName = _ConfigFile.getParameter("DBConnection", "UserName");
+            _Password = _ConfigFile.getParameter("DBConnection", "Password");
+            _LastPerformance = (new Long(_ConfigFile.getParameter("LastPerformance", "LastPerformance"))).longValue();
+            if(_DebugMode)
+                System.out.println("LastPerformance : [" + _LastPerformance + "]");
+            if(_LastPerformance == 0L)
+            {
+                _LastPerformance = System.currentTimeMillis();
+                _ConfigFile.putParameter("LastPerformance", "LastPerformance", (new Long(_LastPerformance)).toString());
+                _AllowRunning = true;
+            }
+            _ExecSQL = Instances.getInstance_execSQL2();
+            _CUsers = Instances.getInstance_CUsers();
+            _ProcessActive = true;
+            _WaitTimeout = true;
+            _IsRunning = true;
+            _MonitorStatus = 0;
+            _ProcessStateOk = true;
+        }
+        catch(Exception e)
+        {
+            _ProcessStateOk = false;
+            System.out.println("dropTemporalUsers.initProcess() failed............");
+            System.out.println("\tERROR : [" + e.getMessage() + "]");
+        }
+    }
+
+    public void run()
+    {
+        if(_DebugMode)
+            System.out.println("Iniciando dropTemporalUsers");
+        initProcess();
+        if(_ProcessStateOk)
+        {
+            if(_DebugMode)
+                System.out.println("dropTemporalUsers is [Ok]......");
+            _ProcessInitTime = System.currentTimeMillis();
+            for(_WaitTimeout = false; !_WaitTimeout && _IsRunning;)
+            {
+                if(System.currentTimeMillis() >= _LastPerformance + _NextPerformance)
+                    _WaitTimeout = true;
+                try
+                {
+                    Thread.sleep(10L);
+                }
+                catch(Exception _ex) { }
+            }
+
+            while(_IsRunning) 
+            {
+                if(_ProcessActive)
+                {
+                    if(_WaitTimeout)
+                    {
+                        _ProcessInitTime = System.currentTimeMillis();
+                        if(_DebugMode)
+                            System.out.println("dropTemporalUsers start process at : " + String.valueOf(_ProcessInitTime));
+                        activeDropTemporalUsers();
+                        _LastPerformance = System.currentTimeMillis();
+                        try
+                        {
+                            _ConfigFile.putParameter("LastPerformance", "LastPerformance", (new Long(_LastPerformance)).toString());
+                        }
+                        catch(Exception e)
+                        {
+                            System.out.println("ERROR escribiendo archivo de configuraci\363n \t[" + e.getMessage() + "]");
+                        }
+                    }
+                    if(System.currentTimeMillis() > _LastPerformance + _PerformancePeriod)
+                        _WaitTimeout = true;
+                    else
+                        _WaitTimeout = false;
+                } else
+                {
+                    _MonitorStatus = 1;
+                }
+                try
+                {
+                    Thread.sleep(10L);
+                }
+                catch(Exception _ex) { }
+            }
+            System.out.println("dropTemporalUsers is shutting down...........");
+        } else
+        {
+            System.out.println("dropTemporalUsers failed in the initProcess() method........");
+            System.out.println("dropTemporalUsers is shutting down...........");
+        }
+        if(_DebugMode)
+            System.out.println("!!! dropTemporalUsers Process has finished.............");
+    }
+
+    public void setIsRunning(boolean pValue)
+    {
+        _IsRunning = pValue;
+    }
+
+    public void setNextPerformance(long pNextPerformance)
+    {
+        _NextPerformance = pNextPerformance * 1000L;
+    }
+
+    public void setPerformancePeriod(long pPerformancePeriod)
+    {
+        _PerformancePeriod = pPerformancePeriod * 1000L;
+    }
+
+    public void shutdownProcess()
+    {
+        setIsRunning(false);
+    }
+
+    public void startupProcess()
+    {
+        start();
+    }
+}

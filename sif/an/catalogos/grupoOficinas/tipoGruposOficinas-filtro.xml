@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_Codigo>Code</LB_Codigo>
+		<LB_Nombre>Name</LB_Nombre>
+		<BTN_Nuevo>New</BTN_Nuevo>
+		<BTN_Filtrar>Filter</BTN_Filtrar>
+		<BTN_Imprimir>Print</BTN_Imprimir>
+		
+	</Idioma> 
+</Etiquetas>

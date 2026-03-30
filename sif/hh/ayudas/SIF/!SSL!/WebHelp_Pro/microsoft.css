@@ -1,0 +1,429 @@
+body { 
+      font-family:Verdana, Arial, Helvetica, Sans-Serif;  }
+a { 
+   color:#0033CC;  }
+a:link { 
+        color:#0033CC;  }
+a:visited { 
+           color:#800080;  }
+a:hover { 
+         color:#FF6600;  }
+a:active { 
+          color:#800080;  }
+h1 { 
+    margin:12px 0px 0px 0px; 
+    color:#000000; 
+    font-size:24pt; 
+    font-family:Verdana, sans-serif; 
+    border-left-style:Solid; 
+    border-right-style:Solid; 
+    border-top-style:Solid; 
+    border-bottom-style:Solid; 
+    border-left-width:1px; 
+    border-right-width:1px; 
+    border-top-width:1px; 
+    border-bottom-width:1px; 
+    border-left-color:#000000; 
+    border-right-color:#000000; 
+    border-top-color:#000000; 
+    border-bottom-color:#000000; 
+    background-color:#c0c0c0; 
+    text-align:Center; 
+    font-weight:bold; 
+    font-style:normal; 
+    text-decoration:none;  }
+LI.kadov-h1 { 
+             color:#000000; 
+             font-size:24pt; 
+             font-family:Verdana, sans-serif; 
+             text-align:Center; 
+             font-weight:bold; 
+             font-style:normal; 
+             text-decoration:none;  }
+h2 { 
+    font-size:85%; 
+    font-weight:bold; 
+    margin:0.4em 0px 0.5em 20px;  }
+LI.kadov-h2 { 
+             font-size:85%; 
+             font-weight:bold;  }
+h3 { 
+    font-size:75%; 
+    font-weight:bold; 
+    margin:0.4em 0px 0.5em 20px;  }
+LI.kadov-h3 { 
+             font-size:75%; 
+             font-weight:bold;  }
+h4 { 
+    font-weight:bold; 
+    font-size:70%; 
+    margin:0px 0px 1em 0px;  }
+LI.kadov-h4 { 
+             font-weight:bold; 
+             font-size:70%;  }
+h5 { 
+    font-weight:bold; 
+    font-size:65%; 
+    margin:0px 0px 5px 0px;  }
+LI.kadov-h5 { 
+             font-weight:bold; 
+             font-size:65%;  }
+.stdBullet { 
+            padding-right:0.5em; 
+            padding-top:2px; 
+            font-size:70%; 
+            color:#A6A6A6;  }
+LI.kadov-CstdBullet { 
+                     font-size:70%; 
+                     color:#A6A6A6;  }
+.indent { 
+         margin-left:20px;  }
+LI.kadov-Cindent {  }
+.headline { 
+           padding-bottom:0.5em;  }
+LI.kadov-Cheadline {  }
+.headlineLink { 
+               font-size:70%;  }
+LI.kadov-CheadlineLink { 
+                        font-size:70%;  }
+.headlineInfo { 
+               font-size:65%; 
+               color:#999999;  }
+LI.kadov-CheadlineInfo { 
+                        font-size:65%; 
+                        color:#999999;  }
+.refLabel { 
+           font-size:70%; 
+           line-height:140%; 
+           font-weight:bold;  }
+LI.kadov-CrefLabel { 
+                    font-size:70%; 
+                    line-height:140%; 
+                    font-weight:bold;  }
+.refLabelH2 { 
+             font-size:85%; 
+             line-height:140%; 
+             font-weight:bold; 
+             margin-bottom:0.3em;  }
+LI.kadov-CrefLabelH2 { 
+                      font-size:85%; 
+                      line-height:140%; 
+                      font-weight:bold;  }
+.refLabelH3 { 
+             font-size:75%; 
+             line-height:140%; 
+             font-weight:bold;  }
+LI.kadov-CrefLabelH3 { 
+                      font-size:75%; 
+                      line-height:140%; 
+                      font-weight:bold;  }
+p.nomargin { 
+            font-size:70%; 
+            line-height:140%; 
+            margin:0px;  }
+LI.kadov-p-Cnomargin { 
+                      font-size:70%; 
+                      line-height:140%;  }
+.linkList { 
+           margin-top:0.3em; 
+           margin-bottom:-5px;  }
+LI.kadov-ClinkList {  }
+.linkListItem { 
+               padding-bottom:0.3em;  }
+LI.kadov-ClinkListItem {  }
+.listLink { 
+           font-size:70%; 
+           line-height:140%;  }
+LI.kadov-ClistLink { 
+                    font-size:70%; 
+                    line-height:140%;  }
+p { 
+   font-size:70%; 
+   margin-top:0em; 
+   margin-bottom:1em; 
+   line-height:140%;  }
+LI.kadov-p { 
+            font-size:70%; 
+            line-height:140%;  }
+p.blurb { 
+         font-size:70%; 
+         margin-top:0em; 
+         margin-bottom:1.4em; 
+         line-height:140%; 
+         margin-left:20px;  }
+LI.kadov-p-Cblurb { 
+                   font-size:70%; 
+                   line-height:140%;  }
+.container { 
+            font-size:65%; 
+            margin-top:0em; 
+            margin-bottom:1em; 
+            line-height:130%;  }
+LI.kadov-Ccontainer { 
+                     font-size:65%; 
+                     line-height:130%;  }
+.newLink { 
+          color:#ff0000; 
+          font-weight:bold; 
+          font-size:65%;  }
+LI.kadov-CnewLink { 
+                   color:#ff0000; 
+                   font-weight:bold; 
+                   font-size:65%;  }
+hr { 
+    margin-top:0.5em; 
+    margin-bottom:0px;  }
+.sideObject { 
+             padding-bottom:1em;  }
+LI.kadov-CsideObject {  }
+.sidebarContent { 
+                 background:#E9E9E6; 
+                 width:165px; 
+                 padding:8px 7px 6px 7px;  }
+LI.kadov-CsidebarContent {  }
+.sidebarContent p { 
+                   margin-bottom:0.8em;  }
+.sidebarContent LI.kadov-p {  }
+.containerHeader { 
+                  background:#999999;  }
+LI.kadov-CcontainerHeader {  }
+.containerFooter { 
+                  background:#999999; 
+                  margin-bottom:12px;  }
+LI.kadov-CcontainerFooter {  }
+.containerImage { 
+                 margin-top:0.5em; 
+                 margin-bottom:0.5em; 
+                 text-align:center;  }
+LI.kadov-CcontainerImage { 
+                          text-align:center;  }
+.spotGraphic { 
+              padding-top:3px; 
+              padding-bottom:3px;  }
+LI.kadov-CspotGraphic {  }
+.sidebarLink { 
+              font-size:65%; 
+              line-height:130%; 
+              padding-bottom:0.75em;  }
+LI.kadov-CsidebarLink { 
+                       font-size:65%; 
+                       line-height:130%;  }
+div.hr { 
+        width:100%; 
+        height:5px; 
+        overflow-y:hidden; 
+        border-top:solid 1px #CCCCCC;  }
+.reference { 
+            margin-bottom:16px;  }
+LI.kadov-Creference {  }
+.headlines { 
+            margin-left:20px; 
+            margin-bottom:9px;  }
+LI.kadov-Cheadlines {  }
+.dataTable { 
+            border-bottom:solid 1px #CCCCCC; 
+            margin-left:20px;  }
+LI.kadov-CdataTable {  }
+.dataTable td { 
+               padding:5px;  }
+.tableHeader { 
+              font-family:Verdana, Arial, Helvetica, sans-serif; 
+              font-size:80%; 
+              font-weight:bold; 
+              background:#999999; 
+              color:#ffffff;  }
+LI.kadov-CtableHeader { 
+                       font-family:Verdana, Arial, Helvetica, sans-serif; 
+                       font-size:80%; 
+                       font-weight:bold; 
+                       color:#ffffff;  }
+.superHeader { 
+              font-family:Verdana, Arial, Helvetica, sans-serif; 
+              font-size:70%;  }
+LI.kadov-CsuperHeader { 
+                       font-family:Verdana, Arial, Helvetica, sans-serif; 
+                       font-size:70%;  }
+.stdHeader { 
+            background:#CCCCCC; 
+            color:#000000;  }
+LI.kadov-CstdHeader { 
+                     color:#000000;  }
+.stdHeader td { 
+               font-family:Verdana, Arial, Helvetica, sans-serif; 
+               font-size:70%; 
+               font-weight:bold; 
+               border-top:solid 1px #CCCCCC; 
+               border-left:solid 1px #CCCCCC;  }
+.subHeader { 
+            background:#DDDDDD;  }
+LI.kadov-CsubHeader {  }
+.subHeader td { 
+               font-family:Verdana, Arial, Helvetica, sans-serif; 
+               font-size:70%; 
+               font-weight:bold; 
+               border-top:solid 1px #CCCCCC; 
+               border-left:solid 1px #CCCCCC;  }
+.record td { 
+            border-top:solid 1px #CCCCCC; 
+            border-left:solid 1px #CCCCCC;  }
+.record td td { 
+               border-width:0px;  }
+.evenRecord { 
+             background:#E9E9E6;  }
+LI.kadov-CevenRecord {  }
+.evenRecord td { 
+                border-top:solid 1px #CCCCCC; 
+                border-left:solid 1px #CCCCCC;  }
+.evenRecord td td { 
+                   border-width:0px;  }
+.rowLabel { 
+           font-weight:bold; 
+           background:#F0F0F0;  }
+LI.kadov-CrowLabel { 
+                    font-weight:bold;  }
+p.lastInCell { 
+              padding-bottom:0px;  }
+LI.kadov-p-ClastInCell {  }
+.keyLegend { 
+            padding-bottom:6px; 
+            margin-left:20px;  }
+LI.kadov-CkeyLegend {  }
+.key { 
+      font-family:Verdana, Arial, Helvetica, sans-serif; 
+      font-size:65%; 
+      font-weight:bold; 
+      padding-right:10px;  }
+LI.kadov-Ckey { 
+               font-family:Verdana, Arial, Helvetica, sans-serif; 
+               font-size:65%; 
+               font-weight:bold;  }
+.legend { 
+         font-family:Verdana, Arial, Helvetica, sans-serif; 
+         font-size:65%;  }
+LI.kadov-Clegend { 
+                  font-family:Verdana, Arial, Helvetica, sans-serif; 
+                  font-size:65%;  }
+.legendBullets { 
+                color:#666666;  }
+LI.kadov-ClegendBullets { 
+                         color:#666666;  }
+.dataBullets { 
+              color:#666666; 
+              font-family:Verdana, Arial, Helvetica, sans-serif;  }
+LI.kadov-CdataBullets { 
+                       color:#666666; 
+                       font-family:Verdana, Arial, Helvetica, sans-serif;  }
+.tableFootnotes { 
+                 margin-top:7px; 
+                 margin-left:5px;  }
+LI.kadov-CtableFootnotes {  }
+.dataTableBottomMargin { 
+                        height:1px; 
+                        overflow:hidden; 
+                        margin-bottom:18px;  }
+LI.kadov-CdataTableBottomMargin {  }
+tr.sortable { 
+             background:#CCC; 
+             color:#000000;  }
+td.sortable { 
+             padding:0px;  }
+td.sortable a {  }
+td.sortable a:hover { 
+                     background:#E0E0E0;  }
+td.sortable table { 
+                   font-family:Verdana, Arial, Helvetica, sans-serif; 
+                   font-size:70%; 
+                   font-weight:bold; 
+                   border-style:solid; 
+                   border-width:1px; 
+                   border-color:#ffffff #999 #999 #ffffff; 
+                   padding:5px; 
+                   height:expression(this.parentElement.parentElement.clientHeight);  }
+td.selectedSort { 
+                 padding:0px;  }
+td.selectedSort a { 
+                   background:#999;  }
+td.selectedSort table { 
+                       font-family:Verdana, Arial, Helvetica, sans-serif; 
+                       font-size:70%; 
+                       font-weight:bold; 
+                       border-style:solid; 
+                       border-width:1px; 
+                       border-color:#666 #CCC #CCC #666; 
+                       padding:5px; 
+                       height:expression(this.parentElement.parentElement.clientHeight); 
+                       color:#ffffff;  }
+.simpleForm { 
+             margin:20px 0px 1.5ex 20px;  }
+LI.kadov-CsimpleForm {  }
+.simpleForm p { 
+               font-family:Verdana, Arial, Helvetica, sans-serif; 
+               font-size:65%; 
+               font-weight:bold; 
+               margin-bottom:0px;  }
+.simpleForm LI.kadov-p { 
+                        font-family:Verdana, Arial, Helvetica, sans-serif; 
+                        font-size:65%; 
+                        font-weight:bold;  }
+.simpleForm div { 
+                 margin-bottom:14px;  }
+.simpleFormSelect { 
+                   font-family:Tahoma, Arial, Helvetica, sans-serif; 
+                   font-size:70%; 
+                   margin-right:6px; 
+                   margin-top:2px;  }
+LI.kadov-CsimpleFormSelect { 
+                            font-family:Tahoma, Arial, Helvetica, sans-serif; 
+                            font-size:70%;  }
+.simpleFormSelectSmall { 
+                        font-family:Tahoma, Arial, Helvetica, sans-serif; 
+                        font-size:70%; 
+                        margin-right:6px; 
+                        margin-top:2px; 
+                        width:123px;  }
+LI.kadov-CsimpleFormSelectSmall { 
+                                 font-family:Tahoma, Arial, Helvetica, sans-serif; 
+                                 font-size:70%;  }
+.simpleFormSelectMedium { 
+                         font-family:Tahoma, Arial, Helvetica, sans-serif; 
+                         font-size:70%; 
+                         margin-right:6px; 
+                         margin-top:2px; 
+                         width:169px;  }
+LI.kadov-CsimpleFormSelectMedium { 
+                                  font-family:Tahoma, Arial, Helvetica, sans-serif; 
+                                  font-size:70%;  }
+.simpleFormSelectLarge { 
+                        font-family:Tahoma, Arial, Helvetica, sans-serif; 
+                        font-size:70%; 
+                        margin-right:6px; 
+                        margin-top:2px; 
+                        width:261px;  }
+LI.kadov-CsimpleFormSelectLarge { 
+                                 font-family:Tahoma, Arial, Helvetica, sans-serif; 
+                                 font-size:70%;  }
+.simpleFormText { 
+                 font-family:Tahoma, Arial, Helvetica, sans-serif; 
+                 font-size:70%; 
+                 width:261px; 
+                 margin-right:6px; 
+                 margin-top:1px;  }
+LI.kadov-CsimpleFormText { 
+                          font-family:Tahoma, Arial, Helvetica, sans-serif; 
+                          font-size:70%;  }
+.simpleFormSubmit { 
+                   font-family:Tahoma, Arial, Helvetica, sans-serif; 
+                   font-size:70%; 
+                   padding:0px 1px 0px 2px;  }
+LI.kadov-CsimpleFormSubmit { 
+                            font-family:Tahoma, Arial, Helvetica, sans-serif; 
+                            font-size:70%;  }
+.listBullet { 
+             color:#A6A6A6; 
+             font-size:80%;  }
+LI.kadov-ClistBullet { 
+                      color:#A6A6A6; 
+                      font-size:80%;  }
+.listItem { 
+           padding:0em 0em 0em 0.5em;  }
+LI.kadov-ClistItem {  }

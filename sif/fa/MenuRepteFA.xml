@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_Titulo>Invoicing Report</LB_Titulo>
+		<LB_SociosNegocioParaDistribucionGastos>Partner for Expenses Distribution</LB_SociosNegocioParaDistribucionGastos>
+		<LB_ParametrosReporteDistribucionGastos>Parameters for Expenses Distribution Report</LB_ParametrosReporteDistribucionGastos>
+		<LB_ReporteDistribucionGastos>Expenses Distribution Report</LB_ReporteDistribucionGastos>
+	</Idioma>
+</Etiquetas>

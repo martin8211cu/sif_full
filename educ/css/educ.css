@@ -1,0 +1,469 @@
+body {
+	font-size: smaller;
+	color: #000000;
+	background-color: #FFFFFF;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+.titulo {  font-weight: bolder; text-align: center; vertical-align: middle; font-size: small}
+.titulo2 {  text-align: center; vertical-align: middle; font-size: small}
+.subTitulo {  font-weight: bold; border-color: black black #CCCCCC; border-style: inset; border-top-width: 0px; border-right-width: 0px; border-bottom-width: 1px; border-left-width: 0px}
+.subrayado { border-color: black black #CCCCCC; border-style: inset; border-top-width: 0px; border-right-width: 0px; border-bottom-width: 1px; border-left-width: 0px}
+.subrayadoD { border-color: black black #CCCCCC; border-style: inset; border-top-width: 0px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 0px}
+.subrayadoTD { border-color: black black #CCCCCC; border-style: inset; border-top-width: 0px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 0px}
+.etiqueta {  text-decoration: none; text-transform: capitalize}
+.texto {  background-color: #F5F5F5; border: 1px #DFDFDF inset; text-align: justify; vertical-align: middle; text-indent: 5px}
+.liga {
+	font-style: normal;
+	white-space: nowrap;
+	font-size: xx-small;
+}
+.cajasinbordeb {
+	border: 0px none;
+	background-color: #FFFFFF;
+}
+td {  font-size: xx-small; font-family: Verdana, Arial, Helvetica, sans-serif; font-weight: normal}
+a {
+	text-decoration: none;
+	color: #000000;
+}
+.listaNon { vertical-align: middle;}
+.listaPar { vertical-align: middle; background-color: #DDDDDD;}
+.listaCorte {  font-weight: bold; background-color: #F5F5F5; vertical-align: middle; padding-top: 1px; padding-bottom: 1px}
+.listaSimple {
+	border-color: black black #CCCCCC;
+	text-indent: 15px;
+	vertical-align: middle;
+	border-style: inset;
+	border-top-width: 0px;
+	border-right-width: 0px;
+	border-bottom-width: 1px;
+	border-left-width: 0px;
+}
+.listaCorteSimple {  font-weight: bold; border-color: black black #999999; border-style: inset; border-top-width: 0px; border-right-width: 0px; border-bottom-width: 1px; border-left-width: 0px}
+input {  background-color: #FAFAFA; font-size: xx-small}
+select {  background-color: #FAFAFA; font-size: xx-small}
+textarea {  background-color: #FAFAFA; font-size: x-small}
+.superTitulo {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 150%;
+	font-style: normal;
+	font-weight: bold;
+	font-variant: small-caps;
+	text-align: center;
+	text-transform: capitalize;
+	vertical-align: middle;
+}
+.caja {
+	border-top-width: 3px;
+	border-right-width: 1px;
+	border-bottom-width: 1px;
+	border-left-width: 1px;
+	border-top-style: outset;
+	border-right-style: solid;
+	border-bottom-style: solid;
+	border-left-style: solid;
+	border-top-color: gray;
+	border-right-color: gray;
+	border-bottom-color: gray;
+	border-left-color: gray;
+}
+
+.plantillas {
+	border-top-width: 1px;
+	border-right-width: 1px;
+	border-bottom-width: 1px;
+	border-left-width: 1px;
+	border-top-style: solid;
+	border-right-style: solid;
+	border-bottom-style: solid;
+	border-left-style: solid;
+	border-top-color: gray;
+	border-right-color: gray;
+	border-bottom-color: gray;
+	border-left-color: gray;
+}
+
+.plantillaTitulo {
+	padding: 4px;
+	font-weight: bold;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: x-small;
+}
+
+a:hover {
+	color: #FF0033;
+	text-decoration: underline;
+}
+.menuOpcion {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: xx-small;
+	font-variant: small-caps;
+	text-transform: capitalize;
+	background-color: #F5F5F5;
+	text-align: center;
+	vertical-align: middle;
+	padding: 2px;
+	margin: 4px;
+	color: #000000;
+	border-bottom: 2px inset #CCCCCC;
+	font-weight: bold;
+}
+.tituloAlterno {
+	font-weight: bolder;
+	text-align: center;
+	vertical-align: middle;
+	font-size: small;
+	padding: 2px;
+	background-color: #F5F5F5;
+}
+.area {  font-weight: bold; background-color: #F5F5F5; vertical-align: middle; padding-top: 1px; padding-bottom: 1px}
+.EncabLista {
+	font-size: 14px;
+	font-style: normal;
+	color: #FFFFFF;
+	background-color: #ADADCA;
+	letter-spacing: normal;
+	text-align: left;
+	word-spacing: normal;
+	vertical-align: middle;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-weight: bold;
+}
+.superSubTitulo {
+	font-size: 125%;
+	font-weight: bold;
+	font-variant: small-caps;
+	text-transform: capitalize;
+	font-family: Arial, Helvetica, sans-serif;
+	font-style: normal;
+	vertical-align: middle;
+}
+
+.columna{
+    padding-left: 5;
+}
+
+.areaMenu {
+	padding: 2px;
+	background-color: #DFDFDF;
+}
+
+.tituloMantenimiento {
+	font-weight: bolder;
+	text-align: center;
+	vertical-align: middle;
+	font-size: small;
+	padding: 2px;
+	background-color: #F5F5F5;
+	border: 1px solid buttonshadow;
+}
+
+.tituloListas {
+	font-weight: bolder;
+	vertical-align: middle;
+	padding: 2px;
+	background-color: inactivecaption;
+	color: inactivecaptiontext;
+}
+
+.tituloCorte {
+	font-weight: bolder;
+	vertical-align: middle;
+	padding: 2px;
+	background-color: buttonface;
+	color: buttontext;
+}
+
+.areaFiltro { 	
+	background: buttonface; 
+	border-style: solid; 
+	border-width: 1px; 
+	padding: 5px;
+	border-top: 1px solid buttonshadow;
+	border-left: 1px solid buttonshadow;
+	border-right: 1px solid buttonshadow;
+	border-bottom: 1px solid buttonshadow;
+	color: buttontext;
+}
+
+.inputLabel { 	
+	border-style: solid; 
+	border-width: 0px; 
+
+	border-top: 0px solid buttonshadow;
+	border-left: 1px solid buttonshadow;
+	border-right: 0px solid buttonshadow;
+	border-bottom: 1px solid buttonshadow;
+	background-color: #FFFFFF;
+	font-weight: bold;	
+	color: #000000;
+}
+
+.encabReporte {
+	background-color: #006699;
+	font-weight: bold;
+	color: #FFFFFF;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+
+table.areaDatos {
+	padding: 5px 5px 5px 5px;
+	border: 1px solid buttonshadow;
+}
+
+table.areaDatos thead tr td {
+	background: buttonface; 
+	font-weight: bolder;
+	text-align: center;
+	vertical-align: middle;
+	font-size: small;
+	font-variant: small-caps;
+}
+
+table.areaDatos tbody tr td {
+	font-size: 12px;
+	font-style: normal;
+	letter-spacing: normal;
+	word-spacing: normal;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+
+.pageEnd {
+	page-break-before:always;
+}
+
+td.reporte {border: 1px solid black; height: 35px;}
+
+.EncabListaCorte {
+	font-size: 11px;
+	font-style: normal;
+	color: #000000;
+	background-color: #ADADCA;
+	letter-spacing: normal;
+	text-align: left;
+	word-spacing: normal;
+	vertical-align: middle;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-weight: bold;
+}
+.CeldaHdr {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14;
+    font-weight:bold;
+    color: #E6E6E6;
+    background-color: #666666;
+    vertical-align: middle;
+    border-right: 1px solid;
+    border-top: 1px solid;
+    margin: 0px;
+    padding: 1px;
+    text-align: center;
+}
+.tabSelected {
+	background-color: white;
+	font-weight: bolder;
+	font-size: 10pt;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-variant: small-caps;
+	border-top: 1px solid black;
+	border-right: 1px solid black;
+	border-bottom: 0px solid black;
+	border-left: 1px solid black;
+}
+
+.tabNormal {
+	background-color: #ADADCA;
+	font-size: 10pt;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-variant: small-caps;
+	border-top: 1px solid #FFFFFF;
+	border-right: 1px solid #666666;
+	border-bottom: 1px solid #666666;
+	border-left: 1px solid #FFFFFF;
+}
+
+.tabContent {
+	background-color: white;
+	border-top-width: 0px;
+	border-right-width: 1px;
+	border-bottom-width: 1px;
+	border-left-width: 1px;
+	border-top-style: solid;
+	border-right-style: solid;
+	border-bottom-style: solid;
+	border-left-style: solid;
+	border-top-color: #000000;
+	border-right-color: #000000;
+	border-bottom-color: #000000;
+	border-left-color: #000000;
+}
+
+.headerContent {
+	border-top-width: 1px;
+	border-right-width: 1px;
+	border-bottom-width: 1px;
+	border-left-width: 1px;
+	border-top-style: solid;
+	border-right-style: solid;
+	border-bottom-style: solid;
+	border-left-style: solid;
+	border-right-color: #666666;
+	border-bottom-color: #666666;
+	background-color: #ADADCA;
+	margin-bottom: 5px;
+}
+
+.fileLabel {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-style: normal;
+	font-weight: bold;
+	padding-right: 10px;
+}
+
+.squareFrame {
+	background-color: #CCCCCC;
+	border-top-width: 1px;
+	border-right-width: 2px;
+	border-bottom-width: 2px;
+	border-left-width: 1px;
+	border-top-color: #CCCCCC;
+	border-right-color: #666666;
+	border-bottom-color: #666666;
+	border-left-color: #CCCCCC;
+	border-top-style: solid;
+	border-right-style: solid;
+	border-bottom-style: solid;
+	border-left-style: solid;
+}
+
+.sectionTitle {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	border: 1px solid #000000;
+}
+
+.listTitle {
+	background-color: #CCCCCC;
+	border-top: 1px solid #FFFFFF;
+	border-right: 1px solid #666666;
+	border-bottom: 1px solid #666666;
+	border-left: 1px solid #FFFFFF;
+	padding: 4px;
+	font-weight: bold;
+}
+
+.listLeftContentNon {
+	background-color: #FFFFFF;
+	padding: 4px;
+	border-left: 1px solid black;
+	border-bottom: 1px solid black;
+}
+
+.listLeftContentNonSel {
+	background-color: #E4E8F3;
+	padding: 4px;
+	border-left: 1px solid black;
+	border-bottom: 1px solid black;
+}
+
+.listRightContentNon {
+	background-color: #FFFFFF;
+	padding: 4px;
+	border-right: 1px solid black;
+	border-bottom: 1px solid black;
+}
+
+.listCenterContentNon {
+	background-color: #FFFFFF;
+	padding: 4px;
+	border-bottom: 1px solid black;
+}
+
+.listLeftContentPar {
+	background-color: #DBDBDB;
+	padding: 4px;
+	border-left: 1px solid black;
+	border-bottom: 1px solid black;
+}
+
+.listRightContentPar {
+	background-color: #DBDBDB;
+	padding: 4px;
+	border-right: 1px solid black;
+	border-bottom: 1px solid black;
+}
+
+.listCenterContentPar {
+	background-color: #DBDBDB;
+	padding: 4px;
+	border-bottom: 1px solid black;
+}
+.EncabBloque {
+	font-size: 14px;
+	font-style: normal;
+	color: #000000;
+	background-color: #CCCCCC;
+	letter-spacing: normal;
+	text-align: left;
+	word-spacing: normal;
+	vertical-align: middle;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-weight: bold;
+	
+	border-color: black black #CCCCCC;
+	border-style: inset;
+    border-top-width: 0px;
+    border-right-width: 1px;
+    border-bottom-width: 3px;
+    border-left-width: 0px	
+}
+
+input.etiquetaInput {
+	border-style: inset;
+	border-top-width: 0px;
+	border-right-width: 0px;
+	border-left-width: 0px;
+	border-bottom-width: 0px;
+	vertical-align: middle;
+	border-color: #FFFFFF; 
+	background-color: #FFFFFF;
+}
+.tabsnorm {
+	background-image: url('/cfmx/educ/imagenes/menues/tabs.gif');
+	font-size: 10pt;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-variant: small-caps;
+	border-top: 1px solid #FFFFFF;
+	border-right: 1px solid #666666;
+	border-bottom: 1px solid #666666;
+	border-left: 1px solid #FFFFFF;
+	background-repeat: repeat;
+	cursor: pointer;
+}
+.tabssel {
+	background-color: #CCCCCC;
+	background-image: url('/cfmx/educ/imagenes/menues/tabs.gif');
+	font-weight: bolder;
+	font-size: 10pt;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-variant: small-caps;
+	border-top: 1px solid black;
+	border-right: 1px solid black;
+	border-bottom: 0px solid black;
+	border-left: 1px solid black;
+	color: #FFFFFF;
+}
+.tabstitle {
+	background-color: #CCCCCC;
+	background-image: url('/cfmx/educ/imagenes/menues/tabs.gif');
+	font-weight: bolder;
+	font-size: 10pt;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-variant: small-caps;
+	border-top: 1px solid black;
+	border-right: 1px solid black;
+	border-bottom: 0px solid black;
+	border-left: 1px solid black;
+	color: #FFFFFF;
+	background-position: center center;
+}

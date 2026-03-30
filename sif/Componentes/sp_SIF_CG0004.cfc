@@ -1,0 +1,967 @@
+﻿<cfcomponent>
+	<cffunction name="CreaCuentas" access="public" output="false" returntype="string">
+		<cf_dbtemp name="CG0004_cuentas">
+			<cf_dbtempcol name="Ecodigo"  		type="int"    		mandatory="yes">			
+			<cf_dbtempcol name="Ccuenta"		type="numeric">
+
+			<cf_dbtempcol name="Periodo"		type="int">
+			<cf_dbtempcol name="Mes"			type="int">
+			<cf_dbtempcol name="Oficina"		type="int" 			mandatory ="yes">
+			
+			<cf_dbtempcol name="corte"  		type="int">
+			<cf_dbtempcol name="nivel"  		type="int">
+			<cf_dbtempcol name="tipo"  			type="char(1)">						
+			<cf_dbtempcol name="ntipo"  		type="char(20)">
+			<cf_dbtempcol name="mayor"  		type="char(4)">
+			<cf_dbtempcol name="descrip"  		type="char(80)">
+			<cf_dbtempcol name="formato"  		type="char(100)">
+			<cf_dbtempcol name="saldoini"  		type="money">
+			<cf_dbtempcol name="debitos"  		type="money">
+			<cf_dbtempcol name="creditos"		type="money">
+			<cf_dbtempcol name="movmes"			type="money">			
+			<cf_dbtempcol name="saldofin"  		type="money">			
+			<cf_dbtempcol name="Mcodigo"  		type="numeric">	
+            <cf_dbtempcol name="Ordenar"  		type="numeric">			
+ 
+			<cf_dbtempkey cols="Ccuenta, Oficina">
+			<cf_dbtempkey cols="nivel, Ccuenta, Oficina">
+
+		</cf_dbtemp>
+		<cfreturn temp_table>		
+	</cffunction>	
+	
+	<cffunction name="sbGeneraError" output="false" returntype="void">
+		<cfargument name="empresas">
+		<cfargument name="error">
+		<cfif arguments.empresas NEQ "">
+			<cfthrow message="Grupo de Empresas: #arguments.error# en las siguientes empresas: #replace(arguments.empresas,",","","ONE")#">
+		</cfif>
+	</cffunction>
+	<!--- Balance de Comprobacion --->
+	<cffunction name='balanceComprob' access='public' output='false' returntype="numeric">
+		<cfargument name='Ecodigo' type='numeric' required="yes">
+		<cfargument name='Ocodigo' type='numeric' default="-1">		
+		<cfargument name='periodo' type='numeric' required="yes">
+		<cfargument name='mes' type='numeric' required="yes">
+		<cfargument name='nivel' type='numeric' default="1">
+		<cfargument name='Mcodigo' type='numeric' default="-2">
+		<cfargument name='cuentaini' type='string' default="">
+		<cfargument name='cuentafin' type='string' default=""> 				
+		<cfargument name='ceros' type='string' default="N">				
+		<cfargument name='debug' type='string' default="N">								
+		<cfargument name='conexion' type='string' required='false' default="#Session.DSN#">
+		<cfargument name='incluirOficina' type="boolean" required="no" default="false">
+
+		<!--- Para el manejo de grupos de empresas y oficinas --->
+		<cfargument name='myGEid' type='numeric' default="-1">
+		<cfargument name='myGOid' type='numeric' default="-1">
+		<cfargument name='MesCierre' type='numeric' default="0">
+
+		<cfset LvarMesReporte = Arguments.mes>
+		<cfset LvarPeriodoReporte = Arguments.periodo>
+		
+		<!--- Variables --->
+		<cfset titulo = "">
+		<cfset rangotipos = "">		
+		<cfset nivelcuenta = -1>
+		<cfset nivelactual = -1>
+		<cfset nivelanteri = -1>
+		<cfset cuentapiv = "">
+		<cfset RCVacio  = false>
+
+		<cfif arguments.Mcodigo EQ -2>
+			<!--- SALDOS EN MONEDA LOCAL --->
+			<cfquery name="rs_Monloc" datasource="#arguments.conexion#">
+				select Mcodigo 
+				  from Empresas 
+				 where Ecodigo = #arguments.Ecodigo#
+			</cfquery>
+		
+			<cfset LvarMcodigo = rs_Monloc.Mcodigo>
+			<cfif rtrim(LvarMcodigo) EQ "">
+				<cfthrow message="No se ha definido la Moneda Local en la Empresa">
+			</cfif>
+		<cfelseif arguments.Mcodigo EQ -3>
+			<!--- SALDOS EN MONEDA DE CONVERSION --->
+			<cfquery name="rs_Monconv" datasource="#arguments.conexion#">
+				select Pvalor 
+				  from Parametros
+				 where Ecodigo = #arguments.Ecodigo#
+				   and Pcodigo = 660
+			</cfquery>
+		
+			<cfset LvarMcodigo = rs_Monconv.Pvalor>
+			<cfif rtrim(LvarMcodigo) EQ "">
+				<cfthrow message="No se ha definido la Moneda de Conversión en Parámetros">
+			</cfif>
+		<cfelseif arguments.Mcodigo EQ -4>
+			<!--- SALDOS EN MONEDA DE CONVERSION --->
+			<cfquery name="rs_MonB15" datasource="#arguments.conexion#">
+				select Pvalor 
+				  from Parametros
+				 where Ecodigo = #arguments.Ecodigo#
+				   and Pcodigo = 3900
+			</cfquery>
+		
+			<cfset LvarMcodigo = rs_MonB15.Pvalor>
+			<cfif rtrim(LvarMcodigo) EQ "">
+				<cfthrow message="No se ha definido la Moneda de Informe B15 en Parámetros">
+			</cfif>
+         
+         <cfelseif arguments.Mcodigo EQ -5>
+			<!--- SALDOS EN MONEDA DE CONVERSION FUNCIONAL --->
+			<cfquery name="rs_MonB15" datasource="#arguments.conexion#">
+				select Pvalor 
+				  from Parametros
+				 where Ecodigo = #arguments.Ecodigo#
+				   and Pcodigo = 3810
+			</cfquery>
+		
+			<cfset LvarMcodigo = rs_MonB15.Pvalor>
+			<cfif rtrim(LvarMcodigo) EQ "">
+				<cfthrow message="No se ha definido la Moneda Funcional en Parámetros">
+			</cfif>
+            
+		<cfelse>
+			<!--- SALDOS EN MONEDA ORIGEN --->
+			<cfset LvarMcodigo = arguments.Mcodigo>
+		</cfif>
+
+
+		<cfquery name="rsMonedas" datasource="#arguments.conexion#">
+			Select Mnombre, Miso4217
+			  from Monedas 
+			 where Mcodigo = #LvarMcodigo#
+		</cfquery>
+		<cfset LvarMiso4217 = rsMonedas.Miso4217>
+		<cfset LvarMnombre = rsMonedas.Mnombre>
+
+		<cfif rtrim(LvarMiso4217) EQ "">
+			<cfthrow message="No se ha definido la Moneda Mcodigo '#LvarMcodigo#'">
+		</cfif>
+
+		<cfset lvarB15V = 0> 
+		<cfif arguments.Mcodigo EQ -2>
+			<cfset titulo = "Balance de Comprobación en Moneda Local: " & LvarMnombre>
+		<cfelseif arguments.Mcodigo EQ -3>
+			<cfset titulo = "Balance de Comprobación Expresado en " & LvarMnombre>
+		<cfelseif arguments.Mcodigo EQ -4>
+			<cfset lvarB15V = 2> 
+			<cfset titulo = "Balance de Comprobación en Informe B15: " & LvarMnombre>
+        <cfelseif arguments.Mcodigo EQ -5>
+			<cfset lvarB15V = 1> 
+			<cfset titulo = "Balance de Comprobación en Funcional B15: " & LvarMnombre>
+		<cfelse>
+			<cfset titulo = "Balance de Comprobación en Moneda Origen: " & LvarMnombre>
+		</cfif>
+		
+		<cfset rangotipos = "">
+		<cfif arguments.cuentaini EQ '' and arguments.cuentafin EQ ''>
+			<cfset RCVacio =true>
+			<cfset rangotipos = "Todas las Cuentas">
+		</cfif>
+			
+		<cfif arguments.cuentaini NEQ ''>
+			<cfquery name="rs_DesCContables" datasource="#arguments.conexion#">
+				select Cformato
+				from CContables
+				where Ecodigo  = #arguments.Ecodigo#
+				  and Cformato = '#arguments.cuentaini#'
+			</cfquery>
+
+			<cfif isdefined('rs_DesCContables') and rs_DesCContables.recordCount GT 0>
+				<cfset rangotipos = "Desde: #trim(rs_DesCContables.Cformato)# ">
+			</cfif>		
+		</cfif>
+
+		<cfif arguments.cuentafin NEQ ''>
+			<cfquery name="rs_DesCContables" datasource="#arguments.conexion#">
+				select Cformato
+				from CContables
+				where Ecodigo = #arguments.Ecodigo#
+				  and Cformato = '#arguments.cuentafin#'
+			</cfquery>
+	
+			<cfif isdefined('rs_DesCContables') and rs_DesCContables.recordCount GT 0>
+					<cfset rangotipos = rangotipos & " hasta la cuenta: " & trim(rs_DesCContables.Cformato)>
+			</cfif>
+		</cfif>
+	
+			
+		<cfset mySLinicial = "SLinicial">
+		<cfset mySOinicial = "SOinicial">
+		<!--- Obtiene las empresas del grupo seleccionado --->
+		<cfset lstGE = "-1">
+		<cfif arguments.myGEid neq -1>
+			<cfif arguments.Mcodigo EQ -3 or arguments.Mcodigo EQ -4 or arguments.Mcodigo EQ -5>
+				<!--- No se ha implementado Saldos Corporativos en Saldos Convertidos --->
+				<cfset mySLinicial = "SLinicial">
+				<cfset mySOinicial = "SOinicial">
+			<cfelse>
+				<cfset mySLinicial = "SLinicialGE">
+				<cfset mySOinicial = "SOinicialGE">
+			</cfif>
+			<cfquery name="rsGE" datasource="#session.DSN#">
+				select gd.Ecodigo
+				from AnexoGEmpresa ge
+					join AnexoGEmpresaDet gd
+						on ge.GEid = gd.GEid					
+				where ge.GEid = #arguments.myGEid#									
+			</cfquery>
+			<cfset lstGE = valueList(rsGE.Ecodigo)>
+
+			<!--- Validaciones en cada una de las empresas: 
+				1) Que se haya inicializado el período corporativo en todas las empresas y que sea el mismo período corporativo
+				2) Que exista la moneda de expresión y que sea la misma moneda de expresión 
+			--->
+			<cfquery name="rsSQL" datasource="#arguments.conexion#">
+				select Pvalor 
+				  from Parametros
+				 where Ecodigo = #arguments.Ecodigo#
+				   and Pcodigo = 46
+			</cfquery>
+			<cfset LvarMesCierreCorp = rsSQL.Pvalor>
+
+			<cfset LvarErr1 = "">
+			<cfset LvarErr2 = "">
+			<cfset LvarErr3 = "">
+			<cfset LvarErr4 = "">
+			<cfset LvarErr5 = "">
+			<cfquery name="rsSQL" datasource="#arguments.conexion#">
+				select Ecodigo, Edescripcion,
+						(
+							select Pvalor 
+							  from Parametros
+							 where Ecodigo = Empresas.Ecodigo
+							   and Pcodigo = 46
+						) as MesCierreCorp,
+						(
+							select Mcodigo
+							  from Monedas
+							 where Ecodigo  = Empresas.Ecodigo
+							   and Miso4217 = <cfqueryparam cfsqltype="cf_sql_varchar" value="#LvarMiso4217#">
+						) as Mcodigo1
+					<cfif arguments.Mcodigo EQ -2>
+						<!--- MONEDA LOCAL --->
+						,Mcodigo as Mcodigo2
+					<cfelseif arguments.Mcodigo EQ -3>
+						<!--- MONEDA DE CONVERSION --->
+						,(
+							select Pvalor 
+							  from Parametros
+							 where Ecodigo = Empresas.Ecodigo
+							   and Pcodigo = 660
+						) as Mcodigo2
+					<cfelseif arguments.Mcodigo EQ -4>
+						<!--- MONEDA DE B15 --->
+						,(
+							select Pvalor 
+							  from Parametros
+							 where Ecodigo = Empresas.Ecodigo
+							   and Pcodigo = 3900
+						) as Mcodigo2
+                     <cfelseif arguments.Mcodigo EQ -5>
+						<!--- MONEDA DE B15 --->
+						,(
+							select Pvalor 
+							  from Parametros
+							 where Ecodigo = Empresas.Ecodigo
+							   and Pcodigo = 3810
+						) as Mcodigo2
+					</cfif>
+				  from Empresas
+				 where Ecodigo in (#lstGE#)
+			</cfquery>
+			<cfloop query="rsSQL">
+				<cfif rsSQL.MesCierreCorp EQ "" OR rsSQL.MesCierreCorp LT 0>
+					<cfset LvarErr1 = LvarErr1 & "," & rsSQL.Edescripcion>
+				<cfelseif LvarMesCierreCorp NEQ "" AND LvarMesCierreCorp GT 0 AND LvarMesCierreCorp NEQ rsSQL.MesCierreCorp>
+					<cfset LvarErr2 = LvarErr2 & "," & rsSQL.Edescripcion>
+				</cfif>
+				<cfif rsSQL.Mcodigo1 EQ "">
+					<cfset LvarErr3 = LvarErr3 & "," & rsSQL.Edescripcion>
+				<cfelseif arguments.Mcodigo LT 0 AND rsSQL.Mcodigo2 EQ "">
+					<cfset LvarErr4 = LvarErr4 & "," & rsSQL.Edescripcion>
+				<cfelseif arguments.Mcodigo LT 0 AND rsSQL.Mcodigo1 NEQ rsSQL.Mcodigo2>
+					<cfset LvarErr5 = LvarErr5 & "," & rsSQL.Edescripcion>
+				</cfif>
+			</cfloop>
+			<cfset sbGeneraError (LvarErr1, "No se ha inicializado el Mes de Cierre Corporativo")>
+			<cfset sbGeneraError (LvarErr2, "Mes de Cierre Corporativo diferente a '#LvarMesCierreCorp#'")>
+			<cfif arguments.Mcodigo EQ -2>
+				<cfset sbGeneraError (LvarErr4, "No se ha definido la Moneda Local")>
+				<cfset sbGeneraError (LvarErr5, "Moneda Local diferente a '#LvarMiso4217#'")>
+			<cfelseif arguments.Mcodigo EQ -3>
+				<cfset sbGeneraError (LvarErr4, "No se ha definido la Moneda de Conversión en Parámetros")>
+				<cfset sbGeneraError (LvarErr5, "Moneda de Conversión diferente a '#LvarMiso4217#'")>
+			<cfelseif arguments.Mcodigo EQ -4>
+				<cfset sbGeneraError (LvarErr4, "No se ha definido la Moneda de Informe B15 en Parámetros")>
+				<cfset sbGeneraError (LvarErr5, "Moneda de Informe B15 diferente a '#LvarMiso4217#'")>
+            <cfelseif arguments.Mcodigo EQ -5>
+				<cfset sbGeneraError (LvarErr4, "No se ha definido la Moneda Funcional B15 en Parámetros")>
+				<cfset sbGeneraError (LvarErr5, "Moneda Funcional B15 diferente a '#LvarMiso4217#'")>
+			<cfelse>
+				<!--- Cuando la Moneda es extrajera no tiene que existir en todas las empresas --->
+			</cfif>
+		</cfif>
+
+		<!--- Obtiene las oficinas del grupo seleccionado --->
+		<cfset lstGO = "-1">
+		<cfif arguments.myGOid neq -1>
+			<cfquery name="rsGO" datasource="#session.DSN#">				  
+				select b.Ocodigo
+				from AnexoGOficina a
+					inner join AnexoGOficinaDet b on
+						a.GOid = b.GOid and
+						a.Ecodigo = b.Ecodigo
+				where a.GOid = #arguments.myGOid#
+				  and a.Ecodigo = #arguments.Ecodigo#  					  
+			</cfquery>
+			<cfset lstGO = valueList(rsGO.Ocodigo)>
+		</cfif>
+
+		<!--- Creacion de la tabla temporal de Cuentas --->
+		<cfset cuentas = this.CreaCuentas()>
+
+		<cfset LvarTablaSaldos = "SaldosContables">
+		<cfif arguments.Mcodigo EQ -3 or arguments.Mcodigo EQ -4 or arguments.Mcodigo EQ -5 >
+			<cfset LvarTablaSaldos = "SaldosContablesConvertidos">
+		</cfif>
+
+		<!--- Inserta las cuentas de Mayor --->
+		<cfquery name="A_Cuentas" datasource="#arguments.conexion#">
+			insert INTO #cuentas# (
+					Ecodigo, mayor, descrip, Ccuenta, Periodo, Mes, 
+					Oficina, 
+					formato, saldoini, debitos, creditos, movmes, saldofin, tipo, nivel, Mcodigo,Ordenar
+				)
+			select 	b.Ecodigo,	b.Cmayor, 
+					<cfif Arguments.myGEid EQ -1>
+						a.Cdescripcion, 
+					<cfelse>
+						coalesce(
+							(select Cdescripcion from CContables where Ecodigo = #session.Ecodigo# and Cformato = a.Cformato)
+						,
+							(select min(Cdescripcion) from CContables where Ecodigo in (#lstGE#) and Cformato = a.Cformato)
+						), 
+					</cfif>
+					a.Ccuenta, #arguments.periodo#, #arguments.mes#,
+					<cfif Arguments.incluirOficina OR Arguments.myGOid NEQ -1>
+						o.Ocodigo,
+					<cfelse>
+						<cfif arguments.Ocodigo EQ -1>
+								-1,
+						<cfelse>
+								<cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.Ocodigo#">,
+						</cfif>
+					</cfif>
+					a.Cformato, 0.00, 0.00, 0.00, 0.00, 0.00, b.Ctipo, case when a.Cformato = b.Cmayor then 0 else 1 end as nivel, 
+				<cfif arguments.Mcodigo EQ -2>
+					<cfif Application.dsinfo[arguments.conexion].type EQ 'db2'>CAST (NULL AS numeric)<cfelse>null</cfif> 
+				<cfelse>
+					(select Mcodigo from Monedas where Ecodigo = b.Ecodigo and Miso4217 = '#LvarMiso4217#')
+				</cfif>
+                 ,case when Ctipo = 'A' then 1
+                      when Ctipo = 'P' then 2
+                      when Ctipo = 'C' then 3
+                      when Ctipo = 'I' then 4
+                      when Ctipo = 'G' then 5
+                      when Ctipo = 'O' then 6
+                   end as Ordenar                    
+			from CtasMayor b
+				inner join CContables a
+				 on a.Ecodigo  = b.Ecodigo
+				and a.Cmayor   = b.Cmayor
+				<cfif arguments.nivel GTE 0>
+					and a.Cformato = b.Cmayor
+				<cfelseif arguments.nivel EQ -2>
+					and a.Cmovimiento = 'S' and a.Cformato <> b.Cmayor
+				<cfelse>
+					and (a.Cmovimiento = 'S' or a.Cformato = b.Cmayor)
+				</cfif>
+				<cfif Arguments.incluirOficina OR Arguments.myGOid NEQ -1>
+					inner join Oficinas o
+					on o.Ecodigo = a.Ecodigo
+					<cfif Arguments.Ocodigo NEQ -1>
+						and o.Ocodigo =	#arguments.Ocodigo#
+					<cfelseif Arguments.myGOid NEQ -1>
+						and o.Ocodigo in (#lstGO#)
+					</cfif>
+				</cfif>
+			where <cfif Arguments.myGEid EQ -1>b.Ecodigo = #arguments.Ecodigo#<cfelse>b.Ecodigo in (#lstGE#)</cfif>
+			<cfif not RCvacio>
+				<cfif arguments.cuentaini NEQ ''>
+					and b.Cmayor >= '#arguments.cuentaini#'
+				</cfif>
+				<cfif arguments.cuentafin NEQ ''>
+					and b.Cmayor <= '#arguments.cuentafin#'
+				</cfif>
+			</cfif>
+            order by Ordenar
+		</cfquery>		
+
+		<cfif arguments.nivel GTE 0>
+			<cfset nivelactual = 1>
+			<cfset nivelanteri = 0>
+			<cfloop condition = "nivelactual LESS THAN arguments.nivel">
+
+				<cfquery name="A2_Cuentas" datasource="#arguments.conexion#">
+					insert INTO #cuentas# (
+							Ecodigo, nivel, mayor, descrip, Ccuenta, 
+							Periodo, Mes, Oficina,
+							formato, saldoini, debitos, creditos, movmes, saldofin, tipo, Mcodigo)					
+					select 
+						  b.Ecodigo, #nivelactual#, b.Cmayor, 
+						<cfif Arguments.myGEid EQ -1>
+							b.Cdescripcion, 
+						<cfelse>
+							coalesce(
+								(select Cdescripcion from CContables where Ecodigo = #session.Ecodigo# and Cformato = b.Cformato)
+							,
+								(select min(Cdescripcion) from CContables where Ecodigo in (#lstGE#) and Cformato = b.Cformato)
+							), 
+						</cfif>
+						  b.Ccuenta
+						, #arguments.periodo#, #arguments.mes#, a.Oficina
+						, b.Cformato, 0.00, 0.00, 0.00, 0.00, 0.00, a.tipo, a.Mcodigo
+					from #cuentas# a
+						inner join CContables b
+						on b.Cpadre = a.Ccuenta
+					where a.nivel = #nivelanteri#
+					<cfif Arguments.incluirOficina>
+						and exists(
+							select 1
+							  from #LvarTablaSaldos# s
+							 where s.Ccuenta  = b.Ccuenta
+							   and s.Speriodo = a.Periodo
+							   and s.Smes     = a.Mes
+							   and s.Ocodigo  = a.Oficina
+                               <cfif arguments.Mcodigo EQ -3 or arguments.Mcodigo EQ -4 or arguments.Mcodigo EQ -5>
+								   and s.B15 = #lvarB15V#
+                               </cfif>
+							)
+					</cfif>
+				</cfquery>
+	
+				<cfset nivelanteri = nivelactual>
+				<cfset nivelactual = nivelactual + 1>
+			</cfloop>
+		</cfif>
+		
+		<cfif arguments.debug EQ 'S'>
+			<cfquery name="All_Cuentas" datasource="#arguments.conexion#">
+				select Ecodigo, corte, nivel, tipo, ntipo, mayor, Ccuenta, descrip, formato, saldoini, debitos, creditos, movmes, saldofin, Mcodigo
+				from #cuentas#
+			</cfquery>
+			
+			<cfif isdefined('All_Cuentas') and All_Cuentas.recordCount GT 0>
+				<cfdump var="#All_Cuentas#" label="Cuentas TMP">
+			</cfif>
+		</cfif>
+
+		<!--- Cálculo de Montos --->
+		<cfif not arguments.MesCierre>
+			<cfif arguments.Mcodigo EQ -2>
+				<cfset LvarCalculoMontoLocal = CalculoMontoLocal(#arguments.periodo#,#arguments.mes#,#arguments.conexion#,#arguments.incluirOficina#,#arguments.Ocodigo#,#arguments.myGOid#)>
+			<cfelseif arguments.Mcodigo EQ -3 or arguments.Mcodigo EQ -4 or arguments.Mcodigo EQ -5>
+				<cfset LvarCalculoMontosConvertidos = CalculoMontosConvertidos(#arguments.periodo#,#arguments.mes#,#arguments.conexion#,#arguments.incluirOficina#,#arguments.Ocodigo#,#arguments.myGOid#,lvarB15V)>
+			<cfelse>
+				<cfset LvarMonedaOrigen = MonedaOrigen(#arguments.periodo#,#arguments.mes#,#arguments.conexion#,#arguments.incluirOficina#,#arguments.Ocodigo#,#arguments.myGOid#)>
+			</cfif>
+		<cfelseif arguments.MesCierre>
+			<cfif arguments.myGEid neq -1>
+				<cfthrow message="No se ha implementado Cierre Anual para Grupo de Empresas">
+			</cfif>
+			<cfif arguments.Mcodigo EQ -2>
+				<cfset LvarCalculoMontoLocalMesCierre = CalculoMontoLocalMesCierre(#arguments.Ecodigo#,#arguments.nivel#,#arguments.periodo#,#arguments.mes#,#arguments.conexion#,#arguments.incluirOficina#,#arguments.Ocodigo#,#arguments.myGOid#)>
+			<cfelseif arguments.Mcodigo EQ -3 or arguments.Mcodigo EQ -4 or arguments.Mcodigo EQ -5>
+				<cfset LvarCalculoMontosConvertidosCierre = CalculoMontosConvertidosCierre(#arguments.periodo#,#arguments.mes#,#arguments.conexion#,#arguments.incluirOficina#,#arguments.Ocodigo#,#arguments.myGOid#,lvarB15V)>
+			<cfelse>
+				<cfset LvarMonedaOrigenMesCierre = MonedaOrigenMesCierre(#arguments.Ecodigo#,#arguments.nivel#,#arguments.Mcodigo#,#arguments.periodo#,#arguments.mes#,#arguments.conexion#,#arguments.incluirOficina#,#arguments.Ocodigo#,#arguments.myGOid#)>
+			</cfif>
+		</cfif>
+			
+		<cfquery datasource="#arguments.conexion#">
+			update #cuentas# set 
+				saldofin = coalesce(saldoini, 0.00) + coalesce(debitos, 0.00) - coalesce(creditos, 0.00),
+				movmes = coalesce(debitos,0.00) - coalesce(creditos,0.00)
+		</cfquery>
+
+		<cfquery datasource="#arguments.conexion#">
+			update #cuentas# set 
+					corte = case 
+						when tipo = 'A' 
+							then 1
+						when tipo = 'P'
+							 then 2
+						when tipo = 'C'
+							 then 3
+						when tipo = 'I'
+							 then 4
+						when tipo = 'G'
+							 then 6
+						when tipo = 'O'
+							 then 7
+						end
+					, ntipo = case 
+						when tipo = 'A' 
+							then 'Activo'
+						when tipo = 'P'
+							 then 'Pasivo'
+						when tipo = 'C'
+							 then 'Capital'
+						when tipo = 'I'
+							 then 'Ingreso'
+						when tipo = 'G'
+							 then 'Gasto'
+						when tipo = 'O'
+							 then 'Orden'
+						end
+				<cfif arguments.nivel NEQ -2>
+					where nivel = 0
+					  and mayor = formato
+				</cfif>
+		</cfquery>
+
+		<cfset m1 = 0>
+		<cfset m2 = 0>	
+		<cfset m3 = 0>	
+		<cfset m4 = 0>	
+		<cfset m5 = 0>	
+	
+		<cfquery name="All_CuentasTmp10" datasource="#arguments.conexion#">
+			select coalesce(sum(saldoini),0) as SumSaldoini,
+				coalesce(sum(debitos),0) as SumDebitos,
+				coalesce(sum(creditos),0) as SumCreditos,
+				coalesce(sum(saldoini + debitos - creditos),0) as SalDevCred
+			from #cuentas#
+			<cfif arguments.nivel NEQ -2>
+				where nivel = 0
+				  and mayor = formato
+			</cfif>
+		</cfquery>
+	
+		<cfif isdefined('All_CuentasTmp10') and All_CuentasTmp10.recordCount GT 0>
+			<cfset m1 = All_CuentasTmp10.SumSaldoini>
+			<cfset m2 = All_CuentasTmp10.SumDebitos>
+			<cfset m3 = All_CuentasTmp10.SumCreditos>
+			<cfset m4 = All_CuentasTmp10.SalDevCred>
+			<cfset m5 = m2 - m3>
+		</cfif>
+	
+		<cftransaction> 			
+			<cfquery name="A_BalCompro" datasource="#arguments.conexion#">
+				insert INTO CGRBalanceComprobacion (SessionID,Ecodigo,Usucodigo,fechareporte)
+				values (
+					#session.monitoreo.SessionID#
+					, #arguments.Ecodigo#
+					, #session.Usucodigo#
+					, #now()#
+				)
+
+			  <cf_dbidentity1 datasource="#arguments.conexion#">
+			</cfquery>
+			
+			<cf_dbidentity2 datasource="#arguments.conexion#" name="A_BalCompro">
+		</cftransaction>
+				
+		<cfif isdefined('A_BalCompro') and A_BalCompro.identity NEQ ''>
+			<cfquery name="A_BalComproD" datasource="#arguments.conexion#">
+				insert INTO DCGRBalanceComprobacion 
+					(
+						Ccuenta,Ecodigo,CGRBCid, Ocodigo,
+						corte,nivel,tipo,ntipo,
+						mayor,descrip,formato,
+						saldoini,saldofin,debitos,
+						creditos, movmes,Mcodigo,Edescripcion, 
+						totdebitos,totcreditos,totmovmes,totsaldofin,
+						rango)
+				select  
+						Ccuenta, Ecodigo, #A_BalCompro.identity#, Oficina,
+						corte, nivel, tipo, ntipo, 
+						mayor, descrip, formato, 
+						saldoini, saldofin, debitos, 
+						creditos, movmes, Mcodigo, (select Edescripcion from Empresas where Ecodigo = #cuentas#.Ecodigo)
+						, #m2# as totdebitos
+						, #m3# as totcreditos
+						, #m5# as totmovmes
+						, #m4# as totsaldofin	
+						, '#rangotipos#' as rango												
+				from #cuentas#
+				<cfif arguments.ceros EQ 'N'>
+					where saldoini <> 0.00 
+					  or debitos   <> 0.00 
+					  or creditos  <> 0.00 
+					  or movmes    <> 0.00
+				</cfif>
+			</cfquery>				
+			<cfset varResult = A_BalCompro.identity>
+		<cfelse>
+			<cfset varResult = -1>
+		</cfif>
+
+		<cfreturn varResult>
+	</cffunction>
+
+	<cffunction name="CalculoMontosConvertidos" access='private' output="no">
+		<cfargument name='periodo' type='numeric' required="yes">
+		<cfargument name='mes' type='numeric' required="yes">
+		<cfargument name='conexion' type='string' required='false' default="#Session.DSN#">
+		<cfargument name='incluirOficina' type="boolean" required="no" default="false">
+		<cfargument name='Ocodigo' type='numeric' default="-1">
+		<cfargument name='myGOid' type='numeric' default="-1">
+		<cfargument name='B15' type='numeric' default="0">
+
+		<cfquery datasource="#arguments.conexion#">
+			update #cuentas# set 
+				saldoini = coalesce((select sum(#mySLinicial#)
+						  from SaldosContablesConvertidos a
+						  where a.Ccuenta = #cuentas#.Ccuenta
+							and a.Speriodo = #cuentas#.Periodo
+							and a.Smes = #cuentas#.Mes
+							and a.Ecodigo = #cuentas#.Ecodigo
+							and a.Mcodigo = #cuentas#.Mcodigo
+							<cfif arguments.incluirOficina or arguments.Ocodigo NEQ -1 or arguments.myGOid NEQ -1>
+								and a.Ocodigo = #cuentas#.Oficina
+							</cfif>
+							and a.B15 = #arguments.B15#
+							)
+					, 0.00),
+				
+				debitos =  coalesce((select sum(DLdebitos)
+						  from SaldosContablesConvertidos a
+						  where a.Ccuenta = #cuentas#.Ccuenta
+							and a.Speriodo = #cuentas#.Periodo
+							and a.Smes = #cuentas#.Mes
+							and a.Ecodigo = #cuentas#.Ecodigo
+							and a.Mcodigo = #cuentas#.Mcodigo
+							<cfif arguments.incluirOficina or arguments.Ocodigo NEQ -1 or arguments.myGOid NEQ -1>
+								and a.Ocodigo = #cuentas#.Oficina
+							</cfif>
+							and a.B15 = #arguments.B15#
+							)
+				
+					, 0.00),
+				
+				creditos =  coalesce((select sum(CLcreditos)
+						  from SaldosContablesConvertidos a
+						  where a.Ccuenta = #cuentas#.Ccuenta
+							and a.Speriodo = #cuentas#.Periodo
+							and a.Smes = #cuentas#.Mes
+							and a.Ecodigo = #cuentas#.Ecodigo
+							and a.Mcodigo = #cuentas#.Mcodigo
+							<cfif arguments.incluirOficina or arguments.Ocodigo NEQ -1 or arguments.myGOid NEQ -1>
+								and a.Ocodigo = #cuentas#.Oficina
+							</cfif>
+							and a.B15 = #arguments.B15#
+							)
+					, 0.00)			
+			</cfquery>
+	</cffunction>
+
+	<cffunction name="CalculoMontoLocal" access='private' output="no">
+		<cfargument name='periodo' type='numeric' required="yes">
+		<cfargument name='mes' type='numeric' required="yes">
+		<cfargument name='conexion' type='string' required='false' default="#Session.DSN#">
+		<cfargument name='incluirOficina' type="boolean" required="no" default="false">
+		<cfargument name='Ocodigo' type='numeric' default="-1">
+		<cfargument name='myGOid' type='numeric' default="-1">
+
+		<cfquery datasource="#arguments.conexion#">
+			update #cuentas# set 
+				saldoini = coalesce((
+					select sum(#mySLinicial#)
+					from SaldosContables a
+					where a.Ccuenta = #cuentas#.Ccuenta
+					  and a.Speriodo = #cuentas#.Periodo
+					  and a.Smes = #cuentas#.Mes
+					  and a.Ecodigo = #cuentas#.Ecodigo
+					<cfif arguments.incluirOficina or arguments.Ocodigo NEQ -1 or arguments.myGOid NEQ -1>
+							and a.Ocodigo = #cuentas#.Oficina
+					</cfif>
+					), 0.00),
+				
+				debitos =  coalesce((select sum(DLdebitos)
+					from SaldosContables a
+					where a.Ccuenta = #cuentas#.Ccuenta
+					  and a.Speriodo = #cuentas#.Periodo
+					  and a.Smes = #cuentas#.Mes
+					  and a.Ecodigo = #cuentas#.Ecodigo
+					<cfif arguments.incluirOficina or arguments.Ocodigo NEQ -1 or arguments.myGOid NEQ -1>
+							and a.Ocodigo = #cuentas#.Oficina
+					</cfif>
+					), 0.00),
+				
+				creditos =  coalesce((select sum(CLcreditos)
+					from SaldosContables a
+					where a.Ccuenta = #cuentas#.Ccuenta
+					  and a.Speriodo = #cuentas#.Periodo
+					  and a.Smes = #cuentas#.Mes
+					  and a.Ecodigo = #cuentas#.Ecodigo
+					<cfif arguments.incluirOficina or arguments.Ocodigo NEQ -1 or arguments.myGOid NEQ -1>
+							and a.Ocodigo = #cuentas#.Oficina
+					</cfif>
+					), 0.00)			
+		</cfquery>
+	</cffunction>
+
+	<cffunction name="MonedaOrigen" access='private' output="no">
+		<cfargument name='periodo' type='numeric' required="yes">
+		<cfargument name='mes' type='numeric' required="yes">
+		<cfargument name='conexion' type='string' required='false' default="#Session.DSN#">
+		<cfargument name='incluirOficina' type="boolean" required="no" default="false">
+		<cfargument name='Ocodigo' type='numeric' default="-1">
+		<cfargument name='myGOid' type='numeric' default="-1">
+
+		<cfquery datasource="#arguments.conexion#">
+			 update #cuentas# set 
+				saldoini = coalesce((select sum(#mySOinicial#)
+								from SaldosContables a
+								where a.Ccuenta = #cuentas#.Ccuenta
+								  and a.Speriodo = #cuentas#.Periodo
+								  and a.Smes = #cuentas#.Mes
+								  and a.Ecodigo = #cuentas#.Ecodigo
+								<cfif arguments.incluirOficina or arguments.Ocodigo NEQ -1 or arguments.myGOid NEQ -1>
+										and a.Ocodigo = #cuentas#.Oficina
+								</cfif>
+								  and a.Mcodigo = #cuentas#.Mcodigo
+							)
+				, 0.00),
+				
+				debitos =  coalesce((select sum(DOdebitos)
+								from SaldosContables a
+								where a.Ccuenta = #cuentas#.Ccuenta
+								  and a.Speriodo = #cuentas#.Periodo
+								  and a.Smes = #cuentas#.Mes
+								  and a.Ecodigo = #cuentas#.Ecodigo
+								<cfif arguments.incluirOficina or arguments.Ocodigo NEQ -1 or arguments.myGOid NEQ -1>
+										and a.Ocodigo = #cuentas#.Oficina
+								</cfif>
+								  and a.Mcodigo = #cuentas#.Mcodigo
+							)
+				, 0.00),
+				
+				creditos =  coalesce((select sum(COcreditos)
+								from SaldosContables a
+								where a.Ccuenta = #cuentas#.Ccuenta
+								  and a.Speriodo = #cuentas#.Periodo
+								  and a.Smes = #cuentas#.Mes
+								  and a.Ecodigo = #cuentas#.Ecodigo
+								<cfif arguments.incluirOficina or arguments.Ocodigo NEQ -1 or arguments.myGOid NEQ -1>
+										and a.Ocodigo = #cuentas#.Oficina
+								</cfif>
+								  and a.Mcodigo = #cuentas#.Mcodigo
+							)
+				, 0.00)
+		</cfquery>
+	</cffunction>
+
+	<cffunction name="CalculoMontosConvertidosCierre" access='private' output="no">
+		<cfargument name='periodo' type='numeric' required="yes">
+		<cfargument name='mes' type='numeric' required="yes">
+		<cfargument name='conexion' type='string' required='false' default="#Session.DSN#">
+		<cfargument name='incluirOficina' type="boolean" required="no" default="false">
+		<cfargument name='Ocodigo' type='numeric' default="-1">
+		<cfargument name='myGOid' type='numeric' default="-1">
+		<cfargument name='B15' type='numeric' default="0">
+
+		<cfset LvarMesSiguiente = arguments.Mes + 1>
+		<cfset LvarPeriodoSiguiente = arguments.Periodo>
+		<cfif LvarMesSiguiente GT 12>
+			<cfset LvarMesSiguiente = 1>
+			<cfset LvarPeriodoSiguiente = arguments.Periodo + 1>
+		</cfif>
+
+		<cfquery datasource="#arguments.conexion#">
+			update #cuentas# set 
+				saldoini = coalesce((select sum(#mySLinicial#)
+					  from SaldosContablesConvertidos a
+					  where a.Ccuenta = #cuentas#.Ccuenta
+						and a.Speriodo = #LvarPeriodoSiguiente#
+						and a.Smes = #LvarMesSiguiente#
+						and a.Ecodigo = #cuentas#.Ecodigo
+						and a.Mcodigo = #cuentas#.Mcodigo
+						<cfif arguments.incluirOficina or arguments.Ocodigo NEQ -1 or arguments.myGOid NEQ -1>
+							and a.Ocodigo = #cuentas#.Oficina
+						</cfif>
+						and a.B15 = #arguments.B15#
+						)
+				, 0.00),
+				 debitos =  0.00,
+				 creditos =  0.00
+		</cfquery>
+	</cffunction>
+
+	<cffunction name="CalculoMontoLocalMesCierre" access='private'>
+		<cfargument name='Ecodigo' type='numeric' required="yes">
+		<cfargument name='nivel' type='numeric' default="1">
+		<cfargument name='periodo' type='numeric' required="yes">
+		<cfargument name='mes' type='numeric' required="yes">
+		<cfargument name='conexion' type='string' required='false' default="#Session.DSN#">
+		<cfargument name='incluirOficina' type="boolean" required="no" default="false">
+		<cfargument name='Ocodigo' type='numeric' default="-1">
+		<cfargument name='myGOid' type='numeric' default="-1">
+		
+		<!--- Tabla de Trabajo para la mayorización de las cuentas en el Cierre de Año--->
+		<cf_dbtemp name="mayor_cierre" returnvariable="mayor_cierre" datasource="#arguments.conexion#">
+			<cf_dbtempcol name="Ccuenta"	  	type="numeric"		mandatory="yes">
+			<cf_dbtempcol name="Ocodigo"	  	type="integer"		mandatory="yes">
+			<cf_dbtempcol name="debitos"	  	type="money"		mandatory="no">
+			<cf_dbtempcol name="creditos"		type="money"		mandatory="no">
+			<cf_dbtempkey cols="Ccuenta, Ocodigo">
+		</cf_dbtemp>
+
+		<cfquery datasource="#arguments.conexion#">
+			insert into #mayor_cierre# (Ccuenta, Ocodigo, debitos, creditos)
+			select 
+				cu.Ccuentaniv, 
+				<cfif arguments.incluirOficina or arguments.Ocodigo NEQ -1 or arguments.myGOid NEQ -1>
+					d.Ocodigo,
+				<cfelse>
+					-1,
+				</cfif>
+				 sum(case when Dmovimiento = 'D' then Dlocal else 0 end) as debitos,
+				 sum(case when Dmovimiento = 'C' then Dlocal else 0 end) as creditos
+			from HEContables e
+				 inner join HDContables d
+					inner join PCDCatalogoCuenta cu
+					on cu.Ccuenta = d.Ccuenta
+					and cu.PCDCniv <= #arguments.nivel#   	<!--- Numero de niveles deseados para el reporte --->
+				  on d.IDcontable = e.IDcontable
+			where e.Eperiodo = #arguments.periodo#
+			  and e.Emes = #arguments.mes#
+			  and e.Ecodigo = #arguments.Ecodigo#
+			  and e.ECtipo = 1
+			group by cu.Ccuentaniv
+				<cfif arguments.incluirOficina or arguments.Ocodigo NEQ -1 or arguments.myGOid NEQ -1>
+				, d.Ocodigo
+				</cfif>
+		</cfquery>
+		
+		<cfquery datasource="#arguments.conexion#">
+			update #cuentas# set 
+				 saldoini = coalesce((
+								select sum(#mySLinicial# + DLdebitos - CLcreditos)
+								from SaldosContables a
+								where a.Ccuenta = #cuentas#.Ccuenta
+								  and a.Speriodo = #cuentas#.Periodo
+								  and a.Smes = #cuentas#.Mes
+								<cfif arguments.incluirOficina or arguments.Ocodigo NEQ -1 or arguments.myGOid NEQ -1>
+										and a.Ocodigo = #cuentas#.Oficina
+								</cfif>
+								), 0.00)
+		</cfquery>
+				
+		<cfquery datasource="#arguments.conexion#">
+			update #cuentas# set 
+				 debitos = coalesce((
+							select sum(debitos) 
+							from #mayor_cierre#
+							where #mayor_cierre#.Ccuenta = #cuentas#.Ccuenta
+								<cfif arguments.incluirOficina or arguments.Ocodigo NEQ -1 or arguments.myGOid NEQ -1>
+										and #mayor_cierre#.Ocodigo = #cuentas#.Oficina
+								</cfif>
+						), 0.00)
+		</cfquery>
+
+		<cfquery datasource="#arguments.conexion#">
+			update #cuentas# set 
+				 creditos =  
+					coalesce((
+							select sum(creditos)
+							from #mayor_cierre#
+							where #mayor_cierre#.Ccuenta = #cuentas#.Ccuenta
+								<cfif arguments.incluirOficina or arguments.Ocodigo NEQ -1 or arguments.myGOid NEQ -1>
+										and #mayor_cierre#.Ocodigo = #cuentas#.Oficina
+								</cfif>
+						), 0.00)
+
+		</cfquery>
+	</cffunction>
+
+	<cffunction name="MonedaOrigenMesCierre" access='private'>
+		<cfargument name='Ecodigo' type='numeric' required="yes">
+		<cfargument name='nivel' type='numeric' default="1">
+		<cfargument name='Mcodigo' type='numeric' default="-2">
+		<cfargument name='periodo' type='numeric' required="yes">
+		<cfargument name='mes' type='numeric' required="yes">
+		<cfargument name='conexion' type='string' required='false' default="#Session.DSN#">
+		<cfargument name='incluirOficina' type="boolean" required="no" default="false">
+		<cfargument name='Ocodigo' type='numeric' default="-1">
+		<cfargument name='myGOid' type='numeric' default="-1">
+
+		<!--- Tabla de Trabajo para la mayorización de las cuentas en el Cierre de Año--->
+		<cf_dbtemp name="mayor_cierre" returnvariable="mayor_cierre" datasource="#arguments.conexion#">
+			<cf_dbtempcol name="Ccuenta"	  	type="numeric"		mandatory="yes">
+			<cf_dbtempcol name="Ocodigo"	  	type="integer"		mandatory="yes">
+			<cf_dbtempcol name="debitos"	  	type="money"		mandatory="no">
+			<cf_dbtempcol name="creditos"		type="money"		mandatory="no">
+			<cf_dbtempkey cols="Ccuenta, Ocodigo">
+		</cf_dbtemp>
+
+		<cfquery datasource="#arguments.conexion#">
+			insert into #mayor_cierre# (Ccuenta, Ocodigo, debitos, creditos)
+			select 
+				 cu.Ccuentaniv, 
+				<cfif arguments.incluirOficina or arguments.Ocodigo NEQ -1 or arguments.myGOid NEQ -1>
+					d.Ocodigo,
+				<cfelse>
+					-1,
+				</cfif>
+				 sum(case when Dmovimiento = 'D' then Doriginal else 0 end) as debitos,
+				 sum(case when Dmovimiento = 'C' then Doriginal else 0 end) as creditos
+			from HEContables e
+			 inner join HDContables d
+				inner join PCDCatalogoCuenta cu
+				on cu.Ccuenta = d.Ccuenta
+				and cu.PCDCniv <= #arguments.nivel#   	<!--- Numero de niveles deseados para el reporte --->
+			  on d.IDcontable = e.IDcontable
+			  and d.Mcodigo = #arguments.Mcodigo#
+			where e.Eperiodo = #arguments.periodo#
+			  and e.Emes = #arguments.mes#
+			  and e.Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.Ecodigo#">	
+			  and e.ECtipo = 1        					<!--- Valor 1 fijo.  Asientos de Cierre --->
+			group by cu.Ccuentaniv
+				<cfif arguments.incluirOficina or arguments.Ocodigo NEQ -1 or arguments.myGOid NEQ -1>
+					,d.Ocodigo
+				</cfif>
+		</cfquery>
+
+			<cfquery name="C_CuentasTmp" datasource="#arguments.conexion#">
+				 update #cuentas# set 
+					 saldoini = coalesce((select sum(#mySOinicial# + DOdebitos - COcreditos)
+											from SaldosContables a
+											where a.Ccuenta = #cuentas#.Ccuenta
+											  and a.Speriodo = #cuentas#.Periodo
+											  and a.Smes = #cuentas#.Mes
+											  and a.Ecodigo = #cuentas#.Ecodigo
+											<cfif arguments.incluirOficina or arguments.Ocodigo NEQ -1 or arguments.myGOid NEQ -1>
+													and a.Ocodigo = #cuentas#.Oficina
+											</cfif>
+											  and a.Mcodigo = #cuentas#.Mcodigo
+										)
+							, 0.00),
+			
+					 debitos =  
+					 	coalesce((
+								select sum(debitos)
+								from #mayor_cierre#
+								where #mayor_cierre#.Ccuenta = #cuentas#.Ccuenta	
+								<cfif arguments.incluirOficina or arguments.Ocodigo NEQ -1 or arguments.myGOid NEQ -1>
+									and #mayor_cierre#.Ocodigo = #cuentas#.Oficina
+								</cfif>
+							), 0.00),
+
+					 creditos =  
+					 	coalesce((
+								select sum(creditos)
+								from #mayor_cierre#
+									where #mayor_cierre#.Ccuenta = #cuentas#.Ccuenta	
+									<cfif arguments.incluirOficina or arguments.Ocodigo NEQ -1 or arguments.myGOid NEQ -1>
+										and #mayor_cierre#.Ocodigo = #cuentas#.Oficina
+									</cfif>
+							), 0.00)
+		</cfquery>
+	</cffunction>
+
+</cfcomponent>

@@ -1,0 +1,136 @@
+@font-face {
+	font-family: 'sutel_iconos';
+	src:url('../fonts/icomoon.eot');
+	src:url('../fonts/icomoon.eot?#iefix') format('embedded-opentype'),
+		url('../fonts/icomoon.ttf') format('truetype'),
+		url('../fonts/icomoon.woff') format('woff'),
+		url('../fonts/icomoon.svg#sutel_iconos') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+	font-family: 'sutel_iconos';
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+
+	/* Better Font Rendering =========== */
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.icon-exit:before {
+	content: "\e600";
+}
+.icon-tesoreria:before {
+	content: "\e601";
+}
+.icon-reclutamiento-seleccion:before {
+	content: "\e602";
+}
+.icon-recepcion-pagos:before {
+	content: "\e603";
+}
+.icon-planilla-presupuestaria:before {
+	content: "\e604";
+}
+.icon-plan-susesion:before {
+	content: "\e605";
+}
+.icon-parametrosRH:before {
+	content: "\e606";
+}
+.icon-inventarios:before {
+	content: "\e607";
+}
+.icon-interfaces-sistemas-externos:before {
+	content: "\e608";
+}
+.icon-gestion-activos-fijos:before {
+	content: "\e609";
+}
+.icon-gasto-empleados:before {
+	content: "\e60a";
+}
+.icon-garantia:before {
+	content: "\e60b";
+}
+.icon-contabilidad-general:before {
+	content: "\e613";
+}
+.icon-control-presupuesto:before {
+	content: "\e612";
+}
+.icon-control-responsables:before {
+	content: "\e611";
+}
+.icon-control-vacaciones:before {
+	content: "\e610";
+}
+.icon-cuentas-cobrar-empleados:before {
+	content: "\e61f";
+}
+.icon-cuentas-cobrar:before {
+	content: "\e61e";
+}
+.icon-cuentas-pagar:before {
+	content: "\e61d";
+}
+.icon-estimacion-financiamiento-egresos:before {
+	content: "\e60f";
+}
+.icon-estructura-salarial:before {
+	content: "\e60e";
+}
+.icon-evaluaciones:before {
+	content: "\e60d";
+}
+.icon-expediente-nomina:before {
+	content: "\e60c";
+}
+.icon-facturacion:before {
+	content: "\e614";
+}
+.icon-consultas-administrativas:before {
+	content: "\e615";
+}
+.icon-activos-fijos:before {
+	content: "\e623";
+}
+.icon-compras:before {
+	content: "\e616";
+}
+.icon-carrera-profesional:before {
+	content: "\e617";
+}
+.icon-capacitacion-desarrollo:before {
+	content: "\e618";
+}
+.icon-bancos:before {
+	content: "\e619";
+}
+.icon-autogestion:before {
+	content: "\e61a";
+}
+.icon-anexos-financieros:before {
+	content: "\e61b";
+}
+.icon-administracion-salarios:before {
+	content: "\e61c";
+}
+.icon-administracion-puestos:before {
+	content: "\e620";
+}
+.icon-administracion-plazas:before {
+	content: "\e621";
+}
+.icon-admin-sistema:before {
+	content: "\e622";
+}
+.icon-adm-talento-objetivos:before {
+	content: "\e624";
+}

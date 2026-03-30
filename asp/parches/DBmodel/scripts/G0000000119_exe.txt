@@ -1,0 +1,30 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 395 - DBM 327: DLaboralesEmpleado
+
+	         PARCHE:  Parche023_350_RH _CorreccionesVarias
+
+GENERADO EN:
+	SERVER:  http://mxvqapp34:8300
+	DSN:     sifcim
+	FECHA:   06/01/2012 17:00:49
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* CHG_TABLE DLaboralesEmpleado: Datos Laborales Empleado */
+/* ======================================================================================== */
+/* CHG_COLUMN OP=(CAMBIO): DLreplicacion - Indicador de accion con replicacion a plazas recar */
+ALTER TABLE DLaboralesEmpleado ADD CONSTRAINT DLaboralesEmpleado_DF64 DEFAULT 0 FOR DLreplicacion
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

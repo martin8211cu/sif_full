@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_Titulo>Payment Orders Report</LB_Titulo>
+		<LB_MsgError>No records have been generated for this report</LB_MsgError>
+		<LB_Archivo>Payment Orders Report</LB_Archivo>
+	<LB_Banco>Bank</LB_Banco><LB_Beneficiario>Beneficiary</LB_Beneficiario><LB_Cedula>ID</LB_Cedula><LB_CtaPago>Payment Account</LB_CtaPago><LB_DocPago>Payment Doc</LB_DocPago><LB_EAnulado>Cancelled</LB_EAnulado><LB_EAplicada>Applied</LB_EAplicada><LB_EAprobacion>In Approval</LB_EAprobacion><LB_EDesconocido>Unknown</LB_EDesconocido><LB_EEnEmision>In Issuance</LB_EEnEmision><LB_EPreparacion>In Preparation</LB_EPreparacion><LB_ERechazada>Rejected</LB_ERechazada><LB_ESAplicar>Unapplied</LB_ESAplicar><LB_EmpresaPago>Payment Enterprise</LB_EmpresaPago><LB_Estado>Status</LB_Estado><LB_FecPago>Payment Date</LB_FecPago><LB_FechaRep>Report Date:</LB_FechaRep><LB_MonPago>Payment Currency</LB_MonPago><LB_MontoPagar>Payment Amount</LB_MontoPagar><LB_MsgDemasiados>There are a lot of records, please redefine the filters and try again</LB_MsgDemasiados><LB_NOrden>Order Number</LB_NOrden><LB_Pagina>Page</LB_Pagina><LB_Tit_Rep>Payment Orders Report</LB_Tit_Rep></Idioma>
+</Etiquetas>

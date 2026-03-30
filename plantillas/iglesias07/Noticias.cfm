@@ -1,0 +1,49 @@
+<cfinclude template="/hosting/publico/ApplicationPublic.cfm">
+<style type="text/css">
+<!--
+.style73 {
+	font-size: 12px;
+	font-family: Geneva, Arial, Helvetica, sans-serif;
+}
+.style74 {font-weight: bold}
+-->
+</style>
+<table width="100%">
+  <tr><td bgcolor="#CCCCCC"><cf_template>
+	<cf_templatearea name="title"><cfoutput>Noticias Cristianas</cfoutput></cf_templatearea>	<cf_templatearea name="left"><cfinclude template="pMenu.cfm"></cf_templatearea>	
+	<cf_templatearea name="body">
+<cfoutput>
+<cfinclude template="pNavegacion.cfm">
+<p align="justify" class="style73"><span class="style74"><a name="Noticia1">LA HIJA DE UN PASTOR PROTESTANTE, ASPIRA A LA CANCILLER&Iacute;A ALEMANA</a> <br>
+    </span><br>
+    BONN, 21-12-2003 (ElAdelanto/ACPress.net). El congreso federal que est&aacute; celebrando la Uni&oacute;n Cristiano Dem&oacute;crata (CDU) de Alemania servir&aacute; de importante promoci&oacute;n a su presidenta, Angela Dorothea Merkel (Hamburgo, 17-7-1954) que renunci&oacute; a ser candidata a la jefatura del Gobierno en las elecciones de septiembre del 2002. </p>
+<p align="justify" class="style73">Merkel aprovechar&aacute; la crisis econ&oacute;mica de su pa&iacute;s para aspirar en un par de a&ntilde;os a la canciller&iacute;a que durante lustros ocup&oacute; Kohl, su gran valedor. Hija de un pastor protestante que se traslad&oacute; a vivir a la ex-RDA cuando Angela era un beb&eacute;, siempre fue vista como "aquella chica del Este apadrinada por Kohl". La doctora en F&iacute;sicas Merkel no hizo pol&iacute;tica hasta meses antes de la ca&iacute;da del muro de Berl&iacute;n (se integr&oacute; en el movimiento disidente Despertar Democr&aacute;tico, auspiciado por la Iglesia evang&eacute;lica). </p>
+<p align="justify" class="style73">Kohl la nombr&oacute; ministra de Juventud y Familia (1991-94) y de Medio Ambiente (1994-98). Cuando en 1999 estall&oacute; el esc&aacute;ndalo de los donativos ilegales recibidos por la CDU, Merkel defendi&oacute; la &eacute;tica por encima de sus lazos personales con Kohl. <br>
+  Fuente: El Adelanto. Redacci&oacute;n: ACPress.net </p>
+<p align="justify" class="style73"><span class="style74"><a name="Noticia2">SUIZA: LA BIBLIA TIENE UN CONCEPTO INTEGRAL DE LA PAZ. SE TRATA DE UNA VIDA EN RELACIONES JUSTAS </a><br>
+    </span><br>
+    GINEBRA, 4-12-2003 (Alc/ACPress.net). El mensaje de los &aacute;ngeles en la noche de Navidad, Gloria a Dios en las alturas y paz en la tierra, no expresa un deseo sino que es una promesa, porque se nos da paz en el nacimiento de Jes&uacute;s, dice el secretario general del Consejo Mundial de Iglesias (CMI), Konrad Raiser, en su mensaje navide&ntilde;o. </p>
+<p align="justify" class="style73">Desde hace m&aacute;s de dos mil a&ntilde;os este himno de gloria y paz ha inspirado a los seres humanos. Dios toma forma humana, y termina as&iacute; el conflicto que es la ra&iacute;z de todos los conflictos, el conflicto entre Dios y el ser humano. Cuando se le da gloria a Dios, pierden su validez todas las causas humanas de conflicto, agrega. </p>
+<p align="justify" class="style73">La paz de Dios, a&ntilde;ade, es m&aacute;s que una declaraci&oacute;n escrita, un pacto o un programa. La Biblia tiene un concepto integral de la paz. Se trata de una vida en relaciones justas, del bienestar de todos, no s&oacute;lo de los seres humanos, sino de toda la creaci&oacute;n. </p>
+<p align="justify" class="style73">Reina la paz cuando todos tienen bastante de lo necesario para vivir. Cuando los cristianos y las iglesias abogan por la paz y la justicia, como en la protesta un&aacute;nime contra la guerra en Irak, refuerzan el pacto de paz de Dios con los hombres. </p>
+<p align="justify" class="style73">Una parte importante del compromiso de llevar el mensaje de paz y justicia a todos es la respuesta adecuada de las iglesias a la epidemia del VIH/SIDA. Si las iglesias siguen calladas o ignoran la realidad, seremos culpables del sufrimiento y la muerte de personas cuyas vidas habr&iacute;an podido salvarse, anota. </p>
+<p align="justify" class="style73">En ambas cuestiones, la superaci&oacute;n de la violencia y la respuesta a la amenaza del VIH y el SIDA, se trata de hacer visible el pacto de paz de Dios con la humanidad: En las relaciones entre los sexos; en la pol&iacute;tica, que est&aacute; marcada por la lucha por el poder y el dominio sobre los dem&aacute;s; y en un sistema econ&oacute;mico que hace la guerra a los pobres y desfavorecidos, puntualiza. </p>
+<p align="justify" class="style73">Konrad Raiser, pastor, profesor y te&oacute;logo, miembro de la Iglesia Evang&eacute;lica de Alemania, concluye a fines del presente mes un mandato de once a&ntilde;os como secretario general del CMI. <br>
+  Fuente: ALC. Redacci&oacute;n: ACPress.net </p>
+<p align="justify" class="style73"><br>
+  <strong><a name="Noticia3">EL TR&Iacute;O "SON BY FOIR" INCORPORA TEMAS CRISTIANOS EN SU PRODUCCI&Oacute;N DISCOGR&Aacute;FICA "RENACER" </a><br>
+  </strong><br>
+  PUERTO RICO, 5-12-2003 (Primera Hora/ACPress.net). No se piensan cambiar el nombre de „Son By Four‰, aunque ahora sean s&oacute;lo tres voces. Y es que Pedro Quiles, Javier Montes y Georgie Montes est&aacute;n seguros que la esencia de "Son By Four" se mantiene intacta y, mejor a&uacute;n, han podido evolucionar al atreverse a incorporar una experiencia y tem&aacute;tica cristianas en su nueva producci&oacute;n "Renace".&gt; </p>
+<p align="justify" class="style73">El grupo de origen puertorrique&ntilde;o "Son By Four" ha tenido transformaciones en su estructura y, m&aacute;s a&uacute;n, en su interior. Y es que durante estos dos a&ntilde;os los tres integrantes, destac&oacute; Pedro, se han acercado a Jesucristo. Esta proximidad se palpar&aacute; en el disco con la inclusi&oacute;n del tema cristiano "Te mira". </p>
+<p align="justify" class="style73">"Empezamos bien rom&aacute;nticos y pachangueros, pero ahora, adem&aacute;s de eso, tenemos una l&iacute;nea espiritual. Esa canci&oacute;n ('Te mira') trata de c&oacute;mo el Se&ntilde;or te mira por los ojos de distintas personas y te hace una invitaci&oacute;n a sanarte", expres&oacute; el artista, quien promueve junto a sus compa&ntilde;eros el tema "Peque&ntilde;as cosas", en versi&oacute;n balada y salsa. Para m&aacute;s informaci&oacute;n: <br>
+    <a href="http://www.sb4music.com">www.sb4music.com </a><br>
+    Fuente: PRIMERA HORA. Redacci&oacute;n: ACPress.net </p>
+<p align="justify" class="style73"><a name="Noticia4"><strong>L&Iacute;DERES CRISTIANOS, MUSULMANES Y JUD&Iacute;OS DE EEUU INSTAN A BUSH A UN MAYOR COMPROMISO EN ORIENTE PR&Oacute;XIMO </strong></a><br>
+    <br>
+    WASHINGTON, 2-12-2003 (E.P./ACPress.net). L&iacute;deres religiosos cristianos, musulmanes y jud&iacute;os de Estados Unidos instaron hoy al presidente estadounidense, George W. Bush, a comprometerse m&aacute;s activamente en la b&uacute;squeda de una soluci&oacute;n pac&iacute;fica al conflicto israel&iacute;-palestino.&gt; <br>
+"La actual pasividad estadounidense corre el riesgo de llevar a una escalada peligrosa del conflicto, sabotear la campa&ntilde;a mundial contra el terrorismo y amenazar los intereses estadounidenses (...) en la regi&oacute;n y en el mundo", afirman estos 32 jefes religiosos en un comunicado. "El presidente tiene el imperativo moral de actuar con decisi&oacute;n y eficacia para avanzar hacia la paz entre Israel, los palestinos y los Estados &aacute;rabes", agregan. </p>
+<p align="justify" class="style73">Con su Iniciativa Nacional Interreligiosa por la Paz en Oriente Pr&oacute;ximo, estos l&iacute;deres religiosos, que dicen representar a 100 millones de creyentes, quieren influir en la campa&ntilde;a de las elecciones presidenciales de noviembre de 2004. </p>
+<p align="justify" class="style73">Entre ellos se encuentran dos cardenales cat&oacute;licos, incluido el de Washington, el primado de la Iglesia Ortodoxa griega en Estados Unidos, l&iacute;deres de las iglesias Luterana, Presbiteriana, Episcopal, Metodista, rabinos y jefes musulmanes. </p>
+<p align="justify" class="style73">Afirman que "la 'Hoja de ruta' para la paz en Oriente Pr&oacute;ximo ofrece la mejor oportunidad en la regi&oacute;n y advierten de que sin el compromiso directo de Estados Unidos, la paz est&aacute; seriamente en peligro". <br>
+  Fuente: Europa Press. Redacci&oacute;n: ACPress.net </p>
+</cfoutput></cf_templatearea></cf_template>

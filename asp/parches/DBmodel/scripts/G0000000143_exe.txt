@@ -1,0 +1,30 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 452 - DBM 388: Se agrega un valor por default a AFTRecha
+
+	         PARCHE:  Parche023_507_SIF_AFTBResponsables
+
+GENERADO EN:
+	SERVER:  http://mxvqapp34:8300
+	DSN:     sifcim
+	FECHA:   06/01/2012 18:42:17
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* CHG_TABLE AFTBResponsables: Bitácora de Transferencias de  */
+/* ======================================================================================== */
+/* CHG_COLUMN OP = (CAMBIO): AFTRechazado - Rechazado */
+ALTER TABLE AFTBResponsables ADD CONSTRAINT AFTBResponsables_DF20 DEFAULT 0 FOR AFTRechazado
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

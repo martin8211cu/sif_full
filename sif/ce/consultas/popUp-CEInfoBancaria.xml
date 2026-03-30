@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Etiquetas>
+	<Idioma id = "en">
+		<LB_Tipo></LB_Tipo>
+		<LB_Banco></LB_Banco>
+		<LB_NumDocumento></LB_NumDocumento>
+		<LB_RFC></LB_RFC>
+		<LB_Beneficiario></LB_Beneficiario>
+		<LB_CuentaOrigen></LB_CuentaOrigen>
+		<LB_BancoDestino></LB_BancoDestino>
+		<LB_CuentaDestino></LB_CuentaDestino>
+		<LB_Monto></LB_Monto>
+
+	</Idioma>
+</Etiquetas>

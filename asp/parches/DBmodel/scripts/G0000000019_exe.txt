@@ -1,0 +1,51 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  asp
+	MODELO:  ASP Framework.pdm
+	VERSION: 15 - DBM 127: Pasar CDParametros de minisif a asp
+
+	         PARCHE:  ParcheParche023_008_ASP_CDParametros
+
+GENERADO EN:
+	SERVER:  http://localhost:8099
+	DSN:     asp
+	FECHA:   01/03/2011 16:20:14
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* ADD_TABLE CDParametros: CDParametros */
+/* ======================================================================================== */
+
+CREATE TABLE CDParametros (
+	 CDPid                          numeric(18)          identity
+	,Ecodigo                        integer              NOT NULL
+	,SScodigo                       char(10)             NOT NULL
+	,CDPorden                       integer              NOT NULL
+	,CDPtabla                       varchar(40)          NOT NULL
+	,CDPtablaCarga                  varchar(45)          NOT NULL
+	,CDPrutaValida                  varchar(255)         NOT NULL
+	,CDPrutaProcesa                 varchar(255)         NOT NULL
+	,CDPdependencias                varchar(100)         NULL
+	,CDPbloqueado                   bit                  DEFAULT 0 NOT NULL
+	,CDPcontrolv                    bit                  DEFAULT 0 NOT NULL
+	,CDPcontrolg                    bit                  DEFAULT 0 NOT NULL
+	,BMFecha                        datetime             NULL
+	,BMUsucodigo                    numeric(18)          NULL
+	,ts_rversion                    timestamp           
+	)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="P", SEC="0", COLS="CDPid" */
+ALTER TABLE CDParametros ADD CONSTRAINT CDParametros_PK PRIMARY KEY NONCLUSTERED (CDPid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

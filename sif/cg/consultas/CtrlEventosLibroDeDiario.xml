@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+<Idioma id="es">
+	<LB_Titulo>Consulta Libro de Diario</LB_Titulo>
+	<LB_PeriodoInicial>Desde Periodo</LB_PeriodoInicial>
+	<LB_PeriodoFinal>Hasta Periodo</LB_PeriodoFinal>
+	<LB_MesInicial>Mes</LB_MesInicial>
+	<LB_MesFinal>Mes</LB_MesFinal>
+	<LB_FechaInicial>Fecha Inicio</LB_FechaInicial>
+	<LB_FechaFinal>Fecha Fin</LB_FechaFinal>	
+	<LB_CuentaInicial>Cuenta Inicial</LB_CuentaInicial>
+	<LB_CuentaFinal>Cuenta Final</LB_CuentaFinal>
+	<LB_Moneda>Moneda</LB_Moneda>
+	<LB_Formato>Formato</LB_Formato>
+	<LB_Orden>Ordenamiento</LB_Orden>
+	<LB_Oficina>Oficina</LB_Oficina>
+	<LB_Todos>Todas</LB_Todos>
+	<RBTN_MonedaLocal>Local</RBTN_MonedaLocal>
+	<RBTN_MonedaOrigen>Origen</RBTN_MonedaOrigen>
+	<CHK_ImpMontoMO>Imprimir Monto en Moneda Origen</CHK_ImpMontoMO>
+	<CHK_TotalFecha>Totalizar por Fecha</CHK_TotalFecha>
+	<CHK_CierreAnual>Cierre Anual</CHK_CierreAnual>
+	<CHK_MostarCtas>Mostrar Ctas. sin movimientos</CHK_MostarCtas>
+	<BTN_Limpiar>Clear</BTN_Limpiar>
+	<BTN_Consultar>Generate</BTN_Consultar>
+</Idioma>
+<Idioma id="en"><BTN_Consultar>Consult</BTN_Consultar><BTN_Limpiar>Clean</BTN_Limpiar><CHK_CierreAnual>Year end Closing</CHK_CierreAnual><CHK_ImpMontoMO>Print Amount in Currency Origin</CHK_ImpMontoMO><CHK_MostarCtas>Display Accounts</CHK_MostarCtas><CHK_TotalFecha>Summarize by date</CHK_TotalFecha><LB_CuentaFinal>Final Account</LB_CuentaFinal><LB_CuentaInicial>Initial Account</LB_CuentaInicial><LB_FechaFinal>Final Date</LB_FechaFinal><LB_FechaInicial>Initial Date</LB_FechaInicial><LB_Formato>Format</LB_Formato><LB_MesFinal>Final Month</LB_MesFinal><LB_MesInicial>Initial Month</LB_MesInicial><LB_Moneda>Currency</LB_Moneda><LB_Oficina>Office</LB_Oficina><LB_Orden>Order by</LB_Orden><LB_PeriodoFinal>Final Period</LB_PeriodoFinal><LB_PeriodoInicial>Initial Period</LB_PeriodoInicial><LB_Titulo>Daily Ledger - Events</LB_Titulo><LB_Todos>All</LB_Todos><RBTN_MonedaLocal>Local Currency</RBTN_MonedaLocal><RBTN_MonedaOrigen>Origin Cuerrency</RBTN_MonedaOrigen></Idioma></Etiquetas>

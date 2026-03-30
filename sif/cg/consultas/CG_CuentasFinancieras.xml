@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_Titulo>Financial Accounts Consult</LB_Titulo>
+		<LB_FechaIni>Initial Date</LB_FechaIni>
+		<LB_FechaFin>Final Date</LB_FechaFin>
+		<LB_Mensaje>This report displays all financial accounts created in the selected date range</LB_Mensaje>
+		<LB_Formato>Format</LB_Formato>
+		<BTN_Consultar>Consult</BTN_Consultar>
+		<BTN_Limpiar>Clean</BTN_Limpiar>
+	<LB_ConsultaDeCuentasFinancieras>Financial Accounts Consult</LB_ConsultaDeCuentasFinancieras><LB_CuentasFinancieras>Financial Accounts</LB_CuentasFinancieras><LB_x></LB_x></Idioma>
+</Etiquetas>

@@ -1,0 +1,172 @@
+<!doctype HTML public "-//W3C//DTD HTML 4.0 Frameset//EN">
+
+<html>
+
+<!--(==============================================================)-->
+<!--(Document created with RoboEditor. )============================-->
+<!--(==============================================================)-->
+
+<head>
+
+<title>1 - Reserva de Presupuesto</title>
+
+<!--(Meta)==========================================================-->
+
+<meta http-equiv=content-type content="text/html; charset=windows-1252">
+<meta name=generator content="RoboHELP by eHelp Corporation - www.ehelp.com">
+<meta name=generator-major-version content=0.1>
+<meta name=generator-minor-version content=1>
+<meta name=filetype content=kadov>
+<meta name=filetype-version content=1>
+<meta name=page-count content=1>
+<meta name=layout-height content=1055>
+<meta name=layout-width content=739>
+
+
+<!--(Links)=========================================================-->
+
+<link rel=StyleSheet href="..\..\default.css">
+
+
+
+</head>
+
+<!--(Body)==========================================================-->
+
+
+<body>
+
+<h1 style="text-align: center; color: #000080;"
+	align=center>Reserva de Presupuesto</h1>
+
+<p style="text-align: justify; font-size: 10pt;">Esta opción ofrece la 
+ funcionalidad de realizar reservas de presupuesto para uno o más meses 
+ por centro funcional (se listarán solamente los centros funcionales que 
+ el usuario tiene permiso de reservar, según la seguridad que se explicará 
+ mas adelante en este manual).</p>
+
+<p style="text-align: justify; font-size: 10pt;">&nbsp;</p>
+
+<p style="text-align: justify; font-size: 10pt;">Se debe de crear el encabezado 
+ del documento de Reserva, seleccionando un periodo, la fecha de creación 
+ (el sistema sugiere la fecha actual), <!--kadov_tag{{<spaces>}}-->&nbsp;<!--kadov_tag{{</spaces>}}-->una 
+ descripción <!--kadov_tag{{<spaces>}}-->&nbsp;<!--kadov_tag{{</spaces>}}-->y 
+ seleccionar un centro funcional.</p>
+
+<p style="text-align: justify; font-size: 10pt;">&nbsp;</p>
+
+<p style="font-size: 10pt; text-align: center;"
+	align=center><img src="ReserPresup01.jpg"
+						x-maintain-ratio=TRUE
+						style="border: none;
+								width: 717px;
+								height: 153px;
+								float: none;"
+						width=717
+						height=153
+						border=0></p>
+
+<p style="text-align: justify; font-size: 10pt;">&nbsp;</p>
+
+<p style="text-align: justify;
+			font-size: 10pt;
+			margin-left: 40px;"><span style="x-text-underline: normal; font-weight: bold; /*begin!kadov{{*/ text-decoration: underline; /*}}end!kadov*/ ">Periodo:</span> 
+ aquí se desplegarán los periodos que se han definido con anterioridad.</p>
+
+<p style="text-align: justify;
+			font-size: 10pt;
+			margin-left: 40px;">&nbsp;</p>
+
+<p style="text-align: justify;
+			font-size: 10pt;
+			margin-left: 40px;"><span style="font-weight: bold; x-text-underline: normal; /*begin!kadov{{*/ text-decoration: underline; /*}}end!kadov*/ ">No. 
+ Documento:</span> número consecutivo dado automáticamente por el sistema.</p>
+
+<p style="text-align: justify;
+			font-size: 10pt;
+			margin-left: 40px;">&nbsp;</p>
+
+<p style="text-align: justify;
+			font-size: 10pt;
+			margin-left: 40px;"><span style="font-weight: bold; x-text-underline: normal; /*begin!kadov{{*/ text-decoration: underline; /*}}end!kadov*/ ">Centro 
+ Funcional:</span> es el centro al que se le va a reservar el presupuesto 
+ (según los centros que el usuario tiene definidos con permiso para reservar).</p>
+
+<p style="text-align: justify; font-size: 10pt;"><!--kadov_tag{{<spaces>}}-->&nbsp;&nbsp;<!--kadov_tag{{</spaces>}}--></p>
+
+<p style="text-align: justify; font-size: 10pt;">Una vez creado el encabezado 
+ de la reserva de presupuesto, se deberá de crear el detalle del documento:</p>
+
+<p style="text-align: justify; font-size: 10pt;">&nbsp;</p>
+
+<p style="font-size: 10pt; text-align: center;"
+	align=center><img src="ReserPresup02.jpg"
+						x-maintain-ratio=TRUE
+						style="border: none;
+								width: 719px;
+								height: 241px;
+								float: none;"
+						width=719
+						height=241
+						border=0></p>
+
+<p style="text-align: justify; font-size: 10pt;">&nbsp;</p>
+
+<p style="text-align: justify; font-size: 10pt;">El año y el mes a seleccionar 
+ será dado según el tipo de periodo seleccionado en el encabezado. La oficina 
+ es dada automáticamente, según el centro funcional que se haya seleccionado.</p>
+
+<p style="text-align: justify; font-size: 10pt;">&nbsp;</p>
+
+<p style="text-align: justify; font-size: 10pt;">Al seleccionar la Cuenta 
+ de Presupuesto (las cuentas que se desplieguen en la lista serán las que 
+ el usuario tiene autorizadas para realizarles reservas, según lo definido 
+ en la seguridad), el sistema le desplegará el monto máximo disponible 
+ a utilizar <img src="bMaxDispo.jpg"
+				x-maintain-ratio=TRUE
+				style="border: none;
+						width: 176px;
+						height: 16px;
+						float: none;"
+				width=176
+				height=16
+				border=0> o en su defecto le desplegará el mensaje que 
+ la cuenta <img src="bNoPresupDispo.jpg"
+				x-maintain-ratio=TRUE
+				style="border: none;
+						width: 182px;
+						height: 17px;
+						float: none;"
+				width=182
+				height=17
+				border=0>. Cabe recordar que el monto disponible es dado 
+ según el Método de Cálculo de Control, definido para ese periodo para 
+ esa cuenta, por ejemplo si el mes seleccionado es el actual y el método 
+ de control es Acumulado, el disponible para ese mes será la suma de los 
+ disponibles autorizados anteriores más el disponible de ese mes, menos 
+ la suma de lo consumido. Mientras que si el mes seleccionado es un mes 
+ futuro, el disponible será solamente el disponible autorizado para ese 
+ mes ya que no se sabe con anterioridad cuanto dinero sobrará en los meses 
+ anteriores.</p>
+
+<p style="text-align: justify; font-size: 10pt;">&nbsp;</p>
+
+<p style="text-align: justify; font-size: 10pt;">Para aplicar un documento 
+ de reserva de presupuesto se debe de presionar el botón <img src="bAplicar.jpg"
+	x-maintain-ratio=TRUE
+	style="border: none;
+			width: 54px;
+			height: 22px;
+			float: none;"
+	width=54
+	height=22
+	border=0>. El proceso de aplicación consiste en realizar una afectación 
+ presupuestal, de Disponible a Reservado para las cuentas presupuestales 
+ digitadas en el documento de Reserva, en los meses especificados, por 
+ los montos definidos. Además hay que tomar en cuenta que antes de ocupar 
+ lo que se reservo se tiene que liberar primero. (Esto se explicará en 
+ la siguiente opción)</p>
+
+</body>
+
+</html>

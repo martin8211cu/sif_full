@@ -1,0 +1,917 @@
+#El primer campo indica el filtro (ecodigo/cecodigo)
+#El segundo campo indica la tabla (solo nombre, sin alias)
+#El tercer campo (opcional) indica el:join de ser necesario
+#El cuarto campo (opcional) indica los campos que se deben 
+#		poner en NULL para la segunda pasada
+#
+# NOTA: algunas tablas dependen de el registro transaccional o histórico
+#   según si el registro se ha posteado o no.  A estas debería agregárseles
+#   el Ecodigo o CEcodigo.  eg. 
+#      EContableSoporte depende de EContables/HEContables
+#      BMovimientoIncidencias depende de RCalculoNomina/HRCalculoNomina
+# NOTA:
+#      A DGParametros debe agregársele el CEcodigo
+#
+#Los tres catalogos básicos
+emp:CFuncional
+emp:Empresas
+emp:Monedas
+#Los sueltos
+ce:TEScontrolFormulariosB:join Tesoreria b on b.TESid = this.TESid
+ce:TEScontrolFormulariosD:join Tesoreria b on b.TESid = this.TESid
+ce:TESdetallePago:join Tesoreria b on b.TESid = this.TESid
+ce:TESordenPago:join Tesoreria b on b.TESid = this.TESid:TESMPcodigo,TESCFDnumFormulario,TESTDid
+ce:TESsolicitudPago:join Tesoreria b on b.TESid = this.TESid
+ce:TEStransferenciasD:join Tesoreria b on b.TESid = this.TESid
+#El resto por nivel
+emp:ACategoria
+emp:AFClasificaciones
+emp:AFDListaConteoActivos
+emp:AFEListaConteoActivos
+emp:AFMarcas
+emp:AFMovsEmpresasE
+emp:AFRetiroCuentas
+emp:AFTBResponsables:join CFuncional b on b.CFid = this.AFTRCFid1
+ce:AFTFDispositivo
+emp:AnexoCelConcepto
+ce:AnexoGEmpresa
+emp:AnexoGOficina
+emp:AnexoGOrigenDatos
+ce:AnexoGrupo
+emp:AnexoVar
+emp:ArchivoIncidenciasI
+emp:ArteTienda
+emp:BDeduccionesEmpleadoPlan:join DeduccionesEmpleadoPlan b on b.Did = this.Did and b.PPnumero = this.PPnumero
+emp:BMovimientoIncidencias:join RCalculoNomina b on b.RCNid = this.RCNid
+emp:BTransacciones
+emp:Bancos
+emp:BitacoraEContables
+emp:CCCuentasConciliacionCxC
+emp:CCTransacciones
+emp:CCTrpttranapl
+emp:CCVProducto
+emp:CConceptos
+emp:CCriteriosCM:join CriteriosGrupoCM a on a.CCid = this.CCid join GruposCriteriosCM b on b.GCcritid = a.GCcritid
+emp:CGAreaResponsabilidad
+emp:CGPeriodosProcesados
+emp:CGRBalanceComprobacion
+emp:CGRBalanzaDetalle
+emp:CIncidentes
+emp:CMAduanas
+emp:CMFormasPago
+emp:CMIncoterm
+emp:CMSeguros
+emp:CMTipoAnalisis
+emp:CMTipoOrden
+emp:CMTiposSolicitud
+emp:CPLiquidacionNAPdetalle
+emp:CPNAPsIntercompany
+emp:CPOrigenesControlAbierto
+emp:CPSeguridadMascarasCtasP
+emp:CPSeguridadUsuario
+emp:CPresupuestoPeriodo
+emp:CRBitacoraTran
+emp:CRCRetiros
+emp:CRMEntidad
+emp:CRTipoCompra
+emp:CRTipoDocumento
+emp:CTClaseActividad
+emp:CVTipoCambioEscenario
+emp:CategoriaSNegocios
+emp:CicloLectivoTipo
+ce:ClienteDetallistaTipo
+ce:ClienteDetallistaTipoDoc
+ce:ClientesDetallistasCorp
+emp:ConceptoContableE
+emp:ConceptoEvaluacion
+emp:CuentasConciliacion
+emp:CuentasSocios
+emp:DCAsientos
+emp:DCCtasDestino
+emp:DCCtasOrigen
+emp:DCDistribucion
+emp:DCGDistribucion
+emp:DCGRBalanzaDetalle
+emp:DFiltroPagos
+ce:DGActividades
+ce:DGConceptosER
+ce:DGCriteriosDistribucion
+ce:DGCuentasConceptoActEli:join DGConceptosER b on b.DGCid = this.DGCid
+ce:DGDivisiones
+#emp:DGParametros ( no tiene CEcodigo )
+emp:DatosOferentes
+emp:Departamentos
+emp:DireccionesSIF
+emp:DocumentoNeteo
+emp:ECargas
+emp:EConsolidadoOrdenCM
+emp:EContableSoporte:join EContables b on b.IDcontable = this.IDcontable
+emp:EContablesImportacion
+emp:EContablesInterfaz18
+emp:EControlDocInt
+emp:ECuentaBancariaPlano
+emp:EDocumentosAgrupados
+emp:EListaPrecios
+emp:ERecibeTransito
+emp:ETransformacion
+emp:ETraspasos
+emp:EstadoSNegocios
+emp:ExistenciaInicial:join Articulos b on b.Aid = this.Aid
+emp:FABitacoraTrasladoAd
+emp:FATiposAdelanto
+emp:FAX014
+emp:FAX016
+emp:FMT001
+emp:Facultad
+emp:GABTransacciones
+emp:GACMayor
+emp:GACTransacciones
+emp:GATransacciones
+emp:GATransacciones2
+emp:GastosEnvioPieza
+emp:GradoAcademico
+emp:GrupoSNegocios
+emp:GruposCriteriosCM
+emp:HEContables
+emp:HEDocumentosRecepcion
+emp:HERequisicion
+emp:HLineaTiempo
+emp:HRCalculoNomina
+emp:HYERelacionValoracion
+emp:Htipocambio
+emp:HtiposcambioConversion
+emp:IAContables
+emp:IndicadorValor
+emp:IndicadorValorEmp
+emp:IndicadoresAEvaluar
+emp:LT2
+emp:LiquidacionTarjetas
+emp:LogoEmpresas
+emp:MBECArch
+ce:MensajesPV
+emp:NProfesional
+emp:Nota
+emp:OriRefNextVal
+emp:OrigenDatos
+emp:OrigenDocumentos
+emp:PARcomplementoIntercompania
+emp:PARcuentasIntercompania
+ce:PCClasificacionE
+ce:PCECatalogo
+ce:PCEMascaras
+emp:PCReglasEImportacion
+emp:PRJPobra
+emp:PRJPproducto
+emp:PRJRecurso
+emp:PRJTiposProyectos
+emp:PRJparametros
+emp:ParamCedulaObras
+emp:Parametros
+emp:ParametrosGenerales
+emp:PersonaEducativo
+emp:PlanEvaluacion
+emp:PortalCuestionarioU
+emp:Project
+emp:RCBitacora
+emp:RCuentasTipo
+emp:RDDocumentosI
+emp:RDOrdenCM
+emp:REDocumentosI
+emp:REOrdenCM
+emp:RHAccionesSeguir
+emp:RHAlertaAcciones
+emp:RHAreaGrupoMat
+emp:RHAreasCapacitacion
+emp:RHBeneficios
+emp:RHCFGruposRegistroE
+emp:RHCMGrupos
+emp:RHCPeriodosPlanillaP
+emp:RHCategoria
+emp:RHComisiones
+emp:RHComponentesAgrupados
+emp:RHConfigReportePuestos
+emp:RHConocimientos
+emp:RHConvalidacion
+emp:RHEAumentos
+emp:RHECatalogosGenerales
+emp:RHEDatosVariables
+emp:RHEEvaluacionCap
+emp:RHEjecucion
+emp:RHEncuestadora
+emp:RHEscalaSalHAY
+emp:RHEtiquetasEmpresa
+emp:RHEtiquetasOferente
+emp:RHEvaluacionCuestionarios
+emp:RHFeriados
+emp:RHGruposAreasEval
+emp:RHGruposEscenarios
+emp:RHGruposRegistroE
+emp:RHHControlMarcas
+emp:RHHabilidades
+emp:RHImportadoresMarcas
+emp:RHInclusionDeducciones
+emp:RHIndicadoresAEvaluar
+emp:RHIndicadoresRegistroE
+emp:RHInstitucionesA
+emp:RHJornadas
+emp:RHMonedas
+emp:RHNiveles
+emp:RHPOtrasPartidas
+emp:RHParametros
+emp:RHProcesamientoMarcas
+emp:RHPruebas
+emp:RHPuestosExternos
+emp:RHRegistroEvaluacion
+emp:RHRegistroEvaluadoresE
+emp:RHRelacionCalificacion
+emp:RHRelojMarcador
+emp:RHSaldoPagosExceso
+emp:RHTCRelacionPago:join RCalculoNomina b on b.RCNid = this.RCNid
+emp:RHTPuestos
+emp:RHTTablaSalarial
+emp:RHTipoAccion
+emp:RHTipoCurso
+emp:RHTipoMovimiento
+emp:RHUsuariosMarcas
+emp:RegimenVacaciones
+emp:SNSaldosIniciales
+emp:SaldosContablesConvertidos
+emp:SaldosContablesP
+emp:Sede
+emp:SubClaseCuentas
+emp:TDeduccion
+ce:TESRPTconcepto
+ce:TEStransferenciasL:join Tesoreria b on b.TESid = this.TESid
+emp:TESusuarioSP
+emp:TRequisicion
+emp:TTransaccionI
+emp:TablaEvaluacion
+emp:TablaResultado
+emp:Talonarios
+emp:TarifasTipo
+ce:Tesoreria
+emp:TipoCambioEmpresa
+emp:TipoDocumentoR
+ce:TipoExpediente
+emp:TipoVentaPerdida
+emp:TiposEmpleado
+emp:TiposNomina
+emp:TramitesEmpresa
+emp:Transito
+emp:Turnos
+emp:Unidades
+emp:VJerarquia:join CFuncional b on b.CFid = this.CFid
+emp:WEmpresas
+emp:WfPackage
+emp:WfxProcess
+emp:ZonaVenta
+ce:ZonasEconomicas
+emp:tbl_archivoscf
+emp:AClasificacion
+emp:AFMModelos
+emp:AGTProceso
+emp:Anexo
+emp:AnexoGEmpresaDet
+emp:AnexoGOficinaDet
+ce:AnexoGrupoCubo
+emp:AnexoVarValor
+emp:BEquivalencias:join Bancos b on b.Bid = this.Bid
+emp:BitacoraCierres
+emp:CGAreaResponsabilidadD:join CGAreaResponsabilidad b on b.CGARid = this.CGARid
+emp:CGAreaResponsabilidadO
+emp:CGPermisosAreaResp
+emp:CIncidentesD:join CIncidentes b on b.CIid = this.CIid
+emp:CMTSolicitudCF
+emp:CPCtaVinculada
+emp:CPLiquidacion
+emp:CPLiquidacionParametros
+emp:CPNAP
+emp:CPTransacciones
+emp:CPVariacionTipoCambioE
+emp:CPmeses
+emp:CRMRelacionEntidad
+emp:CTActividades
+emp:CVersion
+emp:CalendarioPagos
+emp:CicloLectivo
+ce:ClienteDetallista
+emp:ComponentesSalariales
+emp:ConceptoContable
+emp:ConceptoContableN
+emp:Conceptos
+emp:ConceptosTipoAccion:join RHTipoAccion b on b.RHTid = this.RHTid
+emp:Convalidacion:join PersonaEducativo b on b.Ppersona = this.Apersona
+emp:ConversionUnidades
+emp:CriteriosGrupoCM:join GruposCriteriosCM b on b.GCcritid = this.GCcritid
+emp:CtasMayor
+emp:DContablesImportacion
+emp:DControlDocInt
+emp:DDocumentosAgrupados
+ce:DGCuentasConcepto:join DGConceptosER b on b.DGCid = this.DGCid
+emp:DGEmpresasDivision
+ce:DGGastosDistribuir
+emp:DRegimenVacaciones:join RegimenVacaciones b on b.RVid = this.RVid
+emp:DatosEmpleado
+emp:DiasTiposNomina
+emp:DocumentoNeteoDCxC
+emp:DocumentoNeteoDCxP:join DocumentoNeteo b on b.idDocumentoNeteo = this.idDocumentoNeteo
+ce:EConceptosExpediente
+emp:EFormato
+ce:EFormatosExpediente:join TipoExpediente b on b.TEid = this.TEid
+emp:EIDeducciones
+emp:ERNomina
+emp:Edificio
+emp:Escuela
+emp:ExcepcionesPersonales:join TiposEmpleado b on b.TEid = this.TEid
+emp:FDeduccion:join TDeduccion b on b.TDid = this.TDid
+emp:FMT002:join FMT001 b on b.FMT01COD = this.FMT01COD
+emp:FMT003:join FMT001 b on b.FMT01COD = this.FMT01COD
+emp:FMT004:join FMT001 b on b.FMT01COD = this.FMT01COD
+emp:FMT005:join FMT001 b on b.FMT01COD = this.FMT01COD
+emp:FMT006:join FMT001 b on b.FMT01COD = this.FMT01COD
+emp:FMT007
+emp:FMT009:join FMT001 b on b.FMT01COD = this.FMT01COD
+emp:FacturaEdu
+emp:HDContables
+emp:HDDocumentosRecepcion
+emp:HDLineaTiempo:join HLineaTiempo b on b.LTid = this.LTid
+emp:HERNomina
+emp:HSalarioEmpleado:join DatosEmpleado b on b.DEid = this.DEid
+emp:IncidenciasI:join ArchivoIncidenciasI b on b.AIIid = this.AIIid
+emp:LiquidacionDetalle
+emp:OBgrupoOG
+emp:Oficinas
+emp:OrigenCtaMayor
+emp:PCClasificacionD
+emp:PCDCatalogo
+ce:PCEClasificacionCatalogo:join PCECatalogo b on b.PCEcatid = this.PCEcatid
+ce:PCNivelMascara:join PCEMascaras b on b.PCEMid = this.PCEMid
+emp:PCReglasDImportacion
+emp:PRJPobraArea
+emp:PRJPproductoInsumos
+emp:PlanEvaluacionConcepto:join ConceptoEvaluacion b on b.CEcodigo = this.CEcodigo
+emp:PortalPreguntaU
+emp:ProfesorGuiaAlumno:join PersonaEducativo b on b.Ppersona = this.PGpersona
+emp:RHASalarial
+emp:RHCMAutorizadoresGrupo
+emp:RHCargasRebajar
+emp:RHCategoriasTipoTabla:join RHTTablaSalarial b on b.RHTTid = this.RHTTid
+emp:RHComisionesDetalle:join RHComisiones b on b.CPid = this.CPid and b.DEid = this.DEid
+emp:RHComportamientoJornada:join RHJornadas b on b.RHJid = this.RHJid
+emp:RHConceptosDelEvaluador
+emp:RHDAumentos:join RHEAumentos b on b.RHAid = this.RHAid
+emp:RHDCatalogosGenerales
+emp:RHDDatosVariables
+emp:RHDEscalaSalHAY:join RHEscalaSalHAY b on b.ESid = this.ESid
+emp:RHDJornadas
+emp:RHDeduccionesReb
+emp:RHDetalleIncidencias:join CIncidentes b on b.CIid = this.CIid
+emp:RHEAreasEvaluacion
+emp:RHEEvaluacionDes
+emp:RHEmpleadoRegistroE
+emp:RHEscenarios
+emp:RHExcepcionesJornada:join RHJornadas b on b.RHJid = this.RHJid
+emp:RHExperienciaOferentes
+emp:RHExportaciones
+emp:RHGrupoMaterias
+emp:RHIConocimiento:join RHConocimientos b on b.RHCid = this.RHCid
+emp:RHIHabilidad:join RHHabilidades b on b.RHHid = this.RHHid
+emp:RHImagenOferente
+emp:RHIncidenciasHora:join CIncidentes b on b.CIid = this.CIid
+emp:RHMaestroPuestoP
+emp:RHMateria
+emp:RHPreparacionOferentes
+emp:RHPruebasCompetencia
+emp:RHRelojCF:join CFuncional b on b.CFid = this.CFid
+emp:RHTAccionMasiva
+emp:RHUsuarioTDeduccion
+emp:RHUsuarioTipoAccion
+emp:RHUsuariosTipoMovCF
+emp:RHVigenciasTabla
+emp:RegistroEvaluacion
+emp:SNClasificacionE
+ce:SalarioMinimoZona:join ZonasEconomicas b on b.ZEid = this.ZEid
+ce:TESCFestados:join Tesoreria b on b.TESid = this.TESid
+ce:TESCFlugares:join Tesoreria b on b.TESid = this.TESid
+ce:TESbeneficiario
+ce:TESempresas:join Tesoreria b on b.TESid = this.TESid
+ce:TESendoso:join Tesoreria b on b.TESid = this.TESid
+ce:TESotrasEntradasSalidas:join Tesoreria b on b.TESid = this.TESid
+ce:TEStransfIntercomL:join Tesoreria b on b.TESid = this.TESid
+ce:TESusuarioOP:join Tesoreria b on b.TESid = this.TESid
+emp:TablaEvaluacionValor:join TablaEvaluacion b on b.TEcodigo = this.TEcodigo
+emp:TablaResultadoRango:join TablaResultado b on b.TRcodigo = this.TRcodigo
+emp:TransaccionesBanco:join Bancos b on b.Bid = this.Bid
+emp:UsuarioConceptoContableE
+ce:UsuariosTipoExpediente:join TipoExpediente b on b.TEid = this.TEid
+emp:WAlmacen
+emp:WCtasMayor
+emp:WDepartamentos
+emp:WLogoEmpresas
+emp:WOficinas
+emp:WParametros
+emp:WfParticipant:join WfPackage b on b.PackageId = this.PackageId
+emp:WfProcess
+emp:AFIndices
+emp:AFTFHojaConteo
+emp:AccionesTipoExpediente:join RHTipoAccion b on b.RHTid = this.RHTid
+emp:Almacen
+emp:AnexoCalculo
+emp:AnexoCel
+emp:AnexoEm
+emp:AnexoGOrigenDatosDet
+emp:AnexoPermisoDef
+emp:AnexoVersion
+emp:Anexoim
+emp:Aula
+emp:BTransaccionesEq
+emp:CCalendario:join CalendarioPagos b on b.CPid = this.CPid
+emp:CContables
+emp:CMCompradores
+emp:CMSolicitantes
+emp:CPCtaVinculadaPadres:join CPCtaVinculada b on b.CPCVid = this.CPCVid
+emp:CPGastosProduccion:join Conceptos b on b.Cid = this.Cid
+emp:CPNRP
+emp:CPTipoCambioProyectadoMes
+emp:CPVigencia
+emp:CRCentroCustodia
+emp:CVTipoCambioEscenarioMes
+emp:Carrera
+emp:CertificacionesEmpleado
+emp:CicloEvaluacion:join CicloLectivo b on b.CILcodigo = this.CILcodigo
+emp:ClasificacionCFuncional
+ce:ClienteDetallistaDoc
+ce:ConceptosTipoE:join EConceptosExpediente b on b.ECEid = this.ECEid
+ce:DConceptosExpediente:join EConceptosExpediente b on b.ECEid = this.ECEid
+emp:DFormato:join EFormato b on b.EFid = this.EFid
+ce:DFormatosExpediente:join EFormatosExpediente a on a.EFEid = this.EFEid join TipoExpediente b on b.TEid = a.TEid
+emp:DGConceptosActividadDepto
+emp:DGCriteriosDepto:join PCDCatalogo b on b.PCDcatid = this.PCDcatid
+emp:DGCriteriosDeptoE:join PCDCatalogo b on b.PCDcatid = this.PCDcatid
+emp:DGCtasConceptoActividad
+emp:DGDepartamentosA:join PCDCatalogo b on b.PCDcatid = this.PCDcatid
+emp:DGDeptosGastosDistribuir
+ce:DGGastosActividad
+ce:DGGastosDistribuidos:join DGConceptosER b on b.DGCid = this.DGCid
+ce:DGGastosxDistribuir:join DGConceptosER b on b.DGCid = this.DGCid
+emp:DIDeducciones:join EIDeducciones b on b.EIDlote = this.EIDlote
+emp:DRNomina:join ERNomina b on b.ERNid = this.ERNid
+emp:DatosEmpleadoCorp
+emp:DirectorEscuela:join Escuela b on b.EScodigo = this.EScodigo
+emp:EContables
+emp:EMAlmacen
+emp:ESVendedores
+emp:ESalidaProd
+emp:EVacacionesEmpleado:join DatosEmpleado b on b.DEid = this.DEid
+emp:EmpleadoCFuncional
+emp:EmpleadosTipo:join DatosEmpleado b on b.DEid = this.DEid
+emp:FEmpleado:join DatosEmpleado b on b.DEid = this.DEid
+emp:FVendedores
+emp:FacturaEduDetalle:join FacturaEdu b on b.FACcodigo = this.FACcodigo
+emp:FacturaEduFormaPago
+emp:GruposRegistroE:join RegistroEvaluacion b on b.REid = this.REid
+emp:HCargasCalculo:join DatosEmpleado b on b.DEid = this.DEid
+emp:HDRNomina:join HERNomina b on b.ERNid = this.ERNid
+emp:HDeduccionesCalculo:join DatosEmpleado b on b.DEid = this.DEid
+emp:HIncidenciasCalculo:join DatosEmpleado b on b.DEid = this.DEid
+emp:HPagosEmpleado:join DatosEmpleado b on b.DEid = this.DEid
+emp:Incidencias:join DatosEmpleado b on b.DEid = this.DEid
+emp:IncidenciasExpediente
+emp:IndicadoresRegistroE:join RegistroEvaluacion b on b.REid = this.REid
+emp:Materia
+emp:OBctasMayor
+emp:OBgrupoOGvalores:join OBgrupoOG b on b.OBGid = this.OBGid
+emp:OrigenNivelProv
+emp:PCDCatalogoRefMayor
+emp:PCDCatalogoValOficina
+emp:PCDClasificacionCatalogo:join PCClasificacionD b on b.PCCDclaid = this.PCCDclaid
+emp:PCReglas
+emp:PRJPobraActividad
+emp:PRJproyecto
+emp:PeriodoLectivo
+emp:Pistas
+emp:PortalRespuestaU
+emp:RHASalarialIncidentes:join RHASalarial b on b.RHASid = this.RHASid
+emp:RHASalarialUbicaciones
+emp:RHAnotaciones:join DatosEmpleado b on b.DEid = this.DEid
+emp:RHBeneficiosEmpleado
+emp:RHCMBitacoraAccionesSeguir
+emp:RHCMCalculoAcumMarcas
+emp:RHCMEmpleadosGrupo
+emp:RHCategoriasPuesto
+emp:RHCompetenciasEmpleado
+emp:RHComponentesTAccionM
+emp:RHDAreasEvaluacion
+emp:RHDFeriados
+emp:RHETablasEscenario
+emp:RHEducacionEmpleado
+emp:RHEvaluadoresCalificacion
+emp:RHExcluirDeduccion:join CalendarioPagos b on b.CPid = this.CPid
+emp:RHExperienciaEmpleado
+emp:RHGrupoMateriaCF
+emp:RHHabilidadesMaterias
+emp:RHImagenEmpleado:join DatosEmpleado b on b.DEid = this.DEid
+emp:RHJustificacionMarcasUsuario
+emp:RHMateriasGrupo
+emp:RHOfertaAcademica
+emp:RHOtrasPartidas
+emp:RHPlanificador:join DatosEmpleado b on b.DEid = this.DEid
+emp:RHPlazaPresupuestaria
+emp:RHProgramacionEval
+emp:RHPuestos
+emp:RHSolicitudPlaza
+emp:RHTCEstimado:join RHEscenarios b on b.RHEid = this.RHEid
+emp:RMarcas
+emp:RegistroEvaluadoresE:join RegistroEvaluacion b on b.REid = this.REid
+emp:RolEmpleadoSNegocios
+emp:SNClasificacionD:join SNClasificacionE b on b.SNCEid = this.SNCEid
+emp:TDCalendario:join TDeduccion b on b.TDid = this.TDid
+ce:TEScentrosFuncionales:join Tesoreria b on b.TESid = this.TESid
+emp:TransitoConceptos
+emp:Turnoxofi
+emp:WAlmacenD
+emp:WCContables
+emp:WDepartamentosD
+emp:WOficinasD
+emp:WParametrosD
+emp:WfActivity:join WfProcess b on b.ProcessId = this.ProcessId
+emp:WfDataField:join WfProcess b on b.ProcessId = this.ProcessId
+emp:WfxProcessParticipant:join WfxProcess b on b.ProcessInstanceId = this.ProcessInstanceId
+emp:ZonaCobroSNegocios
+emp:AResponsables
+emp:AlmacenCercano:join Almacen b on b.Aid = this.Alm_Aid
+emp:AnexoCalculoRango:join Anexo b on b.AnexoId = this.AnexoId
+emp:AnexoCelD
+emp:BMComprador
+emp:CCInactivas:join CContables b on b.Ccuenta = this.Ccuenta
+emp:CFGruposRegistroE:join CFuncional b on b.CFid = this.CFid
+emp:CMCompradoresCF:join CFuncional b on b.CFid = this.CFid
+emp:CMEspecializacionComprador
+emp:CMFirmaComprador:join CMCompradores b on b.CMCid = this.CMCid
+emp:CMProcesoCompra
+emp:CMSolicitantesCF:join CFuncional b on b.CFid = this.CFid
+emp:CMUsuarioAutorizado
+emp:CPDocumentoE
+emp:CPresupuesto
+emp:CRAClasificacion
+emp:CRCCCFuncionales:join CFuncional b on b.CFid = this.CFid
+emp:CRCCUsuarios:join CRCentroCustodia b on b.CRCCid = this.CRCCid
+emp:CTipoRequisicion
+emp:CVMayor
+emp:ConceptosDelEvaluador:join RegistroEvaluacion b on b.REid = this.REid
+emp:CuentasBancos
+emp:CuentasConceptos
+emp:DAIncidenciasE:join IncidenciasExpediente b on b.IEid = this.IEid
+emp:DCGRBalanceComprobacion
+emp:DDeducPagos:join DRNomina a on a.DRNlinea = this.DRNlinea join DatosEmpleado b on b.DEid = a.DEid
+emp:DExpedienteEmpleado:join DatosEmpleado b on b.DEid = this.DEid
+emp:DExpedienteEmpleadoV:join DatosEmpleado b on b.DEid = this.DEid
+emp:DGDCriterioDeptoE
+emp:DRIncidencias:join DRNomina a on a.DRNlinea = this.DRNlinea join DatosEmpleado b on b.DEid = a.DEid
+emp:DVacacionesEmpleado
+emp:DocenteMateria:join Materia b on b.Mcodigo = this.Mcodigo
+emp:EAjustes
+emp:EMinteralmacen
+emp:ERequisicion
+emp:FCajas
+emp:HDDeducPagos:join DRNomina a on a.DRNlinea = this.DRNlinea join DatosEmpleado b on b.DEid = a.DEid
+emp:HDRIncidencias:join DRNomina a on a.DRNlinea = this.DRNlinea join DatosEmpleado b on b.DEid = a.DEid
+emp:HIBeneficios
+emp:HYDRelacionValoracion
+emp:Impuestos
+emp:IncidenciasValores:join IncidenciasExpediente b on b.IEid = this.IEid
+emp:MateriaConceptoEvaluacion:join Materia b on b.Mcodigo = this.Mcodigo
+emp:MateriaDocumentacion:join Materia b on b.Mcodigo = this.Mcodigo
+emp:MateriaElegible:join Materia b on b.Mcodigo = this.Mcodigo
+emp:MateriaRequisito:join Materia b on b.Mcodigo = this.Mcodigo
+emp:MateriaTema:join Materia b on b.Mcodigo = this.Mcodigo
+emp:OBtipoProyecto
+emp:PCDCatalogoCuenta:join CContables b on b.Ccuenta = this.Ccuenta
+emp:PRJActividad
+emp:PRJPobraProducto
+emp:PRJProyectoRecurso
+emp:PerfilUsuarioB
+emp:PeriodoEvaluacion
+emp:PlanEstudios:join Carrera b on b.CARcodigo = this.CARcodigo
+emp:RHAccionesMasiva
+emp:RHCSolicitud
+emp:RHConcursos
+emp:RHConocimientosMaterias
+emp:RHConocimientosPuesto
+emp:RHControlMarcas
+emp:RHCursos
+emp:RHDAnotaciones:join RHAnotaciones a on a.RHAid = this.RHAid join DatosEmpleado b on b.DEid = a.DEid
+emp:RHDTablasEscenario
+emp:RHDVPuesto
+emp:RHDescriptivoPuesto
+emp:RHEjecucionPlazas
+emp:RHEncuestaPuesto
+emp:RHEvaluadoresCF
+emp:RHHabilidadesPuesto
+emp:RHListaEvalCap
+emp:RHListaEvalDes
+emp:RHMetodosCalculo
+emp:RHMontosCategoria:join ComponentesSalariales b on b.CSid = this.CSid
+emp:RHNivelesPuestoHAY
+emp:RHPlanSucesion
+emp:RHPlazas
+emp:RHPlazasEscenario
+emp:RHPuestosCategoria
+emp:RHSituacionActual
+emp:RHValoresPuesto
+emp:Retenciones
+emp:SNegocios: :TESRPTCid,DEidCobrador,DEidVendedor,DEidEjecutivo
+emp:SalarioPuesto
+emp:SaldosContables
+emp:TotDebitosCreditos
+emp:WfActivityParticipant:join WfProcess b on b.ProcessId = this.ProcessId
+emp:WfInvocation:join WfProcess b on b.ProcessId = this.ProcessId
+emp:WfTransition:join WfProcess b on b.ProcessId = this.ProcessId
+emp:WfxActivity:join WfProcess b on b.ProcessId = this.ProcessId
+emp:WfxDataField:join WfxProcess b on b.ProcessInstanceId = this.ProcessInstanceId
+emp:ADTProceso
+emp:AFAdquisicion
+emp:Activos
+emp:BMovimientos
+emp:BMovimientosCxP
+emp:CFinanciera
+emp:CMAgenciaAduanal
+emp:CMCondicionesProceso:join CMProcesoCompra b on b.CMPid = this.CMPid
+emp:CMNotas:join CMProcesoCompra b on b.CMPid = this.CMPid
+emp:CMProveedoresProceso
+emp:CPCuentaPeriodo
+emp:CPDocumentoA:join CPDocumentoE b on b.CPDEid = this.CPDEid
+emp:CPInactivas:join CPresupuesto b on b.CPcuenta = this.CPcuenta
+emp:CPLiquidacionCuentas
+emp:CPLiquidacionEquivalencia
+emp:CPresupuestoControl
+emp:CTProyectos
+emp:CVPresupuesto
+emp:CodigoAduanal
+emp:Curso
+emp:DCargas
+emp:DImpuestos
+emp:DLaboralesEmpleado
+emp:DMinteralmacen:join EMinteralmacen b on b.EMid = this.EMid
+emp:DTraspasos:join ETraspasos b on b.ETid = this.ETid
+emp:DeduccionesEmpleado
+emp:EAadquisicion
+emp:EContratosCM
+emp:ECotizacionesCM
+emp:ECuentaBancaria:join Bancos b on b.Bid = this.Bid
+emp:EFCuentasBancos
+emp:EFisico
+emp:EMovimientos
+emp:EOrdenCM
+emp:EReclamos
+emp:FACSnegocios
+emp:FACierres
+emp:LineaTiempo
+emp:OBTPcedulaObrasDet:join OBtipoProyecto b on b.OBTPid = this.OBTPid
+emp:OBTPliquidacionDet:join OBtipoProyecto b on b.OBTPid = this.OBTPid
+emp:OBproyecto
+emp:PCDCatalogoCuentaP:join PCDCatalogo b on b.PCDcatid = this.PCDcatid
+emp:PeriodoMatricula
+emp:PeriodoTarifas:join PeriodoLectivo b on b.PLcodigo = this.PLcodigo
+emp:PlanDocumentacion:join PlanEstudios a on a.PEScodigo= this.PEScodigo join Carrera b on b.CARcodigo = a.CARcodigo
+emp:PlanEstudiosAlumno:join PersonaEducativo b on b.Ppersona = this.Apersona
+emp:PlanEstudiosBloque:join PlanEstudios a on a.PEScodigo= this.PEScodigo join Carrera b on b.CARcodigo = a.CARcodigo
+emp:PlanSede:join Sede b on b.Scodigo = this.Scodigo
+emp:RCalculoNomina
+emp:RHASalarialPuestos
+emp:RHAreasEvalConcurso
+emp:RHCSituacionActual
+emp:RHCompetenciasConcurso
+emp:RHComponentesAccionM
+emp:RHComponentesCalculo:join ComponentesSalariales b on b.CSid = this.CSid
+emp:RHComponentesPlaza
+emp:RHConcursantes
+emp:RHDepenAccionM
+emp:RHEmpleadoCurso
+emp:RHEmpleadosAccionMasiva
+emp:RHEmpleadosCF
+emp:RHEmpleadosPlan
+emp:RHEvaluadoresCap:join RHListaEvalCap b on b.RHEECid = this.RHEECid and b.DEid = this.DEid
+emp:RHEvaluadoresDes:join RHListaEvalDes b on b.DEid = this.DEid and b.RHEEid = this.RHEEid
+emp:RHFormulacion
+emp:RHHorarioCurso
+emp:RHNotasEvalDes:join RHListaEvalDes b on b.DEid = this.DEid and b.RHEEid = this.RHEEid
+emp:RHPeriodosAccionesM
+emp:RHPlazasConcurso
+emp:RHProgramacionCursos
+emp:RHPruebasConcurso
+emp:RHRelacionCap
+emp:SNAnotaciones
+emp:SNClasificacionSN:join SNegocios b on b.SNid = this.SNid
+emp:SNContactos
+emp:SNDirecciones
+emp:SNLimiteCredito
+emp:SNegociosObjetos
+emp:SaldosBancarios:join CuentasBancos b on b.CBid = this.CBid
+ce:TEScuentasBancos:join Tesoreria b on b.TESid = this.TESid
+ce:TEStransferenciaP:join Tesoreria b on b.TESid = this.TESid
+emp:TipoTransaccionCaja
+emp:UsuariosCaja:join FCajas b on b.FCid = this.FCid
+emp:VencimientoSociosN
+emp:VentaE
+emp:WfActualParameter:join WfProcess b on b.ProcessId = this.ProcessId
+emp:WfxActivityParticipant:join WfxActivity a on a.ActivityInstanceId = this.ActivityInstanceId join WfProcess b on b.ProcessId = a.ProcessId
+emp:WfxInvocation:join WfxProcess b on b.ProcessInstanceId = this.ProcessInstanceId
+emp:WfxTransition:join WfxProcess b on b.ProcessInstanceId = this.ProcessInstanceId
+emp:AFAnotaciones
+emp:AFCondiciones
+emp:AFHistoricoRetiros
+emp:AFMovsEmpresasD
+emp:AFSaldos
+emp:AFTFDHojaConteo
+emp:BRegimen:join DatosEmpleado b on b.DEid = this.DEid
+emp:BitEstadoIOC:join EOrdenCM b on b.EOidorden = this.EOidorden
+emp:CDBancos
+emp:CFInactivas:join CFinanciera b on b.CFcuenta = this.CFcuenta
+emp:CIntercompany
+emp:CMAutorizaOrdenes
+emp:CMContratoNotifica
+emp:CPControlMoneda
+emp:CPDocumentoD
+emp:CPNAPdetalle
+emp:CPNRPdetalle
+emp:CTTiempos
+emp:CVFormulacionTotales
+emp:CargasEmpleado:join DatosEmpleado b on b.DEid = this.DEid
+emp:Clasificaciones
+emp:CuentaBalanceOficina
+emp:CursoAlumno:join Curso b on b.Ccodigo = this.Ccodigo
+emp:CursoAmpliacion:join Curso b on b.Ccodigo = this.Ccodigo
+emp:CursoDocente:join Curso b on b.Ccodigo = this.Ccodigo
+emp:CursoPeriodo:join Curso b on b.Ccodigo = this.Ccodigo
+emp:DAadquisicion
+emp:DBMovimientosCxP
+emp:DConsolidadoOrdenCM
+emp:DContables
+emp:DCuentaBancaria
+emp:DDConceptosEmpleado:join DLaboralesEmpleado b on b.DLlinea = this.DLlinea
+emp:DDLaboralesEmpleado:join DLaboralesEmpleado b on b.DLlinea = this.DLlinea
+emp:DFCuentasBancos:join EFCuentasBancos b on b.CBid = this.CBid
+emp:DLineaTiempo:join LineaTiempo b on b.LTid = this.LTid
+emp:DMovimientos
+emp:DReclamos
+emp:DeduccionesEmpleadoPlan
+emp:Documentos
+emp:EDocumentosCP
+emp:EDocumentosCxC
+emp:EPagosCxP
+emp:EPolizaDesalmacenaje
+emp:ETransacciones
+emp:FADCierres:join Monedas b on b.Mcodigo = this.Mcodigo
+emp:FCajasActivas:join UsuariosCaja a on a.FCid = this.FCid and a.EUcodigo = this.EUcodigo join FCajas b on b.FCid = this.FCid
+emp:HDocumentos
+emp:HEDocumentosCP
+emp:Horario:join Curso b on b.Ccodigo = this.Ccodigo
+emp:ImpuestosCodigoAduanal
+emp:MLibros
+emp:MateriaPlan:join Materia b on b.Mcodigo = this.Mcodigo
+emp:MatriculaAlumno:join PeriodoMatricula b on b.PMcodigo = this.PMcodigo
+emp:MatriculaAlumnoCurso:join FacturaEdu b on b.FACcodigo = this.FACcodigo
+emp:OBobra
+emp:OBproyectoOficinas
+emp:ObjetosContrato:join EContratosCM b on b.ECid = this.ECid
+emp:PCDCatalogoCuentaF:join CFinanciera b on b.CFcuenta = this.CFcuenta
+emp:PRJActividadRecurso:join PRJActividad b on b.PRJAid = this.PRJAid
+emp:Pagos
+emp:PlanEstudiosAlumnoHistorico:join PersonaEducativo b on b.Ppersona = this.Apersona
+emp:RHAdjudicacion
+emp:RHCFormulacion
+emp:RHCalificaAreaConcursante
+emp:RHCalificaCompPrueOfer
+emp:RHCalificaPrueConcursante
+emp:RHDEvaluacionCap:join RHListaEvalCap b on b.RHEECid = this.RHEECid and b.DEid = this.DEid
+emp:RHDEvaluacionDes:join RHListaEvalDes b on b.DEid = this.DEid and b.RHEEid = this.RHEEid
+emp:RHDRelacionCap:join RHRelacionCap b on b.RHRCid = this.RHRCid
+emp:RHEvalPlanSucesion
+emp:RHEvaluacionComp
+emp:RHLiquidacionPersonal
+emp:RHMovPlaza
+emp:SNCCTcuentas
+emp:SNCPTcuentas
+emp:SNClasificacionSND:join SNegocios b on b.SNid = this.SNid
+emp:SNDContactos
+emp:SalarioEmpleado:join DatosEmpleado b on b.DEid = this.DEid
+ce:TESmedioPago:join Tesoreria b on b.TESid = this.TESid
+ce:TEStransfIntercomD:join Tesoreria b on b.TESid = this.TESid
+emp:TransaccionesActivos
+emp:WfxArgument:join WfxInvocation a on a.ActivityInstanceId = this.ActivityInstanceId and a.ApplicationName = this.ApplicationName join WfxProcess b on b.ProcessInstanceId = a.ProcessInstanceId
+emp:AFImagenes
+emp:AlumnoMateria:join Materia b on b.Mcodigo = this.Mcodigo
+emp:Articulos
+emp:CDLibros:join MLibros b on b.MLid = this.MLid
+emp:CMImpuestosPoliza
+emp:CPVariacionTipoCambioD
+emp:CVFormulacionMonedas
+emp:CargasCalculo:join DatosEmpleado b on b.DEid = this.DEid
+emp:ClasificacionItemsProv
+emp:ClasificacionesDato
+emp:Correquisito:join MateriaPlan a on a.MPcodigo = this.MPcodigo join Materia b on b.Mcodigo = a.Mcodigo
+emp:CursoAlumnoAmpliacion:join Curso b on b.Ccodigo = this.Ccodigo
+emp:CursoAlumnoAsistencia:join Curso b on b.Ccodigo = this.Ccodigo
+emp:CursoAlumnoObservaciones:join Curso b on b.Ccodigo = this.Ccodigo
+emp:CursoAlumnoPeriodo:join Curso b on b.Ccodigo = this.Ccodigo
+ce:CursoConceptoEvaluacion
+emp:DDocumentos
+emp:DPagosCxP
+emp:DSActivosAdq
+emp:DeduccionesCalculo:join DeduccionesEmpleado b on b.Did = this.Did
+emp:EAplicacionCP
+emp:EDocumentosCxP
+emp:EDocumentosI
+emp:EDocumentosRecepcion
+emp:EFavor
+emp:EPagosExtraordinarios
+emp:FPagos:join Monedas b on b.Mcodigo = this.Mcodigo
+emp:HDDocumentos
+emp:IncidenciasCalculo:join DatosEmpleado b on b.DEid = this.DEid
+emp:OBetapa
+emp:OBobraLiquidacion
+emp:OBproyectoReglas
+emp:PRJTransacciones:join PRJActividadRecurso a on a.PRJRAid = this.PRJRAid join PRJproyecto b on b.PRJid = a.PRJid
+emp:PagosEmpleado:join DatosEmpleado b on b.DEid = this.DEid
+emp:PlanPagos
+emp:RHAcciones
+emp:RHCMovPlaza
+emp:RHCortesPeriodoF
+emp:RHDConvalidacionCap
+emp:RHLineaTiempoPlaza
+emp:RHLiqCargas
+emp:RHLiqDeduccion:join DatosEmpleado b on b.DEid = this.DEid
+emp:RHLiqIngresos
+emp:RHMovPlazaPresupuesto:join RHMovPlaza b on b.RHMPid = this.RHMPid
+emp:SReclamos:join DReclamos b on b.DRid = this.DRid
+emp:TAnuladas:join ETransacciones b on b.FCid = this.FCid and b.ETnumero = this.ETnumero
+ce:TEScontrolFormulariosT:join Tesoreria b on b.TESid = this.TESid
+emp:TImpresas:join ETransacciones b on b.FCid = this.FCid and b.ETnumero = this.ETnumero
+emp:ACodigosProveedor
+emp:Artxpista
+emp:CMEspecializacionTSCF
+emp:ClasificacionesValor:join ClasificacionesDato b on b.CDcodigo = this.CDcodigo
+emp:ConversionUnidadesArt
+emp:CostoProduccionSTD
+emp:CursoEvaluacion:join TablaEvaluacion b on b.TEcodigo = this.TEcodigo
+emp:DAjustes:join EAjustes b on b.EAid = this.EAid
+emp:DAplicacionCP
+emp:DContratosCM
+emp:DDocumentosCxC
+emp:DDocumentosRecepcion
+emp:DFavor
+emp:DFisico
+emp:DListaPrecios
+emp:DMAlmacen
+emp:DPagos
+emp:DPagosExtraordinarios
+emp:DRecibeTransito:join ERecibeTransito b on b.ERTid = this.ERTid
+emp:DSalidaProd
+emp:DTransacciones
+emp:DTransformacion:join ETransformacion b on b.ETid = this.ETid
+emp:Existencias
+emp:ImagenArt
+emp:NumParteProveedor
+emp:OBdocumentacion
+emp:OBetapaCuentas
+emp:RHCLTPlaza
+emp:RHConceptosAccion:join RHAcciones b on b.RHAlinea = this.RHAlinea
+emp:RHDAcciones:join RHAcciones b on b.RHAlinea = this.RHAlinea
+ce:TEScontrolFormulariosL:join Tesoreria b on b.TESid = this.TESid
+emp:TransformacionProducto
+emp:VentaD
+emp:ALMPistas
+emp:ArticulosValor:join Articulos b on b.Aid = this.Aid
+emp:CMESolicitantes:join CMSolicitantes b on b.CMSid = this.CMSid
+emp:Comisiones
+emp:CursoAlumnoEvaluacion:join Curso b on b.Ccodigo = this.Ccodigo
+emp:DDSalidaProd
+emp:ESolicitudCompraCM
+emp:ExistenciasCapa
+emp:Kardex
+emp:Paquetes:join Almacen b on b.Aid = this.Alm_Aid
+emp:DSolicitudCompraCM
+emp:IFV_kardex:join Kardex b on b.Kid = this.Kid
+emp:CMLineasProceso:join CMProcesoCompra b on b.CMPid = this.CMPid
+emp:CMSolicCanceladas
+emp:DRequisicion:join ERequisicion b on b.ERid = this.ERid
+emp:DSProvLineasContrato
+emp:DCotizacionesCM
+emp:DDocumentosAdjuntos:join CMProcesoCompra b on b.CMPid = this.CMPid
+emp:DSDetalleProveedores
+emp:CMResultadoEval
+emp:DOrdenCM
+emp:AFResponsables
+emp:CMOCContrato
+emp:CRDocumentoResponsabilidad
+emp:DDocumentosCP
+emp:DDocumentosCxP
+emp:DDocumentosI
+emp:DPolizaDesalmacenaje
+emp:FacturasPoliza
+emp:HDDocumentosCP
+emp:AFTResponsables:join AFResponsables b on b.AFRid = this.AFRid
+emp:CMDetalleTransito
+emp:CMImpuestosItem
+emp:FacturasGastoItem:join DPolizaDesalmacenaje b on b.DPDlinea = this.DPDlinea

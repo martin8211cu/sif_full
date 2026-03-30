@@ -1,0 +1,784 @@
+﻿<!--- Archivo    :  NoFactProductosA-sql.cfm
+	  --->
+<cfsetting requesttimeout="300">	  
+<cfobject name="OGeneralProcA" component="interfacesTRD.Componentes.CGeneralProcA">
+
+<cfset LvarHoraInicio = now()>
+
+<cfset vFechaI = createdate(right(form.FechaI,4),mid(form.FechaI,4,2),left(form.FechaI,2))>
+<cfset vFechaF = createdate(right(form.FechaF,4),mid(form.FechaF,4,2),left(form.FechaF,2))>
+<cfset vFechaM1 = DateAdd('D',1,vFechaF)>
+
+<cfset session.FechaFolio = "#right(form.FechaF,4)##mid(form.FechaF,4,2)#">
+<cfset session.FechaFinal = vFechaF>
+
+<cfset LvarVoucherProceso = "">
+<cfset LvarVoucherAnt = "">
+
+<cfquery name="rsVerifica" datasource="sifinterfaces">
+	select Ecodigo, CodICTS
+	from int_ICTS_SOIN
+	where Ecodigo = <cfqueryparam cfsqltype="cf_sql_numeric" value="#Session.Ecodigo#">
+</cfquery>
+
+<cfif rsVerifica.recordcount GT 0>
+	<cfset session.EmpresaICTS = rsVerifica.CodICTS>
+</cfif>
+
+<cfquery name="rsVerifica" datasource="preicts">
+	select acct_num, acct_short_name
+	from account
+	where acct_num = <cfqueryparam cfsqltype="cf_sql_integer" value="#session.EmpresaICTS#">
+</cfquery>
+
+<cfif rsVerifica.recordcount GT 0>
+	<cfset session.DescripcionICTS = rsVerifica.acct_short_name>
+</cfif>
+
+<!--- Para desarrollo "sif_interfacesser.." y para produccción "sif_interfaces.."  --->
+<cfset LvarDsource = "sif_interfaces..">
+<cfset session.Dsource = LvarDsource>
+
+<cftry>
+	<cfquery datasource="preicts">
+		drop table #LvarDsource#TempPMI
+	</cfquery> 
+<cfcatch type="any">
+</cfcatch>
+</cftry>
+
+<cfquery datasource="sifinterfaces">
+	delete from #LvarDsource#nofactProdPMI where sessionid = #session.monitoreo.sessionid#
+	delete from #LvarDsource#ErroresPMI where sessionid = #session.monitoreo.sessionid#
+	delete from #LvarDsource#ProductosPMI where sessionid = #session.monitoreo.sessionid#
+</cfquery> 
+
+<!---   tablas de trabajo creadas en sif_interfacesser para pruebas y en sif_interfaces para producción
+create table sif_interfacesser..ErroresPMI (fecharegistro date null,sessionid numeric null,Ecodigo int null,
+		FechaProceso date null,FechaDocumento date null, TipoDocumento char(20) null, UsuarioProceso int null,
+		MensajeError varchar(200),Documento char(20) null, Modulo char(3) null, Monto float null, Trade_Num int null,
+		Order_Num smallint null, Item_Num smallint null)
+create table sif_interfacesser..ProductosPMI (fecharegistro date null,sessionid numeric null,documento char(20) null,
+		orden char(10) null, socionegocio int null,Nsocio numeric null, producto varchar(20) null,
+		fechavoucher date null, vouchernum numeric null,trade_num int null, order_num smallint null,
+		item_num smallint null, importe float null, modulo char(3) null,tipotransaccion char(2) null,
+		iva float null, moneda char(5) null, Ecodigo int null)
+create table sif_interfacesser..nofactProdPMI (fecharegistro date null,sessionid numeric null,
+		tipoconsulta char(1) null, trade_num integer null, order_num smallint null, item_num smallint null,
+		acct_ref_num char(10) null, acct_num int null, booking_comp_num int null, cmdty_code varchar(10),
+		contr_date date null, title_tran_date date null, alloc_type_code char(1) null, del_term_code char(8) null,
+		bl_ticket_num varchar(15) null, bl_date date null, transportation varchar(40) null, load_compl_date date null,
+		nor_date date null, creation_date date null, fecha_allocation date null, real_port_num int null,
+		contr_qty_uom_code char(4) null, contr_qty float null, price_curr_code varchar(8) null, p_s_ind char(1) null, 
+		SNid numeric null, Aid numeric null, UcodigoArt char(5) null, Mcodigo numeric null, Ucodigo char(5) null,
+		subconcepto integer null, cost_code varchar(8) null, cost_type_code varchar(8) null,
+		ta_order_type_code varchar(8) null, ta_trade_num int null, ta_order_num smallint null,
+		ta_item_num smallint null, ta_creation_date date null, ta_acct_ref_num char(10) null, 
+		ta_acct_num int null, tt_order_type_code char(8) null, tt_acct_ref_num char(10) null,
+		tt_acct_num int null, montocosto float null, PosNeg char(1) null, cuafactor float null, tipoventa char(10) null,
+		SNCDid_3 char(1) null, SNCDid_4 char(1) null, SNCDid_5 char(1) null, SNCDid_6 char(1) null,
+		SNCDid_A char(1) null, AllocSNid numeric null, avg_price float null)
+--->
+
+<!--- Crea query de compras  --->
+<cfquery name="rsVerifica" datasource="preicts">
+	insert #LvarDsource#nofactProdPMI (fecharegistro, sessionid, tipoconsulta, trade_num, order_num,
+		item_num, acct_ref_num, acct_num, booking_comp_num, cmdty_code, contr_date, title_tran_date,
+		alloc_type_code, del_term_code, bl_ticket_num, bl_date, transportation, load_compl_date, 
+		nor_date, creation_date, fecha_allocation, real_port_num, contr_qty_uom_code, contr_qty,
+		price_curr_code, p_s_ind, avg_price)
+	select getdate(), #session.monitoreo.sessionid# as sessionid, 'N',
+		ti.trade_num, ti.order_num, ti.item_num,
+		tr.acct_ref_num, tr.acct_num, ti.booking_comp_num,
+		ti.cmdty_code, tr.contr_date,
+	    ai.title_tran_date, 
+		a5.alloc_type_code, ai.del_term_code , a10.bl_ticket_num, 
+		a10.bl_date, a10.transportation, a10.load_compl_date, a10.nor_date, tr.creation_date,
+		a5.creation_date as fecha_allocation, ti.real_port_num, ti.contr_qty_uom_code, ti.contr_qty,
+		ti.price_curr_code, ti.p_s_ind, ti.avg_price
+	from trade_item ti
+	inner join trade tr
+		on tr.trade_num = ti.trade_num
+	inner join trade_order oo
+		on oo.trade_num = ti.trade_num
+		and oo.order_num = ti.order_num
+		and oo.order_type_code='PHYSICAL'
+	inner join allocation_item ai
+		inner join allocation a5
+		on a5.alloc_num = ai.alloc_num
+		inner join allocation_item_transport a10
+		on a10.alloc_num = ai.alloc_num
+		and a10.alloc_item_num = ai.alloc_item_num
+	on ai.trade_num = ti.trade_num
+	and ai.order_num = ti.order_num
+	and ai.item_num = ti.item_num
+	and ai.title_tran_date between 
+	<cfqueryparam cfsqltype="cf_sql_date" value="#ParseDateTime(vFechaI)#"> 
+	and
+	<cfqueryparam cfsqltype="cf_sql_date" value="#ParseDateTime(vFechaF)#">
+	and (ai.title_tran_date IS NOT null)
+	where (ti.p_s_ind = 'P' or ti.p_s_ind = 'S')
+	    and not EXISTS(select ac.ID from #session.Dsource#IE10 ac where ac.Documento = tr.acct_ref_num||'N'||'#session.FechaFolio#'
+								and EcodigoSDC=14) 
+		and ti.booking_comp_num = <cfqueryparam cfsqltype="cf_sql_integer" value="#SESSION.EmpresaICTS#">
+		and (EXISTS(select co.cost_num from cost co where
+					co.cost_status = 'OPEN' 
+					and (co.cost_owner_code <> 'TI')
+					and (co.cost_type_code <> 'WS')
+					and ti.trade_num = co.cost_owner_key6
+					and ti.order_num = co.cost_owner_key7
+					and ti.item_num= co.cost_owner_key8
+					and co.cost_code = ti.cmdty_code)
+			or EXISTS(select co.cost_num from cost co
+							inner join voucher_cost vco
+								inner join PmiInvoice inv
+								on inv.voucherNum = vco.voucher_num
+								and inv.invoiceDate between
+								<cfqueryparam cfsqltype="cf_sql_date" value="#ParseDateTime(vFechaI)#"> 
+								and
+								<cfqueryparam cfsqltype="cf_sql_date" value="#ParseDateTime(vFechaF)#">
+								and upper(inv.printedInd) = 'N'
+							on vco.cost_num = co.cost_num
+					   where
+						co.cost_status in ('VOUCHED')
+						and ti.trade_num = co.cost_owner_key6
+						and ti.order_num = co.cost_owner_key7
+						and ti.item_num= co.cost_owner_key8
+						and co.cost_code = ti.cmdty_code))
+	union
+	select getdate(), #session.monitoreo.sessionid# as sessionid, 'E',
+		ti.trade_num, ti.order_num, ti.item_num,
+		tr.acct_ref_num, tr.acct_num, ti.booking_comp_num,
+		ti.cmdty_code, tr.contr_date,
+	    ai.title_tran_date, 
+		a5.alloc_type_code, ai.del_term_code , a10.bl_ticket_num, 
+		a10.bl_date, a10.transportation, a10.load_compl_date, a10.nor_date, tr.creation_date,
+		a5.creation_date as fecha_allocation, ti.real_port_num, ti.contr_qty_uom_code, ti.contr_qty,
+		ti.price_curr_code, ti.p_s_ind, ti.avg_price
+	from trade_item ti
+	inner join trade tr
+		on tr.trade_num = ti.trade_num
+	inner join trade_order oo
+		on oo.trade_num = ti.trade_num
+		and oo.order_num = ti.order_num
+		and oo.order_type_code='PHYSICAL'
+	inner join allocation_item ai
+		inner join allocation a5
+		on a5.alloc_num = ai.alloc_num
+		inner join allocation_item_transport a10
+		on a10.alloc_num = ai.alloc_num
+		and a10.alloc_item_num = ai.alloc_item_num
+	on ai.trade_num = ti.trade_num
+	and ai.order_num = ti.order_num
+	and ai.item_num = ti.item_num
+	and ai.title_tran_date between 
+		<cfqueryparam cfsqltype="cf_sql_date" value="#ParseDateTime(vFechaI)#"> 
+		and
+		<cfqueryparam cfsqltype="cf_sql_date" value="#ParseDateTime(vFechaF)#">
+		and (ai.title_tran_date IS NOT null)
+	where (ti.p_s_ind = 'P' or ti.p_s_ind = 'S')
+	    and not EXISTS(select ac.ID from #session.Dsource#IE10 ac where ac.Documento = tr.acct_ref_num||'E'||'#session.FechaFolio#'
+								and EcodigoSDC=14)
+		and ti.booking_comp_num = <cfqueryparam cfsqltype="cf_sql_integer" value="#SESSION.EmpresaICTS#">
+		and EXISTS(select co.cost_num from cost co
+						inner join voucher_cost vco
+							inner join PmiInvoice inv
+							on inv.voucherNum = vco.voucher_num
+							and invoiceDate between
+							<cfqueryparam cfsqltype="cf_sql_date" value="#ParseDateTime(vFechaM1)#"> 
+							and
+							<cfqueryparam cfsqltype="cf_sql_date" value="#ParseDateTime(now())#">
+							and upper(inv.printedInd) in ('L','T','Y') 
+							and upper(invoiceType) in('G','K','P','R','W','C','D')
+						on vco.cost_num = co.cost_num
+				   where
+					co.cost_status in ('PAID','VOUCHED')
+					and ti.trade_num = co.cost_owner_key6
+					and ti.order_num = co.cost_owner_key7
+					and ti.item_num= co.cost_owner_key8
+					and co.cost_code = ti.cmdty_code
+					and Exists (select voucherNum from PmiInvoice where voucherNum = vco.voucher_num))
+	union
+	select getdate(), #session.monitoreo.sessionid# as sessionid, 'E',
+		ti.trade_num, ti.order_num, ti.item_num,
+		tr.acct_ref_num, tr.acct_num, ti.booking_comp_num,
+		ti.cmdty_code, tr.contr_date,
+	    ai.title_tran_date, 
+		a5.alloc_type_code, ai.del_term_code , a10.bl_ticket_num, 
+		a10.bl_date, a10.transportation, a10.load_compl_date, a10.nor_date, tr.creation_date,
+		a5.creation_date as fecha_allocation, ti.real_port_num, ti.contr_qty_uom_code, ti.contr_qty,
+		ti.price_curr_code, ti.p_s_ind, ti.avg_price
+	from trade_item ti
+	inner join trade tr
+		on tr.trade_num = ti.trade_num
+	inner join trade_order oo
+		on oo.trade_num = ti.trade_num
+		and oo.order_num = ti.order_num
+		and oo.order_type_code='PHYSICAL'
+	inner join allocation_item ai
+		inner join allocation a5
+		on a5.alloc_num = ai.alloc_num
+		inner join allocation_item_transport a10
+		on a10.alloc_num = ai.alloc_num
+		and a10.alloc_item_num = ai.alloc_item_num
+	on ai.trade_num = ti.trade_num
+	and ai.order_num = ti.order_num
+	and ai.item_num = ti.item_num
+	and ai.title_tran_date between 
+		<cfqueryparam cfsqltype="cf_sql_date" value="#ParseDateTime(vFechaI)#"> 
+		and
+		<cfqueryparam cfsqltype="cf_sql_date" value="#ParseDateTime(vFechaF)#">
+		and (ai.title_tran_date IS NOT null)
+	where (ti.p_s_ind = 'P' or ti.p_s_ind = 'S')
+	    and not EXISTS(select ac.ID from #session.Dsource#IE10 ac where ac.Documento = tr.acct_ref_num||'E'||'#session.FechaFolio#'
+								and EcodigoSDC=14)
+		and ti.booking_comp_num = <cfqueryparam cfsqltype="cf_sql_integer" value="#SESSION.EmpresaICTS#">
+		and EXISTS(select co.cost_num from cost co
+						inner join voucher_cost vco
+							inner join voucher vo
+							on vco.voucher_num = vo.voucher_num
+							and vo.voucher_creation_date between 
+							<cfqueryparam cfsqltype="cf_sql_date" value="#ParseDateTime(vFechaM1)#"> 
+							and
+							<cfqueryparam cfsqltype="cf_sql_date" value="#ParseDateTime(now())#">
+						on vco.cost_num = co.cost_num
+				   where
+					co.cost_status in ('PAID','VOUCHED')
+					and ti.trade_num = co.cost_owner_key6
+					and ti.order_num = co.cost_owner_key7
+					and ti.item_num= co.cost_owner_key8
+					and co.cost_code = ti.cmdty_code
+					and Exists (select i_voucher from PmiFolios where i_voucher = vco.voucher_num))  
+	order by ti.p_s_ind, ai.title_tran_date
+</cfquery>
+
+<cfquery datasource="sifinterfaces">
+	UPDATE #LvarDsource#nofactProdPMI SET montocosto = 0
+	from #LvarDsource#nofactProdPMI 
+	where sessionid = #session.monitoreo.sessionid#
+	  and montocosto is null
+</cfquery>
+
+<cfset LvarOCtipoIC = "C">
+
+<cfset LvarBanderaErrores = false>
+<cfset LvarControlSocio = "">
+<cfset LvarControlTipo = "">
+<cfset LvarControlDocto = "">
+
+<!--- procesa los registros de nofact  --->	
+<cfset LvarBanderaErrores_registro = False>
+<cfset LvarTipoError = "">
+
+<!--- Existencia del Socio de Negocio  --->
+<cfquery datasource="#session.dsn#">
+	UPDATE #LvarDsource#nofactProdPMI SET SNid = a2.SNid
+	from #LvarDsource#nofactProdPMI a1, SNegocios a2 
+	where a2.Ecodigo = #session.ecodigo#
+	  and convert(int,a2.SNcodigoext)  = a1.acct_num
+</cfquery> 
+
+<!--- Existencia del Articulo  --->
+<cfquery datasource="#session.dsn#">
+	UPDATE #LvarDsource#nofactProdPMI SET Aid = a2.Aid, UcodigoArt = a2.Ucodigo
+	from  #LvarDsource#nofactProdPMI a1, Articulos a2 
+	where a2.Ecodigo = #session.ecodigo#
+	  and a2.Acodalterno  = a1.cmdty_code
+</cfquery>
+
+<!--- Moneda es Valida  --->
+<cfquery datasource="#session.dsn#">
+	UPDATE #LvarDsource#nofactProdPMI SET Mcodigo = a2.Mcodigo
+	from  #LvarDsource#nofactProdPMI a1, Monedas a2 
+	where a2.Ecodigo = #session.ecodigo#
+	  and a2.Miso4217  = a1.price_curr_code
+</cfquery>
+
+<!--- Unidad es Valida  --->
+<cfquery datasource="#session.dsn#">
+	UPDATE #LvarDsource#nofactProdPMI SET Ucodigo = a2.Ucodigo
+	from #LvarDsource#nofactProdPMI a1, Unidades a2 
+	where a2.Ecodigo = #session.ecodigo#
+	  and a2.Ucodigo  = a1.contr_qty_uom_code
+</cfquery>
+
+<!--- Busca factor de conversión del Artículo  --->
+<cfquery datasource="#session.dsn#">
+	UPDATE #LvarDsource#nofactProdPMI SET cuafactor = a2.CUAfactor
+	from #LvarDsource#nofactProdPMI a1, ConversionUnidadesArt a2
+	where a2.Ecodigo = #session.ecodigo#
+	  and a2.Aid  = case 
+						when a1.Aid is null then 0
+						else a1.Aid
+					end
+	  and a2.Ucodigo = a1.contr_qty_uom_code
+	  and rtrim(a1.UcodigoArt) <> rtrim(contr_qty_uom_code)
+</cfquery>
+
+<cfset LvarConceptoCompra = "00">
+
+<!--- obtiene el valor de OCtipoIC  Comercial o Inventario  --->
+<cfset LvarOCtipoIC = "C">
+<cfset LvarAlmacen = "">
+<cfset LvarSocioAlloc = 0>
+<cfset LvarOrdenAlloc = "">
+
+<!--- allocation de compra --->
+<cfquery datasource="preicts">
+	select distinct oo.order_type_code, a2.trade_num, a2.order_num, a2.item_num, tr.creation_date, a2.acct_ref_num,
+	    a2.acct_num, a1.trade_num as trade_num_CP, a1.order_num as order_num_CP, a1.item_num as item_num_CP
+			into #LvarDsource#TempPMI
+	from allocation_item a1
+		inner join allocation_item a2
+			inner join trade tr
+			on tr.trade_num = a2.trade_num
+		on a1.alloc_num = a2.alloc_num
+	    and a1.trade_num <> a2.trade_num
+		inner join trade_item ti
+		on ti.trade_num = a2.trade_num
+		and ti.order_num = a2.order_num
+		and ti.item_num = a2.item_num
+		and ti.p_s_ind = 'S'
+		inner join allocation_item_transport a3
+			on a3.alloc_num = a2.alloc_num
+		   and a3.alloc_item_num = a2.alloc_item_num
+		inner join trade_order oo
+			on oo.trade_num = a2.trade_num
+		    and oo.order_num = a2.order_num
+			where a1.trade_num in (select trade_num from #LvarDsource#nofactProdPMI where p_s_ind='P')
+			and a1.order_num in (select order_num from #LvarDsource#nofactProdPMI oo where oo.trade_num=a1.trade_num
+								 and p_s_ind='P')	
+			and a1.item_num in (select item_num from #LvarDsource#nofactProdPMI ti where ti.trade_num=a1.trade_num
+								and ti.order_num=a1.order_num and p_s_ind='P')	
+	order by oo.order_type_code, a2.acct_ref_num
+</cfquery>
+<cfquery datasource="sifinterfaces">
+	UPDATE #LvarDsource#nofactProdPMI SET ta_order_type_code = a2.order_type_code,
+	 	   ta_trade_num = a2.trade_num, ta_order_num = a2.order_num, ta_item_num = a2.item_num,
+		   ta_creation_date = a2.creation_date, ta_acct_ref_num = a2.acct_ref_num, ta_acct_num = a2.acct_num
+	from #LvarDsource#nofactProdPMI a1, #LvarDsource#TempPMI a2
+	where a1.trade_num = a2.trade_num_CP
+	  and a1.order_num = a2.order_num_CP
+	  and a1.item_num = a2.item_num_CP
+	  and a1.p_s_ind = 'P'
+</cfquery>
+<cfquery datasource="sifinterfaces">
+	drop table  #LvarDsource#TempPMI
+</cfquery> 
+
+<cfquery datasource="preicts">
+	select oo.order_type_code, a2.acct_ref_num, a2.acct_num,a2.trade_num, a2.order_num, a2.item_num,
+			(select max (ate.trade_num) from #LvarDsource#nofactProdPMI ate
+			 where ate.ta_trade_num = a1.trade_num) as trade_num_CP
+		 into #LvarDsource#TempPMI
+	from allocation_item a1
+		inner join allocation_item a2
+			on a2.alloc_num = a1.alloc_num
+			 and a1.trade_num <> a2.trade_num
+		inner join trade_item ti
+			on ti.trade_num = a2.trade_num
+			 and ti.order_num = a2.order_num
+			 and ti.item_num = a2.item_num
+			 and ti.p_s_ind = 'S'
+		inner join trade_order oo
+			on oo.trade_num = a2.trade_num
+			and oo.order_num = a2.order_num
+	 where a1.trade_num in (select ta_trade_num from #LvarDsource#nofactProdPMI where p_s_ind='P')
+	 order by a1.trade_num
+</cfquery>
+<cfquery datasource="sifinterfaces">
+	UPDATE #LvarDsource#nofactProdPMI SET tt_order_type_code = a2.order_type_code,
+	 	   tt_acct_ref_num = a2.acct_ref_num, tt_acct_num = a2.acct_num
+	from #LvarDsource#nofactProdPMI a1, #LvarDsource#TempPMI a2
+	where a1.trade_num = a2.trade_num_CP
+	  and a1.p_s_ind = 'P'
+</cfquery>
+<cfquery datasource="sifinterfaces">
+	drop table  #LvarDsource#TempPMI
+</cfquery> 
+
+<!--- allocation de venta --->
+<cfquery datasource="preicts">
+	select distinct oo.order_type_code, a2.trade_num, a2.order_num, a2.item_num, tr.creation_date, a2.acct_ref_num,
+	    a2.acct_num, a1.trade_num as trade_num_CP, a1.order_num as order_num_CP, a1.item_num as item_num_CP
+			into #LvarDsource#TempPMI
+	from allocation_item a1
+		inner join allocation_item a2
+			inner join trade tr
+			on tr.trade_num = a2.trade_num
+		on a1.alloc_num = a2.alloc_num
+	    and a1.trade_num <> a2.trade_num
+		inner join trade_item ti
+		on ti.trade_num = a2.trade_num
+		and ti.order_num = a2.order_num
+		and ti.item_num = a2.item_num
+		and ti.p_s_ind = 'P'
+		inner join allocation_item_transport a3
+			on a3.alloc_num = a2.alloc_num
+		   and a3.alloc_item_num = a2.alloc_item_num
+		inner join trade_order oo
+			on oo.trade_num = a2.trade_num
+		   and oo.order_num = a2.order_num
+			where a1.trade_num in (select trade_num from #LvarDsource#nofactProdPMI where p_s_ind='S')
+			and a1.order_num in (select order_num from #LvarDsource#nofactProdPMI oo where oo.trade_num=a1.trade_num
+								 and p_s_ind='S')	
+			and a1.item_num in (select item_num from #LvarDsource#nofactProdPMI ti where ti.trade_num=a1.trade_num
+								and ti.order_num=a1.order_num and p_s_ind='S')	
+	order by oo.order_type_code, a2.acct_ref_num
+</cfquery>
+<cfquery datasource="sifinterfaces">
+	UPDATE #LvarDsource#nofactProdPMI SET ta_order_type_code = a2.order_type_code,
+	 	   ta_trade_num = a2.trade_num, ta_order_num = a2.order_num, ta_item_num = a2.item_num,
+		   ta_creation_date = a2.creation_date, ta_acct_ref_num = a2.acct_ref_num, ta_acct_num = a2.acct_num
+	from #LvarDsource#nofactProdPMI a1, #LvarDsource#TempPMI a2
+	where a1.trade_num = a2.trade_num_CP
+	  and a1.order_num = a2.order_num_CP
+	  and a1.item_num = a2.item_num_CP
+	  and a1.p_s_ind = 'S'
+</cfquery>
+<cfquery datasource="sifinterfaces">
+	drop table  #LvarDsource#TempPMI
+</cfquery> 
+
+<cfquery datasource="preicts">
+	select oo.order_type_code, a2.acct_ref_num, a2.acct_num,a2.trade_num, a2.order_num, a2.item_num,
+			(select max (ate.trade_num) from #LvarDsource#nofactProdPMI ate
+			 where ate.ta_trade_num = a1.trade_num) as trade_num_CP
+		 into #LvarDsource#TempPMI
+	from allocation_item a1
+		inner join allocation_item a2
+			on a2.alloc_num = a1.alloc_num
+			 and a1.trade_num <> a2.trade_num
+		inner join trade_item ti
+			on ti.trade_num = a2.trade_num
+			 and ti.order_num = a2.order_num
+			 and ti.item_num = a2.item_num
+			 and ti.p_s_ind = 'P'
+		inner join trade_order oo
+			on oo.trade_num = a2.trade_num
+			and oo.order_num = a2.order_num
+	 where a1.trade_num in (select ta_trade_num from #LvarDsource#nofactProdPMI where p_s_ind='S')
+	 order by a1.trade_num
+</cfquery>
+<cfquery datasource="sifinterfaces">
+	UPDATE #LvarDsource#nofactProdPMI SET tt_order_type_code = a2.order_type_code,
+	 	   tt_acct_ref_num = a2.acct_ref_num, tt_acct_num = a2.acct_num
+	from #LvarDsource#nofactProdPMI a1, #LvarDsource#TempPMI a2
+	where a1.trade_num = a2.trade_num_CP
+	  and a1.p_s_ind = 'S'
+</cfquery>
+<cfquery datasource="sifinterfaces">
+	drop table  #LvarDsource#TempPMI
+</cfquery> 
+
+<!--- tipo de venta   --->
+<cfquery datasource="#Session.Dsn#">
+	UPDATE #LvarDsource#nofactProdPMI SET SNCDid_3 = 'S'
+	from #LvarDsource#nofactProdPMI a1, SNClasificacionSN a2
+	where a1.SNid = a2.SNid
+	  and a2.SNCDid = 3
+</cfquery>
+<cfquery datasource="#Session.Dsn#">
+	UPDATE #LvarDsource#nofactProdPMI SET SNCDid_4 = 'S'
+	from #LvarDsource#nofactProdPMI a1, SNClasificacionSN a2
+	where a1.SNid = a2.SNid
+	  and a2.SNCDid = 4
+</cfquery>
+<cfquery datasource="#Session.Dsn#">
+	UPDATE #LvarDsource#nofactProdPMI SET SNCDid_5 = 'S'
+	from #LvarDsource#nofactProdPMI a1, SNClasificacionSN a2
+	where a1.SNid = a2.SNid
+	  and a2.SNCDid = 5
+</cfquery>
+<cfquery datasource="#Session.Dsn#">
+	UPDATE #LvarDsource#nofactProdPMI SET SNCDid_6 = 'S'
+	from #LvarDsource#nofactProdPMI a1, SNClasificacionSN a2
+	where a1.SNid = a2.SNid
+	  and a2.SNCDid = 6
+</cfquery>
+<cfquery datasource="#Session.Dsn#">
+	UPDATE #LvarDsource#nofactProdPMI SET SNCDid_A = 'S'
+	from #LvarDsource#nofactProdPMI a1, SNClasificacionSN a2
+	where a1.SNid = case
+						when a1.tt_acct_num > 0 then
+						(select SNid from SNegocios where Ecodigo = 
+						<cfqueryparam cfsqltype="cf_sql_integer" value="#Session.Ecodigo#"> 
+						and SNcodigoext = convert(varchar,a1.tt_acct_num))
+						else
+						(select SNid from SNegocios where Ecodigo = 
+						<cfqueryparam cfsqltype="cf_sql_integer" value="#Session.Ecodigo#"> 
+						and SNcodigoext = convert(varchar,a1.ta_acct_num))						
+					end
+	  and a2.SNCDid = 3
+</cfquery>
+
+<cfquery datasource="#Session.Dsn#">
+	UPDATE #LvarDsource#nofactProdPMI SET AllocSNid = a2.SNid
+	from #LvarDsource#nofactProdPMI a1, SNegocios a2
+	where Convert(int,a2.SNcodigoext) = case
+											when a1.tt_acct_num > 0 then a1.tt_acct_num
+											else a1.ta_acct_num
+									    end
+	and a2.Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#Session.Ecodigo#"> 
+</cfquery>
+
+<cfquery name="rsNofact" datasource="sifinterfaces">
+	select *
+	from  #LvarDsource#nofactProdPMI where sessionid = #session.monitoreo.sessionid#
+</cfquery>
+
+<cfloop query="rsNofact"> 
+	<cfset LvarBanderaErrores_registro = False>
+	<cfset LvarTipoError = "">
+
+	<!--- Existencia del Socio de Negocio  --->
+	<cfif Len(rsNofact.SNid) EQ 0>
+		<cfset LvarBanderaErrores_registro = true>
+		<cfset LvarBanderaErrores = true>
+		<cfif len(LvarTipoError)>
+			<cfset LvarTipoError = LvarTipoError & ", ">
+		</cfif>
+		<cfset LvarTipoError = LvarTipoError & "Socio No Definido">
+	</cfif>
+
+	<!--- Existencia del Articulo  --->
+	<cfif Len(rsNofact.Aid) EQ 0>
+		<cfset LvarAid = 0>
+		<cfset LvarBanderaErrores_registro = true>
+		<cfset LvarBanderaErrores = true>
+		<cfif len(LvarTipoError)>
+			<cfset LvarTipoError = LvarTipoError & ", ">
+		</cfif>
+		<cfset LvarTipoError = LvarTipoError & "Producto No Definido">
+	<cfelse>
+		<cfset LvarAid = rsNofact.Aid>
+	</cfif>
+
+	<!--- Moneda es Valida  --->
+	<cfif Len(rsNofact.Mcodigo) EQ 0>
+		<cfset LvarBanderaErrores_registro = true>
+		<cfset LvarBanderaErrores = true>
+		<cfif len(LvarTipoError)>
+			<cfset LvarTipoError = LvarTipoError & ", ">
+		</cfif>
+		<cfset LvarTipoError = LvarTipoError & "Moneda Incorrecta">
+	</cfif> 
+
+	<!--- Unidad es Valida  --->
+	<cfif Len(rsNofact.Ucodigo) EQ 0>
+		<cfset LvarBanderaErrores_registro = true>
+		<cfset LvarBanderaErrores = true>
+		<cfif len(LvarTipoError)>
+			<cfset LvarTipoError = LvarTipoError & ", ">
+		</cfif>
+		<cfset LvarTipoError = LvarTipoError & "Unidad Incorrecta">
+	</cfif>
+
+	<cfset LvarTipoVenta = "">
+	<cfset LvarConceptoCompra = "00">
+
+	<!--- Costos no definidos  --->
+	<cfif rsNofact.p_s_ind EQ "P">	
+		<cfset rsCostos = OGeneralProcA.ConsultaCostosNoFactProd(rsNofact.trade_num, rsNofact.order_num,
+					 rsNofact.item_num,'C',rsNofact.cmdty_code, rsNofact.tipoconsulta,
+					 vFechaI, vFechaF)>
+	<cfelse>
+		<cfset rsCostos = OGeneralProcA.ConsultaCostosNoFactProd(rsNofact.trade_num, rsNofact.order_num,
+					 rsNofact.item_num,'V',rsNofact.cmdty_code, rsNofact.tipoconsulta,
+					 vFechaI, vFechaF)>
+	</cfif>
+
+	<cfif rsCostos.recordcount GT 0>
+		<cfif rsCostos.monto LT 0>
+			<cfset ws_pos_neg = "N">
+		<cfelse>
+			<cfset ws_pos_neg = "P">
+		</cfif>
+
+		<cfquery datasource="sifinterfaces">
+			UPDATE #LvarDsource#nofactProdPMI SET montocosto = #rsCostos.monto#, PosNeg = '#ws_pos_neg#'
+			from #LvarDsource#nofactProdPMI 
+			where trade_num = #rsNofact.trade_num#
+			  and order_num = #rsNofact.order_num#
+			  and item_num = #rsNofact.item_num#
+			  and cmdty_code = '#rsNofact.cmdty_code#'
+			  and tipoconsulta = '#rsNofact.tipoconsulta#'
+			  and sessionid = #session.monitoreo.sessionid#
+		</cfquery>
+	</cfif>
+	
+	<cfif rsNofact.trade_num EQ 0>
+		<cfset LvarBanderaErrores_registro = true>
+		<cfset LvarBanderaErrores = true>
+		<cfif len(LvarTipoError)>
+			<cfset LvarTipoError = LvarTipoError & ", ">
+		</cfif>
+		<cfset LvarTipoError = LvarTipoError & "No existen trade definidos">
+	</cfif>
+
+	<!--- decodifica campo alloc_type_code  --->	
+	<cfif rsNofact.alloc_type_code EQ "W">
+		<cfset LvarOCTtipo = "B">
+	<cfelseif rsNofact.alloc_type_code EQ "R">
+		<cfset LvarOCTtipo = "F">
+	<cfelse>
+		<cfset LvarOCTtipo = "T">
+	</cfif>
+
+	<!--- obtiene el valor de OCtipoIC  Comercial o Inventario  --->
+	<cfset LvarOCtipoIC = "C">
+	<cfset LvarAlmacen = "">
+	<cfset LvarTransporte = "#rsNofact.acct_ref_num#">
+	<cfset LvarSocioAlloc = 0>
+	
+	<cfif rsNofact.ta_order_type_code EQ 'PHYSICAL'>
+		<cfset LvarOCtipoIC = "C">
+		<cfset LvarSocioAlloc = rsNofact.ta_acct_num>
+	</cfif>
+	<cfif rsNofact.ta_order_type_code EQ 'STORAGE'>
+		<cfset LvarOCtipoIC = "C">
+		<cfset LvarAlmacen = rsNofact.ta_acct_ref_num>
+		<cfset LvarSocioAlloc = rsNofact.ta_acct_num>
+	</cfif>
+	<cfif rsNofact.ta_order_type_code EQ 'TRANSPRT'>
+		<cfset LvarTransporte = rsNofact.ta_acct_ref_num>
+		<cfif rsNofact.tt_order_type_code EQ 'PHYSICAL'>
+			<cfset LvarOCtipoIC = "C">
+			<cfset LvarSocioAlloc = rsNofact.tt_acct_num>
+		</cfif>
+	
+		<cfif rsNofact.tt_order_type_code EQ 'STORAGE'>
+			<cfset LvarOCtipoIC = "C">
+			<cfset LvarAlmacen = rsNofact.tt_cct_ref_num>
+			<cfset LvarSocioAlloc = rsNofact.tt_acct_num>
+		</cfif>
+	</cfif>
+
+	<cfset LvarAllocSocio =0>
+	<cfif Len(rsNofact.tt_acct_num) GT 0>
+		<cfset LvarAllocSocio = rsNofact.tt_acct_num>
+	<cfelse>
+		<cfif Len(rsNofact.ta_acct_num) GT 0>
+			<cfset LvarAllocSocio = rsNofact.ta_acct_num>
+		</cfif>
+	</cfif>
+	
+	<!--- Validar el tipo de venta  --->
+	<cfif rsNofact.p_s_ind EQ 'S'>
+		<cfif len(LvarAlmacen)>
+			<cfset LvarTipoVenta= "#Lvaralmacen#">    <!--- ES UN ALMACEN  --->
+		<cfelse>
+			<cfif Len(rsNoFact.AllocSNid) GT 0>
+				<cfif len(rsNofact.SNCDid_3) GT 0>
+					<cfset LvarTipoVenta= "002">    <!--- ES INTERCOMPAÑIA  --->
+				<cfelse>
+					<cfif len(rsNofact.SNCDid_4) GT 0>
+						<cfif len(rsNofact.SNCDid_5) GT 0>
+							<cfset LvarTipoVenta= "004">    <!--- ES TERCERO NACIONAL  --->
+						<cfelse>
+							<cfif len(rsNofact.SNCDid_6) GT 0>
+								<cfif len(rsNofact.SNCDid_A) GT 0>
+									<cfset LvarTipoVenta= "001">    <!--- ES VENTA AL EXTERIOR  --->
+								<cfelse>
+									<cfset LvarTipoVenta= "003">    <!--- ES VENTA A TERCEROS  --->
+								</cfif>
+							</cfif>
+						</cfif>
+					</cfif>			
+				</cfif>
+			<cfelse>
+				<cfset LvarBanderaErrores_registro = true>
+				<cfset LvarBanderaErrores = true>
+				<cfif len(LvarTipoError)>
+					<cfset LvarTipoError = LvarTipoError & ", ">
+				</cfif>
+				<cfset LvarTipoError = LvarTipoError & "Socio Compra no Existe">
+			</cfif>					
+		</cfif>
+	
+		<cfquery name="rsVerifica" datasource="#Session.Dsn#">
+			select OCVid, OCVcodigo, OCVdescripcion
+			from OCtipoVenta
+			where Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#session.Ecodigo#">
+			  and OCVcodigo = <cfqueryparam cfsqltype="cf_sql_char" value="#LvarTipoVenta#">
+		</cfquery>
+		<cfif rsVerifica.recordcount EQ 0>
+			<cfset LvarBanderaErrores_registro = true>
+			<cfset LvarBanderaErrores = true>
+			<cfif len(LvarTipoError)>
+				<cfset LvarTipoError = LvarTipoError & ", ">
+			</cfif>
+			<cfset LvarTipoError = LvarTipoError & "Tipo de Venta No existe-#LvarTipoVenta#">
+		</cfif> 
+	</cfif>
+
+	<!--- Conversión a unidades del Artículo --->
+	<cfif Rtrim(rsNofact.UcodigoArt) NEQ "#Rtrim(rsNofact.contr_qty_uom_code)#">
+		<cfif Len(rsNofact.cuafactor) EQ 0>
+			<cfset LvarBanderaErrores_registro = true>
+			<cfset LvarBanderaErrores = true>
+			<cfif len(LvarTipoError)>
+				<cfset LvarTipoError = LvarTipoError & ", ">
+			</cfif>
+			<cfset LvarTipoError = LvarTipoError &
+				 "Falta Factor de conversión:#rsNofact.cmdty_code#,#rsNofact.contr_qty_uom_code#">
+		</cfif>
+	</cfif> 
+
+	<cfif rsNofact.p_s_ind EQ "P">
+		<cfset ws_tipo_modulo = "CP">
+	<cfelse>
+		<cfset ws_tipo_modulo = "CC">
+	</cfif>
+
+	<cfif len(LvarTipoError) GT 0>
+		<!--- Graba error en tabla temporal ErroresPMI  --->
+		<cfquery datasource="preicts">
+			insert #LvarDsource#ErroresPMI (fecharegistro, sessionid, Ecodigo,FechaProceso,FechaDocumento,TipoDocumento,
+				UsuarioProceso,MensajeError,Documento,Modulo,Monto,Trade_Num,Order_Num,Item_Num)
+			values (<cfqueryparam cfsqltype="cf_sql_date" value="#now()#">,
+					<cfqueryparam cfsqltype="cf_sql_numeric" value="#session.monitoreo.sessionid#">,
+					#session.Ecodigo#, 
+					<cfqueryparam cfsqltype="cf_sql_date" value="#rsNofact.creation_date#">,
+					<cfqueryparam cfsqltype="cf_sql_date" value="#rsNofact.title_tran_date#">,
+			        'Trade-Order', #session.Usucodigo#, '#LvarTipoError#', '#rsNofact.acct_ref_num#',
+					'#ws_tipo_modulo#',
+					<cfif isnumeric(rsCostos.monto)>
+						<cfqueryparam cfsqltype="cf_sql_float" value="#rsCostos.monto#">,
+					<cfelse>
+						null,
+					</cfif>
+					 #rsNofact.Trade_Num#, #rsNofact.Order_Num#,
+					#rsNofact.Item_Num#)
+		</cfquery> 
+	<cfelse>	
+		<cfset cContr_Date = rsNofact.title_tran_date>
+		<cfset cAcct_Ref_Num = rsNofact.acct_ref_num>
+		<cfset cSocio = rsNofact.acct_num>
+		<cfset cTrade_Num = rsNofact.trade_num>
+		<cfset cOrder_Num = rsNofact.order_num>
+		<cfset cItem_Num = rsNofact.item_num>
+		<cfset cProducto = rsNofact.cmdty_code>
+		<cfset cCreation_date = rsNofact.creation_date>
+		<cfset cSNid = rsNofact.SNid>
+		<cfset cMoneda = rsNofact.price_curr_code>
+		<cfset cTipo_consulta = rsNofact.tipoconsulta>
+		<!--- se procesan los costos agrupados  --->
+		<cfloop query="rsCostos">
+			<!--- se inserta el registro en tabla temporal ProductoPMI   --->
+			<cfquery datasource="preicts">
+				insert #LvarDsource#ProductosPMI (fecharegistro,sessionid,documento,orden,socionegocio,Nsocio,
+					producto,fechavoucher,vouchernum,trade_num,order_num,item_num,importe,modulo,
+					tipotransaccion,iva,moneda,Ecodigo)
+				values (<cfqueryparam cfsqltype="cf_sql_date" value="#now()#">,
+						<cfqueryparam cfsqltype="cf_sql_numeric" value="#session.monitoreo.sessionid#">,
+						'#rsCostos.Trade_num# #rsCostos.order_num# #rsCostos.item_num#', '#cAcct_Ref_Num#', #cSocio#,
+						#cSNid#, '#cProducto#', 
+						<cfqueryparam cfsqltype="cf_sql_date" value="#cContr_Date#">,
+						#rsCostos.Trade_num#, #rsCostos.Trade_num#, #rsCostos.order_num#,
+						#rsCostos.item_num#, #rsCostos.monto#, '#ws_tipo_modulo#', 'Compra',
+						0, '#cMoneda#', #session.Ecodigo#)
+			</cfquery> 
+		</cfloop>    <!--- Cierra loop de queryCostos  --->
+	</cfif>
+</cfloop>

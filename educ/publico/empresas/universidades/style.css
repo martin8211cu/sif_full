@@ -1,0 +1,199 @@
+input, select {
+	color : #000000;
+	font-size : 8pt;
+	font-family : Tahoma,Verdana,Arial;
+}
+tda {
+	color : #000000;
+	font-size : 8pt;
+	font-family : Tahoma,Verdana,Arial;
+}
+div {
+	margin-top : 0px;
+	margin-bottom : 0px;
+	margin-left : 0px;
+	margin-right : 0px;
+}
+.px {
+	padding-top : 0px;
+	padding-bottom : 0px;
+	padding-left : 0px;
+	padding-right : 0px;
+	margin-top : 2px;
+	margin-bottom : 0px;
+	margin-left : 0px;
+	margin-right : 0px;
+}
+.px5 {
+	padding-top : 5px;
+	padding-bottom : 0px;
+	padding-left : 0px;
+	padding-right : 0px;
+	margin-top : 5px;
+	margin-bottom : 0px;
+	margin-left : 0px;
+	margin-right : 0px;
+}
+.menu {
+	color : #FFFFFF;
+	margin-top : 9px;
+	padding-bottom : 9px;
+	margin-left : 10px;
+	margin-right : 10px;
+	font-size : 11px;
+	font-family : Tahoma,Verdana,Arial;
+	font-weight: bold;
+}
+.menu a {
+	color : #FFFFFF;
+	text-decoration: none;
+}
+.menu a:hover {
+	color : #F2F2F2;
+}
+.title01 {
+	color : #FFFFFF;
+	margin-top : 5px;
+	padding-bottom : 5px;
+	margin-left : 10px;
+	margin-right : 10px;
+	font-size : 11px;
+	font-family : Tahoma,Verdana,Arial;
+	font-weight: bold;
+}
+.title02 {
+	color : #000000;
+	margin-top : 0px;
+	padding-bottom : 0px;
+	margin-left : 5px;
+	margin-right : 5px;
+	font-size : 11px;
+	font-family : Tahoma,Verdana,Arial;
+	font-weight: bold;
+}
+.title02 a {
+	color : #000000;
+	text-decoration: none;
+}
+.right {
+	color : #000000;
+	margin-top : 5px;
+	padding-bottom : 10px;
+	margin-bottom : 5px;
+	margin-left : 10px;
+	margin-right : 10px;
+	font-size : 11px;
+	font-family : Tahoma,Verdana,Arial;
+	font-weight: bold;
+}
+.right a {
+	color : #EF6D00;
+}
+.right a:hover {
+	color : #000000;
+}
+.left {
+	color : #FFFFFF;
+	margin-top : 10px;
+	padding-bottom : 10px;
+	margin-bottom : 10px;
+	margin-left : 10px;
+	margin-right : 10px;
+	font-size : 11px;
+	font-family : Tahoma,Verdana,Arial;
+}
+.left a {
+	color : #FFFFFF;
+}
+.left a:hover {
+	color : #000000;
+}
+body { font-size:10px;font-family :  Verdana, Arial, Helvetica, sans-serif;}
+li {
+	color : #000000;
+	margin-top : -1px;
+	padding-bottom : -1px;
+	margin-bottom : -1px;
+	margin-right : 1px;
+	font-size : 11px;
+	font-family : Tahoma,Verdana,Arial;
+}
+ul, ol {
+	color : #000000;
+	margin-top : 0px;
+	padding-bottom : 0px;
+	margin-bottom : 0px;
+	margin-right : 0px;
+	font-size : 11px;
+	font-family : Tahoma,Verdana,Arial;
+}
+p {
+	color : #000000;
+	margin-top : 5px;
+	padding-bottom : 5px;
+	margin-bottom : 0px;
+	margin-left : 10px;
+	margin-right : 10px;
+	font-size : 11px;
+	font-family : Tahoma,Verdana,Arial;
+}
+p a {
+	color : #294A7B;
+}
+p a:hover {
+	color : #000000;
+}
+.bar01 {
+	color: #OOOOOO;
+	margin-top: 1px;
+	padding-bottom: 1px;
+	margin-bottom: 0px;
+	margin-left: 5px;
+	margin-right: 20px;
+	font-size: 18px;
+	font-family: Arial,Tahoma,Verdana;
+	font-weight: bold;
+}
+.bot {
+	color : #000000;
+	margin-top : 20px;
+	padding-bottom : 10px;
+	margin-bottom : 0px;
+	margin-left : 200px;
+	margin-right : 10px;
+	font-size : 11px;
+	font-family : Tahoma,Verdana,Arial;
+	font-weight: bold;
+}
+.bot a {
+	color : #000000;
+	text-decoration: none;
+}
+.bot a:hover {
+	color : #294A7B;
+}
+.etiqueta {
+	font-family: Arial,Tahoma,Verdana;
+	font-size : 8pt;
+	font-style: normal;
+	font-weight: bold;
+	padding-right: 10px;
+}
+
+.plantillaMenuhead {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+
+.plantillaMenuhablada {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+
+.plantillaMenutitulo {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+
+.plantillaMenuAnterior {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	text-align:right;
+}
+

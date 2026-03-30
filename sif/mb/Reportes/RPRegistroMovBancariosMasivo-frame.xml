@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<MSG_NoHayDatosParaReportar>No Records Found</MSG_NoHayDatosParaReportar>
+		<LB_RegistroMovimientosBancarios>Register Bank Movements</LB_RegistroMovimientosBancarios>
+		<LB_ImpresionMovimientosBancarios>Print Bank Movements</LB_ImpresionMovimientosBancarios>
+		<LB_ImpresionMovimientosTarjetaCredito>Print Credit Card Movements</LB_ImpresionMovimientosTarjetaCredito>
+		<LB_RegistroMovimientosTarjetaCredito>Register Credit Card Movements</LB_RegistroMovimientosTarjetaCredito>	
+		<LB_TotalCuenta>Account Total</LB_TotalCuenta>
+		<LB_Banco>Bank</LB_Banco>
+		<LB_Cuenta>Bank Account</LB_Cuenta>
+		<LB_Fecha>Date</LB_Fecha>
+		<LB_Transaccion>Transaction</LB_Transaccion>
+		<LB_Documento>Document</LB_Documento>
+		<LB_Moneda>Currency</LB_Moneda>
+		<LB_TipoCambio>Exchange Rate</LB_TipoCambio>
+		<LB_MontoDocumento>Document Amount</LB_MontoDocumento>
+		<LB_MontoDocumentoMonedaLocal>Document Amount in Local Currency</LB_MontoDocumentoMonedaLocal>
+		<LB_CuentasPorCobrar>Account Receivable</LB_CuentasPorCobrar>
+		<LB_CuentasPorPagar>Account Payable</LB_CuentasPorPagar>
+		<LB_Cliente>Customer</LB_Cliente>
+		<LB_Proveedor>Supplier</LB_Proveedor>
+		<LB_CodigoTransaccion>Transaction Code</LB_CodigoTransaccion>
+		<LB_Direccion>Address</LB_Direccion>
+		<LB_Descripcion>Description</LB_Descripcion>
+		<MSG_NoHayDatosParaReportar>Not Records Were Found</MSG_NoHayDatosParaReportar>	
+		<LB_Monto>Amount</LB_Monto>
+		<LB_MontoMonedaLocal>Local Currency Amount</LB_MontoMonedaLocal>
+		<LB_Pagina>Page</LB_Pagina>
+		<LB_TotalGeneral>General Total</LB_TotalGeneral>
+	</Idioma>
+</Etiquetas>

@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_TituloHeader>Invoicing</LB_TituloHeader>
+		<LB_Titulo>Partner for Expenses Distribution</LB_Titulo>
+		<LB_Socio>Partner</LB_Socio>
+		<LB_Markup>Markup</LB_Markup>
+		<LB_DistribucionGasto>Expenses Distribution</LB_DistribucionGasto>
+		<LB_Si>Yes</LB_Si>
+	</Idioma>
+</Etiquetas>

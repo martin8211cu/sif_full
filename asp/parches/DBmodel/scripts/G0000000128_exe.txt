@@ -1,0 +1,96 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 423 - DBM 359: Cambios Carga Historicos para Mexico
+
+	         PARCHE:  Parche023_421_RH _CargasHistoricos
+
+GENERADO EN:
+	SERVER:  http://mxvqapp34:8300
+	DSN:     sifcim
+	FECHA:   06/01/2012 17:54:56
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* CHG_TABLE CDRHHCargasCalculo: CDRHHCargasCalculo */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): CDRHHCCSalarioBase - CDRHHCCSalarioBase */
+ALTER TABLE CDRHHCargasCalculo ADD CDRHHCCSalarioBase money NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): CDRHHCCSalarioBaseCotizacion - CDRHHCCSalarioBaseCotizacion */
+ALTER TABLE CDRHHCargasCalculo ADD CDRHHCCSalarioBaseCotizacion money NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE CDRHHDeduccionesEmpleado: CDRHHDeduccionesEmpleado */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): CDRHHDmetodo - CDRHHDmetodo */
+ALTER TABLE CDRHHDeduccionesEmpleado ADD CDRHHDmetodo bit DEFAULT 1 NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): CDRHHDmonto - CDRHHDmonto */
+ALTER TABLE CDRHHDeduccionesEmpleado ADD CDRHHDmonto money NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE CDRHHIncidenciasCalculo: CDRHHIncidenciasCalculo */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): CDRHHICespecie - CDRHHICespecie */
+ALTER TABLE CDRHHIncidenciasCalculo ADD CDRHHICespecie bit DEFAULT 0 NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): CDRHHIfechacontrol - CDRHHIfechacontrol */
+ALTER TABLE CDRHHIncidenciasCalculo ADD CDRHHIfechacontrol datetime NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE CDRHHPagosEmpleado: CDRHHPagosEmpleado */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): CDRHTcodigo - CDRHTcodigo */
+ALTER TABLE CDRHHPagosEmpleado ADD CDRHTcodigo char(3) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): CDRHHPEsalarioref - CDRHHPEsalarioref */
+ALTER TABLE CDRHHPagosEmpleado ADD CDRHHPEsalarioref money NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE CDRHHSalarioEmpleado: CDRHHSalarioEmpleado */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): CDRHHSEsalariobc - CDRHHSEsalariobc */
+ALTER TABLE CDRHHSalarioEmpleado ADD CDRHHSEsalariobc money NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): CDRHHSEespecie - CDRHHSEespecie */
+ALTER TABLE CDRHHSalarioEmpleado ADD CDRHHSEespecie money NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

@@ -1,0 +1,499 @@
+﻿<!--- 
+	CREAR TABLAS TEMPORALES
+	
+	EJEMPLO 
+	<cf_dbtemp name="TT_MAYORIZA" returnvariable="temp_table" datasource="#Attributes.datasource#">
+		<cf_dbtempcol name="Ecodigo" type="numeric">
+		<cf_dbtempcol name="Ecodigo" type="varchar(20)">
+		<cf_dbtempcol name="Ecodigo" type="numeric">
+		<cf_dbtempcol name="Ecodigo" type="numeric">
+		
+		<cf_dbtempkey cols="Ecodigo,Cuenta">
+	</cf_dbtemp>
+
+	Modificado por: Ing. Óscar Bonilla, MBA. 02/AGO/2006
+	*
+	* Pemite crear una tabla temporal por la conexión jdbc
+	*
+	* Utilización:
+	*	<CF_dbTemp ... jdbc="no/yes">
+	*
+---->
+<cfif ThisTag.ExecutionMode is 'start'>
+	<cfif NOT ThisTag.HasEndTag>
+		<cfthrow message="End tag requerido para cf_dbtemp">
+	</cfif>
+	<cfif not isdefined("Attributes.name") or Attributes.name EQ "">
+		<cfthrow message="Debe incluir nombre de tabla al cf_dbtemp.  Use el atributo *name* en la invocación.">
+	</cfif>
+	<cfif not isdefined("Attributes.datasource") or Attributes.datasource EQ "">
+		<cfif IsDefined('session.dsn') and Len(session.dsn) neq 0>
+			<cfset Attributes.datasource = session.dsn>
+		<cfelse>
+			<cfthrow message="Falta el atributo datasource, y session.dsn no est&aacute; definida.">
+		</cfif>
+	</cfif>
+	<cfif not isdefined("Attributes.returnvariable") or Attributes.returnvariable EQ "">
+		<cfset Attributes.returnvariable = "temp_table">
+	</cfif>
+	<cfif not isdefined("Attributes.temp") or not isboolean(Attributes.temp)>
+		<cfset Attributes.temp = true>
+	</cfif>
+	<cfif not isdefined("Attributes.jdbc") or not isboolean(Attributes.jdbc)>
+		<cfset Attributes.temp = false>
+	</cfif>
+	<cfif not StructKeyExists(Application.dsinfo, Attributes.datasource)>
+		<!--- Asegurarse de que la informacion sobre las conexiones este disponible --->
+		<cfinvoke component="home.Componentes.DbUtils" method="generate_dsinfo">
+			<cfinvokeargument name="refresh" value="no">
+		</cfinvoke>
+		<cfif not StructKeyExists(Application.dsinfo, Attributes.datasource)>
+			<cfthrow message="Datasource no definido: #HTMLEditFormat(Attributes.datasource)#">
+		</cfif>
+	</cfif>
+	<cfif len(Attributes.name) GT 11 and session.Usulogin EQ 'marcel' and session.Usucodigo EQ 27 and session.Ecodigo EQ 1>
+			<cftry>
+				<cfthrow message="Tabla con nombre mayor a 11: #Attributes.name#">
+			<cfcatch type="any">
+				<cfset LvarTemplate = "iniciado desde: #getBaseTemplatePath()#">
+				<cfset LvarTagContext = cfcatch.TagContext[1]>
+				<cfif isdefined("LvarTagContext.template") AND isdefined("LvarTagContext.raw_trace")>
+					<cfloop index="i" from="1" to="#arrayLen(cfcatch.TagContext)#">
+						<cfif right(cfcatch.TagContext[i].template,10) NEQ "dbtemp.cfm">
+							<cfset LvarTemplate = "#cfcatch.TagContext[i].raw_trace#">
+							<cfset LvarTemplate = mid(LvarTemplate, find("(",LvarTemplate)+1,100)>
+							<cfset LvarTemplate = "en: " & mid(LvarTemplate, 1,len(LvarTemplate)-1)>
+							<cfbreak>
+						</cfif>
+					</cfloop>
+				</cfif>
+				<cfset LvarTemplate = "Tabla Temporal '#Attributes.name#' mayor que 11, #LvarTemplate#">
+				<cflog file="dbtemp_warning" text="#LvarTemplate#">
+			</cfcatch>
+			</cftry>
+	</cfif>
+</cfif>
+
+<cfif ThisTag.ExecutionMode is 'end'>
+	<cfif not isdefined("ThisTag.Columns") or ArrayLen(ThisTag.Columns) Is 0>
+		<cfthrow message="Debe incluir columnas al cf_dbtemp.  Use al menos un cf_dbtempcol para definir las columnas de la tabla temporal.">
+	</cfif>
+	<cfif not isdefined("ThisTag.keys")>
+		<cfset ThisTag.keys = ArrayNew(1)>
+	</cfif>
+	<cfif not isdefined("ThisTag.Indexes")>
+		<cfset ThisTag.Indexes = ArrayNew(1)>
+	</cfif>
+	<cfset dbtype = Application.dsinfo[Attributes.datasource].type>
+	<cfset fnProcesaTabla()>
+	<!--- Guarda las tablas temporales a ser borradas por cf_dbtemp_deletes --->
+	<cfif Attributes.temp AND not Attributes.jdbc>
+		<cfif not isdefined("request.cf_dbtemp_deletes_names") or request.cf_dbtemp_deletes_names EQ "">
+			<cfset request.cf_dbtemp_deletes_names = "#Attributes.datasource#|#Attributes.name#">
+		<cfelse>
+			<cfset request.cf_dbtemp_deletes_names = request.cf_dbtemp_deletes_names & ",#Attributes.datasource#|#Attributes.name#">
+		</cfif>
+	</cfif>
+	<cfif dbtype is 'db2'>
+			<cfset Caller[Attributes.returnvariable] = "SESSION.#Attributes.name#">
+	<cfelse>
+			<cfset Caller[Attributes.returnvariable] = #Attributes.name#>
+	</cfif>
+</cfif>
+
+<cffunction name="fnProcesaTabla" access="private" output="no" hint="Procesa Instrucciones de la Tabla Temporal">
+	<cfif ListFind('sybase,sqlserver', dbtype)>
+		<cfset fnProcesaTablaSybaseSql()>
+	<cfelseif dbtype is 'oracle'>
+		<cfset fnProcesaTablaOracle()>
+	<cfelseif dbtype is 'db2'>
+		<cfset fnProcesaTablaDB2()>
+	<cfelse>
+		<cfthrow message="cf_dbtemp no soportado para DBMS #dbtype#">
+	</cfif>
+
+	<cfif create_condition>
+		<cfset sqlstring = "">
+		<cfset identity_column = "">
+		<cfloop index="i" from="1" to="#ArrayLen(ThisTag.Columns)#">
+			<cfloop index="k" from="1" to="#ArrayLen(ThisTag.Keys)#">
+				<cfif (ListFind(ThisTag.Keys[k].cols, ThisTag.Columns[i].name))>
+					<cfset ThisTag.Columns[i].mandatory = true>
+				</cfif>
+			</cfloop>
+			<cfif i gt 1><cfset sqlstring = sqlstring & ","></cfif>
+			<cfset sqlstring = sqlstring & chr(13) & "  " & ThisTag.Columns[i].name & " " & TranslateColumnType(ThisTag.Columns[i].type)>
+			<cfif Len(identity_column) is 0 and ThisTag.Columns[i].identity>
+				<cfif ListFind('sybase,sqlserver', dbtype)>
+					<cfset sqlstring = sqlstring & " identity ">
+				<cfelse>
+					<cfset identity_column = ThisTag.Columns[i].name>
+				</cfif>
+			</cfif>
+			<cfif ThisTag.Columns[i].mandatory>
+				<cfset sqlstring = sqlstring & " not null">
+			<cfelse>
+				<cfif ListFind('sybase,sqlserver, oracle', dbtype)>
+					<cfset sqlstring = sqlstring & " null">
+				</cfif>
+			</cfif>
+		</cfloop>
+		<cfif Attributes.jdbc>
+			<cf_jdbcquery_open update="yes" datasource="#Attributes.datasource#">
+			<cfoutput>
+				#create_prolog# #Attributes.name# ( #sqlstring# ) #create_epilog#
+			</cfoutput>
+			</cf_jdbcquery_open>
+		<cfelse>
+			<cfquery datasource="#Attributes.datasource#">
+				#create_prolog# #Attributes.name# ( #sqlstring# ) #create_epilog#
+			</cfquery>
+		</cfif>
+		<cfif dbtype NEQ 'db2'>
+            <cfloop from="1" to="#ArrayLen(ThisTag.Keys)#" index="i">
+                <cfif Attributes.jdbc>
+                    <cf_jdbcquery_open update="yes" datasource="#Attributes.datasource#">
+                    <cfoutput>
+                        alter table #Attributes.name# add
+                        <cfif i is 1>primary key<cfelse>unique</cfif>
+                        ( #ThisTag.Keys[i].cols# )
+                    </cfoutput>
+                    </cf_jdbcquery_open>
+                <cfelse>
+                    <cfquery datasource="#Attributes.datasource#">
+                        alter table #Attributes.name# add
+                        <cfif i is 1>primary key<cfelse>unique</cfif>
+                        ( #ThisTag.Keys[i].cols# )
+                    </cfquery>
+                </cfif>		
+            </cfloop>
+            <cfloop from="1" to="#ArrayLen(ThisTag.Indexes)#" index="i">
+                <cfif Attributes.jdbc>
+                    <cf_jdbcquery_open update="yes" datasource="#Attributes.datasource#">
+                    <cfoutput>
+                        create index #Replace( Attributes.name, '##', '', 'one' )#_idx#i# on #Attributes.name#
+                        ( #ThisTag.Indexes[i].cols# )
+                    </cfoutput>
+                    </cf_jdbcquery_open>
+                <cfelse>
+                    <cfquery datasource="#Attributes.datasource#">
+                        create index #Replace( Attributes.name, '##', '', 'one' )#_idx#i# on #Attributes.name#
+                        ( #ThisTag.Indexes[i].cols# )
+                    </cfquery>
+                </cfif>		
+            </cfloop>
+		</cfif>			
+		<cfif Len (identity_column)>
+			<cfset sbCreateSequence()>
+		</cfif>
+	<cfelseif dbtype is 'oracle'>
+		<cfif Attributes.jdbc>
+			<cf_jdbcquery_open update="yes" datasource="#Attributes.datasource#">
+			<cfoutput>
+				delete from #Attributes.name#
+			</cfoutput>
+			</cf_jdbcquery_open>
+		<cfelse>
+			<cfquery datasource="#Attributes.datasource#">
+				delete from #Attributes.name#
+			</cfquery>
+		</cfif>		
+	
+		<cfset identity_column = "">
+		<cfloop from="1" to="#ArrayLen(ThisTag.Columns)#" index="i">
+			<cfif ThisTag.Columns[i].identity>
+				<cfset identity_column = ThisTag.Columns[i].name>
+				<cfbreak>
+			</cfif>
+		</cfloop>
+
+		<cfif Len (identity_column)>
+			<cfset sbCreateSequence()>
+ 		</cfif>
+	</cfif>
+</cffunction>
+
+<cffunction name="fnProcesaTablaSybaseSql" access="private" output="no">		
+		<cfif Attributes.temp>
+			<cfset Attributes.name = "##" & Attributes.name>
+		</cfif>
+		<cfif Attributes.jdbc>
+			<cf_jdbcquery_open update="yes" datasource="#Attributes.datasource#">
+			<cfoutput>
+				if object_id('<cfif dbtype is 'sqlserver'>tempdb..</cfif>#Attributes.name#') is not null
+					drop table #Attributes.name#
+			</cfoutput>
+			</cf_jdbcquery_open>
+		<cfelse>
+			<cfquery datasource="#Attributes.datasource#">
+				if object_id('<cfif dbtype is 'sqlserver'>tempdb..</cfif>#Attributes.name#') is not null
+					drop table #Attributes.name#
+			</cfquery>
+		</cfif>		
+		
+		<cfset create_prolog = "create table">
+		<cfset create_epilog = " ">
+		<cfset create_condition = true>
+</cffunction>
+
+<cffunction name="fnProcesaTablaOracle" access="private" output="no">
+		<cfif Attributes.temp>
+			<cfset create_prolog = "create global temporary table">
+			<cfset create_epilog = "on commit preserve rows">
+		<cfelse>
+			<cfset create_prolog = "create table">
+			<cfset create_epilog = " ">
+		</cfif>
+		<cfquery datasource="#Attributes.datasource#" name="existe">
+			select table_name from user_tables
+			where table_name = <cfqueryparam cfsqltype="cf_sql_varchar" value="#UCase(Attributes.name)#">
+		</cfquery>
+		<cfset create_condition = existe.RecordCount is 0>
+		<cfif NOT Attributes.temp AND NOT create_condition>
+			<cfif Attributes.jdbc>
+				<cf_jdbcquery_open update="yes" datasource="#Attributes.datasource#">
+				<cfoutput>
+					drop table #Attributes.name#
+				</cfoutput>
+				</cf_jdbcquery_open>
+			<cfelse>
+				<cfquery datasource="#Attributes.datasource#">
+					drop table #Attributes.name#
+				</cfquery>
+			</cfif>		
+			<cfset create_condition = true>
+		</cfif>
+</cffunction>
+
+<cffunction name="fnProcesaTablaDB2" access="private" output="no" hint="Procesa la tabla para DB2">
+		<cfif Attributes.temp>
+			<cfset create_prolog = "DECLARE GLOBAL TEMPORARY TABLE">
+			<cfset create_epilog = "on commit preserve rows">
+		<cfelse>
+			<cfset create_prolog = "create table">
+			<cfset create_epilog = " ">
+		</cfif>
+		<cftry><!---Corregir, si se encuentra como saber si una tabla declarada ya existe--->
+			<cfif Attributes.jdbc>
+				<cf_jdbcquery_open update="yes" datasource="#Attributes.datasource#">
+				<cfoutput>
+					drop table SESSION.#Attributes.name#
+				</cfoutput>
+				</cf_jdbcquery_open>
+			<cfelse>
+				<cfquery datasource="#Attributes.datasource#">
+					drop table SESSION.#Attributes.name#
+				</cfquery>
+			</cfif>	
+			<cfcatch type="any">
+			</cfcatch>
+		</cftry>	
+		<cfset create_condition = true>
+</cffunction>
+
+<cffunction name="TranslateColumnType" output="false" access="private" returntype="string">
+	<cfargument name="type" type="string" required="yes">
+	<cfset type = lcase(type)>
+	<cfif ListFind('sybase,sqlserver', dbtype)>
+		<cfreturn type>
+	<!---<cfelseif dbtype EQ 'oracle'>--->
+	<cfelseif ListFind('oracle,db2', dbtype)>
+		<cfif type EQ 'numeric'>
+			<cfreturn 'numeric(18,0)'>
+		<cfelseif type EQ 'money'>
+			<cfreturn 'numeric(18,4)'>
+		<cfelseif type EQ 'datetime' and dbtype EQ 'oracle'>
+			<cfreturn 'date'>
+		<cfelseif type EQ 'datetime'>
+			<cfreturn 'timestamp'>
+		<cfelseif type EQ 'varchar'>
+			<cfreturn 'varchar(1)'>
+		<cfelseif type EQ 'image'>
+			<cfreturn 'LONG RAW'>
+		<cfelseif type EQ 'text'>
+			<cfreturn 'LONG'>
+		</cfif>
+	<cfelse>
+		<cfthrow message="cf_dbtemp TranslateColumnType no soportado para DBMS #dbtype#">
+	</cfif>
+	<cfreturn type>
+</cffunction>
+
+<cffunction name="sbCreateSequence" output="false" access="private">
+	<cfif dbtype is 'oracle'>
+		<cfif Attributes.temp>
+			<cftry>
+				<cfif Attributes.jdbc>
+					<cf_jdbcquery_open update="yes" datasource="#Attributes.datasource#">
+					<cfoutput>
+						EXECUTE PK_TEMP_#Attributes.name#.P_INITVAL
+					</cfoutput>
+					</cf_jdbcquery_open>
+				<cfelse>
+					<cfstoredproc procedure="PK_TEMP_#Attributes.name#.P_INITVAL" datasource="#Attributes.datasource#" />
+				</cfif>
+			<cfcatch type="any">
+				<cfset sbCreateSequenceOracleTemp()>
+			</cfcatch>
+			</cftry>
+		<cfelse>
+			<cfset sbCreateSequenceOraclePerm()>
+		</cfif>
+	</cfif>
+</cffunction>
+
+<cffunction name="sbCreateSequenceOracleTemp" output="false" access="private">
+	<cfset line_feed = chr(10)><!--- no se porqué no funciona con el 13+10 --->
+	<cfset LvarPK_TEMP_Name = mid("PK_TEMP_#Attributes.name#",1,30)>
+	<cfif Attributes.jdbc>
+		<cf_jdbcquery_open update="yes" datasource="#Attributes.datasource#"><cfoutput>#line_feed
+			#CREATE OR REPLACE PACKAGE #LvarPK_TEMP_Name# AS  #line_feed
+			#  IDENTITY NUMBER :=0;  #line_feed
+			#  FUNCTION F_NEXTVAL RETURN NUMBER;  #line_feed
+			#  PROCEDURE P_INITVAL;  #line_feed
+			#END #LvarPK_TEMP_Name#;  #line_feed
+		#</cfoutput></cf_jdbcquery_open>
+	<cfelse>
+		<cfquery datasource="#Attributes.datasource#">#line_feed
+			#CREATE OR REPLACE PACKAGE #LvarPK_TEMP_Name# AS  #line_feed
+			#  IDENTITY NUMBER :=0;  #line_feed
+			#  FUNCTION F_NEXTVAL RETURN NUMBER;  #line_feed
+			#  PROCEDURE P_INITVAL;  #line_feed
+			#END #LvarPK_TEMP_Name#;  #line_feed
+		#</cfquery>
+	</cfif>		
+	<cfif Attributes.jdbc>
+		<cf_jdbcquery_open update="yes" datasource="#Attributes.datasource#"><cfoutput>#line_feed
+			#CREATE OR REPLACE PACKAGE BODY #LvarPK_TEMP_Name# AS  #line_feed
+			#  function F_NEXTVAL return NUMBER as  #line_feed
+			#  begin  #line_feed
+			#    IDENTITY := IDENTITY + 1;  #line_feed
+			#    RETURN IDENTITY;  #line_feed
+			#  end;  #line_feed
+			#  procedure P_INITVAL as  #line_feed
+			#  begin  #line_feed
+			#    IDENTITY := 0;  #line_feed
+			#  end;  #line_feed
+			#END #LvarPK_TEMP_Name#;  #line_feed
+		#</cfoutput></cf_jdbcquery_open>
+	<cfelse>
+		<cfquery datasource="#Attributes.datasource#">#line_feed
+			#CREATE OR REPLACE PACKAGE BODY #LvarPK_TEMP_Name# AS  #line_feed
+			#  function F_NEXTVAL return NUMBER as  #line_feed
+			#  begin  #line_feed
+			#    IDENTITY := IDENTITY + 1;  #line_feed
+			#    RETURN IDENTITY;  #line_feed
+			#  end;  #line_feed
+			#  procedure P_INITVAL as  #line_feed
+			#  begin  #line_feed
+			#    IDENTITY := 0;  #line_feed
+			#  end;  #line_feed
+			#END #LvarPK_TEMP_Name#;  #line_feed
+		#</cfquery>
+	</cfif>		
+	<!--- #   select S_TEMP_#Attributes.name#.nextval into SOINPK.LASTIDENTITY from dual; #line_feed --->
+	<cfif Attributes.jdbc>
+		<cf_jdbcquery_open update="yes" datasource="#Attributes.datasource#"><cfoutput>#line_feed
+			#CREATE OR REPLACE TRIGGER #line_feed
+			#tib_#Attributes.name# BEFORE #line_feed
+			#INSERT ON #Attributes.name# FOR EACH ROW declare integrity_error  exception; #line_feed
+			#   errno            integer; #line_feed
+			#   errmsg           char(200); #line_feed
+			#   dummy            integer; #line_feed
+			#   found            boolean; #line_feed
+			#begin #line_feed
+			#   select #LvarPK_TEMP_Name#.F_nextval into SOINPK.LASTIDENTITY from dual; #line_feed
+			#   select SOINPK.LASTIDENTITY INTO :new.#identity_column# FROM dual; #line_feed
+			#exception #line_feed
+			#   when integrity_error then #line_feed
+			#      raise_application_error(errno, errmsg); #line_feed
+			#end; #line_feed
+		#</cfoutput></cf_jdbcquery_open>
+	<cfelse>
+		<cfquery datasource="#Attributes.datasource#"> #line_feed
+			#CREATE OR REPLACE TRIGGER #line_feed
+			#tib_#Attributes.name# BEFORE #line_feed
+			#INSERT ON #Attributes.name# FOR EACH ROW declare integrity_error  exception; #line_feed
+			#   errno            integer; #line_feed
+			#   errmsg           char(200); #line_feed
+			#   dummy            integer; #line_feed
+			#   found            boolean; #line_feed
+			#begin #line_feed
+			#   select #LvarPK_TEMP_Name#.F_nextval into SOINPK.LASTIDENTITY from dual; #line_feed
+			#   select SOINPK.LASTIDENTITY INTO :new.#identity_column# FROM dual; #line_feed
+			#exception #line_feed
+			#   when integrity_error then #line_feed
+			#      raise_application_error(errno, errmsg); #line_feed
+			#end; #line_feed
+		#</cfquery>
+	</cfif>		
+</cffunction>
+
+<cffunction name="sbCreateSequenceOraclePerm" output="false" access="private">
+	<cfset line_feed = chr(10)><!--- no se porqué no funciona con el 13+10 --->
+	<cfif Attributes.jdbc>
+		<cftry>
+			<cf_jdbcquery_open update="yes" datasource="#Attributes.datasource#">
+			<cfoutput>
+				DROP SEQUENCE S_#Attributes.name#
+			</cfoutput>
+			</cf_jdbcquery_open>
+		<cfcatch type="any"></cfcatch>
+		</cftry>
+		<cf_jdbcquery_open update="yes" datasource="#Attributes.datasource#">
+		<cfoutput>
+			CREATE SEQUENCE S_#Attributes.name#
+		</cfoutput>
+		</cf_jdbcquery_open>
+	<cfelse>
+		<cftry>
+			<cfquery datasource="#Attributes.datasource#">
+				DROP SEQUENCE S_#Attributes.name#
+			</cfquery>
+		<cfcatch type="any"></cfcatch>
+		</cftry>
+		<cfquery datasource="#Attributes.datasource#">
+			CREATE SEQUENCE S_#Attributes.name#
+		</cfquery>
+	</cfif>		
+	<!--- #   select S_TEMP_#Attributes.name#.nextval into SOINPK.LASTIDENTITY from dual; #line_feed --->
+	<cfif Attributes.jdbc>
+		<cf_jdbcquery_open update="yes" datasource="#Attributes.datasource#"><cfoutput>#line_feed
+			#CREATE OR REPLACE TRIGGER #line_feed
+			#tib_#Attributes.name# BEFORE #line_feed
+			#INSERT ON #Attributes.name# FOR EACH ROW declare integrity_error  exception; #line_feed
+			#   errno            integer; #line_feed
+			#   errmsg           char(200); #line_feed
+			#   dummy            integer; #line_feed
+			#   found            boolean; #line_feed
+			#begin #line_feed
+			#   IF (SOINPK.IDENTITYOFF = 0) THEN #line_feed
+			#     select S_#Attributes.name#.nextval INTO SOINPK.LASTIDENTITY FROM dual; #line_feed
+			#     select SOINPK.LASTIDENTITY INTO :new.#identity_column# FROM dual; #line_feed
+			#   END IF; #line_feed
+			#exception #line_feed
+			#   when integrity_error then #line_feed
+			#      raise_application_error(errno, errmsg); #line_feed
+			#end; #line_feed
+		#</cfoutput></cf_jdbcquery_open>
+	<cfelse>
+		<cfquery datasource="#Attributes.datasource#"> #line_feed
+			#CREATE OR REPLACE TRIGGER #line_feed
+			#tib_#Attributes.name# BEFORE #line_feed
+			#INSERT ON #Attributes.name# FOR EACH ROW declare integrity_error  exception; #line_feed
+			#   errno            integer; #line_feed
+			#   errmsg           char(200); #line_feed
+			#   dummy            integer; #line_feed
+			#   found            boolean; #line_feed
+			#begin #line_feed
+			#   IF (SOINPK.IDENTITYOFF = 0) THEN #line_feed
+			#     select S_#Attributes.name#.nextval INTO SOINPK.LASTIDENTITY FROM dual; #line_feed
+			#     select SOINPK.LASTIDENTITY INTO :new.#identity_column# FROM dual; #line_feed
+			#   END IF; #line_feed
+			#exception #line_feed
+			#   when integrity_error then #line_feed
+			#      raise_application_error(errno, errmsg); #line_feed
+			#end; #line_feed
+		#</cfquery>
+	</cfif>		
+</cffunction>

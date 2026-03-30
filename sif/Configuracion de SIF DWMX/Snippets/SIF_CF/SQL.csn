@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<snippet name="SQL" description="Código de SQL" preview="code" type="wrap">
+<insertText location="beforeSelection">
+<![CDATA[<cfinclude template="../../Connections/Conexion.cfm">
+<cfif not isdefined("Form.Nuevo")>
+	<cftry>
+		<cfquery name="ABC_ACategoria" datasource="#DSN#">
+			<cfif isdefined("Form.Alta")>
+				insert into ()
+				values(	)
+				<cfset modo="ALTA">
+			<cfelseif isdefined("Form.Baja")>
+				delete from 
+				where Ecodigo = <cfqueryparam value="#Session.Ecodigo#" cfsqltype="cf_sql_integer">
+				  <cfset modo="BAJA">
+			<cfelseif isdefined("Form.Cambio")>
+				update  
+				set
+				where Ecodigo = <cfqueryparam value="#Session.Ecodigo#" cfsqltype="cf_sql_integer">
+				  <cfset modo="CAMBIO">
+			</cfif>
+		</cfquery>
+	<cfcatch type="database">
+		<cfinclude template="../../errorPages/BDerror.cfm">
+		<cfabort>
+	</cfcatch>
+	</cftry>
+</cfif>
+<form action=".cfm" method="post" name="sql">
+	<input name="modo" type="hidden" value="<cfif isdefined("modo")><cfoutput>#modo#</cfoutput></cfif>">
+	<input name="" type="hidden" value="<cfif isdefined("Form.")><cfoutput>#Form.#</cfoutput></cfif>">
+</form>
+
+<script language="JavaScript">document.sql.submit()</script>
+]]>
+</insertText>
+<insertText location="afterSelection"><![CDATA[]]>
+</insertText>
+</snippet>

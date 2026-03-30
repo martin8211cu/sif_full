@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	
+	<Idioma id="en">
+		<LB_Titulo>Accounting Documents Import</LB_Titulo>
+		<LB_Lote>Batch</LB_Lote>
+		<LB_Periodo>Period</LB_Periodo>
+		<LB_Usuario>User</LB_Usuario>
+		<LB_Mes>Month</LB_Mes>
+		<LB_Fecha>Date</LB_Fecha>
+		<LB_FechaIni>Initial Date</LB_FechaIni>
+		<LB_FechaFin>Final Date</LB_FechaFin>
+		<LB_Descripcion>Description</LB_Descripcion>
+		<LB_Ver>Display</LB_Ver>
+		<LB_Todos>All</LB_Todos>
+		<LB_SeleccionarTodos>Select All</LB_SeleccionarTodos>
+		<LB_Creditos>Credits</LB_Creditos>
+		<LB_Debitos>Debits</LB_Debitos>
+	</Idioma>
+</Etiquetas>

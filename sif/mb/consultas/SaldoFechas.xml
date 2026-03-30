@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_TituloReporte>Movements by Date Range</LB_TituloReporte>
+		<LB_Banco>Bank</LB_Banco>
+		<LB_Cuenta>Bank Accounts</LB_Cuenta>
+		<LB_FechaInicial>Initial Date</LB_FechaInicial>
+		<LB_FechaFinal>Final Date</LB_FechaFinal>
+		<BTN_Consultar>Consult</BTN_Consultar>
+		<LB_RangoFechas>Date Range</LB_RangoFechas>
+		<LB_PeriodoMes>Period Month</LB_PeriodoMes>
+		<LB_TituloHeader>Balance Consult by Date Range</LB_TituloHeader>
+	<LB_Mes>Month</LB_Mes><LB_Periodo>Year</LB_Periodo><OBJ_Banco>Bank</OBJ_Banco><OBJ_Cuenta>Bank Accounts</OBJ_Cuenta><OBJ_FechaF>Final Date</OBJ_FechaF><OBJ_FechaI>Initial Date</OBJ_FechaI></Idioma>
+</Etiquetas>

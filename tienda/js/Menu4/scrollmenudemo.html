@@ -1,0 +1,159 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+
+<html>
+<head>
+<title>Scroll Menu Demo (WebFX)</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<!-- using doc write to read query string
+<link type="text/css" rel="StyleSheet" href="skins/officexp/officexp.css" />
+-->
+<script type="text/javascript">
+
+var ie55 = /MSIE ((5\.[56789])|([6789]))/.test( navigator.userAgent ) &&
+			navigator.platform == "Win32";
+
+if ( !ie55 ) {
+	window.onerror = function () {
+		return true;
+	};
+}
+
+function writeNotSupported() {
+	if ( !ie55 ) {
+		document.write( "<p class=\"warning\">" +
+			"This script only works in Internet Explorer 5.5" +
+			" or greater for Windows</p>" );
+	}
+}
+
+</script>
+<script type="text/javascript">
+
+function getQueryString( sProp ) {
+	var re = new RegExp( sProp + "=([^\\&]*)", "i" );
+	var a = re.exec( document.location.search );
+	if ( a == null )
+		return "";
+	return a[1];
+};
+
+function changeCssFile( sCssFile ) {
+	var loc = String(document.location);
+	var search = document.location.search;
+	if ( search != "" )
+		loc = loc.replace( search, "" );
+	loc = loc + "?css=" + sCssFile;
+	document.location.replace( loc );
+}
+
+var cssFile = getQueryString( "css" );
+if ( cssFile == "" )
+	cssFile = "skins/winclassic.css";
+
+document.write("<link type=\"text/css\" rel=\"StyleSheet\" href=\"" + cssFile + "\" />" );
+
+</script>
+<style type="text/css">
+
+body {
+	background:	ThreeDFace;
+	border:		0;
+	margin:		0;
+	overflow:	hidden;
+}
+
+html {
+	border:	0;
+	overflow:	hidden;
+}
+
+.menu-bar {
+	border-bottom:	2px groove;
+}
+
+p {
+	font:	Message-Box;
+	font:	MessageBox;
+	margin:	10px;
+}
+
+.warning {
+	color:	red;
+}
+
+a {
+	color: blue;
+}
+
+textarea {
+	margin:		10px;
+	display:	block;
+	width:		auto;
+}
+
+</style>
+<script type="text/javascript" src="js/poslib.js"></script>
+<script type="text/javascript" src="js/scrollbutton.js"></script>
+<script type="text/javascript" src="js/menu4.js"></script>
+</head>
+<body>
+
+<script type="text/javascript">
+//<![CDATA[
+
+Menu.prototype.cssFile = cssFile;
+
+var tmp;
+var m = new Menu();
+for ( var y = 0; y < 50; y++ ) {
+	m.add( tmp = new MenuItem( "Menu Item " + y, null, "images/paste.small.png") );
+	if ( (y + 1) % 20 == 0 ) tmp.disabled = true;
+}
+
+
+var mb = new MenuBar;
+
+mb.add( new MenuButton( "Menu", m ) );
+
+mb.write();
+
+
+//]]>
+</script>
+
+<script type="text/javascript">
+writeNotSupported();
+</script>
+
+<p>
+<a href="#"
+	onclick="window.open(window.document.location,'','toolbar=0,resizable=1,width=270,height=170'); return false">New Win</a>
+</p>
+
+<p>
+Use <b>Esc</b> for keyboard navigation of the menu
+</p>
+
+<p>
+<select id="cssSelect">
+	<option value="skins/winclassic.css">Windows Classic</option>
+	<option value="skins/winxp.css">Windows XP</option>
+	<option value="skins/office.css">Office</option>
+	<option value="skins/officexp/officexp.css">Office XP</option>
+	<option value="skins/qnx/qnx.css">QNX</option>
+</select>
+&nbsp;
+<button onclick="changeCssFile( document.getElementById('cssSelect').value )">Change</button>
+</p>
+
+<textarea ID=Textarea1>
+Textarea to test focus
+</textarea>
+
+
+
+</body>
+</html>

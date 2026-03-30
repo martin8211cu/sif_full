@@ -1,0 +1,1 @@
+copy *.* h:\sif\ad\catalogos\formatos

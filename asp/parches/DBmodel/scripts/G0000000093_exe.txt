@@ -1,0 +1,61 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 206 - DBM 433: Tabla de Porcentaje Retiro Fiscal
+
+	         PARCHE:  Parche023_583_SIF_RetiroFiscal
+
+GENERADO EN:
+	SERVER:  http://
+	DSN:     sifcim
+	FECHA:   05/01/2012 15:57:58
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* ADD_TABLE AFPorcentajeRetiroFiscal: Tabla de Retiro de Porcentaje  */
+/* ======================================================================================== */
+
+CREATE TABLE AFPorcentajeRetiroFiscal (
+	 PRFid                          numeric(18)          identity
+	,Ecodigo                        integer              NOT NULL
+	,ACcodigo                       integer              NOT NULL
+	,ACid                           integer              NOT NULL
+	,PRAnoDesde                     integer              NOT NULL
+	,PRAnoHasta                     integer              NOT NULL
+	,PRPorcentaje                   float                NOT NULL
+	,BMUsucodigo                    numeric(18)          NULL
+	,ts_rversion                    timestamp           
+	)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="P", SEC="0", COLS="PRFid" */
+ALTER TABLE AFPorcentajeRetiroFiscal ADD CONSTRAINT AFPorcentajeRetiroFiscal_PK PRIMARY KEY CLUSTERED (PRFid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ================================================================= */
+/*            CREA FKs NUEVOS O CON CAMPOS MODIFICADOS               */
+/* ================================================================= */
+/* CHG_TABLE AFPorcentajeRetiroFiscal */
+/* ADD_FK OP=(TAB NUEVA): TIP="F", SEC="1", COLS="Ecodigo,ACcodigo", REF="ACategoria" */
+ALTER TABLE AFPorcentajeRetiroFiscal ADD CONSTRAINT AFPorcentajeRetiroFiscal_FK01 FOREIGN KEY (Ecodigo,ACcodigo) REFERENCES ACategoria (Ecodigo,ACcodigo)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_FK OP=(TAB NUEVA): TIP="F", SEC="2", COLS="Ecodigo,ACid,ACcodigo", REF="AClasificacion" */
+ALTER TABLE AFPorcentajeRetiroFiscal ADD CONSTRAINT AFPorcentajeRetiroFiscal_FK02 FOREIGN KEY (Ecodigo,ACid,ACcodigo) REFERENCES AClasificacion (Ecodigo,ACid,ACcodigo)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

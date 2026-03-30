@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<rhpml majorversion="1" minorversion="0">
+	<folders/>
+	<topics>
+		<topic>
+			<name>Tipos_de_Movimientos.htm</name>
+			<comments></comments>
+			<frameset>0</frameset>
+		</topic>
+		<topic>
+			<name>Tipos_de_Tabla_Salarial.htm</name>
+			<comments></comments>
+			<frameset>0</frameset>
+		</topic>
+		<topic>
+			<name>Categorías_de_Pago.htm</name>
+			<comments></comments>
+			<frameset>0</frameset>
+		</topic>
+		<topic>
+			<name>Maestro_de_Puestos_Presupuestarios.htm</name>
+			<comments></comments>
+			<frameset>0</frameset>
+		</topic>
+		<topic>
+			<name>Plazas_Presupuestarias.htm</name>
+			<comments></comments>
+			<frameset>0</frameset>
+		</topic>
+	</topics>
+</rhpml>

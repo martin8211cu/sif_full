@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_ElUsuario>The user</LB_ElUsuario>
+		<LB_NoEstaRegistradoComoEmpleado>is not register as an Employee</LB_NoEstaRegistradoComoEmpleado>
+		<LB_Caja>Petty Cash</LB_Caja>
+		<BTN_Consultar>Consult</BTN_Consultar>
+	</Idioma>
+</Etiquetas>

@@ -1,0 +1,551 @@
+﻿<cfparam name="url.Tipo" default="">
+<cfparam name="url.url" default="LiquidacionAnticipos">
+<cf_htmlReportsHeaders 
+		title="Impresion de Liquidaciones" 
+		filename="Liquidacion.xls"
+		irA="#url.url##url.Tipo#.cfm?regresar=1"
+		download="no"
+		preview="no"
+		>
+<cfif isDefined("Url.GELid") >
+  <cfset form.GELid = Url.GELid>
+</cfif>
+<cfif isDefined("Url.Imprimir")>
+  <cfset form.Imprimir = Url.Imprimir>
+</cfif>
+
+<style type="text/css">
+<!--
+.style3 {font-size: 10px}
+.style31 {font-size: 12px}
+-->
+</style>
+
+<cfif isdefined ('form.GELid') and form.GELid NEQ ''>
+	<cf_dbfunction name="dateadd" args="a.GEADhoraini,a.GEADfechaini,MI" returnVariable="LvarFechaIni">
+	<cf_dbfunction name="date_format" args="#LvarFechaIni#°DD/MM/YYYY HH:MI" returnVariable="LvarFechaIni"	delimiters="°">
+	<cf_dbfunction name="dateadd" args="a.GEADhorafin,a.GEADfechafin,MI" returnVariable="LvarFechaFin">
+	<cf_dbfunction name="date_format" args="#LvarFechaFin#°DD/MM/YYYY HH:MI" returnVariable="LvarFechaFin"	delimiters="°">
+	<cf_dbfunction name="concat" args="#LvarFechaIni#¬' - '¬#LvarFechaFin#" returnVariable="LvarFechas"  	delimiters="¬">
+
+	<cfquery name="rsAnticipos" datasource="#session.DSN#">
+		select 
+					a.GEAid,
+					a.Linea,
+					a.GEADid,
+					a.GECid,
+					b.GEAid,
+					b.GEADid,
+					b.GELAtotal,
+					b.GELid,
+					c.GEAfechaPagar,
+					d.GECid,
+					d.GECdescripcion,
+					c.GEAnumero
+					,c.GEAviatico
+					,gep.GEPVdescripcion
+					,gec.GECVdescripcion
+					,gec.GECVid_Padre
+					,#preserveSingleQuotes(LvarFechas)#    as fechas
+		from 
+				GEanticipoDet a
+				inner join 	GEliquidacionAnts b
+					on a.GEADid = b.GEADid
+					and a.GEAid = b.GEAid
+				inner join GEanticipo c
+					on a.GEAid=c.GEAid
+				inner join GEconceptoGasto d
+					on d.GECid=a.GECid
+				left join GEPlantillaViaticos gep 
+ 					on gep.GEPVid= a.GEPVid
+				left join GEClasificacionViaticos gec 
+					on gep.GECVid=gec.GECVid	
+			where  b.GELid = <cfqueryparam cfsqltype="cf_sql_numeric" value="#form.GELid#">
+			order by a.GEADfechaini,a.GEADhoraini,gep.GEPVid
+	</cfquery>
+	<cfquery name="rsLiquidacion" datasource="#session.DSN#">
+		select 
+				a.GELGid,
+				a.GELid,
+				a.GELGfecha,
+				a.GELGtotalOri,
+				a.GECid,
+				a.GELGtotal,
+				a.GELGnumeroDoc,
+				a.GELGproveedor,
+				b.GECid,
+				b.GECdescripcion,
+				c.TESid,
+				c.TESdescripcion
+		from  GEliquidacionGasto a,
+			 GEconceptoGasto b,
+			 Tesoreria c
+		where b.GECid=a.GECid
+		and c.TESid= a.TESid
+		and a.GELid = <cfqueryparam cfsqltype="cf_sql_numeric" value="#form.GELid#">
+	</cfquery>
+	
+	<cfquery name="rsDeposito" datasource="#session.DSN#">
+		select 
+				a.GELid,
+				a.GELDreferencia,
+				a.CBid,
+				a.GELDtotal,
+				b.CBid,
+				b.CBcodigo
+		from
+				GEliquidacionDeps a
+					inner join CuentasBancos b
+						on b.CBid=a.CBid
+		where GELid=<cfqueryparam cfsqltype="cf_sql_numeric" value="#form.GELid#">
+        	and b.CBesTCE = <cfqueryparam value="0" cfsqltype="cf_sql_bit">		 	
+	</cfquery>
+	<cfquery name="rsForm" datasource="#session.dsn#">
+	select * from GEliquidacion where GELid=#form.GELid#
+	</cfquery>
+	<cfquery name="rsEncabezado" datasource="#session.DSN#">
+		select
+				l.GELid,
+				l.GELnumero,
+				l.TESBid,
+				l.Mcodigo,
+				l.GELfecha,
+				l.GELtotalGastos,
+				l.GELtotalDepositos,
+				l.GELtotalAnticipos,
+				l.GELreembolso,
+				l.GELdescripcion,
+				case l.GELestado
+				when 0 then 'Preparacin'
+				when 1 then 'En Aprobacin'
+				when 2 then 'Aprobada'
+				when 3 then 'Rechazada'
+				when 4 then 'Finalizada'
+				end as Titulo,
+                l.GELestado,
+				m.Miso4217,
+                b.TESSPnumero,
+                coalesce(l.UsucodigoAprobacion,-1) as UsucodigoAprobacion,
+				cf.CFdescripcion
+		from GEliquidacion l
+			inner join Monedas m
+				on m.Mcodigo = l.Mcodigo
+			left join CFuncional cf 
+    			on cf.CFid = l.CFid
+            left join TESsolicitudPago b
+                on b.TESSPid= coalesce(l.TESSPid,l.TESSPid_Adicional) 
+		where GELid=<cfqueryparam cfsqltype="cf_sql_numeric" value="#form.GELid#">
+	</cfquery>
+	
+	<cfif rsForm.GEAviatico eq 1>
+		<cf_dbfunction name="dateadd" args="gel.GELVhoraIni,gel.GELVfechaIni,MI" returnVariable="LvarFechaIni">
+		<cf_dbfunction name="date_format" args="#LvarFechaIni#°DD/MM/YYYY HH:MI" returnVariable="LvarFechaIni"	delimiters="°">
+		<cf_dbfunction name="dateadd" args="gel.GELVhorafin,gel.GELVfechaFin,MI" returnVariable="LvarFechaFin">
+		<cf_dbfunction name="date_format" args="#LvarFechaFin#°DD/MM/YYYY HH:MI" returnVariable="LvarFechaFin"	delimiters="°">
+		<cf_dbfunction name="concat" args="#LvarFechaIni#¬' - '¬#LvarFechaFin#" returnVariable="LvarFechas"  		delimiters="¬">
+
+		<cfquery name="rsLiquidacionesViatico" datasource="#session.dsn#">
+			select 
+				gep.GEPVid, gep.GEPVdescripcion, gec.GECVid, gec.GECVdescripcion,cg.GECdescripcion, gel.GELVfechaIni, gel.GELVfechaFin, 
+				gel.GELVmontoOri, gel.GEPVmontoGastMV, gel.GELVtipoCambio, gel.GELVmonto,gel.GECid, gel.GELVid
+				,gec.GECVid_Padre
+				,#preserveSingleQuotes(LvarFechas)#    as fechas
+		
+				from GEliquidacionViaticos gel 
+				
+				inner join GEconceptoGasto cg
+					on gel.GECid=cg.GECid
+					
+				left join GEPlantillaViaticos gep 
+					on gep.GEPVid= gel.GEPVid 
+		
+				left join GEClasificacionViaticos gec 
+					on gep.GECVid=gec.GECVid 
+		
+				left join Monedas mon 
+					on mon.Mcodigo = gep.Mcodigo
+					and mon.Ecodigo = gep.Ecodigo 
+		
+				where gel.GELid=<cfqueryparam cfsqltype="cf_sql_numeric" value="#form.GELid#">
+				order by gel.GELVfechaIni,gel.GELVhoraIni,gep.GEPVid						
+		</cfquery>
+	</cfif>
+	
+	<cfquery name="rsMoneda" datasource="#session.DSN#">
+		select Mcodigo, Mnombre
+		from Monedas
+		where Mcodigo=<cfqueryparam cfsqltype="cf_sql_numeric" value="#rsForm.Mcodigo#">
+		and Ecodigo= <cfqueryparam cfsqltype="cf_sql_integer" value="#session.Ecodigo#">
+	</cfquery>
+	<cfquery datasource="#session.DSN#" name="DatosEmpleado">
+		select 
+				TESBeneficiario,
+				TESBeneficiarioId
+		from TESbeneficiario
+		where  TESBid=#rsEncabezado.TESBid#
+	</cfquery>
+	<cfquery datasource="#session.DSN#" name="rsEmpresa">
+		select 
+				Edescripcion,
+				Ecodigo,
+				ts_rversion
+		from Empresas
+		where Ecodigo=<cfqueryparam cfsqltype="cf_sql_integer" value="#session.Ecodigo#">
+	</cfquery>
+    
+    <cfif listFind("2,4,5",rsEncabezado.GELestado)>
+        <cf_dbfunction name="op_concat" returnvariable="LvarCNCT">
+        <cfquery name="rsTESU" datasource="#Session.DSN#">
+            select 
+                     u.Usulogin
+                    , dp.Pnombre #LvarCNCT# ' ' #LvarCNCT# dp.Papellido1 #LvarCNCT# ' ' #LvarCNCT# dp.Papellido2 as Usunombre
+                    
+            from Usuario u
+                    inner join DatosPersonales dp
+                       on dp.datos_personales = u.datos_personales
+            where u.Usucodigo =#rsEncabezado.UsucodigoAprobacion#
+        </cfquery>
+	</cfif>    
+
+	<style type="text/css">
+		 .RLTtopline {
+		  border-bottom-width: 1px;
+		  border-bottom-style: solid;
+		  border-bottom-color:#000000;
+		  border-top-color: #000000;
+		  border-top-width: 1px;
+		  border-top-style: solid;
+		  
+		 } 
+		</style>
+<cfoutput>
+		
+	
+		
+	<table align="center" width="100%" border="0" summary="ImpresioLiquidaciones">
+		<tr>
+			<td rowspan="6">
+			  <cfinvoke 
+					 component="sif.Componentes.DButils"
+					 method="toTimeStamp"
+					 returnvariable="tsurl" arTimeStamp="#rsEmpresa.ts_rversion#"> </cfinvoke>
+					<cfoutput> 
+						<img src="/cfmx/home/public/logo_empresa.cfm?EcodigoSDC=#session.EcodigoSDC#&amp;ts=#tsurl#" class="iconoEmpresa" alt="logo" border="0" height="120" width="200" />
+					</cfoutput>
+			</td>
+			<td align="left">
+				<tr>
+					<td align="center" valign="top" colspan="8"><strong>#rsEmpresa.Edescripcion#</strong></td>
+				</tr>
+				<tr>
+					<td align="center" valign="top" colspan="8"><strong>#rsLiquidacion.TESdescripcion#</strong></td>
+				</tr>
+				<tr>
+					<td align="center" valign="top" colspan="8"><strong>Sistema de Gastos de Empleado</strong></td>
+				</tr>
+				<tr>
+					<td align="center" colspan="8" nowrap="nowrap"> <strong>Empleado:&nbsp;#DatosEmpleado.TESBeneficiarioId#--#DatosEmpleado.TESbeneficiario#</strong>			</td>
+				</tr>
+				<tr>
+					<td align="center" nowrap="nowrap" colspan="8">
+						<strong> Liquidación de Gastos 
+							<cfif #rsform.GEAviatico# eq 1>
+								<cfif #rsform.GEAtipoviatico# eq 1>
+									dentro del país
+								<cfelseif #rsform.GEAtipoviatico# eq 2>
+									al Exterior
+								</cfif>
+							</cfif>							
+							N:&nbsp;&nbsp;#rsEncabezado.GELnumero#
+						</strong>			
+					</td>
+				</tr>
+				<tr>
+					<td align="left" nowrap="nowrap" colspan="2"></td>
+				</tr>
+			</td>
+		</tr>
+		<tr>
+			<td align="left" nowrap="nowrap" colspan="8"class="RLTtopline"> <strong>Resumen de la Transacción</strong></td>
+		</tr>
+		<tr>
+			<td width="26%" align="left" nowrap="nowrap">
+            	<strong>Fecha Liquidación:</strong>
+            </td>
+			<td width="33%" align="left" nowrap="nowrap" colspan="1">
+			  	<span class="style31">#dateFormat(rsEncabezado.GELfecha,"DD/MM/YYYY")#</span>		  
+            </td>
+			<td align="left" nowrap="nowrap">
+            	<strong>Moneda:</strong>
+            </td>
+			<td align="left" nowrap="nowrap" colspan="4">
+				<span class="style31">#rsEncabezado.Miso4217#</span>
+            </td>
+		</tr>
+		<tr>
+			<td align="left" nowrap="nowrap"><strong>Monto Anticipos:</strong>
+            </td>
+			<td align="left" nowrap="nowrap" colspan="1">
+				<span class="style31">#LSNumberFormat(rsEncabezado.GELtotalAnticipos,',9.00')#</span>
+            </td>
+			<td align="left" nowrap="nowrap">
+            	<strong>Monto Gastos:</strong>
+            </td>
+			<td align="left" nowrap="nowrap" colspan="4">
+				<span class="style31">#LSNumberFormat(rsEncabezado.GELtotalGastos,',9.00')#</span>
+            </td>
+		</tr>
+		<tr>
+			<td align="left" nowrap="nowrap">
+            	<strong>Monto Depositos:</strong>
+            </td>
+			<td align="left" nowrap="nowrap" colspan="1">
+				<span class="style31">#LSNumberFormat(rsEncabezado.GELtotalDepositos,',9.00')#</span>
+            </td>
+			<td align="left" nowrap="nowrap">
+            	<strong>Pago al Empleado:</strong>
+            </td>
+			<td align="left" nowrap="nowrap" colspan="4">
+				<span class="style31">#LSNumberFormat(rsEncabezado.GELreembolso,',9.00')#</span>
+            </td>
+		</tr>
+        
+		<tr>
+			<td align="left" nowrap="nowrap">
+            	<strong>Solicitud de pago Nº:</strong>
+            </td>
+			<td align="left" nowrap="nowrap" colspan="1">
+				<span class="style31">#rsEncabezado.TESSPnumero#</span>
+            </td>
+		  <cfif listFind("2,4,5",rsEncabezado.GELestado)>
+			<td align="left" nowrap="nowrap">
+            	<strong>Aprobado por:</strong>
+            </td>
+			<td align="left" nowrap="nowrap" colspan="4">
+				<span class="style31">#rsTESU.Usunombre# &nbsp;</span>
+            </td>
+          </cfif>      
+		</tr>
+
+		<tr>
+			<td align="left" nowrap="nowrap">
+            	<strong>Estado:</strong>
+            </td>
+			<td align="left" nowrap="nowrap" colspan="8">
+				<span class="style31">#rsEncabezado.Titulo#</span>
+            </td>
+		</tr>
+		<tr>
+			<td align="left" nowrap="nowrap" colspan="8"></td>
+		</tr>
+		<tr>
+			<td align="left" nowrap="nowrap">
+            	<strong>Centro Funcional:</strong>
+            </td>
+			<td align="left" nowrap="nowrap" colspan="8">
+				<span class="style31">#rsEncabezado.CFdescripcion#</span>
+			</td>
+		</tr>
+		<tr>
+			<td align="left" nowrap="nowrap">
+            	<strong>Descripción:</strong>
+            </td>
+			<td align="left" nowrap="nowrap" colspan="8">
+				<span class="style31">#rsEncabezado.GELdescripcion#</span>
+			</td>
+		</tr>
+		<tr>
+			<td align="left" nowrap="nowrap" colspan="8"></td>
+		</tr>
+		<tr>
+			<td align="left" nowrap="nowrap" class="RLTtopline" colspan="8"><strong>Anticipos Asociados</strong></td>
+		</tr>
+		<tr>
+			<td align="left" valign="top" nowrap="nowrap"><strong>Anticipo-Linea-Concepto</strong></td>
+			<td width="33%" align="center" valign="top" nowrap="nowrap"><strong>Fecha Anticipo</strong></td>
+			<td width="33%" align="center" valign="top" nowrap="nowrap"><strong>Fecha detalle</strong></td>			
+			<td width="21%" align="right" valign="top" nowrap="nowrap"><strong>Monto del Anticipo</strong></td>
+		</tr>
+		<cfloop query="rsAnticipos">
+			<cfif len(trim(#GECVid_Padre#))>
+				<cfquery name="rsGECVid_Padre" datasource="#session.dsn#">
+					select GECVdescripcion from GEClasificacionViaticos where GECVid=#GECVid_Padre#
+				</cfquery>
+			</cfif>	
+			<tr>
+				<td align="left" valign="top" nowrap="nowrap"><span class="style3">#rsAnticipos.GEAnumero#-#rsAnticipos.Linea#-
+					<cfif len(trim(#rsAnticipos.GECVdescripcion#))>
+						<cfif isdefined('rsGECVid_Padre.GECVdescripcion') and len(#rsGECVid_Padre.GECVdescripcion#)>
+							#rsGECVid_Padre.GECVdescripcion#-
+						</cfif>
+						#rsAnticipos.GECVdescripcion#-#rsAnticipos.GEPVdescripcion# 
+					<cfelse>
+						#rsAnticipos.GECdescripcion# 
+					</cfif>
+					</span>
+				</td>
+				<td align="center" valign="top" nowrap="nowrap"><span class="style3">#dateFormat(rsAnticipos.GEAfechaPagar,"DD/MM/YYYY")# </span></td>			
+				<td align="center" valign="top" nowrap="nowrap"><span class="style3">#fechas# </span></td>			
+				<td align="right" valign="top" nowrap="nowrap"><span class="style3">#LSNumberFormat(rsAnticipos.GELAtotal,',9.00')# </span></td>
+			</tr>	
+		</cfloop>
+		<tr>
+			<td align="left" nowrap="nowrap" colspan="2"></td>
+			
+		</tr>
+		<tr>
+			<td align="right" colspan="4"valign="top"  nowrap="nowrap"><strong>Total:</strong></td>
+			<td align="right" valign="top" nowrap="nowrap">#LSNumberFormat(rsEncabezado.GELtotalAnticipos,',9.00')#</td>
+		</tr>
+		<tr>
+			<td align="left" nowrap="nowrap" colspan="2"></td>
+		</tr>
+		<cfif rsForm.GEAviatico eq 1>
+			<tr></tr><tr></tr><tr></tr>
+			<tr>
+				<td align="left" nowrap="nowrap" class="RLTtopline" colspan="8"><strong>Datos de la Liquidación</strong></td>
+			</tr>
+			<tr>
+				<td align="left" valign="top" nowrap="nowrap"><strong>Liquidación-Concepto</strong></td>
+				<td width="33%" align="center" valign="top" nowrap="nowrap"><strong>Fecha Liquidación</strong></td>			
+				<td width="21%" align="right" valign="top" nowrap="nowrap"><strong>Monto de la Liquidación</strong></td>
+			</tr>
+			<cfset totalLiq=0>	
+			<cfloop query="rsLiquidacionesViatico">
+				<cfif len(trim(#GECVid_Padre#))>
+					<cfquery name="rsGECVid_Padre2" datasource="#session.dsn#">
+						select GECVdescripcion from GEClasificacionViaticos where GECVid=#GECVid_Padre#
+					</cfquery>
+				</cfif>	
+				<tr>
+					<td align="left" valign="top" nowrap="nowrap"><span class="style3">
+						<cfif len(trim(#rsLiquidacionesViatico.GECVdescripcion#))>
+							<cfif isdefined('rsGECVid_Padre2.GECVdescripcion') and len(#rsGECVid_Padre2.GECVdescripcion#)>
+								#rsGECVid_Padre2.GECVdescripcion#-
+							</cfif>
+							#rsLiquidacionesViatico.GECVdescripcion#-#rsLiquidacionesViatico.GEPVdescripcion# 
+						<cfelse>
+							#rsLiquidacionesViatico.GECdescripcion# 
+						</cfif>
+						</span>
+					</td>
+					<td align="center" valign="top" nowrap="nowrap"><span class="style3">
+						#fechas# </span>
+					</td>			
+					<td align="right" valign="top" nowrap="nowrap"><span class="style3">#LSNumberFormat(rsLiquidacionesViatico.GELVmonto,',9.00')# </span></td>
+				</tr>	
+			<cfset totalLiq+=#rsLiquidacionesViatico.GELVmonto#>	
+			</cfloop>
+			<tr>
+				<td align="right" colspan="4"valign="top"  nowrap="nowrap"><strong>Total:</strong></td>
+				<td align="right" valign="top" nowrap="nowrap">#LSNumberFormat(totalLiq,',9.00')#</td>
+			</tr>
+		</cfif>	
+	
+		<tr>
+			<td align="left" nowrap="nowrap" colspan="2"></td>
+			
+		</tr>
+		
+		<tr>
+			<td align="left" nowrap="nowrap" class="RLTtopline" colspan="8"><strong>Gastos Asociados</strong></td>
+		</tr>
+		<tr>
+			<td align="left" valign="top" nowrap="nowrap"><strong>Gasto-Linea-Concepto</strong></td>
+			<td align="left" valign="top" nowrap="nowrap"><strong>N.Documento</strong></td>
+			<td align="left" valign="top" nowrap="nowrap"><strong>Fecha Gasto</strong></td>
+			<td align="left" valign="top" nowrap="nowrap"><strong>Proveedor Servicio</strong></td>			
+			<td align="right" valign="top" nowrap="nowrap"><strong>Monto del Gasto</strong></td>
+		</tr>
+	<cfloop query="rsLiquidacion">
+		<tr>
+			<td align="left" width="20%" valign="top" nowrap="nowrap"><span class="style3">#rsEncabezado.GELnumero#-#rsLiquidacion.GECdescripcion#</span></td>
+			<td align="left" width="20%"valign="top" nowrap="nowrap"><span class="style3">#rsLiquidacion.GELGnumeroDoc#</span></td>
+			<td align="left" width="20%"valign="top" nowrap="nowrap"><span class="style3">#dateFormat(rsLiquidacion.GELGfecha,"DD/MM/YYYY")#</span></td>
+			<td align="left" width="20%"valign="top" nowrap="nowrap"><span class="style3">#rsLiquidacion.GELGproveedor#</span></td>
+			<td align="right" width="20%"valign="top" nowrap="nowrap"><span class="style31">#LSNumberFormat(rsLiquidacion.GELGtotal,',9.00')#</span></td>
+		</tr>	
+	</cfloop>
+		<tr>
+			<td align="left" nowrap="nowrap" colspan="8"></td>
+			
+		</tr>
+		<tr>
+			<td align="right" colspan="4"valign="top"  nowrap="nowrap"><strong>Total:</strong></td>
+			<td align="right" valign="top" nowrap="nowrap">#LSNumberFormat(rsEncabezado.GELtotalGastos,',9.00')#</td>
+		</tr>
+		
+		<tr>
+			<td align="left" nowrap="nowrap" colspan="8"></td>
+			
+		</tr>
+		<tr>
+			<td align="left" nowrap="nowrap" class="RLTtopline" colspan="8"><strong>Depositos Asociados</strong></td>
+		</tr>
+		<tr>
+			<td align="left" valign="top" nowrap="nowrap"><strong>Referencia</strong></td>
+			<td align="center" valign="top" nowrap="nowrap"><strong>Banco-Chequera</strong></td>			
+			<td align="right" valign="top" nowrap="nowrap"><strong>Monto Deposito</strong></td>
+		</tr>
+	<cfloop query="rsDeposito">
+		<tr>
+			<td align="left" valign="top" nowrap="nowrap"><span class="style3">#rsDeposito.GELDreferencia#</span></td>
+			<td align="center" valign="top" nowrap="nowrap"><span class="style3">#rsDeposito.CBcodigo#</span></td>			
+			<td align="right" valign="top" nowrap="nowrap"><span class="style3">#LSNumberFormat(rsDeposito.GELDtotal,',9.00')#</span></td>
+		</tr>	
+	</cfloop>
+		<tr>
+			<td align="left" nowrap="nowrap" colspan="8"></td>
+		</tr>
+		<tr>
+			<td align="right" colspan="4"valign="top"  nowrap="nowrap"><strong>Total:</strong></td>
+			<td align="right" valign="top" nowrap="nowrap">#LSNumberFormat(rsEncabezado.GELtotalDepositos,',9.00')#</td>
+		</tr>
+		<!---parte de las firmas--->
+		<tr>
+			<td >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+		</tr>
+		<tr>
+			<td >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+		</tr>
+		<table border="1" width="100%" cellpadding="0" cellspacing="0"><tr>
+			<td>
+				<table align="center" border="0" width="100%">
+				  <tr>
+					<td align="left" nowrap="nowrap"> Declaro bajo juramento que lo arriba expresado es una relación exacta de los gastos incurridos en asuntos oficiales. </td>
+				  </tr>
+				   <tr>
+					<td>&nbsp;</td>
+				  </tr>
+				  <tr>
+					<td align="center" valign="top" nowrap="nowrap"><strong>________________________________________________</strong></td>
+				  </tr>
+				   <tr>
+					<td align="center" valign="top" nowrap="nowrap"><strong>Firma del Funcionario</strong></td>
+				  </tr>
+				</table>
+			</td>
+			<td>
+				<table align="center" border="0" width="100%">
+				  <tr>
+					<td align="left" nowrap="nowrap"><strong>Autorizado por:</strong></td>
+				  </tr>
+				  <tr>
+					<td>&nbsp;</td>
+				  </tr>
+				  <tr>
+					<td align="left" valign="top" nowrap="nowrap"><strong>Nombre:__________________________________________</strong></td>
+				  </tr>
+				   <tr>
+					<td>&nbsp;</td>
+				  </tr>
+				  <tr>
+					<td align="left" valign="top" nowrap="nowrap"><strong>Firma:____________________________________________</strong></td>
+				  </tr>
+				</table>
+			</td>
+		</tr></table>
+	</table>
+</cfoutput>
+
+</cfif>

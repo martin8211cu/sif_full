@@ -1,0 +1,6 @@
+<tag endtag="yes" name="cf_sifHTML2Word" casesensitive="yes">
+  <tagformat nlbeforetag="1" nlaftertag="1" indentcontents="yes" />
+  <attributes>
+    <attrib name="Titulo" casesensitive="yes"/>
+  </attributes>
+</tag>

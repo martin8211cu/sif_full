@@ -1,0 +1,1 @@
+copy H:\home\menu\portlets\sms\*.* c:\cfm_local\home\menu\portlets\sms

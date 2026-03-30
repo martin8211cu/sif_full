@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="EN">
+		<Oficinas>
+			Offices
+		</Oficinas>
+		<Deptos>
+			Departments
+		</Deptos>
+		<Socios>
+			Partners
+		</Socios>
+		<ParamGen>
+			General System Configuration
+		</ParamGen>
+	</Idioma>
+
+	<Idioma id="ES_CR">
+		<Oficinas>
+			Oficinas
+		</Oficinas>
+		<Deptos>
+			Departamentos
+		</Deptos>
+		<Socios>
+			Socios de Negocios
+		</Socios>
+		<ParamGen>
+			Parï¿½metros Generales del Sistema
+		</ParamGen>
+	</Idioma>
+<Idioma id="es"><inicio>Inicio</inicio><favoritos>Favoritos</favoritos><compania>Compa&amp;ntilde;&amp;iacute;a</compania></Idioma><Idioma id="en"><Deptos>Departments</Deptos><Oficinas>Offices</Oficinas><ParamGen>General parameters</ParamGen><Socios>Associate</Socios><compania>Company</compania><favoritos>Favorites</favoritos><inicio>Start</inicio></Idioma></Etiquetas>

@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_Nombre>Name</LB_Nombre>
+		<LB_Identificacion>Identification</LB_Identificacion>
+		<LB_Fecha>Date</LB_Fecha>
+		<LB_Telefono>Phone Number</LB_Telefono>
+		<LB_Fax>Fax</LB_Fax>
+		<LB_AreaContacto>Contact Area</LB_AreaContacto>
+		<LB_Proveduria>Supply Department</LB_Proveduria>
+		<LB_Tesoreria>Treasury</LB_Tesoreria>
+		<LB_RepresentanteLegal>Legal Representative</LB_RepresentanteLegal>
+		<LB_Direccion>Address</LB_Direccion>
+	</Idioma>
+</Etiquetas>

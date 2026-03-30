@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_Deposito>Deposit</LB_Deposito>
+		<LB_Fecha>Date</LB_Fecha>
+		<LB_Cuenta>Account</LB_Cuenta>
+		<LB_Moneda>Currency</LB_Moneda>
+		<LB_Monto>Amount</LB_Monto>
+		<LB_CuentaBancaria>Bank Account</LB_CuentaBancaria>
+		<LB_Bancos>Banks</LB_Bancos>
+		<LB_Transaccion>Transaction</LB_Transaccion>
+		<LB_Referencia>Reference</LB_Referencia>
+		<LB_TipoCambio>Exchange Rate</LB_TipoCambio>
+		<LB_FactorConversion>Conversion Factor</LB_FactorConversion>
+		<LB_MontoLiq>Settlement Amount</LB_MontoLiq>
+		<LB_RevisaDatos>Please review the following data</LB_RevisaDatos>
+		<LB_CampoFactorConversion>The conversion factor can not be blank</LB_CampoFactorConversion>	
+		<LB_CampoTipoCambio>The exchange rate must be greater than zero</LB_CampoTipoCambio>
+		<LB_CampoTipoCambioMayor0>The exchange rate must be greater than zero</LB_CampoTipoCambioMayor0>	
+		<LB_CampoBanco>You must select a bank</LB_CampoBanco>
+		<LB_CampoReferencia>The reference must not be blank</LB_CampoReferencia>
+		<LB_CampoMontoSolicitadoMayor0>The amount requested must be greater than zero</LB_CampoMontoSolicitadoMayor0>
+		
+	</Idioma>
+</Etiquetas>

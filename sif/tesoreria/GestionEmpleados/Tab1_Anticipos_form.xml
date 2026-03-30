@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<MSG_ElEmpleadoNoTieneAnticiposRelacionados>The employee has no related advances</MSG_ElEmpleadoNoTieneAnticiposRelacionados>
+		<LB_ListaDeAnticiposDisponiblesParaElEmpleado>List of Available Advances for the Employee</LB_ListaDeAnticiposDisponiblesParaElEmpleado>
+		<LB_Anticipo>Advance</LB_Anticipo>
+		<LB_Fecha>Date</LB_Fecha>
+		<LB_Descripcion>Description</LB_Descripcion>
+		<LB_Monto>Amount</LB_Monto>
+		<LB_ConceptoGasto>Expense Concept</LB_ConceptoGasto>
+		<LB_MontoAnticipo>Advance Amount</LB_MontoAnticipo>
+		<LB_SaldoAnticipo>Advance Balance</LB_SaldoAnticipo>
+		<LB_MontoLiquidar>Amount to Settled</LB_MontoLiquidar>
+	</Idioma>
+</Etiquetas>

@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_Titulo>Eliminate Reporting Currency Translation</LB_Titulo>
+		<LB_Periodo>Period</LB_Periodo>
+		<LB_Mes>Month</LB_Mes>
+		<LB_Empresa>Enterprise</LB_Empresa>
+		<LB_Mensaje>This option allows an authorized user to delete the currency conversion data processed. The process can be execute again when the accounting information must be changed by retroactive entries</LB_Mensaje>
+		<LB_MesesConvertidos>Translated Months</LB_MesesConvertidos>
+	</Idioma>
+</Etiquetas>

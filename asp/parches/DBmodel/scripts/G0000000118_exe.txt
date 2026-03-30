@@ -1,0 +1,36 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 393 - DBM 324: DPolizaDesalmacenaje
+
+	         PARCHE:  Parche023_347_SIF_CM-Importaciones
+
+GENERADO EN:
+	SERVER:  http://mxvqapp34:8300
+	DSN:     sifcim
+	FECHA:   06/01/2012 16:59:37
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* CHG_TABLE DPolizaDesalmacenaje: Detalle de Póliza de Desalmace */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): DPDimpuestosrealRCPar - Recalculo Impuestos Real Desalmacena Parcial */
+ALTER TABLE DPolizaDesalmacenaje ADD DPDimpuestosrealRCPar money NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): DPDimpuestosrecupRCPar - Recalculo Impuesto recuperable Desalmacena Parcial */
+ALTER TABLE DPolizaDesalmacenaje ADD DPDimpuestosrecupRCPar money NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

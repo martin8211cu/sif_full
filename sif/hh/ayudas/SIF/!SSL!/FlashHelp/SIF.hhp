@@ -1,0 +1,86 @@
+[OPTIONS]
+Compiled File=SIF.htm
+Title=SIF
+Contents File=SIF.hhc
+Default topic=Sistema_Financiero_Integrado.htm
+Default Window=
+Error log file=
+Display compile progress=No
+Display compile notes=No
+Full-text search=Yes
+Binary Index=Yes
+Auto Index=No
+Enhanced decompilation=No
+Binary TOC=No
+Flat=No
+
+[WINDOWS]
+
+[FILES]
+Concepto_contable.htm
+Saldos_movimientos.htm
+Balance_comprobacion.htm
+Monedas.htm
+Catalogo_cuentas.htm
+Historico_tipo_cambio.htm
+Sistema_Financiero_Integrado.htm
+Subcuentas.htm
+Cuentas_Mayor.htm
+Cierre_auxiliar.htm
+Cierre_mes_contable.htm
+Reversar_documentos_contables.htm
+Registro_Documentos_Contables.htm
+Introduccion.htm
+Mascaras_cuentas.htm
+Cuentas_financieras.htm
+Balance_general.htm
+Poliza_contable.htm
+Cuentas_contables.htm
+eHelp.xml
+RoboHHRE.lng
+
+SIF.glo
+SIF.brs
+microsoft.css
+Cuentas_financieras_2.JPG
+Balance_general_reporte1.JPG
+Poliza_contable_reporte.JPG
+Catalogos_cuentas.JPG
+Mascara_cuentas_detalle.JPG
+Conceptos_contables.JPG
+Cierre_auxiliar.JPG
+Reversar_documentos.JPG
+Subcuenta.JPG
+Cuentas_financieras.JPG
+Cfinclude.gif
+Registro_documentos_contables.JPG
+Balance_general.JPG
+Cuentas_contables2.JPG
+Saldos_movimientos_reporte.JPG
+Balance_comprobacion.JPG
+Mascara_cuentas.JPG
+Balance_comprobacion_reporte.JPG
+Historico_tipo_cambio.JPG
+Registro_documentos_contablesDet.JPG
+image1.gif
+Cuentas_contables.JPG
+Cuentas_mayor.JPG
+Cierre_mes_contable.JPG
+image2.gif
+image3.gif
+Poliza_contable.JPG
+Saldos_movimientos.JPG
+Monedas.JPG
+Catalogos_cuentas_encab.JPG
+Cuentas_mayor_hijas.JPG
+findsmall.gif
+[ALIAS]
+#include SIF.ali
+
+[MAP]
+#include BSSCDefault.h
+
+[TEXT POPUPS]
+BSSCDefault.h
+
+

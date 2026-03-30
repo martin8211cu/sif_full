@@ -1,0 +1,79 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  sifPublica
+	MODELO:  SIF Publica.pdm
+	VERSION: 406 - DBM 339: Añade Actividad Tracking
+
+	         PARCHE:  Parche023_389_SIF_MejorasNacion
+
+GENERADO EN:
+	SERVER:  http://mxvqapp34:8300
+	DSN:     sifpublica
+	FECHA:   06/01/2012 17:23:40
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* ADD_TABLE CMActividadTracking: Actividad por Tracking */
+/* ======================================================================================== */
+
+CREATE TABLE CMActividadTracking (
+	 CMATid                         numeric(18)          identity
+	,CMATcodigo                     char(10)             NOT NULL
+	,CMATdescripcion                varchar(255)         NOT NULL
+	,Ecodigo                        integer              NOT NULL
+	,BMUsucodigo                    numeric(18)          NOT NULL
+	,ts_rversion                    timestamp           
+	)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="P", SEC="0", COLS="CMATid" */
+ALTER TABLE CMActividadTracking ADD CONSTRAINT CMActividadTracking_PK PRIMARY KEY CLUSTERED (CMATid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="A", SEC="1", COLS="CMATcodigo,Ecodigo" */
+ALTER TABLE CMActividadTracking ADD CONSTRAINT CMActividadTracking_AK01 UNIQUE NONCLUSTERED (CMATcodigo,Ecodigo)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE DTracking: DTracking */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): CMATid - id Act Tracking */
+ALTER TABLE DTracking ADD CMATid numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): DTfechaactividad - Fecha Actividad */
+ALTER TABLE DTracking ADD DTfechaactividad datetime NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(NUEVO): TIP="F", SEC="3", COLS="CMATid", REF="CMActividadTracking" */
+CREATE INDEX DTracking_FI03 ON DTracking (CMATid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ================================================================= */
+/*            CREA FKs NUEVOS O CON CAMPOS MODIFICADOS               */
+/* ================================================================= */
+/* CHG_TABLE DTracking */
+/* ADD_FK OP=(NUEVO): TIP="F", SEC="3", COLS="CMATid", REF="CMActividadTracking" */
+ALTER TABLE DTracking ADD CONSTRAINT DTracking_FK03 FOREIGN KEY (CMATid) REFERENCES CMActividadTracking (CMATid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

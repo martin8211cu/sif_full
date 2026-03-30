@@ -1,0 +1,6801 @@
+<strong>INDICE:</strong><BR>- <A href='#COLs_CHG'>Columnas a modificarse</A><BR>- <A href='#COLs_ADD'>Columnas nuevas</A><BR>- <A href='#TABs_DEL'>Tablas a eliminarse</A><BR>- <A href='#COLs_DEL'>Columnas a eliminarse</A><BR>- <A href='#KEYs_DEL'>Llaves a eliminarse</A><BR>- <A href='#TABs_ADD'>Tablas nuevas</A><BR>- <A href='#KEYs_ADD'>Llaves nuevas o a regenerarse</A><BR>- <A href='#KEYs_FI'>Indices para llaves foráneas</A><BR>- <A href='#RENAMES'>Objetos a Renombrase</A><BR><BR><BR>
+			<BR><strong><A name='COLs_CHG'>COLUMNAS QUE VAN A SER ALTERADAS EN LA BASE DE DATOS PORQUE TIENEN CARACTERISTICAS MODIFICADAS EN EL MODELO DBM</A></strong><BR>
+			<table>
+			<tr><td><strong>TABLA</strong></td><td><strong>COLUMNA</strong></td><td><strong>&nbsp;</strong></td><td><strong>TIPO</strong></td><td><strong>LON</strong></td><td><strong>DEC</strong></td><td><strong>obl</strong></td><td><strong>ide</strong></td><td><strong>dfl</strong></td><td><strong>rul</strong></td></tr>
+			
+				<tr>
+					<td>CFuncional</td><td>CFcorporativo</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td>LOGIC</td>
+					<td>1</td>
+					<td>0</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					<td>0</td>
+					<td><strong>**NULL**</strong></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>LOGIC</td>
+					<td>1</td>
+					<td>0</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					
+						<td>0</td>
+					
+					
+						<td><font color="#FF0000">([CFcorporativo]=(1) OR [CFcorporativo]=(0))</font></td>
+					
+				</tr>
+			
+				<tr>
+					<td>CIncidentes</td><td>CIcodigo</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td><strong>VARCHAR</strong></td>
+					<td><strong>5</strong></td>
+					<td>0</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					<td></td>
+					<td></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>CHAR</td>
+					<td>3</td>
+					<td>0</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					
+						<td><font color="#FF0000"></font></td>
+					
+					
+						<td><font color="#FF0000"></font></td>
+					
+				</tr>
+			
+				<tr>
+					<td>CIncidentes</td><td>CInorealizado</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td>LOGIC</td>
+					<td>1</td>
+					<td>0</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					<td>0</td>
+					<td><strong>**NULL**</strong></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>LOGIC</td>
+					<td>1</td>
+					<td>0</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					
+						<td>0</td>
+					
+					
+						<td><font color="#FF0000">([CInorealizado]=(1) OR [CInorealizado]=(0))</font></td>
+					
+				</tr>
+			
+				<tr>
+					<td>CIncidentes</td><td>CInorenta</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td>LOGIC</td>
+					<td>1</td>
+					<td>0</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					<td>0</td>
+					<td><strong>**NULL**</strong></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>LOGIC</td>
+					<td>1</td>
+					<td>0</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					
+						<td>0</td>
+					
+					
+						<td><font color="#FF0000">([CInorenta]=(1) OR [CInorenta]=(0))</font></td>
+					
+				</tr>
+			
+				<tr>
+					<td>CIncidentes</td><td>CInocargas</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td>LOGIC</td>
+					<td>1</td>
+					<td>0</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					<td>0</td>
+					<td><strong>**NULL**</strong></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>LOGIC</td>
+					<td>1</td>
+					<td>0</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					
+						<td>0</td>
+					
+					
+						<td><font color="#FF0000">([CInocargas]=(1) OR [CInocargas]=(0))</font></td>
+					
+				</tr>
+			
+				<tr>
+					<td>CIncidentes</td><td>CInodeducciones</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td>LOGIC</td>
+					<td>1</td>
+					<td>0</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					<td>0</td>
+					<td><strong>**NULL**</strong></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>LOGIC</td>
+					<td>1</td>
+					<td>0</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					
+						<td>0</td>
+					
+					
+						<td><font color="#FF0000">([CInodeducciones]=(1) OR [CInodeducciones]=(0))</font></td>
+					
+				</tr>
+			
+				<tr>
+					<td>CIncidentes</td><td>CIvacaciones</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td>LOGIC</td>
+					<td>1</td>
+					<td>0</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					<td>0</td>
+					<td><strong>**NULL**</strong></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>LOGIC</td>
+					<td>1</td>
+					<td>0</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					
+						<td>0</td>
+					
+					
+						<td><font color="#FF0000">([CIvacaciones]=(1) OR [CIvacaciones]=(0))</font></td>
+					
+				</tr>
+			
+				<tr>
+					<td>CIncidentes</td><td>CIredondeo</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td>LOGIC</td>
+					<td>1</td>
+					<td>0</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					<td>0</td>
+					<td><strong>**NULL**</strong></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>LOGIC</td>
+					<td>1</td>
+					<td>0</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					
+						<td>0</td>
+					
+					
+						<td><font color="#FF0000">([CIredondeo]=(1) OR [CIredondeo]=(0))</font></td>
+					
+				</tr>
+			
+				<tr>
+					<td>CIncidentes</td><td>CInocargasley</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td>LOGIC</td>
+					<td>1</td>
+					<td>0</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					<td>0</td>
+					<td><strong>**NULL**</strong></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>LOGIC</td>
+					<td>1</td>
+					<td>0</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					
+						<td>0</td>
+					
+					
+						<td><font color="#FF0000">([CInocargasley]=(1) OR [CInocargasley]=(0))</font></td>
+					
+				</tr>
+			
+				<tr>
+					<td>ComponentesSalariales</td><td>CSusatabla</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td>INTEGER</td>
+					<td>10</td>
+					<td>0</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					<td>0</td>
+					<td><strong>([CSusatabla]=(4) OR [CSusatabla]=(3) OR [CSusatabla]=(2) OR [CSusatabla]=(1) OR [CSusatabla]=(0))</strong></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>INTEGER</td>
+					<td>10</td>
+					<td>0</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					
+						<td>0</td>
+					
+					
+						<td>([CSusatabla]=(2) OR [CSusatabla]=(1) OR [CSusatabla]=(0))</td>
+					
+				</tr>
+			
+				<tr>
+					<td>ComponentesSalariales</td><td>CSsalariobase</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td>LOGIC</td>
+					<td>1</td>
+					<td>0</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					<td>0</td>
+					<td><strong>**NULL**</strong></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>LOGIC</td>
+					<td>1</td>
+					<td>0</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					
+						<td>0</td>
+					
+					
+						<td><font color="#FF0000">([CSsalariobase]=(1) OR [CSsalariobase]=(0))</font></td>
+					
+				</tr>
+			
+				<tr>
+					<td>CuentasBancos</td><td>CBTcodigo</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td>NUMERIC</td>
+					<td><strong>1</strong></td>
+					<td>0</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					<td></td>
+					<td><strong>([CBTcodigo]=(3) OR [CBTcodigo]=(1) OR [CBTcodigo]=(2))</strong></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>NUMERIC</td>
+					<td>18</td>
+					<td>0</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					
+						<td><font color="#FF0000"></font></td>
+					
+					
+						<td></td>
+					
+				</tr>
+			
+				<tr>
+					<td>Documentos</td><td>EDtipocambioVal</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td>FLOAT</td>
+					<td>15</td>
+					<td>0</td>
+					<td><strong>1</strong></td>
+					
+						<td>0</td>
+					
+					<td></td>
+					<td></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>FLOAT</td>
+					<td>15</td>
+					<td>0</td>
+					<td>0</td>
+					
+						<td>0</td>
+					
+					
+						<td><font color="#FF0000"></font></td>
+					
+					
+						<td><font color="#FF0000"></font></td>
+					
+				</tr>
+			
+				<tr>
+					<td>Documentos</td><td>EDtipocambioFecha</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td>DATE TIME</td>
+					<td>0</td>
+					<td>0</td>
+					<td><strong>1</strong></td>
+					
+						<td>0</td>
+					
+					<td></td>
+					<td></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>DATE TIME</td>
+					<td>0</td>
+					<td>0</td>
+					<td>0</td>
+					
+						<td>0</td>
+					
+					
+						<td><font color="#FF0000"></font></td>
+					
+					
+						<td><font color="#FF0000"></font></td>
+					
+				</tr>
+			
+				<tr>
+					<td>Documentos</td><td>TESRPTCietu</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td>INTEGER</td>
+					<td>10</td>
+					<td>0</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					<td>0</td>
+					<td><strong>([TESRPTCietu]=(3) OR [TESRPTCietu]=(2) OR [TESRPTCietu]=(1) OR [TESRPTCietu]=(0))</strong></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>INTEGER</td>
+					<td>10</td>
+					<td>0</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					
+						<td>0</td>
+					
+					
+						<td>([TESRPTCietu]=(0) OR [TESRPTCietu]=(1) OR [TESRPTCietu]=(2) OR [TESRPTCietu]=(3))</td>
+					
+				</tr>
+			
+				<tr>
+					<td>GEliquidacion</td><td>GELtotalGastos</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td>MONEY</td>
+					<td>18</td>
+					<td>4</td>
+					<td><strong>1</strong></td>
+					
+						<td>0</td>
+					
+					<td><strong>0</strong></td>
+					<td></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>MONEY</td>
+					<td>18</td>
+					<td>4</td>
+					<td>0</td>
+					
+						<td>0</td>
+					
+					
+						<td></td>
+					
+					
+						<td><font color="#FF0000"></font></td>
+					
+				</tr>
+			
+				<tr>
+					<td>GEliquidacion</td><td>GELtotalDepositos</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td>MONEY</td>
+					<td>18</td>
+					<td>4</td>
+					<td><strong>1</strong></td>
+					
+						<td>0</td>
+					
+					<td><strong>0</strong></td>
+					<td></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>MONEY</td>
+					<td>18</td>
+					<td>4</td>
+					<td>0</td>
+					
+						<td>0</td>
+					
+					
+						<td></td>
+					
+					
+						<td><font color="#FF0000"></font></td>
+					
+				</tr>
+			
+				<tr>
+					<td>GEliquidacion</td><td>GELtotalAnticipos</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td>MONEY</td>
+					<td>18</td>
+					<td>4</td>
+					<td><strong>1</strong></td>
+					
+						<td>0</td>
+					
+					<td><strong>0</strong></td>
+					<td></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>MONEY</td>
+					<td>18</td>
+					<td>4</td>
+					<td>0</td>
+					
+						<td>0</td>
+					
+					
+						<td></td>
+					
+					
+						<td><font color="#FF0000"></font></td>
+					
+				</tr>
+			
+				<tr>
+					<td>GEliquidacion</td><td>GELreembolso</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td>MONEY</td>
+					<td>18</td>
+					<td>4</td>
+					<td><strong>1</strong></td>
+					
+						<td>0</td>
+					
+					<td><strong>0</strong></td>
+					<td></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>MONEY</td>
+					<td>18</td>
+					<td>4</td>
+					<td>0</td>
+					
+						<td>0</td>
+					
+					
+						<td></td>
+					
+					
+						<td><font color="#FF0000"></font></td>
+					
+				</tr>
+			
+				<tr>
+					<td>GEliquidacion</td><td>GELtipoCambio</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td><strong>FLOAT</strong></td>
+					<td><strong>15</strong></td>
+					<td><strong>0</strong></td>
+					<td><strong>1</strong></td>
+					
+						<td>0</td>
+					
+					<td><strong>1</strong></td>
+					<td></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>MONEY</td>
+					<td>18</td>
+					<td>4</td>
+					<td>0</td>
+					
+						<td>0</td>
+					
+					
+						<td></td>
+					
+					
+						<td><font color="#FF0000"></font></td>
+					
+				</tr>
+			
+				<tr>
+					<td>GEliquidacion</td><td>CPNAPnum</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td>NUMERIC</td>
+					<td><strong>18</strong></td>
+					<td>0</td>
+					<td>0</td>
+					
+						<td>0</td>
+					
+					<td></td>
+					<td></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>NUMERIC</td>
+					<td>15</td>
+					<td>0</td>
+					<td>0</td>
+					
+						<td>0</td>
+					
+					
+						<td><font color="#FF0000"></font></td>
+					
+					
+						<td><font color="#FF0000"></font></td>
+					
+				</tr>
+			
+				<tr>
+					<td>GEliquidacion</td><td>GELtotalDevoluciones</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td>MONEY</td>
+					<td>18</td>
+					<td>4</td>
+					<td><strong>1</strong></td>
+					
+						<td>0</td>
+					
+					<td><strong>0</strong></td>
+					<td></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>MONEY</td>
+					<td>18</td>
+					<td>4</td>
+					<td>0</td>
+					
+						<td>0</td>
+					
+					
+						<td></td>
+					
+					
+						<td><font color="#FF0000"></font></td>
+					
+				</tr>
+			
+				<tr>
+					<td>RHEscalas</td><td>RHEdefault</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td>INTEGER</td>
+					<td>10</td>
+					<td>0</td>
+					<td>0</td>
+					
+						<td>0</td>
+					
+					<td>0</td>
+					<td><strong>([RHEdefault] IS NULL OR ([RHEdefault]=(1) OR [RHEdefault]=(0)))</strong></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>INTEGER</td>
+					<td>10</td>
+					<td>0</td>
+					<td>0</td>
+					
+						<td>0</td>
+					
+					
+						<td>0</td>
+					
+					
+						<td>([RHEdefault]=(1) OR [RHEdefault]=(0))</td>
+					
+				</tr>
+			
+				<tr>
+					<td>RHOtrasPartidas</td><td>RHPOPid</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td>NUMERIC</td>
+					<td>18</td>
+					<td>0</td>
+					<td><strong>0</strong></td>
+					
+						<td>0</td>
+					
+					<td></td>
+					<td></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>NUMERIC</td>
+					<td>18</td>
+					<td>0</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					
+						<td><font color="#FF0000"></font></td>
+					
+					
+						<td><font color="#FF0000"></font></td>
+					
+				</tr>
+			
+				<tr>
+					<td>RHOtrasPartidas</td><td>RHEid</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td>NUMERIC</td>
+					<td>18</td>
+					<td>0</td>
+					<td><strong>0</strong></td>
+					
+						<td>0</td>
+					
+					<td></td>
+					<td></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>NUMERIC</td>
+					<td>18</td>
+					<td>0</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					
+						<td><font color="#FF0000"></font></td>
+					
+					
+						<td><font color="#FF0000"></font></td>
+					
+				</tr>
+			
+				<tr>
+					<td>RHPuestos</td><td>RHPactivo</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td>LOGIC</td>
+					<td>1</td>
+					<td>0</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					<td>1</td>
+					<td><strong>**NULL**</strong></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>LOGIC</td>
+					<td>1</td>
+					<td>0</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					
+						<td>1</td>
+					
+					
+						<td><font color="#FF0000">([RHPactivo]=(0) OR [RHPactivo]=(1))</font></td>
+					
+				</tr>
+			
+				<tr>
+					<td>TESbeneficiario</td><td>TESBtipoId</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td>CHAR</td>
+					<td>1</td>
+					<td>0</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					<td>F</td>
+					<td><strong>([TESBtipoId]='O' OR [TESBtipoId]='E' OR [TESBtipoId]='J' OR [TESBtipoId]='F')</strong></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>CHAR</td>
+					<td>1</td>
+					<td>0</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					
+						<td>F</td>
+					
+					
+						<td>([TESBtipoId]='J' OR [TESBtipoId]='F')</td>
+					
+				</tr>
+			
+				<tr>
+					<td>TESdetallePago</td><td>TESDPestado</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td><strong>NUMERIC</strong></td>
+					<td>3</td>
+					<td>0</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					<td>0</td>
+					<td><strong>([TESDPestado]=(312) OR [TESDPestado]=(302) OR [TESDPestado]=(13) OR [TESDPestado]=(12) OR [TESDPestado]=(110) OR [TESDPestado]=(11) OR [TESDPestado]=(103) OR [TESDPestado]=(101) OR [TESDPestado]=(10) OR [TESDPestado]=(23) OR [TESDPestado]=(3) OR [TESDPestado]=(212) OR [TESDPestado]=(202) OR [TESDPestado]=(2) OR [TESDPestado]=(1) OR [TESDPestado]=(0))</strong></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>INTEGER</td>
+					<td>3</td>
+					<td>0</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					
+						<td>0</td>
+					
+					
+						<td>([TESDPestado]=(13) OR [TESDPestado]=(12) OR [TESDPestado]=(11) OR [TESDPestado]=(103) OR [TESDPestado]=(101) OR [TESDPestado]=(10) OR [TESDPestado]=(23) OR [TESDPestado]=(3) OR [TESDPestado]=(2) OR [TESDPestado]=(1) OR [TESDPestado]=(0))</td>
+					
+				</tr>
+			
+				<tr>
+					<td>TESdetallePago</td><td>TESRPTCietu</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td>INTEGER</td>
+					<td>10</td>
+					<td>0</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					<td>0</td>
+					<td><strong>([TESRPTCietu]=(3) OR [TESRPTCietu]=(2) OR [TESRPTCietu]=(1) OR [TESRPTCietu]=(0))</strong></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>INTEGER</td>
+					<td>10</td>
+					<td>0</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					
+						<td>0</td>
+					
+					
+						<td>([TESRPTCietu]=(0) OR [TESRPTCietu]=(1) OR [TESRPTCietu]=(2) OR [TESRPTCietu]=(3))</td>
+					
+				</tr>
+			
+				<tr>
+					<td>TESdetallePago</td><td>Rcodigo</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td><strong>CHAR</strong></td>
+					<td>2</td>
+					<td>0</td>
+					<td>0</td>
+					
+						<td>0</td>
+					
+					<td></td>
+					<td></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>VARCHAR</td>
+					<td>2</td>
+					<td>0</td>
+					<td>0</td>
+					
+						<td>0</td>
+					
+					
+						<td><font color="#FF0000"></font></td>
+					
+					
+						<td><font color="#FF0000"></font></td>
+					
+				</tr>
+			
+				<tr>
+					<td>TESordenPago</td><td>TESOPestado</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td><strong>NUMERIC</strong></td>
+					<td>3</td>
+					<td>0</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					<td>10</td>
+					<td><strong>([TESOPestado]=(13) OR [TESOPestado]=(12) OR [TESOPestado]=(110) OR [TESOPestado]=(11) OR [TESOPestado]=(103) OR [TESOPestado]=(101) OR [TESOPestado]=(10))</strong></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>INTEGER</td>
+					<td>3</td>
+					<td>0</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					
+						<td>10</td>
+					
+					
+						<td>([TESOPestado]=(13) OR [TESOPestado]=(12) OR [TESOPestado]=(11) OR [TESOPestado]=(103) OR [TESOPestado]=(101) OR [TESOPestado]=(10))</td>
+					
+				</tr>
+			
+				<tr>
+					<td>TESsolicitudPago</td><td>TESSPtipoDocumento</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td>INTEGER</td>
+					<td>3</td>
+					<td>0</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					<td></td>
+					<td><strong>([TESSPtipoDocumento]=(11) OR [TESSPtipoDocumento]=(100) OR [TESSPtipoDocumento]=(10) OR [TESSPtipoDocumento]=(8) OR [TESSPtipoDocumento]=(7) OR [TESSPtipoDocumento]=(6) OR [TESSPtipoDocumento]=(4) OR [TESSPtipoDocumento]=(3) OR [TESSPtipoDocumento]=(2) OR [TESSPtipoDocumento]=(1) OR [TESSPtipoDocumento]=(5) OR [TESSPtipoDocumento]=(0))</strong></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>INTEGER</td>
+					<td>3</td>
+					<td>0</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					
+						<td><font color="#FF0000"></font></td>
+					
+					
+						<td>([TESSPtipoDocumento]=(100) OR [TESSPtipoDocumento]=(5) OR [TESSPtipoDocumento]=(4) OR [TESSPtipoDocumento]=(3) OR [TESSPtipoDocumento]=(2) OR [TESSPtipoDocumento]=(1) OR [TESSPtipoDocumento]=(0))</td>
+					
+				</tr>
+			
+				<tr>
+					<td>TESsolicitudPago</td><td>TESSPestado</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td><strong>NUMERIC</strong></td>
+					<td>3</td>
+					<td>0</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					<td>0</td>
+					<td><strong>([TESSPestado]=(312) OR [TESSPestado]=(302) OR [TESSPestado]=(13) OR [TESSPestado]=(12) OR [TESSPestado]=(110) OR [TESSPestado]=(11) OR [TESSPestado]=(103) OR [TESSPestado]=(101) OR [TESSPestado]=(10) OR [TESSPestado]=(23) OR [TESSPestado]=(3) OR [TESSPestado]=(212) OR [TESSPestado]=(202) OR [TESSPestado]=(2) OR [TESSPestado]=(1) OR [TESSPestado]=(0))</strong></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>INTEGER</td>
+					<td>3</td>
+					<td>0</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					
+						<td>0</td>
+					
+					
+						<td>([TESSPestado]=(13) OR [TESSPestado]=(12) OR [TESSPestado]=(11) OR [TESSPestado]=(103) OR [TESSPestado]=(101) OR [TESSPestado]=(10) OR [TESSPestado]=(23) OR [TESSPestado]=(3) OR [TESSPestado]=(2) OR [TESSPestado]=(1) OR [TESSPestado]=(0))</td>
+					
+				</tr>
+			
+				<tr>
+					<td>TESsolicitudPago</td><td>TESOPinstruccion</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td>VARCHAR</td>
+					<td><strong>255</strong></td>
+					<td>0</td>
+					<td>0</td>
+					
+						<td>0</td>
+					
+					<td></td>
+					<td></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>VARCHAR</td>
+					<td>40</td>
+					<td>0</td>
+					<td>0</td>
+					
+						<td>0</td>
+					
+					
+						<td><font color="#FF0000"></font></td>
+					
+					
+						<td><font color="#FF0000"></font></td>
+					
+				</tr>
+			
+				<tr>
+					<td>TEStransferenciaP</td><td>TESTPcodigoTipo</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td>INTEGER</td>
+					<td>10</td>
+					<td>0</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					<td>1</td>
+					<td><strong>([TESTPcodigoTipo]=(10) OR [TESTPcodigoTipo]=(3) OR [TESTPcodigoTipo]=(2) OR [TESTPcodigoTipo]=(1) OR [TESTPcodigoTipo]=(0))</strong></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>INTEGER</td>
+					<td>10</td>
+					<td>0</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					
+						<td>1</td>
+					
+					
+						<td>([TESTPcodigoTipo]=(2) OR [TESTPcodigoTipo]=(1) OR [TESTPcodigoTipo]=(0))</td>
+					
+				</tr>
+			
+				<tr>
+					<td>TEStransfIntercomL</td><td>TESTILtipo</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td>INTEGER</td>
+					<td>10</td>
+					<td>0</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					<td><strong>0</strong></td>
+					<td><strong>([TESTILtipo]=(2) OR [TESTILtipo]=(1) OR [TESTILtipo]=(0))</strong></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>INTEGER</td>
+					<td>10</td>
+					<td>0</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					
+						<td>1</td>
+					
+					
+						<td>([TESTILtipo]=(2) OR [TESTILtipo]=(1))</td>
+					
+				</tr>
+			
+			</table>
+		
+			<BR><strong><A name='COLs_ADD'>COLUMNAS NUEVAS EN EL MODELO DBM QUE SE VAN A CREAR EN LA BASE DE DATOS</A></strong><BR>
+			<table>
+			<tr><td><strong>TABLA</strong></td><td><strong>COLUMNA</strong></td><td><strong>TIPO</strong></td><td><strong>LON</strong></td><td><strong>DEC</strong></td><td><strong>obl</strong></td><td><strong>ide</strong></td><td><strong>dfl</strong></td><td><strong>rul</strong></td></tr>
+			
+				<tr><td>AFTBResponsables&nbsp;&nbsp;</td><td>AFTRazon&nbsp;&nbsp;</td><td>VARCHAR&nbsp;&nbsp;</td><td>256</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>AFTBResponsables&nbsp;&nbsp;</td><td>AFTRechazado&nbsp;&nbsp;</td><td>LOGIC&nbsp;&nbsp;</td><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td><td></td></tr>
+			
+				<tr><td>CFuncional&nbsp;&nbsp;</td><td>CFACTransitoria&nbsp;&nbsp;</td><td>LOGIC&nbsp;&nbsp;</td><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td><td></td></tr>
+			
+				<tr><td>CFuncional&nbsp;&nbsp;</td><td>CFComplemento&nbsp;&nbsp;</td><td>VARCHAR&nbsp;&nbsp;</td><td>100</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>CFuncional&nbsp;&nbsp;</td><td>CFcuentaobras&nbsp;&nbsp;</td><td>VARCHAR&nbsp;&nbsp;</td><td>100</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>CFuncional&nbsp;&nbsp;</td><td>CFcuentaPatri&nbsp;&nbsp;</td><td>VARCHAR&nbsp;&nbsp;</td><td>100</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>CFuncional&nbsp;&nbsp;</td><td>CFcuentatransitoria&nbsp;&nbsp;</td><td>VARCHAR&nbsp;&nbsp;</td><td>100</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>CFuncional&nbsp;&nbsp;</td><td>CFestado&nbsp;&nbsp;</td><td>LOGIC&nbsp;&nbsp;</td><td>1</td><td>0</td><td>1</td><td>0</td><td>1</td><td></td></tr>
+			
+				<tr><td>CFuncional&nbsp;&nbsp;</td><td>FPAEid&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>18</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>CIncidentes&nbsp;&nbsp;</td><td>CIafectaISN&nbsp;&nbsp;</td><td>LOGIC&nbsp;&nbsp;</td><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td><td></td></tr>
+			
+				<tr><td>CIncidentes&nbsp;&nbsp;</td><td>CIafectasalpromSP&nbsp;&nbsp;</td><td>INTEGER&nbsp;&nbsp;</td><td>10</td><td>0</td><td>0</td><td>0</td><td>0</td><td>([CIafectasalpromSP] IS NULL OR ([CIafectasalpromSP]=(1) OR [CIafectasalpromSP]=(0)))</td></tr>
+			
+				<tr><td>CIncidentes&nbsp;&nbsp;</td><td>CIafectaSBC&nbsp;&nbsp;</td><td>INTEGER&nbsp;&nbsp;</td><td>10</td><td>0</td><td>0</td><td>0</td><td>0</td><td></td></tr>
+			
+				<tr><td>CIncidentes&nbsp;&nbsp;</td><td>CIautogestion&nbsp;&nbsp;</td><td>INTEGER&nbsp;&nbsp;</td><td>10</td><td>0</td><td>0</td><td>0</td><td>0</td><td></td></tr>
+			
+				<tr><td>CIncidentes&nbsp;&nbsp;</td><td>CIclave&nbsp;&nbsp;</td><td>CHAR&nbsp;&nbsp;</td><td>4</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>CIncidentes&nbsp;&nbsp;</td><td>CIcodigoext&nbsp;&nbsp;</td><td>CHAR&nbsp;&nbsp;</td><td>10</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>CIncidentes&nbsp;&nbsp;</td><td>CIidexceso&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>18</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>CIncidentes&nbsp;&nbsp;</td><td>CIlimitaconcepto&nbsp;&nbsp;</td><td>INTEGER&nbsp;&nbsp;</td><td>10</td><td>0</td><td>0</td><td>0</td><td>0</td><td></td></tr>
+			
+				<tr><td>CIncidentes&nbsp;&nbsp;</td><td>CImontolimite&nbsp;&nbsp;</td><td>MONEY&nbsp;&nbsp;</td><td>18</td><td>4</td><td>0</td><td>0</td><td>0</td><td></td></tr>
+			
+				<tr><td>CIncidentes&nbsp;&nbsp;</td><td>CIMostrarLiq&nbsp;&nbsp;</td><td>INTEGER&nbsp;&nbsp;</td><td>10</td><td>0</td><td>0</td><td>0</td><td>0</td><td>([CIMostrarLiq] IS NULL OR ([CIMostrarLiq]=(1) OR [CIMostrarLiq]=(0)))</td></tr>
+			
+				<tr><td>CIncidentes&nbsp;&nbsp;</td><td>CInoanticipo&nbsp;&nbsp;</td><td>LOGIC&nbsp;&nbsp;</td><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td><td></td></tr>
+			
+				<tr><td>CIncidentes&nbsp;&nbsp;</td><td>CInomostrar&nbsp;&nbsp;</td><td>INTEGER&nbsp;&nbsp;</td><td>10</td><td>0</td><td>0</td><td>0</td><td>0</td><td></td></tr>
+			
+				<tr><td>CIncidentes&nbsp;&nbsp;</td><td>CISumarizarLiq&nbsp;&nbsp;</td><td>INTEGER&nbsp;&nbsp;</td><td>10</td><td>0</td><td>0</td><td>0</td><td>0</td><td>([CISumarizarLiq] IS NULL OR ([CISumarizarLiq]=(1) OR [CISumarizarLiq]=(0)))</td></tr>
+			
+				<tr><td>CIncidentes&nbsp;&nbsp;</td><td>CItipolimite&nbsp;&nbsp;</td><td>INTEGER&nbsp;&nbsp;</td><td>10</td><td>0</td><td>0</td><td>0</td><td>0</td><td>([CItipolimite] IS NULL OR ([CItipolimite]=(1) OR [CItipolimite]=(0)))</td></tr>
+			
+				<tr><td>CIncidentes&nbsp;&nbsp;</td><td>CItipometodo&nbsp;&nbsp;</td><td>INTEGER&nbsp;&nbsp;</td><td>10</td><td>0</td><td>0</td><td>0</td><td>0</td><td>([CItipometodo] IS NULL OR ([CItipometodo]=(5) OR [CItipometodo]=(4) OR [CItipometodo]=(2) OR [CItipometodo]=(1) OR [CItipometodo]=(0)))</td></tr>
+			
+				<tr><td>ClasificacionItemsProv&nbsp;&nbsp;</td><td>AClaId&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>18</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>ClasificacionItemsProv&nbsp;&nbsp;</td><td>Cid&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>18</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>ClasificacionItemsProv&nbsp;&nbsp;</td><td>FechaSug&nbsp;&nbsp;</td><td>DATE TIME&nbsp;&nbsp;</td><td>0</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>CMTiposSolicitud&nbsp;&nbsp;</td><td>CMTSaprobarsolicitante&nbsp;&nbsp;</td><td>LOGIC&nbsp;&nbsp;</td><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td><td></td></tr>
+			
+				<tr><td>CMTiposSolicitud&nbsp;&nbsp;</td><td>CMTSempleado&nbsp;&nbsp;</td><td>LOGIC&nbsp;&nbsp;</td><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td><td></td></tr>
+			
+				<tr><td>CMTiposSolicitud&nbsp;&nbsp;</td><td>CMTSobras&nbsp;&nbsp;</td><td>LOGIC&nbsp;&nbsp;</td><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td><td></td></tr>
+			
+				<tr><td>CMTiposSolicitud&nbsp;&nbsp;</td><td>CMTSsuficiencia&nbsp;&nbsp;</td><td>LOGIC&nbsp;&nbsp;</td><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td><td></td></tr>
+			
+				<tr><td>ComponentesSalariales&nbsp;&nbsp;</td><td>CSreplica&nbsp;&nbsp;</td><td>INTEGER&nbsp;&nbsp;</td><td>10</td><td>0</td><td>1</td><td>0</td><td>0</td><td></td></tr>
+			
+				<tr><td>ComponentesSalariales&nbsp;&nbsp;</td><td>CSsalarioEspecie&nbsp;&nbsp;</td><td>INTEGER&nbsp;&nbsp;</td><td>10</td><td>0</td><td>1</td><td>0</td><td>0</td><td></td></tr>
+			
+				<tr><td>CuentasBancos&nbsp;&nbsp;</td><td>CBesTCE&nbsp;&nbsp;</td><td>LOGIC&nbsp;&nbsp;</td><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td><td></td></tr>
+			
+				<tr><td>CuentasBancos&nbsp;&nbsp;</td><td>CBTCid&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>18</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>CuentasBancos&nbsp;&nbsp;</td><td>DEid&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>18</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>DVacacionesAcum&nbsp;&nbsp;</td><td>DVAdiasPotenciales&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>18</td><td>0</td><td>0</td><td>0</td><td>0</td><td></td></tr>
+			
+				<tr><td>DVacacionesAcum&nbsp;&nbsp;</td><td>DVAid&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>18</td><td>0</td><td>1</td><td>1</td><td></td><td></td></tr>
+			
+				<tr><td>DVacacionesAcum&nbsp;&nbsp;</td><td>DVAmanual&nbsp;&nbsp;</td><td>LOGIC&nbsp;&nbsp;</td><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td><td></td></tr>
+			
+				<tr><td>DVacacionesAcum&nbsp;&nbsp;</td><td>DVElinea&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>18</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>DVacacionesEmpleado&nbsp;&nbsp;</td><td>DVEmanual&nbsp;&nbsp;</td><td>LOGIC&nbsp;&nbsp;</td><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td><td></td></tr>
+			
+				<tr><td>DVacacionesEmpleado&nbsp;&nbsp;</td><td>DVErefLinea&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>18</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>GEliquidacion&nbsp;&nbsp;</td><td>CBidAnts&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>18</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>GEliquidacion&nbsp;&nbsp;</td><td>CCHid&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>18</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>GEliquidacion&nbsp;&nbsp;</td><td>CFcuentaCxP&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>18</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>GEliquidacion&nbsp;&nbsp;</td><td>GEAtipoviatico&nbsp;&nbsp;</td><td>CHAR&nbsp;&nbsp;</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>([GEAtipoviatico] IS NULL OR ([GEAtipoviatico]='0' OR [GEAtipoviatico]='2' OR [GEAtipoviatico]='1'))</td></tr>
+			
+				<tr><td>GEliquidacion&nbsp;&nbsp;</td><td>GEAviatico&nbsp;&nbsp;</td><td>CHAR&nbsp;&nbsp;</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>([GEAviatico] IS NULL OR ([GEAviatico]='0' OR [GEAviatico]='1'))</td></tr>
+			
+				<tr><td>GEliquidacion&nbsp;&nbsp;</td><td>GECid&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>18</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>GEliquidacion&nbsp;&nbsp;</td><td>GELdesde&nbsp;&nbsp;</td><td>DATE TIME&nbsp;&nbsp;</td><td>0</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>GEliquidacion&nbsp;&nbsp;</td><td>GELhasta&nbsp;&nbsp;</td><td>DATE TIME&nbsp;&nbsp;</td><td>0</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>GEliquidacion&nbsp;&nbsp;</td><td>GELobservaciones&nbsp;&nbsp;</td><td>VARCHAR&nbsp;&nbsp;</td><td>100</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>GEliquidacion&nbsp;&nbsp;</td><td>GELtipoP&nbsp;&nbsp;</td><td>LOGIC&nbsp;&nbsp;</td><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td><td></td></tr>
+			
+				<tr><td>GEliquidacion&nbsp;&nbsp;</td><td>GELtotalDepositosEfectivo&nbsp;&nbsp;</td><td>MONEY&nbsp;&nbsp;</td><td>18</td><td>4</td><td>1</td><td>0</td><td>0</td><td></td></tr>
+			
+				<tr><td>GEliquidacion&nbsp;&nbsp;</td><td>GELtotalDocumentos&nbsp;&nbsp;</td><td>MONEY&nbsp;&nbsp;</td><td>18</td><td>4</td><td>1</td><td>0</td><td>0</td><td></td></tr>
+			
+				<tr><td>GEliquidacion&nbsp;&nbsp;</td><td>GELtotalRetenciones&nbsp;&nbsp;</td><td>MONEY&nbsp;&nbsp;</td><td>18</td><td>4</td><td>1</td><td>0</td><td>0</td><td></td></tr>
+			
+				<tr><td>GEliquidacion&nbsp;&nbsp;</td><td>GELtotalTCE&nbsp;&nbsp;</td><td>MONEY&nbsp;&nbsp;</td><td>18</td><td>4</td><td>1</td><td>0</td><td>0</td><td></td></tr>
+			
+				<tr><td>GEliquidacion&nbsp;&nbsp;</td><td>GELtransaccion&nbsp;&nbsp;</td><td>VARCHAR&nbsp;&nbsp;</td><td>3</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>GEliquidacion&nbsp;&nbsp;</td><td>TESSPid_Adicional&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>18</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>RHOtrasPartidas&nbsp;&nbsp;</td><td>fechadesde&nbsp;&nbsp;</td><td>DATE TIME&nbsp;&nbsp;</td><td>0</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>RHOtrasPartidas&nbsp;&nbsp;</td><td>fechahasta&nbsp;&nbsp;</td><td>DATE TIME&nbsp;&nbsp;</td><td>0</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>RHOtrasPartidas&nbsp;&nbsp;</td><td>RHOPid&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>18</td><td>0</td><td>1</td><td>1</td><td></td><td></td></tr>
+			
+				<tr><td>RHPOtrasPartidas&nbsp;&nbsp;</td><td>RHPOPdistribucionCF&nbsp;&nbsp;</td><td>LOGIC&nbsp;&nbsp;</td><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td><td></td></tr>
+			
+				<tr><td>RHPuestos&nbsp;&nbsp;</td><td>HYIvalor&nbsp;&nbsp;</td><td>CHAR&nbsp;&nbsp;</td><td>1</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>RHPuestos&nbsp;&nbsp;</td><td>RHPcodigoext&nbsp;&nbsp;</td><td>CHAR&nbsp;&nbsp;</td><td>10</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>RHPuestos&nbsp;&nbsp;</td><td>RHPropuesto&nbsp;&nbsp;</td><td>INTEGER&nbsp;&nbsp;</td><td>10</td><td>0</td><td>0</td><td>0</td><td>0</td><td>([RHPropuesto] IS NULL OR ([RHPropuesto]=(1) OR [RHPropuesto]=(0)))</td></tr>
+			
+				<tr><td>RHSolicitudPlaza&nbsp;&nbsp;</td><td>RHSPcodigo&nbsp;&nbsp;</td><td>CHAR&nbsp;&nbsp;</td><td>10</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>TESbeneficiario&nbsp;&nbsp;</td><td>Bid&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>18</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>TESbeneficiario&nbsp;&nbsp;</td><td>Ecodigo&nbsp;&nbsp;</td><td>INTEGER&nbsp;&nbsp;</td><td>10</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>TEScuentasBancos&nbsp;&nbsp;</td><td>TESCBreintegrable&nbsp;&nbsp;</td><td>LOGIC&nbsp;&nbsp;</td><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td><td></td></tr>
+			
+				<tr><td>TESdetallePago&nbsp;&nbsp;</td><td>CFComplemento&nbsp;&nbsp;</td><td>VARCHAR&nbsp;&nbsp;</td><td>100</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>TESdetallePago&nbsp;&nbsp;</td><td>Cid&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>18</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>TESdetallePago&nbsp;&nbsp;</td><td>CPDCid&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>18</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>TESdetallePago&nbsp;&nbsp;</td><td>CPDClinea&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>18</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>TESdetallePago&nbsp;&nbsp;</td><td>CPDDid&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>18</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>TESdetallePago&nbsp;&nbsp;</td><td>FPAEid&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>18</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>TESdetallePago&nbsp;&nbsp;</td><td>MlineaId&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>18</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>TESdetallePago&nbsp;&nbsp;</td><td>Mmonto&nbsp;&nbsp;</td><td>MONEY&nbsp;&nbsp;</td><td>18</td><td>4</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>TESdetallePago&nbsp;&nbsp;</td><td>PCGDid&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>18</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>TESdetallePago&nbsp;&nbsp;</td><td>TESDPespecificacuenta&nbsp;&nbsp;</td><td>LOGIC&nbsp;&nbsp;</td><td>1</td><td>0</td><td>1</td><td>0</td><td>1</td><td></td></tr>
+			
+				<tr><td>TESdetallePago&nbsp;&nbsp;</td><td>TESDPimpNCFOri&nbsp;&nbsp;</td><td>MONEY&nbsp;&nbsp;</td><td>18</td><td>4</td><td>1</td><td>0</td><td>0</td><td></td></tr>
+			
+				<tr><td>TESdetallePago&nbsp;&nbsp;</td><td>TESOPidAntesAnular&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>18</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>TESmedioPago&nbsp;&nbsp;</td><td>FMT01CODemail&nbsp;&nbsp;</td><td>CHAR&nbsp;&nbsp;</td><td>10</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>TESmedioPago&nbsp;&nbsp;</td><td>TESenviaCorreo&nbsp;&nbsp;</td><td>LOGIC&nbsp;&nbsp;</td><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td><td></td></tr>
+			
+				<tr><td>TESmedioPago&nbsp;&nbsp;</td><td>TESTGcodigoTipo&nbsp;&nbsp;</td><td>INTEGER&nbsp;&nbsp;</td><td>10</td><td>0</td><td>1</td><td>0</td><td>0</td><td>([TESTGcodigoTipo]=(10) OR [TESTGcodigoTipo]=(3) OR [TESTGcodigoTipo]=(2) OR [TESTGcodigoTipo]=(1) OR [TESTGcodigoTipo]=(0))</td></tr>
+			
+				<tr><td>TESmedioPago&nbsp;&nbsp;</td><td>TESTGid&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>18</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>TESmedioPago&nbsp;&nbsp;</td><td>TESTGtipoConfirma&nbsp;&nbsp;</td><td>INTEGER&nbsp;&nbsp;</td><td>10</td><td>0</td><td>1</td><td>0</td><td>1</td><td>([TESTGtipoConfirma]=(2) OR [TESTGtipoConfirma]=(1))</td></tr>
+			
+				<tr><td>TESmedioPago&nbsp;&nbsp;</td><td>TESTGtipoCtas&nbsp;&nbsp;</td><td>INTEGER&nbsp;&nbsp;</td><td>10</td><td>0</td><td>1</td><td>0</td><td>0</td><td>([TESTGtipoCtas]=(3) OR [TESTGtipoCtas]=(2) OR [TESTGtipoCtas]=(1) OR [TESTGtipoCtas]=(0))</td></tr>
+			
+				<tr><td>TESordenPago&nbsp;&nbsp;</td><td>CCHidPago&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>18</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>Tesoreria&nbsp;&nbsp;</td><td>CPNAPnum&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>18</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>TESsolicitudPago&nbsp;&nbsp;</td><td>CPCid&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>18</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>TESsolicitudPago&nbsp;&nbsp;</td><td>NAPaplicaSinOP&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>18</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>TESsolicitudPago&nbsp;&nbsp;</td><td>ProcessId&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>18</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>TESsolicitudPago&nbsp;&nbsp;</td><td>ProcessInstanceId&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>18</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>TESsolicitudPago&nbsp;&nbsp;</td><td>TESAPid&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>18</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>TESsolicitudPago&nbsp;&nbsp;</td><td>TESOPidAntesAnular&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>18</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>TESsolicitudPago&nbsp;&nbsp;</td><td>TESSPidCPC&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>18</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>TEStransferenciaP&nbsp;&nbsp;</td><td>Bid&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>18</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>TEStransferenciaP&nbsp;&nbsp;</td><td>CBid&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>18</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>TEStransferenciaP&nbsp;&nbsp;</td><td>TESTPtipo&nbsp;&nbsp;</td><td>INTEGER&nbsp;&nbsp;</td><td>10</td><td>0</td><td>0</td><td>0</td><td></td><td>([TESTPtipo] IS NULL OR ([TESTPtipo]=(2) OR [TESTPtipo]=(1)))</td></tr>
+			
+				<tr><td>TEStransferenciaP&nbsp;&nbsp;</td><td>TESTPtipoCtaPropia&nbsp;&nbsp;</td><td>LOGIC&nbsp;&nbsp;</td><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td><td></td></tr>
+			
+				<tr><td>TEStransferenciaP&nbsp;&nbsp;</td><td>TESTPtipoDet&nbsp;&nbsp;</td><td>VARCHAR&nbsp;&nbsp;</td><td>50</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>TEStransfIntercomD&nbsp;&nbsp;</td><td>TESMPcodigo&nbsp;&nbsp;</td><td>CHAR&nbsp;&nbsp;</td><td>10</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>TEStransfIntercomD&nbsp;&nbsp;</td><td>TESTIDdescripcionDst&nbsp;&nbsp;</td><td>VARCHAR&nbsp;&nbsp;</td><td>50</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>TEStransfIntercomD&nbsp;&nbsp;</td><td>TESTIDdocumentoDst&nbsp;&nbsp;</td><td>CHAR&nbsp;&nbsp;</td><td>20</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>TEStransfIntercomD&nbsp;&nbsp;</td><td>TESTIDreferenciaDst&nbsp;&nbsp;</td><td>VARCHAR&nbsp;&nbsp;</td><td>25</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>TEStransfIntercomD&nbsp;&nbsp;</td><td>TESTPid&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>18</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>TEStransfIntercomL&nbsp;&nbsp;</td><td>TESTILestado&nbsp;&nbsp;</td><td>INTEGER&nbsp;&nbsp;</td><td>10</td><td>0</td><td>1</td><td>0</td><td>0</td><td>([TESTILestado]=(13) OR [TESTILestado]=(12) OR [TESTILestado]=(11) OR [TESTILestado]=(10) OR [TESTILestado]=(0))</td></tr>
+			
+				<tr><td>TEStransfIntercomL&nbsp;&nbsp;</td><td>TESTILmsgRechazo&nbsp;&nbsp;</td><td>VARCHAR&nbsp;&nbsp;</td><td>255</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>RHEscalas&nbsp;&nbsp;</td><td>BMUsucodigo&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>18</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+			</table>
+		
+			<BR><strong><A name='TABs_DEL'>TABLAS QUE VAN A SER ELIMINADAS EN LA BASE DE DATOS PORQUE YA NO SE REQUIEREN EN EL MODELO DBM</A></strong><BR>
+			<table>
+			<tr><td><strong>TABLA</strong></td></tr>
+			
+				<tr><td>TESreintegroCB</td></tr>
+			
+			</table>
+		
+			<BR><strong><A name='COLs_DEL'>COLUMNAS QUE VAN A SER ELIMINADAS EN LA BASE DE DATOS PORQUE YA NO SE REQUIEREN EN EL MODELO DBM</A></strong><BR>
+			<table>
+			<tr><td><strong>TABLA</strong></td><td><strong>COLUMNA</strong></td><td><strong>TIPO</strong></td><td><strong>LON</strong></td><td><strong>DEC</strong></td><td><strong>obl</strong></td><td><strong>ide</strong></td><td><strong>dfl</strong></td><td><strong>rul</strong></td></tr>
+			
+				<tr><td>RHOtrasPartidas&nbsp;&nbsp;</td><td>Mes&nbsp;&nbsp;</td><td>INTEGER&nbsp;&nbsp;</td><td>10</td><td>0</td><td>1</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>RHOtrasPartidas&nbsp;&nbsp;</td><td>Monto&nbsp;&nbsp;</td><td>MONEY&nbsp;&nbsp;</td><td>18</td><td>4</td><td>1</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>RHOtrasPartidas&nbsp;&nbsp;</td><td>Periodo&nbsp;&nbsp;</td><td>INTEGER&nbsp;&nbsp;</td><td>10</td><td>0</td><td>1</td><td>0</td><td></td><td></td></tr>
+			
+			</table>
+		
+			<BR><strong><A name='KEYs_DEL'>LLAVES QUE SE VAN A ELIMINAR</A></strong><BR>
+			<table>
+			<tr><td><strong>TABLA</strong></td><td><strong>TIPO</strong></td><td><strong>CODIGO</strong></td><td><strong>COLUMNAS</strong></td><td><strong>TABLA REFERENCIADA</strong></td><td><strong>COLUMNAS REFERENCIADAS</strong></td><td><strong>RAZON</strong></td></tr>
+			
+				
+					<tr><td>CuentasBancos</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td>
+							
+								FK_CUENTASB_RF_CBANCA_OFICINAS
+							
+						</td>
+					
+					<td>Ecodigo,Ocodigo</td><td>Oficinas</td><td>Ecodigo,Ocodigo</td>
+					<td>
+						
+							LLAVE DUPLICADA
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>Documentos</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td>
+							
+								FK_DOCUMENT_RF_TRANS__CCTRANSA
+							
+						</td>
+					
+					<td>CCTcodigo,Ecodigo</td><td>CCTransacciones</td><td>CCTcodigo,Ecodigo</td>
+					<td>
+						
+							LLAVE DUPLICADA
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>DVacacionesAcum</td><td align="center">
+						
+							PK 
+						
+					</td>
+					
+						<td>
+							
+								DVacacione_13290851401
+							
+						</td>
+					
+					<td>DEid,DVAperiodo,Ecodigo</td><td>*</td><td>*</td>
+					<td>
+						
+							BORRADA EN DBM (DBM:DROP)
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>Monedas</td><td align="center">
+						
+							AK 
+						
+					</td>
+					
+						<td>
+							
+								AK_POR_ISO_MONEDAS
+							
+						</td>
+					
+					<td>Ecodigo,Miso4217</td><td>*</td><td>*</td>
+					<td>
+						
+							NO DEFINIDA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>RHEscalas</td><td align="center">
+						
+							PK 
+						
+					</td>
+					
+						<td>
+							
+								PK_RHEscalas
+							
+						</td>
+					
+					<td>RHEid,Ecodigo</td><td>*</td><td>*</td>
+					<td>
+						
+							NO DEFINIDA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>RHOtrasPartidas</td><td align="center">
+						
+							PK 
+						
+					</td>
+					
+						<td>
+							
+								PK_RHOTRASPARTIDAS
+							
+						</td>
+					
+					<td>RHEid,RHPOPid,Mes,Periodo</td><td>*</td><td>*</td>
+					<td>
+						
+							BORRADA EN DBM (DBM:DROP)
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>RHOtrasPartidas</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td>
+							
+								FK_RHOTRASP_REFERENCE_RHPOTRAS
+							
+						</td>
+					
+					<td>RHPOPid</td><td>RHPOtrasPartidas</td><td>RHPOPid</td>
+					<td>
+						
+							CAMPOS MODIFICADOS
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>RHOtrasPartidas</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td>
+							
+								FK_RHOTRASP_REFERENCE_RHESCENA
+							
+						</td>
+					
+					<td>RHEid</td><td>RHEscenarios</td><td>RHEid</td>
+					<td>
+						
+							CAMPOS MODIFICADOS
+						
+					</td>
+					</tr>
+					
+						
+			
+			</table>
+		
+			<BR><strong><A name='TABs_ADD'>TABLAS NUEVAS EN EL MODELO DBM QUE SE VAN A CREAR EN LA BASE DE DATOS</A></strong><BR>
+			<table>
+			<tr><td><strong>TABLA</strong></td></tr>
+			
+				<tr><td>CDRHDatosEmpleado</td></tr>
+			
+				<tr><td>CDRHHAcciones</td></tr>
+			
+				<tr><td>CDRHHCargasCalculo</td></tr>
+			
+				<tr><td>CDRHHCFuncional</td></tr>
+			
+				<tr><td>CDRHHDeduccionesCalculo</td></tr>
+			
+				<tr><td>CDRHHDeduccionesEmpleado</td></tr>
+			
+				<tr><td>CDRHHDepartamentos</td></tr>
+			
+				<tr><td>CDRHHFEmpleado</td></tr>
+			
+				<tr><td>CDRHHIncidenciasCalculo</td></tr>
+			
+				<tr><td>CDRHHOficinas</td></tr>
+			
+				<tr><td>CDRHHPagosEmpleado</td></tr>
+			
+				<tr><td>CDRHHPlazas</td></tr>
+			
+				<tr><td>CDRHHPuestos</td></tr>
+			
+				<tr><td>CDRHHRCalculoNomina</td></tr>
+			
+				<tr><td>CDRHHSalarioEmpleado</td></tr>
+			
+				<tr><td>CDRHHTiposPuesto</td></tr>
+			
+				<tr><td>CIncidentesDLimite</td></tr>
+			
+				<tr><td>DAnualidad</td></tr>
+			
+				<tr><td>DLSalPromAccion</td></tr>
+			
+				<tr><td>FPDEstimacion</td></tr>
+			
+				<tr><td>FPEEstimacion</td></tr>
+			
+				<tr><td>FPEstimacionesCongeladas</td></tr>
+			
+				<tr><td>PurdyParam</td></tr>
+			
+				<tr><td>RCuentasTipoExactus</td></tr>
+			
+				<tr><td>RHBitPuestos</td></tr>
+			
+				<tr><td>RHDOtrasPartidas</td></tr>
+			
+				<tr><td>RHOPDFormulacion</td></tr>
+			
+				<tr><td>RHOPFormulacion</td></tr>
+			
+				<tr><td>RHSalPromAccion</td></tr>
+			
+				<tr><td>TESreintegro</td></tr>
+			
+				<tr><td>TESreintegroDet</td></tr>
+			
+				<tr><td>TipoVariacionPres</td></tr>
+			
+			</table>
+		
+			<BR><strong><A name='COLs_ADD'>LLAVES QUE SE VAN A CREAR.</font></A></strong><BR>
+			<table>
+			<tr><td><strong>TABLA</strong></td><td><strong>TIPO</strong></td><td><strong>SEC.</strong></td><td><strong>COLUMNAS</strong></td><td><strong>TABLA REFERENCIADA</strong></td><td><strong>COLUMNAS REFERENCIADAS</strong></td><td><strong>RAZON</strong></td></tr>
+			
+				
+					<tr><td>CDRHHDeduccionesCalculo</td><td align="center">
+						
+							ID 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>CDRHHDCnomina,CDRHHDCfdesde,CDRHHDCfhasta</td><td>*</td><td>*</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>CDRHHSalarioEmpleado</td><td align="center">
+						
+							ID 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>CDRHHSEidentificacion</td><td>*</td><td>*</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>CDRHHSalarioEmpleado</td><td align="center">
+						
+							ID 
+						
+					</td>
+					
+						<td align="center">
+							02
+						</td>
+					
+					<td>CDRHHSEnomina,CDRHHSEfdesde,CDRHHSEfhasta</td><td>*</td><td>*</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>CFuncional</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							04
+						</td>
+					
+					<td>FPAEid</td><td>FPActividadE</td><td>FPAEid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>CIncidentesDLimite</td><td align="center">
+						
+							PK 
+						
+					</td>
+					
+						<td align="center">
+							00
+						</td>
+					
+					<td>CIid</td><td>*</td><td>*</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>CIncidentesDLimite</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>CIid</td><td>CIncidentes</td><td>CIid</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>ClasificacionItemsProv</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>CCid</td><td>CConceptos</td><td>CCid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>ClasificacionItemsProv</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							02
+						</td>
+					
+					<td>Ecodigo,SNcodigo</td><td>SNegocios</td><td>Ecodigo,SNcodigo</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>ClasificacionItemsProv</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							03
+						</td>
+					
+					<td>Ecodigo,Ccodigo</td><td>Clasificaciones</td><td>Ecodigo,Ccodigo</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>CMTiposSolicitud</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>Mcodigo</td><td>Monedas</td><td>Mcodigo</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>CMTiposSolicitud</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							02
+						</td>
+					
+					<td>Ecodigo</td><td>Empresas</td><td>Ecodigo</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>ComponentesSalariales</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>Ecodigo</td><td>Empresas</td><td>Ecodigo</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>CuentasBancos</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>Bid</td><td>Bancos</td><td>Bid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>CuentasBancos</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							02
+						</td>
+					
+					<td>Mcodigo</td><td>Monedas</td><td>Mcodigo</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>CuentasBancos</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							03
+						</td>
+					
+					<td>Ccuenta</td><td>CContables</td><td>Ccuenta</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>CuentasBancos</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							04
+						</td>
+					
+					<td>Ccuentacom</td><td>CContables</td><td>Ccuenta</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>CuentasBancos</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							06
+						</td>
+					
+					<td>CBTCid</td><td>CBTarjetaCredito</td><td>CBTCid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>DAnualidad</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>EAid</td><td>EAnualidad</td><td>EAid</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>DLSalPromAccion</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>DLlinea</td><td>DLaboralesEmpleado</td><td>DLlinea</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>Documentos</td><td align="center">
+						
+							AK 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>DdocumentoId</td><td>*</td><td>*</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>Documentos</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							02
+						</td>
+					
+					<td>Mcodigo</td><td>Monedas</td><td>Mcodigo</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>Documentos</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							03
+						</td>
+					
+					<td>Ccuenta</td><td>CContables</td><td>Ccuenta</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>Documentos</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							07
+						</td>
+					
+					<td>Ecodigo,Icodigo</td><td>Impuestos</td><td>Ecodigo,Icodigo</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>Documentos</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							09
+						</td>
+					
+					<td>Ecodigo,SNcodigo</td><td>SNegocios</td><td>Ecodigo,SNcodigo</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>Documentos</td><td align="center">
+						
+							ID 
+						
+					</td>
+					
+						<td align="center">
+							02
+						</td>
+					
+					<td>SNcodigo,Ecodigo</td><td>*</td><td>*</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>DPagos</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							02
+						</td>
+					
+					<td>Mcodigo</td><td>Monedas</td><td>Mcodigo</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>DPagos</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							03
+						</td>
+					
+					<td>Ccuenta</td><td>CContables</td><td>Ccuenta</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>DPagos</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							06
+						</td>
+					
+					<td>Ecodigo,Doc_CCTcodigo,Ddocumento</td><td>Documentos</td><td>Ecodigo,CCTcodigo,Ddocumento</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>DVacacionesAcum</td><td align="center">
+						
+							PK 
+						
+					</td>
+					
+						<td align="center">
+							00
+						</td>
+					
+					<td>DVAid</td><td>*</td><td>*</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>DVacacionesAcum</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>DVElinea</td><td>DVacacionesEmpleado</td><td>DVElinea</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>DVacacionesAcum</td><td align="center">
+						
+							ID 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>DEid,Ecodigo</td><td>*</td><td>*</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>DVacacionesAcum</td><td align="center">
+						
+							ID 
+						
+					</td>
+					
+						<td align="center">
+							02
+						</td>
+					
+					<td>DEid,Ecodigo,DVAperiodo</td><td>*</td><td>*</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>DVacacionesEmpleado</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>Ecodigo</td><td>Empresas</td><td>Ecodigo</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>DVacacionesEmpleado</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							03
+						</td>
+					
+					<td>DVErefLinea</td><td>DVacacionesEmpleado</td><td>DVElinea</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>FPDEstimacion</td><td align="center">
+						
+							PK 
+						
+					</td>
+					
+						<td align="center">
+							00
+						</td>
+					
+					<td>FPDEid</td><td>*</td><td>*</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>FPDEstimacion</td><td align="center">
+						
+							AK 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>FPEEid,FPEPid,FPDElinea</td><td>*</td><td>*</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>FPDEstimacion</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>Aid</td><td>Articulos</td><td>Aid</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>FPDEstimacion</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							02
+						</td>
+					
+					<td>Cid</td><td>Conceptos</td><td>Cid</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>FPDEstimacion</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							03
+						</td>
+					
+					<td>OBOid</td><td>OBobra</td><td>OBOid</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>FPDEstimacion</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							04
+						</td>
+					
+					<td>FPCid</td><td>FPConcepto</td><td>FPCid</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>FPDEstimacion</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							05
+						</td>
+					
+					<td>Mcodigo</td><td>Monedas</td><td>Mcodigo</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>FPDEstimacion</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							06
+						</td>
+					
+					<td>FPAEid</td><td>FPActividadE</td><td>FPAEid</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>FPDEstimacion</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							07
+						</td>
+					
+					<td>FPEPid</td><td>FPEPlantilla</td><td>FPEPid</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>FPDEstimacion</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							08
+						</td>
+					
+					<td>FPCCid</td><td>FPCatConcepto</td><td>FPCCid</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>FPDEstimacion</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							09
+						</td>
+					
+					<td>FPEEid</td><td>FPEEstimacion</td><td>FPEEid</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>FPDEstimacion</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							10
+						</td>
+					
+					<td>PCGDid</td><td>PCGDplanCompras</td><td>PCGDid</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>FPDEstimacion</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							11
+						</td>
+					
+					<td>PCGcuenta</td><td>PCGcuentas</td><td>PCGcuenta</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>FPDEstimacion</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							12
+						</td>
+					
+					<td>Ucodigo,Ecodigo</td><td>Unidades</td><td>Ucodigo,Ecodigo</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>FPEEstimacion</td><td align="center">
+						
+							PK 
+						
+					</td>
+					
+						<td align="center">
+							00
+						</td>
+					
+					<td>FPEEid</td><td>*</td><td>*</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>FPEEstimacion</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>CFid</td><td>CFuncional</td><td>CFid</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>FPEEstimacion</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							02
+						</td>
+					
+					<td>FPEEidRef</td><td>FPEEstimacion</td><td>FPEEid</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>FPEEstimacion</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							03
+						</td>
+					
+					<td>FPTVid</td><td>TipoVariacionPres</td><td>FPTVid</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>FPEEstimacion</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							04
+						</td>
+					
+					<td>Ecodigo,CPPid</td><td>CPresupuestoPeriodo</td><td>Ecodigo,CPPid</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>FPEEstimacion</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							05
+						</td>
+					
+					<td>FPECid</td><td>FPEstimacionesCongeladas</td><td>FPECid</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>FPEstimacionesCongeladas</td><td align="center">
+						
+							PK 
+						
+					</td>
+					
+						<td align="center">
+							00
+						</td>
+					
+					<td>FPECid</td><td>*</td><td>*</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>GEliquidacion</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>CCHid</td><td>CCHica</td><td>CCHid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>GEliquidacion</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							08
+						</td>
+					
+					<td>CBidAnts</td><td>CuentasBancos</td><td>CBid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>GEliquidacion</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							09
+						</td>
+					
+					<td>GECid</td><td>GEcomision</td><td>GECid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>GEliquidacion</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							10
+						</td>
+					
+					<td>TESSPid_Adicional</td><td>TESsolicitudPago</td><td>TESSPid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>PlanPagos</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>Mcodigo</td><td>Monedas</td><td>Mcodigo</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>PlanPagos</td><td align="center">
+						
+							ID 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>Ddocumento,CCTcodigo,Ecodigo,PPnumero</td><td>*</td><td>*</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>RCuentasTipoExactus</td><td align="center">
+						
+							PK 
+						
+					</td>
+					
+						<td align="center">
+							00
+						</td>
+					
+					<td>RCTEid</td><td>*</td><td>*</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>RCuentasTipoExactus</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>RCTid</td><td>RCuentasTipo</td><td>RCTid</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>RCuentasTipoExactus</td><td align="center">
+						
+							ID 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>RCNid,Ecodigo</td><td>*</td><td>*</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>RCuentasTipoExactus</td><td align="center">
+						
+							ID 
+						
+					</td>
+					
+						<td align="center">
+							02
+						</td>
+					
+					<td>RCNid,Ecodigo,DEid,CFid</td><td>*</td><td>*</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>RHBitPuestos</td><td align="center">
+						
+							PK 
+						
+					</td>
+					
+						<td align="center">
+							00
+						</td>
+					
+					<td>RHBPid</td><td>*</td><td>*</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>RHBitPuestos</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>RHPcodigo,Ecodigo</td><td>RHPuestos</td><td>RHPcodigo,Ecodigo</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>RHDOtrasPartidas</td><td align="center">
+						
+							PK 
+						
+					</td>
+					
+						<td align="center">
+							00
+						</td>
+					
+					<td>RHDOPid</td><td>*</td><td>*</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>RHDOtrasPartidas</td><td align="center">
+						
+							UI 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>RHOPid,Periodo,Mes,CFid</td><td>*</td><td>*</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>RHDOtrasPartidas</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>CFid</td><td>CFuncional</td><td>CFid</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>RHDOtrasPartidas</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							02
+						</td>
+					
+					<td>RHOPid</td><td>RHOtrasPartidas</td><td>RHOPid</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>RHEscalas</td><td align="center">
+						
+							PK 
+						
+					</td>
+					
+						<td align="center">
+							00
+						</td>
+					
+					<td>Ecodigo,RHEid</td><td>*</td><td>*</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>RHOPDFormulacion</td><td align="center">
+						
+							PK 
+						
+					</td>
+					
+						<td align="center">
+							00
+						</td>
+					
+					<td>RHOPDFid</td><td>*</td><td>*</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>RHOPDFormulacion</td><td align="center">
+						
+							UI 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>RHOPFid,Periodo,Mes,CFid</td><td>*</td><td>*</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>RHOPDFormulacion</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>CFid</td><td>CFuncional</td><td>CFid</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>RHOPDFormulacion</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							02
+						</td>
+					
+					<td>RHOPFid</td><td>RHOPFormulacion</td><td>RHOPFid</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>RHOPFormulacion</td><td align="center">
+						
+							PK 
+						
+					</td>
+					
+						<td align="center">
+							00
+						</td>
+					
+					<td>RHOPFid</td><td>*</td><td>*</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>RHOPFormulacion</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>Mcodigo</td><td>Monedas</td><td>Mcodigo</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>RHOPFormulacion</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							02
+						</td>
+					
+					<td>RHEid</td><td>RHEscenarios</td><td>RHEid</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>RHOPFormulacion</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							03
+						</td>
+					
+					<td>RHOPid</td><td>RHOtrasPartidas</td><td>RHOPid</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>RHOtrasPartidas</td><td align="center">
+						
+							PK 
+						
+					</td>
+					
+						<td align="center">
+							00
+						</td>
+					
+					<td>RHOPid</td><td>*</td><td>*</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>RHOtrasPartidas</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>RHEid</td><td>RHEscenarios</td><td>RHEid</td>
+					<td>
+						
+							CAMPOS MODIFICADOS
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>RHOtrasPartidas</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							02
+						</td>
+					
+					<td>RHPOPid</td><td>RHPOtrasPartidas</td><td>RHPOPid</td>
+					<td>
+						
+							CAMPOS MODIFICADOS
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>RHPuestos</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>Ecodigo</td><td>Empresas</td><td>Ecodigo</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TESbeneficiario</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>DEid</td><td>DatosEmpleado</td><td>DEid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TESbeneficiario</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							04
+						</td>
+					
+					<td>Ecodigo</td><td>Empresas</td><td>Ecodigo</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TESbeneficiario</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							05
+						</td>
+					
+					<td>Bid</td><td>Bancos</td><td>Bid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TESdetallePago</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>CFid</td><td>CFuncional</td><td>CFid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TESdetallePago</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							02
+						</td>
+					
+					<td>CPCid</td><td>CPCesion</td><td>CPCid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TESdetallePago</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							05
+						</td>
+					
+					<td>CFcuentaDB</td><td>CFinanciera</td><td>CFcuenta</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TESdetallePago</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							09
+						</td>
+					
+					<td>Miso4217Ori,EcodigoOri</td><td>Monedas</td><td>Miso4217,Ecodigo</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TESdetallePago</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							10
+						</td>
+					
+					<td>Miso4217Ori,EcodigoPago</td><td>Monedas</td><td>Miso4217,Ecodigo</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TESdetallePago</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							11
+						</td>
+					
+					<td>EcodigoOri,SNcodigoOri</td><td>SNegocios</td><td>Ecodigo,SNcodigo</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TESdetallePago</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							13
+						</td>
+					
+					<td>CPDDid</td><td>CPDocumentoD</td><td>CPDDid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TESdetallePago</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							14
+						</td>
+					
+					<td>Cid</td><td>Conceptos</td><td>Cid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TESdetallePago</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							15
+						</td>
+					
+					<td>CPDCid</td><td>CPDistribucionCostos</td><td>CPDCid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TESdetallePago</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							16
+						</td>
+					
+					<td>FPAEid</td><td>FPActividadE</td><td>FPAEid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TESdetallePago</td><td align="center">
+						
+							ID 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>TESDPidDocumento,EcodigoOri,TESDPestado</td><td>*</td><td>*</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TESmedioPago</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							02
+						</td>
+					
+					<td>FMT01CODemail</td><td>FMT001</td><td>FMT01COD</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TESmedioPago</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							03
+						</td>
+					
+					<td>TESTGid</td><td>TEStransferenciaG</td><td>TESTGid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TESordenPago</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>SNid</td><td>SNegocios</td><td>SNid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TESordenPago</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							02
+						</td>
+					
+					<td>SNidP</td><td>SNegocios</td><td>SNid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TESordenPago</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							10
+						</td>
+					
+					<td>Miso4217Pago,EcodigoPago</td><td>Monedas</td><td>Miso4217,Ecodigo</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TESordenPago</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							15
+						</td>
+					
+					<td>CCHidPago</td><td>CCHica</td><td>CCHid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>Tesoreria</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>EcodigoAdm</td><td>Empresas</td><td>Ecodigo</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TESreintegro</td><td align="center">
+						
+							PK 
+						
+					</td>
+					
+						<td align="center">
+							00
+						</td>
+					
+					<td>TESRnumero</td><td>*</td><td>*</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TESreintegro</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>TESid</td><td>Tesoreria</td><td>TESid</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TESreintegro</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							03
+						</td>
+					
+					<td>CBidOri</td><td>CuentasBancos</td><td>CBid</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TESreintegro</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							04
+						</td>
+					
+					<td>TESid,TESTILid</td><td>TEStransfIntercomL</td><td>TESid,TESTILid</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TESreintegro</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							05
+						</td>
+					
+					<td>TESid,CBidOri,TESMPcodigoOri</td><td>TESmedioPago</td><td>TESid,CBid,TESMPcodigo</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TESreintegroDet</td><td align="center">
+						
+							PK 
+						
+					</td>
+					
+						<td align="center">
+							00
+						</td>
+					
+					<td>TESRnumero,TESDPid</td><td>*</td><td>*</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TESreintegroDet</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>TESDPid</td><td>TESdetallePago</td><td>TESDPid</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TESreintegroDet</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							02
+						</td>
+					
+					<td>TESRnumero</td><td>TESreintegro</td><td>TESRnumero</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TESsolicitudPago</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							05
+						</td>
+					
+					<td>McodigoOri</td><td>Monedas</td><td>Mcodigo</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TESsolicitudPago</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							08
+						</td>
+					
+					<td>TESSPidCPC</td><td>TESsolicitudPago</td><td>TESSPid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TESsolicitudPago</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							10
+						</td>
+					
+					<td>EcodigoOri,SNcodigoOri</td><td>SNegocios</td><td>Ecodigo,SNcodigo</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TESsolicitudPago</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							11
+						</td>
+					
+					<td>TESAPid</td><td>TESacuerdoPago</td><td>TESAPid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TESsolicitudPago</td><td align="center">
+						
+							ID 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>EcodigoOri,TESSPfechaPagar</td><td>*</td><td>*</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TESsolicitudPago</td><td align="center">
+						
+							ID 
+						
+					</td>
+					
+						<td align="center">
+							02
+						</td>
+					
+					<td>EcodigoOri,TESSPestado,TESSPfechaPagar</td><td>*</td><td>*</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TEStransferenciaP</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							02
+						</td>
+					
+					<td>Bid</td><td>Bancos</td><td>Bid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TEStransferenciaP</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							03
+						</td>
+					
+					<td>SNidP</td><td>SNegocios</td><td>SNid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TEStransferenciaP</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							06
+						</td>
+					
+					<td>CBid</td><td>CuentasBancos</td><td>CBid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TEStransfIntercomD</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							05
+						</td>
+					
+					<td>Miso4217Dst,EcodigoDst</td><td>Monedas</td><td>Miso4217,Ecodigo</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TEStransfIntercomD</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							06
+						</td>
+					
+					<td>Miso4217Ori,EcodigoOri</td><td>Monedas</td><td>Miso4217,Ecodigo</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TEStransfIntercomD</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							09
+						</td>
+					
+					<td>TESid,TESTPid</td><td>TEStransferenciaP</td><td>TESid,TESTPid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TEStransfIntercomD</td><td align="center">
+						
+							ID 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>CBidDst</td><td>*</td><td>*</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TEStransfIntercomD</td><td align="center">
+						
+							ID 
+						
+					</td>
+					
+						<td align="center">
+							02
+						</td>
+					
+					<td>CBidOri</td><td>*</td><td>*</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TipoVariacionPres</td><td align="center">
+						
+							PK 
+						
+					</td>
+					
+						<td align="center">
+							00
+						</td>
+					
+					<td>FPTVid</td><td>*</td><td>*</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TipoVariacionPres</td><td align="center">
+						
+							AK 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>Ecodigo,FPTVCodigo</td><td>*</td><td>*</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+			</table>
+		
+			<BR><strong><A name='KEYs_FI'>INDICES QUE SE VAN A CREAR EN LA BASE DE DATOS PARA SOPORTAR LLAVES FORANEAS</A></strong><BR>
+			<table>
+			<tr><td><strong>TABLA</strong></td><td><strong>TIPO</strong></td><td><strong>SEC.</strong></td><td><strong>COLUMNAS</strong></td><td><strong>TABLA REFERENCIADA</strong></td><td><strong>COLUMNAS REFERENCIADAS</strong></td><td><strong>RAZON</strong></td></tr>
+			
+				
+					<tr><td>AFTBResponsables</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>AFTRCFid1</td><td>CFuncional</td><td>CFid</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>AFTBResponsables</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							02
+						</td>
+					
+					<td>AFTRCFid2</td><td>CFuncional</td><td>CFid</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>CFuncional</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							04
+						</td>
+					
+					<td>FPAEid</td><td>FPActividadE</td><td>FPAEid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>ClasificacionItemsProv</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>CCid</td><td>CConceptos</td><td>CCid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>ClasificacionItemsProv</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							02
+						</td>
+					
+					<td>Ecodigo,SNcodigo</td><td>SNegocios</td><td>Ecodigo,SNcodigo</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>ClasificacionItemsProv</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							03
+						</td>
+					
+					<td>Ecodigo,Ccodigo</td><td>Clasificaciones</td><td>Ecodigo,Ccodigo</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>CMTiposSolicitud</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>Mcodigo</td><td>Monedas</td><td>Mcodigo</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>CuentasBancos</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							06
+						</td>
+					
+					<td>CBTCid</td><td>CBTarjetaCredito</td><td>CBTCid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>Documentos</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>CFid</td><td>CFuncional</td><td>CFid</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>Documentos</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							04
+						</td>
+					
+					<td>DEidCobrador</td><td>DatosEmpleado</td><td>DEid</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>Documentos</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							05
+						</td>
+					
+					<td>DEidVendedor</td><td>DatosEmpleado</td><td>DEid</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>Documentos</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							11
+						</td>
+					
+					<td>Ecodigo,SNcodigo,id_direccionFact</td><td>SNDirecciones</td><td>Ecodigo,SNcodigo,id_direccion</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>Documentos</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							12
+						</td>
+					
+					<td>Ecodigo,SNcodigo,id_direccionEnvio</td><td>SNDirecciones</td><td>Ecodigo,SNcodigo,id_direccion</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>DPagos</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>CFid</td><td>CFuncional</td><td>CFid</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>DPagos</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							06
+						</td>
+					
+					<td>Ecodigo,Doc_CCTcodigo,Ddocumento</td><td>Documentos</td><td>Ecodigo,CCTcodigo,Ddocumento</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>DVacacionesAcum</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>DVElinea</td><td>DVacacionesEmpleado</td><td>DVElinea</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>DVacacionesEmpleado</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							03
+						</td>
+					
+					<td>DVErefLinea</td><td>DVacacionesEmpleado</td><td>DVElinea</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>GEliquidacion</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>CCHid</td><td>CCHica</td><td>CCHid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>GEliquidacion</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							02
+						</td>
+					
+					<td>CFid</td><td>CFuncional</td><td>CFid</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>GEliquidacion</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							03
+						</td>
+					
+					<td>TESid</td><td>Tesoreria</td><td>TESid</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>GEliquidacion</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							04
+						</td>
+					
+					<td>Mcodigo</td><td>Monedas</td><td>Mcodigo</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>GEliquidacion</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							05
+						</td>
+					
+					<td>Ecodigo</td><td>Empresas</td><td>Ecodigo</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>GEliquidacion</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							06
+						</td>
+					
+					<td>TESBid</td><td>TESbeneficiario</td><td>TESBid</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>GEliquidacion</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							07
+						</td>
+					
+					<td>TESSPid</td><td>TESsolicitudPago</td><td>TESSPid</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>GEliquidacion</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							08
+						</td>
+					
+					<td>CBidAnts</td><td>CuentasBancos</td><td>CBid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>GEliquidacion</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							09
+						</td>
+					
+					<td>GECid</td><td>GEcomision</td><td>GECid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>GEliquidacion</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							10
+						</td>
+					
+					<td>TESSPid_Adicional</td><td>TESsolicitudPago</td><td>TESSPid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>PlanPagos</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>Mcodigo</td><td>Monedas</td><td>Mcodigo</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>PlanPagos</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							02
+						</td>
+					
+					<td>Ecodigo,CCTcodigo,Ddocumento</td><td>Documentos</td><td>Ecodigo,CCTcodigo,Ddocumento</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>RHOtrasPartidas</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>RHEid</td><td>RHEscenarios</td><td>RHEid</td>
+					<td>
+						
+							CAMPOS MODIFICADOS
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>RHOtrasPartidas</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							02
+						</td>
+					
+					<td>RHPOPid</td><td>RHPOtrasPartidas</td><td>RHPOPid</td>
+					<td>
+						
+							CAMPOS MODIFICADOS
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>RHPuestos</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							03
+						</td>
+					
+					<td>RHGMid</td><td>RHGrupoMaterias</td><td>RHGMid</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>RHPuestos</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							04
+						</td>
+					
+					<td>RHPEid</td><td>RHPuestosExternos</td><td>RHPEid</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>RHSolicitudPlaza</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>RHCid</td><td>RHCategoria</td><td>RHCid</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>RHSolicitudPlaza</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							02
+						</td>
+					
+					<td>RHTTid</td><td>RHTTablaSalarial</td><td>RHTTid</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>RHSolicitudPlaza</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							03
+						</td>
+					
+					<td>RHMPPid</td><td>RHMaestroPuestoP</td><td>RHMPPid</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TESbeneficiario</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>DEid</td><td>DatosEmpleado</td><td>DEid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TESbeneficiario</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							02
+						</td>
+					
+					<td>TESRPTCid</td><td>TESRPTconcepto</td><td>TESRPTCid</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TESbeneficiario</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							03
+						</td>
+					
+					<td>id_direccion</td><td>DireccionesSIF</td><td>id_direccion</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TESbeneficiario</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							04
+						</td>
+					
+					<td>Ecodigo</td><td>Empresas</td><td>Ecodigo</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TESbeneficiario</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							05
+						</td>
+					
+					<td>Bid</td><td>Bancos</td><td>Bid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TEScuentasBancos</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>TESid</td><td>Tesoreria</td><td>TESid</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TEScuentasBancos</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							02
+						</td>
+					
+					<td>CBid</td><td>CuentasBancos</td><td>CBid</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TESdetallePago</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>CFid</td><td>CFuncional</td><td>CFid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TESdetallePago</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							02
+						</td>
+					
+					<td>CPCid</td><td>CPCesion</td><td>CPCid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TESdetallePago</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							03
+						</td>
+					
+					<td>TESid</td><td>Tesoreria</td><td>TESid</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TESdetallePago</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							04
+						</td>
+					
+					<td>TESOPid</td><td>TESordenPago</td><td>TESOPid</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TESdetallePago</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							05
+						</td>
+					
+					<td>CFcuentaDB</td><td>CFinanciera</td><td>CFcuenta</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TESdetallePago</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							06
+						</td>
+					
+					<td>TESSPid</td><td>TESsolicitudPago</td><td>TESSPid</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TESdetallePago</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							07
+						</td>
+					
+					<td>TESRPTCid</td><td>TESRPTconcepto</td><td>TESRPTCid</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TESdetallePago</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							08
+						</td>
+					
+					<td>EcodigoOri,OcodigoOri</td><td>Oficinas</td><td>Ecodigo,Ocodigo</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TESdetallePago</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							09
+						</td>
+					
+					<td>Miso4217Ori,EcodigoOri</td><td>Monedas</td><td>Miso4217,Ecodigo</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TESdetallePago</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							10
+						</td>
+					
+					<td>Miso4217Ori,EcodigoPago</td><td>Monedas</td><td>Miso4217,Ecodigo</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TESdetallePago</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							11
+						</td>
+					
+					<td>EcodigoOri,SNcodigoOri</td><td>SNegocios</td><td>Ecodigo,SNcodigo</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TESdetallePago</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							12
+						</td>
+					
+					<td>EcodigoOri,SNcodigoOri,id_direccion</td><td>SNDirecciones</td><td>Ecodigo,SNcodigo,id_direccion</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TESdetallePago</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							13
+						</td>
+					
+					<td>CPDDid</td><td>CPDocumentoD</td><td>CPDDid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TESdetallePago</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							14
+						</td>
+					
+					<td>Cid</td><td>Conceptos</td><td>Cid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TESdetallePago</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							15
+						</td>
+					
+					<td>CPDCid</td><td>CPDistribucionCostos</td><td>CPDCid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TESdetallePago</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							16
+						</td>
+					
+					<td>FPAEid</td><td>FPActividadE</td><td>FPAEid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TESmedioPago</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>FMT01COD</td><td>FMT001</td><td>FMT01COD</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TESmedioPago</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							02
+						</td>
+					
+					<td>FMT01CODemail</td><td>FMT001</td><td>FMT01COD</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TESmedioPago</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							03
+						</td>
+					
+					<td>TESTGid</td><td>TEStransferenciaG</td><td>TESTGid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TESmedioPago</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							04
+						</td>
+					
+					<td>TESTMPtipo</td><td>TEStipoMedioPago</td><td>TESTMPtipo</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TESmedioPago</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							05
+						</td>
+					
+					<td>TESid,CBid</td><td>TEScuentasBancos</td><td>TESid,CBid</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TESordenPago</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>SNid</td><td>SNegocios</td><td>SNid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TESordenPago</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							02
+						</td>
+					
+					<td>SNidP</td><td>SNegocios</td><td>SNid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TESordenPago</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							03
+						</td>
+					
+					<td>TESid</td><td>Tesoreria</td><td>TESid</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TESordenPago</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							04
+						</td>
+					
+					<td>CBidPago</td><td>CuentasBancos</td><td>CBid</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TESordenPago</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							05
+						</td>
+					
+					<td>TESBid</td><td>TESbeneficiario</td><td>TESBid</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TESordenPago</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							06
+						</td>
+					
+					<td>TESOPidDuplicado</td><td>TESordenPago</td><td>TESOPid</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TESordenPago</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							07
+						</td>
+					
+					<td>TESid,TESEcodigo</td><td>TESendoso</td><td>TESid,TESEcodigo</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TESordenPago</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							08
+						</td>
+					
+					<td>TESid,TESTPid</td><td>TEStransferenciaP</td><td>TESid,TESTPid</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TESordenPago</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							09
+						</td>
+					
+					<td>TESTLid,TESid</td><td>TEStransferenciasL</td><td>TESTLid,TESid</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TESordenPago</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							10
+						</td>
+					
+					<td>Miso4217Pago,EcodigoPago</td><td>Monedas</td><td>Miso4217,Ecodigo</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TESordenPago</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							11
+						</td>
+					
+					<td>TESCFLid,TESid</td><td>TEScontrolFormulariosL</td><td>TESCFLid,TESid</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TESordenPago</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							12
+						</td>
+					
+					<td>TESid,CBidPago,TESMPcodigo</td><td>TESmedioPago</td><td>TESid,CBid,TESMPcodigo</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TESordenPago</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							13
+						</td>
+					
+					<td>TESid,CBidPago,TESMPcodigo,TESTDid</td><td>TEStransferenciasD</td><td>TESid,CBid,TESMPcodigo,TESTDid</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TESordenPago</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							14
+						</td>
+					
+					<td>TESid,CBidPago,TESMPcodigo,TESCFDnumFormulario</td><td>TEScontrolFormulariosD</td><td>TESid,CBid,TESMPcodigo,TESCFDnumFormulario</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TESordenPago</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							15
+						</td>
+					
+					<td>CCHidPago</td><td>CCHica</td><td>CCHid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>Tesoreria</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>EcodigoAdm</td><td>Empresas</td><td>Ecodigo</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TESsolicitudPago</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>EcodigoOri</td><td>Empresas</td><td>Ecodigo</td>
+					<td>
+						
+							NO GENERAR CONSTRAINT
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TESsolicitudPago</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							02
+						</td>
+					
+					<td>CDCcodigo</td><td>ClientesDetallistasCorp</td><td>CDCcodigo</td>
+					<td>
+						
+							NO GENERAR CONSTRAINT
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TESsolicitudPago</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							03
+						</td>
+					
+					<td>CFid</td><td>CFuncional</td><td>CFid</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TESsolicitudPago</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							04
+						</td>
+					
+					<td>TESid</td><td>Tesoreria</td><td>TESid</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TESsolicitudPago</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							05
+						</td>
+					
+					<td>McodigoOri</td><td>Monedas</td><td>Mcodigo</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TESsolicitudPago</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							06
+						</td>
+					
+					<td>TESOPid</td><td>TESordenPago</td><td>TESOPid</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TESsolicitudPago</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							07
+						</td>
+					
+					<td>TESBid</td><td>TESbeneficiario</td><td>TESBid</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TESsolicitudPago</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							08
+						</td>
+					
+					<td>TESSPidCPC</td><td>TESsolicitudPago</td><td>TESSPid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TESsolicitudPago</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							09
+						</td>
+					
+					<td>TESSPidDuplicado</td><td>TESsolicitudPago</td><td>TESSPid</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TESsolicitudPago</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							10
+						</td>
+					
+					<td>EcodigoOri,SNcodigoOri</td><td>SNegocios</td><td>Ecodigo,SNcodigo</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TESsolicitudPago</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							11
+						</td>
+					
+					<td>TESAPid</td><td>TESacuerdoPago</td><td>TESAPid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TEStransferenciaP</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>CDCcodigo</td><td>ClientesDetallistasCorp</td><td>CDCcodigo</td>
+					<td>
+						
+							NO GENERAR CONSTRAINT
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TEStransferenciaP</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							02
+						</td>
+					
+					<td>Bid</td><td>Bancos</td><td>Bid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TEStransferenciaP</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							03
+						</td>
+					
+					<td>SNidP</td><td>SNegocios</td><td>SNid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TEStransferenciaP</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							04
+						</td>
+					
+					<td>TESid</td><td>Tesoreria</td><td>TESid</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TEStransferenciaP</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							05
+						</td>
+					
+					<td>TESBid</td><td>TESbeneficiario</td><td>TESBid</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TEStransferenciaP</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							06
+						</td>
+					
+					<td>CBid</td><td>CuentasBancos</td><td>CBid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TEStransfIntercomD</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>EcodigoDst</td><td>Empresas</td><td>Ecodigo</td>
+					<td>
+						
+							NO GENERAR CONSTRAINT
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TEStransfIntercomD</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							02
+						</td>
+					
+					<td>EcodigoOri</td><td>Empresas</td><td>Ecodigo</td>
+					<td>
+						
+							NO GENERAR CONSTRAINT
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TEStransfIntercomD</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							03
+						</td>
+					
+					<td>TESid,CBidDst</td><td>TEScuentasBancos</td><td>TESid,CBid</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TEStransfIntercomD</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							04
+						</td>
+					
+					<td>TESid,CBidOri</td><td>TEScuentasBancos</td><td>TESid,CBid</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TEStransfIntercomD</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							05
+						</td>
+					
+					<td>Miso4217Dst,EcodigoDst</td><td>Monedas</td><td>Miso4217,Ecodigo</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TEStransfIntercomD</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							06
+						</td>
+					
+					<td>Miso4217Ori,EcodigoOri</td><td>Monedas</td><td>Miso4217,Ecodigo</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TEStransfIntercomD</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							07
+						</td>
+					
+					<td>TESid,TESTILid</td><td>TEStransfIntercomL</td><td>TESid,TESTILid</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TEStransfIntercomD</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							08
+						</td>
+					
+					<td>TESid,CBidOri,TESMPcodigo</td><td>TESmedioPago</td><td>TESid,CBid,TESMPcodigo</td>
+					<td>
+						
+							NO GENERAR CONSTRAINT
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TEStransfIntercomD</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							09
+						</td>
+					
+					<td>TESid,TESTPid</td><td>TEStransferenciaP</td><td>TESid,TESTPid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>TEStransfIntercomL</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>TESid</td><td>Tesoreria</td><td>TESid</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+			</table>
+		
+			<BR><strong><A name='RENAMES'>OBJETOS QUE SE VAN A RENOMBRAR EN LA BASE DE DATOS PORQUE SU NOMENCLATURA NO SIGUE LOS STANDARES DBM</A></strong><BR>
+			<table>
+			<tr><td><strong>TABLA</strong></td><td><strong>TIPO</strong></td><td><strong>NOMBRE ACTUAL</strong></td><td><strong>NUEVO NOMBRE</strong></td><td><strong>COLS</strong></td></tr>
+			
+				<tr><td>AFTBResponsables&nbsp;&nbsp;</td><td>CHK_COL&nbsp;&nbsp;</td><td>CKC_AFTBRAPROBADO1_AFTRESPO&nbsp;&nbsp;</td><td>AFTBResponsables_CK08&nbsp;&nbsp;</td><td>([AFTRaprobado1]=(1) OR [AFTRaprobado1]=(0))</td></tr>
+			
+				<tr><td>AFTBResponsables&nbsp;&nbsp;</td><td>CHK_COL&nbsp;&nbsp;</td><td>CKC_AFTBRAPROBADO2_AFTRESPO&nbsp;&nbsp;</td><td>AFTBResponsables_CK09&nbsp;&nbsp;</td><td>([AFTRaprobado2]=(1) OR [AFTRaprobado2]=(0))</td></tr>
+			
+				<tr><td>AFTBResponsables&nbsp;&nbsp;</td><td>CHK_COL&nbsp;&nbsp;</td><td>CKC_AFTRESTADO_AFTBRESP&nbsp;&nbsp;</td><td>AFTBResponsables_CK15&nbsp;&nbsp;</td><td>([AFTRestado]=(50) OR [AFTRestado]=(40) OR [AFTRestado]=(30) OR [AFTRestado]=(20) OR [AFTRestado]=(10) OR [AFTRestado]=(0))</td></tr>
+			
+				<tr><td>AFTBResponsables&nbsp;&nbsp;</td><td>CHK_COL&nbsp;&nbsp;</td><td>CKC_AFTRTIPO_AFTBRESP&nbsp;&nbsp;</td><td>AFTBResponsables_CK16&nbsp;&nbsp;</td><td>([AFTRtipo]=(2) OR [AFTRtipo]=(1))</td></tr>
+			
+				<tr><td>AFTBResponsables&nbsp;&nbsp;</td><td>KEY_PK&nbsp;&nbsp;</td><td>PK_AFTBRESPONSABLES&nbsp;&nbsp;</td><td>AFTBResponsables_PK&nbsp;&nbsp;</td><td>AFTRid</td></tr>
+			
+				<tr><td>AFTBResponsables&nbsp;&nbsp;</td><td>KEY_FK&nbsp;&nbsp;</td><td>FK_AFTBRESP_REFERENCE_CFUNCION&nbsp;&nbsp;</td><td>AFTBResponsables_FK01&nbsp;&nbsp;</td><td>AFTRCFid1</td></tr>
+			
+				<tr><td>AFTBResponsables&nbsp;&nbsp;</td><td>KEY_FK&nbsp;&nbsp;</td><td>FK_AFTBRESP_REFERENCE_CFUNCIO2&nbsp;&nbsp;</td><td>AFTBResponsables_FK02&nbsp;&nbsp;</td><td>AFTRCFid2</td></tr>
+			
+				<tr><td>AFTBResponsables&nbsp;&nbsp;</td><td>KEY_INDEX&nbsp;&nbsp;</td><td>AFTBResponsables_FK3&nbsp;&nbsp;</td><td>AFTBResponsables_ID01&nbsp;&nbsp;</td><td>Aid</td></tr>
+			
+				<tr><td>AFTBResponsables&nbsp;&nbsp;</td><td>KEY_INDEX&nbsp;&nbsp;</td><td>AFTBResponsables_FK2&nbsp;&nbsp;</td><td>AFTBResponsables_ID02&nbsp;&nbsp;</td><td>DEid</td></tr>
+			
+				<tr><td>AFTBResponsables&nbsp;&nbsp;</td><td>KEY_INDEX&nbsp;&nbsp;</td><td>AFTBResponsables_FK1&nbsp;&nbsp;</td><td>AFTBResponsables_ID03&nbsp;&nbsp;</td><td>AFRid</td></tr>
+			
+				<tr><td>CFuncional&nbsp;&nbsp;</td><td>KEY_PK&nbsp;&nbsp;</td><td>PK_CFUNCIONAL&nbsp;&nbsp;</td><td>CFuncional_PK&nbsp;&nbsp;</td><td>CFid</td></tr>
+			
+				<tr><td>CFuncional&nbsp;&nbsp;</td><td>KEY_AK&nbsp;&nbsp;</td><td>AK_KEY_2_CFUNCION&nbsp;&nbsp;</td><td>CFuncional_AK01&nbsp;&nbsp;</td><td>Ecodigo,CFcodigo</td></tr>
+			
+				<tr><td>CFuncional&nbsp;&nbsp;</td><td>KEY_INDEX_FI&nbsp;&nbsp;</td><td>CFuncional_FK3&nbsp;&nbsp;</td><td>CFuncional_FI01&nbsp;&nbsp;</td><td>RHPid</td></tr>
+			
+				<tr><td>CFuncional&nbsp;&nbsp;</td><td>KEY_FK&nbsp;&nbsp;</td><td>FK_CFUNCION_REFERENCE_RHPLAZAS&nbsp;&nbsp;</td><td>CFuncional_FK01&nbsp;&nbsp;</td><td>RHPid</td></tr>
+			
+				<tr><td>CFuncional&nbsp;&nbsp;</td><td>KEY_INDEX_FI&nbsp;&nbsp;</td><td>CFuncional_FK2&nbsp;&nbsp;</td><td>CFuncional_FI02&nbsp;&nbsp;</td><td>Ecodigo,Ocodigo</td></tr>
+			
+				<tr><td>CFuncional&nbsp;&nbsp;</td><td>KEY_FK&nbsp;&nbsp;</td><td>FK_CFUNCION_REFERENCE_OFICINAS&nbsp;&nbsp;</td><td>CFuncional_FK02&nbsp;&nbsp;</td><td>Ecodigo,Ocodigo</td></tr>
+			
+				<tr><td>CFuncional&nbsp;&nbsp;</td><td>KEY_INDEX_FI&nbsp;&nbsp;</td><td>CFuncional_FK1&nbsp;&nbsp;</td><td>CFuncional_FI03&nbsp;&nbsp;</td><td>Ecodigo,Dcodigo</td></tr>
+			
+				<tr><td>CFuncional&nbsp;&nbsp;</td><td>KEY_FK&nbsp;&nbsp;</td><td>FK_CFUNCION_REFERENCE_DEPARTAM&nbsp;&nbsp;</td><td>CFuncional_FK03&nbsp;&nbsp;</td><td>Ecodigo,Dcodigo</td></tr>
+			
+				<tr><td>CIncidentes&nbsp;&nbsp;</td><td>CHK_COL&nbsp;&nbsp;</td><td>CKC_CITIPO_CINCIDEN2&nbsp;&nbsp;</td><td>CIncidentes_CK06&nbsp;&nbsp;</td><td>([CItipo]=(3) OR [CItipo]=(2) OR [CItipo]=(1) OR [CItipo]=(0))</td></tr>
+			
+				<tr><td>CIncidentes&nbsp;&nbsp;</td><td>CHK_COL&nbsp;&nbsp;</td><td>CKC_CINEGATIVO_CINCIDEN&nbsp;&nbsp;</td><td>CIncidentes_CK07&nbsp;&nbsp;</td><td>([CInegativo]=(-1) OR [CInegativo]=(1))</td></tr>
+			
+				<tr><td>CIncidentes&nbsp;&nbsp;</td><td>CHK_COL&nbsp;&nbsp;</td><td>CKC_CIAFECTASALPROM_CINCIDEN&nbsp;&nbsp;</td><td>CIncidentes_CK20&nbsp;&nbsp;</td><td>([CIafectasalprom]=(1) OR [CIafectasalprom]=(0))</td></tr>
+			
+				<tr><td>CIncidentes&nbsp;&nbsp;</td><td>CHK_COL&nbsp;&nbsp;</td><td>CKC_CITIPOEXENCION_CINCIDEN&nbsp;&nbsp;</td><td>CIncidentes_CK23&nbsp;&nbsp;</td><td>([CItipoexencion]=(2) OR [CItipoexencion]=(1) OR [CItipoexencion]=(0))</td></tr>
+			
+				<tr><td>CIncidentes&nbsp;&nbsp;</td><td>CHK_COL&nbsp;&nbsp;</td><td>CKC_MONEDASEL_CINCIDEN&nbsp;&nbsp;</td><td>CIncidentes_CK26&nbsp;&nbsp;</td><td>([monedasel] IS NULL OR ([monedasel]=(1) OR [monedasel]=(0)))</td></tr>
+			
+				<tr><td>CIncidentes&nbsp;&nbsp;</td><td>CHK_COL&nbsp;&nbsp;</td><td>CKC_CImodFechaReg&nbsp;&nbsp;</td><td>CIncidentes_CK37&nbsp;&nbsp;</td><td>([CImodFechaReg] IS NULL OR ([CImodFechaReg]=(1) OR [CImodFechaReg]=(0)))</td></tr>
+			
+				<tr><td>CIncidentes&nbsp;&nbsp;</td><td>CHK_COL&nbsp;&nbsp;</td><td>CKC_CImodNominaSP&nbsp;&nbsp;</td><td>CIncidentes_CK38&nbsp;&nbsp;</td><td>([CImodNominaSP] IS NULL OR ([CImodNominaSP]=(1) OR [CImodNominaSP]=(0)))</td></tr>
+			
+				<tr><td>CIncidentes&nbsp;&nbsp;</td><td>KEY_PK&nbsp;&nbsp;</td><td>PK_CINCIDENTES&nbsp;&nbsp;</td><td>CIncidentes_PK&nbsp;&nbsp;</td><td>CIid</td></tr>
+			
+				<tr><td>CIncidentes&nbsp;&nbsp;</td><td>KEY_INDEX_FI&nbsp;&nbsp;</td><td>CIncidentes_FK1&nbsp;&nbsp;</td><td>CIncidentes_FI01&nbsp;&nbsp;</td><td>Ecodigo</td></tr>
+			
+				<tr><td>CIncidentes&nbsp;&nbsp;</td><td>KEY_FK&nbsp;&nbsp;</td><td>FK_CINCIDEN_REFERENCE_EMPRESAS&nbsp;&nbsp;</td><td>CIncidentes_FK01&nbsp;&nbsp;</td><td>Ecodigo</td></tr>
+			
+				<tr><td>ClasificacionItemsProv&nbsp;&nbsp;</td><td>KEY_PK&nbsp;&nbsp;</td><td>PK_ClasificacionItemsProv&nbsp;&nbsp;</td><td>ClasificacionItemsProv_PK&nbsp;&nbsp;</td><td>id</td></tr>
+			
+				<tr><td>CMTiposSolicitud&nbsp;&nbsp;</td><td>KEY_PK&nbsp;&nbsp;</td><td>PK_CMTIPOSSOLICITUD&nbsp;&nbsp;</td><td>CMTiposSolicitud_PK&nbsp;&nbsp;</td><td>Ecodigo,CMTScodigo</td></tr>
+			
+				<tr><td>CMTiposSolicitud&nbsp;&nbsp;</td><td>KEY_INDEX_FI&nbsp;&nbsp;</td><td>CMTiposSolicitud_FK1&nbsp;&nbsp;</td><td>CMTiposSolicitud_FI02&nbsp;&nbsp;</td><td>Ecodigo</td></tr>
+			
+				<tr><td>ComponentesSalariales&nbsp;&nbsp;</td><td>CHK_COL&nbsp;&nbsp;</td><td>CKC_CSPAGOHORA_COMPONEN&nbsp;&nbsp;</td><td>ComponentesSalariales_CK11&nbsp;&nbsp;</td><td>([CSpagohora]=(1) OR [CSpagohora]=(0))</td></tr>
+			
+				<tr><td>ComponentesSalariales&nbsp;&nbsp;</td><td>CHK_COL&nbsp;&nbsp;</td><td>CKC_CSPAGODIA_COMPONEN&nbsp;&nbsp;</td><td>ComponentesSalariales_CK12&nbsp;&nbsp;</td><td>([CSpagodia]=(1) OR [CSpagodia]=(0))</td></tr>
+			
+				<tr><td>ComponentesSalariales&nbsp;&nbsp;</td><td>KEY_PK&nbsp;&nbsp;</td><td>PK_COMPONENTESSALARIALES&nbsp;&nbsp;</td><td>ComponentesSalariales_PK&nbsp;&nbsp;</td><td>CSid</td></tr>
+			
+				<tr><td>ComponentesSalariales&nbsp;&nbsp;</td><td>KEY_AK&nbsp;&nbsp;</td><td>AK_KEY_2_COMPONEN&nbsp;&nbsp;</td><td>ComponentesSalariales_AK01&nbsp;&nbsp;</td><td>CScodigo,Ecodigo</td></tr>
+			
+				<tr><td>ComponentesSalariales&nbsp;&nbsp;</td><td>KEY_INDEX_FI&nbsp;&nbsp;</td><td>ComponentesSalariales_FK2&nbsp;&nbsp;</td><td>ComponentesSalariales_FI01&nbsp;&nbsp;</td><td>Ecodigo</td></tr>
+			
+				<tr><td>ComponentesSalariales&nbsp;&nbsp;</td><td>KEY_INDEX_FI&nbsp;&nbsp;</td><td>ComponentesSalariales_FK1&nbsp;&nbsp;</td><td>ComponentesSalariales_FI02&nbsp;&nbsp;</td><td>CAid</td></tr>
+			
+				<tr><td>ComponentesSalariales&nbsp;&nbsp;</td><td>KEY_FK&nbsp;&nbsp;</td><td>FK_COMPONEN_REFERENCE_RHCOMPON&nbsp;&nbsp;</td><td>ComponentesSalariales_FK02&nbsp;&nbsp;</td><td>CAid</td></tr>
+			
+				<tr><td>CuentasBancos&nbsp;&nbsp;</td><td>KEY_PK&nbsp;&nbsp;</td><td>PK_CUENTASBANCOS&nbsp;&nbsp;</td><td>CuentasBancos_PK&nbsp;&nbsp;</td><td>CBid</td></tr>
+			
+				<tr><td>CuentasBancos&nbsp;&nbsp;</td><td>KEY_INDEX_FI&nbsp;&nbsp;</td><td>CuentasBancos_FK1&nbsp;&nbsp;</td><td>CuentasBancos_FI01&nbsp;&nbsp;</td><td>Bid</td></tr>
+			
+				<tr><td>CuentasBancos&nbsp;&nbsp;</td><td>KEY_INDEX_FI&nbsp;&nbsp;</td><td>CuentasBancos_FK2&nbsp;&nbsp;</td><td>CuentasBancos_FI02&nbsp;&nbsp;</td><td>Mcodigo</td></tr>
+			
+				<tr><td>CuentasBancos&nbsp;&nbsp;</td><td>KEY_INDEX_FI&nbsp;&nbsp;</td><td>CuentasBancos_FK4&nbsp;&nbsp;</td><td>CuentasBancos_FI03&nbsp;&nbsp;</td><td>Ccuenta</td></tr>
+			
+				<tr><td>CuentasBancos&nbsp;&nbsp;</td><td>KEY_INDEX_FI&nbsp;&nbsp;</td><td>CuentasBancos_FK5&nbsp;&nbsp;</td><td>CuentasBancos_FI04&nbsp;&nbsp;</td><td>Ccuentacom</td></tr>
+			
+				<tr><td>CuentasBancos&nbsp;&nbsp;</td><td>KEY_INDEX_FI&nbsp;&nbsp;</td><td>CuentasBancos_FK3&nbsp;&nbsp;</td><td>CuentasBancos_FI05&nbsp;&nbsp;</td><td>Ecodigo,Ocodigo</td></tr>
+			
+				<tr><td>CuentasBancos&nbsp;&nbsp;</td><td>KEY_FK&nbsp;&nbsp;</td><td>FK_CUENTASB_RF_CBANC__OFICINAS&nbsp;&nbsp;</td><td>CuentasBancos_FK05&nbsp;&nbsp;</td><td>Ecodigo,Ocodigo</td></tr>
+			
+				<tr><td>Documentos&nbsp;&nbsp;</td><td>KEY_PK&nbsp;&nbsp;</td><td>PK_DOCUMENTOS&nbsp;&nbsp;</td><td>Documentos_PK&nbsp;&nbsp;</td><td>Ecodigo,CCTcodigo,Ddocumento</td></tr>
+			
+				<tr><td>Documentos&nbsp;&nbsp;</td><td>KEY_FK&nbsp;&nbsp;</td><td>FK_DOCUMENT_REFERENCE_CFUNCIO2&nbsp;&nbsp;</td><td>Documentos_FK01&nbsp;&nbsp;</td><td>CFid</td></tr>
+			
+				<tr><td>Documentos&nbsp;&nbsp;</td><td>KEY_INDEX_FI&nbsp;&nbsp;</td><td>Documentos_FK2&nbsp;&nbsp;</td><td>Documentos_FI02&nbsp;&nbsp;</td><td>Mcodigo</td></tr>
+			
+				<tr><td>Documentos&nbsp;&nbsp;</td><td>KEY_INDEX_FI&nbsp;&nbsp;</td><td>Documentos_FK3&nbsp;&nbsp;</td><td>Documentos_FI03&nbsp;&nbsp;</td><td>Ccuenta</td></tr>
+			
+				<tr><td>Documentos&nbsp;&nbsp;</td><td>KEY_FK&nbsp;&nbsp;</td><td>FK_DOCUMENT_REFERENCE_DATOSEMP&nbsp;&nbsp;</td><td>Documentos_FK04&nbsp;&nbsp;</td><td>DEidCobrador</td></tr>
+			
+				<tr><td>Documentos&nbsp;&nbsp;</td><td>KEY_FK&nbsp;&nbsp;</td><td>FK_DOCUMENT_REFERENCE_DATOSEM2&nbsp;&nbsp;</td><td>Documentos_FK05&nbsp;&nbsp;</td><td>DEidVendedor</td></tr>
+			
+				<tr><td>Documentos&nbsp;&nbsp;</td><td>KEY_INDEX_FI&nbsp;&nbsp;</td><td>Documentos_FK4&nbsp;&nbsp;</td><td>Documentos_FI06&nbsp;&nbsp;</td><td>Ecodigo,Ocodigo</td></tr>
+			
+				<tr><td>Documentos&nbsp;&nbsp;</td><td>KEY_FK&nbsp;&nbsp;</td><td>FK_DOCUMENT_REFERENCE_OFICINAS&nbsp;&nbsp;</td><td>Documentos_FK06&nbsp;&nbsp;</td><td>Ecodigo,Ocodigo</td></tr>
+			
+				<tr><td>Documentos&nbsp;&nbsp;</td><td>KEY_INDEX_FI&nbsp;&nbsp;</td><td>Documentos_FK6&nbsp;&nbsp;</td><td>Documentos_FI07&nbsp;&nbsp;</td><td>Ecodigo,Icodigo</td></tr>
+			
+				<tr><td>Documentos&nbsp;&nbsp;</td><td>KEY_INDEX_FI&nbsp;&nbsp;</td><td>Documentos_FK5&nbsp;&nbsp;</td><td>Documentos_FI08&nbsp;&nbsp;</td><td>Ecodigo,Rcodigo</td></tr>
+			
+				<tr><td>Documentos&nbsp;&nbsp;</td><td>KEY_FK&nbsp;&nbsp;</td><td>FK_DOCUMENT_REFERENCE_RETENCIO&nbsp;&nbsp;</td><td>Documentos_FK08&nbsp;&nbsp;</td><td>Ecodigo,Rcodigo</td></tr>
+			
+				<tr><td>Documentos&nbsp;&nbsp;</td><td>KEY_INDEX_FI&nbsp;&nbsp;</td><td>Documentos_FK7&nbsp;&nbsp;</td><td>Documentos_FI09&nbsp;&nbsp;</td><td>Ecodigo,SNcodigo</td></tr>
+			
+				<tr><td>Documentos&nbsp;&nbsp;</td><td>KEY_INDEX_FI&nbsp;&nbsp;</td><td>Documentos_FK1&nbsp;&nbsp;</td><td>Documentos_FI10&nbsp;&nbsp;</td><td>CCTcodigo,Ecodigo</td></tr>
+			
+				<tr><td>Documentos&nbsp;&nbsp;</td><td>KEY_FK&nbsp;&nbsp;</td><td>FK_DOCUMENT_REFERENCE_CCTRANSA&nbsp;&nbsp;</td><td>Documentos_FK10&nbsp;&nbsp;</td><td>CCTcodigo,Ecodigo</td></tr>
+			
+				<tr><td>Documentos&nbsp;&nbsp;</td><td>KEY_FK&nbsp;&nbsp;</td><td>FK_DOCUMENT_REFERENCE_SNDIREC2&nbsp;&nbsp;</td><td>Documentos_FK11&nbsp;&nbsp;</td><td>Ecodigo,SNcodigo,id_direccionFact</td></tr>
+			
+				<tr><td>Documentos&nbsp;&nbsp;</td><td>KEY_FK&nbsp;&nbsp;</td><td>FK_DOCUMENT_REFERENCE_SNDIRECC&nbsp;&nbsp;</td><td>Documentos_FK12&nbsp;&nbsp;</td><td>Ecodigo,SNcodigo,id_direccionEnvio</td></tr>
+			
+				<tr><td>DPagos&nbsp;&nbsp;</td><td>KEY_PK&nbsp;&nbsp;</td><td>PK_DPAGOS&nbsp;&nbsp;</td><td>DPagos_PK&nbsp;&nbsp;</td><td>DPid</td></tr>
+			
+				<tr><td>DPagos&nbsp;&nbsp;</td><td>KEY_INDEX&nbsp;&nbsp;</td><td>DPagos_NUMERO&nbsp;&nbsp;</td><td>DPagos_UI01&nbsp;&nbsp;</td><td>Ecodigo,Pcodigo,CCTcodigo,Doc_CCTcodigo,Ddocumento,PPnumero</td></tr>
+			
+				<tr><td>DPagos&nbsp;&nbsp;</td><td>KEY_FK&nbsp;&nbsp;</td><td>FK_DPAGOS_REFERENCE_CFUNCION&nbsp;&nbsp;</td><td>DPagos_FK01&nbsp;&nbsp;</td><td>CFid</td></tr>
+			
+				<tr><td>DPagos&nbsp;&nbsp;</td><td>KEY_INDEX_FI&nbsp;&nbsp;</td><td>DPagos_FK3&nbsp;&nbsp;</td><td>DPagos_FI02&nbsp;&nbsp;</td><td>Mcodigo</td></tr>
+			
+				<tr><td>DPagos&nbsp;&nbsp;</td><td>KEY_INDEX_FI&nbsp;&nbsp;</td><td>DPagos_FK4&nbsp;&nbsp;</td><td>DPagos_FI03&nbsp;&nbsp;</td><td>Ccuenta</td></tr>
+			
+				<tr><td>DPagos&nbsp;&nbsp;</td><td>KEY_INDEX_FI&nbsp;&nbsp;</td><td>DPagos_FK1&nbsp;&nbsp;</td><td>DPagos_FI04&nbsp;&nbsp;</td><td>Ecodigo,CCTcodigo,Pcodigo</td></tr>
+			
+				<tr><td>DPagos&nbsp;&nbsp;</td><td>KEY_FK&nbsp;&nbsp;</td><td>FK_DPAGOS_RF_ENCPAG_PAGOS&nbsp;&nbsp;</td><td>DPagos_FK04&nbsp;&nbsp;</td><td>Ecodigo,CCTcodigo,Pcodigo</td></tr>
+			
+				<tr><td>DVacacionesEmpleado&nbsp;&nbsp;</td><td>KEY_PK&nbsp;&nbsp;</td><td>PK_DVACACIONESEMPLEADO&nbsp;&nbsp;</td><td>DVacacionesEmpleado_PK&nbsp;&nbsp;</td><td>DVElinea</td></tr>
+			
+				<tr><td>DVacacionesEmpleado&nbsp;&nbsp;</td><td>KEY_INDEX_FI&nbsp;&nbsp;</td><td>DVacacionesEmpleado_FK2&nbsp;&nbsp;</td><td>DVacacionesEmpleado_FI01&nbsp;&nbsp;</td><td>Ecodigo</td></tr>
+			
+				<tr><td>DVacacionesEmpleado&nbsp;&nbsp;</td><td>KEY_INDEX_FI&nbsp;&nbsp;</td><td>DVacacionesEmpleado_FK1&nbsp;&nbsp;</td><td>DVacacionesEmpleado_FI02&nbsp;&nbsp;</td><td>DEid</td></tr>
+			
+				<tr><td>DVacacionesEmpleado&nbsp;&nbsp;</td><td>KEY_FK&nbsp;&nbsp;</td><td>FK_DVACACIO_REFERENCE_EVACACIO&nbsp;&nbsp;</td><td>DVacacionesEmpleado_FK02&nbsp;&nbsp;</td><td>DEid</td></tr>
+			
+				<tr><td>Empresas&nbsp;&nbsp;</td><td>KEY_PK&nbsp;&nbsp;</td><td>PK_EMPRESAS&nbsp;&nbsp;</td><td>Empresas_PK&nbsp;&nbsp;</td><td>Ecodigo</td></tr>
+			
+				<tr><td>Empresas&nbsp;&nbsp;</td><td>KEY_INDEX_FI&nbsp;&nbsp;</td><td>Empresas_FK1&nbsp;&nbsp;</td><td>Empresas_FI01&nbsp;&nbsp;</td><td>Mcodigo</td></tr>
+			
+				<tr><td>Empresas&nbsp;&nbsp;</td><td>KEY_FK&nbsp;&nbsp;</td><td>FK_EMPRESAS_RF_MONEDA_MONEDAS&nbsp;&nbsp;</td><td>Empresas_FK01&nbsp;&nbsp;</td><td>Mcodigo</td></tr>
+			
+				<tr><td>GEliquidacion&nbsp;&nbsp;</td><td>CHK_COL&nbsp;&nbsp;</td><td>CKC_GELESTADO_GELIQUID&nbsp;&nbsp;</td><td>GEliquidacion_CK17&nbsp;&nbsp;</td><td>([GELestado]=(5) OR [GELestado]=(4) OR [GELestado]=(3) OR [GELestado]=(2) OR [GELestado]=(1) OR [GELestado]=(0))</td></tr>
+			
+				<tr><td>GEliquidacion&nbsp;&nbsp;</td><td>KEY_PK&nbsp;&nbsp;</td><td>PK_GELIQUIDACION&nbsp;&nbsp;</td><td>GEliquidacion_PK&nbsp;&nbsp;</td><td>GELid</td></tr>
+			
+				<tr><td>GEliquidacion&nbsp;&nbsp;</td><td>KEY_FK&nbsp;&nbsp;</td><td>FK_GELIQUID_REFERENCE_CFUNCIO2&nbsp;&nbsp;</td><td>GEliquidacion_FK02&nbsp;&nbsp;</td><td>CFid</td></tr>
+			
+				<tr><td>GEliquidacion&nbsp;&nbsp;</td><td>KEY_FK&nbsp;&nbsp;</td><td>FK_GELIQUID_REFERENCE_TESORER2&nbsp;&nbsp;</td><td>GEliquidacion_FK03&nbsp;&nbsp;</td><td>TESid</td></tr>
+			
+				<tr><td>GEliquidacion&nbsp;&nbsp;</td><td>KEY_FK&nbsp;&nbsp;</td><td>FK_GELIQUID_REFERENCE_MONEDAS2&nbsp;&nbsp;</td><td>GEliquidacion_FK04&nbsp;&nbsp;</td><td>Mcodigo</td></tr>
+			
+				<tr><td>GEliquidacion&nbsp;&nbsp;</td><td>KEY_FK&nbsp;&nbsp;</td><td>FK_GELIQUID_REFERENCE_EMPRESA2&nbsp;&nbsp;</td><td>GEliquidacion_FK05&nbsp;&nbsp;</td><td>Ecodigo</td></tr>
+			
+				<tr><td>GEliquidacion&nbsp;&nbsp;</td><td>KEY_FK&nbsp;&nbsp;</td><td>FK_GELIQUID_REFERENCE_TESBENEF&nbsp;&nbsp;</td><td>GEliquidacion_FK06&nbsp;&nbsp;</td><td>TESBid</td></tr>
+			
+				<tr><td>GEliquidacion&nbsp;&nbsp;</td><td>KEY_FK&nbsp;&nbsp;</td><td>FK_GELIQUID_REFERENCE_TESSOLIC&nbsp;&nbsp;</td><td>GEliquidacion_FK07&nbsp;&nbsp;</td><td>TESSPid</td></tr>
+			
+				<tr><td>GEliquidacion&nbsp;&nbsp;</td><td>KEY_INDEX&nbsp;&nbsp;</td><td>GASTOE_Eliquidacion_FK01&nbsp;&nbsp;</td><td>GEliquidacion_ID01&nbsp;&nbsp;</td><td>GELestado</td></tr>
+			
+				<tr><td>Monedas&nbsp;&nbsp;</td><td>KEY_PK&nbsp;&nbsp;</td><td>PK_MONEDAS&nbsp;&nbsp;</td><td>Monedas_PK&nbsp;&nbsp;</td><td>Mcodigo</td></tr>
+			
+				<tr><td>Monedas&nbsp;&nbsp;</td><td>KEY_AK&nbsp;&nbsp;</td><td>AK_KEY_CODIGO_MONEDAS&nbsp;&nbsp;</td><td>Monedas_AK01&nbsp;&nbsp;</td><td>Miso4217,Ecodigo</td></tr>
+			
+				<tr><td>Monedas&nbsp;&nbsp;</td><td>KEY_INDEX&nbsp;&nbsp;</td><td>Monedas_01&nbsp;&nbsp;</td><td>Monedas_UI02&nbsp;&nbsp;</td><td>Ecodigo,Mcodigo</td></tr>
+			
+				<tr><td>PlanPagos&nbsp;&nbsp;</td><td>KEY_PK&nbsp;&nbsp;</td><td>PK_PLANPAGOS&nbsp;&nbsp;</td><td>PlanPagos_PK&nbsp;&nbsp;</td><td>Ecodigo,CCTcodigo,Ddocumento,PPnumero</td></tr>
+			
+				<tr><td>PlanPagos&nbsp;&nbsp;</td><td>KEY_FK&nbsp;&nbsp;</td><td>FK_PLANPAGO_REFERENCE_DOCUMENT&nbsp;&nbsp;</td><td>PlanPagos_FK02&nbsp;&nbsp;</td><td>Ecodigo,CCTcodigo,Ddocumento</td></tr>
+			
+				<tr><td>RHOcupaciones&nbsp;&nbsp;</td><td>KEY_PK&nbsp;&nbsp;</td><td>PK_RHOCUPACIONES&nbsp;&nbsp;</td><td>RHOcupaciones_PK&nbsp;&nbsp;</td><td>RHOcodigo</td></tr>
+			
+				<tr><td>RHPOtrasPartidas&nbsp;&nbsp;</td><td>KEY_PK&nbsp;&nbsp;</td><td>PK_RHPOTRASPARTIDAS&nbsp;&nbsp;</td><td>RHPOtrasPartidas_PK&nbsp;&nbsp;</td><td>RHPOPid</td></tr>
+			
+				<tr><td>RHPOtrasPartidas&nbsp;&nbsp;</td><td>KEY_INDEX&nbsp;&nbsp;</td><td>RHPOtrasPartidas_01&nbsp;&nbsp;</td><td>RHPOtrasPartidas_ID01&nbsp;&nbsp;</td><td>Ecodigo,CPPid,CPformato</td></tr>
+			
+				<tr><td>RHPuestos&nbsp;&nbsp;</td><td>CHK_COL&nbsp;&nbsp;</td><td>CKC_UBICACIONMUNECO_RHPUESTO&nbsp;&nbsp;</td><td>RHPuestos_CK50&nbsp;&nbsp;</td><td>([ubicacionMuneco] IS NULL OR ([ubicacionMuneco]='BR' OR [ubicacionMuneco]='BL' OR [ubicacionMuneco]='FR' OR [ubicacionMuneco]='FL'))</td></tr>
+			
+				<tr><td>RHPuestos&nbsp;&nbsp;</td><td>KEY_PK&nbsp;&nbsp;</td><td>PK_RHPUESTOS&nbsp;&nbsp;</td><td>RHPuestos_PK&nbsp;&nbsp;</td><td>RHPcodigo,Ecodigo</td></tr>
+			
+				<tr><td>RHPuestos&nbsp;&nbsp;</td><td>KEY_INDEX_FI&nbsp;&nbsp;</td><td>RHPuestos_FK3&nbsp;&nbsp;</td><td>RHPuestos_FI01&nbsp;&nbsp;</td><td>Ecodigo</td></tr>
+			
+				<tr><td>RHPuestos&nbsp;&nbsp;</td><td>KEY_FK&nbsp;&nbsp;</td><td>FK_RHPUESTO_REFERENCE_RHTPUEST&nbsp;&nbsp;</td><td>RHPuestos_FK02&nbsp;&nbsp;</td><td>RHTPid</td></tr>
+			
+				<tr><td>RHPuestos&nbsp;&nbsp;</td><td>KEY_INDEX_FI&nbsp;&nbsp;</td><td>RHPuestos_FK2&nbsp;&nbsp;</td><td>RHPuestos_FI02&nbsp;&nbsp;</td><td>RHTPid</td></tr>
+			
+				<tr><td>RHPuestos&nbsp;&nbsp;</td><td>KEY_FK&nbsp;&nbsp;</td><td>FK_RHPUESTO_REFERENCE_RHGRUPOM&nbsp;&nbsp;</td><td>RHPuestos_FK03&nbsp;&nbsp;</td><td>RHGMid</td></tr>
+			
+				<tr><td>RHPuestos&nbsp;&nbsp;</td><td>KEY_FK&nbsp;&nbsp;</td><td>FK_RHPUESTO_REFERENCE_RHPUEEXT&nbsp;&nbsp;</td><td>RHPuestos_FK04&nbsp;&nbsp;</td><td>RHPEid</td></tr>
+			
+				<tr><td>RHPuestos&nbsp;&nbsp;</td><td>KEY_FK&nbsp;&nbsp;</td><td>FK_RHPUESTO_REFERENCE_RHOCUPAC&nbsp;&nbsp;</td><td>RHPuestos_FK07&nbsp;&nbsp;</td><td>RHOcodigo</td></tr>
+			
+				<tr><td>RHPuestos&nbsp;&nbsp;</td><td>KEY_INDEX_FI&nbsp;&nbsp;</td><td>RHPuestos_FK1&nbsp;&nbsp;</td><td>RHPuestos_FI07&nbsp;&nbsp;</td><td>RHOcodigo</td></tr>
+			
+				<tr><td>RHSolicitudPlaza&nbsp;&nbsp;</td><td>CHK_COL&nbsp;&nbsp;</td><td>CKC_RHSPESTADO_RHSOLICI&nbsp;&nbsp;</td><td>RHSolicitudPlaza_CK10&nbsp;&nbsp;</td><td>([RHSPestado]=(40) OR [RHSPestado]=(30) OR [RHSPestado]=(20) OR [RHSPestado]=(10) OR [RHSPestado]=(0))</td></tr>
+			
+				<tr><td>RHSolicitudPlaza&nbsp;&nbsp;</td><td>CHK_COL&nbsp;&nbsp;</td><td>CKC_RHMPNEGOCIADO_RHSOLICI&nbsp;&nbsp;</td><td>RHSolicitudPlaza_CK19&nbsp;&nbsp;</td><td>([RHMPnegociado] IS NULL OR ([RHMPnegociado]='N' OR [RHMPnegociado]='T'))</td></tr>
+			
+				<tr><td>RHSolicitudPlaza&nbsp;&nbsp;</td><td>KEY_PK&nbsp;&nbsp;</td><td>PK_RHSOLICITUDPLAZA&nbsp;&nbsp;</td><td>RHSolicitudPlaza_PK&nbsp;&nbsp;</td><td>RHSPid</td></tr>
+			
+				<tr><td>RHSolicitudPlaza&nbsp;&nbsp;</td><td>KEY_FK&nbsp;&nbsp;</td><td>FK_RHSOLICI_REFERENCE_RHCATEGO&nbsp;&nbsp;</td><td>RHSolicitudPlaza_FK01&nbsp;&nbsp;</td><td>RHCid</td></tr>
+			
+				<tr><td>RHSolicitudPlaza&nbsp;&nbsp;</td><td>KEY_FK&nbsp;&nbsp;</td><td>FK_RHSOLICI_REFERENCE_RHTTABLA&nbsp;&nbsp;</td><td>RHSolicitudPlaza_FK02&nbsp;&nbsp;</td><td>RHTTid</td></tr>
+			
+				<tr><td>RHSolicitudPlaza&nbsp;&nbsp;</td><td>KEY_FK&nbsp;&nbsp;</td><td>FK_RHSOLICI_REFERENCE_RHMAESTR&nbsp;&nbsp;</td><td>RHSolicitudPlaza_FK03&nbsp;&nbsp;</td><td>RHMPPid</td></tr>
+			
+				<tr><td>TESbeneficiario&nbsp;&nbsp;</td><td>KEY_PK&nbsp;&nbsp;</td><td>PK_TESBENEFICIARIO&nbsp;&nbsp;</td><td>TESbeneficiario_PK&nbsp;&nbsp;</td><td>TESBid</td></tr>
+			
+				<tr><td>TESbeneficiario&nbsp;&nbsp;</td><td>KEY_AK&nbsp;&nbsp;</td><td>AK_KEY_2_TESBENEF&nbsp;&nbsp;</td><td>TESbeneficiario_AK01&nbsp;&nbsp;</td><td>CEcodigo,TESBeneficiarioId</td></tr>
+			
+				<tr><td>TESbeneficiario&nbsp;&nbsp;</td><td>KEY_FK&nbsp;&nbsp;</td><td>FK_TESBENEF_REFERENCE_TESREPTC&nbsp;&nbsp;</td><td>TESbeneficiario_FK02&nbsp;&nbsp;</td><td>TESRPTCid</td></tr>
+			
+				<tr><td>TESbeneficiario&nbsp;&nbsp;</td><td>KEY_FK&nbsp;&nbsp;</td><td>FK_TESBENEF_REFERENCE_DIRECCIO&nbsp;&nbsp;</td><td>TESbeneficiario_FK03&nbsp;&nbsp;</td><td>id_direccion</td></tr>
+			
+				<tr><td>TEScuentasBancos&nbsp;&nbsp;</td><td>KEY_PK&nbsp;&nbsp;</td><td>PK_TESCUENTASBANCOS&nbsp;&nbsp;</td><td>TEScuentasBancos_PK&nbsp;&nbsp;</td><td>TESid,CBid</td></tr>
+			
+				<tr><td>TEScuentasBancos&nbsp;&nbsp;</td><td>KEY_FK&nbsp;&nbsp;</td><td>FK_TESCUENT_REFERENCE_TESORERI&nbsp;&nbsp;</td><td>TEScuentasBancos_FK01&nbsp;&nbsp;</td><td>TESid</td></tr>
+			
+				<tr><td>TEScuentasBancos&nbsp;&nbsp;</td><td>KEY_FK&nbsp;&nbsp;</td><td>FK_TESCUENT_REFERENCE_CUENTASB&nbsp;&nbsp;</td><td>TEScuentasBancos_FK02&nbsp;&nbsp;</td><td>CBid</td></tr>
+			
+				<tr><td>TESdetallePago&nbsp;&nbsp;</td><td>KEY_PK&nbsp;&nbsp;</td><td>PK_TESDETALLEPAGO&nbsp;&nbsp;</td><td>TESdetallePago_PK&nbsp;&nbsp;</td><td>TESDPid</td></tr>
+			
+				<tr><td>TESdetallePago&nbsp;&nbsp;</td><td>KEY_FK&nbsp;&nbsp;</td><td>FK_TESDETAL_REFERENCE_TESORERI&nbsp;&nbsp;</td><td>TESdetallePago_FK03&nbsp;&nbsp;</td><td>TESid</td></tr>
+			
+				<tr><td>TESdetallePago&nbsp;&nbsp;</td><td>KEY_FK&nbsp;&nbsp;</td><td>FK_TESDETAL_REFERENCE_TESORDEN&nbsp;&nbsp;</td><td>TESdetallePago_FK04&nbsp;&nbsp;</td><td>TESOPid</td></tr>
+			
+				<tr><td>TESdetallePago&nbsp;&nbsp;</td><td>KEY_FK&nbsp;&nbsp;</td><td>FK_TESDETAL_REFERENCE_TESSOLIC&nbsp;&nbsp;</td><td>TESdetallePago_FK06&nbsp;&nbsp;</td><td>TESSPid</td></tr>
+			
+				<tr><td>TESdetallePago&nbsp;&nbsp;</td><td>KEY_FK&nbsp;&nbsp;</td><td>FK_TESDETAL_REFERENCE_TESREPTC&nbsp;&nbsp;</td><td>TESdetallePago_FK07&nbsp;&nbsp;</td><td>TESRPTCid</td></tr>
+			
+				<tr><td>TESdetallePago&nbsp;&nbsp;</td><td>KEY_FK&nbsp;&nbsp;</td><td>FK_TESDP_REFERENCE_OFICINAS&nbsp;&nbsp;</td><td>TESdetallePago_FK08&nbsp;&nbsp;</td><td>EcodigoOri,OcodigoOri</td></tr>
+			
+				<tr><td>TESdetallePago&nbsp;&nbsp;</td><td>KEY_FK&nbsp;&nbsp;</td><td>FK_TESDETAL_REFERENCE_SNDIRECC&nbsp;&nbsp;</td><td>TESdetallePago_FK12&nbsp;&nbsp;</td><td>EcodigoOri,SNcodigoOri,id_direccion</td></tr>
+			
+				<tr><td>TESmedioPago&nbsp;&nbsp;</td><td>KEY_PK&nbsp;&nbsp;</td><td>PK_TESMEDIOPAGO&nbsp;&nbsp;</td><td>TESmedioPago_PK&nbsp;&nbsp;</td><td>TESid,CBid,TESMPcodigo</td></tr>
+			
+				<tr><td>TESmedioPago&nbsp;&nbsp;</td><td>KEY_FK&nbsp;&nbsp;</td><td>FK_TESMEDIO_REFERENCE_FMT001&nbsp;&nbsp;</td><td>TESmedioPago_FK01&nbsp;&nbsp;</td><td>FMT01COD</td></tr>
+			
+				<tr><td>TESmedioPago&nbsp;&nbsp;</td><td>KEY_FK&nbsp;&nbsp;</td><td>FK_TESMEDIO_REFERENCE_TESTIPOM&nbsp;&nbsp;</td><td>TESmedioPago_FK04&nbsp;&nbsp;</td><td>TESTMPtipo</td></tr>
+			
+				<tr><td>TESmedioPago&nbsp;&nbsp;</td><td>KEY_FK&nbsp;&nbsp;</td><td>FK_TESMEDIO_REFERENCE_TESCUENT&nbsp;&nbsp;</td><td>TESmedioPago_FK05&nbsp;&nbsp;</td><td>TESid,CBid</td></tr>
+			
+				<tr><td>TESordenPago&nbsp;&nbsp;</td><td>KEY_PK&nbsp;&nbsp;</td><td>PK_TESORDENPAGO&nbsp;&nbsp;</td><td>TESordenPago_PK&nbsp;&nbsp;</td><td>TESOPid</td></tr>
+			
+				<tr><td>TESordenPago&nbsp;&nbsp;</td><td>KEY_FK&nbsp;&nbsp;</td><td>FK_TESORDEN_REFERENCE_TESORERI&nbsp;&nbsp;</td><td>TESordenPago_FK03&nbsp;&nbsp;</td><td>TESid</td></tr>
+			
+				<tr><td>TESordenPago&nbsp;&nbsp;</td><td>KEY_FK&nbsp;&nbsp;</td><td>FK_TESORDEN_REFERENCE_CUENTASB&nbsp;&nbsp;</td><td>TESordenPago_FK04&nbsp;&nbsp;</td><td>CBidPago</td></tr>
+			
+				<tr><td>TESordenPago&nbsp;&nbsp;</td><td>KEY_FK&nbsp;&nbsp;</td><td>FK_TESORDEN_REFERENCE_TESBENEF&nbsp;&nbsp;</td><td>TESordenPago_FK05&nbsp;&nbsp;</td><td>TESBid</td></tr>
+			
+				<tr><td>TESordenPago&nbsp;&nbsp;</td><td>KEY_FK&nbsp;&nbsp;</td><td>FK_TESORDEN_REFERENCE_TESORDEN&nbsp;&nbsp;</td><td>TESordenPago_FK06&nbsp;&nbsp;</td><td>TESOPidDuplicado</td></tr>
+			
+				<tr><td>TESordenPago&nbsp;&nbsp;</td><td>KEY_FK&nbsp;&nbsp;</td><td>FK_TESORDEN_REFERENCE_TESENDOS&nbsp;&nbsp;</td><td>TESordenPago_FK07&nbsp;&nbsp;</td><td>TESid,TESEcodigo</td></tr>
+			
+				<tr><td>TESordenPago&nbsp;&nbsp;</td><td>KEY_FK&nbsp;&nbsp;</td><td>FK_TESOP_REFERENCE_TESTP&nbsp;&nbsp;</td><td>TESordenPago_FK08&nbsp;&nbsp;</td><td>TESid,TESTPid</td></tr>
+			
+				<tr><td>TESordenPago&nbsp;&nbsp;</td><td>KEY_FK&nbsp;&nbsp;</td><td>FK_TESORDEN_REFERENCE_TESTRANS&nbsp;&nbsp;</td><td>TESordenPago_FK09&nbsp;&nbsp;</td><td>TESTLid,TESid</td></tr>
+			
+				<tr><td>TESordenPago&nbsp;&nbsp;</td><td>KEY_FK&nbsp;&nbsp;</td><td>FK_TESORDEN_REFERENCE_TESCFL&nbsp;&nbsp;</td><td>TESordenPago_FK11&nbsp;&nbsp;</td><td>TESCFLid,TESid</td></tr>
+			
+				<tr><td>TESordenPago&nbsp;&nbsp;</td><td>KEY_FK&nbsp;&nbsp;</td><td>FK_TESORDEN_REFERENCE_TESMEDIO&nbsp;&nbsp;</td><td>TESordenPago_FK12&nbsp;&nbsp;</td><td>TESid,CBidPago,TESMPcodigo</td></tr>
+			
+				<tr><td>TESordenPago&nbsp;&nbsp;</td><td>KEY_FK&nbsp;&nbsp;</td><td>FK_TESORDEN_REFERENCE_TESTRAN2&nbsp;&nbsp;</td><td>TESordenPago_FK13&nbsp;&nbsp;</td><td>TESid,CBidPago,TESMPcodigo,TESTDid</td></tr>
+			
+				<tr><td>TESordenPago&nbsp;&nbsp;</td><td>KEY_FK&nbsp;&nbsp;</td><td>FK_TESORDEN_REFERENCE_TESCONT2&nbsp;&nbsp;</td><td>TESordenPago_FK14&nbsp;&nbsp;</td><td>TESid,CBidPago,TESMPcodigo,TESCFDnumFormulario</td></tr>
+			
+				<tr><td>Tesoreria&nbsp;&nbsp;</td><td>KEY_PK&nbsp;&nbsp;</td><td>PK_TESORERIA&nbsp;&nbsp;</td><td>Tesoreria_PK&nbsp;&nbsp;</td><td>TESid</td></tr>
+			
+				<tr><td>Tesoreria&nbsp;&nbsp;</td><td>KEY_AK&nbsp;&nbsp;</td><td>AK_KEY_2_TESORERI&nbsp;&nbsp;</td><td>Tesoreria_AK01&nbsp;&nbsp;</td><td>CEcodigo,TEScodigo</td></tr>
+			
+				<tr><td>TESsolicitudPago&nbsp;&nbsp;</td><td>KEY_PK&nbsp;&nbsp;</td><td>PK_TESSOLICITUDPAGO&nbsp;&nbsp;</td><td>TESsolicitudPago_PK&nbsp;&nbsp;</td><td>TESSPid</td></tr>
+			
+				<tr><td>TESsolicitudPago&nbsp;&nbsp;</td><td>KEY_FK&nbsp;&nbsp;</td><td>FK_TESSOLIC_REFERENCE_CFUNCION&nbsp;&nbsp;</td><td>TESsolicitudPago_FK03&nbsp;&nbsp;</td><td>CFid</td></tr>
+			
+				<tr><td>TESsolicitudPago&nbsp;&nbsp;</td><td>KEY_FK&nbsp;&nbsp;</td><td>FK_TESSOLIC_REFERENCE_TESORERI&nbsp;&nbsp;</td><td>TESsolicitudPago_FK04&nbsp;&nbsp;</td><td>TESid</td></tr>
+			
+				<tr><td>TESsolicitudPago&nbsp;&nbsp;</td><td>KEY_FK&nbsp;&nbsp;</td><td>FK_TESSP_REFERENCE_TESOP&nbsp;&nbsp;</td><td>TESsolicitudPago_FK06&nbsp;&nbsp;</td><td>TESOPid</td></tr>
+			
+				<tr><td>TESsolicitudPago&nbsp;&nbsp;</td><td>KEY_FK&nbsp;&nbsp;</td><td>FK_TESSOLIC_REFERENCE_TESBENEF&nbsp;&nbsp;</td><td>TESsolicitudPago_FK07&nbsp;&nbsp;</td><td>TESBid</td></tr>
+			
+				<tr><td>TESsolicitudPago&nbsp;&nbsp;</td><td>KEY_FK&nbsp;&nbsp;</td><td>FK_TESSOLIC_REFERENCE_TESSOLIC&nbsp;&nbsp;</td><td>TESsolicitudPago_FK09&nbsp;&nbsp;</td><td>TESSPidDuplicado</td></tr>
+			
+				<tr><td>TEStransferenciaP&nbsp;&nbsp;</td><td>CHK_COL&nbsp;&nbsp;</td><td>CKC_TESTPESTADO_TESTRANS&nbsp;&nbsp;</td><td>TEStransferenciaP_CK19&nbsp;&nbsp;</td><td>([TESTPestado]=(2) OR [TESTPestado]=(1) OR [TESTPestado]=(0))</td></tr>
+			
+				<tr><td>TEStransferenciaP&nbsp;&nbsp;</td><td>KEY_PK&nbsp;&nbsp;</td><td>PK_TESTRANSFERENCIAP&nbsp;&nbsp;</td><td>TEStransferenciaP_PK&nbsp;&nbsp;</td><td>TESid,TESTPid</td></tr>
+			
+				<tr><td>TEStransferenciaP&nbsp;&nbsp;</td><td>KEY_FK&nbsp;&nbsp;</td><td>FK_TESTI_REFERENCE_TES&nbsp;&nbsp;</td><td>TEStransferenciaP_FK04&nbsp;&nbsp;</td><td>TESid</td></tr>
+			
+				<tr><td>TEStransferenciaP&nbsp;&nbsp;</td><td>KEY_FK&nbsp;&nbsp;</td><td>FK_TESTP_REFERENCE_TESB&nbsp;&nbsp;</td><td>TEStransferenciaP_FK05&nbsp;&nbsp;</td><td>TESBid</td></tr>
+			
+				<tr><td>TEStransfIntercomD&nbsp;&nbsp;</td><td>KEY_PK&nbsp;&nbsp;</td><td>PK_DTRASPASOS&nbsp;&nbsp;</td><td>TEStransfIntercomD_PK&nbsp;&nbsp;</td><td>TESid,TESTILid,TESTIDid</td></tr>
+			
+				<tr><td>TEStransfIntercomD&nbsp;&nbsp;</td><td>KEY_FK&nbsp;&nbsp;</td><td>FK_TESTID_REF_TESCBDST&nbsp;&nbsp;</td><td>TEStransfIntercomD_FK03&nbsp;&nbsp;</td><td>TESid,CBidDst</td></tr>
+			
+				<tr><td>TEStransfIntercomD&nbsp;&nbsp;</td><td>KEY_FK&nbsp;&nbsp;</td><td>FK_TESTID_REF_TESCBORI&nbsp;&nbsp;</td><td>TEStransfIntercomD_FK04&nbsp;&nbsp;</td><td>TESid,CBidOri</td></tr>
+			
+				<tr><td>TEStransfIntercomD&nbsp;&nbsp;</td><td>KEY_FK&nbsp;&nbsp;</td><td>FK_TESTID_REF_TESTIL&nbsp;&nbsp;</td><td>TEStransfIntercomD_FK07&nbsp;&nbsp;</td><td>TESid,TESTILid</td></tr>
+			
+				<tr><td>TEStransfIntercomL&nbsp;&nbsp;</td><td>KEY_PK&nbsp;&nbsp;</td><td>PK_ETRASPASOS&nbsp;&nbsp;</td><td>TEStransfIntercomL_PK&nbsp;&nbsp;</td><td>TESid,TESTILid</td></tr>
+			
+				<tr><td>TEStransfIntercomL&nbsp;&nbsp;</td><td>KEY_FK&nbsp;&nbsp;</td><td>FK_TESTRANS_REFERENCE_TESORERI&nbsp;&nbsp;</td><td>TEStransfIntercomL_FK01&nbsp;&nbsp;</td><td>TESid</td></tr>
+			
+			</table>
+		

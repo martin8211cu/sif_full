@@ -1,0 +1,4 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<info>
+	<infoitem key="UD_agendas" value="name:agenda;datatype:,name:nombre_agenda;datatype:,name:tipo_agenda;datatype:,name:horario_habil;datatype:,name:escala;datatype:,name:lectura_publico;datatype:,name:escritura_publico;datatype:,name:citar_publico;datatype:" />
+</info>

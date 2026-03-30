@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_Titulo>Consult</LB_Titulo>
+		<LB_TransaccionesFacturacion>Invoicing Transactions</LB_TransaccionesFacturacion>
+		<LB_TransaccionesContado>Cash Transactions</LB_TransaccionesContado>
+		<LB_TransaccionesCredito>Credit Transactions</LB_TransaccionesCredito>
+		<LB_NotasCredito>Credit Notes</LB_NotasCredito>
+		<LB_TransaccionesAnuladas>Cancelled Transactions</LB_TransaccionesAnuladas>
+		<LB_Comisiones>Commissions</LB_Comisiones>
+		<LB_DetalleCostosIngresosAutomaticos>Detail of Automatic Costs and Income</LB_DetalleCostosIngresosAutomaticos>
+		<LB_DetalleListasPrecios>Detailed Price Lists</LB_DetalleListasPrecios>
+	</Idioma>
+</Etiquetas>

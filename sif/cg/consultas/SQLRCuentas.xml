@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_Usuario>User</LB_Usuario>
+		<LB_Titulo>General Ledger Accounts</LB_Titulo>
+		<LB_CuentaIni>Initial Account</LB_CuentaIni>
+		<LB_CuentaFin>Final Account</LB_CuentaFin>
+		<LB_Fecha>Date</LB_Fecha>
+		<LB_Cuenta>Account</LB_Cuenta>
+		<LB_Descripcion>Description</LB_Descripcion>
+		<LB_Balance>Normal Balance</LB_Balance>
+		<LB_Fin>End</LB_Fin>
+	</Idioma>
+</Etiquetas>

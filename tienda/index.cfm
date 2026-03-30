@@ -1,0 +1,1 @@
+﻿<cflocation url="tienda/public/index.cfm">

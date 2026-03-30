@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+    <Idioma id="en">
+        <AYUDA_ElArchivoDebeSerUnArchivoPlanoConElSiguienteFormato>The document have to be a file with the next format</AYUDA_ElArchivoDebeSerUnArchivoPlanoConElSiguienteFormato>
+        <AYUDA_Importacion>Importation</AYUDA_Importacion>
+        <AYUDA_ResumenDeImportacion>Import Summary</AYUDA_ResumenDeImportacion>
+        <AYUDA_Revision>Review</AYUDA_Revision>
+        <AYUDA_SeleccionDeArchivo>File Selection</AYUDA_SeleccionDeArchivo>
+        <LB_Columnas>Columns</LB_Columnas>
+        <LB_CrearNueva>Create New</LB_CrearNueva>
+        <LB_FormatoDeArchivoDeImportacion>Importation File Format</LB_FormatoDeArchivoDeImportacion>
+        <LB_Lista_de_Centros_Funcionales>Functional Centers List</LB_Lista_de_Centros_Funcionales>
+        <LB_PasosParaLaImportacion>Importation Process</LB_PasosParaLaImportacion>
+        <BTN_EnvMail>Send by Email</BTN_EnvMail>
+        <BTN_ImprFac>Print Document</BTN_ImprFac>
+        <BTN_ImprTr>Print Process</BTN_ImprTr>
+        <BTN_Ver>Consult Line</BTN_Ver>
+        <BTN_VerOC>Purchase Orders Consult</BTN_VerOC>
+        <LB_ArtTran>Item in Transit</LB_ArtTran>
+        <LB_CenFunc>Functional Center</LB_CenFunc>
+        <LB_Descuento>Discount</LB_Descuento>
+        <LB_DetDocto>Document Detail</LB_DetDocto>
+        <LB_DirFact>Document Adress</LB_DirFact>
+        <LB_EncDocto>Document Header</LB_EncDocto>
+        <LB_EncPago>Payment Header</LB_EncPago>
+        <LB_FecArr>Arrival Date</LB_FecArr>
+        <LB_FecFact>Document Date</LB_FecFact>
+        <LB_FecVenc>Maturity Date</LB_FecVenc>
+        <LB_Garantias>Warranties</LB_Garantias>
+        <LB_Imp>Tax</LB_Imp>
+        <LB_Impuesto>Tax</LB_Impuesto>
+        <LB_Item>Item</LB_Item>
+        <LB_LstRefer>Reference List</LB_LstRefer>
+        <LB_Ninguna>None</LB_Ninguna>
+        <LB_OrdenCMLin>PO Line</LB_OrdenCMLin>
+        <LB_PagTerc>Payments to Third parties</LB_PagTerc>
+        <LB_Precio>Price</LB_Precio>
+        <LB_Refer>Reference</LB_Refer>
+        <LB_RegRem>Remition Register</LB_RegRem>
+        <LB_Registros>Records</LB_Registros>
+        <LB_RetPag>Witholding</LB_RetPag>
+        <LB_Retenc>Witholding</LB_Retenc>
+        <LB_SNOrdenC>Trading Order Partner</LB_SNOrdenC>
+        <LB_SelTodos>Select All</LB_SelTodos>
+        <LB_SinRet>No Witholding</LB_SinRet>
+        <LB_Subtotal>Subtotal</LB_Subtotal>
+        <LB_TranOC>Trading Order Transport</LB_TranOC>
+        <LB_TranTr>Transport in Transit</LB_TranTr>
+        <LB_cantidad>Quantity</LB_cantidad>
+        <LB_linea>Line</LB_linea>
+        <Lbl_ActEmpr>Business Activity</Lbl_ActEmpr>
+        <Lbl_ActFjo>F-Fixed Assets</Lbl_ActFjo>
+        <Lbl_Aereo>Air</Lbl_Aereo>
+        <Lbl_Almac>Warehouse</Lbl_Almac>
+        <Lbl_Art>Item</Lbl_Art>
+        <Lbl_ArtInv>Warehouse Item</Lbl_ArtInv>
+        <Lbl_ArtOrdC>PO Item</Lbl_ArtOrdC>
+        <Lbl_ArtOrdenC>Trading Order Item</Lbl_ArtOrdenC>
+        <Lbl_Barco>Boat</Lbl_Barco>
+        <Lbl_BorrDoc>Delete Document</Lbl_BorrDoc>
+        <Lbl_CamDoct>Modify Document</Lbl_CamDoct>
+        <Lbl_CamLine>Modify Line</Lbl_CamLine>
+        <Lbl_Cantidad>Quantiy</Lbl_Cantidad>
+        <Lbl_CodAlt>Secondary Code</Lbl_CodAlt>
+        <Lbl_CodDocto>Document Code</Lbl_CodDocto>
+        <Lbl_ConSer>S-Service Concept or Expense</Lbl_ConSer>
+        <Lbl_ConsCpr>Purchase Con.</Lbl_ConsCpr>
+        <Lbl_Contr>Contract</Lbl_Contr>
+        <Lbl_CtaDet>Account Detail</Lbl_CtaDet>
+        <Lbl_CtaProv>Account Supplier</Lbl_CtaProv>
+        <Lbl_DescAlt>Secondary Desc.</Lbl_DescAlt>
+        <Lbl_DescLin>Line Description</Lbl_DescLin>
+        <Lbl_EnvApl>Send to Apply</Lbl_EnvApl>
+        <Lbl_EspCta>Define Account</Lbl_EspCta>
+        <Lbl_FecEmb>Shipment Date</Lbl_FecEmb>
+        <Lbl_Ferro>Train</Lbl_Ferro>
+        <Lbl_LinFact>Document Line</Lbl_LinFact>
+        <Lbl_LstTrans>Transactions List</Lbl_LstTrans>
+        <Lbl_NuevaL>New Line</Lbl_NuevaL>
+        <Lbl_Obs>Comments</Lbl_Obs>
+        <Lbl_OrdC>Trading Order</Lbl_OrdC>
+        <Lbl_OrdCmCmpr>Trading Orders</Lbl_OrdCmCmpr>
+        <Lbl_OrdCom>Trading Order</Lbl_OrdCom>
+        <Lbl_Otro>Other</Lbl_Otro>
+        <Lbl_PlanCmpr>Purchase Plan</Lbl_PlanCmpr>
+        <Lbl_PrecioU>Unit Price</Lbl_PrecioU>
+        <Lbl_ProdTr>T-Product in Transit</Lbl_ProdTr>
+        <Lbl_SocCom>Partner</Lbl_SocCom>
+        <Lbl_Terrest>Terrestrial</Lbl_Terrest>
+        <Lbl_TotLin>Line Total</Lbl_TotLin>
+        <Lbl_TpoTrans>Transaction Type</Lbl_TpoTrans>
+        <Lbl_TpoTrsp>Trasnport Type</Lbl_TpoTrsp>
+        <Lbl_Trans>Transport</Lbl_Trans>
+        <MSG_AnDocto>Cancel selected document?</MSG_AnDocto>
+        <MSG_CanRem>Cancel selected document?</MSG_CanRem>
+        <MSG_Anular>Cancel selected record?</MSG_Anular>
+        <MSG_AplDoc>Apply selected document?</MSG_AplDoc>
+        <MSG_Borrar>Delete selected document?</MSG_Borrar>
+        <MSG_DebeCont>have to contain a value between</MSG_DebeCont>
+        <MSG_DigAlm>Capture Warehouse</MSG_DigAlm>
+        <MSG_DigArt>Define an item</MSG_DigArt>
+        <MSG_DigCC>Capture Functional Center</MSG_DigCC>
+        <MSG_DigConc>Capture a concept</MSG_DigConc>
+        <MSG_DigTT>You have to define a transaction type</MSG_DigTT>
+        <MSG_DocReq>You have to define a document</MSG_DocReq>
+        <MSG_ElCmpo>The field</MSG_ElCmpo>
+        <MSG_FecArr>Arrival Date have to be higher than Document Date</MSG_FecArr>
+        <MSG_Imprimir>Select  record to print</MSG_Imprimir>
+        <MSG_MarcApl>Select records to apply</MSG_MarcApl>
+        <MSG_MarcEnv>Select records to send</MSG_MarcEnv>
+        <MSG_MontoNum>The amount have to be numeric</MSG_MontoNum>
+        <MSG_PgoTerReq>Define a payments to third parties</MSG_PgoTerReq>
+        <MSG_SePrErr>The following errors occurred</MSG_SePrErr>
+        <MSG_SelFact>Select an Document</MSG_SelFact>
+        <MSG_SelOC>Select Trading Order</MSG_SelOC>
+        <MSG_SelProv>Select a Partner</MSG_SelProv>
+        <MSG_and>and</MSG_and>
+        <Lbl_Folio>Folio</Lbl_Folio>
+        <Lbl_OrdCm>Purchase Order</Lbl_OrdCm>
+        <Lbl_Devolucion>Give back Document</Lbl_Devolucion>
+        <Lbl_Cancelar>Cancel Document</Lbl_Cancelar>
+        <LB_Documento>Document</LB_Documento>
+        <LB_Estado>Status</LB_Estado>
+        <LB_Registrado>Registered</LB_Registrado>
+        <LB_Aplicado>Applied</LB_Aplicado>
+        <LB_Cancelado>Canceled</LB_Cancelado>
+        <LBCHK_Cancelados>Canceled</LBCHK_Cancelados>
+    </Idioma>
+</Etiquetas>

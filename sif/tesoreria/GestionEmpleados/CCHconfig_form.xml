@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_MontoMaximo>Maximum Amount</LB_MontoMaximo>
+		<LB_PorcentajeMaximoSolicitud>Maximum Percentage for Request</LB_PorcentajeMaximoSolicitud>
+		<LB_PorcentajeMinimoCaja>Minimum Percentage for Petty Cash</LB_PorcentajeMinimoCaja>
+		<LB_DiasMaximoLiquidacion>Maximum Days for Settlement</LB_DiasMaximoLiquidacion>
+		<LB_DiasVencimientoAnticipo>Maturity Days for Advance</LB_DiasVencimientoAnticipo>
+		<LB_DiasVencimientoAnticipoViatico>Maturity Days for Allowance Advance</LB_DiasVencimientoAnticipoViatico>
+		<LB_ReintegroAutomatico>Automatic Reimbursement</LB_ReintegroAutomatico>
+		<LB_SePermiteSolicitarNuevosAnticiposTeniendoPendientes>Allow generate advances request,  having other requests in progress.</LB_SePermiteSolicitarNuevosAnticiposTeniendoPendientes>
+		<BTN_Agregar>Add</BTN_Agregar>
+		<BTN_Limpiar>Clear</BTN_Limpiar>
+		<BTN_Regresar>Return</BTN_Regresar>
+		<BTN_Modificar>Modify</BTN_Modificar>
+	</Idioma>
+</Etiquetas>

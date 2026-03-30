@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	
+	<Idioma id="en">
+		<LB_Titulo>Financial Account List</LB_Titulo>
+		<LB_Estructura>Account Structure</LB_Estructura>
+		<LB_Detalle>Chart of Accounts Detail</LB_Detalle>
+		<LB_FCV>Formats, Catalogs and Values</LB_FCV>
+		<LB_Descripcion>Description</LB_Descripcion>
+		<LB_Oficinas>Offices</LB_Oficinas>
+		<LB_Mayor>Ledger Account</LB_Mayor>SS
+		<LB_Nivel>Level</LB_Nivel>
+		<LB_Todas>All</LB_Todas>
+		<LB_NDV>Define Detail Levels</LB_NDV>
+	<LB_ListaDeCuentasFinancieras>Financial Account List</LB_ListaDeCuentasFinancieras><LB_Oficina>Office</LB_Oficina><LB_Descripciono>Description</LB_Descripciono></Idioma>
+</Etiquetas>

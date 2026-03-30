@@ -1,0 +1,19 @@
+========== Description Part Begin ==========
+Description = Menu del Sistema de Activos Fijos
+LastUpdateTime = 37568.420335648
+PreviewPath = 
+ProgID = PageletServer.DynamicMenu
+Title = MenuAF
+Version = 4.00
+========== Description Part End ==========
+========== Parameter Part Begin ==========
+MenuBody0 = 3;0;0;2;0;0;0;0;0;0;0;0;0;90;1;1;1;12230816;12230816;12230816;12230816;12230816;0;;3
+MenuBody1 = 3;1;0;2;0;0;0;0;0;0;0;0;0;90;1;1;1;12230816;12230816;12230816;12230816;12230816;0;;3
+MenuItem0_0 = 2;2;;;0;Catálogos;0;0;1;Consultas sobre la tienda;;_self;Consultas sobre la tienda;0;12230816;12230816;0;0;;;3;3;1;1;1;1;12230816;12230816;12230816;12230816;6710886;6710886;6710886;6710886;;;8;0;0;;;0;0;0;C:\\Program Files\\SourceTec\\Sothink DHTMLMenu\\Resource\\arrow_r.gif;C:\\Program Files\\SourceTec\\Sothink DHTMLMenu\\Resource\\arrow_r.gif;7;7;0;Verdana;Verdana;8;8;0;0;16777215;16777215;0;0;0;0;0;0;0;0;0;0;
+MenuItem0_1 = 0;0;;;0;1;0;1;;;1;1;0
+MenuItem0_2 = 0;1;;;0;[ ver tienda ];0;0;1;Entrar a esta tienda;../../public/index.cfm;_self;;1;12230816;12230816;0;0;;;3;3;1;1;1;1;12230816;12230816;12230816;12230816;12230816;12230816;12230816;12230816;;;8;0;0;;;0;0;0;;;7;7;0;Verdana;Verdana;8;8;0;0;16777215;16777215;0;0;0;0;0;0;0;0;0;0;
+MenuItem1_0 = 0;1;;;0;Tipos de tarjeta;0;0;1;Tipos de tarjeta;../admin/tipotarjeta.cfm;_self;;1;12230816;12230816;0;0;;;3;3;1;1;1;1;12230816;12230816;12230816;12230816;6710886;6710886;6710886;6710886;;;0;0;0;;;0;0;0;C:\\Program Files\\SourceTec\\Sothink DHTMLMenu\\Resource\\arrow_r.gif;C:\\Program Files\\SourceTec\\Sothink DHTMLMenu\\Resource\\arrow_r.gif;7;7;0;Verdana;Verdana;8;8;0;0;16777215;16777215;0;0;0;0;0;0;0;0;0;0;
+MenuItem1_1 = 0;1;;;0;Estados;0;0;1;Estados del Pedido;../admin/estados.cfm;_self;;1;12230816;12230816;0;0;;;3;3;1;1;1;1;12230816;12230816;12230816;12230816;6710886;6710886;6710886;6710886;;;0;0;0;;;0;0;0;C:\\Program Files\\SourceTec\\Sothink DHTMLMenu\\Resource\\arrow_r.gif;C:\\Program Files\\SourceTec\\Sothink DHTMLMenu\\Resource\\arrow_r.gif;7;7;0;Verdana;Verdana;8;8;0;0;16777215;16777215;0;0;0;0;0;0;0;0;0;0;
+MenuItem1_2 = 1;1;;;0;Transiciones;0;0;1;Transiciones del pedido;../admin/transicion.cfm;_self;;1;12230816;12230816;0;0;;;3;3;1;1;1;1;12230816;12230816;12230816;12230816;6710886;6710886;6710886;6710886;;;-1;-1;0;;;-1;-1;0;C:\\Program Files\\SourceTec\\Sothink DHTMLMenu\\Resource\\arrow_r.gif;C:\\Program Files\\SourceTec\\Sothink DHTMLMenu\\Resource\\arrow_r.gif;7;7;0;Verdana;Verdana;8;8;0;0;16777215;16777215;0;0;0;0;0;0;0;0;0;0;
+TopMenuBody = 2;400;exnvfhr;0;1;1;0;0;0;1;150;100;100;<cfoutput>#session.rutajs#</cfoutput>DHTMLMenu3.5/;1;0;0
+========== Parameter Part End ==========

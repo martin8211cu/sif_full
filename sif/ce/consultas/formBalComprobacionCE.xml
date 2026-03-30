@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_Mapeo></LB_Mapeo>
+		<LB_Periodo></LB_Periodo>
+		<LB_Mes>Month</LB_Mes>
+		<CMB_Enero>January</CMB_Enero>
+		<CMB_Febrero>February</CMB_Febrero>
+		<CMB_Marzo>March</CMB_Marzo>
+		<CMB_Abril>April</CMB_Abril>
+		<CMB_Mayo>May</CMB_Mayo>
+		<CMB_Junio>June</CMB_Junio>
+		<CMB_Julio>July</CMB_Julio>
+		<CMB_Agosto>August</CMB_Agosto>
+		<CMB_Septiembre>September</CMB_Septiembre>
+		<CMB_Octubre>October</CMB_Octubre>
+		<CMB_Noviembre>November</CMB_Noviembre>
+		<CMB_Diciembre>December</CMB_Diciembre>	
+		<LB_IncluirSaldosCeros></LB_IncluirSaldosCeros>		
+		<LB_MapeoCuentasSAT></LB_MapeoCuentasSAT>
+		<LB_Codigo></LB_Codigo>
+		<LB_Nombre></LB_Nombre>
+		<LB_UltimoNivel></LB_UltimoNivel>
+		<LB_PrepararXML></LB_PrepararXML>
+		<LB_Moneda>Currency</LB_Moneda>
+		<LB_Nivel></LB_Nivel>
+		<LB_Local></LB_Local>
+		<LB_Informe></LB_Informe>
+	</Idioma>
+</Etiquetas>

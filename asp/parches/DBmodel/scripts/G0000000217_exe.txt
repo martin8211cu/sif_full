@@ -1,0 +1,179 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 1 - Version 100: Actualizar hasta 27/01/2011
+
+	         PARCHE:  BASE CERO: SIF Sistemas
+
+GENERADO EN:
+	SERVER:  http://mxvqapp34:8300
+	DSN:     minisifext
+	FECHA:   14/02/2012 16:25:56
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* CHG_TABLE CFinanciera: Cuentas Financieras o de Ultim */
+/* ======================================================================================== */
+/* DEL_CHECK OP = (OBSOLETO): chk=(Ccuenta IS NOT NULL AND CFmovimiento='S' OR CFmovimiento<>'S') */
+ALTER TABLE CFinanciera DROP CONSTRAINT CFinanciera_CK
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_CHECK: chk=(Ccuenta is not null and CFmovimiento = 'S' or CFmovimiento <> 'S') */
+ALTER TABLE CFinanciera ADD CONSTRAINT CFinanciera_CK CHECK (Ccuenta is not null and CFmovimiento = 'S' or CFmovimiento <> 'S')
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ======================================================================================== */
+/* CHG_TABLE CPresupuestoComprometidasNAPs: Bitacora de NAPs de Compromiso */
+/* ======================================================================================== */
+/* DEL_KEY OP = (OBSOLETO): TIP="P", COLS="CPPid,Ecodigo,CPNAPnum" */
+ALTER TABLE CPresupuestoComprometidasNAPs DROP CONSTRAINT CPresupuestoComprometid01_PK /* PRIMARY KEY (CPPid,Ecodigo,CPNAPnum) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (NUEVO): TIP="P", SEC="0", COLS="CPPid,Ecodigo,CPNAPnum" */
+ALTER TABLE CPresupuestoComprometidasNAPs ADD CONSTRAINT CPresupuestoComprometid01_PK PRIMARY KEY CLUSTERED (CPPid,Ecodigo,CPNAPnum)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE CPtipoMov: Movimientos de Presupuesto */
+/* ======================================================================================== */
+/* DEL_KEY OP = (OBSOLETO): TIP="P", COLS="CPTMtipoMov" */
+ALTER TABLE CPtipoMov DROP CONSTRAINT CPtipoMov_PK /* PRIMARY KEY (CPTMtipoMov) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (NUEVO): TIP="P", SEC="0", COLS="CPTMtipoMov" */
+ALTER TABLE CPtipoMov ADD CONSTRAINT CPtipoMov_PK PRIMARY KEY NONCLUSTERED (CPTMtipoMov)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE HIncidenciasCalculo: Histórico de Incidencias para  */
+/* ======================================================================================== */
+/* ADD_COLUMN OP = (NUEVO): DLlinea - DLlinea */
+ALTER TABLE HIncidenciasCalculo ADD DLlinea numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE IncidenciasCalculo: Incidencias para el Calculo */
+/* ======================================================================================== */
+/* ADD_COLUMN OP = (NUEVO): DLlinea - DLlinea */
+ALTER TABLE IncidenciasCalculo ADD DLlinea numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE PCDCatalogo: Detalle de Valores por Catálog */
+/* ======================================================================================== */
+/* ADD_KEY OP = (NUEVO): TIP="U", SEC="1", COLS="PCEcatid,PCDvalor,Ecodigo" */
+CREATE UNIQUE NONCLUSTERED INDEX PCDCatalogo_UI01 ON PCDCatalogo (PCEcatid,PCDvalor,Ecodigo)
+go
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]The CREATE UNIQUE INDEX statement terminated because a duplicate key was found for the object name 'dbo.PCDCatalogo' and the index name 'PCDCatalogo_UI01'. The duplicate key value is (53, 001, <NULL>).
+
+
+/* ======================================================================================== */
+/* ADD_TABLE RHControlSaldos: RHControlSaldos */
+/* ======================================================================================== */
+
+CREATE TABLE RHControlSaldos (
+	 DEid                           numeric(18)          NOT NULL
+	,DLlinea                        numeric(18)          NOT NULL
+	,CIid                           numeric(18)          NOT NULL
+	,RHCSdesde                      datetime             NOT NULL
+	,RHCShasta                      datetime             NOT NULL
+	,RHCSultimopago                 datetime             NOT NULL
+	,RHCScantidad                   numeric(18,4)        NOT NULL
+	,RHCSmonto                      numeric(18,4)        NOT NULL
+	,RHCSsaldo                      numeric(18,4)        NOT NULL
+	,RHCSdiario                     numeric(18,4)        NOT NULL
+	,RHCSanulado                    numeric(10)          DEFAULT 0 NOT NULL
+	,RHCSsuspendido                 numeric(10)          DEFAULT 0 NOT NULL
+	,RHTipoConcepto                 integer              NOT NULL
+	,BMUsucodigo                    numeric(18)          NULL
+	,ts_rversion                    timestamp           
+	)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP = (TAB NUEVA): TIP="P", SEC="0", COLS="DEid,DLlinea,CIid" */
+ALTER TABLE RHControlSaldos ADD CONSTRAINT RHControlSaldos_PK PRIMARY KEY CLUSTERED (DEid,DLlinea,CIid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE RHReportesNomina: RHReportesNomina */
+/* ======================================================================================== */
+/* CHG_COLUMN OP = (CAMBIO): RHRPTNcodigo - Codigo de RHReportesNomina */
+ALTER TABLE RHReportesNomina ALTER COLUMN RHRPTNcodigo char(15) NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE WfActivity: Actividad */
+/* ======================================================================================== */
+/* DEL_CHECK OP = (OBSOLETO): chk=(IsStart=(0) OR IsFinish=(0)) */
+ALTER TABLE WfActivity DROP CONSTRAINT WfActivity_CK
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_CHECK: chk=(IsStart = 0 or IsFinish = 0) */
+ALTER TABLE WfActivity ADD CONSTRAINT WfActivity_CK CHECK (IsStart = 0 or IsFinish = 0)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ================================================================= */
+/*            CREA FKs NUEVOS O CON CAMPOS MODIFICADOS               */
+/* ================================================================= */
+/* CHG_TABLE CContables */
+/* ADD_FK OP = (NUEVO): TIP="F", SEC="1", COLS="Cpadre", REF="CContables" */
+ALTER TABLE CContables ADD CONSTRAINT CContables_FK01 FOREIGN KEY (Cpadre) REFERENCES CContables (Ccuenta)
+go
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]The ALTER TABLE statement conflicted with the FOREIGN KEY SAME TABLE constraint "CContables_FK01". The conflict occurred in database "sifextsyb2", table "dbo.CContables", column 'Ccuenta'.
+
+
+/* CHG_TABLE CFinanciera */
+/* ADD_FK OP = (NUEVO): TIP="F", SEC="3", COLS="CFpadre", REF="CFinanciera" */
+ALTER TABLE CFinanciera ADD CONSTRAINT CFinanciera_FK03 FOREIGN KEY (CFpadre) REFERENCES CFinanciera (CFcuenta)
+go
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]The ALTER TABLE statement conflicted with the FOREIGN KEY SAME TABLE constraint "CFinanciera_FK03". The conflict occurred in database "sifextsyb2", table "dbo.CFinanciera", column 'CFcuenta'.
+
+
+/* CHG_TABLE RHControlSaldos */
+/* ADD_FK OP = (TAB NUEVA): TIP="F", SEC="1", COLS="CIid", REF="CIncidentes" */
+ALTER TABLE RHControlSaldos ADD CONSTRAINT RHControlSaldos_FK01 FOREIGN KEY (CIid) REFERENCES CIncidentes (CIid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_FK OP = (TAB NUEVA): TIP="F", SEC="2", COLS="DEid", REF="DatosEmpleado" */
+ALTER TABLE RHControlSaldos ADD CONSTRAINT RHControlSaldos_FK02 FOREIGN KEY (DEid) REFERENCES DatosEmpleado (DEid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_FK OP = (TAB NUEVA): TIP="F", SEC="3", COLS="DLlinea", REF="DLaboralesEmpleado" */
+ALTER TABLE RHControlSaldos ADD CONSTRAINT RHControlSaldos_FK03 FOREIGN KEY (DLlinea) REFERENCES DLaboralesEmpleado (DLlinea)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

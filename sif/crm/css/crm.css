@@ -1,0 +1,84 @@
+	a.nav:hover{color:#66ff66;}
+	a.nav{color:white;}
+	.banner{
+		background-color:#1e201a;
+		border : 0px;
+	}
+	.border{
+		border : 1px solid #666666;
+	}
+	.links {
+		background-color:#6677a0;
+		border : 1px solid #335577;
+		font : bold 80% Arial, Helvetica, sans-serif;
+		padding : 5px 10px;
+		text-align : left;
+	}
+
+.buttnBar {
+	background-color:#ccccc0;
+	border : 1px solid #999999;
+	color:white;
+	padding : 10px 5px;
+	padding-top : 3px;
+	padding-bottom : 3px;
+	text-align : left;
+}
+.tab {
+	background-color:#e0ddcc;
+	border : 1px solid #999999;
+	font : 70% tahoma,arial,Geneva,Helvetica,sans-serif;
+	color:black;
+	padding-left : 5px;
+	padding-right : 10px;
+	padding-top : 2px;
+	padding-bottom : 2px;
+	text-align : left;
+}
+.tab-selct {
+	background-color:#ccccc5;
+	border : 1px solid #999999;
+	font : 70% tahoma,arial,Geneva,Helvetica,sans-serif;
+	color:555555;
+	padding-left : 5px;
+	padding-right : 10px;
+	padding-top : 2px;
+	padding-bottom : 2px;
+	text-align : left;
+}
+	.messages{
+	font : 70%/125% arial,Geneva,Helvetica,sans-serif;
+	padding : 5px 10px;
+	padding-top : 4px;
+	padding-bottom : 4px;
+}
+.td {
+		border : 1px solid #ccbbaa;
+		font : 70% tahoma,arial,Geneva,Helvetica,sans-serif;
+		padding-left : 5px;
+		padding-right : 10px;
+		padding-top : 2px;
+		padding-bottom : 2px;
+	}
+.actions {
+		border : 1px solid #ccbbaa;
+		font : 70% tahoma,arial,Geneva,Helvetica,sans-serif;
+		padding-left : 5px;
+		padding-right : 5px;
+		padding-top : 2px;
+		padding-bottom : 2px;
+	}
+	.label {
+		font : 70% tahoma,arial,Geneva,Helvetica,sans-serif;
+	}
+	.label-text {
+		font : 70% tahoma,arial,Geneva,Helvetica,sans-serif;
+	}
+	.text {
+	font : 80%/135% arial,Geneva,Helvetica,sans-serif;
+}
+	.h3,h3 {
+		font: bold 120% Arial, Helvetica, sans-serif;
+	}
+	.tr			{background-color:#fffff5;}
+	.tr-alert	{background-color:#ffcc99;}

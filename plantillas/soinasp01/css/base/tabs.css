@@ -1,0 +1,20 @@
+/**
+ * Funcionalidad de los tabs
+ * Algunos colores salieron al skin, eg. azul.css
+ */
+.tab_div   { background-image:url(/cfmx/sif/imagenes/tabs/div.gif);height:21px}
+.tab_nor_l { background-image:url(/cfmx/sif/imagenes/tabs/nor_l.gif);height:21px}
+.tab_nor_m { background-image:url(/cfmx/sif/imagenes/tabs/nor_m.gif);height:21px;cursor:pointer;}
+.tab_nor_r { background-image:url(/cfmx/sif/imagenes/tabs/nor_r.gif);height:21px}
+.tab_sel_l { background-image:url(/cfmx/sif/imagenes/tabs/sel_l.gif);height:21px}
+.tab_sel_m { background-image:url(/cfmx/sif/imagenes/tabs/sel_m.gif);height:21px;cursor:pointer;}
+.tab_sel_m a, .tab_nor_m a {color:#FF0000;}
+.tab_sel_r { background-image:url(/cfmx/sif/imagenes/tabs/sel_r.gif);height:21px}
+.tab_text {font-family:"Times New Roman", Times, serif; background-color:#FF0000}
+.tab_contents {
+	border-bottom:1px solid #CCCCCC;
+	border-left:1px solid #CCCCCC;
+	border-right:1px solid #CCCCCC;
+	padding:6px;
+}
+

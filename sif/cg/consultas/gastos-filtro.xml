@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_Titulo>Expenses Report</LB_Titulo>
+		<LB_CentroF>Functional Center</LB_CentroF>
+		<LB_CuentaM>Ledger Account</LB_CuentaM>
+		<LB_Periodo>Period</LB_Periodo>
+		<LB_Mes>Month</LB_Mes>
+		<LB_IncluirD>Include Dependencies</LB_IncluirD>
+		<LB_NivelT>Level to Totalize</LB_NivelT>
+		<LB_NivelR>Summary Level</LB_NivelR>
+		<LB_Reporte>This report details expenditures incurred on a functional center during an accounting period.</LB_Reporte>
+	<LB_Lista_de_Centros_Funcionales>Functional Centers List</LB_Lista_de_Centros_Funcionales></Idioma>
+</Etiquetas>

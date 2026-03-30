@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+			<LB_Identificacion>Identification</LB_Identificacion>
+			<LB_Nombre>Name</LB_Nombre>	
+			<LB_Titulo>Petty Cash Transactions</LB_Titulo>
+			<LB_CajaChica>Petty Cash</LB_CajaChica>
+			<LB_Fecha>Date</LB_Fecha>
+			<LB_Hasta>To</LB_Hasta>
+			<LB_Desde>From</LB_Desde>
+			<LB_NumTransaccion>Transaction Number</LB_NumTransaccion>
+			<LB_Moneda>Currency</LB_Moneda>
+			<LB_ListaTransaccionesRechazadas>Transactions Rejected List</LB_ListaTransaccionesRechazadas>
+			<LB_NuevaSolicitudTransaccion>New Transaction Request</LB_NuevaSolicitudTransaccion>
+			<LB_TipoSolicitud>Request Type</LB_TipoSolicitud>
+			<LB_Reintegro>Reimbursements</LB_Reintegro>
+			<LB_Descripcion>Description</LB_Descripcion>
+			<LB_MontoAsignado>Assigned Amount</LB_MontoAsignado>
+			<LB_MontoReintegro>Reimbursements Amount</LB_MontoReintegro>
+			<LB_MovimientoReintegrar>Reimbursements Movements</LB_MovimientoReintegrar>
+			<LB_MovimientosEntradaSalida>Incoming and outflow movements</LB_MovimientosEntradaSalida>
+			<LB_MotivoRechazo>Rejection Reason</LB_MotivoRechazo>
+			<LB_Estado>Status</LB_Estado>
+			<LB_Rechazada>Rejected</LB_Rechazada>
+			
+	<LB_CrearNueva>Create New</LB_CrearNueva><LB_Todas>All</LB_Todas></Idioma>
+</Etiquetas>

@@ -1,0 +1,31 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 178 - DBM 293: Impuestos y Beneficiario en Liquidacion
+
+	         PARCHE:  Parche023_287_SIF_ViaticosComision
+
+GENERADO EN:
+	SERVER:  http://mxpapp36:8300
+	DSN:     sifcim
+	FECHA:   08/10/2011 07:37:46
+*/
+
+/* INI_SCRIPT */
+
+/* ================================================================= */
+/*            CREA FKs NUEVOS O CON CAMPOS MODIFICADOS               */
+/* ================================================================= */
+/* CHG_TABLE GEliquidacionGasto */
+/* ADD_FK OP=(NUEVO): TIP="F", SEC="11", COLS="Ecodigo,Rcodigo", REF="Retenciones" */
+ALTER TABLE GEliquidacionGasto ADD CONSTRAINT GEliquidacionGasto_FK11 FOREIGN KEY (Ecodigo,Rcodigo) REFERENCES Retenciones (Ecodigo,Rcodigo)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

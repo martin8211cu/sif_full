@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+<info>
+	<infoitem key="UD_rsForm" value="name:EPcodigo;datatype:,name:EPnombre;datatype:" />
+	<infoitem key="UD_rsTipoIdentif" value="name:TIcodigo;datatype:,name:TInombre;datatype:" />
+	<infoitem key="UD_rsPaises" value="name:Ppais;datatype:,name:Pnombre;datatype:" />
+	<infoitem key="UD_rsAsist" value="name:Acodigo;datatype:" />
+	<infoitem key="UD_rsStaff" value="name:Splaza;datatype:" />
+	<infoitem key="UD_rsEncar" value="name:EEcodigo;datatype:" />
+	<infoitem key="UD_rsDirec" value="name:Dcodigo;datatype:" />
+	<infoitem key="UD_rsNivel" value="name:Ncodigo;datatype:,name:Ndescripcion;datatype:" />
+</info>

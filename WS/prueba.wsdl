@@ -1,0 +1,631 @@
+<?xml version="1.0" encoding="utf-8"?>
+<definitions xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:i1="http://tempuri.org/Mensajes.xsd" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:s0="http://tempuri.org/" xmlns:i3="http://tempuri.org/EstadoDinero.xsd" xmlns:i2="http://tempuri.org/Anunciantes.xsd" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:i0="http://tempuri.org/ODR.xsd" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" targetNamespace="http://tempuri.org/" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:import namespace="http://tempuri.org/ODR.xsd" />
+      <s:import namespace="http://tempuri.org/Mensajes.xsd" />
+      <s:import namespace="http://tempuri.org/Anunciantes.xsd" />
+      <s:import namespace="http://www.w3.org/2001/XMLSchema" />
+      <s:import namespace="http://tempuri.org/EstadoDinero.xsd" />
+      <s:element name="pautarODR">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="odr">
+              <s:complexType>
+                <s:sequence>
+                  <s:any namespace="http://tempuri.org/ODR.xsd" />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="pautarODRResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pautarODRResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:any namespace="http://tempuri.org/Mensajes.xsd" />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="obtenerAnuncianteNombre">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="nombre" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="obtenerAnuncianteNombreResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="obtenerAnuncianteNombreResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:any namespace="http://tempuri.org/Anunciantes.xsd" />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="obtenerAnuncianteCedula">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="cedula" type="s:long" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="obtenerAnuncianteCedulaResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="obtenerAnuncianteCedulaResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:any namespace="http://tempuri.org/Anunciantes.xsd" />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="obtenerAnuncianteCodigo">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="codigo" type="s:long" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="obtenerAnuncianteCodigoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="obtenerAnuncianteCodigoResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:any namespace="http://tempuri.org/Anunciantes.xsd" />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="obtenerAgencias">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="codigo_anunciante" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="obtenerAgenciasResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="obtenerAgenciasResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="obtenerVendedores">
+        <s:complexType />
+      </s:element>
+      <s:element name="obtenerVendedoresResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="obtenerVendedoresResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="obtenerProductos">
+        <s:complexType />
+      </s:element>
+      <s:element name="obtenerProductosResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="obtenerProductosResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="obtenerEstadoAnunciante">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="codigo_anunciante" type="s:long" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="obtenerEstadoAnuncianteResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="obtenerEstadoAnuncianteResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:any namespace="http://tempuri.org/EstadoDinero.xsd" />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Anunciantes" nillable="true">
+        <s:complexType>
+          <s:sequence>
+            <s:any namespace="http://tempuri.org/Anunciantes.xsd" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DataSet" nillable="true">
+        <s:complexType>
+          <s:sequence>
+            <s:element ref="s:schema" />
+            <s:any />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="EstadoDinero" nillable="true">
+        <s:complexType>
+          <s:sequence>
+            <s:any namespace="http://tempuri.org/EstadoDinero.xsd" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </types>
+  <message name="pautarODRSoapIn">
+    <part name="parameters" element="s0:pautarODR" />
+  </message>
+  <message name="pautarODRSoapOut">
+    <part name="parameters" element="s0:pautarODRResponse" />
+  </message>
+  <message name="obtenerAnuncianteNombreSoapIn">
+    <part name="parameters" element="s0:obtenerAnuncianteNombre" />
+  </message>
+  <message name="obtenerAnuncianteNombreSoapOut">
+    <part name="parameters" element="s0:obtenerAnuncianteNombreResponse" />
+  </message>
+  <message name="obtenerAnuncianteCedulaSoapIn">
+    <part name="parameters" element="s0:obtenerAnuncianteCedula" />
+  </message>
+  <message name="obtenerAnuncianteCedulaSoapOut">
+    <part name="parameters" element="s0:obtenerAnuncianteCedulaResponse" />
+  </message>
+  <message name="obtenerAnuncianteCodigoSoapIn">
+    <part name="parameters" element="s0:obtenerAnuncianteCodigo" />
+  </message>
+  <message name="obtenerAnuncianteCodigoSoapOut">
+    <part name="parameters" element="s0:obtenerAnuncianteCodigoResponse" />
+  </message>
+  <message name="obtenerAgenciasSoapIn">
+    <part name="parameters" element="s0:obtenerAgencias" />
+  </message>
+  <message name="obtenerAgenciasSoapOut">
+    <part name="parameters" element="s0:obtenerAgenciasResponse" />
+  </message>
+  <message name="obtenerVendedoresSoapIn">
+    <part name="parameters" element="s0:obtenerVendedores" />
+  </message>
+  <message name="obtenerVendedoresSoapOut">
+    <part name="parameters" element="s0:obtenerVendedoresResponse" />
+  </message>
+  <message name="obtenerProductosSoapIn">
+    <part name="parameters" element="s0:obtenerProductos" />
+  </message>
+  <message name="obtenerProductosSoapOut">
+    <part name="parameters" element="s0:obtenerProductosResponse" />
+  </message>
+  <message name="obtenerEstadoAnuncianteSoapIn">
+    <part name="parameters" element="s0:obtenerEstadoAnunciante" />
+  </message>
+  <message name="obtenerEstadoAnuncianteSoapOut">
+    <part name="parameters" element="s0:obtenerEstadoAnuncianteResponse" />
+  </message>
+  <message name="obtenerAnuncianteNombreHttpGetIn">
+    <part name="nombre" type="s:string" />
+  </message>
+  <message name="obtenerAnuncianteNombreHttpGetOut">
+    <part name="Body" element="s0:Anunciantes" />
+  </message>
+  <message name="obtenerAnuncianteCedulaHttpGetIn">
+    <part name="cedula" type="s:string" />
+  </message>
+  <message name="obtenerAnuncianteCedulaHttpGetOut">
+    <part name="Body" element="s0:Anunciantes" />
+  </message>
+  <message name="obtenerAnuncianteCodigoHttpGetIn">
+    <part name="codigo" type="s:string" />
+  </message>
+  <message name="obtenerAnuncianteCodigoHttpGetOut">
+    <part name="Body" element="s0:Anunciantes" />
+  </message>
+  <message name="obtenerAgenciasHttpGetIn">
+    <part name="codigo_anunciante" type="s:string" />
+  </message>
+  <message name="obtenerAgenciasHttpGetOut">
+    <part name="Body" element="s0:DataSet" />
+  </message>
+  <message name="obtenerVendedoresHttpGetIn" />
+  <message name="obtenerVendedoresHttpGetOut">
+    <part name="Body" element="s0:DataSet" />
+  </message>
+  <message name="obtenerProductosHttpGetIn" />
+  <message name="obtenerProductosHttpGetOut">
+    <part name="Body" element="s0:DataSet" />
+  </message>
+  <message name="obtenerEstadoAnuncianteHttpGetIn">
+    <part name="codigo_anunciante" type="s:string" />
+  </message>
+  <message name="obtenerEstadoAnuncianteHttpGetOut">
+    <part name="Body" element="s0:EstadoDinero" />
+  </message>
+  <message name="obtenerAnuncianteNombreHttpPostIn">
+    <part name="nombre" type="s:string" />
+  </message>
+  <message name="obtenerAnuncianteNombreHttpPostOut">
+    <part name="Body" element="s0:Anunciantes" />
+  </message>
+  <message name="obtenerAnuncianteCedulaHttpPostIn">
+    <part name="cedula" type="s:string" />
+  </message>
+  <message name="obtenerAnuncianteCedulaHttpPostOut">
+    <part name="Body" element="s0:Anunciantes" />
+  </message>
+  <message name="obtenerAnuncianteCodigoHttpPostIn">
+    <part name="codigo" type="s:string" />
+  </message>
+  <message name="obtenerAnuncianteCodigoHttpPostOut">
+    <part name="Body" element="s0:Anunciantes" />
+  </message>
+  <message name="obtenerAgenciasHttpPostIn">
+    <part name="codigo_anunciante" type="s:string" />
+  </message>
+  <message name="obtenerAgenciasHttpPostOut">
+    <part name="Body" element="s0:DataSet" />
+  </message>
+  <message name="obtenerVendedoresHttpPostIn" />
+  <message name="obtenerVendedoresHttpPostOut">
+    <part name="Body" element="s0:DataSet" />
+  </message>
+  <message name="obtenerProductosHttpPostIn" />
+  <message name="obtenerProductosHttpPostOut">
+    <part name="Body" element="s0:DataSet" />
+  </message>
+  <message name="obtenerEstadoAnuncianteHttpPostIn">
+    <part name="codigo_anunciante" type="s:string" />
+  </message>
+  <message name="obtenerEstadoAnuncianteHttpPostOut">
+    <part name="Body" element="s0:EstadoDinero" />
+  </message>
+  <portType name="WSGLR_PautaSoap">
+    <operation name="pautarODR">
+      <input message="s0:pautarODRSoapIn" />
+      <output message="s0:pautarODRSoapOut" />
+    </operation>
+    <operation name="obtenerAnuncianteNombre">
+      <input message="s0:obtenerAnuncianteNombreSoapIn" />
+      <output message="s0:obtenerAnuncianteNombreSoapOut" />
+    </operation>
+    <operation name="obtenerAnuncianteCedula">
+      <input message="s0:obtenerAnuncianteCedulaSoapIn" />
+      <output message="s0:obtenerAnuncianteCedulaSoapOut" />
+    </operation>
+    <operation name="obtenerAnuncianteCodigo">
+      <input message="s0:obtenerAnuncianteCodigoSoapIn" />
+      <output message="s0:obtenerAnuncianteCodigoSoapOut" />
+    </operation>
+    <operation name="obtenerAgencias">
+      <input message="s0:obtenerAgenciasSoapIn" />
+      <output message="s0:obtenerAgenciasSoapOut" />
+    </operation>
+    <operation name="obtenerVendedores">
+      <input message="s0:obtenerVendedoresSoapIn" />
+      <output message="s0:obtenerVendedoresSoapOut" />
+    </operation>
+    <operation name="obtenerProductos">
+      <input message="s0:obtenerProductosSoapIn" />
+      <output message="s0:obtenerProductosSoapOut" />
+    </operation>
+    <operation name="obtenerEstadoAnunciante">
+      <input message="s0:obtenerEstadoAnuncianteSoapIn" />
+      <output message="s0:obtenerEstadoAnuncianteSoapOut" />
+    </operation>
+  </portType>
+  <portType name="WSGLR_PautaHttpGet">
+    <operation name="obtenerAnuncianteNombre">
+      <input message="s0:obtenerAnuncianteNombreHttpGetIn" />
+      <output message="s0:obtenerAnuncianteNombreHttpGetOut" />
+    </operation>
+    <operation name="obtenerAnuncianteCedula">
+      <input message="s0:obtenerAnuncianteCedulaHttpGetIn" />
+      <output message="s0:obtenerAnuncianteCedulaHttpGetOut" />
+    </operation>
+    <operation name="obtenerAnuncianteCodigo">
+      <input message="s0:obtenerAnuncianteCodigoHttpGetIn" />
+      <output message="s0:obtenerAnuncianteCodigoHttpGetOut" />
+    </operation>
+    <operation name="obtenerAgencias">
+      <input message="s0:obtenerAgenciasHttpGetIn" />
+      <output message="s0:obtenerAgenciasHttpGetOut" />
+    </operation>
+    <operation name="obtenerVendedores">
+      <input message="s0:obtenerVendedoresHttpGetIn" />
+      <output message="s0:obtenerVendedoresHttpGetOut" />
+    </operation>
+    <operation name="obtenerProductos">
+      <input message="s0:obtenerProductosHttpGetIn" />
+      <output message="s0:obtenerProductosHttpGetOut" />
+    </operation>
+    <operation name="obtenerEstadoAnunciante">
+      <input message="s0:obtenerEstadoAnuncianteHttpGetIn" />
+      <output message="s0:obtenerEstadoAnuncianteHttpGetOut" />
+    </operation>
+  </portType>
+  <portType name="WSGLR_PautaHttpPost">
+    <operation name="obtenerAnuncianteNombre">
+      <input message="s0:obtenerAnuncianteNombreHttpPostIn" />
+      <output message="s0:obtenerAnuncianteNombreHttpPostOut" />
+    </operation>
+    <operation name="obtenerAnuncianteCedula">
+      <input message="s0:obtenerAnuncianteCedulaHttpPostIn" />
+      <output message="s0:obtenerAnuncianteCedulaHttpPostOut" />
+    </operation>
+    <operation name="obtenerAnuncianteCodigo">
+      <input message="s0:obtenerAnuncianteCodigoHttpPostIn" />
+      <output message="s0:obtenerAnuncianteCodigoHttpPostOut" />
+    </operation>
+    <operation name="obtenerAgencias">
+      <input message="s0:obtenerAgenciasHttpPostIn" />
+      <output message="s0:obtenerAgenciasHttpPostOut" />
+    </operation>
+    <operation name="obtenerVendedores">
+      <input message="s0:obtenerVendedoresHttpPostIn" />
+      <output message="s0:obtenerVendedoresHttpPostOut" />
+    </operation>
+    <operation name="obtenerProductos">
+      <input message="s0:obtenerProductosHttpPostIn" />
+      <output message="s0:obtenerProductosHttpPostOut" />
+    </operation>
+    <operation name="obtenerEstadoAnunciante">
+      <input message="s0:obtenerEstadoAnuncianteHttpPostIn" />
+      <output message="s0:obtenerEstadoAnuncianteHttpPostOut" />
+    </operation>
+  </portType>
+  <binding name="WSGLR_PautaSoap" type="s0:WSGLR_PautaSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document" />
+    <operation name="pautarODR">
+      <soap:operation soapAction="http://tempuri.org/pautarODR" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="obtenerAnuncianteNombre">
+      <soap:operation soapAction="http://tempuri.org/obtenerAnuncianteNombre" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="obtenerAnuncianteCedula">
+      <soap:operation soapAction="http://tempuri.org/obtenerAnuncianteCedula" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="obtenerAnuncianteCodigo">
+      <soap:operation soapAction="http://tempuri.org/obtenerAnuncianteCodigo" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="obtenerAgencias">
+      <soap:operation soapAction="http://tempuri.org/obtenerAgencias" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="obtenerVendedores">
+      <soap:operation soapAction="http://tempuri.org/obtenerVendedores" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="obtenerProductos">
+      <soap:operation soapAction="http://tempuri.org/obtenerProductos" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="obtenerEstadoAnunciante">
+      <soap:operation soapAction="http://tempuri.org/obtenerEstadoAnunciante" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+  </binding>
+  <binding name="WSGLR_PautaHttpGet" type="s0:WSGLR_PautaHttpGet">
+    <http:binding verb="GET" />
+    <operation name="obtenerAnuncianteNombre">
+      <http:operation location="/obtenerAnuncianteNombre" />
+      <input>
+        <http:urlEncoded />
+      </input>
+      <output>
+        <mime:mimeXml part="Body" />
+      </output>
+    </operation>
+    <operation name="obtenerAnuncianteCedula">
+      <http:operation location="/obtenerAnuncianteCedula" />
+      <input>
+        <http:urlEncoded />
+      </input>
+      <output>
+        <mime:mimeXml part="Body" />
+      </output>
+    </operation>
+    <operation name="obtenerAnuncianteCodigo">
+      <http:operation location="/obtenerAnuncianteCodigo" />
+      <input>
+        <http:urlEncoded />
+      </input>
+      <output>
+        <mime:mimeXml part="Body" />
+      </output>
+    </operation>
+    <operation name="obtenerAgencias">
+      <http:operation location="/obtenerAgencias" />
+      <input>
+        <http:urlEncoded />
+      </input>
+      <output>
+        <mime:mimeXml part="Body" />
+      </output>
+    </operation>
+    <operation name="obtenerVendedores">
+      <http:operation location="/obtenerVendedores" />
+      <input>
+        <http:urlEncoded />
+      </input>
+      <output>
+        <mime:mimeXml part="Body" />
+      </output>
+    </operation>
+    <operation name="obtenerProductos">
+      <http:operation location="/obtenerProductos" />
+      <input>
+        <http:urlEncoded />
+      </input>
+      <output>
+        <mime:mimeXml part="Body" />
+      </output>
+    </operation>
+    <operation name="obtenerEstadoAnunciante">
+      <http:operation location="/obtenerEstadoAnunciante" />
+      <input>
+        <http:urlEncoded />
+      </input>
+      <output>
+        <mime:mimeXml part="Body" />
+      </output>
+    </operation>
+  </binding>
+  <binding name="WSGLR_PautaHttpPost" type="s0:WSGLR_PautaHttpPost">
+    <http:binding verb="POST" />
+    <operation name="obtenerAnuncianteNombre">
+      <http:operation location="/obtenerAnuncianteNombre" />
+      <input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </input>
+      <output>
+        <mime:mimeXml part="Body" />
+      </output>
+    </operation>
+    <operation name="obtenerAnuncianteCedula">
+      <http:operation location="/obtenerAnuncianteCedula" />
+      <input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </input>
+      <output>
+        <mime:mimeXml part="Body" />
+      </output>
+    </operation>
+    <operation name="obtenerAnuncianteCodigo">
+      <http:operation location="/obtenerAnuncianteCodigo" />
+      <input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </input>
+      <output>
+        <mime:mimeXml part="Body" />
+      </output>
+    </operation>
+    <operation name="obtenerAgencias">
+      <http:operation location="/obtenerAgencias" />
+      <input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </input>
+      <output>
+        <mime:mimeXml part="Body" />
+      </output>
+    </operation>
+    <operation name="obtenerVendedores">
+      <http:operation location="/obtenerVendedores" />
+      <input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </input>
+      <output>
+        <mime:mimeXml part="Body" />
+      </output>
+    </operation>
+    <operation name="obtenerProductos">
+      <http:operation location="/obtenerProductos" />
+      <input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </input>
+      <output>
+        <mime:mimeXml part="Body" />
+      </output>
+    </operation>
+    <operation name="obtenerEstadoAnunciante">
+      <http:operation location="/obtenerEstadoAnunciante" />
+      <input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </input>
+      <output>
+        <mime:mimeXml part="Body" />
+      </output>
+    </operation>
+  </binding>
+  <service name="WSGLR_Pauta">
+    <port name="WSGLR_PautaSoap" binding="s0:WSGLR_PautaSoap">
+      <soap:address location="http://127.0.0.1:8300/cfmx/WS/DGME/WS_Pasaportes.cfc" />
+    </port>
+    <port name="WSGLR_PautaHttpGet" binding="s0:WSGLR_PautaHttpGet">
+      <http:address location="http://127.0.0.1:8300/cfmx/WS/DGME/WS_Pasaportes.cfc" />
+    </port>
+    <port name="WSGLR_PautaHttpPost" binding="s0:WSGLR_PautaHttpPost">
+      <http:address location="http://127.0.0.1:8300/cfmx/WS/DGME/WS_Pasaportes.cfc" />
+    </port>
+  </service>
+</definitions>

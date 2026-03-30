@@ -1,0 +1,82 @@
+#plantillaMenuContenedor {
+  margin: 0;
+  padding: 0;
+}
+#plantillaMenuContenedor #contenedor {
+  margin-left: 5%;
+  margin-right: 5%;
+}
+#plantillaMenuContenedor #contenedor #leftContent {
+  color: #00f;
+}
+#plantillaMenuContenedor #contenedor #leftContent #pnl_capacitacionDesarrollo iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+#plantillaMenuContenedor #contenedor #leftContent #pnl_SitiosInteres a {
+  text-decoration: underline;
+  color: #00f;
+}
+#plantillaMenuContenedor #contenedor #rightContent #pnl_noticiasAvisos .nav {
+  font-size: 0.9em;
+}
+#plantillaMenuContenedor #contenedor #rightContent #pnl_noticiasAvisos #abrirLeerNoticia {
+  color: #0079c0;
+  font-size: 12px;
+  font-weight: bold;
+  float: right;
+}
+#plantillaMenuContenedor #contenedor #rightContent #pnl_noticiasAvisos .contenido {
+  border-bottom: none;
+  height: 500px;
+  overflow: hidden;
+  margin-bottom: 5px;
+}
+#plantillaMenuContenedor #contenedor #rightContent #pnl_calendario .contenido {
+  height: 512px;
+}
+#plantillaMenuContenedor #contenedor #encabezado {
+  margin: 0;
+  padding: 0;
+}
+#plantillaMenuContenedor #contenedor #encabezado h1 {
+  color: #0079c0;
+  display: inline-block;
+  font-weight: bold;
+  margin-bottom: 0;
+}
+#plantillaMenuContenedor #contenedor #encabezado #icono {
+  color: #0079c0;
+  font-size:8em;
+}
+#plantillaMenuContenedor #contenedor div {
+  margin: 0;
+  padding: 0.25em;
+}
+#plantillaMenuContenedor #contenedor .panel {
+  margin: 0;
+  text-align: left;
+}
+#plantillaMenuContenedor #contenedor .panel h1 {
+  font-size: 20;
+  font-weight: bold;
+  min-height: 30px;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+#plantillaMenuContenedor #contenedor .panel:hover .contenido li {
+  color: #00f;
+}
+#plantillaMenuContenedor #contenedor .panel:hover .contenido li a {
+  color: #0079c0;
+}
+#plantillaMenuContenedor #contenedor .panel .contenido li {
+  margin-left: -40;
+  list-style: none;
+}
+#encabezado h1{top:-0.7em;position: relative;}
+#contenedor .panel .contenido li {
+padding-top: 0.3em;font-family: sans-serif;font-size: 14px;
+}

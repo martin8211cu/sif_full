@@ -1,0 +1,5 @@
+- Valores x Oficina
+- Periodo x Fecha
+- Verificar Cuentas directo
+- Lista de Valores 200 registros
+- Que se vea igual a Consulta de V6

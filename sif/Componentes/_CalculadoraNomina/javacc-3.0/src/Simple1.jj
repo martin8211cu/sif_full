@@ -1,0 +1,119 @@
+options
+{
+    STATIC=false;
+    LOOKAHEAD=2;
+    DEBUG_PARSER=false;
+    IGNORE_CASE=true;
+}
+
+PARSER_BEGIN(Calculator)
+
+package com.soin.rh.calculo;
+
+import java.util.*;
+public class Calculator
+{
+
+    public static SymbolTable symtable = new SymbolTable();
+
+    public static void main(String args[]) throws ParseException 
+    {
+        Calculator parser = new Calculator(System.in);
+        while (true)
+        {
+            parser.parseOneLine();
+        }
+    }
+}
+
+PARSER_END(Calculator)
+
+SKIP :
+{
+    " "
+|   "\r"
+|   "\t"
+}
+
+TOKEN:
+{
+    < IDENTIFIER: <LETTER> (<LETTER>|<DIGIT>)* >
+|   < NUMBER: (<DIGIT>)+ ( "." (<DIGIT>)+ )? >
+|   < DIGIT: ["0"-"9"] >
+|   < LETTER: ["A"-"Z","a"-"z","_"] >
+|   < EOL: "\n" >
+}
+
+void parseOneLine():
+{
+    double a;
+}
+{
+    a=stmt() <EOL>      { System.out.println(a); }
+  | <EOL>
+  | <EOF>               { System.exit(-1); }
+}
+
+double stmt():
+{
+	Token lval = null;
+	double rval;
+}
+{
+  (
+    lval=<IDENTIFIER>     { System.out.println("lval="+lval); }
+    "="
+  )?
+    rval=expr()           { System.out.println("rval(e)="+rval); }
+                          { if ( lval != null) { symtable.put(lval.toString(), rval); System.out.println("symtable="+symtable); }  }
+                          { return rval; }
+}
+
+double expr():
+{
+    double a;
+    double b;
+}
+{
+    a=term()
+    (
+        "+" b=expr()    { a += b; }
+    |   "-" b=expr()    { a -= b; }
+    )*
+                        { return a; }
+}
+
+double term():
+{
+    double a;
+    double b;
+}
+{
+    a=unary()
+    (
+        "*" b=term()    { a *= b; }
+    |   "/" b=term()    { a /= b; }
+    )*
+                        { return a; }
+}
+
+double unary():
+{
+    double a;
+}
+{
+    "-" a=element()     { return -a; }
+|   a=element()         { return a; }
+}
+
+double element():
+{
+    Token t;
+    double a;
+}
+{
+    t=<NUMBER>          { return Double.parseDouble(t.toString()); }
+|   "(" a=expr() ")"    { return a; }
+|   t=<IDENTIFIER>      { return ( symtable.get(t.toString()); }
+}
+

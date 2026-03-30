@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+		<title>Grid Backend - Introduction (WebFX)</title>
+		<script type="text/javascript" src="../../webfxlayout.js"></script>
+		<link type="text/css" rel="stylesheet" href="grid.css">
+		<script src="grid.js" type="text/javascript"></script>
+		<style type="text/css">
+			table { width: 500px; }
+			td { vertical-align: top; }
+		</style>
+	</head>
+	<body>
+		<!-- WebFX Layout Include -->
+		<script type="text/javascript">
+			var articleMenu= new WebFXMenu;
+			articleMenu.left  = 384;
+			articleMenu.top   = 86;
+			articleMenu.width = 140;
+			articleMenu.add(new WebFXMenuItem("History &amp; Introduction", "intro.html"));
+			articleMenu.add(new WebFXMenuItem("Usage", "usage.html"));
+			articleMenu.add(new WebFXMenuItem("API", "api.html"));
+			articleMenu.add(new WebFXMenuItem("Backend - Introduction", "backend.html"));
+			articleMenu.add(new WebFXMenuItem("Backend - Perl (cgi/mod_perl)", "perl.html"));
+			articleMenu.add(new WebFXMenuItem("Backend - C++ (cgi/isapi)", "cpp.html"));
+			articleMenu.add(new WebFXMenuItem("Backend - Java (servlet)", "java.html"));
+			articleMenu.add(new WebFXMenuItem("Demo", "javascript:window.open('demo.html','demo','scrollbars=yes,status=no,width=550,height=260,resizable=yes'); void(0);"));
+			articleMenu.add(new WebFXMenuSeparator);
+			articleMenu.add(new WebFXMenuItem("Download", "/download/grid10.zip"));
+			webfxMenuBar.add(new WebFXMenuButton("Article Menu", null, null, articleMenu));
+			webfxLayout.writeTitle("Grid (Backend - Introduction)");
+			webfxLayout.writeMenu();
+			webfxLayout.writeDesignedByEdger();
+		</script>
+		<!-- end WebFX Layout Includes -->
+		<div class="webfx-main-body">
+			<p>
+				This section describes how the backend interaction of the grid is handled. It describes how the grid
+				handles incoming data and how it's returned. First the generic implementation will be described then
+				a few examples, created in some of the most common languages for serverside web development, will be
+				presented and described.
+			</p>
+			<h2>Backend - Introduction</h2>
+			<p>
+				Unlike many of our other components here at WebFX, this one is pretty useless without some kind of
+				server interaction. It really doesn't start to shine until you got the interaction in place, once
+				the grid is populated with information and whatever changes made are reflected upon the original data.
+			</p>
+			<h3>Server -&gt; Client</h3>
+			<p>
+				As we have previously discussed briefly in the usage section, the grid object is initialized by
+				calling the WebFXGrid constructor with either two arguments indicating the desired number of rows
+				and columns, or by passing a data structure as the first and only argument. When using the grid
+				with a backend I've found the second method to be more convenient, generate the string in the
+				appropriate formated on the serverside and simply include it into the document. For example, to
+				generate such a string from a table named 'IceCream' using perl, the code would look somehting like this.
+			</p>
+				<pre>use DBI;
+use Strict;
+<span style="color: teal;"># Connect to database and execute query</span>
+my $dbh = DBI->connect($dbSource, $user, $pwd, \%attr);
+my $sth = $dbh->prepare("
+  SELECT IceCreamID, Flavor, Color, Price
+  FROM IceCream
+  ORDER BY Flavor;
+");
+$sth->execute();
+<span style="color: teal;"># Create strings with a opening bracket</span>
+my $ids = "[";
+my $str = "[";
+<span style="color: teal;"># Loop around all rows</span>
+while ($data = $sth->fetchrow_hashref()) {
+  <span style="color: teal;"># Append row to string</span>
+  $ids .= $data->{'IceCreamID'} . ",";
+  $str .= "['" . $data->{'Flavor'} . "','" .
+    $data->{'Color'} . "','" . $data->{'Price'} . "'],"
+  ;
+}
+<span style="color: teal;"># Remove trailing comma</span>
+chop($ids);
+chop($str);
+<span style="color: teal;"># Append closing bracket</span>
+$str .= "]";
+$ids .= "]";
+<span style="color: teal;"># Disconnect from database</span>
+$dbh->disconnect();
+<span style="color: teal;"># Send response</span>
+print "Content-type:  text/javascript\n\n";
+print "var gridData = " . $str . ";\n";
+print "var gridRowIds = " . $ids . ";\n";</pre>
+			<p>
+				Running the script above would generate a result similar to the one below (I've added a linebrak after each row, as well as some indentations to make it easier to read).
+			</p>
+			<pre>var gridData = [
+  ['Vanilla', 'white', '5'],
+  ['Strawberry', 'pink', '4'],
+  ['Chocolate', 'brown', '4'],
+  ['Lemon', 'yellow', '3'],
+  ['Pear', 'green', '3']
+];
+var gridRowIds = [4,2,3,1,5];
+</pre>
+			<p>
+				Using this data we can generate a grid such as the one pictured below.
+			</p>
+			<p>
+				<img src="grid2.png" width="359" height="113" alt="Grid Example" />
+			</p>
+			<p>
+				For more in-depth examples using perl, c++ and java please see the corresponding section.
+			</p>
+			<h3>Client -&gt; Server</h3>
+			<p>
+				Now that we can populate the grid with information provided by the server it's time to
+				focus on how replicate the changes made by the client back to the server. This requires a
+				working client to server flow. Instead of using a fancy xml based communications api, such
+				as soap, this component uses standard http requests as it's transmission protocol and sends
+				the grid data row-by-row separating columns by commas. To reduce the amount of traffic
+				required only the changes since the grid was populated, or since the last time changes
+				where saved, are sent back to the server. To perform a save operation call the method
+				<code>dump</code> on the grid object. This will return a complete uri that can be used
+				directly to perform a http GET operation.
+			</p>
+			<h3>Request String</h3>
+			<p>
+				Now let's see how the actual request string is built up, so we can parse it
+				at the sever side.
+				As mentioned above the grid data is sent row-by-row and each row is sent
+				as a http request parameter, identified by the row id. For example, if
+				a row with the id of 4 was modified a parameter similar to this would be
+				used <code>4=rowData</code>, where rowData is a string containing the
+				values of all updated columns. The format of this string resembles the
+				way arrays are initialized in javascript (think of the row as array and
+				all cells as the array elements), columns are separated by commas
+				and the entire string is encapsulated in square brackets like this
+				<code>[col0,col1,col2,...,colN]</code>. All values, regardless of
+				data type, has to be quoted using single quotation marks, and to indicate
+				that a column has not been updated it's value is simply omitted.
+				Look at the data from the 'Server -> Client' example (the one with
+				all the flavors) and imagine that we update the vanilla row and
+				set the color to 'cream' and the price to 6. The parameter that would be
+				generated for such operation would look like this
+				<code>4=[,'cream','6']</code>. Notice that the first parameter was
+				omitted, since it was not updated.  If multiple rows are updated multiple
+				parameters will be added to the request string.
+			</p>
+			<p>
+				We've described the scenario where existing rows are updated, now it's time
+				to look at how to delete those rows, and how to create new ones. Let's start
+				with the later.
+				To create a new row simply substitute the row id, used as the key, with
+				the word <code>new</code>. So if a new row (the flavor Orange) was added to
+				the flavor example grid the parameter for that row would look like this
+				<code>new=['Orange','orange','3']</code>.
+				When an existing row is deleted the letter d will be sent as the rowData,
+				like this <code>3=d</code>.
+				To keep track of all updated rows a parameter named rows is also added to the
+				query, this parameter holds a square bracket encapsulated comma separated list
+				of the id's for all updated and deleted rows, but not for new rows, since those
+				does not yet have an id. The example below shows a complete update request, as
+				it would be generated by the <code>dump</code> function. It combines all of the
+				examples above. (Where sample.pl?action=save is whatever the baseUri has been
+				set to, using the <code>setBaseUri(<i>uri</i>)</code> method).
+			</p>
+			<pre>sample.pl?action=save&amp;rows=[4,3]&amp;4=[,'cream','6']
+&amp;3=d&new=['Orange','orange','3']</pre>
+			<p>
+				This string can either be used directly as is to perform a GET operation, like this
+				<code>document.location.replace(gridObject.dump())</code> (a hidden iframe, the
+				download behavior or XML Extras could be used to perform this operation in the
+				background). While this is suitable for most scenarios it does not work with large
+				amounts of data, for such cases the string has to be parsed and a form has to be
+				generated and submitted using the POST http method.
+			</p>
+			<p>
+				<a href="intro.html">History & Introduction</a><br />
+				<a href="usage.html">Usage</a><br />
+				<a href="api.html">API</a><br />
+				<b>Backend - Introduction</b><br />
+				Backend - Perl (cgi/mod_perl)<br />
+				Backend - C++ (cgi/isapi)<br />
+				Backend - Java (servlet)<br />
+				<a href="javascript:window.open('demo.html','demo','scrollbars=yes,status=no,width=550,height=260,resizable=yes'); void(0);">Demo</a><br />
+				<a href="/download/grid10.zip">Download</a>
+			</p>
+			<p class="author">Author: Emil A Eklund</p>
+			<!-- end webfx-main-body -->
+		</div>
+	</body>
+</html>

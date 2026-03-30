@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<dbStream xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://UOServer:8090/RepraWebApp/dtds/dbeventstream.xsd" environment="UOSERVER_RC.SACISIIC">
+  <dbEvent eventId="0:000000000000dd28000010470008000010470006000097ef009c05d20000000000010000">
+    <update schema="ISBmedio">
+      <values>
+        <cell name="MDbloqueado" type="BIT">1</cell>
+        <cell name="ts_rversion" type="VARBINARY">0x000000000000dd2c</cell>
+      </values>
+      <oldValues>
+        <cell name="MDref" type="VARCHAR">4744014</cell>
+      </oldValues>
+    </update>
+  </dbEvent>
+</dbStream>

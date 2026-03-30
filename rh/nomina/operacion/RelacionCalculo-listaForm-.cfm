@@ -1,0 +1,199 @@
+﻿<cfquery name="rsRCNcount" datasource="#Session.DSN#">
+	select 1 
+	from RCalculoNomina 
+	where Ecodigo = <cfqueryparam cfsqltype="cf_sql_numeric" value="#Session.Ecodigo#">
+	and RCestado in (0,1,2)
+</cfquery>
+<cfquery name="rsCalendarios" datasource="#Session.DSN#">
+	select 	rtrim(a.Tcodigo) as Tcodigo, a.CPid, 
+			a.CPdesde, 
+			a.CPhasta 
+	from CalendarioPagos a
+	where a.CPfcalculo is null
+	and a.Ecodigo = <cfqueryparam cfsqltype="cf_sql_numeric" value="#Session.Ecodigo#">
+	and a.CPtipo in (0,2)
+	and not exists (
+		select 1
+		from RCalculoNomina b
+		where a.Ecodigo = b.Ecodigo
+		and a.Tcodigo = b.Tcodigo
+		and a.CPid = b.RCNid
+		and a.CPdesde = b.RCdesde
+		and a.CPhasta = b.RChasta
+	)
+	group by a.Tcodigo, a.CPid, a.CPdesde, a.CPhasta
+	having a.CPdesde = min(a.CPdesde)
+</cfquery>
+
+<!---========== TRADUCCION ==========------>
+<cfinvoke component="sif.Componentes.Translate"
+	method="Translate"
+	Key="LB_Esta_seguro_que_desea_Eliminar_los_Registros_Seleccionados_Si_elimina_los_registros_seleccionados_eliminara_todos_los_datos_relacionados_con_la_nomina_y_tendra_que_recalcular_la_nomina"
+	Default="¿Está seguro que desea Eliminar los Registros Seleccionados?\n\nSi elimina los registros seleccionados, eliminará todos los datos relacionados con la nómina \ny tendrá que recalcular la nómina."	
+	returnvariable="LB_Esta_seguro_que_desea_Eliminar_los_Registros_Seleccionados_Si_elimina_los_registros_seleccionados_eliminara_todos_los_datos_relacionados_con_la_nomina_y_tendra_que_recalcular_la_nomina"/>
+	
+<cfinvoke component="sif.Componentes.Translate"
+	method="Translate"
+	Key="LB_Seleccione_el_Registro_que_desea_eliminar"
+	Default="Seleccione el Registro que desea eliminar"	
+	returnvariable="LB_Seleccione_el_Registro_que_desea_eliminar"/>
+
+<cfinvoke component="sif.Componentes.Translate"
+	method="Translate"
+	Key="LB_No_se_pueden_crear_nuevas_relaciones_de_calculo_de_nomina_porque_no_hay_calendarios_de_pago_definidos"
+	Default="No se pueden crear nuevas relaciones de cálculo de nómina porque no hay calendarios de pago definidos"	
+	returnvariable="LB_NoCalendario"/>
+	
+<cfinvoke component="sif.Componentes.Translate"
+	method="Translate"
+	Key="LB_Tipo_de_Nomina"
+	Default="Tipo de Nómina"	
+	returnvariable="LB_Tipo_de_Nomina"/>
+
+<cfinvoke component="sif.Componentes.Translate"
+	method="Translate"
+	Key="LB_Codigo_Calendario"
+	Default="Código Calendario"	
+	returnvariable="LB_Codigo_Calendario"/>
+	
+<cfinvoke component="sif.Componentes.Translate"
+	method="Translate"
+	Key="LB_Relacion_de_Calculo"
+	Default="Relación de Cálculo"	
+	returnvariable="LB_Relacion_de_Calculo"/>
+
+<cfinvoke component="sif.Componentes.Translate"
+	method="Translate"
+	Key="LB_Fecha_Hasta"
+	Default="Fecha Hasta"	
+	returnvariable="LB_Fecha_Hasta"/>
+	
+<cfinvoke component="sif.Componentes.Translate"
+	method="Translate"
+	Key="LB_Fecha_Inicio"
+	Default="Fecha Inicio"	
+	returnvariable="LB_Fecha_Inicio"/>
+
+<cfinvoke component="sif.Componentes.Translate"
+	method="Translate"
+	Key="LB_Estado"
+	Default="Estado"	
+	returnvariable="LB_Estado"/>
+	
+<!---Boton Eliminar ---->
+<cfinvoke component="sif.Componentes.Translate"
+	method="Translate"
+	Key="BTN_Eliminar"
+	Default="Eliminar"
+	XmlFile="/rh/generales.xml"
+	returnvariable="BTN_Eliminar"/>
+
+<!----Boton Nuevo ---->
+<cfinvoke component="sif.Componentes.Translate"
+	method="Translate"
+	Key="BTN_Nuevo"
+	Default="Nuevo"
+	XmlFile="/rh/generales.xml"
+	returnvariable="BTN_Nuevo"/>	
+
+<script language="JavaScript" type="text/javascript">
+	//Eliminar Relaciones de Cálculo
+	function funcEliminar() {
+		var form = document.listaRelaciones;
+		var result = false;
+		if (form.chk!=null) {
+			if (form.chk.length){
+				for (var i=0; i<form.chk.length; i++){
+					if (form.chk[i].checked)
+						result = true;
+				}
+			}
+			else{
+				if (form.chk.checked)
+					result = true;
+			}
+		}
+		if (result) {
+			<cfoutput>
+			if (!confirm('#LB_Esta_seguro_que_desea_Eliminar_los_Registros_Seleccionados_Si_elimina_los_registros_seleccionados_eliminara_todos_los_datos_relacionados_con_la_nomina_y_tendra_que_recalcular_la_nomina#'))
+				result = false;
+			</cfoutput>	
+		}
+		else
+			<cfoutput>
+			alert('#LB_Seleccione_el_Registro_que_desea_eliminar#');
+			</cfoutput>		
+		return result;
+	}
+	//validación al intentar crear un nuevo registro
+	function funcNuevo() {
+	<cfif rsCalendarios.recordCount EQ 0>
+		<cfoutput>
+		alert('#LB_NoCalendario#');
+		</cfoutput>
+		return false;
+	<cfelse>
+		return true;
+	</cfif>
+	}
+</script>
+
+
+<table width="98%" border="0" cellspacing="0" cellpadding="0" align="center">
+  <tr><td>&nbsp;</td></tr>
+  <tr>
+    <td>
+		<cfif rsRCNcount.RecordCount gt 0>
+			<cfset botones = "Nuevo,Eliminar">
+		<cfelse>
+			<cfset botones = "Nuevo">
+		</cfif>
+		<cfinvoke 
+		 component="rh.Componentes.pListas"
+		 method="pListaRH"
+		 returnvariable="pListaRet">
+			<cfinvokeargument name="tabla" value="RCalculoNomina a, TiposNomina b, CalendarioPagos c"/>
+			<cfinvokeargument name="columnas" value="a.RCNid, 
+												  	a.Ecodigo, 
+												   	rtrim(a.Tcodigo) as Tcodigo, 
+												   	c.CPcodigo,
+												   	a.RCDescripcion, 
+												   	a.RCdesde, 
+												  	a.RChasta,
+												   	(case a.RCestado 
+														when 0 then 'Proceso'
+														when 1 then 'Cálculo'
+														when 2 then 'Terminado'
+														when 3 then 'Pagado'
+														else ''
+												   	end) as RCestado,
+												   	a.Usucodigo, 
+												   	a.Ulocalizacion, 
+												   	b.Tdescripcion
+											"/>
+			<cfinvokeargument name="desplegar" value="Tdescripcion, CPcodigo, RCDescripcion, RCdesde, RChasta, RCestado"/>
+			<cfinvokeargument name="etiquetas" value="#LB_Tipo_de_Nomina#, #LB_Codigo_Calendario#,#LB_Relacion_de_Calculo#,#LB_Fecha_Inicio#,#LB_Fecha_Hasta#,#LB_Estado#"/>
+			<!---<cfinvokeargument name="formatos" value="S,S,S,D,D,S"/>--->
+			<cfinvokeargument name="formatos" value="S,S,U,U,U,U"/>
+			<cfinvokeargument name="filtro" value="a.Ecodigo = #Session.Ecodigo# 
+													and RCestado in (0,1,2) 
+													and a.Tcodigo = b.Tcodigo
+													and a.Ecodigo = b.Ecodigo	
+													and a.RCNid = c.CPid
+													and c.CPtipo in (0,2)"/>
+			<cfinvokeargument name="align" value="left, left, left, center, center, center"/>
+			<cfinvokeargument name="ajustar" value="S"/>
+			<cfinvokeargument name="checkboxes" value="S"/>
+			<cfinvokeargument name="checkall" value="N"/>
+			<cfinvokeargument name="keys" value="RCNid"/>
+			<cfinvokeargument name="botones" value="#botones#"/>
+			<cfinvokeargument name="irA" value="RelacionCalculo-listaSql.cfm"/>
+			<cfinvokeargument name="MaxRows" value="0"/>
+			<cfinvokeargument name="formName" value="listaRelaciones"/>
+			<cfinvokeargument name="Cortes" value="Tdescripcion"/>
+			<cfinvokeargument name="mostrar_filtro" value="true"/>
+			<cfinvokeargument name="filtrar_automatico" value="true"/>
+		</cfinvoke>
+	</td>
+  </tr>
+</table>

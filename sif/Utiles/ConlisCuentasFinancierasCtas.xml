@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_Titulo>Financial Accounts List</LB_Titulo>
+		<LB_Codigo>Code</LB_Codigo>
+		<LB_Descripcion>Description</LB_Descripcion>
+		<BTN_Buscar>Search</BTN_Buscar>
+		<LB_Auxiliar>Subsidiary</LB_Auxiliar>
+		<LB_AceptaMovs>Accept Movements</LB_AceptaMovs>
+	<LB_ListaDeCuentasFinancieras>Financial Accounts List</LB_ListaDeCuentasFinancieras><MSG_NoCtasAsoc>No related accounts to the Functional Center in ledger account</MSG_NoCtasAsoc><MSG_NoDefCtas>No accounts defined for ledger account</MSG_NoDefCtas></Idioma>
+</Etiquetas>

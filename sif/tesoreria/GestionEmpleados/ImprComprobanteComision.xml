@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="es">
+		<LB_MonedaLocal>M.N</LB_MonedaLocal>
+		<LB_MonedaExtranjera>DLS</LB_MonedaExtranjera>
+	</Idioma>
+	<Idioma id="en">
+		<LB_TituloImpresionLiquidacion>Settlement Printing</LB_TituloImpresionLiquidacion>
+		<LB_ComprobacionGastos>Expenses Check</LB_ComprobacionGastos>
+		<LB_Referencia>Reference</LB_Referencia>
+		<LB_Fecha>Date</LB_Fecha>
+		<LB_Comisionado>Commissioner</LB_Comisionado>
+		<LB_Tipo>Type</LB_Tipo>
+		<LB_Periodo>Period</LB_Periodo>
+		<LB_Destino>Destination</LB_Destino>
+		<LB_Motivo>Reason</LB_Motivo>
+		<LB_CategoriaDestino>Category Destination</LB_CategoriaDestino>		
+		<LB_GastosConComprobante>Expenses with Receipt</LB_GastosConComprobante>
+		<LB_GastosSinComprobante>Expenses without Receipt</LB_GastosSinComprobante>
+		<LB_Concepto>Concept</LB_Concepto>
+		<LB_IVA>VAT</LB_IVA>
+		<LB_Subtotal>Subtotal</LB_Subtotal>
+		<LB_DesglocePagos>Breakdown of Payments</LB_DesglocePagos>
+		<LB_TipoPago>Type of payment</LB_TipoPago>
+		<LB_Efectivo>Cash</LB_Efectivo>
+		<LB_Tarjeta>Credit/Debit Card</LB_Tarjeta>
+		<LB_TotalGastos>Total Expenses</LB_TotalGastos>
+		<LB_Anticipo>Advance</LB_Anticipo>
+		<LB_Rembolso>Refund</LB_Rembolso>
+		<LB_Saldo>Balance</LB_Saldo>
+		<LB_Observaciones>Comments</LB_Observaciones>
+		<LB_Resultados>Explain the results or events realized during the comission</LB_Resultados>
+		<LB_EnCasoDeHaberExcedidoLasTarifasAutorizadasExpliqueLosMotivos>In case of exceed the authorized rates. Please explain the reasons</LB_EnCasoDeHaberExcedidoLasTarifasAutorizadasExpliqueLosMotivos>
+		<LB_ElComisionadoManifiestaQueLaInformacion>The commissioner declares that the information and documentation submitted are true and agree faithfully with the actual cost of this labor commission</LB_ElComisionadoManifiestaQueLaInformacion>
+		<LB_Autoriza>Authorizes</LB_Autoriza>
+		<LB_MonedaLocal>Local Currency</LB_MonedaLocal>
+		<LB_MonedaExtranjera>Foreign Currency</LB_MonedaExtranjera>
+	<LB_Anticipos>Advance</LB_Anticipos></Idioma>
+</Etiquetas>

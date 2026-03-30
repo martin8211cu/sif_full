@@ -1,0 +1,318 @@
+<xml xmlns:v="urn:schemas-microsoft-com:vml"
+ xmlns:o="urn:schemas-microsoft-com:office:office"
+ xmlns:p="urn:schemas-microsoft-com:office:powerpoint">
+ <o:shapelayout v:ext="edit">
+  <o:idmap v:ext="edit" data="1"/>
+ </o:shapelayout><p:colorscheme
+  colors="#FFFFFF,#000000,#808080,#000000,#BBE0E3,#333399,#009999,#99CC00"/>
+ <v:background id="_x0000_s1025" o:bwmode="white" fillcolor="#7c9abd">
+  <v:fill color2="#339 [5]"/>
+ </v:background><p:shaperange id="_x0000_m1026">
+  <v:shapetype id="_x0000_m1026" style='position:absolute;left:42pt;top:480pt;
+   width:414pt;height:60pt;v-text-anchor:middle' coordsize="21600,21600"
+   o:master="" o:spt="1" path="m0,0l0,21600,21600,21600,21600,0xe" filled="f"
+   fillcolor="#bbe0e3 [4]" stroked="f" strokecolor="black [1]">
+   <v:fill color2="white [0]" o:detectmouseclick="t"/>
+   <v:stroke joinstyle="miter" o:forcedash="t"/>
+   <v:shadow color="gray [2]"/>
+   <v:path gradientshapeok="t" o:connecttype="rect"/>
+   <o:lock v:ext="edit" grouping="t"/>
+   <p:placeholder type="title"/>
+  </v:shapetype></p:shaperange>
+ <p:shaperange id="_x0000_s1027">
+  <v:shapetype id="_x0000_s1027" style='position:absolute;left:36pt;top:126pt;
+   width:9in;height:356.375pt' coordsize="21600,21600" o:master="" o:spt="1"
+   path="m0,0l0,21600,21600,21600,21600,0xe" filled="f" fillcolor="#bbe0e3 [4]"
+   stroked="f" strokecolor="black [1]">
+   <v:fill color2="white [0]" o:detectmouseclick="t"/>
+   <v:stroke joinstyle="miter" o:forcedash="t"/>
+   <v:shadow color="gray [2]"/>
+   <v:path gradientshapeok="t" o:connecttype="rect"/>
+   <o:lock v:ext="edit" grouping="t"/>
+   <p:placeholder type="body" position="1"/>
+  </v:shapetype></p:shaperange>
+ <p:shaperange id="_x0000_s1031">
+  <v:shapetype id="_x0000_t75" coordsize="21600,21600" o:spt="75"
+   o:preferrelative="t" path="m@4@5l@4@11@9@11@9@5xe" filled="f" stroked="f">
+   <v:stroke joinstyle="miter"/>
+   <v:formulas>
+    <v:f eqn="if lineDrawn pixelLineWidth 0"/>
+    <v:f eqn="sum @0 1 0"/>
+    <v:f eqn="sum 0 0 @1"/>
+    <v:f eqn="prod @2 1 2"/>
+    <v:f eqn="prod @3 21600 pixelWidth"/>
+    <v:f eqn="prod @3 21600 pixelHeight"/>
+    <v:f eqn="sum @0 0 1"/>
+    <v:f eqn="prod @6 1 2"/>
+    <v:f eqn="prod @7 21600 pixelWidth"/>
+    <v:f eqn="sum @8 21600 0"/>
+    <v:f eqn="prod @7 21600 pixelHeight"/>
+    <v:f eqn="sum @10 21600 0"/>
+   </v:formulas>
+   <v:path o:extrusionok="f" gradientshapeok="t" o:connecttype="rect"/>
+   <o:lock v:ext="edit" aspectratio="t"/>
+  </v:shapetype><v:shape id="_x0000_s1031" type="#_x0000_t75" style='position:absolute;
+   left:18pt;top:30.125pt;width:17.5pt;height:468pt' o:userdrawn="t"
+   fillcolor="#bbe0e3 [4]" strokecolor="black [1]">
+   <v:fill color2="white [0]"/>
+   <v:imagedata src="master03_image001.png" o:title=""/>
+   <v:shadow color="gray [2]"/>
+  </v:shape></p:shaperange>
+ <p:shaperange id="_x0000_s1032">
+  <v:shape id="_x0000_s1032" type="#_x0000_t75" style='position:absolute;
+   left:18pt;top:18pt;width:588pt;height:18.125pt' o:userdrawn="t" fillcolor="#bbe0e3 [4]"
+   strokecolor="black [1]">
+   <v:fill color2="white [0]"/>
+   <v:imagedata src="master03_image002.png" o:title=""/>
+   <v:shadow color="gray [2]"/>
+  </v:shape></p:shaperange>
+ <p:shaperange id="_x0000_s1033">
+  <v:roundrect id="_x0000_s1033" style='position:absolute;left:42pt;top:42pt;
+   width:654pt;height:426pt;mso-wrap-style:none;v-text-anchor:middle'
+   arcsize="977f" o:userdrawn="t" fillcolor="white [0]" stroked="f"
+   strokecolor="black [1]">
+   <v:fill color2="white [0]"/>
+   <v:shadow color="gray [2]"/>
+  </v:roundrect><v:rect id="_x0000_s1035" style='position:absolute;left:1in;
+   top:48pt;width:618pt;height:414pt;mso-wrap-style:none;v-text-anchor:middle'
+   o:userdrawn="t" fillcolor="#cde1fa" stroked="f" strokecolor="black [1]">
+   <v:fill color2="white [0]"/>
+   <v:shadow color="gray [2]"/>
+  </v:rect><v:rect id="_x0000_s1034" style='position:absolute;left:48pt;top:36pt;
+   width:30pt;height:438pt;mso-wrap-style:none;v-text-anchor:middle'
+   o:userdrawn="t" fillcolor="#7c9abd" stroked="f" strokecolor="black [1]">
+   <v:fill color2="white [0]"/>
+   <v:shadow color="gray [2]"/>
+  </v:rect><v:shapetype id="_x0000_t196" coordsize="21600,21600" o:spt="196"
+   adj="1350" path="m0,0l0,21600,21600,21600,21600,0xem@0@0nfl@0@2@1@2@1@0xem0,0nfl@0@0em0,21600nfl@0@2em21600,21600nfl@1@2em21600,0nfl@1@0em@12@9l@17@4@12@10xem@11@9l@16@9@16@10@11@10xe">
+   <v:stroke joinstyle="miter"/>
+   <v:formulas>
+    <v:f eqn="val #0"/>
+    <v:f eqn="sum width 0 #0"/>
+    <v:f eqn="sum height 0 #0"/>
+    <v:f eqn="prod width 1 2"/>
+    <v:f eqn="prod height 1 2"/>
+    <v:f eqn="prod #0 1 2"/>
+    <v:f eqn="prod #0 3 2"/>
+    <v:f eqn="sum @1 @5 0"/>
+    <v:f eqn="sum @2 @5 0"/>
+    <v:f eqn="sum @0 @4 8100"/>
+    <v:f eqn="sum @2 8100 @4"/>
+    <v:f eqn="sum @0 @3 8100"/>
+    <v:f eqn="sum @1 8100 @3"/>
+    <v:f eqn="sum @10 0 @9"/>
+    <v:f eqn="prod @13 1 8"/>
+    <v:f eqn="prod @13 1 4"/>
+    <v:f eqn="sum @11 @14 0"/>
+    <v:f eqn="sum @11 @15 0"/>
+    <v:f eqn="sum @4 @5 0"/>
+    <v:f eqn="sum @9 @5 0"/>
+    <v:f eqn="sum @10 @5 0"/>
+    <v:f eqn="sum @11 @5 0"/>
+    <v:f eqn="sum @12 @5 0"/>
+    <v:f eqn="sum @16 @5 0"/>
+    <v:f eqn="sum @17 @5 0"/>
+   </v:formulas>
+   <v:path o:extrusionok="f" limo="10800,10800" o:connecttype="custom"
+    o:connectlocs="0,@4;@0,@4;@3,21600;@3,@2;21600,@4;@1,@4;@3,0;@3,@0"
+    textboxrect="@0,@0,@1,@2"/>
+   <v:handles>
+    <v:h position="#0,topLeft" switch="" xrange="0,5400"/>
+   </v:handles>
+   <o:complex v:ext="view"/>
+  </v:shapetype><v:shape id="_x0000_s1036" type="#_x0000_t196"
+   href="javascript:parent.GoToFirst()" style='position:absolute;left:541.125pt;
+   top:486.625pt;width:36pt;height:36pt;mso-wrap-style:none;v-text-anchor:middle'
+   o:userdrawn="t" fillcolor="#cde1fa" stroked="f" strokecolor="black [1]">
+   <v:fill color2="white [0]" o:detectmouseclick="t"/>
+   <v:shadow color="gray [2]"/>
+   <p:onmouseclick jump="firstSlide" flag="1"/>
+  </v:shape><v:shapetype id="_x0000_t195" coordsize="21600,21600" o:spt="195"
+   adj="1350" path="m0,0l0,21600,21600,21600,21600,0xem@0@0nfl@0@2@1@2@1@0xem0,0nfl@0@0em0,21600nfl@0@2em21600,21600nfl@1@2em21600,0nfl@1@0em@11@9l@16@4@11@10xem@17@9l@12@9@12@10@17@10xe">
+   <v:stroke joinstyle="miter"/>
+   <v:formulas>
+    <v:f eqn="val #0"/>
+    <v:f eqn="sum width 0 #0"/>
+    <v:f eqn="sum height 0 #0"/>
+    <v:f eqn="prod width 1 2"/>
+    <v:f eqn="prod height 1 2"/>
+    <v:f eqn="prod #0 1 2"/>
+    <v:f eqn="prod #0 3 2"/>
+    <v:f eqn="sum @1 @5 0"/>
+    <v:f eqn="sum @2 @5 0"/>
+    <v:f eqn="sum @0 @4 8100"/>
+    <v:f eqn="sum @2 8100 @4"/>
+    <v:f eqn="sum @0 @3 8100"/>
+    <v:f eqn="sum @1 8100 @3"/>
+    <v:f eqn="sum @10 0 @9"/>
+    <v:f eqn="prod @13 3 4"/>
+    <v:f eqn="prod @13 7 8"/>
+    <v:f eqn="sum @11 @14 0"/>
+    <v:f eqn="sum @11 @15 0"/>
+    <v:f eqn="sum @4 @5 0"/>
+    <v:f eqn="sum @9 @5 0"/>
+    <v:f eqn="sum @10 @5 0"/>
+    <v:f eqn="sum @11 @5 0"/>
+    <v:f eqn="sum @12 @5 0"/>
+    <v:f eqn="sum @16 @5 0"/>
+    <v:f eqn="sum @17 @5 0"/>
+   </v:formulas>
+   <v:path o:extrusionok="f" limo="10800,10800" o:connecttype="custom"
+    o:connectlocs="0,@4;@0,@4;@3,21600;@3,@2;21600,@4;@1,@4;@3,0;@3,@0"
+    textboxrect="@0,@0,@1,@2"/>
+   <v:handles>
+    <v:h position="#0,topLeft" switch="" xrange="0,5400"/>
+   </v:handles>
+   <o:complex v:ext="view"/>
+  </v:shapetype><v:shape id="_x0000_s1037" type="#_x0000_t195"
+   href="javascript:parent.GoToLast()" style='position:absolute;left:656.75pt;
+   top:486.875pt;width:36pt;height:36pt;mso-wrap-style:none;v-text-anchor:middle'
+   o:userdrawn="t" fillcolor="#cde1fa" stroked="f" strokecolor="black [1]">
+   <v:fill color2="white [0]" o:detectmouseclick="t"/>
+   <v:shadow color="gray [2]"/>
+   <p:onmouseclick jump="lastSlide" flag="1"/>
+  </v:shape><v:shapetype id="_x0000_t193" coordsize="21600,21600" o:spt="193"
+   adj="1350" path="m0,0l0,21600,21600,21600,21600,0xem@0@0nfl@0@2@1@2@1@0xem0,0nfl@0@0em0,21600nfl@0@2em21600,21600nfl@1@2em21600,0nfl@1@0em@11@9nfl@12@4@11@10xe">
+   <v:stroke joinstyle="miter"/>
+   <v:formulas>
+    <v:f eqn="val #0"/>
+    <v:f eqn="sum width 0 #0"/>
+    <v:f eqn="sum height 0 #0"/>
+    <v:f eqn="prod width 1 2"/>
+    <v:f eqn="prod height 1 2"/>
+    <v:f eqn="prod #0 1 2"/>
+    <v:f eqn="prod #0 3 2"/>
+    <v:f eqn="sum @1 @5 0"/>
+    <v:f eqn="sum @2 @5 0"/>
+    <v:f eqn="sum @0 @4 8100"/>
+    <v:f eqn="sum @2 8100 @4"/>
+    <v:f eqn="sum @0 @3 8100"/>
+    <v:f eqn="sum @1 8100 @3"/>
+    <v:f eqn="sum @4 @5 0"/>
+    <v:f eqn="sum @9 @5 0"/>
+    <v:f eqn="sum @10 @5 0"/>
+    <v:f eqn="sum @11 @5 0"/>
+    <v:f eqn="sum @12 @5 0"/>
+   </v:formulas>
+   <v:path o:extrusionok="f" limo="10800,10800" o:connecttype="custom"
+    o:connectlocs="0,@4;@0,@4;@3,21600;@3,@2;21600,@4;@1,@4;@3,0;@3,@0"
+    textboxrect="@0,@0,@1,@2"/>
+   <v:handles>
+    <v:h position="#0,topLeft" switch="" xrange="0,5400"/>
+   </v:handles>
+   <o:complex v:ext="view"/>
+  </v:shapetype><v:shape id="_x0000_s1038" type="#_x0000_t193"
+   href="javascript:parent.GoToNextSld()" style='position:absolute;left:618.625pt;
+   top:486.75pt;width:36pt;height:36pt;mso-wrap-style:none;v-text-anchor:middle'
+   o:userdrawn="t" fillcolor="#cde1fa" stroked="f" strokecolor="black [1]">
+   <v:fill color2="white [0]" o:detectmouseclick="t"/>
+   <v:shadow color="gray [2]"/>
+   <p:onmouseclick jump="nextSlide" flag="1"/>
+  </v:shape><v:shapetype id="_x0000_t194" coordsize="21600,21600" o:spt="194"
+   adj="1350" path="m0,0l0,21600,21600,21600,21600,0xem@0@0nfl@0@2@1@2@1@0xem0,0nfl@0@0em0,21600nfl@0@2em21600,21600nfl@1@2em21600,0nfl@1@0em@12@9nfl@11@4@12@10xe">
+   <v:stroke joinstyle="miter"/>
+   <v:formulas>
+    <v:f eqn="val #0"/>
+    <v:f eqn="sum width 0 #0"/>
+    <v:f eqn="sum height 0 #0"/>
+    <v:f eqn="prod width 1 2"/>
+    <v:f eqn="prod height 1 2"/>
+    <v:f eqn="prod #0 1 2"/>
+    <v:f eqn="prod #0 3 2"/>
+    <v:f eqn="sum @1 @5 0"/>
+    <v:f eqn="sum @2 @5 0"/>
+    <v:f eqn="sum @0 @4 8100"/>
+    <v:f eqn="sum @2 8100 @4"/>
+    <v:f eqn="sum @0 @3 8100"/>
+    <v:f eqn="sum @1 8100 @3"/>
+    <v:f eqn="sum @4 @5 0"/>
+    <v:f eqn="sum @9 @5 0"/>
+    <v:f eqn="sum @10 @5 0"/>
+    <v:f eqn="sum @11 @5 0"/>
+    <v:f eqn="sum @12 @5 0"/>
+   </v:formulas>
+   <v:path o:extrusionok="f" limo="10800,10800" o:connecttype="custom"
+    o:connectlocs="0,@4;@0,@4;@3,21600;@3,@2;21600,@4;@1,@4;@3,0;@3,@0"
+    textboxrect="@0,@0,@1,@2"/>
+   <v:handles>
+    <v:h position="#0,topLeft" switch="" xrange="0,5400"/>
+   </v:handles>
+   <o:complex v:ext="view"/>
+  </v:shapetype><v:shape id="_x0000_s1039" type="#_x0000_t194"
+   href="javascript:parent.GoToPrevSld()" style='position:absolute;left:580.25pt;
+   top:486.75pt;width:36pt;height:36pt;mso-wrap-style:none;v-text-anchor:middle'
+   o:userdrawn="t" fillcolor="#cde1fa" stroked="f" strokecolor="black [1]">
+   <v:fill color2="white [0]" o:detectmouseclick="t"/>
+   <v:shadow color="gray [2]"/>
+   <p:onmouseclick jump="previousSlide" flag="1"/>
+  </v:shape><v:shapetype id="_x0000_t190" coordsize="21600,21600" o:spt="190"
+   adj="1350" path="m0,0l0,21600,21600,21600,21600,0xem@0@0nfl@0@2@1@2@1@0xem0,0nfl@0@0em0,21600nfl@0@2em21600,21600nfl@1@2em21600,0nfl@1@0em@3@9nfl@11@4@28@4@28@10@33@10@33@4@12@4@32@26@32@24@31@24@31@25xem@31@25nfl@32@26em@28@4nfl@33@4em@29@10nfl@29@27@30@27@30@10e">
+   <v:stroke joinstyle="miter"/>
+   <v:formulas>
+    <v:f eqn="val #0"/>
+    <v:f eqn="sum width 0 #0"/>
+    <v:f eqn="sum height 0 #0"/>
+    <v:f eqn="prod width 1 2"/>
+    <v:f eqn="prod height 1 2"/>
+    <v:f eqn="prod #0 1 2"/>
+    <v:f eqn="prod #0 3 2"/>
+    <v:f eqn="sum @1 @5 0"/>
+    <v:f eqn="sum @2 @5 0"/>
+    <v:f eqn="sum @0 @4 8100"/>
+    <v:f eqn="sum @2 8100 @4"/>
+    <v:f eqn="sum @0 @3 8100"/>
+    <v:f eqn="sum @1 8100 @3"/>
+    <v:f eqn="sum @10 0 @9"/>
+    <v:f eqn="prod @13 1 16"/>
+    <v:f eqn="prod @13 1 8"/>
+    <v:f eqn="prod @13 3 16"/>
+    <v:f eqn="prod @13 5 16"/>
+    <v:f eqn="prod @13 7 16"/>
+    <v:f eqn="prod @13 9 16"/>
+    <v:f eqn="prod @13 11 16"/>
+    <v:f eqn="prod @13 3 4"/>
+    <v:f eqn="prod @13 13 16"/>
+    <v:f eqn="prod @13 7 8"/>
+    <v:f eqn="sum @9 @14 0"/>
+    <v:f eqn="sum @9 @16 0"/>
+    <v:f eqn="sum @9 @17 0"/>
+    <v:f eqn="sum @9 @21 0"/>
+    <v:f eqn="sum @11 @15 0"/>
+    <v:f eqn="sum @11 @18 0"/>
+    <v:f eqn="sum @11 @19 0"/>
+    <v:f eqn="sum @11 @20 0"/>
+    <v:f eqn="sum @11 @22 0"/>
+    <v:f eqn="sum @11 @23 0"/>
+    <v:f eqn="sum @3 @5 0"/>
+    <v:f eqn="sum @4 @5 0"/>
+    <v:f eqn="sum @9 @5 0"/>
+    <v:f eqn="sum @10 @5 0"/>
+    <v:f eqn="sum @11 @5 0"/>
+    <v:f eqn="sum @12 @5 0"/>
+    <v:f eqn="sum @24 @5 0"/>
+    <v:f eqn="sum @25 @5 0"/>
+    <v:f eqn="sum @26 @5 0"/>
+    <v:f eqn="sum @27 @5 0"/>
+    <v:f eqn="sum @28 @5 0"/>
+    <v:f eqn="sum @29 @5 0"/>
+    <v:f eqn="sum @30 @5 0"/>
+    <v:f eqn="sum @31 @5 0"/>
+    <v:f eqn="sum @32 @5 0"/>
+    <v:f eqn="sum @33 @5 0"/>
+   </v:formulas>
+   <v:path o:extrusionok="f" limo="10800,10800" o:connecttype="custom"
+    o:connectlocs="0,@4;@0,@4;@3,21600;@3,@2;21600,@4;@1,@4;@3,0;@3,@0"
+    textboxrect="@0,@0,@1,@2"/>
+   <v:handles>
+    <v:h position="#0,topLeft" switch="" xrange="0,5400"/>
+   </v:handles>
+   <o:complex v:ext="view"/>
+  </v:shapetype><v:shape id="_x0000_s1040" type="#_x0000_t190"
+   href="javascript:parent.EndShow()" style='position:absolute;left:502.5pt;
+   top:487.125pt;width:36pt;height:36pt;mso-wrap-style:none;v-text-anchor:middle'
+   o:userdrawn="t" fillcolor="#cde1fa" stroked="f" strokecolor="black [1]">
+   <v:fill color2="white [0]" o:detectmouseclick="t"/>
+   <v:shadow color="gray [2]"/>
+   <p:onmouseclick jump="endShow" flag="1"/>
+  </v:shape></p:shaperange>
+</xml>

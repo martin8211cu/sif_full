@@ -1,0 +1,4511 @@
+﻿<!---
+	 Posteo de Documentos a Favor de CxC
+	 Creado por: Marcel de M.
+	 Fecha: 16 Enero de 2002
+
+	Se pasa a componente: Gustavo Fonseca H.
+	Fecha: 5-11-2007
+
+		Componente: CC_PosteoDocsFavorCxC
+--->
+<cfcomponent>
+	<!--- Método: CC_PosteoDocsFavorCxC. --->
+	<cffunction name="CC_PosteoDocsFavorCxC" access="public" returntype="boolean">
+		<cfargument name="Ecodigo" 		type="numeric" required="false" default="#Session.Ecodigo#">
+		<cfargument name="CCTcodigo" 	type="string"  required="true">
+		<cfargument name="Ddocumento" 	type="string"  required="true">
+		<cfargument name="usuario" 		type="string"  required="false" default="#Session.Usuario#">
+		<cfargument name="Usucodigo"	type="numeric" required="false" default="#Session.Usucodigo#">
+		<cfargument name="fechaDoc" 	type="string"  required="false" default="N">
+		<cfargument name="Debug" 		type="boolean" required="false" default="false">
+        <cfargument name="SNid" 		type="numeric"  required="false" default="-1">
+        <cfargument name="Pcodigo" 		type="string"  required="false" default="">
+        <cfargument name="transaccionActiva" type="boolean" 	required="false" default="false">
+		<cfargument name="Conexion" 	type="string"  required="false" default="#Session.dsn#">
+        <cfargument name="INTARC" 		type="string"  required="false" default="">
+        <cfargument name="Tb_Calculo" 	type="string"  required="false" default="">
+        <cfargument name="DIFERENCIAL" 	type="string"  required="false" default="">
+
+
+        <cfif #Arguments.transaccionActiva#>
+              <cfset sb_CC_PosteoDocsFavorCxC(#Arguments.Ecodigo#, #Arguments.CCTcodigo#,#Arguments.Ddocumento#, #session.usuario#,#session.usucodigo#,#Arguments.fechaDoc#,#Arguments.Debug#,#Arguments.SNid#,#Arguments.Pcodigo#,#Arguments.transaccionActiva#,#session.DSN#,#Arguments.INTARC#,#Arguments.Tb_Calculo#,#Arguments.DIFERENCIAL#)>
+         <cfelse>
+     	    	<cfinvoke component="sif.Componentes.CG_GeneraAsiento" method="CreaIntarc" returnvariable="INTARC" />
+                <cfinvoke component="sif.fa.operacion.CostosAuto" Conexion="#session.dsn#" method="CreaCostos" returnvariable="Tb_Calculo"/>
+	     	    <cfinvoke component="IETU" method="IETU_CreaTablas" conexion="#Arguments.Conexion#" />
+
+                <cf_dbtemp name="DIFERENCIAL" returnvariable="DIFERENCIAL" datasource="#Arguments.Conexion#">
+                    <cf_dbtempcol name="INTLIN"    type="numeric"      identity="yes">
+                    <cf_dbtempcol name="INTORI"    type="char(4)"      mandatory="yes">
+                    <cf_dbtempcol name="INTREL"    type="int" 		   mandatory="yes">
+                    <cf_dbtempcol name="INTDOC"    type="char(20)"     mandatory="yes">
+                    <cf_dbtempcol name="INTREF"    type="varchar(25)"  mandatory="yes">
+
+                    <cf_dbtempcol name="INTMON"    type="money"        mandatory="yes">
+                    <cf_dbtempcol name="INTTIP"    type="char(1)"      mandatory="yes">
+
+                    <cf_dbtempcol name="INTDES"    type="varchar(80)"  mandatory="yes">
+
+                    <cf_dbtempcol name="INTFEC"    type="varchar(8)"   mandatory="yes">
+                    <cf_dbtempcol name="INTCAM"    type="float"        mandatory="yes">
+                    <cf_dbtempcol name="Periodo"   type="int"          mandatory="yes">
+                    <cf_dbtempcol name="Mes"       type="int"          mandatory="yes">
+                    <cf_dbtempcol name="Ccuenta"   type="numeric"      mandatory="yes">
+
+                    <cf_dbtempcol name="CFcuenta"  type="numeric"      mandatory="no">
+                    <cf_dbtempcol name="Mcodigo"   type="numeric"      mandatory="yes">
+                    <cf_dbtempcol name="Ocodigo"   type="int"          mandatory="yes">
+                    <cf_dbtempcol name="INTMOE"    type="money"        mandatory="yes">
+                    <cf_dbtempcol name="TIPO"      type="char(2)"      mandatory="yes">
+                	<!--- Control Evento Inicia --->
+                                <cf_dbtempcol name="NumeroEvento" type="varchar(25)" mandatory="no">
+                    <!--- Control Evento Fin --->
+
+                    <cf_dbtempkey cols="INTLIN">
+                </cf_dbtemp>
+
+            <cftransaction>
+               <cfset sb_CC_PosteoDocsFavorCxC(#Arguments.Ecodigo#, #Arguments.CCTcodigo#,#Arguments.Ddocumento#, #session.usuario#,#session.usucodigo#,#Arguments.fechaDoc#,#Arguments.Debug#,#Arguments.SNid#,#Arguments.Pcodigo#,#Arguments.transaccionActiva#,#session.DSN#,#INTARC#,#Tb_Calculo#,#DIFERENCIAL#)>
+				<cftry>
+				<cfquery datasource="#arguments.conexion#">
+					delete from #INTARC#
+				</cfquery>
+				<cfquery datasource="#arguments.conexion#">
+					delete from #DIFERENCIAL#
+				</cfquery>
+					<cfcatch type="any"></cfcatch>
+				</cftry>
+		     </cftransaction>
+         </cfif>
+
+	<cfreturn 1>
+</cffunction>
+	<cffunction name="sb_CC_PosteoDocsFavorCxC" access="private" returntype="boolean">
+		<cfargument name="Ecodigo" 		type="numeric" required="false" default="#Session.Ecodigo#">
+		<cfargument name="CCTcodigo" 	type="string"  required="true">
+		<cfargument name="Ddocumento" 	type="string"  required="true">
+		<cfargument name="usuario" 		type="string"  required="false" default="#Session.Usuario#">
+		<cfargument name="Usucodigo"	type="numeric" required="false" default="#Session.Usucodigo#">
+		<cfargument name="fechaDoc" 	type="string"  required="false" default="N">
+		<cfargument name="Debug" 		type="boolean"  required="false" default="NO">
+        <cfargument name="SNid" 		type="numeric"  required="false" default="-1">
+        <cfargument name="Pcodigo" 		type="string"  required="false" default="">
+        <cfargument name="transaccionActiva" type="boolean" 	required="false" default="false">
+		<cfargument name="Conexion" 	type="string"  required="false" default="#Session.dsn#">
+  		<cfargument name="INTARC" 	type="string"  required="false" default="">
+  		<cfargument name="Tb_Calculo" 	type="string"  required="false" default="">
+  		<cfargument name="DIFERENCIAL" 	type="string"  required="false" default="">
+
+		<cfquery name="rsTimbra" datasource="#session.dsn#">
+			select ClaveSAT from CCTransacciones
+			where Ecodigo =#Arguments.Ecodigo#
+			and CCTcodigo ='#Arguments.CCTcodigo#'
+		</cfquery>
+		<cfif isdefined('rsTimbra') and rsTimbra.ClaveSAT EQ 'P'>
+			<cfset timbrar = 1>
+		<cfelse>
+			<cfset timbrar  =0>
+		</cfif>
+        <!--- Control Evento Inicia --->
+        <!---Obtiene el socio de negocios--->
+        <cfquery name="rsSocioPago" datasource="#Arguments.Conexion#">
+            select SNcodigo
+            from SNegocios
+            where SNid = <cfqueryparam cfsqltype="cf_sql_numeric" value="#Arguments.SNid#">
+            and Ecodigo = <cfqueryparam cfsqltype="cf_sql_numeric" value="#Arguments.Ecodigo#">
+        </cfquery>
+        <cfset varSocioPago = rsSocioPago.SNcodigo>
+        <cfif varSocioPago EQ "">
+        	<cfquery name="rsSocioDoc" datasource="#Arguments.Conexion#">
+                select SNcodigo
+                from Documentos
+                where CCTcodigo = <cfqueryparam cfsqltype="cf_sql_varchar" value="#Arguments.CCTcodigo#">
+                and Ddocumento= <cfqueryparam cfsqltype="cf_sql_varchar" value="#Arguments.Ddocumento#">
+                and Ecodigo = <cfqueryparam cfsqltype="cf_sql_numeric" value="#Arguments.Ecodigo#">
+            </cfquery>
+            <cfset varSocioPago = rsSocioDoc.SNcodigo>
+        </cfif>
+        <!--- Valido el evento --->
+       <cfinvoke
+        component		= "sif.Componentes.CG_ControlEvento"
+        method			= "ValidaEvento"
+        Origen			= "CCAP"
+        Transaccion		= "#Arguments.CCTcodigo#"
+        Conexion		= "#Arguments.Conexion#"
+        Ecodigo			= "#Arguments.Ecodigo#"
+        returnvariable	= "varValidaEvento"
+        />
+        <cfset varNumeroEvento = ''>
+        <cfif varValidaEvento GT 0>
+        <!---ERBG Busca Evento con el mismo Inicia--->
+        	<cfset varDocumento = #Arguments.Ddocumento#>
+            <cfquery name="rsEvento" datasource="#Arguments.Conexion#">
+                select top(1) Consecutivo from EventosControl
+                where
+                Ecodigo = 		<cfqueryparam cfsqltype="cf_sql_numeric" value="#Arguments.Ecodigo#">
+                and Oorigen=	'CCAP'
+                and Transaccion=<cfqueryparam cfsqltype="cf_sql_varchar" value="#Arguments.CCTcodigo#">
+                and Documento like <cfqueryparam cfsqltype="cf_sql_varchar" value="#Arguments.Ddocumento#%">
+                and SNcodigo= 	<cfqueryparam cfsqltype="cf_sql_numeric" value="#varSocioPago#">
+                order by Consecutivo desc
+            </cfquery>
+            <cfif isdefined('rsEvento') and len(trim(#rsEvento.Consecutivo#)) gt 0>
+            	<cfset varDocumento = varDocumento & '-' & #rsEvento.Consecutivo#>
+            </cfif>
+        <!---ERBG Busca Evento con el mismo Inicia--->
+            <cfinvoke
+                component		= "sif.Componentes.CG_ControlEvento"
+                method			= "CG_GeneraEvento"
+                Origen			= "CCAP"
+                Transaccion		= "#Arguments.CCTcodigo#"
+                Documento 		= "#varDocumento#"
+                SocioCodigo		= "#varSocioPago#"
+                Conexion		= "#Arguments.Conexion#"
+                Ecodigo			= "#Arguments.Ecodigo#"
+                returnvariable	= "arNumeroEvento"
+                />
+            <cfif arNumeroEvento[3] EQ "">
+                <cfthrow message="ERROR CONTROL EVENTO: No se obtuvo un control de evento valido para la operación">
+            </cfif>
+            <cfset varNumeroEvento = arNumeroEvento[3]>
+            <cfset varIDEvento = arNumeroEvento[4]>
+
+			<!--- Genera la relacion con la Nota de Credito Aplicada --->
+            <cfinvoke component="sif.Componentes.CG_ControlEvento"
+                method="CG_RelacionaEvento"
+                IDNEvento="#varIDEvento#"
+                Origen="CCFC"
+                Transaccion="#Arguments.CCTcodigo#"
+                Documento="#Arguments.Ddocumento#"
+                SocioCodigo="#varSocioPago#"
+                Conexion="#Arguments.Conexion#"
+                Ecodigo="#Arguments.Ecodigo#"
+                returnvariable="arRelacionEvento"
+            />
+			<cfif isdefined("arRelacionEvento") and arRelacionEvento[1]>
+				<cfset varNumeroEvento = arRelacionEvento[4]>
+            </cfif>
+
+            <cfquery name="rsDocumentoAplica" datasource="#Arguments.Conexion#">
+                select CCTRcodigo,DRdocumento, SNcodigo
+                from DFavor
+                 where Ecodigo = <cfqueryparam cfsqltype="cf_sql_numeric" value="#Arguments.Ecodigo#">
+                   and CCTcodigo  = <cfqueryparam cfsqltype="cf_sql_varchar" value="#Arguments.CCTcodigo#">
+                   and Ddocumento = <cfqueryparam cfsqltype="cf_sql_varchar" value="#Arguments.Ddocumento#">
+            </cfquery>
+            <cfloop query="rsDocumentoAplica">
+                <cfinvoke
+                    component		= "sif.Componentes.CG_ControlEvento"
+                    method			= "CG_RelacionaEvento"
+                    IDNEvento       = "#varIDEvento#"
+                    Origen			= "CCFC"
+                    Transaccion		= "#rsDocumentoAplica.CCTRcodigo#"
+                    Documento 		= "#rsDocumentoAplica.DRdocumento#"
+                    SocioCodigo		= "#rsDocumentoAplica.SNcodigo#"
+                    Conexion		= "#Arguments.Conexion#"
+                    Ecodigo			= "#Arguments.Ecodigo#"
+                    returnvariable	= "arRelacionEvento"
+                    />
+             	<cfif isdefined("arRelacionEvento") and arRelacionEvento[1]>
+					<cfset varNumeroEventoDP = arRelacionEvento[4]>
+                <cfelse>
+                    <cfset varNumeroEventoDP = varNumeroEvento>
+                </cfif>
+                <cfquery datasource="#Arguments.Conexion#">
+                    update DFavor
+                    set NumeroEvento = <cfqueryparam cfsqltype="cf_sql_varchar" value="#varNumeroEventoDP#">
+                     where Ecodigo	= <cfqueryparam cfsqltype="cf_sql_numeric" value="#Arguments.Ecodigo#">
+                       and CCTcodigo = <cfqueryparam cfsqltype="cf_sql_varchar" value="#Arguments.CCTcodigo#">
+                       and Ddocumento  = <cfqueryparam cfsqltype="cf_sql_varchar" value="#Arguments.Ddocumento#">
+                       and CCTRcodigo  = <cfqueryparam cfsqltype="cf_sql_varchar" value="#rsDocumentoAplica.CCTRcodigo#">
+                       and DRdocumento = <cfqueryparam cfsqltype="cf_sql_varchar" value="#rsDocumentoAplica.DRdocumento#">
+                       and SNcodigo = <cfqueryparam cfsqltype="cf_sql_numeric" value="#rsDocumentoAplica.SNcodigo#">
+                </cfquery>
+            </cfloop>
+        </cfif>
+<!--- Control Evento Fin --->
+		<cfif isdefined('arguments.INTARC') and len(trim(#arguments.INTARC#)) gt 0>
+          <cfset INTARC = arguments.INTARC>
+       </cfif>
+       <cfif isdefined('arguments.Tb_Calculo') and len(trim(#arguments.Tb_Calculo#)) gt 0>
+          <cfset Tb_Calculo = arguments.Tb_Calculo>
+       </cfif>
+       <cfif isdefined('arguments.DIFERENCIAL') and len(trim(#arguments.DIFERENCIAL#)) gt 0>
+          <cfset DIFERENCIAL = arguments.DIFERENCIAL>
+       </cfif>
+
+		<!--- Validaciones Preposteo --->
+
+		<cfquery name="rsValida" datasource="#arguments.conexion#">
+			select count(1) as cantidad
+			from EFavor
+			where Ecodigo    = <cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.Ecodigo#">
+			  and ltrim(rtrim(CCTcodigo))  = <cfqueryparam cfsqltype="cf_sql_char"  	value="#trim(arguments.CCTcodigo)#">
+			  and ltrim(rtrim(Ddocumento)) = <cfqueryparam cfsqltype="cf_sql_char" 	value="#trim(arguments.Ddocumento)#">
+		</cfquery>
+		<cfif isdefined("rsValida") and rsValida.cantidad LTE 0>
+			<cf_errorCode	code = "50990" msg = "El documento a Favor indicado no existe! Proceso Cancelado!.">
+		</cfif>
+
+        <cfquery datasource="#arguments.conexion#">
+            update EFavor
+            set EFtotal =
+                (
+                select coalesce(sum(DFtotal),0.00)
+                from DFavor d
+                where d.Ecodigo = EFavor.Ecodigo
+                and d.CCTcodigo = EFavor.CCTcodigo
+                and d.Ddocumento = EFavor.Ddocumento
+                )
+			where Ecodigo    = <cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.Ecodigo#">
+			  and CCTcodigo  = <cfqueryparam cfsqltype="cf_sql_char"  	value="#arguments.CCTcodigo#">
+			  and Ddocumento = <cfqueryparam cfsqltype="cf_sql_char" 	value="#arguments.Ddocumento#">
+        </cfquery>
+
+
+		<!--- 1. Validar el saldo del documento a favor.  No debe quedar en negativo.--->
+		<cfquery name="rsValida" datasource="#arguments.conexion#">
+			select a.Dsaldo - coalesce((
+					select sum(b.EFtotal)
+					from EFavor b
+					where b.Ecodigo 	= a.Ecodigo
+					  and b.CCTcodigo 	= a.CCTcodigo
+					  and b.Ddocumento 	= a.Ddocumento
+				), 0.00) as saldodocfavor
+			from Documentos a
+			where a.Ecodigo 	=  #Ecodigo#
+			  and a.CCTcodigo 	= <cfqueryparam cfsqltype="cf_sql_char" 	value="#CCTcodigo#">
+			  and a.Ddocumento  = <cfqueryparam cfsqltype="cf_sql_char" 	value="#Ddocumento#">
+		</cfquery>
+
+		<cfif isdefined("rsValida") and rsValida.saldodocfavor LT 0>
+			<cf_errorCode	code = "50991" msg = "El monto a aplicar es MAYOR que el saldo del documento. Proceso Cancelado!.">
+		<cfelseif isdefined("rsValida") and rsValida.saldodocfavor GTE 0>
+			<cfset saldodocfavor = rsValida.saldodocfavor>
+		</cfif>
+
+
+		<cfquery name="rsValida" datasource="#arguments.conexion#">
+			select count(1) as cantidad
+			from DFavor
+			where Ecodigo    = <cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.Ecodigo#">
+			  and CCTcodigo  = <cfqueryparam cfsqltype="cf_sql_char" 	value="#arguments.CCTcodigo#">
+			  and Ddocumento = <cfqueryparam cfsqltype="cf_sql_char" 	value="#arguments.Ddocumento#">
+		</cfquery>
+		<cfif isdefined("rsValida") and rsValida.cantidad LTE 0>
+			<cf_errorCode	code = "50992" msg = "El documento a Favor indicado no tiene detalles! Proceso Cancelado!.">
+		</cfif>
+
+		<cfset Fecha = #DateFormat(now(),'dd/mm/yyyy')#>
+
+		<cfset descripcion = 'Aplic. de Doc. Favor CxC: ' & arguments.CCTcodigo & '-' & arguments.Ddocumento>
+
+		<cfquery name="rsParametros" datasource="#arguments.conexion#">
+			select Mcodigo
+			from Empresas
+			where Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.Ecodigo#">
+		</cfquery>
+		<cfset Monloc = rsParametros.Mcodigo>
+
+		<cfquery name="rsParametros" datasource="#arguments.conexion#">
+			select Pvalor
+			from Parametros
+			where Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.Ecodigo#">
+			  and Mcodigo = 'GN'
+			  and Pcodigo = 50
+		</cfquery>
+		<cfset Periodo = rsParametros.Pvalor>
+
+		<cfquery name="rsParametros" datasource="#arguments.conexion#">
+			select Pvalor
+			from Parametros
+			where Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.Ecodigo#">
+			  and Mcodigo = 'GN'
+			  and Pcodigo = 60
+		</cfquery>
+		<cfset Mes = rsParametros.Pvalor>
+
+		<cfquery name="rsParametros" datasource="#arguments.conexion#">
+			select Pvalor
+			from Parametros
+			where Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.Ecodigo#">
+			  and Pcodigo = 200
+			  and Mcodigo = 'CG'
+		</cfquery>
+
+		<cfset CuentaPuente = rsParametros.Pvalor>
+
+
+       	<cfquery name="rsMlocal" datasource="#arguments.conexion#">
+			select Mcodigo
+			from Empresas
+			where Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.Ecodigo#">
+		</cfquery>
+		<cfset Mlocal = rsMlocal.Mcodigo>
+
+		<cfquery name="rsParametrosDoc" datasource="#arguments.conexion#">
+			select
+				EFfecha,
+				coalesce(EFtotal, 0.00) as EFtotal,
+                EFtipocambio,
+                Mcodigo,
+                month(EFfecha) as monthFecha,
+                Year(EFfecha) as yearFecha
+			from EFavor
+			where Ecodigo 	 = <cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.Ecodigo#">
+			  and CCTcodigo  = <cfqueryparam cfsqltype="cf_sql_char"  	value="#arguments.CCTcodigo#">
+			  and Ddocumento = <cfqueryparam cfsqltype="cf_sql_char" 	value="#arguments.Ddocumento#">
+		</cfquery>
+		<cfset EFfecha = rsParametrosDoc.EFfecha>
+		<cfset EFtotal = rsParametrosDoc.EFtotal>
+        <cfset EFTC = rsParametrosDoc.EFtipocambio>
+        <cfset EFMonedaLocal = rsParametrosDoc.Mcodigo>
+
+		<cfquery name="rsParametros" datasource="#arguments.conexion#">
+			select Ocodigo
+			from Documentos
+			where Ecodigo    = <cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.Ecodigo#">
+			  and CCTcodigo  = <cfqueryparam cfsqltype="cf_sql_char" 	value="#arguments.CCTcodigo#">
+			  and Ddocumento = <cfqueryparam cfsqltype="cf_sql_char" 	value="#arguments.Ddocumento#">
+		</cfquery>
+		<cfset Ocodigo = rsParametros.Ocodigo>
+
+		<cfquery name="rsParametros" datasource="#arguments.conexion#">
+			select Pvalor
+			from Parametros
+			where Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.Ecodigo#">
+			  and Pcodigo = 110
+		</cfquery>
+		<cfset CuentaIngDifCam = rsParametros.Pvalor>
+
+		<cfquery name="rsParametros" datasource="#arguments.conexion#">
+			select Pvalor
+			from Parametros
+			where Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.Ecodigo#">
+			  and Pcodigo = 120
+		</cfquery>
+		<cfset CuentaGasDifCam = rsParametros.Pvalor>
+
+		<cfquery name="rsParametros" datasource="#arguments.conexion#">
+			select Pvalor
+			from Parametros
+			where Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.Ecodigo#">
+			  and Pcodigo = 200
+		</cfquery>
+		<cfset Cuentabalancemultimoneda = rsParametros.Pvalor>
+
+		<cfquery name="rsParametros" datasource="#arguments.conexion#">
+			select Pvalor
+			from Parametros
+			where Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.Ecodigo#">
+			  and Pcodigo = 575
+		</cfquery>
+		<cfset TransaccionPagoConDocumento = rsParametros.Pvalor>
+
+
+        <!--- Adecuacion para aplicar Diferente PEriodo o mes al aplicar documento --->             
+        <!---<cfif isdefined("rsParametrosDoc") and rsParametrosDoc.EFfecha NEQ "" and  ((rsParametrosDoc.yearFecha*100)+rsParametrosDoc.monthFecha) gt ((Periodo*100)+Mes) >
+           <cfset Periodo = rsParametrosDoc.yearFecha>
+           <cfset Mes = rsParametrosDoc.monthFecha>
+        </cfif>--->
+
+		<!--- 1) Validaciones Generales--->
+		<cfif len(trim(Mes)) EQ 0 or  len(trim(Periodo)) EQ 0>
+			<cf_errorCode	code = "50983" msg = "No se ha definido el parámetro de Período o Mes para los sistemas Auxiliares! Proceso Cancelado!">
+		</cfif>
+
+		<!---
+		/****************************************/
+		/* si hay registro en  ImpDocumentosCxC */
+		/* para los documentos involucrados     */
+		/* procesa los impuestos                */
+		/****************************************/
+		 --->
+
+		<!--- Diferencial Cambiario Nota Crédito (impuestos) --->
+		<cfquery datasource="#arguments.conexion#">
+			insert into #DIFERENCIAL# ( INTORI, INTREL, INTDOC, INTREF, INTMON, INTTIP, INTDES, INTFEC, INTCAM, Periodo, Mes, Ccuenta, Mcodigo, Ocodigo, INTMOE,TIPO, NumeroEvento)
+			select
+				'CCAP',
+				1,
+				b.Ddocumento,
+				'D',
+				round(
+					( round(((EFtotal * c.MontoCalculado) / c.TotalFac),2) )
+					*
+					( a.EFtipocambio - b.Dtcultrev)
+				 , 2),
+				case when d.CCTtipo = 'D' then 'C' else 'D' end,
+				<cf_dbfunction name="concat" args="'Ajuste Diferencial Cambiario (NC): ', i.Idescripcion">,
+				<cf_dbfunction name="to_sdate" args="#now()#">,
+				1,
+				#Periodo#,
+				#Mes#,
+				CcuentaImp,
+				b.Mcodigo,
+				b.Ocodigo,
+				0.00,
+				'NC',
+                <cfqueryparam cfsqltype="cf_sql_varchar" value="#varNumeroEvento#">
+			from EFavor  a
+				inner join Documentos b
+					on a.Ecodigo = b.Ecodigo
+					and a.CCTcodigo = b.CCTcodigo
+						and a.Ddocumento = b.Ddocumento
+				inner join ImpDocumentosCxC c
+					on b.Ecodigo = c.Ecodigo
+					and b.CCTcodigo = c.CCTcodigo
+					and b.Ddocumento  =  c.Documento
+				inner join CCTransacciones d
+					on c.Ecodigo = d.Ecodigo
+					and c.CCTcodigo = d.CCTcodigo
+				inner join Impuestos i
+					on c.Ecodigo = i.Ecodigo
+					and c.Icodigo = i.Icodigo
+			where a.Ecodigo    =   #Ecodigo#
+			  and a.CCTcodigo  =  <cfqueryparam cfsqltype="cf_sql_char" 	value="#CCTcodigo#">
+			  and a.Ddocumento =  <cfqueryparam cfsqltype="cf_sql_char" 	value="#Ddocumento#">
+			  and b.Mcodigo    != <cfqueryparam cfsqltype="cf_sql_numeric" 	value="#Monloc#">
+		</cfquery>
+
+        <!--- DIFERENCIAL IEPS --->
+        <cfquery datasource="#arguments.conexion#">
+            insert into #DIFERENCIAL# ( INTORI, INTREL, INTDOC, INTREF, INTMON, INTTIP, INTDES, INTFEC, INTCAM, Periodo, Mes, Ccuenta, Mcodigo, Ocodigo, INTMOE,TIPO, NumeroEvento)
+            select
+                'CCAP',
+                1,
+                b.Ddocumento,
+                'D',
+                round((round(((EFtotal * c.MontoCalculado) / c.TotalFac),2)) * (a.EFtipocambio - b.Dtcultrev), 2),
+                case when d.CCTtipo = 'D' then 'C' else 'D' end,
+                <cf_dbfunction name="concat" args="'Ajuste Diferencial Cambiario (NC): ', i.Idescripcion">,
+                <cf_dbfunction name="to_sdate" args="#now()#">,
+                1,
+                #Periodo#,
+                #Mes#,
+                CcuentaIEPS,
+                b.Mcodigo,
+                b.Ocodigo,
+                0.00,
+                'NC',
+                <cfqueryparam cfsqltype="cf_sql_varchar" value="#varNumeroEvento#">
+            from EFavor  a
+                inner join Documentos b
+                    on a.Ecodigo = b.Ecodigo
+                    and a.CCTcodigo = b.CCTcodigo
+                        and a.Ddocumento = b.Ddocumento
+                inner join ImpIEPSDocumentosCxC c
+                    on b.Ecodigo = c.Ecodigo
+                    and b.CCTcodigo = c.CCTcodigo
+                    and b.Ddocumento  =  c.Documento
+                inner join CCTransacciones d
+                    on c.Ecodigo = d.Ecodigo
+                    and c.CCTcodigo = d.CCTcodigo
+                inner join Impuestos i
+                    on c.Ecodigo = i.Ecodigo
+                    and c.codIEPS = i.Icodigo
+            where a.Ecodigo    =   #Ecodigo#
+              and a.CCTcodigo  =  <cfqueryparam cfsqltype="cf_sql_char"     value="#CCTcodigo#">
+              and a.Ddocumento =  <cfqueryparam cfsqltype="cf_sql_char"     value="#Ddocumento#">
+              and b.Mcodigo    != <cfqueryparam cfsqltype="cf_sql_numeric"  value="#Monloc#">
+        </cfquery>
+        <!--- DIFERENCIAL IEPS FIN --->
+
+
+		<!--- Nota Crédito (Cuenta por Cobrar) --->
+		<cfquery datasource="#arguments.conexion#">
+			insert into #DIFERENCIAL# ( INTORI, INTREL, INTDOC, INTREF, INTMON, INTTIP, INTDES, INTFEC, INTCAM, Periodo, Mes, Ccuenta, Mcodigo, Ocodigo, INTMOE,TIPO, NumeroEvento)
+			select
+				'CCAP',
+				1,
+				b.Ddocumento,
+				b.CCTcodigo,
+				round( EFtotal * ( a.EFtipocambio - b.Dtcultrev) , 2),
+				d.CCTtipo,
+				<cf_dbfunction name="concat" args="'Diferencial Cambiario: ', b.CCTcodigo, ' ', b.Ddocumento">,
+				<cf_dbfunction name="to_sdate" args="#now()#">,
+				1,
+				#Periodo#,
+				#Mes#,
+				b.Ccuenta,
+				b.Mcodigo,
+				b.Ocodigo,
+				0.00,
+				'NC',
+                <cfqueryparam cfsqltype="cf_sql_varchar" value="#varNumeroEvento#">
+			from EFavor  a
+				inner join  Documentos b
+					inner join CCTransacciones d
+					on d.Ecodigo = b.Ecodigo
+					and d.CCTcodigo = b.CCTcodigo
+				 on a.Ecodigo = b.Ecodigo
+				and a.CCTcodigo = b.CCTcodigo
+				and a.Ddocumento = b.Ddocumento
+			where a.Ecodigo    =  #Ecodigo#
+			  and a.CCTcodigo  = <cfqueryparam cfsqltype="cf_sql_char" 		value="#CCTcodigo#">
+			  and a.Ddocumento = <cfqueryparam cfsqltype="cf_sql_char" 		value="#Ddocumento#">
+			  and b.Mcodigo    != <cfqueryparam cfsqltype="cf_sql_numeric" 	value="#Monloc#">
+		</cfquery>
+
+		<!--- Nota Crédito   (Ingreso (Gasto) por Diferencial Cambiario) --->
+		<cfquery datasource="#arguments.conexion#">
+			insert into #DIFERENCIAL# (
+				INTORI,
+				INTREL,
+				INTDOC,
+				INTREF,
+				INTMON,
+				INTTIP,
+				INTDES,
+				INTFEC,
+				INTCAM,
+				Periodo,
+				Mes,
+				Ccuenta,
+				Mcodigo,
+				Ocodigo,
+				INTMOE,
+				TIPO,
+                NumeroEvento)
+			select
+				INTORI,
+				INTREL,
+				INTDOC,
+				INTREF,
+				sum(INTMON * case when INTTIP = 'C' then 1 else -1 end),
+				'D',
+				'Diferencial Cambiario ( Documento Credito )',
+				<cf_dbfunction name="to_sdate" args="#now()#">,
+				1,
+				#Periodo#,
+				#Mes#,
+				case when sum(INTMON * case when INTTIP = 'C' then 1 else -1 end) > 0 then #CuentaGasDifCam# else #CuentaIngDifCam# end,
+				Mcodigo,
+				Ocodigo,
+				0.00,
+				'NC',
+                <cfqueryparam cfsqltype="cf_sql_varchar" value="#varNumeroEvento#">
+			from #DIFERENCIAL#
+			where TIPO = 'NC'
+			group by
+				INTORI,
+				INTREL,
+				INTDOC,
+				INTREF,
+				Mcodigo,
+				Ocodigo
+		</cfquery>
+
+		<!--- Facturas (impuestos IVA) --->
+		<cfquery datasource="#arguments.conexion#">
+			insert into #DIFERENCIAL# ( INTORI, INTREL, INTDOC, INTREF, INTMON, INTTIP, INTDES, INTFEC, INTCAM, Periodo, Mes, Ccuenta, Mcodigo, Ocodigo, INTMOE,TIPO, NumeroEvento)
+			select
+				'CCAP',
+				1,
+				b.Ddocumento,
+				'C',
+				round(( round(((det.DFmontodoc * c.MontoCalculado) / c.TotalFac),2)) * ((DFtotal / (DFmontodoc) * a.EFtipocambio) - b.Dtcultrev) , 2),
+				case when d.CCTtipo = 'D' then 'C' else 'D' end,
+				<cf_dbfunction name="concat" args="'Diferencial Cambiario: ', i.Idescripcion">,
+				<cf_dbfunction name="to_sdate" args="#now()#">,
+				1,
+				#Periodo#,
+				#Mes#,
+				CcuentaImp,
+				b.Mcodigo,
+				b.Ocodigo,
+				0.00,
+				'FC',
+                det.NumeroEvento
+			from EFavor  a
+				inner join  DFavor  det
+					on det.Ecodigo = a.Ecodigo
+					and det.CCTcodigo = a.CCTcodigo
+						and a.Ddocumento = det.Ddocumento
+				inner join  Documentos b
+					on det.Ecodigo = b.Ecodigo
+					and det.CCTRcodigo = b.CCTcodigo
+						and det.DRdocumento  = b.Ddocumento
+				inner join ImpDocumentosCxC c
+					on b.Ecodigo = c.Ecodigo
+					and b.CCTcodigo = c.CCTcodigo
+					and b.Ddocumento  =  c.Documento
+				inner join CCTransacciones d
+					on c.Ecodigo = d.Ecodigo
+					and c.CCTcodigo = d.CCTcodigo
+				inner join Impuestos i
+					on c.Ecodigo = i.Ecodigo
+					and c.Icodigo = i.Icodigo
+			where a.Ecodigo    =  #Ecodigo#
+			  and a.CCTcodigo  = <cfqueryparam cfsqltype="cf_sql_char" 		value="#CCTcodigo#">
+			  and a.Ddocumento = <cfqueryparam cfsqltype="cf_sql_char" 		value="#Ddocumento#">
+			  and b.Mcodigo    != <cfqueryparam cfsqltype="cf_sql_numeric" 	value="#Monloc#">
+		</cfquery>
+
+		<!--- factura IEPS --->
+        <cfquery datasource="#arguments.conexion#">
+            insert into #DIFERENCIAL# ( INTORI, INTREL, INTDOC, INTREF, INTMON, INTTIP, INTDES, INTFEC, INTCAM, Periodo, Mes, Ccuenta, Mcodigo, Ocodigo, INTMOE,TIPO, NumeroEvento)
+            select
+                'CCAP',
+                1,
+                b.Ddocumento,
+                'C',
+                round((round(((det.DFmontodoc * c.MontoCalculado) / c.TotalFac),2)) * ((DFtotal / (DFmontodoc) * a.EFtipocambio) - b.Dtcultrev), 2),
+                case when d.CCTtipo = 'D' then 'C' else 'D' end,
+                <cf_dbfunction name="concat" args="'Diferencial Cambiario: ', i.Idescripcion">,
+                <cf_dbfunction name="to_sdate" args="#now()#">,
+                1,
+                #Periodo#,
+                #Mes#,
+                CcuentaIEPS,
+                b.Mcodigo,
+                b.Ocodigo,
+                0.00,
+                'FC',
+                det.NumeroEvento
+            from EFavor  a
+                inner join  DFavor  det
+                    on det.Ecodigo = a.Ecodigo
+                    and det.CCTcodigo = a.CCTcodigo
+                        and a.Ddocumento = det.Ddocumento
+                inner join  Documentos b
+                    on det.Ecodigo = b.Ecodigo
+                    and det.CCTRcodigo = b.CCTcodigo
+                        and det.DRdocumento  = b.Ddocumento
+                inner join ImpIEPSDocumentosCxC c
+                    on b.Ecodigo = c.Ecodigo
+                    and b.CCTcodigo = c.CCTcodigo
+                    and b.Ddocumento  =  c.Documento
+                inner join CCTransacciones d
+                    on c.Ecodigo = d.Ecodigo
+                    and c.CCTcodigo = d.CCTcodigo
+                inner join Impuestos i
+                    on c.Ecodigo = i.Ecodigo
+                    and c.codIEPS = i.Icodigo
+            where a.Ecodigo    =  #Ecodigo#
+              and a.CCTcodigo  = <cfqueryparam cfsqltype="cf_sql_char"      value="#CCTcodigo#">
+              and a.Ddocumento = <cfqueryparam cfsqltype="cf_sql_char"      value="#Ddocumento#">
+              and b.Mcodigo   != <cfqueryparam cfsqltype="cf_sql_numeric"  value="#Monloc#">
+        </cfquery>
+
+		<!--- Facturas (Cuentas por Cobrar) --->
+		<cfquery datasource="#arguments.conexion#">
+			insert into #DIFERENCIAL# ( INTORI, INTREL, INTDOC, INTREF, INTMON, INTTIP, INTDES, INTFEC, INTCAM, Periodo, Mes, Ccuenta, Mcodigo, Ocodigo, INTMOE,TIPO, NumeroEvento)
+			select
+				'CCAP',
+				1,
+				b.Ddocumento,
+				b.CCTcodigo,
+				round( det.DFmontodoc * (  (DFtotal / DFmontodoc * a.EFtipocambio) - b.Dtcultrev) , 2),
+				case when d.CCTtipo = 'D' then 'D' else 'C' end,
+				<cf_dbfunction name="concat" args="'Diferencial Cambiario: ',b.CCTcodigo, ' ',b.Ddocumento ">,
+				<cf_dbfunction name="to_sdate" args="#now()#">,
+				1,
+				#Periodo#,
+				#Mes#,
+				b.Ccuenta,
+				b.Mcodigo,
+				b.Ocodigo,
+				0.00,
+				'FC',
+                det.NumeroEvento
+			from EFavor  a
+				inner join  DFavor  det
+					inner join  Documentos b
+						inner join CCTransacciones d
+						 on d.Ecodigo   = b.Ecodigo
+						and d.CCTcodigo = b.CCTcodigo
+					on  det.Ecodigo      = b.Ecodigo
+					and det.CCTRcodigo   = b.CCTcodigo
+					and det.DRdocumento  = b.Ddocumento
+				on det.Ecodigo = a.Ecodigo
+				and det.CCTcodigo = a.CCTcodigo
+					and a.Ddocumento = det.Ddocumento
+			where a.Ecodigo    =  #Ecodigo#
+			  and a.CCTcodigo  = <cfqueryparam cfsqltype="cf_sql_char" 		value="#CCTcodigo#">
+			  and a.Ddocumento = <cfqueryparam cfsqltype="cf_sql_char" 		value="#Ddocumento#">
+			  and b.Mcodigo    != <cfqueryparam cfsqltype="cf_sql_numeric" 	value="#Monloc#">
+		 </cfquery>
+
+		<!--- Factura (Cuenta por Cobrar) --->
+		<cfquery datasource="#arguments.conexion#">
+			insert into #DIFERENCIAL# (
+				INTORI,
+				INTREL,
+				INTDOC,
+				INTREF,
+				INTMON,
+				INTTIP,
+				INTDES,
+				INTFEC,
+				INTCAM,
+				Periodo,
+				Mes,
+				Ccuenta,
+				Mcodigo,
+				Ocodigo,
+				INTMOE,
+				TIPO,
+                NumeroEvento)
+			select
+				INTORI,
+				INTREL,
+				INTDOC,
+				INTREF,
+				sum(INTMON * case when INTTIP = 'D' then 1 else -1 end),
+				'C',
+				'(Gasto) por Diferencial Cambiario (FC)',
+				<cf_dbfunction name="to_sdate" args="#now()#">,
+				1,
+				#Periodo#,
+				#Mes#,
+				case when sum(INTMON * case when INTTIP = 'D' then 1 else -1 end) > 0 then #CuentaIngDifCam# else #CuentaGasDifCam# end,
+				Mcodigo,
+				Ocodigo,
+				0.00,
+				'FC',
+                <cfqueryparam cfsqltype="cf_sql_varchar" value="#varNumeroEvento#">
+			from #DIFERENCIAL#
+			where TIPO = 'FC'
+			group by
+				INTORI,
+				INTREL,
+				INTDOC,
+				INTREF,
+				Mcodigo,
+				Ocodigo
+		</cfquery>
+
+		<!--- PASA LOS DATOS DE LA TABLA #DIFERENCIAL A LA #INTARC --->
+		<cfquery datasource="#arguments.conexion#">
+			insert into #INTARC# ( INTORI, INTREL, INTDOC, INTREF, INTMON, INTTIP, INTDES, INTFEC, INTCAM, Periodo, Mes, Ccuenta, Mcodigo, Ocodigo, INTMOE, NumeroEvento)
+			select
+				INTORI,
+				INTREL,
+				INTDOC,
+				INTREF,
+				INTMON,
+				INTTIP,
+				INTDES,
+				INTFEC,
+				INTCAM,
+				Periodo,
+				Mes,
+				Ccuenta,
+				Mcodigo,
+				Ocodigo,
+				INTMOE,
+                NumeroEvento
+			from #DIFERENCIAL#
+			where INTMON <> 0.00
+			ORDER BY TIPO,INTLIN
+		</cfquery>
+
+	<!--- Se excluyen transacciones que no deben generar traslado de Impuesto --->
+	
+	<cfif arguments.CCTcodigo neq "NC" and arguments.CCTcodigo neq "AC">
+		<!--- traslado de monto de la cuenta (Facturas Cliente ) a (Facturas Cliente Acreditadas) --->
+		<!--- Nota Crédito --->
+		<cfquery datasource="#arguments.conexion#">
+			insert into #INTARC# ( INTORI, INTREL, INTDOC, INTREF, INTMON, INTTIP, INTDES, INTFEC, INTCAM, Periodo, Mes, Ccuenta, Mcodigo, Ocodigo, INTMOE, NumeroEvento,CFid)
+			select
+				'CCAP',
+				1,
+				c.Documento,
+				c.CCTcodigo ,
+				round( round(( (a.EFtotal /c.TotalFac) * (c.MontoCalculado) ),2) * a.EFtipocambio, 2),
+				d.CCTtipo,
+				<cf_dbfunction name="concat" args="i.Idescripcion,'(Nota Crédito)'">,
+				<cf_dbfunction name="to_sdate" args="#now()#">,
+				a.EFtipocambio,
+				#Periodo#,
+				#Mes#,
+				CcuentaImp,
+				a.Mcodigo,
+				b.Ocodigo,
+				round( ( (a.EFtotal /c.TotalFac) * (c.MontoCalculado) ), 2),
+   				<cfqueryparam cfsqltype="cf_sql_varchar" value="#varNumeroEvento#">,
+                b.CFid
+			from EFavor  a
+				inner join  EFavor Det
+					on a.Ecodigo = Det.Ecodigo
+					and a.CCTcodigo = Det.CCTcodigo
+					and a.Ddocumento = Det.Ddocumento
+				inner join  Documentos b
+					on Det.Ecodigo = b.Ecodigo
+					and Det.CCTcodigo = b.CCTcodigo
+					and Det.Ddocumento = b.Ddocumento
+				inner join ImpDocumentosCxC c
+					on Det.Ecodigo = c.Ecodigo
+					and Det.CCTcodigo = c.CCTcodigo
+					and Det.Ddocumento  =  c.Documento
+				inner join CCTransacciones d
+					on c.Ecodigo = d.Ecodigo
+					and c.CCTcodigo = d.CCTcodigo
+				inner join Impuestos i
+					on c.Ecodigo = i.Ecodigo
+					and c.Icodigo = i.Icodigo
+					and i.CcuentaCxCAcred is not null
+			where a.Ecodigo    =  #Ecodigo#
+			  and a.CCTcodigo  = <cfqueryparam cfsqltype="cf_sql_char" 		value="#CCTcodigo#">
+			  and a.Ddocumento = <cfqueryparam cfsqltype="cf_sql_char" 		value="#Ddocumento#">
+		</cfquery>
+
+		<cfquery datasource="#arguments.conexion#">
+			insert into #INTARC# ( INTORI, INTREL, INTDOC, INTREF, INTMON, INTTIP, INTDES, INTFEC, INTCAM, Periodo, Mes, Ccuenta, Mcodigo, Ocodigo, INTMOE, NumeroEvento,CFid)
+			select
+				'CCAP',
+				1,
+				c.Documento,
+				c.CCTcodigo ,
+				round( round(( (a.EFtotal /c.TotalFac) * (c.MontoCalculado) ),2) * a.EFtipocambio, 2),
+
+				case when d.CCTtipo = 'D' then 'C' else 'D' end,
+				<cf_dbfunction name="concat" args="i.Idescripcion,'(Nota Crédito  - Acreditada)'">,
+				<cf_dbfunction name="to_sdate" args="#now()#">,
+				1,
+				#Periodo#,
+				#Mes#,
+				i.CcuentaCxCAcred,
+				#Monloc#,
+				b.Ocodigo,
+				round( round(( (a.EFtotal /c.TotalFac) *(c.MontoCalculado) ),2) * a.EFtipocambio, 2),
+    			<cfqueryparam cfsqltype="cf_sql_varchar" value="#varNumeroEvento#">,
+                b.CFid
+			from EFavor  a
+				inner join  EFavor Det
+					on a.Ecodigo = Det.Ecodigo
+					and a.CCTcodigo = Det.CCTcodigo
+					and a.Ddocumento = Det.Ddocumento
+				inner join  Documentos b
+					on Det.Ecodigo = b.Ecodigo
+					and Det.CCTcodigo = b.CCTcodigo
+						and Det.Ddocumento = b.Ddocumento
+				inner join ImpDocumentosCxC c
+					on Det.Ecodigo = c.Ecodigo
+					and Det.CCTcodigo = c.CCTcodigo
+					and Det.Ddocumento  =  c.Documento
+				inner join CCTransacciones d
+					on c.Ecodigo = d.Ecodigo
+					and c.CCTcodigo = d.CCTcodigo
+				inner join Impuestos i
+					on c.Ecodigo = i.Ecodigo
+					and c.Icodigo = i.Icodigo
+					and i.CcuentaCxCAcred is not null
+
+			where a.Ecodigo    =  #Ecodigo#
+			  and a.CCTcodigo  = <cfqueryparam cfsqltype="cf_sql_char" 		value="#CCTcodigo#">
+			  and a.Ddocumento = <cfqueryparam cfsqltype="cf_sql_char" 		value="#Ddocumento#">
+		</cfquery>
+
+		<cfquery datasource="#arguments.conexion#">
+			insert into #INTARC# ( INTORI, INTREL, INTDOC, INTREF, INTMON, INTTIP, INTDES, INTFEC, INTCAM, Periodo, Mes, Ccuenta, Mcodigo, Ocodigo, INTMOE, NumeroEvento,CFid)
+			select
+				'CCAP',
+				1,
+				c.Documento,
+				c.CCTcodigo ,
+				round( round(( (a.EFtotal /c.TotalFac) * (c.MontoCalculado) ),2) * a.EFtipocambio, 2),
+				case when d.CCTtipo = 'D' then 'C' else 'D' end,
+				<cf_dbfunction name="concat" args="i.Idescripcion, '(Nota Crédito  - CuentaBalancemultimoneda)'">,
+				<cf_dbfunction name="to_sdate" args="#now()#">,
+				a.EFtipocambio,
+				#Periodo#,
+				#Mes#,
+				#Cuentabalancemultimoneda#,
+				a.Mcodigo,
+				b.Ocodigo,
+				round( ( (a.EFtotal /c.TotalFac) *(c.MontoCalculado) ), 2),
+    			<cfqueryparam cfsqltype="cf_sql_varchar" value="#varNumeroEvento#">,
+                b.CFid
+			from EFavor  a
+				inner join  EFavor Det
+					on a.Ecodigo = Det.Ecodigo
+					and a.CCTcodigo = Det.CCTcodigo
+					and a.Ddocumento = Det.Ddocumento
+				inner join  Documentos b
+					on Det.Ecodigo = b.Ecodigo
+					and Det.CCTcodigo = b.CCTcodigo
+						and Det.Ddocumento = b.Ddocumento
+				inner join ImpDocumentosCxC c
+					on Det.Ecodigo = c.Ecodigo
+					and Det.CCTcodigo = c.CCTcodigo
+					and Det.Ddocumento  =  c.Documento
+				inner join CCTransacciones d
+					on c.Ecodigo = d.Ecodigo
+					and c.CCTcodigo = d.CCTcodigo
+				inner join Impuestos i
+					on c.Ecodigo = i.Ecodigo
+					and c.Icodigo = i.Icodigo
+					and i.CcuentaCxCAcred is not null
+			where a.Ecodigo    =   #Ecodigo#
+			  and a.CCTcodigo  =  <cfqueryparam cfsqltype="cf_sql_char" 	value="#CCTcodigo#">
+			  and a.Ddocumento =  <cfqueryparam cfsqltype="cf_sql_char" 	value="#Ddocumento#">
+			  and b.Mcodigo    != <cfqueryparam cfsqltype="cf_sql_numeric" 	value="#Monloc#">
+		</cfquery>
+
+		<cfquery datasource="#arguments.conexion#">
+			insert into #INTARC# ( INTORI, INTREL, INTDOC, INTREF, INTMON, INTTIP, INTDES, INTFEC, INTCAM, Periodo, Mes, Ccuenta, Mcodigo, Ocodigo, INTMOE, NumeroEvento, CFid)
+			select
+				'CCAP',
+				1,
+				c.Documento,
+				c.CCTcodigo ,
+				round( round(( (a.EFtotal /c.TotalFac) * (c.MontoCalculado) ),2) * a.EFtipocambio, 2),
+				d.CCTtipo,
+				<cf_dbfunction name="concat" args="i.Idescripcion, '(Nota Crédito (Acred) - CuentaBalancemultimoneda)'">,
+				<cf_dbfunction name="to_sdate" args="#now()#">,
+				1,
+				#Periodo#,
+				#Mes#,
+				#Cuentabalancemultimoneda#,
+				#Monloc#,
+				b.Ocodigo,
+				round( round(( (a.EFtotal /c.TotalFac) * (c.MontoCalculado) ),2) * a.EFtipocambio, 2),
+    			<cfqueryparam cfsqltype="cf_sql_varchar" value="#varNumeroEvento#">,
+                b.CFid
+			from EFavor  a
+				inner join  EFavor Det
+					on a.Ecodigo = Det.Ecodigo
+					and a.CCTcodigo = Det.CCTcodigo
+					and a.Ddocumento = Det.Ddocumento
+				inner join  Documentos b
+					on Det.Ecodigo = b.Ecodigo
+					and Det.CCTcodigo = b.CCTcodigo
+						and Det.Ddocumento = b.Ddocumento
+				inner join ImpDocumentosCxC c
+					on Det.Ecodigo = c.Ecodigo
+					and Det.CCTcodigo = c.CCTcodigo
+					and Det.Ddocumento  =  c.Documento
+				inner join CCTransacciones d
+					on c.Ecodigo = d.Ecodigo
+					and c.CCTcodigo = d.CCTcodigo
+				inner join Impuestos i
+					on c.Ecodigo = i.Ecodigo
+					and c.Icodigo = i.Icodigo
+					and i.CcuentaCxCAcred is not null
+			where a.Ecodigo    =   #Ecodigo#
+			  and a.CCTcodigo  =  <cfqueryparam cfsqltype="cf_sql_char" 	value="#CCTcodigo#">
+			  and a.Ddocumento =  <cfqueryparam cfsqltype="cf_sql_char" 	value="#Ddocumento#">
+			  and b.Mcodigo    != <cfqueryparam cfsqltype="cf_sql_numeric" 	value="#Monloc#">
+		</cfquery>
+		<!--- NOTA CRÉDITO IEPS --->
+        <cfquery name="validaIEPS" datasource="#session.dsn#">
+            select isnull(sum(MontoCalculado),0) as valid
+            from EFavor  a
+                inner join  EFavor Det
+                    on a.Ecodigo = Det.Ecodigo
+                    and a.CCTcodigo = Det.CCTcodigo
+                    and a.Ddocumento = Det.Ddocumento
+                inner join ImpIEPSDocumentosCxC c
+                    on Det.Ecodigo = c.Ecodigo
+                    and Det.CCTcodigo = c.CCTcodigo
+                    and Det.Ddocumento  =  c.Documento
+            where a.Ecodigo    =  #Ecodigo#
+              and a.CCTcodigo  = <cfqueryparam cfsqltype="cf_sql_char"      value="#CCTcodigo#">
+              and a.Ddocumento = <cfqueryparam cfsqltype="cf_sql_char"      value="#Ddocumento#">
+        </cfquery>
+
+        <cfif validaIEPS.valid GT 0>
+            <cfquery datasource="#arguments.conexion#">
+                insert into #INTARC# ( INTORI, INTREL, INTDOC, INTREF, INTMON, INTTIP, INTDES, INTFEC, INTCAM, Periodo, Mes, Ccuenta, Mcodigo, Ocodigo, INTMOE, NumeroEvento,CFid)
+                select
+                    'CCAP',
+                    1,
+                    c.Documento,
+                    c.CCTcodigo ,
+                    round( round(( (a.EFtotal /c.TotalFac) * (c.MontoCalculado) ),2) * a.EFtipocambio, 2),
+                    d.CCTtipo,
+                    <cf_dbfunction name="concat" args="i.Idescripcion,'(Nota Crédito)'">,
+                    <cf_dbfunction name="to_sdate" args="#now()#">,
+                    a.EFtipocambio,
+                    #Periodo#,
+                    #Mes#,
+                    i.CcuentaCxC,
+                    a.Mcodigo,
+                    b.Ocodigo,
+                    round( ( (a.EFtotal /c.TotalFac) * (c.MontoCalculado) ), 2),
+                    <cfqueryparam cfsqltype="cf_sql_varchar" value="#varNumeroEvento#">,
+                    b.CFid
+                from EFavor  a
+                    inner join  EFavor Det
+                        on a.Ecodigo = Det.Ecodigo
+                        and a.CCTcodigo = Det.CCTcodigo
+                        and a.Ddocumento = Det.Ddocumento
+                    inner join  Documentos b
+                        on Det.Ecodigo = b.Ecodigo
+                        and Det.CCTcodigo = b.CCTcodigo
+                        and Det.Ddocumento = b.Ddocumento
+                    inner join ImpIEPSDocumentosCxC c
+                        on Det.Ecodigo = c.Ecodigo
+                        and Det.CCTcodigo = c.CCTcodigo
+                        and Det.Ddocumento  =  c.Documento
+                    inner join CCTransacciones d
+                        on c.Ecodigo = d.Ecodigo
+                        and c.CCTcodigo = d.CCTcodigo
+                    inner join Impuestos i
+                        on c.Ecodigo = i.Ecodigo
+                        and c.codIEPS = i.Icodigo
+                        and i.CcuentaCxCAcred is not null
+                where a.Ecodigo    =  #Ecodigo#
+                  and a.CCTcodigo  = <cfqueryparam cfsqltype="cf_sql_char" value="#CCTcodigo#">
+                  and a.Ddocumento = <cfqueryparam cfsqltype="cf_sql_char" value="#Ddocumento#">
+            </cfquery>
+            <cfquery datasource="#arguments.conexion#">
+                insert into #INTARC# ( INTORI, INTREL, INTDOC, INTREF, INTMON, INTTIP, INTDES, INTFEC, INTCAM, Periodo, Mes, Ccuenta, Mcodigo, Ocodigo, INTMOE, NumeroEvento,CFid)
+                select
+                    'CCAP',
+                    1,
+                    c.Documento,
+                    c.CCTcodigo ,
+                    round( round(( (a.EFtotal /c.TotalFac) * (c.MontoCalculado)),2) * a.EFtipocambio, 2),
+                    case when d.CCTtipo = 'D' then 'C' else 'D' end,
+                    <cf_dbfunction name="concat" args="i.Idescripcion,'(Nota Crédito - Acreditada)'">,
+                    <cf_dbfunction name="to_sdate" args="#now()#">,
+                    1,
+                    #Periodo#,
+                    #Mes#,
+                    i.CcuentaCxCAcred,
+                    #Monloc#,
+                    b.Ocodigo,
+                    round( round(( (a.EFtotal /c.TotalFac) * (c.MontoCalculado)),2) * a.EFtipocambio, 2),
+                    <cfqueryparam cfsqltype="cf_sql_varchar" value="#varNumeroEvento#">,
+                    b.CFid
+                from EFavor  a
+                    inner join  EFavor Det
+                        on a.Ecodigo = Det.Ecodigo
+                        and a.CCTcodigo = Det.CCTcodigo
+                        and a.Ddocumento = Det.Ddocumento
+                    inner join  Documentos b
+                        on Det.Ecodigo = b.Ecodigo
+                        and Det.CCTcodigo = b.CCTcodigo
+                            and Det.Ddocumento = b.Ddocumento
+                    inner join ImpIEPSDocumentosCxC c
+                        on Det.Ecodigo = c.Ecodigo
+                        and Det.CCTcodigo = c.CCTcodigo
+                        and Det.Ddocumento  =  c.Documento
+                    inner join CCTransacciones d
+                        on c.Ecodigo = d.Ecodigo
+                        and c.CCTcodigo = d.CCTcodigo
+                    inner join Impuestos i
+                        on c.Ecodigo = i.Ecodigo
+                        and c.codIEPS = i.Icodigo
+                        and i.CcuentaCxCAcred is not null
+                where a.Ecodigo    =  #Ecodigo#
+                  and a.CCTcodigo  = <cfqueryparam cfsqltype="cf_sql_char"      value="#CCTcodigo#">
+                  and a.Ddocumento = <cfqueryparam cfsqltype="cf_sql_char"      value="#Ddocumento#">
+            </cfquery>
+            <cfquery datasource="#arguments.conexion#">
+                insert into #INTARC# ( INTORI, INTREL, INTDOC, INTREF, INTMON, INTTIP, INTDES, INTFEC, INTCAM, Periodo, Mes, Ccuenta, Mcodigo, Ocodigo, INTMOE, NumeroEvento,CFid)
+                select
+                    'CCAP',
+                    1,
+                    c.Documento,
+                    c.CCTcodigo ,
+                    round( round(( (a.EFtotal /c.TotalFac) * (c.MontoCalculado) ),2) * a.EFtipocambio, 2),
+                    case when d.CCTtipo = 'D' then 'C' else 'D' end,
+                    <cf_dbfunction name="concat" args="i.Idescripcion, '(Nota Crédito - CuentaBalancemultimoneda)'">,
+                    <cf_dbfunction name="to_sdate" args="#now()#">,
+                    a.EFtipocambio,
+                    #Periodo#,
+                    #Mes#,
+                    #Cuentabalancemultimoneda#,
+                    a.Mcodigo,
+                    b.Ocodigo,
+                    round( ( (a.EFtotal /c.TotalFac) *(c.MontoCalculado) ), 2),
+                    <cfqueryparam cfsqltype="cf_sql_varchar" value="#varNumeroEvento#">,
+                    b.CFid
+                from EFavor  a
+                    inner join  EFavor Det
+                        on a.Ecodigo = Det.Ecodigo
+                        and a.CCTcodigo = Det.CCTcodigo
+                        and a.Ddocumento = Det.Ddocumento
+                    inner join  Documentos b
+                        on Det.Ecodigo = b.Ecodigo
+                        and Det.CCTcodigo = b.CCTcodigo
+                            and Det.Ddocumento = b.Ddocumento
+                    inner join ImpIEPSDocumentosCxC c
+                        on Det.Ecodigo = c.Ecodigo
+                        and Det.CCTcodigo = c.CCTcodigo
+                        and Det.Ddocumento  =  c.Documento
+                    inner join CCTransacciones d
+                        on c.Ecodigo = d.Ecodigo
+                        and c.CCTcodigo = d.CCTcodigo
+                    inner join Impuestos i
+                        on c.Ecodigo = i.Ecodigo
+                        and c.codIEPS = i.Icodigo
+                        and i.CcuentaCxCAcred is not null
+                where a.Ecodigo    =   #Ecodigo#
+                  and a.CCTcodigo  =  <cfqueryparam cfsqltype="cf_sql_char"     value="#CCTcodigo#">
+                  and a.Ddocumento =  <cfqueryparam cfsqltype="cf_sql_char"     value="#Ddocumento#">
+                  and b.Mcodigo    != <cfqueryparam cfsqltype="cf_sql_numeric"  value="#Monloc#">
+            </cfquery>
+            <cfquery datasource="#arguments.conexion#">
+                insert into #INTARC# ( INTORI, INTREL, INTDOC, INTREF, INTMON, INTTIP, INTDES, INTFEC, INTCAM, Periodo, Mes, Ccuenta, Mcodigo, Ocodigo, INTMOE, NumeroEvento, CFid)
+                select
+                    'CCAP',
+                    1,
+                    c.Documento,
+                    c.CCTcodigo ,
+                    round( round(( (a.EFtotal /c.TotalFac) * (c.MontoCalculado) ),2) * a.EFtipocambio, 2),
+                    d.CCTtipo,
+                    <cf_dbfunction name="concat" args="i.Idescripcion, '(Nota Crédito (Acred) - CuentaBalancemultimoneda)'">,
+                    <cf_dbfunction name="to_sdate" args="#now()#">,
+                    1,
+                    #Periodo#,
+                    #Mes#,
+                    #Cuentabalancemultimoneda#,
+                    #Monloc#,
+                    b.Ocodigo,
+                    round( round(( (a.EFtotal /c.TotalFac) * (c.MontoCalculado) ),2) * a.EFtipocambio, 2),
+                    <cfqueryparam cfsqltype="cf_sql_varchar" value="#varNumeroEvento#">,
+                    b.CFid
+                from EFavor  a
+                    inner join  EFavor Det
+                        on a.Ecodigo = Det.Ecodigo
+                        and a.CCTcodigo = Det.CCTcodigo
+                        and a.Ddocumento = Det.Ddocumento
+                    inner join  Documentos b
+                        on Det.Ecodigo = b.Ecodigo
+                        and Det.CCTcodigo = b.CCTcodigo
+                            and Det.Ddocumento = b.Ddocumento
+                    inner join ImpIEPSDocumentosCxC c
+                        on Det.Ecodigo = c.Ecodigo
+                        and Det.CCTcodigo = c.CCTcodigo
+                        and Det.Ddocumento  =  c.Documento
+                    inner join CCTransacciones d
+                        on c.Ecodigo = d.Ecodigo
+                        and c.CCTcodigo = d.CCTcodigo
+                    inner join Impuestos i
+                        on c.Ecodigo = i.Ecodigo
+                        and c.codIEPS = i.Icodigo
+                        and i.CcuentaCxCAcred is not null
+                where a.Ecodigo    =   #Ecodigo#
+                  and a.CCTcodigo  =  <cfqueryparam cfsqltype="cf_sql_char"     value="#CCTcodigo#">
+                  and a.Ddocumento =  <cfqueryparam cfsqltype="cf_sql_char"     value="#Ddocumento#">
+                  and b.Mcodigo    != <cfqueryparam cfsqltype="cf_sql_numeric"  value="#Monloc#">
+            </cfquery>
+        </cfif>
+        <!--- FIN NOTAS IEPS --->
+	</cfif>
+	
+	<cfif arguments.CCTcodigo neq "NC" and arguments.CCTcodigo neq "AC">
+		<!--- Facturas --->
+		<cfquery datasource="#arguments.conexion#">
+            insert into #INTARC# ( INTORI, INTREL, INTDOC, INTREF, INTMON, INTTIP, INTDES, INTFEC, INTCAM, Periodo, Mes, Ccuenta, Mcodigo, Ocodigo, INTMOE, NumeroEvento,CFid)
+			select
+				'CCAP',
+				1,
+				Det.DRdocumento,
+				Det.CCTRcodigo ,
+				/*case when b.Mcodigo = #Monloc#
+				then
+					round(( (Det.DFmontodoc / c.TotalFac) * (c.MontoCalculado) ) ,2)
+				else
+					round( round(( (Det.DFmontodoc / c.TotalFac) * (c.MontoCalculado) ) ,2) / Det.DFtipocambio * a.EFtipocambio,2)
+				end as INTMON,*/
+				case when b.Mcodigo = #Monloc#
+				then
+                    round( (CAST(Det.DFmontodoc as float) / CAST(c.TotalFac as float)) * ( CAST( c.MontoCalculado as float) ),2)
+				else
+					round( round((CAST(Det.DFmontodoc as float) /CAST(c.TotalFac as float)) * ( CAST(c.MontoCalculado as float) ),2) / Det.DFtipocambio * a.EFtipocambio,2)
+				end as INTMON,
+				d.CCTtipo,
+				<cf_dbfunction name="concat" args="i.Idescripcion, '(Factura)'">,
+				<cf_dbfunction name="to_sdate" args="#now()#">,
+				case when b.Mcodigo = #Monloc#
+				then
+					1.00
+				else
+					round((Det.DFtotal / Det.DFmontodoc * a.EFtipocambio), 4)
+				end as INTCAM,
+				#Periodo#,
+				#Mes#,
+				CcuentaImp,
+				b.Mcodigo,
+				b.Ocodigo,
+				/*round(( (Det.DFmontodoc / c.TotalFac) * (c.MontoCalculado) ) ,2),*/
+				case when b.Mcodigo = #Monloc#
+				then
+					round( round((CAST(Det.DFmontodoc as float) /CAST(c.TotalFac as float)) * ( CAST(c.MontoCalculado as float) ),2) / Det.DFtipocambio * a.EFtipocambio,2)
+				else
+					round((CAST(Det.DFmontodoc as float) /CAST(c.TotalFac as float)) * ( CAST(c.MontoCalculado as float) ),2)
+				end as INTMOE,
+    			Det.NumeroEvento,
+                Det.CFid
+			from EFavor  a
+				inner join  DFavor Det
+					on a.Ecodigo = Det.Ecodigo
+					and a.CCTcodigo = Det.CCTcodigo
+					and a.Ddocumento = Det.Ddocumento
+				inner join  Documentos b
+					on Det.Ecodigo = b.Ecodigo
+					and Det.CCTRcodigo = b.CCTcodigo
+						and Det.DRdocumento = b.Ddocumento
+				inner join ImpDocumentosCxC c
+					on Det.Ecodigo = c.Ecodigo
+					and Det.CCTRcodigo  = c.CCTcodigo
+					and Det.DRdocumento  =  c.Documento
+				inner join CCTransacciones d
+					on c.Ecodigo = d.Ecodigo
+					and c.CCTcodigo = d.CCTcodigo
+				inner join Impuestos i
+					on c.Ecodigo = i.Ecodigo
+					and c.Icodigo = i.Icodigo
+			where a.Ecodigo    =   #Ecodigo#
+			  and a.CCTcodigo  =  <cfqueryparam cfsqltype="cf_sql_char" 	value="#CCTcodigo#">
+			  and a.Ddocumento =  <cfqueryparam cfsqltype="cf_sql_char" 	value="#Ddocumento#">
+			  and i.CcuentaCxCAcred is not null
+		</cfquery>
+
+        <cfquery  datasource="#arguments.conexion#">
+           insert into #INTARC# ( INTORI, INTREL, INTDOC, INTREF, INTMON, INTTIP, INTDES, INTFEC, INTCAM, Periodo, Mes, Ccuenta, Mcodigo, Ocodigo, INTMOE, NumeroEvento,CFid)
+            select
+                'CCAP',
+                1,
+                Det.DRdocumento,
+                Det.CCTRcodigo ,
+                case when b.Mcodigo = #Monloc#
+                then
+                    round( (CAST(Det.DFmontodoc as float) / CAST(c.TotalFac as float)) * ( CAST( (sum(bb.DDtotal) *(i.Iporcentaje/100) ) as float) ),2)
+                else
+                    round( round((CAST(Det.DFmontodoc as float) /CAST(c.TotalFac as float)) * ( CAST((sum(bb.DDtotal) *(i.Iporcentaje/100) ) as float) ),2) / Det.DFtipocambio * a.EFtipocambio,2)
+                end as INTMON,
+                'D',
+                <cf_dbfunction name="concat" args="i.Idescripcion, '(Factura)'">,
+                <cf_dbfunction name="to_sdate" args="#now()#">,
+                case when b.Mcodigo = #Monloc#
+                then
+                    1.00
+                else
+                    round((Det.DFtotal / Det.DFmontodoc * a.EFtipocambio), 4)
+                end as INTCAM,
+                #Periodo#,
+                #Mes#,
+                i.CcuentaCxCAcred,
+                b.Mcodigo,
+                b.Ocodigo,
+
+                round((CAST(Det.DFmontodoc AS float) /CAST(c.TotalFac AS float)) * (CAST((sum(bb.DDtotal) *(i.Iporcentaje/100) ) AS float)), 2) as RET,
+                Det.NumeroEvento,
+                Det.CFid
+            FROM EFavor a
+                INNER JOIN DFavor Det ON a.Ecodigo = Det.Ecodigo
+                    AND a.CCTcodigo = Det.CCTcodigo
+                    AND a.Ddocumento = Det.Ddocumento
+                INNER JOIN Documentos b ON Det.Ecodigo = b.Ecodigo
+                    AND Det.CCTRcodigo = b.CCTcodigo
+                    AND Det.DRdocumento = b.Ddocumento
+                inner  join DDocumentos bb
+                    on bb.Ddocumento =b.Ddocumento
+                    and bb.Ecodigo =b.Ecodigo
+                INNER JOIN ImpDocumentosCxC c ON Det.Ecodigo = c.Ecodigo
+                    AND Det.CCTRcodigo = c.CCTcodigo
+                    AND Det.DRdocumento = c.Documento
+                INNER JOIN Impuestos i 
+                    ON bb.Ecodigo = i.Ecodigo
+                    AND bb.Rcodigo = i.Icodigo
+            where a.Ecodigo    =   #Ecodigo#
+              and a.CCTcodigo  =  <cfqueryparam cfsqltype="cf_sql_char"     value="#CCTcodigo#">
+              and a.Ddocumento =  <cfqueryparam cfsqltype="cf_sql_char"     value="#Ddocumento#">
+              and b.EDMRetencion > 0
+             group by i.CcuentaCxCAcred,Det.DRdocumento,Det.DFtotal,Det.CCTRcodigo,b.Mcodigo,i.Idescripcion,b.Ocodigo,Det.NumeroEvento,Det.CFid,i.Iporcentaje,Det.DFmontodoc,c.TotalFac,Det.DFtipocambio,a.EFtipocambio  
+        </cfquery>
+		
+		<cfquery  datasource="#arguments.conexion#">
+            insert into #INTARC# ( INTORI, INTREL, INTDOC, INTREF, INTMON, INTTIP, INTDES, INTFEC, INTCAM, Periodo, Mes, Ccuenta, Mcodigo, Ocodigo, INTMOE, NumeroEvento,CFid)
+			select
+				'CCAP',
+				1,
+				Det.DRdocumento,
+				Det.CCTRcodigo ,
+				case when b.Mcodigo = #Monloc#
+				then
+                    round((CAST(Det.DFmontodoc as float) /CAST(c.TotalFac as float)) * ( CAST(c.MontoCalculado as float) ),2)
+				else
+					round(  round((CAST(Det.DFmontodoc as float) /CAST(c.TotalFac as float)) * ( CAST(c.MontoCalculado as float) ),2)/ Det.DFtipocambio * a.EFtipocambio,2)
+				end as INTMON,
+				case when d.CCTtipo = 'D' then 'C' else 'D' end,
+				<cf_dbfunction name="concat" args="i.Idescripcion,'(Factura - Acreditada)'">,
+				<cf_dbfunction name="to_sdate" args="#now()#">,
+				1,
+				#Periodo#,
+				#Mes#,
+				i.CcuentaCxCAcred,
+				#Monloc#,
+				b.Ocodigo,
+				<!---case when b.Mcodigo = #Monloc#
+				then--->
+					round( round((CAST(Det.DFmontodoc as float) /CAST(c.TotalFac as float)) * ( CAST(c.MontoCalculado as float) ),2) / Det.DFtipocambio * a.EFtipocambio,2)
+				<!---else
+					round((CAST(Det.DFmontodoc as float) /CAST(c.TotalFac as float)) * ( CAST(c.MontoCalculado as float) ),2)
+				end as INTMOE--->,
+    			Det.NumeroEvento,
+                Det.CFid
+			from EFavor  a
+				inner join  DFavor Det
+					on a.Ecodigo = Det.Ecodigo
+					and a.CCTcodigo = Det.CCTcodigo
+					and a.Ddocumento = Det.Ddocumento
+				inner join  Documentos b
+					on Det.Ecodigo = b.Ecodigo
+					and Det.CCTRcodigo = b.CCTcodigo
+						and Det.DRdocumento = b.Ddocumento
+				inner join ImpDocumentosCxC c
+					on Det.Ecodigo = c.Ecodigo
+					and Det.CCTRcodigo  = c.CCTcodigo
+					and Det.DRdocumento  =  c.Documento
+				inner join CCTransacciones d
+					on c.Ecodigo = d.Ecodigo
+					and c.CCTcodigo = d.CCTcodigo
+				inner join Impuestos i
+					on c.Ecodigo = i.Ecodigo
+					and c.Icodigo = i.Icodigo
+			where a.Ecodigo    =   #Ecodigo#
+			  and a.CCTcodigo  =  <cfqueryparam cfsqltype="cf_sql_char" 	value="#CCTcodigo#">
+			  and a.Ddocumento =  <cfqueryparam cfsqltype="cf_sql_char" 	value="#Ddocumento#">
+			  and i.CcuentaCxCAcred is not null
+		</cfquery>
+    
+	<!--- <cf_dumptable  var="#INTARC#" abort="true"> --->
+		
+       <!--- Lineas Retenciones --->
+        <cfquery datasource="#arguments.conexion#">
+           insert into #INTARC# ( INTORI, INTREL, INTDOC, INTREF, INTMON, INTTIP, INTDES, INTFEC, INTCAM, Periodo, Mes, Ccuenta, Mcodigo, Ocodigo, INTMOE, NumeroEvento,CFid)
+            select
+                'CCAP',
+                1,
+                Det.DRdocumento,
+                Det.CCTRcodigo ,
+                case when b.Mcodigo = #Monloc#
+                then
+                    round( (CAST(Det.DFmontodoc as float) / CAST(c.TotalFac as float)) * ( CAST( (sum(bb.DDtotal) *(i.Iporcentaje/100) ) as float) ),2)
+                else
+                    round( round((CAST(Det.DFmontodoc as float) /CAST(c.TotalFac as float)) * ( CAST((sum(bb.DDtotal) *(i.Iporcentaje/100) ) as float) ),2) / Det.DFtipocambio * a.EFtipocambio,2)
+                end as INTMON,
+                'C',
+                <cf_dbfunction name="concat" args="i.Idescripcion, '(Factura)'">,
+                <cf_dbfunction name="to_sdate" args="#now()#">,
+                case when b.Mcodigo = #Monloc#
+                then
+                    1.00
+                else
+                    round((Det.DFtotal / Det.DFmontodoc * a.EFtipocambio), 4)
+                end as INTCAM,
+                #Periodo#,
+                #Mes#,
+                i.CcuentaCxC,
+                b.Mcodigo,
+                b.Ocodigo,
+
+                round((CAST(Det.DFmontodoc AS float) /CAST(c.TotalFac AS float)) * (CAST((sum(bb.DDtotal) *(i.Iporcentaje/100) ) AS float)), 2) as RET,
+                Det.NumeroEvento,
+                Det.CFid
+            FROM EFavor a
+                INNER JOIN DFavor Det ON a.Ecodigo = Det.Ecodigo
+                    AND a.CCTcodigo = Det.CCTcodigo
+                    AND a.Ddocumento = Det.Ddocumento
+                INNER JOIN Documentos b ON Det.Ecodigo = b.Ecodigo
+                    AND Det.CCTRcodigo = b.CCTcodigo
+                    AND Det.DRdocumento = b.Ddocumento
+                inner  join DDocumentos bb
+                    on bb.Ddocumento =b.Ddocumento
+                    and bb.Ecodigo =b.Ecodigo
+                INNER JOIN ImpDocumentosCxC c ON Det.Ecodigo = c.Ecodigo
+                    AND Det.CCTRcodigo = c.CCTcodigo
+                    AND Det.DRdocumento = c.Documento
+                INNER JOIN Impuestos i 
+                    ON bb.Ecodigo = i.Ecodigo
+                    AND bb.Rcodigo = i.Icodigo
+            where a.Ecodigo    =   #Ecodigo#
+              and a.CCTcodigo  =  <cfqueryparam cfsqltype="cf_sql_char"     value="#CCTcodigo#">
+              and a.Ddocumento =  <cfqueryparam cfsqltype="cf_sql_char"     value="#Ddocumento#">
+              and b.EDMRetencion > 0
+             group by i.CcuentaCxC,Det.DRdocumento,Det.DFtotal,Det.CCTRcodigo,b.Mcodigo,i.Idescripcion,b.Ocodigo,Det.NumeroEvento,Det.CFid,i.Iporcentaje,Det.DFmontodoc,c.TotalFac,Det.DFtipocambio,a.EFtipocambio  
+        </cfquery>
+		<cfquery datasource="#arguments.conexion#">
+			insert into #INTARC# ( INTORI, INTREL, INTDOC, INTREF, INTMON, INTTIP, INTDES, INTFEC, INTCAM, Periodo, Mes, Ccuenta, Mcodigo, Ocodigo, INTMOE, NumeroEvento,CFid)
+			select
+				'CCAP',
+				1,
+				Det.DRdocumento,
+				Det.CCTRcodigo ,
+				round( round(( (cast(Det.DFmontodoc as float) / cast(c.TotalFac as float)) * (cast(c.MontoCalculado as float)) ) ,2) / Det.DFtipocambio * a.EFtipocambio,2),
+				case when d.CCTtipo = 'D' then 'C' else 'D' end,
+				<cf_dbfunction name="concat" args="i.Idescripcion,'(Factura - CuentaBalancemultimoneda)'">,
+				<cf_dbfunction name="to_sdate" args="#now()#">,
+				round((cast(Det.DFtotal as float) / cast(Det.DFmontodoc as float)* a.EFtipocambio),4),
+				#Periodo#,
+				#Mes#,
+				#Cuentabalancemultimoneda#,
+				b.Mcodigo,
+				b.Ocodigo,
+				round( (cast(Det.DFmontodoc as float) / cast(c.TotalFac as float)) * (cast(c.MontoCalculado as float)), 2),
+    			Det.NumeroEvento,
+                Det.CFid
+			from EFavor  a
+				inner join  DFavor Det
+					on a.Ecodigo = Det.Ecodigo
+				   and a.CCTcodigo = Det.CCTcodigo
+				   and a.Ddocumento = Det.Ddocumento
+				inner join  Documentos b
+					on Det.Ecodigo = b.Ecodigo
+				   and Det.CCTRcodigo = b.CCTcodigo
+				   and Det.DRdocumento = b.Ddocumento
+				inner join ImpDocumentosCxC c
+					on Det.Ecodigo = c.Ecodigo
+					and Det.CCTRcodigo  = c.CCTcodigo
+					and Det.DRdocumento  =  c.Documento
+				inner join CCTransacciones d
+					on c.Ecodigo = d.Ecodigo
+				   and c.CCTcodigo = d.CCTcodigo
+				inner join Impuestos i
+					on c.Ecodigo = i.Ecodigo
+				   and c.Icodigo = i.Icodigo
+			where a.Ecodigo     =   #Ecodigo#
+			  and a.CCTcodigo   =  <cfqueryparam cfsqltype="cf_sql_char" 	value="#CCTcodigo#">
+			  and a.Ddocumento  =  <cfqueryparam cfsqltype="cf_sql_char" 	value="#Ddocumento#">
+			  and b.Mcodigo    != <cfqueryparam cfsqltype="cf_sql_numeric" 	value="#Monloc#">
+			  and i.CcuentaCxCAcred is not null
+		</cfquery>
+		<cfquery datasource="#arguments.conexion#">
+			insert into #INTARC# ( INTORI, INTREL, INTDOC, INTREF, INTMON, INTTIP, INTDES, INTFEC, INTCAM, Periodo, Mes, Ccuenta, Mcodigo, Ocodigo, INTMOE, NumeroEvento,CFid)
+			select
+				'CCAP',
+				1,
+				Det.DRdocumento,
+				Det.CCTRcodigo ,
+				round( round(( (cast(Det.DFmontodoc as float)/ cast(c.TotalFac as float)) * (cast(c.MontoCalculado as float)) ) ,2) / Det.DFtipocambio * a.EFtipocambio,2),
+				d.CCTtipo,
+				<cf_dbfunction name="concat" args="i.Idescripcion,'(Factura (Acred)- CuentaBalancemultimoneda)'">,
+				<cf_dbfunction name="to_sdate" args="#now()#">,
+				1,
+				#Periodo#,
+				#Mes#,
+				#Cuentabalancemultimoneda#,
+				#Monloc#,
+				b.Ocodigo,
+				round( round(( (cast(Det.DFmontodoc as float) / cast(c.TotalFac as float)) * (cast(c.MontoCalculado as float)) ) ,2) / Det.DFtipocambio * a.EFtipocambio,2),
+    			Det.NumeroEvento,
+                Det.CFid
+			from EFavor  a
+				inner join  DFavor Det
+					on a.Ecodigo 	 = Det.Ecodigo
+					and a.CCTcodigo  = Det.CCTcodigo
+					and a.Ddocumento = Det.Ddocumento
+				inner join  Documentos b
+					on Det.Ecodigo	 	= b.Ecodigo
+				   and Det.CCTRcodigo	= b.CCTcodigo
+				   and Det.DRdocumento 	= b.Ddocumento
+				inner join ImpDocumentosCxC c
+					on Det.Ecodigo = c.Ecodigo
+				   and Det.CCTRcodigo  = c.CCTcodigo
+				   and Det.DRdocumento  =  c.Documento
+				inner join CCTransacciones d
+					on c.Ecodigo 	= d.Ecodigo
+				   and c.CCTcodigo 	= d.CCTcodigo
+				inner join Impuestos i
+					on c.Ecodigo = i.Ecodigo
+				   and c.Icodigo = i.Icodigo
+			where a.Ecodigo     =   #Ecodigo#
+			  and a.CCTcodigo   =  <cfqueryparam cfsqltype="cf_sql_char" 	value="#CCTcodigo#">
+			  and a.Ddocumento  =  <cfqueryparam cfsqltype="cf_sql_char" 	value="#Ddocumento#">
+			  and b.Mcodigo    != <cfqueryparam cfsqltype="cf_sql_numeric" 	value="#Monloc#">
+			  and i.CcuentaCxCAcred is not null
+		</cfquery>
+		
+		<!--- FACTURAS IEPS --->
+        <cfquery name="validaFacIEPS" datasource="#session.dsn#">
+            select isnull(sum(c.MontoCalculado),0) as valid
+            from EFavor  a
+                    inner join  DFavor Det
+                        on a.Ecodigo = Det.Ecodigo
+                        and a.CCTcodigo = Det.CCTcodigo
+                        and a.Ddocumento = Det.Ddocumento
+                    inner join  Documentos b
+                        on Det.Ecodigo = b.Ecodigo
+                        and Det.CCTRcodigo = b.CCTcodigo
+                            and Det.DRdocumento = b.Ddocumento
+                    inner join ImpIEPSDocumentosCxC c
+                        on Det.Ecodigo = c.Ecodigo
+                        and Det.CCTRcodigo  = c.CCTcodigo
+                        and Det.DRdocumento  =  c.Documento
+        </cfquery>
+        <cfif validaFacIEPS.recordCount GT 0>
+            <cfquery datasource="#arguments.conexion#">
+                insert into #INTARC# ( INTORI, INTREL, INTDOC, INTREF, INTMON, INTTIP, INTDES, INTFEC, INTCAM, Periodo, Mes, Ccuenta, Mcodigo, Ocodigo, INTMOE, NumeroEvento, CFid)
+                select
+                    'CCAP',
+                    1,
+                    Det.DRdocumento,
+                    Det.CCTRcodigo ,
+                    case when b.Mcodigo = #Monloc#
+                    then
+                        round(( (Det.DFmontodoc / c.TotalFac) * (c.MontoCalculado) ) ,2)
+                    else
+                        round( round(( (Det.DFmontodoc / c.TotalFac) * (c.MontoCalculado) ) ,2) / Det.DFtipocambio * a.EFtipocambio,2)
+                    end as INTMON,
+                    d.CCTtipo,
+                    <cf_dbfunction name="concat" args="i.Idescripcion, '(Factura)'">,
+                    <cf_dbfunction name="to_sdate" args="#now()#">,
+                    case when b.Mcodigo = #Monloc#
+                    then
+                        1.00
+                    else
+                        round((Det.DFtotal / Det.DFmontodoc * a.EFtipocambio), 4)
+                    end as INTCAM,
+                    #Periodo#,
+                    #Mes#,
+                    i.CcuentaCxC,
+                    b.Mcodigo,
+                    b.Ocodigo,
+                    round(( (Det.DFmontodoc / c.TotalFac) * (c.MontoCalculado) ) ,2),
+                    Det.NumeroEvento,
+                    Det.CFid
+                from EFavor  a
+                    inner join  DFavor Det
+                        on a.Ecodigo = Det.Ecodigo
+                        and a.CCTcodigo = Det.CCTcodigo
+                        and a.Ddocumento = Det.Ddocumento
+                    inner join  Documentos b
+                        on Det.Ecodigo = b.Ecodigo
+                        and Det.CCTRcodigo = b.CCTcodigo
+                            and Det.DRdocumento = b.Ddocumento
+                    inner join ImpIEPSDocumentosCxC c
+                        on Det.Ecodigo = c.Ecodigo
+                        and Det.CCTRcodigo  = c.CCTcodigo
+                        and Det.DRdocumento  =  c.Documento
+                    inner join CCTransacciones d
+                        on c.Ecodigo = d.Ecodigo
+                        and c.CCTcodigo = d.CCTcodigo
+                    inner join Impuestos i
+                        on c.Ecodigo = i.Ecodigo
+                        and c.codIEPS = i.Icodigo
+                where a.Ecodigo    =   #Ecodigo#
+                  and a.CCTcodigo  =  <cfqueryparam cfsqltype="cf_sql_char"     value="#CCTcodigo#">
+                  and a.Ddocumento =  <cfqueryparam cfsqltype="cf_sql_char"     value="#Ddocumento#">
+                  and i.CcuentaCxCAcred is not null
+            </cfquery>
+            <cfquery datasource="#arguments.conexion#">
+                insert into #INTARC# ( INTORI, INTREL, INTDOC, INTREF, INTMON, INTTIP, INTDES, INTFEC, INTCAM, Periodo, Mes, Ccuenta, Mcodigo, Ocodigo, INTMOE, NumeroEvento,CFid)
+                select
+                    'CCAP',
+                    1,
+                    Det.DRdocumento,
+                    Det.CCTRcodigo ,
+                    case when b.Mcodigo = #Monloc#
+                    then
+                        round(( (Det.DFmontodoc / c.TotalFac) * (c.MontoCalculado) ) ,2)
+                    else
+                        round( round(( (Det.DFmontodoc / c.TotalFac) * (c.MontoCalculado) ) ,2) / Det.DFtipocambio * a.EFtipocambio,2)
+                    end as INTMON,
+                    case when d.CCTtipo = 'D' then 'C' else 'D' end,
+                    <cf_dbfunction name="concat" args="i.Idescripcion,'(Factura - Acreditada)'">,
+                    <cf_dbfunction name="to_sdate" args="#now()#">,
+                    1,
+                    #Periodo#,
+                    #Mes#,
+                    i.CcuentaCxCAcred,
+                    #Monloc#,
+                    b.Ocodigo,
+                    case when b.Mcodigo = #Monloc#
+                    then
+                        round(( (Det.DFmontodoc / c.TotalFac) * (c.MontoCalculado) ) ,2)
+                    else
+                        round( round(( (Det.DFmontodoc / c.TotalFac) * (c.MontoCalculado) ) ,2) / Det.DFtipocambio * a.EFtipocambio,2)
+                    end as INTMOE,
+                    Det.NumeroEvento,
+                    Det.CFid
+                from EFavor  a
+                    inner join  DFavor Det
+                        on a.Ecodigo = Det.Ecodigo
+                        and a.CCTcodigo = Det.CCTcodigo
+                        and a.Ddocumento = Det.Ddocumento
+                    inner join  Documentos b
+                        on Det.Ecodigo = b.Ecodigo
+                        and Det.CCTRcodigo = b.CCTcodigo
+                            and Det.DRdocumento = b.Ddocumento
+                    inner join ImpIEPSDocumentosCxC c
+                        on Det.Ecodigo = c.Ecodigo
+                        and Det.CCTRcodigo  = c.CCTcodigo
+                        and Det.DRdocumento  =  c.Documento
+                    inner join CCTransacciones d
+                        on c.Ecodigo = d.Ecodigo
+                        and c.CCTcodigo = d.CCTcodigo
+                    inner join Impuestos i
+                        on c.Ecodigo = i.Ecodigo
+                        and c.codIEPS = i.Icodigo
+                where a.Ecodigo    =   #Ecodigo#
+                  and a.CCTcodigo  =  <cfqueryparam cfsqltype="cf_sql_char"     value="#CCTcodigo#">
+                  and a.Ddocumento =  <cfqueryparam cfsqltype="cf_sql_char"     value="#Ddocumento#">
+                  and i.CcuentaCxCAcred is not null
+            </cfquery>
+            <cfquery datasource="#arguments.conexion#">
+                insert into #INTARC# ( INTORI, INTREL, INTDOC, INTREF, INTMON, INTTIP, INTDES, INTFEC, INTCAM, Periodo, Mes, Ccuenta, Mcodigo, Ocodigo, INTMOE, NumeroEvento,CFid)
+                select
+                    'CCAP',
+                    1,
+                    Det.DRdocumento,
+                    Det.CCTRcodigo ,
+                    round( round(( (Det.DFmontodoc / c.TotalFac) * (c.MontoCalculado) ) ,2) / Det.DFtipocambio * a.EFtipocambio,2),
+                    case when d.CCTtipo = 'D' then 'C' else 'D' end,
+                    <cf_dbfunction name="concat" args="i.Idescripcion,'(Factura - CuentaBalancemultimoneda)'">,
+                    <cf_dbfunction name="to_sdate" args="#now()#">,
+                    round((Det.DFtotal / Det.DFmontodoc * a.EFtipocambio),4),
+                    #Periodo#,
+                    #Mes#,
+                    #Cuentabalancemultimoneda#,
+                    b.Mcodigo,
+                    b.Ocodigo,
+                    round( (Det.DFmontodoc / c.TotalFac) * (c.MontoCalculado), 2),
+                    Det.NumeroEvento,
+                    Det.CFid
+                from EFavor  a
+                    inner join  DFavor Det
+                        on a.Ecodigo = Det.Ecodigo
+                       and a.CCTcodigo = Det.CCTcodigo
+                       and a.Ddocumento = Det.Ddocumento
+                    inner join  Documentos b
+                        on Det.Ecodigo = b.Ecodigo
+                       and Det.CCTRcodigo = b.CCTcodigo
+                       and Det.DRdocumento = b.Ddocumento
+                    inner join ImpIEPSDocumentosCxC c
+                        on Det.Ecodigo = c.Ecodigo
+                        and Det.CCTRcodigo  = c.CCTcodigo
+                        and Det.DRdocumento  =  c.Documento
+                    inner join CCTransacciones d
+                        on c.Ecodigo = d.Ecodigo
+                       and c.CCTcodigo = d.CCTcodigo
+                    inner join Impuestos i
+                        on c.Ecodigo = i.Ecodigo
+                       and c.codIEPS = i.Icodigo
+                where a.Ecodigo     =   #Ecodigo#
+                  and a.CCTcodigo   =  <cfqueryparam cfsqltype="cf_sql_char"    value="#CCTcodigo#">
+                  and a.Ddocumento  =  <cfqueryparam cfsqltype="cf_sql_char"    value="#Ddocumento#">
+                  and b.Mcodigo    != <cfqueryparam cfsqltype="cf_sql_numeric"  value="#Monloc#">
+                  and i.CcuentaCxCAcred is not null
+            </cfquery>
+            <cfquery datasource="#arguments.conexion#">
+                insert into #INTARC# ( INTORI, INTREL, INTDOC, INTREF, INTMON, INTTIP, INTDES, INTFEC, INTCAM, Periodo, Mes, Ccuenta, Mcodigo, Ocodigo, INTMOE, NumeroEvento,CFid)
+                select
+                    'CCAP',
+                    1,
+                    Det.DRdocumento,
+                    Det.CCTRcodigo ,
+                    round( round(( (Det.DFmontodoc / c.TotalFac) * (c.MontoCalculado) ) ,2) / Det.DFtipocambio * a.EFtipocambio,2),
+                    d.CCTtipo,
+                    <cf_dbfunction name="concat" args="i.Idescripcion,'(Factura (Acred) - CuentaBalancemultimoneda)'">,
+                    <cf_dbfunction name="to_sdate" args="#now()#">,
+                    1,
+                    #Periodo#,
+                    #Mes#,
+                    #Cuentabalancemultimoneda#,
+                    #Monloc#,
+                    b.Ocodigo,
+                    round( round(( (Det.DFmontodoc / c.TotalFac) * (c.MontoCalculado) ) ,2) / Det.DFtipocambio * a.EFtipocambio,2),
+                    Det.NumeroEvento,
+                    Det.CFid
+                from EFavor  a
+                    inner join  DFavor Det
+                        on a.Ecodigo     = Det.Ecodigo
+                        and a.CCTcodigo  = Det.CCTcodigo
+                        and a.Ddocumento = Det.Ddocumento
+                    inner join  Documentos b
+                        on Det.Ecodigo      = b.Ecodigo
+                       and Det.CCTRcodigo   = b.CCTcodigo
+                       and Det.DRdocumento  = b.Ddocumento
+                    inner join ImpIEPSDocumentosCxC c
+                        on Det.Ecodigo = c.Ecodigo
+                       and Det.CCTRcodigo  = c.CCTcodigo
+                       and Det.DRdocumento =  c.Documento
+                    inner join CCTransacciones d
+                        on c.Ecodigo    = d.Ecodigo
+                       and c.CCTcodigo  = d.CCTcodigo
+                    inner join Impuestos i
+                        on c.Ecodigo = i.Ecodigo
+                       and c.codIEPS = i.Icodigo
+                where a.Ecodigo      = #Ecodigo#
+                  and a.CCTcodigo   =  <cfqueryparam cfsqltype="cf_sql_char"    value="#CCTcodigo#">
+                  and a.Ddocumento  =  <cfqueryparam cfsqltype="cf_sql_char"    value="#Ddocumento#">
+                  and b.Mcodigo    != <cfqueryparam cfsqltype="cf_sql_numeric"  value="#Monloc#">
+                  and i.CcuentaCxCAcred is not null
+            </cfquery>
+        </cfif>
+        <!--- FIN FACTURAS IEPS --->
+	</cfif>
+
+		<!--- 2) Asiento Contable --->
+		<!--- 2a) Débito: Documento a Favor --->
+		<cfquery datasource="#arguments.conexion#">
+			insert into #INTARC# ( INTORI, INTREL, INTDOC, INTREF, INTMON, INTTIP, INTDES, INTFEC, INTCAM, Periodo, Mes, Ccuenta, Mcodigo, Ocodigo, INTMOE, NumeroEvento,CFid)
+			select
+				'CCAP',
+				1,
+				a.Ddocumento,
+				a.CCTcodigo,
+				round(a.EFtotal*a.EFtipocambio,2),
+				'D',
+				<cf_dbfunction name="concat" args="'CxC: Documento a Favor ', a.Ddocumento">,
+				<cf_dbfunction name="to_sdate" args="#now()#">,
+				a.EFtipocambio,
+				#Periodo#,
+				#Mes#,
+				b.Ccuenta,
+				a.Mcodigo,
+				b.Ocodigo,
+				a.EFtotal,
+    			<cfqueryparam cfsqltype="cf_sql_varchar" value="#varNumeroEvento#">,
+                b.CFid
+			from EFavor a
+				inner join Documentos b
+				  on a.Ecodigo = b.Ecodigo
+				 and a.CCTcodigo = b.CCTcodigo
+				 and a.Ddocumento = b.Ddocumento
+			where a.Ecodigo     =   #Ecodigo#
+			  and a.CCTcodigo   =  <cfqueryparam cfsqltype="cf_sql_char" 	value="#CCTcodigo#">
+			  and a.Ddocumento  =  <cfqueryparam cfsqltype="cf_sql_char" 	value="#Ddocumento#">
+		</cfquery>
+
+		<!--- 2b) Crédito: Documentos Afectados --->
+		<cfquery datasource="#arguments.conexion#">
+			insert into #INTARC# ( INTORI, INTREL, INTDOC, INTREF, INTMON, INTTIP, INTDES, INTFEC, INTCAM, Periodo, Mes, Ccuenta, Mcodigo, Ocodigo, INTMOE, NumeroEvento,CFid)
+			select
+				'CCAP',
+				1,
+				a.DRdocumento,
+				a.CCTRcodigo,
+				round(a.DFmontodoc / a.DFtipocambio  * c.EFtipocambio, 2),
+				'C',
+				<cf_dbfunction name="concat" args="'CxC: Pago Documento ',a.DRdocumento ">,
+				<cf_dbfunction name="to_sdate" args="#now()#">,
+				case when a.Mcodigo != #Monloc# then round(a.DFtotal*c.EFtipocambio,2)/a.DFmontodoc else 1 end,
+				#Periodo#,
+				#Mes#,
+				b.Ccuenta,
+				a.Mcodigo,
+				b.Ocodigo,
+				a.DFmontodoc,
+    			a.NumeroEvento,
+                a.CFid
+			from DFavor a
+				inner join EFavor c
+					on a.Ecodigo = c.Ecodigo
+				   and a.CCTcodigo = c.CCTcodigo
+				   and a.Ddocumento = c.Ddocumento
+
+				inner join Documentos b
+					on a.Ecodigo = b.Ecodigo
+				   and a.CCTRcodigo = b.CCTcodigo
+				   and a.DRdocumento = b.Ddocumento
+
+			where a.Ecodigo    	=   #Ecodigo#
+			  and a.CCTcodigo   =  <cfqueryparam cfsqltype="cf_sql_char" 	value="#CCTcodigo#">
+			  and a.Ddocumento  =  <cfqueryparam cfsqltype="cf_sql_char" 	value="#Ddocumento#">
+		</cfquery>
+
+		<cfquery datasource="#arguments.conexion#">
+			insert into #INTARC# (
+			INTORI, INTREL, INTDOC, INTREF, INTMON,
+			INTTIP, INTDES, INTFEC, INTCAM,
+			Periodo, Mes, Ccuenta, Mcodigo, Ocodigo, INTMOE,
+            NumeroEvento,CFid)
+			select
+				'CCAP',
+				1,
+				a.DRdocumento,
+				a.CCTRcodigo,
+				round(a.DFtotal * c.EFtipocambio,2),
+				'C',
+				<cf_dbfunction name="concat" args="'Balance Moneda Documento ', a.CCTRcodigo, '-', a.DRdocumento">,
+				<cf_dbfunction name="to_sdate" args="#now()#">,
+				c.EFtipocambio,
+				#Periodo#,
+				#Mes#,
+				#CuentaPuente#,
+				c.Mcodigo,
+				b.Ocodigo,
+				a.DFtotal,
+    			a.NumeroEvento,
+                a.CFid
+			from DFavor a
+				inner join EFavor c
+					on a.Ecodigo = c.Ecodigo
+					and a.CCTcodigo = c.CCTcodigo
+					and a.Ddocumento = c.Ddocumento
+
+				inner join Documentos b
+					on a.Ecodigo = b.Ecodigo
+					and a.CCTRcodigo = b.CCTcodigo
+					and a.DRdocumento = b.Ddocumento
+
+			where a.Ecodigo    	=   #Ecodigo#
+			  and a.CCTcodigo   =  <cfqueryparam cfsqltype="cf_sql_char" 	value="#CCTcodigo#">
+			  and a.Ddocumento  =  <cfqueryparam cfsqltype="cf_sql_char" 	value="#Ddocumento#">
+			  and b.Mcodigo <> c.Mcodigo
+		</cfquery>
+
+		<cfquery datasource="#arguments.conexion#">
+			insert into #INTARC# (
+			INTORI, INTREL, INTDOC, INTREF, INTMON,
+			INTTIP, INTDES, INTFEC, INTCAM,
+			Periodo, Mes, Ccuenta, Mcodigo, Ocodigo, INTMOE,
+            NumeroEvento,CFid)
+			select
+				'CCAP',
+				1,
+				a.DRdocumento,
+				a.CCTRcodigo,
+				round(a.DFmontodoc / a.DFtipocambio * c.EFtipocambio,2),
+				'D',
+				<cf_dbfunction name="concat" args="'Balance Moneda Documento ', a.CCTRcodigo,'-',a.DRdocumento ">,
+				<cf_dbfunction name="to_sdate" args="#now()#">,
+				case when a.Mcodigo != #Monloc# then round(a.DFtotal * c.EFtipocambio,4) / a.DFmontodoc else 1 end,
+				#Periodo#,
+				#Mes#,
+				#CuentaPuente#,
+				a.Mcodigo,
+				b.Ocodigo,
+				a.DFmontodoc,
+                a.NumeroEvento,
+                a.CFid
+			from DFavor a
+			inner join EFavor c
+			on a.Ecodigo = c.Ecodigo
+			and a.CCTcodigo = c.CCTcodigo
+			and a.Ddocumento = c.Ddocumento
+
+			inner join Documentos b
+			on a.Ecodigo = b.Ecodigo
+			and a.CCTRcodigo = b.CCTcodigo
+			and a.DRdocumento = b.Ddocumento
+			where a.Ecodigo    	=   #Ecodigo#
+			  and a.CCTcodigo   =  <cfqueryparam cfsqltype="cf_sql_char" 	value="#CCTcodigo#">
+			  and a.Ddocumento  =  <cfqueryparam cfsqltype="cf_sql_char" 	value="#Ddocumento#">
+			  and c.Mcodigo != b.Mcodigo
+		</cfquery>
+		<cfif #arguments.SNid# NEQ -1>
+			<!--- Sólo se calculan costos para la transacción de pago con documento, esto para evitar cuando sea una nota de credito de cancelación --->
+			<cfif 	TransaccionPagoConDocumento eq CCTcodigo>
+				<cfinvoke component="sif.fa.operacion.CostosAuto" method="Cons_CostosIngresos" returnvariable="incos">
+				   <cfinvokeargument name="Ecodigo"		value="#arguments.Ecodigo#"/>
+				   <cfinvokeargument name="SNid"	    value="#arguments.SNid#"/>
+				   <cfinvokeargument name="incos"	    value="#arguments.Tb_Calculo#"/>
+				   <cfinvokeargument name="TIPO"	    value="FA"/>
+				   <cfinvokeargument name="ETtc"	    value="#EFTC#"/>
+				   <cfinvokeargument name="Monloc"	    value="#Mlocal#"/>
+				   <cfinvokeargument name="CCTcodigo"	value="#arguments.CCTcodigo#"/>
+				   <cfinvokeargument name="Pcodigo"	    value="#arguments.Ddocumento#"/>
+				   <cfinvokeargument name="INTARC"	    value="#INTARC#"/>
+				   <cfinvokeargument name="PagoconDocumento"	    value="true"/>
+				</cfinvoke>
+			</cfif>
+		</cfif>
+		<!--- Se usa para un update abajo, así se elimina el update from y se hace compatible con Oracle --->
+		<cfquery name="rsEFtotal" datasource="#arguments.conexion#">
+			select
+				EFtotal,
+                EFieps,
+				Ecodigo,
+				CCTcodigo,
+				Ddocumento
+			from EFavor
+			where Ecodigo  	 =  #Ecodigo#
+			  and CCTcodigo  = <cfqueryparam cfsqltype="cf_sql_char" 	value="#CCTcodigo#">
+			  and Ddocumento = <cfqueryparam cfsqltype="cf_sql_char" 	value="#Ddocumento#">
+		</cfquery>
+
+		<!--- Se usa para un update abajo, así se elimina el update from y se hace compatible con Oracle --->
+		<cfquery name="rsDFmontodoc" datasource="#arguments.conexion#">
+				select
+					det.DFmontodoc,
+					det.Ecodigo,
+					det.CCTRcodigo,
+					det.DRdocumento
+				from EFavor  a
+				inner join DFavor det
+					on  a.Ecodigo    = det.Ecodigo
+					and a.CCTcodigo  = det.CCTcodigo
+					and a.Ddocumento = det.Ddocumento
+				where a.Ecodigo  	  =  #Ecodigo#
+				  and a.CCTcodigo  	  = <cfqueryparam cfsqltype="cf_sql_char" 	  value="#CCTcodigo#">
+				  and a.Ddocumento 	  = <cfqueryparam cfsqltype="cf_sql_char" 	  value="#Ddocumento#">
+			</cfquery>
+
+		<cfif arguments.debug>
+			<cfquery name="rsDebug" datasource="#arguments.conexion#">
+				select * from #INTARC#
+			</cfquery>
+			<cfdump var="#rsDebug#">
+		</cfif>
+			<cfquery datasource="#Arguments.Conexion#">
+				update EFavor
+				set Ccuenta = ((
+						select min(Ccuenta)
+						from Documentos d
+						where d.Ecodigo = EFavor.Ecodigo
+						and d.CCTcodigo = EFavor.CCTcodigo
+						and d.Ddocumento = EFavor.Ddocumento ))
+				where Ecodigo  	  = #Ecodigo#
+				  and CCTcodigo   = '#CCTcodigo#'
+				  and Ddocumento  = '#Ddocumento#'
+			</cfquery>
+
+			<cfquery datasource="#Arguments.Conexion#">
+				update DFavor
+				set Ccuenta = ((
+						select min(Ccuenta)
+						from Documentos d
+						where d.Ecodigo = DFavor.Ecodigo
+						and d.CCTcodigo = DFavor.CCTRcodigo
+						and d.Ddocumento = DFavor.DRdocumento ))
+				where Ecodigo  	  = #Ecodigo#
+				  and CCTcodigo   = '#CCTcodigo#'
+				  and Ddocumento  = '#Ddocumento#'
+			</cfquery>
+
+			<!---
+			/****************************************/
+			/*   Inserta monto pagado por Impuestos */
+			/*   en la tabla ImpDocumentosCxCMov    */
+			/****************************************/
+			/* Nota Crédito */
+			--->
+			<cfquery datasource="#arguments.conexion#">
+				insert into ImpDocumentosCxCMov (
+					CCTcodigo, Documento, Icodigo, Ecodigo,
+					Fecha, MontoPagado, TipoPago, DocumentoPago,
+					Periodo, Mes, CcuentaAC, BMUsucodigo, BMFecha,
+					TpoCambio, MontoPagadoLocal
+				    )
+				select	b.CCTcodigo,
+					b.Documento,
+					b.Icodigo,
+					b.Ecodigo,
+					a.EFfecha,
+					round((a.EFtotal * b.MontoCalculado)/b.TotalFac,2),
+					a.CCTcodigo,
+					a.Ddocumento,
+					#Periodo#,
+					#Mes#,
+					coalesce(i.CcuentaCxCAcred,i.Ccuenta),
+					#arguments.Usucodigo#,
+					<cf_dbfunction name="to_sdate" args="#now()#">,
+					a.EFtipocambio,
+					round(((a.EFtotal * b.MontoCalculado)/b.TotalFac) * a.EFtipocambio,2)
+				from  EFavor  a
+					inner join ImpDocumentosCxC b
+						on a.Ecodigo = b.Ecodigo
+						and a.CCTcodigo = b.CCTcodigo
+						and a.Ddocumento =  b.Documento
+					inner join Impuestos i
+						on b.Ecodigo = i.Ecodigo
+						and b.Icodigo = i.Icodigo
+				where a.Ecodigo  	=  #Ecodigo#
+				  and a.CCTcodigo  	= <cfqueryparam cfsqltype="cf_sql_char" 	value="#CCTcodigo#">
+				  and a.Ddocumento	= <cfqueryparam cfsqltype="cf_sql_char" 	value="#Ddocumento#">
+			</cfquery>
+
+            <!--- IEPS NOTA CREDITO --->
+		    <cfquery datasource="#arguments.conexion#">
+                insert into ImpIEPSDocumentosCxCMov (
+                    CCTcodigo, Documento, codIEPS, Ecodigo,
+                    Fecha, MontoPagado, TipoPago, DocumentoPago,
+                    Periodo, Mes, CcuentaAC, BMUsucodigo, BMFecha,
+                    TpoCambio, MontoPagadoLocal
+                    )
+                select  b.CCTcodigo,
+                    b.Documento,
+                    b.codIEPS,
+                    b.Ecodigo,
+                    a.EFfecha,
+                    round((a.EFtotal * b.MontoCalculado)/b.TotalFac,2),
+                    a.CCTcodigo,
+                    a.Ddocumento,
+                    #Periodo#,
+                    #Mes#,
+                    coalesce(i.CcuentaCxCAcred, i.Ccuenta),
+                    #arguments.Usucodigo#,
+                    <cf_dbfunction name="to_sdate" args="#now()#">,
+                    a.EFtipocambio,
+                    round(((a.EFtotal * b.MontoCalculado)/b.TotalFac) * a.EFtipocambio,2)
+                from  EFavor  a
+                    inner join ImpIEPSDocumentosCxC b
+                        on a.Ecodigo = b.Ecodigo
+                        and a.CCTcodigo = b.CCTcodigo
+                        and a.Ddocumento =  b.Documento
+                    inner join Impuestos i
+                        on b.Ecodigo = i.Ecodigo
+                        and b.codIEPS = i.Icodigo
+                where a.Ecodigo     =  #Ecodigo#
+                  and a.CCTcodigo   = <cfqueryparam cfsqltype="cf_sql_char" value="#CCTcodigo#">
+                  and a.Ddocumento  = <cfqueryparam cfsqltype="cf_sql_char" value="#Ddocumento#">
+            </cfquery>
+			<!--- Facturas  IVA --->
+			<cfquery datasource="#arguments.conexion#">
+				insert into ImpDocumentosCxCMov (
+					CCTcodigo,
+					Documento,
+					Icodigo,
+					Ecodigo,
+					Fecha,
+					MontoPagado,
+					TipoPago,
+					DocumentoPago,
+					Periodo,
+					Mes,
+					CcuentaAC,
+					BMUsucodigo,
+					BMFecha,
+					TpoCambio,
+					MontoPagadoLocal
+				)
+				select	b.CCTcodigo,
+					b.Documento,
+					b.Icodigo,
+					b.Ecodigo,
+					a.EFfecha,
+					round((det.DFmontodoc * b.MontoCalculado)/b.TotalFac,2),
+					a.CCTcodigo,
+					a.Ddocumento,
+					#Periodo#,
+					#Mes#,
+					coalesce(i.CcuentaCxCAcred,i.Ccuenta),
+					#arguments.Usucodigo#,
+					<cf_dbfunction name="to_sdate" args="#now()#">,
+					(det.DFtotal / det.DFmontodoc * a.EFtipocambio),
+					round(((det.DFmontodoc * b.MontoCalculado)/b.TotalFac) * (det.DFtotal / det.DFmontodoc * a.EFtipocambio),2)
+				from  EFavor  a
+					inner join DFavor det
+						on a.Ecodigo = det.Ecodigo
+						and a.CCTcodigo = det.CCTcodigo
+						and a.Ddocumento = det.Ddocumento
+					inner join ImpDocumentosCxC b
+						on det.Ecodigo = b.Ecodigo
+						and det.CCTRcodigo = b.CCTcodigo
+						and det.DRdocumento =  b.Documento
+					inner join Impuestos i
+						on b.Ecodigo = i.Ecodigo
+						and b.Icodigo = i.Icodigo
+				where a.Ecodigo  	=  #Ecodigo#
+				  and a.CCTcodigo  	= <cfqueryparam cfsqltype="cf_sql_char" 	value="#CCTcodigo#">
+				  and a.Ddocumento	= <cfqueryparam cfsqltype="cf_sql_char" 	value="#Ddocumento#">
+			</cfquery>
+            <!--- Facturas  IEPS --->
+			<cfquery datasource="#arguments.conexion#">
+                insert into ImpIEPSDocumentosCxCMov (
+					CCTcodigo,
+					Documento,
+                    codIEPS,
+					Ecodigo,
+					Fecha,
+					MontoPagado,
+					TipoPago,
+					DocumentoPago,
+					Periodo,
+					Mes,
+					CcuentaAC,
+					BMUsucodigo,
+					BMFecha,
+					TpoCambio,
+					MontoPagadoLocal
+				)
+				select	b.CCTcodigo,
+					b.Documento,
+                    b.codIEPS,
+					b.Ecodigo,
+					a.EFfecha,
+					round((det.DFmontodoc * b.MontoCalculado)/b.TotalFac,2),
+					a.CCTcodigo,
+					a.Ddocumento,
+					#Periodo#,
+					#Mes#,
+					coalesce(i.CcuentaCxCAcred,i.Ccuenta),
+					#arguments.Usucodigo#,
+					<cf_dbfunction name="to_sdate" args="#now()#">,
+					(det.DFtotal / det.DFmontodoc * a.EFtipocambio),
+					round(((det.DFmontodoc * b.MontoCalculado)/b.TotalFac) * (det.DFtotal / det.DFmontodoc * a.EFtipocambio),2)
+				from  EFavor  a
+					inner join DFavor det
+						on a.Ecodigo = det.Ecodigo
+						and a.CCTcodigo = det.CCTcodigo
+						and a.Ddocumento = det.Ddocumento
+                    inner join ImpIEPSDocumentosCxC b
+						on det.Ecodigo = b.Ecodigo
+						and det.CCTRcodigo = b.CCTcodigo
+						and det.DRdocumento =  b.Documento
+					inner join Impuestos i
+						on b.Ecodigo = i.Ecodigo
+                        and b.codIEPS = i.Icodigo
+				where a.Ecodigo  	=  #Ecodigo#
+				  and a.CCTcodigo  	= <cfqueryparam cfsqltype="cf_sql_char" 	value="#CCTcodigo#">
+				  and a.Ddocumento 	= <cfqueryparam cfsqltype="cf_sql_char" 	value="#Ddocumento#">
+			</cfquery>
+
+			<cfloop query="rsEFtotal">
+				<cfquery datasource="#arguments.conexion#">
+					update ImpDocumentosCxC
+					set MontoPagado = coalesce(MontoPagado,0)
+										+  round((#rsEFtotal.EFtotal# * ImpDocumentosCxC.MontoCalculado) / ImpDocumentosCxC.TotalFac,2)
+					  where ImpDocumentosCxC.Ecodigo   = #rsEFtotal.Ecodigo#
+					    and ImpDocumentosCxC.CCTcodigo = '#rsEFtotal.CCTcodigo#'
+					    and ImpDocumentosCxC.Documento = '#rsEFtotal.Ddocumento#'
+				</cfquery>
+                <cfif #rsEFtotal.EFieps# NEQ '' and #rsEFtotal.EFieps# NEQ 0>
+                    <cfquery datasource="#arguments.conexion#">
+                        update ImpIEPSDocumentosCxC
+                        set MontoPagado = coalesce(MontoPagado,0)
+                                            +  round((#rsEFtotal.EFieps# * ImpIEPSDocumentosCxC.MontoCalculado) / ImpIEPSDocumentosCxC.TotalFac,2)
+                          where ImpIEPSDocumentosCxC.Ecodigo   = #rsEFtotal.Ecodigo#
+                            and ImpIEPSDocumentosCxC.CCTcodigo = '#rsEFtotal.CCTcodigo#'
+                            and ImpIEPSDocumentosCxC.Documento = '#rsEFtotal.Ddocumento#'
+                    </cfquery>
+                </cfif>
+			</cfloop>
+
+			<cfloop query="rsDFmontodoc">
+				<cfquery datasource="#arguments.conexion#">
+					update ImpDocumentosCxC
+					set MontoPagado = coalesce(MontoPagado,0)
+												 +  round((#rsDFmontodoc.DFmontodoc# * ImpDocumentosCxC.MontoCalculado) / ImpDocumentosCxC.TotalFac,2)
+					 where ImpDocumentosCxC.Ecodigo   = #rsDFmontodoc.Ecodigo#
+					   and ImpDocumentosCxC.CCTcodigo = '#rsDFmontodoc.CCTRcodigo#'
+					   and ImpDocumentosCxC.Documento = '#rsDFmontodoc.DRdocumento#'
+				</cfquery>
+                <cfquery datasource="#arguments.conexion#">
+                    update ImpIEPSDocumentosCxC
+                    set MontoPagado = coalesce(MontoPagado,0)
+                                                 +  round((#rsDFmontodoc.DFmontodoc# * ImpIEPSDocumentosCxC.MontoCalculado) / ImpIEPSDocumentosCxC.TotalFac,2)
+                     where ImpIEPSDocumentosCxC.Ecodigo   = #rsDFmontodoc.Ecodigo#
+                       and ImpIEPSDocumentosCxC.CCTcodigo = '#rsDFmontodoc.CCTRcodigo#'
+                       and ImpIEPSDocumentosCxC.Documento = '#rsDFmontodoc.DRdocumento#'
+                </cfquery>
+				<!--- Actualizar el saldo de los documentos Afectados --->
+				<cfquery name="BuscaSaldo" datasource="#arguments.conexion#">
+					select Ddocumento, Dsaldo
+						from Documentos
+						where Ecodigo 	=  #rsDFmontodoc.Ecodigo#
+						 	and CCTcodigo  = '#rsDFmontodoc.CCTRcodigo#'
+						  	and Ddocumento = '#rsDFmontodoc.DRdocumento#'
+				</cfquery>
+				<cfset Gsaldo = #numberFormat(#BuscaSaldo.Dsaldo#,",9.99")#>
+
+				<cfquery datasource="#arguments.conexion#">
+					update Documentos
+					set Dsaldo = Dsaldo
+								- coalesce((
+									select sum(DFmontodoc)
+									from DFavor c
+									where c.Ecodigo  	=  #Ecodigo#
+									  and c.CCTcodigo   = <cfqueryparam cfsqltype="cf_sql_char"    value="#CCTcodigo#">
+									  and c.Ddocumento  = <cfqueryparam cfsqltype="cf_sql_char"    value="#Ddocumento#">
+									  and c.Ecodigo     = Documentos.Ecodigo
+									  and c.CCTRcodigo  = Documentos.CCTcodigo
+									  and c.DRdocumento = Documentos.Ddocumento
+									), 0.00)
+					where Documentos.Ecodigo 	=  #rsDFmontodoc.Ecodigo#
+					  and Documentos.CCTcodigo  = '#rsDFmontodoc.CCTRcodigo#'
+					  and Documentos.Ddocumento = '#rsDFmontodoc.DRdocumento#'
+				</cfquery>
+			</cfloop>
+
+
+
+			<cfif arguments.debug>
+				<cfquery name="rsDebug" datasource="#arguments.conexion#">
+					select *
+					from BMovimientos
+					where Ecodigo  	   =  #Ecodigo#
+					  and CCTcodigo    = <cfqueryparam cfsqltype="cf_sql_char" 		value="#CCTcodigo#">
+					  and Ddocumento   = <cfqueryparam cfsqltype="cf_sql_char" 		value="#Ddocumento#">
+				</cfquery>
+				<cfdump var="#rsDebug#">
+			</cfif>
+
+			<!--- Validar que los documentos no queden con saldo negativo --->
+			<cfquery name="rsValida" datasource="#arguments.conexion#">
+				select count(1) as Cantidad
+					from DFavor b
+						inner join Documentos d
+								on d.Ecodigo = b.Ecodigo
+							   and d.CCTcodigo = b.CCTRcodigo
+							   and d.Ddocumento = b.DRdocumento
+					where b.Ecodigo  	=  #Ecodigo#
+					  and b.CCTcodigo   = <cfqueryparam cfsqltype="cf_sql_char"    value="#CCTcodigo#">
+					  and b.Ddocumento  = <cfqueryparam cfsqltype="cf_sql_char"    value="#Ddocumento#">
+					  and d.Dsaldo 		< 0.00
+			</cfquery>
+
+			<cfif isdefined("rsValida") and rsValida.Cantidad GTE 1>
+				<cfthrow message="El Saldo Disponible del Documento #BuscaSaldo.Ddocumento# (#GSaldo#) No es suficiente para aplicarse al Documento #Ddocumento# ,Favor de verificar sus datos.">
+			</cfif>
+
+			<!--- 5) Ejecutar el Genera Asiento --->
+			<cfif fechaDoc eq 'S'>
+				<cfif isdefined("EFfecha") and len(trim(EFfecha))>
+					<cfset Efecha = #EFfecha#>
+				<cfelse>
+					<cfset Efecha = #Fecha#>
+				</cfif>
+			<cfelse>
+				<cfset Efecha = Fecha>
+			</cfif>
+			<cfset sbAfectacionIETU("CCAP", arguments.Ecodigo, CCTcodigo, Ddocumento,
+						#EFecha#, #Periodo#, #Mes#,
+						Arguments.conexion)>
+			<!--- Generar el asiento contable --->
+			<cfinvoke
+				component		= "sif.Componentes.CG_GeneraAsiento"
+				method			= "GeneraAsiento"
+				returnvariable	= "IDcontable"
+				Ecodigo 		= "#Ecodigo#"
+				oorigen			= "CCAP"
+				eperiodo		= "#Periodo#"
+				emes			= "#Mes#"
+				efecha			= "#EFecha#"
+				edescripcion	= "#descripcion#"
+				edocbase		= "#Ddocumento#"
+				ereferencia		= "#CCTcodigo#"
+				debug			= "false"
+				usuario 		= "#usuario#"
+				Ocodigo 		= "#Ocodigo#"
+				Usucodigo 		= "#Usucodigo#"
+                NumeroEvento    = "#varNumeroEvento#"
+				/>
+
+			<cfinvoke component="IETU" method="IETU_ActualizaIDcontable" >
+				<cfinvokeargument name="IDcontable"	value="#IDcontable#">
+				<cfinvokeargument name="conexion"	value="#Arguments.Conexion#">
+			</cfinvoke>
+
+			<cfif Arguments.Debug>
+				<cfquery name="rsDebug" datasource="#Arguments.Conexion#">
+					select * from #INTARC#
+				</cfquery>
+				<cfdump var="#rsDebug#">
+				<cf_abort errorInterfaz="">
+			</cfif>
+			<!--- Generar Timbre Fiscal del  Pago ---->
+			<cfquery name="rsdocsrel" datasource="#session.dsn#">
+				select count(DRdocumento) as docsrel
+				from  Efavor ef
+				inner join DFavor df on  ef.Ecodigo = df.Ecodigo and ef.CCTcodigo=df.CCTcodigo and ef.Ddocumento=df.Ddocumento
+				where ef.Ddocumento ='#Ddocumento#'
+				<!--- SOLO SI NO SOY TRANSACCIONES XP (CANCELACION) --->
+				AND CCTRcodigo NOT IN ('XP')
+			</cfquery>
+			<cfset timbrePago =''>
+			<cfset xmlTimbrado = ''>
+			
+			<cfif timbrar EQ 1 and rsdocsrel.docsrel GT 0>
+				<cfinvoke component="rh.Componentes.GeneraCFDIs" method="obtenerCFDI">
+              		<cfinvokeargument name="ReciboPago" value = "#trim(Ddocumento)#">
+				</cfinvoke>
+				<cfquery name="rsPagoTimbrado" datasource="#session.dsn#">
+					select timbre, xmlTimbrado, CONCAT(Serie,Folio,'_',DocPago) AS nombreComplemento
+					from FA_CFDI_Emitido
+					where Ecodigo = #session.Ecodigo# and docPago ='#Ddocumento#'
+					and stsTimbre=1
+				</cfquery>
+				<cfset session.DocPago =  #Ddocumento#>
+				<cfset timbrePago = rsPagoTimbrado.timbre>
+				<cfset nombreComplemento = rsPagoTimbrado.nombreComplemento>
+				<cfset xmlTimbrado = rsPagoTimbrado.xmlTimbrado>
+
+				<cfinclude template="/sif/fa/operacion/ImpresionMFECCO.cfm">
+			</cfif>
+			<!--- 7) Insertar en el Histórico de CxC --->
+			<cfquery name="rsValidaDocOri" datasource="#session.dsn#">
+				SELECT COUNT(1) AS Total, DdocumentoOri
+				FROM BMovimientos
+				WHERE RTRIM(LTRIM(DdocumentoOri)) = '#TRIM(Ddocumento)#'
+				AND Ecodigo = #session.Ecodigo#
+				AND CCTcodigo <> CCTRcodigo
+				AND CCTcodigo = 'RE'
+				GROUP BY DdocumentoOri
+			</cfquery>
+
+			<cfquery datasource="#arguments.conexion#">
+				insert into BMovimientos (
+					IDcontable,
+					Ecodigo, CCTcodigo, Ddocumento, CCTRcodigo, DRdocumento,
+					BMfecha, SNcodigo, Mcodigo, Dtipocambio, Dtotal, Dfecha,
+					Dvencimiento, BMperiodo, BMmes, Ocodigo, BMusuario,
+					Dtotalloc, Dtotalref, Mcodigoref, BMmontoref, BMfactor,Timbrefiscal,DdocumentoOri)
+				select
+					#IDcontable#,
+					#Ecodigo#,
+					'#CCTcodigo#',
+					'#Ddocumento#',
+					b.CCTRcodigo,
+					b.DRdocumento,
+					coalesce(EFfecha,#lsParseDateTime(Fecha)#),
+					a.SNcodigo,
+					c.Mcodigo,
+					c.EFtipocambio,
+					b.DFtotal,
+					coalesce(EFfecha,#lsParseDateTime(Fecha)#),
+					coalesce(<cfqueryparam cfsqltype="cf_sql_date" value="#lsParseDateTime(EFfecha)#">,<cfqueryparam cfsqltype="cf_sql_date" value="#lsParseDateTime(Fecha)#">),
+					#Periodo#,
+					#Mes#,
+					a.Ocodigo,
+					c.EFusuario,
+					round(b.DFtotal * b.DFtipocambio * c.EFtipocambio,2),
+					b.DFmontodoc,
+					b.Mcodigo,
+					b.DFmontodoc,
+					b.DFtipocambio,
+					'#timbrePago#'
+					<cfif rsValidaDocOrI.recordCount GT 0 AND rsValidaDocOrI.Total GT 0>
+						,'#rsValidaDocOri.DdocumentoOri#'
+					<cfelse>
+						,'#Ddocumento#'
+					</cfif>
+				from EFavor c
+					inner join DFavor b
+					on c.Ecodigo = b.Ecodigo
+					and c.CCTcodigo = b.CCTcodigo
+					and c.Ddocumento = b.Ddocumento
+
+					inner join Documentos a
+					on b.Ecodigo = a.Ecodigo
+					and b.CCTRcodigo = a.CCTcodigo
+					and b.DRdocumento = a.Ddocumento
+				where c.Ecodigo  	  =  #Ecodigo#
+				  and c.CCTcodigo  	  = <cfqueryparam cfsqltype="cf_sql_char" 	value="#CCTcodigo#">
+				  and c.Ddocumento 	  = <cfqueryparam cfsqltype="cf_sql_char" 	value="#Ddocumento#">
+			</cfquery>
+
+			<!---
+				MEGS: Afectacion al saldo del cliente
+				Fecha: 08/10/2018
+			--->
+			<cfquery name="updateSaldoCliente" datasource="#session.dsn#">
+				UPDATE cteInfo
+				SET cteInfo.saldoCliente = (cteInfo.saldoCliente - TBL.montoDoc),
+				    cteInfo.intfazLD = 2
+				FROM SNegocios cteInfo
+				INNER JOIN
+				  (SELECT TOP 1 (e.EFtotal * EFtipocambio) AS montoDoc,
+				              SNcodigo,
+				              e.Ecodigo,
+				              Ddocumento
+				   FROM EFavor e
+				   INNER JOIN CCTransacciones ct ON e.Ecodigo = ct.Ecodigo
+				   AND e.CCTcodigo = ct.CCTcodigo
+				   AND UPPER(ct.CCTtipo) = 'C'
+				   AND UPPER(LTRIM(RTRIM(Ddocumento))) = <cfqueryparam cfsqltype="cf_sql_char" 	value="#TRIM(Ddocumento)#">) TBL
+				    ON cteInfo.Ecodigo = TBL.Ecodigo
+				AND cteInfo.SNcodigo = TBL.SNcodigo
+				AND cteInfo.SNinactivo = 0
+				AND cteInfo.Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" 	value="#session.ecodigo#">
+			</cfquery>
+
+			<!--- MEG 17/04/2015 --->
+			<!--- Envía al Repositorio de  CFDI --->
+			<!--- Si existe configurado un Repositorio de CFDIs --->
+			<cfquery name="getContE" datasource="#Session.DSN#">
+				select ERepositorio from Empresa
+				where Ereferencia = #Session.Ecodigo#
+			</cfquery>
+			<cfquery name="rsLIneaNC" datasource="#Session.DSN#">
+				select dc.Dlinea
+				from DContables dc
+				inner join EFavor c
+					on dc.Ddocumento = c.Ddocumento
+				where dc.IDcontable = #IDcontable#
+			</cfquery>
+			<cfif isdefined("getContE.ERepositorio") and getContE.ERepositorio EQ "1">
+				<!--- Comprobantes de la Linea de la Nota de Credito --->
+				<cfquery name="rsDContable" datasource="#Session.DSN#">
+					insert into CERepositorio(
+						IdContable,IdDocumento,numDocumento,origen,linea,timbre,xmlTimbrado,archivoXML,
+	                	archivo,nombreArchivo,extension, Ecodigo,BMUsucodigo,
+						TipoComprobante,Serie,Mcodigo,TipoCambio,CEMetPago,rfc,total,
+						CEtipoLinea,CESNB,CEtranOri,CEdocumentoOri,Miso4217)
+					select dc.IDcontable, rep.IdDocumento, rep.numDocumento,
+						'CCAP', #rsLIneaNC.Dlinea#, rep.timbre, rep.xmlTimbrado, rep.archivoXML, rep.archivo, rep.nombreArchivo,
+	                    	rep.extension, #session.Ecodigo#,#session.Usucodigo#,
+	                    	rep.TipoComprobante,rep.Serie,
+	                    	rep.Mcodigo,
+	                    	rep.TipoCambio,
+	                    	rep.CEMetPago,
+	                    	rep.rfc,
+	                    	rep.total,
+						rep.CEtipoLinea,rep.CESNB,rep.CEtranOri,rep.CEdocumentoOri,rep.Miso4217
+					from DContables dc
+					inner join (
+						SELECT r.*
+						FROM EFavor c
+						inner join DFavor b
+							on c.Ecodigo = b.Ecodigo
+							and c.CCTcodigo = b.CCTcodigo
+							and c.Ddocumento = b.Ddocumento
+						inner join Documentos a
+							on b.Ecodigo = a.Ecodigo
+							and b.CCTRcodigo = a.CCTcodigo
+							and b.DRdocumento = a.Ddocumento
+						inner join CERepositorio r
+							on a.Ddocumento = r.numDocumento
+						where r.origen = 'CCFC'
+						union all
+						SELECT r.*
+						FROM EFavor c
+						inner join CERepositorio r
+							on c.Ddocumento = r.numDocumento
+						where r.origen = 'CCFC'
+					) rep
+						on dc.Ddocumento = rep.numDocumento
+						and dc.Ecodigo = rep.Ecodigo
+					where dc.IDcontable = #IDcontable#
+						and (
+							dc.Ccuenta in (select SNcuentacxc FROM SNegocios AS b)
+							or dc.Ccuenta in (select b.SNcuentacxp FROM SNegocios AS b)
+							or dc.Ccuenta in (select b.Ccuenta FROM CECuentasCFDI AS b)
+						)
+				</cfquery>
+				<!--- Comprobante por linea --->
+				<cfquery name="rsDContable" datasource="#Session.DSN#">
+					insert into CERepositorio(
+						IdContable,IdDocumento,numDocumento,origen,linea,timbre,xmlTimbrado,archivoXML,
+	                	archivo,nombreArchivo,extension, Ecodigo,BMUsucodigo,
+						TipoComprobante,Serie,Mcodigo,TipoCambio,CEMetPago,rfc,total,
+						CEtipoLinea,CESNB,CEtranOri,CEdocumentoOri,Miso4217)
+					select dc.IDcontable, rep.IdDocumento, '#trim(Ddocumento)#',
+						'CCAP', dc.Dlinea, <cfif timbrar EQ 1>'#timbrePago#', '#xmlTimbrado#' <cfelse> rep.timbre, rep.xmlTimbrado </cfif>, rep.archivoXML, rep.archivo, rep.nombreArchivo,
+	                    	rep.extension, #session.Ecodigo#,#session.Usucodigo#,
+	                    	rep.TipoComprobante,rep.Serie,
+	                    	rep.Mcodigo,
+	                    	rep.TipoCambio,
+	                    	rep.CEMetPago,
+	                    	rep.rfc,
+	                    	rep.total,
+						rep.CEtipoLinea,rep.CESNB,rep.CEtranOri,rep.CEdocumentoOri,rep.Miso4217
+					from DContables dc
+					inner join (
+						SELECT r.*
+						FROM EFavor c
+						inner join DFavor b
+							on c.Ecodigo = b.Ecodigo
+							and c.CCTcodigo = b.CCTcodigo
+							and c.Ddocumento = b.Ddocumento
+						inner join Documentos a
+							on b.Ecodigo = a.Ecodigo
+							and b.CCTRcodigo = a.CCTcodigo
+							and b.DRdocumento = a.Ddocumento
+						inner join CERepositorio r
+							on a.Ddocumento = r.numDocumento
+						where r.origen = 'CCFC'
+					) rep
+						on dc.Ddocumento = rep.numDocumento
+						and dc.Ecodigo = rep.Ecodigo
+					where dc.IDcontable = #IDcontable#
+						and (
+							dc.Ccuenta in (select SNcuentacxc FROM SNegocios AS b)
+							or dc.Ccuenta in (select b.SNcuentacxp FROM SNegocios AS b)
+							or dc.Ccuenta in (select b.Ccuenta FROM CECuentasCFDI AS b)
+						)
+				</cfquery>
+			</cfif>
+			<!--- Fin ContabilidadElectronica --->
+			<!--- Actualizar el saldo del Documento a Favor --->
+			<cfquery datasource="#arguments.conexion#">
+				update Documentos
+				set Dsaldo = Dsaldo - #EFtotal#
+				where Ecodigo  	  =  #Ecodigo#
+				  and CCTcodigo   = <cfqueryparam cfsqltype="cf_sql_char"    value="#CCTcodigo#">
+				  and Ddocumento  = <cfqueryparam cfsqltype="cf_sql_char"    value="#Ddocumento#">
+			</cfquery>
+
+			<!--- 8) Eliminar la aplicacion de las Estructuras Transaccionales --->
+			<cfquery datasource="#arguments.conexion#">
+				delete from DFiltroPagos
+				where Ecodigo   =  #Ecodigo#
+				  and Pcodigo   = <cfqueryparam cfsqltype="cf_sql_char"    value="#Ddocumento#">
+				  and CCTcodigo = <cfqueryparam cfsqltype="cf_sql_char"    value="#CCTcodigo#">
+			</cfquery>
+
+			<!---
+				EDUARDO GONZALEZ (APH):
+				INSERCION DE DATOS A TABLAS HISTÓRICAS PARA
+				LA CANCELACION DE COMPLEMENTO DE PAGO
+			--->
+			<!--- Encabezado --->
+			<cfquery name="insertHEFavor" datasource="#arguments.conexion#">
+				INSERT INTO HEFavor (Ecodigo, CCTcodigo, Ddocumento, SNcodigo, Mcodigo, Ccuenta, CFid, EFtipocambio, EFtotal,
+				                     EFfecha, EFselect, EFusuario, BMUsucodigo, EFieps, CodTipoPago <cfif isDefined("nombreComplemento") AND #nombreComplemento# NEQ "">,NombreComplemento</cfif>
+				                     ,Cancelado)
+				SELECT Ecodigo,
+				       CCTcodigo,
+				       Ddocumento,
+				       SNcodigo,
+				       Mcodigo,
+				       Ccuenta,
+				       CFid,
+				       EFtipocambio,
+				       EFtotal,
+				       EFfecha,
+				       EFselect,
+				       EFusuario,
+				       BMUsucodigo,
+				       EFieps,
+				       CodTipoPago
+				       <cfif isDefined("nombreComplemento") AND #nombreComplemento# NEQ "">
+					       ,'#nombreComplemento#'
+					   </cfif>
+					   ,0
+				FROM EFavor
+				WHERE Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#session.Ecodigo#">
+				  AND Ddocumento = <cfqueryparam cfsqltype="cf_sql_varchar" value="#Ddocumento#">
+				  AND CCTcodigo = <cfqueryparam cfsqltype="cf_sql_char" value="#CCTcodigo#">
+				<cf_dbidentity1 name="insertHEFavor" datasource="#Arguments.Conexion#">
+			</cfquery>
+			<cf_dbidentity2 name="insertHEFavor" datasource="#Arguments.Conexion#" returnvariable="idHEfavor">
+
+			<!--- Detalle --->
+			<cfquery name="insertHDFavor" datasource="#arguments.conexion#">
+				INSERT INTO HDFavor (idHEfavor, Ecodigo, CCTcodigo, Ddocumento, CCTRcodigo, DRdocumento, SNcodigo, Ccuenta, Mcodigo, CFid,
+				                     DFmonto, DFtotal, DFmontodoc, DFtipocambio, BMUsucodigo, NumeroEvento)
+				SELECT '#idHEfavor#',
+				       Ecodigo,
+				       CCTcodigo,
+				       Ddocumento,
+				       CCTRcodigo,
+				       DRdocumento,
+				       SNcodigo,
+				       Ccuenta,
+				       Mcodigo,
+				       CFid,
+				       DFmonto,
+				       DFtotal,
+				       DFmontodoc,
+				       DFtipocambio,
+				       BMUsucodigo,
+				       NumeroEvento
+				FROM DFavor
+				WHERE Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#session.Ecodigo#">
+				  AND Ddocumento = <cfqueryparam cfsqltype="cf_sql_varchar" value="#Ddocumento#">
+				  AND CCTcodigo = <cfqueryparam cfsqltype="cf_sql_char" value="#CCTcodigo#">
+			</cfquery>
+
+			<cfquery datasource="#arguments.conexion#">
+				delete from DFavor
+				where Ecodigo 	=  #Ecodigo#
+				and Ddocumento 	= <cfqueryparam cfsqltype="cf_sql_char"    value="#Ddocumento#">
+				and CCTcodigo 	= <cfqueryparam cfsqltype="cf_sql_char"    value="#CCTcodigo#">
+			</cfquery>
+
+			<cfquery datasource="#arguments.conexion#">
+				delete from EFavor
+				where Ecodigo 	=  #Ecodigo#
+				and Ddocumento 	= <cfqueryparam cfsqltype="cf_sql_char"    value="#Ddocumento#">
+				and CCTcodigo	= <cfqueryparam cfsqltype="cf_sql_char"    value="#CCTcodigo#">
+			</cfquery>
+		<!---Se incluye dentro de un try, pues da problemas con el JDBC com.sybase.jdbc3.jdbc.SybDriver, al pareces es porq cambiar de conexion al cerrar la transaccion--->
+		<cfreturn 1>
+		</cffunction>
+
+			<cfreturn>
+	<cffunction name="sbAfectacionIETU" access="public"  output="false">
+		<cfargument name="Oorigen"		type="string"	required="yes" >
+		<cfargument name="Ecodigo"		type="numeric"	required="yes" >
+		<cfargument name='CCTcodigo'	type='string' 	required='true'>	 <!--- Codigo del movimiento ---->
+		<cfargument name='Ddocumento'	type='string' 	required='true'>
+		<cfargument name="Efecha"		type="date"	required="yes" >
+		<cfargument name="Eperiodo"		type="numeric"	required="yes" >
+		<cfargument name="Emes"			type="numeric"	required="yes" >
+		<cfargument name='Conexion' 	type='string' 	required='true'>
+
+		<!--- Verifica si es una aplicación de Anticipo --->
+		<cfquery name="rsSQL" datasource="#Arguments.Conexion#">
+			select TESRPTCietu
+			  from Documentos
+			 where Ecodigo 		= #Arguments.Ecodigo#
+			   and CCTcodigo	= '#Arguments.CCTcodigo#'
+			   and Ddocumento	= '#Arguments.Ddocumento#'
+		</cfquery>
+		<cfif NOT (rsSQL.TESRPTCietu EQ "1" OR rsSQL.TESRPTCietu EQ "2" OR rsSQL.TESRPTCietu EQ "3")>
+		</cfif>
+
+		<!---  1) Documentos de Pago --->
+		<cfquery name="selectIETUpago" datasource="#Arguments.Conexion#">
+			select 	e.Ecodigo as EcodigoPago,
+					1 as TipoPago, 	<!--- CxC --->
+					<cf_dbfunction name="sPart"	args="e.CCTcodigo,1,2"> as ReferenciaPago,
+					<cf_dbfunction name="sPart"	args="e.Ddocumento,1,20"> as DocumentoPago,
+
+					e.EFfecha as FechaPago,
+
+					sn.SNid,
+
+					e.Mcodigo as McodigoPago,
+					e.EFtotal as MontoPago,
+					round(e.EFtotal * e.EFtipocambio,2) as MontoPagoLocal,
+					1 as ReversarCreacion			<!--- Es una Aplicacion de Anticipo --->
+				from EFavor  e
+					inner join SNegocios sn
+						 on sn.Ecodigo  = e.Ecodigo
+						and sn.SNcodigo = e.SNcodigo
+				where e.Ecodigo		= #Arguments.Ecodigo#
+				  and e.CCTcodigo	= '#Arguments.CCTcodigo#'
+				  and e.Ddocumento	= '#Arguments.Ddocumento#'
+		</cfquery>
+		<cfquery name="rsIETUpago" datasource="#Arguments.Conexion#">
+			insert into #request.IETUpago# (
+					EcodigoPago,TipoPago,ReferenciaPago,DocumentoPago,
+					FechaPago,SNid,
+					McodigoPago,MontoPago,MontoPagoLocal,
+					ReversarCreacion
+				)
+				values
+				(
+				    #selectIETUpago.EcodigoPago#,
+					#selectIETUpago.TipoPago#,
+					<cf_jdbcquery_param value="#selectIETUpago.ReferenciaPago#" cfsqltype="cf_sql_varchar">,
+					<cf_jdbcquery_param value="#selectIETUpago.DocumentoPago#" cfsqltype="cf_sql_varchar">,
+					<cf_jdbcquery_param cfsqltype="cf_sql_timestamp" value="#selectIETUpago.FechaPago#">,
+					#selectIETUpago.SNid#,
+					#selectIETUpago.McodigoPago#,
+					#selectIETUpago.MontoPago#,
+					#selectIETUpago.MontoPagoLocal#,
+					#selectIETUpago.ReversarCreacion#
+				)
+			<cf_dbidentity1 name="rsIETUpago" datasource="#Arguments.Conexion#">
+		</cfquery>
+		<cf_dbidentity2 name="rsIETUpago" datasource="#Arguments.Conexion#" returnvariable="ID_IETU">
+
+		<!---  2) Documentos Afectados --->
+		<cfquery datasource="#Arguments.Conexion#">
+			insert into #request.IETUdocs# (
+					ID,
+					EcodigoDoc,TipoDoc,ReferenciaDoc,DocumentoDoc,
+					OcodigoDoc,FechaDoc,
+					TipoAfectacion,
+					McodigoDoc,MontoAplicadoDoc,MontoBaseDoc,MontoBasePago,MontoBaseLocal,
+					TESRPTCid,
+					ReversarEnAplicacion
+				)
+			select 	#ID_IETU#,
+					doc.Ecodigo,
+					1,	<!--- CxC --->
+					<cf_dbfunction name="sPart"	args="doc.CCTcodigo,1,2">,
+					<cf_dbfunction name="sPart"	args="doc.Ddocumento,1,20">,
+					doc.Ocodigo,
+					doc.Dfecha,
+
+					1,	<!--- Cobro por Venta: Aumento IETU --->
+
+					doc.Mcodigo,
+					round(d.DFmontodoc,2),
+
+					<!---
+						Proporcion aplicado al documento sobre el (Total - Impuestos):
+							MontoAplicado / Total * (Total-Impuestos)
+					--->
+					round(d.DFmontodoc	*
+						coalesce(
+							(
+								select (min(TotalFac)-sum(MontoCalculado)) / min(TotalFac)
+								  from ImpDocumentosCxC
+								 where Ecodigo   = doc.Ecodigo
+								   and CCTcodigo = doc.CCTcodigo
+								   and Documento = doc.Ddocumento
+							)
+						, 1)
+					,2),
+					round(d.DFmontodoc	*
+						coalesce(
+							(
+								select (min(TotalFac)-sum(MontoCalculado)) / min(TotalFac)
+								  from ImpDocumentosCxC
+								 where Ecodigo   = doc.Ecodigo
+								   and CCTcodigo = doc.CCTcodigo
+								   and Documento = doc.Ddocumento
+							)
+						, 1) / d.DFtipocambio
+					,2),
+					round(d.DFmontodoc	*
+						coalesce(
+							(
+								select (min(TotalFac)-sum(MontoCalculado)) / min(TotalFac)
+								  from ImpDocumentosCxC
+								 where Ecodigo   = doc.Ecodigo
+								   and CCTcodigo = doc.CCTcodigo
+								   and Documento = doc.Ddocumento
+							)
+						, 1) / d.DFtipocambio * e.EFtipocambio
+					,2),
+
+					coalesce(doc.TESRPTCid,
+						(
+							select min(TESRPTCid) from TESRPTconcepto where CEcodigo=#session.CEcodigo# and TESRPTCcxc=1
+						)
+					),
+					0
+			from EFavor e
+				inner join DFavor d
+					inner join Documentos doc
+					 on doc.Ecodigo		= d.Ecodigo
+					and doc.CCTcodigo	= d.CCTRcodigo
+					and doc.Ddocumento	= d.DRdocumento
+				 on d.Ecodigo		= e.Ecodigo
+				and d.CCTcodigo		= e.CCTcodigo
+				and d.Ddocumento	= e.Ddocumento
+			where e.Ecodigo		= #Arguments.Ecodigo#
+			  and e.CCTcodigo	= '#Arguments.CCTcodigo#'
+			  and e.Ddocumento	= '#Arguments.Ddocumento#'
+		</cfquery>
+
+		<cfinvoke component="IETU" method="IETU_Afectacion" >
+			<cfinvokeargument name="Ecodigo"	value="#Arguments.Ecodigo#">
+			<cfinvokeargument name="Oorigen"	value="#Arguments.Oorigen#">
+			<cfinvokeargument name="Efecha"		value="#Arguments.Efecha#">
+			<cfinvokeargument name="Eperiodo"	value="#Arguments.Eperiodo#">
+			<cfinvokeargument name="Emes"		value="#Arguments.Emes#">
+			<cfinvokeargument name="conexion"	value="#Arguments.Conexion#">
+		</cfinvoke>
+	</cffunction>
+
+	<!--- GENERACION DE POLIZA REVERSA PARA CANCELACION DE COMPLEMENTO DE PAGO (Eduardo González) --->
+	<cffunction name="sbRevertirAplicacionDocs" access="public" returntype="String">
+		<cfargument name="Conexion" 	type="string"  required="false" default="#Session.dsn#">
+		<cfargument name="Ecodigo" 		type="numeric" required="false" default="#Session.Ecodigo#">
+		<cfargument name="IdDocumento" 	type="numeric" required="true">
+		<cfargument name="CCTcodigo" 	type="string"  required="true">
+		<cfargument name="Ddocumento" 	type="string"  required="true">
+		<cfargument name="fechaDoc" 	type="string"  required="false" default="N">
+		<cfargument name="usuario" 		type="string"  required="false" default="#Session.Usuario#">
+		<cfargument name="Usucodigo"	type="numeric" required="false" default="#Session.Usucodigo#">
+
+		<cfquery name="rsGetDocsRelacionados" datasource="#Arguments.Conexion#">
+			SELECT DRdocumento,CCTRcodigo, 1 as Tipo
+			FROM BMovimientos
+			WHERE UPPER(Ddocumento) = <cfqueryparam cfsqltype="cf_sql_varchar" value="#UCASE(Arguments.Ddocumento)#">
+			AND Ecodigo = <cfqueryparam cfsqltype="cf_sql_numeric" value="#Arguments.Ecodigo#">
+			AND CCTcodigo = <cfqueryparam cfsqltype="cf_sql_varchar" value="#Arguments.CCTcodigo#">
+			AND CCTRcodigo <> CCTcodigo
+            union
+            select '#Arguments.Ddocumento#' as DRdocumento,'#Arguments.CCTcodigo#' as CCTRcodigo, 2 as Tipo
+		</cfquery>
+      
+		<cfloop query="rsGetDocsRelacionados">
+			<cfquery name="rsValidaDoc" datasource="#Arguments.Conexion#">
+				SELECT TOP 1 *
+				FROM Documentos
+				WHERE UPPER(Ddocumento) = <cfqueryparam cfsqltype="cf_sql_varchar" value="#UCASE(rsGetDocsRelacionados.DRdocumento)#">
+				AND Ecodigo = <cfqueryparam cfsqltype="cf_sql_numeric" value="#Arguments.Ecodigo#">
+				AND CCTcodigo = <cfqueryparam cfsqltype="cf_sql_varchar" value="#rsGetDocsRelacionados.CCTRcodigo#">
+			</cfquery>
+
+			<cfif rsValidaDoc.RecordCount EQ 0>
+				<!--- SE INSERTA NUEVAMENTE EL DOCUMENTO --->
+				<cfquery name="rsInsertEnc" datasource="#Arguments.Conexion#">
+					INSERT INTO Documentos (Ecodigo, CCTcodigo, Ddocumento, Ocodigo, SNcodigo, Mcodigo, Ccuenta, Rcodigo, Icodigo, Dtipocambio, Dtotal, Dsaldo, Dfecha, Dvencimiento, DfechaAplicacion, Dtcultrev, Dusuario, Dtref, Ddocref, Dmontoretori, Dretporigen, Dreferencia, DEidVendedor, DEidCobrador, id_direccionFact, id_direccionEnvio, CFid, DEdiasVencimiento, DEordenCompra, DEnumReclamo, DEobservacion, DEdiasMoratorio, BMUsucodigo, EDtipocambioFecha, EDtipocambioVal, EDid, CDCcodigo, TESRPTCid, TESRPTCietu, FCid, ETnumero, TimbreFiscal, EDieps, ETnombreDoc, SNcodigoAgencia, Dlote, Dexterna, CodSistemaExt, DfechaExpedido)
+					SELECT Ecodigo,
+					       CCTcodigo,
+					       Ddocumento,
+					       Ocodigo,
+					       SNcodigo,
+					       Mcodigo,
+					       Ccuenta,
+					       Rcodigo,
+					       Icodigo,
+					       Dtipocambio,
+					       Dtotal,
+                           <cfif rsGetDocsRelacionados.Tipo EQ 2 >
+					       Dsaldo,
+                           <cfelse>
+                            (SELECT DFmontodoc FROM HDFavor 
+                                WHERE idHeFavor = <cfqueryparam cfsqltype="cf_sql_numeric" value="#Arguments.IdDocumento#">
+                                and DRdocumento=<cfqueryparam cfsqltype="cf_sql_varchar" value="#UCASE(rsGetDocsRelacionados.DRdocumento)#">
+                                ) as Dsaldo,
+                           </cfif>
+					       Dfecha,
+					       Dvencimiento,
+					       DfechaAplicacion,
+					       Dtcultrev,
+					       Dusuario,
+					       Dtref,
+					       Ddocref,
+					       Dmontoretori,
+					       Dretporigen,
+					       Dreferencia,
+					       DEidVendedor,
+					       DEidCobrador,
+					       id_direccionFact,
+					       id_direccionEnvio,
+					       CFid,
+					       DEdiasVencimiento,
+					       DEordenCompra,
+					       DEnumReclamo,
+					       DEobservacion,
+					       DEdiasMoratorio,
+					       BMUsucodigo,
+					       EDtipocambioFecha,
+					       EDtipocambioVal,
+					       EDid,
+					       CDCcodigo,
+					       TESRPTCid,
+					       TESRPTCietu,
+					       FCid,
+					       ETnumero,
+					       TimbreFiscal,
+					       EDieps,
+					       ETnombreDoc,
+					       SNcodigoAgencia,
+					       Dlote,
+					       Dexterna,
+					       CodSistemaExt,
+					       DfechaExpedido
+					FROM HDocumentos
+					WHERE Ddocumento = <cfqueryparam cfsqltype="cf_sql_varchar" value="#UCASE(rsGetDocsRelacionados.DRdocumento)#">
+					AND Ecodigo = <cfqueryparam cfsqltype="cf_sql_numeric" value="#Arguments.Ecodigo#">
+					AND CCTcodigo = <cfqueryparam cfsqltype="cf_sql_varchar" value="#rsGetDocsRelacionados.CCTRcodigo#">
+				</cfquery>
+
+				<!--- DETALLE --->
+				<cfquery name="rsInsertEnc" datasource="#Arguments.Conexion#">
+					INSERT INTO DDocumentos(Ecodigo, CCTcodigo, Ddocumento, CCTRcodigo, DRdocumento, DDlinea, Ccuenta, Alm_Aid, Dcodigo, DDtotal, DDcodartcon, DDtipo, DDcantidad, DDpreciou, DDdesclinea, DDcostolin, DDescripcion, DDdescalterna, BMUsucodigo, Icodigo, CFid, OCid, OCTid, DDid, OCIid, DocrefIM, CCTcodigoIM, cantdiasmora, ContractNo, EDid, CFcuenta, Ocodigo, DcuentaT, DesTransitoria, codIEPS, DDMontoIEPS, afectaIVA, DTlinea, CFComplemento, DDimpuesto)
+					SELECT Ecodigo,
+					       CCTcodigo,
+					       Ddocumento,
+					       CCTRcodigo,
+					       DRdocumento,
+					       DDlinea,
+					       Ccuenta,
+					       Alm_Aid,
+					       Dcodigo,
+					       DDtotal,
+					       DDcodartcon,
+					       DDtipo,
+					       DDcantidad,
+					       DDpreciou,
+					       DDdesclinea,
+					       DDcostolin,
+					       DDescripcion,
+					       DDdescalterna,
+					       BMUsucodigo,
+					       Icodigo,
+					       CFid,
+					       OCid,
+					       OCTid,
+					       DDid,
+					       OCIid,
+					       DocrefIM,
+					       CCTcodigoIM,
+					       cantdiasmora,
+					       ContractNo,
+					       EDid,
+					       CFcuenta,
+					       Ocodigo,
+					       DcuentaT,
+					       DesTransitoria,
+					       codIEPS,
+					       DDMontoIEPS,
+					       afectaIVA,
+					       DTlinea,
+					       CFComplemento,
+					       DDimpuesto
+					FROM HDDocumentos
+					WHERE Ddocumento = <cfqueryparam cfsqltype="cf_sql_varchar" value="#UCASE(rsGetDocsRelacionados.DRdocumento)#">
+					AND Ecodigo = <cfqueryparam cfsqltype="cf_sql_numeric" value="#Arguments.Ecodigo#">
+					AND CCTcodigo = <cfqueryparam cfsqltype="cf_sql_varchar" value="#rsGetDocsRelacionados.CCTRcodigo#">
+				</cfquery>
+			</cfif>
+		</cfloop>
+
+		<cf_dbtemp name="DIFERENCIAL" returnvariable="DIFERENCIAL" datasource="#Arguments.Conexion#">
+           <cf_dbtempcol name="INTLIN"    type="numeric"      identity="yes">
+           <cf_dbtempcol name="INTORI"    type="char(4)"      mandatory="yes">
+           <cf_dbtempcol name="INTREL"    type="int" 		   mandatory="yes">
+           <cf_dbtempcol name="INTDOC"    type="char(20)"     mandatory="yes">
+           <cf_dbtempcol name="INTREF"    type="varchar(25)"  mandatory="yes">
+
+           <cf_dbtempcol name="INTMON"    type="money"        mandatory="yes">
+           <cf_dbtempcol name="INTTIP"    type="char(1)"      mandatory="yes">
+
+           <cf_dbtempcol name="INTDES"    type="varchar(80)"  mandatory="yes">
+
+           <cf_dbtempcol name="INTFEC"    type="varchar(8)"   mandatory="yes">
+           <cf_dbtempcol name="INTCAM"    type="float"        mandatory="yes">
+           <cf_dbtempcol name="Periodo"   type="int"          mandatory="yes">
+           <cf_dbtempcol name="Mes"       type="int"          mandatory="yes">
+           <cf_dbtempcol name="Ccuenta"   type="numeric"      mandatory="yes">
+
+           <cf_dbtempcol name="CFcuenta"  type="numeric"      mandatory="no">
+           <cf_dbtempcol name="Mcodigo"   type="numeric"      mandatory="yes">
+           <cf_dbtempcol name="Ocodigo"   type="int"          mandatory="yes">
+           <cf_dbtempcol name="INTMOE"    type="money"        mandatory="yes">
+           <cf_dbtempcol name="TIPO"      type="char(2)"      mandatory="yes">
+           <cf_dbtempcol name="NumeroEvento" type="varchar(25)" mandatory="no">
+           <cf_dbtempkey cols="INTLIN">
+       </cf_dbtemp>
+
+		 <!--- Valido el evento --->
+	     <cfinvoke
+	        component		= "sif.Componentes.CG_ControlEvento"
+	        method			= "ValidaEvento"
+	        Origen			= "CCAP"
+	        Transaccion		= "#Arguments.CCTcodigo#"
+	        Conexion		= "#Arguments.Conexion#"
+	        Ecodigo			= "#Arguments.Ecodigo#"
+	        returnvariable	= "varValidaEvento"/>
+		<cfset varNumeroEvento = ''>
+        <cfif varValidaEvento GT 0>
+        <!---ERBG Busca Evento con el mismo Inicia--->
+        	<cfset varDocumento = #Arguments.Ddocumento#>
+            <cfquery name="rsEvento" datasource="#Arguments.Conexion#">
+                select top(1) Consecutivo from EventosControl
+                where
+                Ecodigo = 		<cfqueryparam cfsqltype="cf_sql_numeric" value="#Arguments.Ecodigo#">
+                and Oorigen=	'CCAP'
+                and Transaccion=<cfqueryparam cfsqltype="cf_sql_varchar" value="#Arguments.CCTcodigo#">
+                and Documento like <cfqueryparam cfsqltype="cf_sql_varchar" value="#Arguments.Ddocumento#%">
+                and SNcodigo= 	<cfqueryparam cfsqltype="cf_sql_numeric" value="#varSocioPago#">
+                order by Consecutivo desc
+            </cfquery>
+            <cfif isdefined('rsEvento') and len(trim(#rsEvento.Consecutivo#)) gt 0>
+            	<cfset varDocumento = varDocumento & '-' & #rsEvento.Consecutivo#>
+            </cfif><!--- <cf_dump var="#varDocumento#"> --->
+        <!---ERBG Busca Evento con el mismo Inicia--->
+            <cfinvoke
+                component		= "sif.Componentes.CG_ControlEvento"
+                method			= "CG_GeneraEvento"
+                Origen			= "CCAP"
+                Transaccion		= "#Arguments.CCTcodigo#"
+                Documento 		= "#varDocumento#"
+                SocioCodigo		= "#varSocioPago#"
+                Conexion		= "#Arguments.Conexion#"
+                Ecodigo			= "#Arguments.Ecodigo#"
+                returnvariable	= "arNumeroEvento"
+                />
+            <cfif arNumeroEvento[3] EQ "">
+                <cfthrow message="ERROR CONTROL EVENTO: No se obtuvo un control de evento valido para la operación">
+            </cfif>
+            <cfset varNumeroEvento = arNumeroEvento[3]>
+            <cfset varIDEvento = arNumeroEvento[4]>
+		</cfif>
+
+		<!--- Creación de la INTARC --->
+		<cfinvoke component="sif.Componentes.CG_GeneraAsiento" method="CreaIntarc" returnvariable="INTARC">
+
+		<cfset Fecha = #DateFormat(now(),'dd/mm/yyyy')#>
+
+		<cfset descripcion = 'Cancelaci&oacute;n de Doc. CxC Complemento Pago: ' & arguments.CCTcodigo & '-' & arguments.Ddocumento>
+
+		<cfquery name="rsParametros" datasource="#arguments.conexion#">
+			select Mcodigo
+			from Empresas
+			where Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.Ecodigo#">
+		</cfquery>
+		<cfset Monloc = rsParametros.Mcodigo>
+
+		<cfquery name="rsParametros" datasource="#arguments.conexion#">
+			select Pvalor
+			from Parametros
+			where Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.Ecodigo#">
+			  and Mcodigo = 'GN'
+			  and Pcodigo = 50
+		</cfquery>
+		<cfset Periodo = rsParametros.Pvalor>
+
+		<cfquery name="rsParametros" datasource="#arguments.conexion#">
+			select Pvalor
+			from Parametros
+			where Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.Ecodigo#">
+			  and Mcodigo = 'GN'
+			  and Pcodigo = 60
+		</cfquery>
+		<cfset Mes = rsParametros.Pvalor>
+
+		<cfquery name="rsParametros" datasource="#arguments.conexion#">
+			select Pvalor
+			from Parametros
+			where Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.Ecodigo#">
+			  and Pcodigo = 200
+			  and Mcodigo = 'CG'
+		</cfquery>
+
+		<cfset CuentaPuente = rsParametros.Pvalor>
+
+		<cfquery name="rsMlocal" datasource="#arguments.conexion#">
+			select Mcodigo
+			from Empresas
+			where Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.Ecodigo#">
+		</cfquery>
+		<cfset Mlocal = rsMlocal.Mcodigo>
+
+		<cfquery name="rsParametros" datasource="#arguments.conexion#">
+			select
+				EFfecha,
+				coalesce(EFtotal, 0.00) as EFtotal,
+                EFtipocambio,
+                Mcodigo
+			from HEFavor
+			where Ecodigo 	 = <cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.Ecodigo#">
+			  and CCTcodigo  = <cfqueryparam cfsqltype="cf_sql_char"  	value="#arguments.CCTcodigo#">
+			  and Ddocumento = <cfqueryparam cfsqltype="cf_sql_char" 	value="#arguments.Ddocumento#">
+			  AND idHEfavor = <cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.IdDocumento#">
+		</cfquery>
+		<cfset EFfecha = rsParametros.EFfecha>
+		<cfset EFtotal = rsParametros.EFtotal>
+        <cfset EFTC = rsParametros.EFtipocambio>
+        <cfset EFMonedaLocal = rsParametros.Mcodigo>
+
+		<cfquery name="rsParametros" datasource="#arguments.conexion#">
+			select Ocodigo
+			from Documentos
+			where Ecodigo    = <cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.Ecodigo#">
+			  and CCTcodigo  = <cfqueryparam cfsqltype="cf_sql_char" 	value="#arguments.CCTcodigo#">
+			  and Ddocumento = <cfqueryparam cfsqltype="cf_sql_char" 	value="#arguments.Ddocumento#">
+		</cfquery>
+		<cfset Ocodigo = rsParametros.Ocodigo>
+
+		<cfquery name="rsParametros" datasource="#arguments.conexion#">
+			select Pvalor
+			from Parametros
+			where Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.Ecodigo#">
+			  and Pcodigo = 110
+		</cfquery>
+		<cfset CuentaIngDifCam = rsParametros.Pvalor>
+
+		<cfquery name="rsParametros" datasource="#arguments.conexion#">
+			select Pvalor
+			from Parametros
+			where Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.Ecodigo#">
+			  and Pcodigo = 120
+		</cfquery>
+		<cfset CuentaGasDifCam = rsParametros.Pvalor>
+
+		<cfquery name="rsParametros" datasource="#arguments.conexion#">
+			select Pvalor
+			from Parametros
+			where Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.Ecodigo#">
+			  and Pcodigo = 200
+		</cfquery>
+		<cfset Cuentabalancemultimoneda = rsParametros.Pvalor>
+
+		<cfquery name="rsParametros" datasource="#arguments.conexion#">
+			select Pvalor
+			from Parametros
+			where Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.Ecodigo#">
+			  and Pcodigo = 575
+		</cfquery>
+		<cfset TransaccionPagoConDocumento = rsParametros.Pvalor>
+
+		<!--- 1) Validaciones Generales--->
+		<cfif len(trim(Mes)) EQ 0 or  len(trim(Periodo)) EQ 0>
+			<cf_errorCode	code = "50983" msg = "No se ha definido el parámetro de Período o Mes para los sistemas Auxiliares! Proceso Cancelado!">
+		</cfif>
+
+		<!--- Diferencial Cambiario Nota Crédito (impuestos) --->
+		<cfquery datasource="#arguments.conexion#">
+			insert into #DIFERENCIAL# ( INTORI, INTREL, INTDOC, INTREF, INTMON, INTTIP, INTDES, INTFEC, INTCAM, Periodo, Mes, Ccuenta, Mcodigo, Ocodigo, INTMOE,TIPO, NumeroEvento)
+			select
+				'CCAP',
+				1,
+				b.Ddocumento,
+				'D',
+				round(
+					( round(((EFtotal * c.MontoCalculado) / c.TotalFac),2) )
+					*
+					( a.EFtipocambio - b.Dtcultrev)
+				 , 2),
+				case when d.CCTtipo = 'D' then 'C' else 'D' end,
+				<cf_dbfunction name="concat" args="'Ajuste Diferencial Cambiario (NC): ', i.Idescripcion">,
+				<cf_dbfunction name="to_sdate" args="#now()#">,
+				1,
+				#Periodo#,
+				#Mes#,
+				CcuentaImp,
+				b.Mcodigo,
+				b.Ocodigo,
+				0.00,
+				'NC',
+                <cfqueryparam cfsqltype="cf_sql_varchar" value="#varNumeroEvento#">
+			from HEFavor  a
+				inner join Documentos b
+					on a.Ecodigo = b.Ecodigo
+					and a.CCTcodigo = b.CCTcodigo
+						and a.Ddocumento = b.Ddocumento
+				inner join ImpDocumentosCxC c
+					on b.Ecodigo = c.Ecodigo
+					and b.CCTcodigo = c.CCTcodigo
+					and b.Ddocumento  =  c.Documento
+				inner join CCTransacciones d
+					on c.Ecodigo = d.Ecodigo
+					and c.CCTcodigo = d.CCTcodigo
+				inner join Impuestos i
+					on c.Ecodigo = i.Ecodigo
+					and c.Icodigo = i.Icodigo
+			where a.Ecodigo    =   #Ecodigo#
+			  and a.CCTcodigo  =  <cfqueryparam cfsqltype="cf_sql_char" 	value="#CCTcodigo#">
+			  and a.Ddocumento =  <cfqueryparam cfsqltype="cf_sql_char" 	value="#Ddocumento#">
+			  and b.Mcodigo    != <cfqueryparam cfsqltype="cf_sql_numeric" 	value="#Monloc#">
+			  AND a.idHEfavor = <cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.IdDocumento#">
+		</cfquery>
+
+        <!--- DIFERENCIAL IEPS --->
+        <cfquery datasource="#arguments.conexion#">
+            insert into #DIFERENCIAL# ( INTORI, INTREL, INTDOC, INTREF, INTMON, INTTIP, INTDES, INTFEC, INTCAM, Periodo, Mes, Ccuenta, Mcodigo, Ocodigo, INTMOE,TIPO, NumeroEvento)
+            select
+                'CCAP',
+                1,
+                b.Ddocumento,
+                'D',
+                round((round(((EFtotal * c.MontoCalculado) / c.TotalFac),2)) * (a.EFtipocambio - b.Dtcultrev), 2),
+                case when d.CCTtipo = 'D' then 'C' else 'D' end,
+                <cf_dbfunction name="concat" args="'Ajuste Diferencial Cambiario (NC): ', i.Idescripcion">,
+                <cf_dbfunction name="to_sdate" args="#now()#">,
+                1,
+                #Periodo#,
+                #Mes#,
+                CcuentaIEPS,
+                b.Mcodigo,
+                b.Ocodigo,
+                0.00,
+                'NC',
+                <cfqueryparam cfsqltype="cf_sql_varchar" value="#varNumeroEvento#">
+            from HEFavor  a
+                inner join Documentos b
+                    on a.Ecodigo = b.Ecodigo
+                    and a.CCTcodigo = b.CCTcodigo
+                        and a.Ddocumento = b.Ddocumento
+                inner join ImpIEPSDocumentosCxC c
+                    on b.Ecodigo = c.Ecodigo
+                    and b.CCTcodigo = c.CCTcodigo
+                    and b.Ddocumento  =  c.Documento
+                inner join CCTransacciones d
+                    on c.Ecodigo = d.Ecodigo
+                    and c.CCTcodigo = d.CCTcodigo
+                inner join Impuestos i
+                    on c.Ecodigo = i.Ecodigo
+                    and c.codIEPS = i.Icodigo
+            where a.Ecodigo    =   #Ecodigo#
+              and a.CCTcodigo  =  <cfqueryparam cfsqltype="cf_sql_char"     value="#CCTcodigo#">
+              and a.Ddocumento =  <cfqueryparam cfsqltype="cf_sql_char"     value="#Ddocumento#">
+              and b.Mcodigo    != <cfqueryparam cfsqltype="cf_sql_numeric"  value="#Monloc#">
+			  AND a.idHEfavor = <cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.IdDocumento#">
+        </cfquery>
+        <!--- DIFERENCIAL IEPS FIN --->
+
+
+		<!--- Nota Crédito (Cuenta por Cobrar) --->
+		<cfquery datasource="#arguments.conexion#">
+			insert into #DIFERENCIAL# ( INTORI, INTREL, INTDOC, INTREF, INTMON, INTTIP, INTDES, INTFEC, INTCAM, Periodo, Mes, Ccuenta, Mcodigo, Ocodigo, INTMOE,TIPO, NumeroEvento)
+			select
+				'CCAP',
+				1,
+				b.Ddocumento,
+				b.CCTcodigo,
+				round( EFtotal * ( a.EFtipocambio - b.Dtcultrev) , 2),
+				d.CCTtipo,
+				<cf_dbfunction name="concat" args="'Diferencial Cambiario: ', b.CCTcodigo, ' ', b.Ddocumento">,
+				<cf_dbfunction name="to_sdate" args="#now()#">,
+				1,
+				#Periodo#,
+				#Mes#,
+				b.Ccuenta,
+				b.Mcodigo,
+				b.Ocodigo,
+				0.00,
+				'NC',
+                <cfqueryparam cfsqltype="cf_sql_varchar" value="#varNumeroEvento#">
+			from HEFavor  a
+				inner join  Documentos b
+					inner join CCTransacciones d
+					on d.Ecodigo = b.Ecodigo
+					and d.CCTcodigo = b.CCTcodigo
+				 on a.Ecodigo = b.Ecodigo
+				and a.CCTcodigo = b.CCTcodigo
+				and a.Ddocumento = b.Ddocumento
+			where a.Ecodigo    =  #Ecodigo#
+			  and a.CCTcodigo  = <cfqueryparam cfsqltype="cf_sql_char" 		value="#CCTcodigo#">
+			  and a.Ddocumento = <cfqueryparam cfsqltype="cf_sql_char" 		value="#Ddocumento#">
+			  and b.Mcodigo    != <cfqueryparam cfsqltype="cf_sql_numeric" 	value="#Monloc#">
+			  AND a.idHEfavor = <cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.IdDocumento#">
+		</cfquery>
+
+		<!--- Nota Crédito   (Ingreso (Gasto) por Diferencial Cambiario) --->
+		<cfquery datasource="#arguments.conexion#">
+			insert into #DIFERENCIAL# (
+				INTORI,
+				INTREL,
+				INTDOC,
+				INTREF,
+				INTMON,
+				INTTIP,
+				INTDES,
+				INTFEC,
+				INTCAM,
+				Periodo,
+				Mes,
+				Ccuenta,
+				Mcodigo,
+				Ocodigo,
+				INTMOE,
+				TIPO,
+                NumeroEvento)
+			select
+				INTORI,
+				INTREL,
+				INTDOC,
+				INTREF,
+				sum(INTMON * case when INTTIP = 'C' then 1 else -1 end),
+				'D',
+				'Diferencial Cambiario ( Documento Credito )',
+				<cf_dbfunction name="to_sdate" args="#now()#">,
+				1,
+				#Periodo#,
+				#Mes#,
+				case when sum(INTMON * case when INTTIP = 'C' then 1 else -1 end) > 0 then #CuentaGasDifCam# else #CuentaIngDifCam# end,
+				Mcodigo,
+				Ocodigo,
+				0.00,
+				'NC',
+                <cfqueryparam cfsqltype="cf_sql_varchar" value="#varNumeroEvento#">
+			from #DIFERENCIAL#
+			where TIPO = 'NC'
+			group by
+				INTORI,
+				INTREL,
+				INTDOC,
+				INTREF,
+				Mcodigo,
+				Ocodigo
+		</cfquery>
+
+		<!--- Facturas (impuestos IVA) --->
+		<cfquery name="rsGac" datasource="#arguments.conexion#">
+			<!--- insert into #DIFERENCIAL# ( INTORI, INTREL, INTDOC, INTREF, INTMON, INTTIP, INTDES, INTFEC, INTCAM, Periodo, Mes, Ccuenta, Mcodigo, Ocodigo, INTMOE,TIPO, NumeroEvento) --->
+			select
+				'CCAP',
+				1,
+				b.Ddocumento,
+				'C',
+				round(( round(((det.DFmontodoc * c.MontoCalculado) / c.TotalFac),2)) * ((DFtotal / (DFmontodoc) * a.EFtipocambio) - b.Dtcultrev) , 2),
+				d.CCTtipo,
+				<cf_dbfunction name="concat" args="'Diferencial Cambiario: ', i.Idescripcion">,
+				<cf_dbfunction name="to_sdate" args="#now()#">,
+				1,
+				#Periodo#,
+				#Mes#,
+				CcuentaImp,
+				b.Mcodigo,
+				b.Ocodigo,
+				0.00,
+				'FC',
+                det.NumeroEvento
+			from HEFavor  a
+				inner join  HDFavor  det
+					ON a.idHEfavor = det.idHEfavor
+					AND det.Ecodigo = a.Ecodigo
+					and det.CCTcodigo = a.CCTcodigo
+						and a.Ddocumento = det.Ddocumento
+				inner join  Documentos b
+					on det.Ecodigo = b.Ecodigo
+					and det.CCTRcodigo = b.CCTcodigo
+						and det.DRdocumento  = b.Ddocumento
+				inner join ImpDocumentosCxC c
+					on b.Ecodigo = c.Ecodigo
+					and b.CCTcodigo = c.CCTcodigo
+					and b.Ddocumento  =  c.Documento
+				inner join CCTransacciones d
+					on c.Ecodigo = d.Ecodigo
+					and c.CCTcodigo = d.CCTcodigo
+				inner join Impuestos i
+					on c.Ecodigo = i.Ecodigo
+					and c.Icodigo = i.Icodigo
+			where a.Ecodigo    =  #Ecodigo#
+			  and a.CCTcodigo  = <cfqueryparam cfsqltype="cf_sql_char" 		value="#CCTcodigo#">
+			  and a.Ddocumento = <cfqueryparam cfsqltype="cf_sql_char" 		value="#Ddocumento#">
+			  and b.Mcodigo    != <cfqueryparam cfsqltype="cf_sql_numeric" 	value="#Monloc#">
+			  AND a.idHEfavor = <cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.IdDocumento#">
+		</cfquery>
+
+		<!--- factura IEPS --->
+        <cfquery datasource="#arguments.conexion#">
+            insert into #DIFERENCIAL# ( INTORI, INTREL, INTDOC, INTREF, INTMON, INTTIP, INTDES, INTFEC, INTCAM, Periodo, Mes, Ccuenta, Mcodigo, Ocodigo, INTMOE,TIPO, NumeroEvento)
+            select
+                'CCAP',
+                1,
+                b.Ddocumento,
+                'C',
+                round((round(((det.DFmontodoc * c.MontoCalculado) / c.TotalFac),2)) * ((DFtotal / (DFmontodoc) * a.EFtipocambio) - b.Dtcultrev), 2),
+                d.CCTtipo,
+                <cf_dbfunction name="concat" args="'Diferencial Cambiario: ', i.Idescripcion">,
+                <cf_dbfunction name="to_sdate" args="#now()#">,
+                1,
+                #Periodo#,
+                #Mes#,
+                CcuentaIEPS,
+                b.Mcodigo,
+                b.Ocodigo,
+                0.00,
+                'FC',
+                det.NumeroEvento
+            from HEFavor  a
+                inner join  HDFavor  det
+                    ON a.idHEfavor = det.idHEfavor
+					AND det.Ecodigo = a.Ecodigo
+                    and det.CCTcodigo = a.CCTcodigo
+                        and a.Ddocumento = det.Ddocumento
+                inner join  Documentos b
+                    on det.Ecodigo = b.Ecodigo
+                    and det.CCTRcodigo = b.CCTcodigo
+                        and det.DRdocumento  = b.Ddocumento
+                inner join ImpIEPSDocumentosCxC c
+                    on b.Ecodigo = c.Ecodigo
+                    and b.CCTcodigo = c.CCTcodigo
+                    and b.Ddocumento  =  c.Documento
+                inner join CCTransacciones d
+                    on c.Ecodigo = d.Ecodigo
+                    and c.CCTcodigo = d.CCTcodigo
+                inner join Impuestos i
+                    on c.Ecodigo = i.Ecodigo
+                    and c.codIEPS = i.Icodigo
+            where a.Ecodigo    =  #Ecodigo#
+              and a.CCTcodigo  = <cfqueryparam cfsqltype="cf_sql_char"      value="#CCTcodigo#">
+              and a.Ddocumento = <cfqueryparam cfsqltype="cf_sql_char"      value="#Ddocumento#">
+              and b.Mcodigo   != <cfqueryparam cfsqltype="cf_sql_numeric"  value="#Monloc#">
+			AND a.idHEfavor = <cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.IdDocumento#">
+        </cfquery>
+
+		<!--- Facturas (Cuentas por Cobrar) --->
+		<cfquery datasource="#arguments.conexion#">
+			insert into #DIFERENCIAL# ( INTORI, INTREL, INTDOC, INTREF, INTMON, INTTIP, INTDES, INTFEC, INTCAM, Periodo, Mes, Ccuenta, Mcodigo, Ocodigo, INTMOE,TIPO, NumeroEvento)
+			select
+				'CCAP',
+				1,
+				b.Ddocumento,
+				b.CCTcodigo,
+				round( det.DFmontodoc * (  (DFtotal / DFmontodoc * a.EFtipocambio) - b.Dtcultrev) , 2),
+				case when d.CCTtipo = 'D' then 'C' else 'D' end,
+				<cf_dbfunction name="concat" args="'Diferencial Cambiario: ',b.CCTcodigo, ' ',b.Ddocumento ">,
+				<cf_dbfunction name="to_sdate" args="#now()#">,
+				1,
+				#Periodo#,
+				#Mes#,
+				b.Ccuenta,
+				b.Mcodigo,
+				b.Ocodigo,
+				0.00,
+				'FC',
+                det.NumeroEvento
+			from HEFavor  a
+				inner join  HDFavor  det
+					inner join  Documentos b
+						inner join CCTransacciones d
+						 on d.Ecodigo   = b.Ecodigo
+						and d.CCTcodigo = b.CCTcodigo
+					on  det.Ecodigo      = b.Ecodigo
+					and det.CCTRcodigo   = b.CCTcodigo
+					and det.DRdocumento  = b.Ddocumento
+				ON a.idHEfavor = det.idHEfavor
+				AND det.Ecodigo = a.Ecodigo
+				and det.CCTcodigo = a.CCTcodigo
+					and a.Ddocumento = det.Ddocumento
+			where a.Ecodigo    =  #Ecodigo#
+			  and a.CCTcodigo  = <cfqueryparam cfsqltype="cf_sql_char" 		value="#CCTcodigo#">
+			  and a.Ddocumento = <cfqueryparam cfsqltype="cf_sql_char" 		value="#Ddocumento#">
+			  and b.Mcodigo    != <cfqueryparam cfsqltype="cf_sql_numeric" 	value="#Monloc#">
+			  AND a.idHEfavor = <cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.IdDocumento#">
+		 </cfquery>
+
+		<!--- Factura (Cuenta por Cobrar) --->
+		<cfquery datasource="#arguments.conexion#">
+			insert into #DIFERENCIAL# (
+				INTORI,
+				INTREL,
+				INTDOC,
+				INTREF,
+				INTMON,
+				INTTIP,
+				INTDES,
+				INTFEC,
+				INTCAM,
+				Periodo,
+				Mes,
+				Ccuenta,
+				Mcodigo,
+				Ocodigo,
+				INTMOE,
+				TIPO,
+                NumeroEvento)
+			select
+				INTORI,
+				INTREL,
+				INTDOC,
+				INTREF,
+				sum(INTMON * case when INTTIP = 'D' then 1 else -1 end),
+				'C',
+				'(Gasto) por Diferencial Cambiario (FC)',
+				<cf_dbfunction name="to_sdate" args="#now()#">,
+				1,
+				#Periodo#,
+				#Mes#,
+				case when sum(INTMON * case when INTTIP = 'D' then 1 else -1 end) > 0 then #CuentaIngDifCam# else #CuentaGasDifCam# end,
+				Mcodigo,
+				Ocodigo,
+				0.00,
+				'FC',
+                <cfqueryparam cfsqltype="cf_sql_varchar" value="#varNumeroEvento#">
+			from #DIFERENCIAL#
+			where TIPO = 'FC'
+			group by
+				INTORI,
+				INTREL,
+				INTDOC,
+				INTREF,
+				Mcodigo,
+				Ocodigo
+		</cfquery>
+
+		<!--- PASA LOS DATOS DE LA TABLA #DIFERENCIAL A LA #INTARC --->
+		<cfquery datasource="#arguments.conexion#">
+			insert into #INTARC# ( INTORI, INTREL, INTDOC, INTREF, INTMON, INTTIP, INTDES, INTFEC, INTCAM, Periodo, Mes, Ccuenta, Mcodigo, Ocodigo, INTMOE, NumeroEvento)
+			select
+				INTORI,
+				INTREL,
+				INTDOC,
+				INTREF,
+				INTMON,
+				INTTIP,
+				INTDES,
+				INTFEC,
+				INTCAM,
+				Periodo,
+				Mes,
+				Ccuenta,
+				Mcodigo,
+				Ocodigo,
+				INTMOE,
+                NumeroEvento
+			from #DIFERENCIAL#
+			where INTMON <> 0.00
+			ORDER BY TIPO,INTLIN
+		</cfquery>
+
+		<!--- traslado de monto de la cuenta (Facturas Cliente ) a (Facturas Cliente Acreditadas) --->
+		<!--- Nota Crédito IVA--->
+		<cfquery datasource="#arguments.conexion#">
+			insert into #INTARC# ( INTORI, INTREL, INTDOC, INTREF, INTMON, INTTIP, INTDES, INTFEC, INTCAM, Periodo, Mes, Ccuenta, Mcodigo, Ocodigo, INTMOE, NumeroEvento,CFid)
+			select
+				'CCAP',
+				1,
+				c.Documento,
+				c.CCTcodigo ,
+				round( round(( (a.EFtotal /c.TotalFac) * (c.MontoCalculado) ),2) * a.EFtipocambio, 2),
+				'C',
+				<cf_dbfunction name="concat" args="i.Idescripcion,'(Nota Crédito)'">,
+				<cf_dbfunction name="to_sdate" args="#now()#">,
+				a.EFtipocambio,
+				#Periodo#,
+				#Mes#,
+				CcuentaImp,
+				a.Mcodigo,
+				b.Ocodigo,
+				round( ( (a.EFtotal /c.TotalFac) * (c.MontoCalculado) ), 2),
+   				<cfqueryparam cfsqltype="cf_sql_varchar" value="#varNumeroEvento#">,
+                b.CFid
+			from HEFavor  a
+				inner join  HDFavor Det
+					ON a.idHEfavor = Det.idHEfavor
+					AND Det.Ecodigo = a.Ecodigo
+					and a.CCTcodigo = Det.CCTcodigo
+					and a.Ddocumento = Det.Ddocumento
+				inner join  Documentos b
+					on Det.Ecodigo = b.Ecodigo
+					and Det.CCTcodigo = b.CCTcodigo
+					and Det.Ddocumento = b.Ddocumento
+				inner join ImpDocumentosCxC c
+					on Det.Ecodigo = c.Ecodigo
+					and Det.CCTcodigo = c.CCTcodigo
+					and Det.Ddocumento  =  c.Documento
+				inner join CCTransacciones d
+					on c.Ecodigo = d.Ecodigo
+					and c.CCTcodigo = d.CCTcodigo
+				inner join Impuestos i
+					on c.Ecodigo = i.Ecodigo
+					and c.Icodigo = i.Icodigo
+					and i.CcuentaCxCAcred is not null
+			where a.Ecodigo    =  #Ecodigo#
+			  and a.CCTcodigo  = <cfqueryparam cfsqltype="cf_sql_char" 		value="#CCTcodigo#">
+			  and a.Ddocumento = <cfqueryparam cfsqltype="cf_sql_char" 		value="#Ddocumento#">
+			  AND a.idHEfavor = <cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.IdDocumento#">
+		</cfquery>
+
+		<cfquery datasource="#arguments.conexion#">
+			insert into #INTARC# ( INTORI, INTREL, INTDOC, INTREF, INTMON, INTTIP, INTDES, INTFEC, INTCAM, Periodo, Mes, Ccuenta, Mcodigo, Ocodigo, INTMOE, NumeroEvento,CFid)
+			select
+				'CCAP',
+				1,
+				c.Documento,
+				c.CCTcodigo ,
+				round( round(( (a.EFtotal /c.TotalFac) * (c.MontoCalculado) ),2) * a.EFtipocambio, 2),
+				'D',
+				<cf_dbfunction name="concat" args="i.Idescripcion,'(Nota Crédito  - Acreditada)'">,
+				<cf_dbfunction name="to_sdate" args="#now()#">,
+				1,
+				#Periodo#,
+				#Mes#,
+				i.CcuentaCxCAcred,
+				#Monloc#,
+				b.Ocodigo,
+				round( round(( (a.EFtotal /c.TotalFac) *(c.MontoCalculado) ),2) * a.EFtipocambio, 2),
+    			<cfqueryparam cfsqltype="cf_sql_varchar" value="#varNumeroEvento#">,
+                b.CFid
+			from HEFavor  a
+				inner join  HDFavor Det
+					ON a.idHEfavor = Det.idHEfavor
+					AND Det.Ecodigo = a.Ecodigo
+					and a.CCTcodigo = Det.CCTcodigo
+					and a.Ddocumento = Det.Ddocumento
+				inner join  Documentos b
+					on Det.Ecodigo = b.Ecodigo
+					and Det.CCTcodigo = b.CCTcodigo
+						and Det.Ddocumento = b.Ddocumento
+				inner join ImpDocumentosCxC c
+					on Det.Ecodigo = c.Ecodigo
+					and Det.CCTcodigo = c.CCTcodigo
+					and Det.Ddocumento  =  c.Documento
+				inner join CCTransacciones d
+					on c.Ecodigo = d.Ecodigo
+					and c.CCTcodigo = d.CCTcodigo
+				inner join Impuestos i
+					on c.Ecodigo = i.Ecodigo
+					and c.Icodigo = i.Icodigo
+					and i.CcuentaCxCAcred is not null
+			where a.Ecodigo    =  #Ecodigo#
+			  and a.CCTcodigo  = <cfqueryparam cfsqltype="cf_sql_char" 		value="#CCTcodigo#">
+			  and a.Ddocumento = <cfqueryparam cfsqltype="cf_sql_char" 		value="#Ddocumento#">
+			  AND a.idHEfavor = <cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.IdDocumento#">
+		</cfquery>
+
+		<cfquery datasource="#arguments.conexion#">
+			insert into #INTARC# ( INTORI, INTREL, INTDOC, INTREF, INTMON, INTTIP, INTDES, INTFEC, INTCAM, Periodo, Mes, Ccuenta, Mcodigo, Ocodigo, INTMOE, NumeroEvento,CFid)
+			select
+				'CCAP',
+				1,
+				c.Documento,
+				c.CCTcodigo ,
+				round( round(( (a.EFtotal /c.TotalFac) * (c.MontoCalculado) ),2) * a.EFtipocambio, 2),
+				'C',
+				<cf_dbfunction name="concat" args="i.Idescripcion, '(Nota Crédito  - CuentaBalancemultimoneda)'">,
+				<cf_dbfunction name="to_sdate" args="#now()#">,
+				a.EFtipocambio,
+				#Periodo#,
+				#Mes#,
+				#Cuentabalancemultimoneda#,
+				a.Mcodigo,
+				b.Ocodigo,
+				round( ( (a.EFtotal /c.TotalFac) *(c.MontoCalculado) ), 2),
+    			<cfqueryparam cfsqltype="cf_sql_varchar" value="#varNumeroEvento#">,
+                b.CFid
+			from HEFavor  a
+				inner join  HDFavor Det
+					ON a.idHEfavor = Det.idHEfavor
+					AND Det.Ecodigo = a.Ecodigo
+					and a.CCTcodigo = Det.CCTcodigo
+					and a.Ddocumento = Det.Ddocumento
+				inner join  Documentos b
+					on Det.Ecodigo = b.Ecodigo
+					and Det.CCTcodigo = b.CCTcodigo
+						and Det.Ddocumento = b.Ddocumento
+				inner join ImpDocumentosCxC c
+					on Det.Ecodigo = c.Ecodigo
+					and Det.CCTcodigo = c.CCTcodigo
+					and Det.Ddocumento  =  c.Documento
+				inner join CCTransacciones d
+					on c.Ecodigo = d.Ecodigo
+					and c.CCTcodigo = d.CCTcodigo
+				inner join Impuestos i
+					on c.Ecodigo = i.Ecodigo
+					and c.Icodigo = i.Icodigo
+					and i.CcuentaCxCAcred is not null
+			where a.Ecodigo    =   #Ecodigo#
+			  and a.CCTcodigo  =  <cfqueryparam cfsqltype="cf_sql_char" 	value="#CCTcodigo#">
+			  and a.Ddocumento =  <cfqueryparam cfsqltype="cf_sql_char" 	value="#Ddocumento#">
+			  and b.Mcodigo    != <cfqueryparam cfsqltype="cf_sql_numeric" 	value="#Monloc#">
+			  AND a.idHEfavor = <cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.IdDocumento#">
+		</cfquery>
+
+		<cfquery datasource="#arguments.conexion#">
+			insert into #INTARC# ( INTORI, INTREL, INTDOC, INTREF, INTMON, INTTIP, INTDES, INTFEC, INTCAM, Periodo, Mes, Ccuenta, Mcodigo, Ocodigo, INTMOE, NumeroEvento, CFid)
+			select
+				'CCAP',
+				1,
+				c.Documento,
+				c.CCTcodigo ,
+				round( round(( (a.EFtotal /c.TotalFac) * (c.MontoCalculado) ),2) * a.EFtipocambio, 2),
+				'D',
+				<cf_dbfunction name="concat" args="i.Idescripcion, '(Nota Crédito (Acred) - CuentaBalancemultimoneda)'">,
+				<cf_dbfunction name="to_sdate" args="#now()#">,
+				1,
+				#Periodo#,
+				#Mes#,
+				#Cuentabalancemultimoneda#,
+				#Monloc#,
+				b.Ocodigo,
+				round( round(( (a.EFtotal /c.TotalFac) * (c.MontoCalculado) ),2) * a.EFtipocambio, 2),
+    			<cfqueryparam cfsqltype="cf_sql_varchar" value="#varNumeroEvento#">,
+                b.CFid
+			from HEFavor  a
+				inner join  HDFavor Det
+					ON a.idHEfavor = Det.idHEfavor
+					AND Det.Ecodigo = a.Ecodigo
+					and a.CCTcodigo = Det.CCTcodigo
+					and a.Ddocumento = Det.Ddocumento
+				inner join  Documentos b
+					on Det.Ecodigo = b.Ecodigo
+					and Det.CCTcodigo = b.CCTcodigo
+						and Det.Ddocumento = b.Ddocumento
+				inner join ImpDocumentosCxC c
+					on Det.Ecodigo = c.Ecodigo
+					and Det.CCTcodigo = c.CCTcodigo
+					and Det.Ddocumento  =  c.Documento
+				inner join CCTransacciones d
+					on c.Ecodigo = d.Ecodigo
+					and c.CCTcodigo = d.CCTcodigo
+				inner join Impuestos i
+					on c.Ecodigo = i.Ecodigo
+					and c.Icodigo = i.Icodigo
+					and i.CcuentaCxCAcred is not null
+			where a.Ecodigo    =   #Ecodigo#
+			  and a.CCTcodigo  =  <cfqueryparam cfsqltype="cf_sql_char" 	value="#CCTcodigo#">
+			  and a.Ddocumento =  <cfqueryparam cfsqltype="cf_sql_char" 	value="#Ddocumento#">
+			  and b.Mcodigo    != <cfqueryparam cfsqltype="cf_sql_numeric" 	value="#Monloc#">
+			  AND a.idHEfavor = <cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.IdDocumento#">
+		</cfquery>
+
+
+		<!--- NOTA CRÉDITO IEPS --->
+        <cfquery name="validaIEPS" datasource="#session.dsn#">
+            select isnull(sum(MontoCalculado),0) as valid
+            from HEFavor  a
+                inner join  HDFavor Det
+                    ON a.idHEfavor = Det.idHEfavor
+					AND Det.Ecodigo = a.Ecodigo
+                    and a.CCTcodigo = Det.CCTcodigo
+                    and a.Ddocumento = Det.Ddocumento
+                inner join ImpIEPSDocumentosCxC c
+                    on Det.Ecodigo = c.Ecodigo
+                    and Det.CCTcodigo = c.CCTcodigo
+                    and Det.Ddocumento  =  c.Documento
+            where a.Ecodigo    =  #Ecodigo#
+              and a.CCTcodigo  = <cfqueryparam cfsqltype="cf_sql_char"      value="#CCTcodigo#">
+              and a.Ddocumento = <cfqueryparam cfsqltype="cf_sql_char"      value="#Ddocumento#">
+			  AND a.idHEfavor = <cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.IdDocumento#">
+        </cfquery>
+        <cfif validaIEPS.valid GT 0>
+            <cfquery datasource="#arguments.conexion#">
+                insert into #INTARC# ( INTORI, INTREL, INTDOC, INTREF, INTMON, INTTIP, INTDES, INTFEC, INTCAM, Periodo, Mes, Ccuenta, Mcodigo, Ocodigo, INTMOE, NumeroEvento,CFid)
+                select
+                    'CCAP',
+                    1,
+                    c.Documento,
+                    c.CCTcodigo ,
+                    round( round(( (a.EFtotal /c.TotalFac) * (c.MontoCalculado) ),2) * a.EFtipocambio, 2),
+                    'C',
+                    <cf_dbfunction name="concat" args="i.Idescripcion,'(Nota Crédito)'">,
+                    <cf_dbfunction name="to_sdate" args="#now()#">,
+                    a.EFtipocambio,
+                    #Periodo#,
+                    #Mes#,
+                    i.CcuentaCxC,
+                    a.Mcodigo,
+                    b.Ocodigo,
+                    round( ( (a.EFtotal /c.TotalFac) * (c.MontoCalculado) ), 2),
+                    <cfqueryparam cfsqltype="cf_sql_varchar" value="#varNumeroEvento#">,
+                    b.CFid
+                from HEFavor  a
+                    inner join  HDFavor Det
+                        ON a.idHEfavor = Det.idHEfavor
+						AND Det.Ecodigo = a.Ecodigo
+                        and a.CCTcodigo = Det.CCTcodigo
+                        and a.Ddocumento = Det.Ddocumento
+                    inner join  Documentos b
+                        on Det.Ecodigo = b.Ecodigo
+                        and Det.CCTcodigo = b.CCTcodigo
+                        and Det.Ddocumento = b.Ddocumento
+                    inner join ImpIEPSDocumentosCxC c
+                        on Det.Ecodigo = c.Ecodigo
+                        and Det.CCTcodigo = c.CCTcodigo
+                        and Det.Ddocumento  =  c.Documento
+                    inner join CCTransacciones d
+                        on c.Ecodigo = d.Ecodigo
+                        and c.CCTcodigo = d.CCTcodigo
+                    inner join Impuestos i
+                        on c.Ecodigo = i.Ecodigo
+                        and c.codIEPS = i.Icodigo
+                        and i.CcuentaCxCAcred is not null
+                where a.Ecodigo    =  #Ecodigo#
+                  and a.CCTcodigo  = <cfqueryparam cfsqltype="cf_sql_char" value="#CCTcodigo#">
+                  and a.Ddocumento = <cfqueryparam cfsqltype="cf_sql_char" value="#Ddocumento#">
+				  AND a.idHEfavor = <cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.IdDocumento#">
+            </cfquery>
+            <cfquery datasource="#arguments.conexion#">
+                insert into #INTARC# ( INTORI, INTREL, INTDOC, INTREF, INTMON, INTTIP, INTDES, INTFEC, INTCAM, Periodo, Mes, Ccuenta, Mcodigo, Ocodigo, INTMOE, NumeroEvento,CFid)
+                select
+                    'CCAP',
+                    1,
+                    c.Documento,
+                    c.CCTcodigo ,
+                    round( round(( (a.EFtotal /c.TotalFac) * (c.MontoCalculado)),2) * a.EFtipocambio, 2),
+                    'D',
+                    <cf_dbfunction name="concat" args="i.Idescripcion,'(Nota Crédito - Acreditada)'">,
+                    <cf_dbfunction name="to_sdate" args="#now()#">,
+                    1,
+                    #Periodo#,
+                    #Mes#,
+                    i.CcuentaCxCAcred,
+                    #Monloc#,
+                    b.Ocodigo,
+                    round( round(( (a.EFtotal /c.TotalFac) * (c.MontoCalculado)),2) * a.EFtipocambio, 2),
+                    <cfqueryparam cfsqltype="cf_sql_varchar" value="#varNumeroEvento#">,
+                    b.CFid
+                from HEFavor  a
+                    inner join  HDFavor Det
+                        ON a.idHEfavor = Det.idHEfavor
+						AND Det.Ecodigo = a.Ecodigo
+                        and a.CCTcodigo = Det.CCTcodigo
+                        and a.Ddocumento = Det.Ddocumento
+                    inner join  Documentos b
+                        on Det.Ecodigo = b.Ecodigo
+                        and Det.CCTcodigo = b.CCTcodigo
+                            and Det.Ddocumento = b.Ddocumento
+                    inner join ImpIEPSDocumentosCxC c
+                        on Det.Ecodigo = c.Ecodigo
+                        and Det.CCTcodigo = c.CCTcodigo
+                        and Det.Ddocumento  =  c.Documento
+                    inner join CCTransacciones d
+                        on c.Ecodigo = d.Ecodigo
+                        and c.CCTcodigo = d.CCTcodigo
+                    inner join Impuestos i
+                        on c.Ecodigo = i.Ecodigo
+                        and c.codIEPS = i.Icodigo
+                        and i.CcuentaCxCAcred is not null
+                where a.Ecodigo    =  #Ecodigo#
+                  and a.CCTcodigo  = <cfqueryparam cfsqltype="cf_sql_char"      value="#CCTcodigo#">
+                  and a.Ddocumento = <cfqueryparam cfsqltype="cf_sql_char"      value="#Ddocumento#">
+				  AND a.idHEfavor = <cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.IdDocumento#">
+            </cfquery>
+            <cfquery datasource="#arguments.conexion#">
+                insert into #INTARC# ( INTORI, INTREL, INTDOC, INTREF, INTMON, INTTIP, INTDES, INTFEC, INTCAM, Periodo, Mes, Ccuenta, Mcodigo, Ocodigo, INTMOE, NumeroEvento,CFid)
+                select
+                    'CCAP',
+                    1,
+                    c.Documento,
+                    c.CCTcodigo ,
+                    round( round(( (a.EFtotal /c.TotalFac) * (c.MontoCalculado) ),2) * a.EFtipocambio, 2),
+                    'C',
+                    <cf_dbfunction name="concat" args="i.Idescripcion, '(Nota Crédito - CuentaBalancemultimoneda)'">,
+                    <cf_dbfunction name="to_sdate" args="#now()#">,
+                    a.EFtipocambio,
+                    #Periodo#,
+                    #Mes#,
+                    #Cuentabalancemultimoneda#,
+                    a.Mcodigo,
+                    b.Ocodigo,
+                    round( ( (a.EFtotal /c.TotalFac) *(c.MontoCalculado) ), 2),
+                    <cfqueryparam cfsqltype="cf_sql_varchar" value="#varNumeroEvento#">,
+                    b.CFid
+                from HEFavor  a
+                    inner join  HDFavor Det
+                        ON a.idHEfavor = Det.idHEfavor
+						AND Det.Ecodigo = a.Ecodigo
+                        and a.CCTcodigo = Det.CCTcodigo
+                        and a.Ddocumento = Det.Ddocumento
+                    inner join  Documentos b
+                        on Det.Ecodigo = b.Ecodigo
+                        and Det.CCTcodigo = b.CCTcodigo
+                            and Det.Ddocumento = b.Ddocumento
+                    inner join ImpIEPSDocumentosCxC c
+                        on Det.Ecodigo = c.Ecodigo
+                        and Det.CCTcodigo = c.CCTcodigo
+                        and Det.Ddocumento  =  c.Documento
+                    inner join CCTransacciones d
+                        on c.Ecodigo = d.Ecodigo
+                        and c.CCTcodigo = d.CCTcodigo
+                    inner join Impuestos i
+                        on c.Ecodigo = i.Ecodigo
+                        and c.codIEPS = i.Icodigo
+                        and i.CcuentaCxCAcred is not null
+                where a.Ecodigo    =   #Ecodigo#
+                  and a.CCTcodigo  =  <cfqueryparam cfsqltype="cf_sql_char"     value="#CCTcodigo#">
+                  and a.Ddocumento =  <cfqueryparam cfsqltype="cf_sql_char"     value="#Ddocumento#">
+                  and b.Mcodigo    != <cfqueryparam cfsqltype="cf_sql_numeric"  value="#Monloc#">
+				  AND a.idHEfavor = <cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.IdDocumento#">
+            </cfquery>
+            <cfquery datasource="#arguments.conexion#">
+                insert into #INTARC# ( INTORI, INTREL, INTDOC, INTREF, INTMON, INTTIP, INTDES, INTFEC, INTCAM, Periodo, Mes, Ccuenta, Mcodigo, Ocodigo, INTMOE, NumeroEvento, CFid)
+                select
+                    'CCAP',
+                    1,
+                    c.Documento,
+                    c.CCTcodigo ,
+                    round( round(( (a.EFtotal /c.TotalFac) * (c.MontoCalculado) ),2) * a.EFtipocambio, 2),
+                    'D',
+                    <cf_dbfunction name="concat" args="i.Idescripcion, '(Nota Crédito (Acred) - CuentaBalancemultimoneda)'">,
+                    <cf_dbfunction name="to_sdate" args="#now()#">,
+                    1,
+                    #Periodo#,
+                    #Mes#,
+                    #Cuentabalancemultimoneda#,
+                    #Monloc#,
+                    b.Ocodigo,
+                    round( round(( (a.EFtotal /c.TotalFac) * (c.MontoCalculado) ),2) * a.EFtipocambio, 2),
+                    <cfqueryparam cfsqltype="cf_sql_varchar" value="#varNumeroEvento#">,
+                    b.CFid
+                from HEFavor  a
+                    inner join  HDFavor Det
+                        ON a.idHEfavor = Det.idHEfavor
+						AND Det.Ecodigo = a.Ecodigo
+                        and a.CCTcodigo = Det.CCTcodigo
+                        and a.Ddocumento = Det.Ddocumento
+                    inner join  Documentos b
+                        on Det.Ecodigo = b.Ecodigo
+                        and Det.CCTcodigo = b.CCTcodigo
+                            and Det.Ddocumento = b.Ddocumento
+                    inner join ImpIEPSDocumentosCxC c
+                        on Det.Ecodigo = c.Ecodigo
+                        and Det.CCTcodigo = c.CCTcodigo
+                        and Det.Ddocumento  =  c.Documento
+                    inner join CCTransacciones d
+                        on c.Ecodigo = d.Ecodigo
+                        and c.CCTcodigo = d.CCTcodigo
+                    inner join Impuestos i
+                        on c.Ecodigo = i.Ecodigo
+                        and c.codIEPS = i.Icodigo
+                        and i.CcuentaCxCAcred is not null
+                where a.Ecodigo    =   #Ecodigo#
+                  and a.CCTcodigo  =  <cfqueryparam cfsqltype="cf_sql_char"     value="#CCTcodigo#">
+                  and a.Ddocumento =  <cfqueryparam cfsqltype="cf_sql_char"     value="#Ddocumento#">
+                  and b.Mcodigo    != <cfqueryparam cfsqltype="cf_sql_numeric"  value="#Monloc#">
+				  AND a.idHEfavor = <cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.IdDocumento#">
+            </cfquery>
+        </cfif>
+        <!--- FIN NOTAS IEPS --->
+
+
+		<!--- Facturas IVA--->
+		<cfquery datasource="#arguments.conexion#">
+            insert into #INTARC# ( INTORI, INTREL, INTDOC, INTREF, INTMON, INTTIP, INTDES, INTFEC, INTCAM, Periodo, Mes, Ccuenta, Mcodigo, Ocodigo, INTMOE, NumeroEvento,CFid)
+			select
+				'CCAP',
+				1,
+				Det.DRdocumento,
+				Det.CCTRcodigo ,
+				case when b.Mcodigo = #Monloc#
+				then
+					round(( (Det.DFmontodoc / c.TotalFac) * (c.MontoCalculado) ) ,2)
+				else
+					round( round(( (Det.DFmontodoc / c.TotalFac) * (c.MontoCalculado) ) ,2) / Det.DFtipocambio * a.EFtipocambio,2)
+				end as INTMON,
+				'C',
+				<cf_dbfunction name="concat" args="i.Idescripcion, '(Factura)'">,
+				<cf_dbfunction name="to_sdate" args="#now()#">,
+				case when b.Mcodigo = #Monloc#
+				then
+					1.00
+				else
+					round((Det.DFtotal / Det.DFmontodoc * a.EFtipocambio), 4)
+				end as INTCAM,
+				#Periodo#,
+				#Mes#,
+				CcuentaImp,
+				b.Mcodigo,
+				b.Ocodigo,
+				round(( (Det.DFmontodoc / c.TotalFac) * (c.MontoCalculado) ) ,2),
+    			Det.NumeroEvento,
+                Det.CFid
+			from HEFavor  a
+				inner join  HDFavor Det
+					ON a.idHEfavor = Det.idHEfavor
+					AND Det.Ecodigo = a.Ecodigo
+					and a.CCTcodigo = Det.CCTcodigo
+					and a.Ddocumento = Det.Ddocumento
+				inner join  Documentos b
+					on Det.Ecodigo = b.Ecodigo
+					and Det.CCTRcodigo = b.CCTcodigo
+						and Det.DRdocumento = b.Ddocumento
+				inner join ImpDocumentosCxC c
+					on Det.Ecodigo = c.Ecodigo
+					and Det.CCTRcodigo  = c.CCTcodigo
+					and Det.DRdocumento  =  c.Documento
+				inner join CCTransacciones d
+					on c.Ecodigo = d.Ecodigo
+					and c.CCTcodigo = d.CCTcodigo
+				inner join Impuestos i
+					on c.Ecodigo = i.Ecodigo
+					and c.Icodigo = i.Icodigo
+			where a.Ecodigo    =   #Ecodigo#
+			  and a.CCTcodigo  =  <cfqueryparam cfsqltype="cf_sql_char" 	value="#CCTcodigo#">
+			  and a.Ddocumento =  <cfqueryparam cfsqltype="cf_sql_char" 	value="#Ddocumento#">
+			  and i.CcuentaCxCAcred is not null
+			  AND a.idHEfavor = <cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.IdDocumento#">
+		</cfquery>
+		
+		<cfquery datasource="#arguments.conexion#">
+			insert into #INTARC# ( INTORI, INTREL, INTDOC, INTREF, INTMON, INTTIP, INTDES, INTFEC, INTCAM, Periodo, Mes, Ccuenta, Mcodigo, Ocodigo, INTMOE, NumeroEvento,CFid)
+			select
+				'CCAP',
+				1,
+				Det.DRdocumento,
+				Det.CCTRcodigo ,
+				case when b.Mcodigo = #Monloc#
+				then
+					round(( (Det.DFmontodoc / c.TotalFac) * (c.MontoCalculado) ) ,2)
+				else
+					round( round(( (Det.DFmontodoc / c.TotalFac) * (c.MontoCalculado) ) ,2) / Det.DFtipocambio * a.EFtipocambio,2)
+				end as INTMON,
+				'D',
+				<cf_dbfunction name="concat" args="i.Idescripcion,'(Factura - Acreditada)'">,
+				<cf_dbfunction name="to_sdate" args="#now()#">,
+				1,
+				#Periodo#,
+				#Mes#,
+				i.CcuentaCxCAcred,
+				#Monloc#,
+				b.Ocodigo,
+				case when b.Mcodigo = #Monloc#
+				then
+					round(( (Det.DFmontodoc / c.TotalFac) * (c.MontoCalculado) ) ,2)
+				else
+					round( round(( (Det.DFmontodoc / c.TotalFac) * (c.MontoCalculado) ) ,2) / Det.DFtipocambio * a.EFtipocambio,2)
+				end as INTMOE,
+    			Det.NumeroEvento,
+                Det.CFid
+			from HEFavor  a
+				inner join  HDFavor Det
+					ON a.idHEfavor = Det.idHEfavor
+					AND Det.Ecodigo = a.Ecodigo
+					and a.CCTcodigo = Det.CCTcodigo
+					and a.Ddocumento = Det.Ddocumento
+				inner join  Documentos b
+					on Det.Ecodigo = b.Ecodigo
+					and Det.CCTRcodigo = b.CCTcodigo
+						and Det.DRdocumento = b.Ddocumento
+				inner join ImpDocumentosCxC c
+					on Det.Ecodigo = c.Ecodigo
+					and Det.CCTRcodigo  = c.CCTcodigo
+					and Det.DRdocumento  =  c.Documento
+				inner join CCTransacciones d
+					on c.Ecodigo = d.Ecodigo
+					and c.CCTcodigo = d.CCTcodigo
+				inner join Impuestos i
+					on c.Ecodigo = i.Ecodigo
+					and c.Icodigo = i.Icodigo
+			where a.Ecodigo    =   #Ecodigo#
+			  and a.CCTcodigo  =  <cfqueryparam cfsqltype="cf_sql_char" 	value="#CCTcodigo#">
+			  and a.Ddocumento =  <cfqueryparam cfsqltype="cf_sql_char" 	value="#Ddocumento#">
+			  and i.CcuentaCxCAcred is not null
+			  AND a.idHEfavor = <cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.IdDocumento#">
+		</cfquery>
+		<cfquery datasource="#arguments.conexion#">
+			insert into #INTARC# ( INTORI, INTREL, INTDOC, INTREF, INTMON, INTTIP, INTDES, INTFEC, INTCAM, Periodo, Mes, Ccuenta, Mcodigo, Ocodigo, INTMOE, NumeroEvento,CFid)
+			select
+				'CCAP',
+				1,
+				Det.DRdocumento,
+				Det.CCTRcodigo ,
+				round( round(( (Det.DFmontodoc / c.TotalFac) * (c.MontoCalculado) ) ,2) / Det.DFtipocambio * a.EFtipocambio,2),
+				'D',
+				<cf_dbfunction name="concat" args="i.Idescripcion,'(Factura - CuentaBalancemultimoneda)'">,
+				<cf_dbfunction name="to_sdate" args="#now()#">,
+				round((Det.DFtotal / Det.DFmontodoc * a.EFtipocambio),4),
+				#Periodo#,
+				#Mes#,
+				#Cuentabalancemultimoneda#,
+				b.Mcodigo,
+				b.Ocodigo,
+				round( (Det.DFmontodoc / c.TotalFac) * (c.MontoCalculado), 2),
+    			Det.NumeroEvento,
+                Det.CFid
+			from HEFavor  a
+				inner join  HDFavor Det
+				   ON a.idHEfavor = Det.idHEfavor
+				   AND Det.Ecodigo = a.Ecodigo
+				   and a.CCTcodigo = Det.CCTcodigo
+				   and a.Ddocumento = Det.Ddocumento
+				inner join  Documentos b
+					on Det.Ecodigo = b.Ecodigo
+				   and Det.CCTRcodigo = b.CCTcodigo
+				   and Det.DRdocumento = b.Ddocumento
+				inner join ImpDocumentosCxC c
+					on Det.Ecodigo = c.Ecodigo
+					and Det.CCTRcodigo  = c.CCTcodigo
+					and Det.DRdocumento  =  c.Documento
+				inner join CCTransacciones d
+					on c.Ecodigo = d.Ecodigo
+				   and c.CCTcodigo = d.CCTcodigo
+				inner join Impuestos i
+					on c.Ecodigo = i.Ecodigo
+				   and c.Icodigo = i.Icodigo
+			where a.Ecodigo     =   #Ecodigo#
+			  and a.CCTcodigo   =  <cfqueryparam cfsqltype="cf_sql_char" 	value="#CCTcodigo#">
+			  and a.Ddocumento  =  <cfqueryparam cfsqltype="cf_sql_char" 	value="#Ddocumento#">
+			  and b.Mcodigo    != <cfqueryparam cfsqltype="cf_sql_numeric" 	value="#Monloc#">
+			  and i.CcuentaCxCAcred is not null
+			  AND a.idHEfavor = <cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.IdDocumento#">
+		</cfquery>
+		<cfquery datasource="#arguments.conexion#">
+			insert into #INTARC# ( INTORI, INTREL, INTDOC, INTREF, INTMON, INTTIP, INTDES, INTFEC, INTCAM, Periodo, Mes, Ccuenta, Mcodigo, Ocodigo, INTMOE, NumeroEvento,CFid)
+			select
+				'CCAP',
+				1,
+				Det.DRdocumento,
+				Det.CCTRcodigo ,
+				round( round(( (Det.DFmontodoc / c.TotalFac) * (c.MontoCalculado) ) ,2) / Det.DFtipocambio * a.EFtipocambio,2),
+				'C',
+				<cf_dbfunction name="concat" args="i.Idescripcion,'(Factura (Acred)- CuentaBalancemultimoneda)'">,
+				<cf_dbfunction name="to_sdate" args="#now()#">,
+				1,
+				#Periodo#,
+				#Mes#,
+				#Cuentabalancemultimoneda#,
+				#Monloc#,
+				b.Ocodigo,
+				round( round(( (Det.DFmontodoc / c.TotalFac) * (c.MontoCalculado) ) ,2) / Det.DFtipocambio * a.EFtipocambio,2),
+    			Det.NumeroEvento,
+                Det.CFid
+			from HEFavor  a
+				inner join  HDFavor Det
+					ON a.idHEfavor = Det.idHEfavor
+					AND Det.Ecodigo = a.Ecodigo
+					and a.CCTcodigo  = Det.CCTcodigo
+					and a.Ddocumento = Det.Ddocumento
+				inner join  Documentos b
+					on Det.Ecodigo	 	= b.Ecodigo
+				   and Det.CCTRcodigo	= b.CCTcodigo
+				   and Det.DRdocumento 	= b.Ddocumento
+				inner join ImpDocumentosCxC c
+					on Det.Ecodigo = c.Ecodigo
+				   and Det.CCTRcodigo  = c.CCTcodigo
+				   and Det.DRdocumento  =  c.Documento
+				inner join CCTransacciones d
+					on c.Ecodigo 	= d.Ecodigo
+				   and c.CCTcodigo 	= d.CCTcodigo
+				inner join Impuestos i
+					on c.Ecodigo = i.Ecodigo
+				   and c.Icodigo = i.Icodigo
+			where a.Ecodigo     =   #Ecodigo#
+			  and a.CCTcodigo   =  <cfqueryparam cfsqltype="cf_sql_char" 	value="#CCTcodigo#">
+			  and a.Ddocumento  =  <cfqueryparam cfsqltype="cf_sql_char" 	value="#Ddocumento#">
+			  and b.Mcodigo    != <cfqueryparam cfsqltype="cf_sql_numeric" 	value="#Monloc#">
+			  and i.CcuentaCxCAcred is not null
+			  AND a.idHEfavor = <cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.IdDocumento#">
+		</cfquery>
+
+
+		<!--- FACTURAS IEPS --->
+        <!---<cfquery name="validaFacIEPS" datasource="#session.dsn#">
+            select isnull(sum(c.MontoCalculado),0) as valid
+            from HEFavor  a
+                    inner join  HDFavor Det
+                        on a.Ecodigo = Det.Ecodigo
+                        and a.CCTcodigo = Det.CCTcodigo
+                        and a.Ddocumento = Det.Ddocumento
+                    inner join  Documentos b
+                        on Det.Ecodigo = b.Ecodigo
+                        and Det.CCTRcodigo = b.CCTcodigo
+                            and Det.DRdocumento = b.Ddocumento
+                    inner join ImpIEPSDocumentosCxC c
+                        on Det.Ecodigo = c.Ecodigo
+                        and Det.CCTRcodigo  = c.CCTcodigo
+                        and Det.DRdocumento  =  c.Documento
+        </cfquery>
+
+         <cfif validaFacIEPS.recordCount GT 0>
+            <cfquery datasource="#arguments.conexion#">
+                insert into #INTARC# ( INTORI, INTREL, INTDOC, INTREF, INTMON, INTTIP, INTDES, INTFEC, INTCAM, Periodo, Mes, Ccuenta, Mcodigo, Ocodigo, INTMOE, NumeroEvento, CFid)
+                select
+                    'CCAP',
+                    1,
+                    Det.DRdocumento,
+                    Det.CCTRcodigo ,
+                    case when b.Mcodigo = #Monloc#
+                    then
+                        round(( (Det.DFmontodoc / c.TotalFac) * (c.MontoCalculado) ) ,2)
+                    else
+                        round( round(( (Det.DFmontodoc / c.TotalFac) * (c.MontoCalculado) ) ,2) / Det.DFtipocambio * a.EFtipocambio,2)
+                    end as INTMON,
+                    'C'
+                    <cf_dbfunction name="concat" args="i.Idescripcion, '(Factura)'">,
+                    <cf_dbfunction name="to_sdate" args="#now()#">,
+                    case when b.Mcodigo = #Monloc#
+                    then
+                        1.00
+                    else
+                        round((Det.DFtotal / Det.DFmontodoc * a.EFtipocambio), 4)
+                    end as INTCAM,
+                    #Periodo#,
+                    #Mes#,
+                    i.CcuentaCxC,
+                    b.Mcodigo,
+                    b.Ocodigo,
+                    round(( (Det.DFmontodoc / c.TotalFac) * (c.MontoCalculado) ) ,2),
+                    Det.NumeroEvento,
+                    Det.CFid
+                from HEFavor  a
+                    inner join  HDFavor Det
+                        on a.Ecodigo = Det.Ecodigo
+                        and a.CCTcodigo = Det.CCTcodigo
+                        and a.Ddocumento = Det.Ddocumento
+                    inner join  Documentos b
+                        on Det.Ecodigo = b.Ecodigo
+                        and Det.CCTRcodigo = b.CCTcodigo
+                            and Det.DRdocumento = b.Ddocumento
+                    inner join ImpIEPSDocumentosCxC c
+                        on Det.Ecodigo = c.Ecodigo
+                        and Det.CCTRcodigo  = c.CCTcodigo
+                        and Det.DRdocumento  =  c.Documento
+                    inner join CCTransacciones d
+                        on c.Ecodigo = d.Ecodigo
+                        and c.CCTcodigo = d.CCTcodigo
+                    inner join Impuestos i
+                        on c.Ecodigo = i.Ecodigo
+                        and c.codIEPS = i.Icodigo
+                where a.Ecodigo    =   #Ecodigo#
+                  and a.CCTcodigo  =  <cfqueryparam cfsqltype="cf_sql_char"     value="#CCTcodigo#">
+                  and a.Ddocumento =  <cfqueryparam cfsqltype="cf_sql_char"     value="#Ddocumento#">
+                  and i.CcuentaCxCAcred is not null
+            </cfquery>
+            <cfquery datasource="#arguments.conexion#">
+                insert into #INTARC# ( INTORI, INTREL, INTDOC, INTREF, INTMON, INTTIP, INTDES, INTFEC, INTCAM, Periodo, Mes, Ccuenta, Mcodigo, Ocodigo, INTMOE, NumeroEvento,CFid)
+                select
+                    'CCAP',
+                    1,
+                    Det.DRdocumento,
+                    Det.CCTRcodigo ,
+                    case when b.Mcodigo = #Monloc#
+                    then
+                        round(( (Det.DFmontodoc / c.TotalFac) * (c.MontoCalculado) ) ,2)
+                    else
+                        round( round(( (Det.DFmontodoc / c.TotalFac) * (c.MontoCalculado) ) ,2) / Det.DFtipocambio * a.EFtipocambio,2)
+                    end as INTMON,
+                    'D',
+                    <cf_dbfunction name="concat" args="i.Idescripcion,'(Factura - Acreditada)'">,
+                    <cf_dbfunction name="to_sdate" args="#now()#">,
+                    1,
+                    #Periodo#,
+                    #Mes#,
+                    i.CcuentaCxCAcred,
+                    #Monloc#,
+                    b.Ocodigo,
+                    case when b.Mcodigo = #Monloc#
+                    then
+                        round(( (Det.DFmontodoc / c.TotalFac) * (c.MontoCalculado) ) ,2)
+                    else
+                        round( round(( (Det.DFmontodoc / c.TotalFac) * (c.MontoCalculado) ) ,2) / Det.DFtipocambio * a.EFtipocambio,2)
+                    end as INTMOE,
+                    Det.NumeroEvento,
+                    Det.CFid
+                from HEFavor  a
+                    inner join  HDFavor Det
+                        on a.Ecodigo = Det.Ecodigo
+                        and a.CCTcodigo = Det.CCTcodigo
+                        and a.Ddocumento = Det.Ddocumento
+                    inner join  Documentos b
+                        on Det.Ecodigo = b.Ecodigo
+                        and Det.CCTRcodigo = b.CCTcodigo
+                            and Det.DRdocumento = b.Ddocumento
+                    inner join ImpIEPSDocumentosCxC c
+                        on Det.Ecodigo = c.Ecodigo
+                        and Det.CCTRcodigo  = c.CCTcodigo
+                        and Det.DRdocumento  =  c.Documento
+                    inner join CCTransacciones d
+                        on c.Ecodigo = d.Ecodigo
+                        and c.CCTcodigo = d.CCTcodigo
+                    inner join Impuestos i
+                        on c.Ecodigo = i.Ecodigo
+                        and c.codIEPS = i.Icodigo
+                where a.Ecodigo    =   #Ecodigo#
+                  and a.CCTcodigo  =  <cfqueryparam cfsqltype="cf_sql_char"     value="#CCTcodigo#">
+                  and a.Ddocumento =  <cfqueryparam cfsqltype="cf_sql_char"     value="#Ddocumento#">
+                  and i.CcuentaCxCAcred is not null
+            </cfquery>
+            <cfquery datasource="#arguments.conexion#">
+                insert into #INTARC# ( INTORI, INTREL, INTDOC, INTREF, INTMON, INTTIP, INTDES, INTFEC, INTCAM, Periodo, Mes, Ccuenta, Mcodigo, Ocodigo, INTMOE, NumeroEvento,CFid)
+                select
+                    'CCAP',
+                    1,
+                    Det.DRdocumento,
+                    Det.CCTRcodigo ,
+                    round( round(( (Det.DFmontodoc / c.TotalFac) * (c.MontoCalculado) ) ,2) / Det.DFtipocambio * a.EFtipocambio,2),
+                    'C',
+                    <cf_dbfunction name="concat" args="i.Idescripcion,'(Factura - CuentaBalancemultimoneda)'">,
+                    <cf_dbfunction name="to_sdate" args="#now()#">,
+                    round((Det.DFtotal / Det.DFmontodoc * a.EFtipocambio),4),
+                    #Periodo#,
+                    #Mes#,
+                    #Cuentabalancemultimoneda#,
+                    b.Mcodigo,
+                    b.Ocodigo,
+                    round( (Det.DFmontodoc / c.TotalFac) * (c.MontoCalculado), 2),
+                    Det.NumeroEvento,
+                    Det.CFid
+                from HEFavor  a
+                    inner join  HDFavor Det
+                        on a.Ecodigo = Det.Ecodigo
+                       and a.CCTcodigo = Det.CCTcodigo
+                       and a.Ddocumento = Det.Ddocumento
+                    inner join  Documentos b
+                        on Det.Ecodigo = b.Ecodigo
+                       and Det.CCTRcodigo = b.CCTcodigo
+                       and Det.DRdocumento = b.Ddocumento
+                    inner join ImpIEPSDocumentosCxC c
+                        on Det.Ecodigo = c.Ecodigo
+                        and Det.CCTRcodigo  = c.CCTcodigo
+                        and Det.DRdocumento  =  c.Documento
+                    inner join CCTransacciones d
+                        on c.Ecodigo = d.Ecodigo
+                       and c.CCTcodigo = d.CCTcodigo
+                    inner join Impuestos i
+                        on c.Ecodigo = i.Ecodigo
+                       and c.codIEPS = i.Icodigo
+                where a.Ecodigo     =   #Ecodigo#
+                  and a.CCTcodigo   =  <cfqueryparam cfsqltype="cf_sql_char"    value="#CCTcodigo#">
+                  and a.Ddocumento  =  <cfqueryparam cfsqltype="cf_sql_char"    value="#Ddocumento#">
+                  and b.Mcodigo    != <cfqueryparam cfsqltype="cf_sql_numeric"  value="#Monloc#">
+                  and i.CcuentaCxCAcred is not null
+            </cfquery>
+            <cfquery datasource="#arguments.conexion#">
+                insert into #INTARC# ( INTORI, INTREL, INTDOC, INTREF, INTMON, INTTIP, INTDES, INTFEC, INTCAM, Periodo, Mes, Ccuenta, Mcodigo, Ocodigo, INTMOE, NumeroEvento,CFid)
+                select
+                    'CCAP',
+                    1,
+                    Det.DRdocumento,
+                    Det.CCTRcodigo ,
+                    round( round(( (Det.DFmontodoc / c.TotalFac) * (c.MontoCalculado) ) ,2) / Det.DFtipocambio * a.EFtipocambio,2),
+                    'D',
+                    <cf_dbfunction name="concat" args="i.Idescripcion,'(Factura (Acred) - CuentaBalancemultimoneda)'">,
+                    <cf_dbfunction name="to_sdate" args="#now()#">,
+                    1,
+                    #Periodo#,
+                    #Mes#,
+                    #Cuentabalancemultimoneda#,
+                    #Monloc#,
+                    b.Ocodigo,
+                    round( round(( (Det.DFmontodoc / c.TotalFac) * (c.MontoCalculado) ) ,2) / Det.DFtipocambio * a.EFtipocambio,2),
+                    Det.NumeroEvento,
+                    Det.CFid
+                from HEFavor  a
+                    inner join  HDFavor Det
+                        on a.Ecodigo     = Det.Ecodigo
+                        and a.CCTcodigo  = Det.CCTcodigo
+                        and a.Ddocumento = Det.Ddocumento
+                    inner join  Documentos b
+                        on Det.Ecodigo      = b.Ecodigo
+                       and Det.CCTRcodigo   = b.CCTcodigo
+                       and Det.DRdocumento  = b.Ddocumento
+                    inner join ImpIEPSDocumentosCxC c
+                        on Det.Ecodigo = c.Ecodigo
+                       and Det.CCTRcodigo  = c.CCTcodigo
+                       and Det.DRdocumento =  c.Documento
+                    inner join CCTransacciones d
+                        on c.Ecodigo    = d.Ecodigo
+                       and c.CCTcodigo  = d.CCTcodigo
+                    inner join Impuestos i
+                        on c.Ecodigo = i.Ecodigo
+                       and c.codIEPS = i.Icodigo
+                where a.Ecodigo      = #Ecodigo#
+                  and a.CCTcodigo   =  <cfqueryparam cfsqltype="cf_sql_char"    value="#CCTcodigo#">
+                  and a.Ddocumento  =  <cfqueryparam cfsqltype="cf_sql_char"    value="#Ddocumento#">
+                  and b.Mcodigo    != <cfqueryparam cfsqltype="cf_sql_numeric"  value="#Monloc#">
+                  and i.CcuentaCxCAcred is not null
+            </cfquery>
+        </cfif>
+
+		2) Asiento Contable --->
+		<!--- 2a) Débito: Documento a Favor --->
+		<cfquery datasource="#arguments.conexion#">
+			insert into #INTARC# ( INTORI, INTREL, INTDOC, INTREF, INTMON, INTTIP, INTDES, INTFEC, INTCAM, Periodo, Mes, Ccuenta, Mcodigo, Ocodigo, INTMOE, NumeroEvento,CFid)
+			select
+				'CCAP',
+				1,
+				a.Ddocumento,
+				a.CCTcodigo,
+				round(a.EFtotal*a.EFtipocambio,2),
+				'C',
+				<cf_dbfunction name="concat" args="'CxC: Cancelaci&oacute;n de Doc. a Favor C. Pago ', a.Ddocumento">,
+				<cf_dbfunction name="to_sdate" args="#now()#">,
+				a.EFtipocambio,
+				#Periodo#,
+				#Mes#,
+				b.Ccuenta,
+				a.Mcodigo,
+				b.Ocodigo,
+				a.EFtotal,
+    			<cfqueryparam cfsqltype="cf_sql_varchar" value="#varNumeroEvento#">,
+                b.CFid
+			from HEFavor a
+				inner join Documentos b
+				  on a.Ecodigo = b.Ecodigo
+				 and a.CCTcodigo = b.CCTcodigo
+				 and a.Ddocumento = b.Ddocumento
+			where a.Ecodigo     =   #Ecodigo#
+			  and a.CCTcodigo   =  <cfqueryparam cfsqltype="cf_sql_char" 	value="#CCTcodigo#">
+			  and a.Ddocumento  =  <cfqueryparam cfsqltype="cf_sql_char" 	value="#Ddocumento#">
+			  AND a.idHEfavor = <cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.IdDocumento#">
+		</cfquery>
+
+		<!--- 2b) Crédito: Documentos Afectados --->
+		<cfquery datasource="#arguments.conexion#">
+			insert into #INTARC# ( INTORI, INTREL, INTDOC, INTREF, INTMON, INTTIP, INTDES, INTFEC, INTCAM, Periodo, Mes, Ccuenta, Mcodigo, Ocodigo, INTMOE, NumeroEvento,CFid)
+			select
+				'CCAP',
+				1,
+				a.DRdocumento,
+				a.CCTRcodigo,
+				round(a.DFmontodoc / a.DFtipocambio  * c.EFtipocambio, 2),
+				'D',
+				<cf_dbfunction name="concat" args="'CxC: Cancelaci&oacute;n de Doc. C. Pago ',a.DRdocumento ">,
+				<cf_dbfunction name="to_sdate" args="#now()#">,
+				case when a.Mcodigo != #Monloc# then round(a.DFtotal*c.EFtipocambio,2)/a.DFmontodoc else 1 end,
+				#Periodo#,
+				#Mes#,
+				b.Ccuenta,
+				a.Mcodigo,
+				b.Ocodigo,
+				a.DFmontodoc,
+    			a.NumeroEvento,
+                a.CFid
+			from HDFavor a
+				inner join HEFavor c
+					ON a.idHEfavor = c.idHEfavor
+					AND c.Ecodigo = a.Ecodigo
+				   and a.CCTcodigo = c.CCTcodigo
+				   and a.Ddocumento = c.Ddocumento
+
+				inner join Documentos b
+					on a.Ecodigo = b.Ecodigo
+				   and a.CCTRcodigo = b.CCTcodigo
+				   and a.DRdocumento = b.Ddocumento
+
+			where a.Ecodigo    	=   #Ecodigo#
+			  and a.CCTcodigo   =  <cfqueryparam cfsqltype="cf_sql_char" 	value="#CCTcodigo#">
+			  and a.Ddocumento  =  <cfqueryparam cfsqltype="cf_sql_char" 	value="#Ddocumento#">
+			  AND a.idHEfavor = <cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.IdDocumento#">
+		</cfquery>
+
+		<cfquery datasource="#arguments.conexion#">
+			insert into #INTARC# (
+			INTORI, INTREL, INTDOC, INTREF, INTMON,
+			INTTIP, INTDES, INTFEC, INTCAM,
+			Periodo, Mes, Ccuenta, Mcodigo, Ocodigo, INTMOE,
+            NumeroEvento,CFid)
+			select
+				'CCAP',
+				1,
+				a.DRdocumento,
+				a.CCTRcodigo,
+				round(a.DFtotal * c.EFtipocambio,2),
+				'D',
+				<cf_dbfunction name="concat" args="'Balance Moneda Documento ', a.CCTRcodigo, '-', a.DRdocumento">,
+				<cf_dbfunction name="to_sdate" args="#now()#">,
+				c.EFtipocambio,
+				#Periodo#,
+				#Mes#,
+				#CuentaPuente#,
+				c.Mcodigo,
+				b.Ocodigo,
+				a.DFtotal,
+    			a.NumeroEvento,
+                a.CFid
+			from HDFavor a
+				inner join HEFavor c
+					ON a.idHEfavor = c.idHEfavor
+					AND c.Ecodigo = a.Ecodigo
+					and a.CCTcodigo = c.CCTcodigo
+					and a.Ddocumento = c.Ddocumento
+
+				inner join Documentos b
+					on a.Ecodigo = b.Ecodigo
+					and a.CCTRcodigo = b.CCTcodigo
+					and a.DRdocumento = b.Ddocumento
+
+			where a.Ecodigo    	=   #Ecodigo#
+			  and a.CCTcodigo   =  <cfqueryparam cfsqltype="cf_sql_char" 	value="#CCTcodigo#">
+			  and a.Ddocumento  =  <cfqueryparam cfsqltype="cf_sql_char" 	value="#Ddocumento#">
+			  and b.Mcodigo <> c.Mcodigo
+			  AND a.idHEfavor = <cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.IdDocumento#">
+		</cfquery>
+
+		<cfquery datasource="#arguments.conexion#">
+			insert into #INTARC# (
+			INTORI, INTREL, INTDOC, INTREF, INTMON,
+			INTTIP, INTDES, INTFEC, INTCAM,
+			Periodo, Mes, Ccuenta, Mcodigo, Ocodigo, INTMOE,
+            NumeroEvento,CFid)
+			select
+				'CCAP',
+				1,
+				a.DRdocumento,
+				a.CCTRcodigo,
+				round(a.DFmontodoc / a.DFtipocambio * c.EFtipocambio,2),
+				'C',
+				<cf_dbfunction name="concat" args="'Balance Moneda Documento ', a.CCTRcodigo,'-',a.DRdocumento ">,
+				<cf_dbfunction name="to_sdate" args="#now()#">,
+				case when a.Mcodigo != #Monloc# then round(a.DFtotal * c.EFtipocambio,4) / a.DFmontodoc else 1 end,
+				#Periodo#,
+				#Mes#,
+				#CuentaPuente#,
+				a.Mcodigo,
+				b.Ocodigo,
+				a.DFmontodoc,
+                a.NumeroEvento,
+                a.CFid
+			from HDFavor a
+			inner join HEFavor c
+			ON a.idHEfavor = c.idHEfavor
+			AND c.Ecodigo = a.Ecodigo
+			and a.CCTcodigo = c.CCTcodigo
+			and a.Ddocumento = c.Ddocumento
+			inner join Documentos b
+			on a.Ecodigo = b.Ecodigo
+			and a.CCTRcodigo = b.CCTcodigo
+			and a.DRdocumento = b.Ddocumento
+			where a.Ecodigo    	=   #Ecodigo#
+			  and a.CCTcodigo   =  <cfqueryparam cfsqltype="cf_sql_char" 	value="#CCTcodigo#">
+			  and a.Ddocumento  =  <cfqueryparam cfsqltype="cf_sql_char" 	value="#Ddocumento#">
+			  and c.Mcodigo != b.Mcodigo
+			  AND a.idHEfavor = <cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.IdDocumento#">
+		</cfquery>
+<!--- <cf_dumptable var="#INTARC#"> --->
+
+		<!--- 5) Ejecutar el Genera Asiento --->
+			<cfif fechaDoc eq 'S'>
+				<cfif isdefined("EFfecha") and len(trim(EFfecha))>
+					<cfset Efecha = #EFfecha#>
+				<cfelse>
+					<cfset Efecha = #Fecha#>
+				</cfif>
+			<cfelse>
+				<cfset Efecha = Fecha>
+			</cfif>
+
+			<!--- Generar el asiento contable --->
+			<cfinvoke
+				component		= "sif.Componentes.CG_GeneraAsiento"
+				method			= "GeneraAsiento"
+				returnvariable	= "IDcontable"
+				Ecodigo 		= "#Ecodigo#"
+				oorigen			= "CCAP"
+				eperiodo		= "#Periodo#"
+				emes			= "#Mes#"
+				efecha			= "#EFecha#"
+				edescripcion	= "#descripcion#"
+				edocbase		= "#Ddocumento#"
+				ereferencia		= "#CCTcodigo#"
+				debug			= "false"
+				usuario 		= "#usuario#"
+				Ocodigo 		= "#Ocodigo#"
+				Usucodigo 		= "#Usucodigo#"
+                NumeroEvento    = "#varNumeroEvento#"
+				/>
+
+		<cfreturn IDcontable>
+	</cffunction>
+</cfcomponent>
+
+

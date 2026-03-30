@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+Se quita el targetNamespace http://soin.net/2006/isb/cambio_paquete/1.0 porque XmlValidate (coldfusion) no lo admite
+-->
+<xs:schema 
+   elementFormDefault="qualified"
+   xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   <xs:complexType name="infoLogin">
+      <xs:sequence>
+         <xs:element name="servicio" maxOccurs="unbounded"/>
+      </xs:sequence>   
+      <xs:attribute name="login" type="xs:string">
+      </xs:attribute>
+   </xs:complexType>
+   <xs:element name="retiroServicio">
+      <xs:complexType>
+         <xs:sequence>
+            <xs:element name="Contratoid" maxOccurs="1" minOccurs="1"/>
+            <xs:element name="paquete" type="infoPaquete"/>
+            <xs:element name="motivoRetiro" type="infoMotivoRetiro"/>
+            <xs:element name="fechaSolicitadaRetiro" type="xs:date"/>
+            <xs:element name="devolucionDeposito" type="xs:boolean"/>
+         </xs:sequence>
+      </xs:complexType>
+   </xs:element>
+   <xs:complexType name="infoPaquete">
+      <xs:sequence>
+         <xs:element name="codigoPaquete"/>
+         <xs:element name="nombrePaquete"/>
+         <xs:element name="login" maxOccurs="unbounded" minOccurs="0" type="infoLogin"/>
+      </xs:sequence>   
+   </xs:complexType>
+   <xs:complexType name="infoMotivoRetiro">
+      <xs:sequence>
+         <xs:element name="codigoMotivo"/>
+         <xs:element name="nombreMotivo"/>
+      </xs:sequence>   
+   </xs:complexType>
+</xs:schema>

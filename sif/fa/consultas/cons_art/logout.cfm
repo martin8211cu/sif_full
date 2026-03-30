@@ -1,0 +1,1 @@
+﻿<cflocation url="/cfmx/home/public/logout.cfm">

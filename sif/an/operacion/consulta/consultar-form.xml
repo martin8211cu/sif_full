@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_Calculos>Calculation Executed</LB_Calculos>
+		<LB_DescargarAnexo>Download Financial Report</LB_DescargarAnexo>
+		<LB_RegresarCalculo>Return Calculation</LB_RegresarCalculo>
+		<LB_MaximizarAnexo>Maximize Financial Report</LB_MaximizarAnexo>
+		<LB_Seleccion>Select</LB_Seleccion>
+	</Idioma>
+</Etiquetas>

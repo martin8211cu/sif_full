@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+      <Idioma id="es">
+        <inicio>
+Inicio
+        </inicio>
+        <favoritos>
+Favoritos
+        </favoritos>
+        <compania>
+Compa
+          &amp;
+          ntilde;
+          &amp;
+          iacute;a
+        </compania>
+      </Idioma>
+      <Idioma id="en">
+        <compania>Company</compania>
+        <favoritos>Favorites</favoritos>
+        <inicio>Start</inicio>
+        <MSG_ElUsuarioConElQueEstaIngresandoNoEsUnEmpleado>The user that is entering is not an employee</MSG_ElUsuarioConElQueEstaIngresandoNoEsUnEmpleado>
+        <LB_Masculino>Male</LB_Masculino>
+        <LB_Femenino>Female</LB_Femenino>
+        <LB_Soltero>Single</LB_Soltero>
+        <LB_Casado>Married</LB_Casado>
+        <LB_Divorciado>Divorced</LB_Divorciado>
+        <LB_Viudo>Widow</LB_Viudo>
+        <LB_UnionLibre>Domestic Partner</LB_UnionLibre>
+        <LB_Separado>Separated</LB_Separado>
+        <LB_Ninguno>None</LB_Ninguno>
+        <LB_DocumentosDisponibles>Available Documents</LB_DocumentosDisponibles>
+        <LB_SeleccioneUnDocumentoDeLaSiguienteLista>Select a document of the following list</LB_SeleccioneUnDocumentoDeLaSiguienteLista>
+        <LB_SeleccioneLaFechaEnQueSeDeseaRetirarElDocumento>Select the date in which desires to withdraw the document</LB_SeleccioneLaFechaEnQueSeDeseaRetirarElDocumento>
+        <BTN_Solicitar>Requesting</BTN_Solicitar>
+        <LB_Resumen>Summary</LB_Resumen>
+        <LB_SeleccioneUnDocumentoDeLaListaDeDocumentosDisponiblesLaCualPuedeEncontrarEnLaSeccionDerechaDeEstaPagina>Select a document of the list of available documents, which can find in the right section of this page</LB_SeleccioneUnDocumentoDeLaListaDeDocumentosDisponiblesLaCualPuedeEncontrarEnLaSeccionDerechaDeEstaPagina>
+        <LB_DocumentoASolicitar>Request a Document</LB_DocumentoASolicitar>
+        <LB_Fecha>Date</LB_Fecha>
+        <LB_DocumentosSolicitadosAnteriormente>Documents Previously Requested</LB_DocumentosSolicitadosAnteriormente>
+        <LB_Documento>Document</LB_Documento>
+        <LB_FechaParaLaQueSeSolicito>Requested Date</LB_FechaParaLaQueSeSolicito>
+        <LB_NaHaySolicitudesRegistradasSinAtender>There is not requests registered without attending</LB_NaHaySolicitudesRegistradasSinAtender>
+        <MSG_DocumentoASolicitar>Document to Request</MSG_DocumentoASolicitar>
+        <MSG_FechaEnQueDeseaRetirarElDocumento>Date in which desires to withdraw the document</MSG_FechaEnQueDeseaRetirarElDocumento>
+        <MSG_ConfirmaBorrarElElemento>Do you confirm to erase the element</MSG_ConfirmaBorrarElElemento>
+      <Documento>Document</Documento><LB_SolicitudDeDocumentos>Request of Documents</LB_SolicitudDeDocumentos></Idioma>
+    </Etiquetas>

@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+<Idioma id="en">
+	<LB_Titulo>Daily Ledger Report</LB_Titulo>
+	<LB_Mayor>Ledger Account</LB_Mayor>
+	<LB_Cuenta>Account</LB_Cuenta>
+	<LB_Periodo>Period</LB_Periodo>
+	<LB_Fecha>Date</LB_Fecha>	
+	<LB_Lote>Batch</LB_Lote>
+	<LB_Poliza>Voucher</LB_Poliza>
+	<LB_Oficina>Office</LB_Oficina>	
+	<LB_Documento>Document</LB_Documento>
+	<LB_Descripcion>Description</LB_Descripcion>
+	<LB_Ref>Ref</LB_Ref>
+	<LB_Monto>Amount</LB_Monto>
+	<LB_Moneda>Currency</LB_Moneda>	
+	<LB_Debitos>Debits</LB_Debitos>
+	<LB_Creditos>Credits</LB_Creditos>
+	<LB_Movimiento>Movement</LB_Movimiento>
+	<LB_Acumulado>Accumulated</LB_Acumulado>
+	<LB_TotalCuenta>Total Account</LB_TotalCuenta>
+	<LB_TotalMayor>Total Ledger Account</LB_TotalMayor>
+	<LB_DesdeCuenta>From Account</LB_DesdeCuenta>
+	<LB_HastaCuenta>To Account</LB_HastaCuenta>
+    <LB_TotalFecha>Total Date</LB_TotalFecha>
+<LB_SaldoIni>Initial Balance</LB_SaldoIni></Idioma>
+<Idioma id="es"><LB_Acumulado>Acumulado_esp</LB_Acumulado><LB_Creditos>Creditos_esp</LB_Creditos><LB_Cuenta>Cuenta_esp</LB_Cuenta><LB_Debitos>Debitos_esp</LB_Debitos><LB_Descripcion>Descripcion_esp</LB_Descripcion><LB_Documento>Documento_esp</LB_Documento><LB_Fecha>Fecha_esp</LB_Fecha><LB_Lote>Lote_esp</LB_Lote><LB_Mayor>Mayor_esp</LB_Mayor><LB_Moneda>Moneda_Esp</LB_Moneda><LB_Monto>Monto_esp</LB_Monto><LB_Movimiento>Movimiento_esp</LB_Movimiento><LB_Oficina>Oficina_esp</LB_Oficina><LB_Periodo>Periodo_esp</LB_Periodo><LB_Poliza>Poliza_esp</LB_Poliza><LB_Ref>Ref_esp</LB_Ref><LB_Titulo>Titulo_esp</LB_Titulo></Idioma></Etiquetas>

@@ -1,0 +1,62 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 17 - DBM 142: parche con tabla RHDVExperiencia
+
+	         PARCHE:  UPGRADE al 09/03/2011
+
+GENERADO EN:
+	SERVER:  http://localhost:8099
+	DSN:     minisif
+	FECHA:   09/03/2011 18:57:47
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* ADD_TABLE RHDVExperiencia: RHDVExperiencia */
+/* ======================================================================================== */
+
+CREATE TABLE RHDVExperiencia (
+	 Ecodigo                        integer              NOT NULL
+	,RHDVEcol                       varchar(30)          NOT NULL
+	,RHDVEDatoV                     varchar(50)          NOT NULL
+	,RHDVEdisplay                   bit                  DEFAULT 0 NOT NULL
+	,RHDVErequerido                 bit                  DEFAULT 0 NOT NULL
+	,RHDVEdesp                      varchar(50)          NOT NULL
+	,RHDVEorden                     numeric(18)          NOT NULL
+	,BMfecha                        datetime             NOT NULL
+	,BMUsucodigo                    numeric(18)          NOT NULL
+	,ts_rversion                    timestamp           
+	)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="P", SEC="0", COLS="RHDVEcol,Ecodigo" */
+ALTER TABLE RHDVExperiencia ADD CONSTRAINT RHDVExperiencia_PK PRIMARY KEY CLUSTERED (RHDVEcol,Ecodigo)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="F", SEC="1", COLS="Ecodigo", REF="Empresas" */
+CREATE INDEX RHDVExperiencia_FI01 ON RHDVExperiencia (Ecodigo)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ================================================================= */
+/*            CREA FKs NUEVOS O CON CAMPOS MODIFICADOS               */
+/* ================================================================= */
+/* CHG_TABLE RHDVExperiencia */
+/* ADD_FK OP=(TAB NUEVA): TIP="F", SEC="1", COLS="Ecodigo", REF="Empresas" */
+ALTER TABLE RHDVExperiencia ADD CONSTRAINT RHDVExperiencia_FK01 FOREIGN KEY (Ecodigo) REFERENCES Empresas (Ecodigo)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

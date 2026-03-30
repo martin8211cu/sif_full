@@ -1,0 +1,121 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 96 - DBM 205: Creacion de la tabla de Indices Fiscales
+
+	         PARCHE:  Parche023_128_PUB_DepreciacionFiscal
+
+GENERADO EN:
+	SERVER:  http://mxpapp36:8300
+	DSN:     sifcim
+	FECHA:   18/07/2011 12:01:24
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* CHG_TABLE AClasificacion: Clasificaciones de Activos */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): ACVidaUtilFiscal - Vida Utill Fiscal del Activo */
+ALTER TABLE AClasificacion ADD ACVidaUtilFiscal integer NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): ACImporteMaximo - Importe maximo de depreciacion de activos */
+ALTER TABLE AClasificacion ADD ACImporteMaximo money NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): ACPorcentajeFiscal - Porcentaje Fiscal */
+ALTER TABLE AClasificacion ADD ACPorcentajeFiscal float NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): ACPorcentajePTU - Porcentaje Deduccion PTU */
+ALTER TABLE AClasificacion ADD ACPorcentajePTU float NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* ADD_TABLE AFIndicesFiscales: Indices de Depreciacion Fiscal */
+/* ======================================================================================== */
+
+CREATE TABLE AFIndicesFiscales (
+	 Ecodigo                        integer              NOT NULL
+	,AFFperiodo                     integer              NOT NULL
+	,AFFMes                         integer              NOT NULL
+	,AFFindice                      numeric(18,8)        NOT NULL
+	,AFFfecha                       datetime             NOT NULL
+	,AFFusuario                     varchar(30)          NOT NULL
+	,BMUsucodigo                    numeric(18)          NULL
+	,ts_rversion                    timestamp           
+	)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="P", SEC="0", COLS="Ecodigo,AFFperiodo,AFFMes" */
+ALTER TABLE AFIndicesFiscales ADD CONSTRAINT AFIndicesFiscales_PK PRIMARY KEY CLUSTERED (Ecodigo,AFFperiodo,AFFMes)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* ADD_TABLE AFSaldosFiscales: Saldos de Depreciaciones Fisca */
+/* ======================================================================================== */
+
+CREATE TABLE AFSaldosFiscales (
+	 AFSid                          numeric(18)          NOT NULL
+	,AFSvaladqact                   money                NULL
+	,AFSvalmejact                   money                NULL
+	,AFSdepacumadqact               money                NULL
+	,AFSdepacummejact               money                NULL
+	,AFSdepacumadqfiscal            money                NULL
+	,AFSdepacummejfiscal            money                NULL
+	,AFSsaldovutilfis               integer              NULL
+	,BMUsucodigo                    numeric(18)          NULL
+	,ts_rversion                    timestamp           
+	)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="P", SEC="0", COLS="AFSid" */
+ALTER TABLE AFSaldosFiscales ADD CONSTRAINT AFSaldosFiscales_PK PRIMARY KEY CLUSTERED (AFSid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE TransaccionesActivos: Transacciones de Activos Fijos */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): TAmontodepadqFiscal - Valor de la depreciacion de la adquisicion Fiscal */
+ALTER TABLE TransaccionesActivos ADD TAmontodepadqFiscal money NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): TAmontodepmejFiscal - Valor de la depreciacion de la mejora Fiscal */
+ALTER TABLE TransaccionesActivos ADD TAmontodepmejFiscal money NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ================================================================= */
+/*            CREA FKs NUEVOS O CON CAMPOS MODIFICADOS               */
+/* ================================================================= */
+/* CHG_TABLE AFSaldosFiscales */
+/* ADD_FK OP=(TAB NUEVA): TIP="F", SEC="1", COLS="AFSid", REF="AFSaldos" */
+ALTER TABLE AFSaldosFiscales ADD CONSTRAINT AFSaldosFiscales_FK01 FOREIGN KEY (AFSid) REFERENCES AFSaldos (AFSid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

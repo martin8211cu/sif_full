@@ -1,0 +1,543 @@
+﻿<!--- 
+	Modificado por: Ana Villavicencio
+	Fecha: 12 de setiembre del 2005
+	Motivo: la validacion del que si existe un anticipo lo hacia mal debia de validad si existe y ademas que no se este borrando 
+			el documentos. 
+
+	Modificado por: Gustavo Fonseca Hernández.
+		Fecha: 24-10-2005
+		Motivo: Se modifica para eliminar la creación de las tablas temporales #INTARC y #asiento de este cfm, 
+		ya que estas tablas son incluidas en el sp: CC_PosteoPagosCxC. 
+--->
+<cfif form.UsarCatalogoCts>
+    <cfquery name="CuentaE" datasource="#Session.DSN#">
+        select b.Ccuenta as Ccuenta
+            from CuentasCxC  a
+                inner join CFinanciera b
+                    on a.CFcuenta = b.CFcuenta 
+            where a.Ecodigo = #Session.Ecodigo#
+            and a.ID= <cfqueryparam cfsqltype="cf_sql_numeric" value="#Form.ID#">
+    </cfquery>
+<cfelse>
+    <cfquery name="CuentaE" datasource="#Session.DSN#">
+        select Pvalor  as Ccuenta
+        from Parametros 
+        where Pcodigo = 650
+        	and Ecodigo = #session.Ecodigo#
+    </cfquery>
+ </cfif>
+<cfif isdefined("Form.CBid")>
+	<cfset CBid = ListToArray(Form.CBid,"|")>
+</cfif>
+
+<cfset params = '?pageNum_rsLista=1' >
+<cfif isdefined('form.PageNum_rsLista') and len(trim(form.PageNum_rsLista))>
+	<cfset params = '?pageNum_rsLista=#form.PageNum_rsLista#' >
+</cfif>
+
+<cfif isdefined('form.fecha') and len(trim(form.fecha)) and form.fecha neq -1 >
+	<cfset params = params & '&fecha=#form.fecha#' >
+</cfif>
+<cfif isdefined('form.transaccion') and len(trim(form.transaccion)) and form.transaccion neq -1 >
+	<cfset params =  params & '&transaccion=#form.transaccion#' >
+</cfif>
+<cfif isdefined('form.usuario') and len(trim(form.usuario)) and form.usuario neq -1 >
+	<cfset params =  params & '&usuario=#form.usuario#' >
+</cfif>
+<cfif isdefined('form.moneda') and len(trim(form.moneda)) and form.moneda neq -1 >
+	<cfset params =  params & '&moneda=#form.moneda#' >
+</cfif>
+
+	<cfif isdefined("Form.AgregarE")>
+		<!--- Verificar que documento no exista --->
+		<cfquery name="chkNotExist" datasource="#Session.DSN#">
+			select count(1) as cantidad
+            from BMovimientos 
+            where Ecodigo = #Session.Ecodigo#
+              and CCTcodigo = <cfqueryparam cfsqltype="cf_sql_char" value="#Form.CCTcodigo#">
+              and Ddocumento = <cfqueryparam cfsqltype="cf_sql_char" value="#Form.Pcodigo#">
+		</cfquery>
+
+        <cfif chkNotExist.cantidad gt 0>
+			<cfset existPago = true>
+        <cfelse>
+	        <cfset existPago = false>
+		</cfif>
+        
+		<cfif not existPago>
+			<cfquery datasource="#Session.DSN#">
+				insert into Pagos(Ecodigo, CCTcodigo, Pcodigo, Mcodigo, Ptipocambio, Seleccionado, 
+                    		 Ccuenta, Ptotal, Pfecha, Preferencia, Pobservaciones, Ocodigo, SNcodigo,
+							 Pusuario <cfif isdefined('Form.ID')>, ID</cfif>, CBid)
+                values (
+					#Session.Ecodigo#,
+					<cfqueryparam cfsqltype="cf_sql_char" value="#Form.CCTcodigo#">,
+					<cfqueryparam cfsqltype="cf_sql_char" value="#replace(trim(Form.Pcodigo),'|','')#">,
+					<cfqueryparam cfsqltype="cf_sql_numeric" value="#Form.Mcodigo#">,
+					<cfqueryparam cfsqltype="cf_sql_float" value="#Form.Ptipocambio#">,
+					0,
+					<cfqueryparam cfsqltype="cf_sql_numeric" value="#CuentaE.Ccuenta#">,
+					<cfqueryparam cfsqltype="cf_sql_money" value="#Form.Ptotal#">,
+					<cfqueryparam cfsqltype="cf_sql_date" value="#lsparsedatetime(Form.Pfecha)#">, 
+					<cfqueryparam cfsqltype="cf_sql_varchar" value="#Form.Preferencia#">,
+					<cfqueryparam cfsqltype="cf_sql_varchar" value="#Form.Pobservaciones#">,
+					<cfqueryparam cfsqltype="cf_sql_integer" value="#Form.Ocodigo#">,
+					<cfqueryparam cfsqltype="cf_sql_integer" value="#Form.SNcodigo#" null="#len(trim(Form.SNcodigo)) eq 0#">,
+					<cfqueryparam cfsqltype="cf_sql_varchar" value="#Session.Usuario#">
+				 <cfif isdefined('Form.ID')>
+					,<cfqueryparam cfsqltype="cf_sql_numeric" value="#Form.ID#">
+				 </cfif>
+                 , <cfqueryparam cfsqltype="cf_sql_numeric" value="#form.CBid#" null="#len(form.CBid) eq 0#">
+				)
+			</cfquery>
+			<cfset modo="CAMBIO">
+			<cfset modoDet="ALTA">
+		<cfelse>
+			<cflocation url="../../errorPages/BDerror.cfm?errType=0&errMsg=#URLEncodedFormat('El Registro de Cobro ya existe en la Base de Datos!')#" addtoken="no">
+		</cfif>
+	<cfelseif isdefined("Form.CambiarE")>
+		<cfquery name="rsPagos" datasource="#Session.DSN#">
+			select a.Seleccionado
+		   from Pagos a
+			where a.CCTcodigo = <cfqueryparam cfsqltype="cf_sql_char" value="#TRIM(form.KCCTcodigo)#"> 
+			and rtrim(a.Pcodigo) = <cfqueryparam cfsqltype="cf_sql_char" value="#form.KPcodigo#"> 
+			and a.Ecodigo = #Session.Ecodigo# 
+		</cfquery>
+		<cf_dbtimestamp datasource="#Session.DSN#"
+							table="Pagos"
+							redirect="PagosCxC.cfm"
+							timestamp="#Form.timestampE#"
+							field1="CCTcodigo" 		type1="varchar"  value1="#Form.KCCTcodigo#"
+							field2="rtrim(Pcodigo)" type2="varchar"  value2="#Form.KPcodigo#"
+							field3="Ecodigo" 		type3="integer" value3="#Session.Ecodigo#">
+									
+		<cfquery datasource="#Session.DSN#">
+			update Pagos
+			set Ptotal = #Form.Ptotal#
+			  , Pfecha = <cfqueryparam cfsqltype="cf_sql_date" value="#lsparsedatetime(Form.Pfecha)#">
+			  <cfif isdefined("rsPagos") and rsPagos.Seleccionado eq 0>
+			  	, Ccuenta = <cfqueryparam cfsqltype="cf_sql_numeric" value="#CuentaE.Ccuenta#">
+			  </cfif>
+			  , Ocodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#Form.Ocodigo#">
+			  , Mcodigo = <cfqueryparam cfsqltype="cf_sql_numeric" value="#Form.Mcodigo#">
+			  , Preferencia = <cfqueryparam cfsqltype="cf_sql_varchar" value="#Form.Preferencia#">
+			  , Pobservaciones = <cfqueryparam cfsqltype="cf_sql_varchar" value="#Form.Pobservaciones#">
+			  , Pusuario = <cfqueryparam cfsqltype="cf_sql_varchar" value="#Session.Usuario#">
+			 <cfif isdefined('Form.ID')>
+			  , ID = <cfqueryparam cfsqltype="cf_sql_numeric" value="#Form.ID#">
+			 </cfif>
+             <cfif isdefined('Form.Ptipocambio')>
+			  , Ptipocambio = <cfqueryparam cfsqltype="cf_sql_float" value="#Form.Ptipocambio#">
+			 </cfif>
+             , CBid = <cfqueryparam cfsqltype="cf_sql_numeric" value="#form.CBid#" null="#len(form.CBid) eq 0#">
+			where CCTcodigo = <cfqueryparam cfsqltype="cf_sql_char" value="#Form.KCCTcodigo#">
+			and rtrim(Pcodigo) = <cfqueryparam cfsqltype="cf_sql_char" value="#Form.KPcodigo#">
+			and Ecodigo = #Session.Ecodigo#
+		</cfquery>
+		<cfset modo="CAMBIO">
+		<cfset modoDet="ALTA">
+
+	<cfelseif isdefined("Form.BorrarE")>
+		<!---mcz--->
+		
+			<cfquery name="rs" datasource="#session.dsn#">
+				select * from DPagos where Pcodigo='#form.KPcodigo#'
+			</cfquery>
+			<cfloop query="rs">
+			
+				<cfquery name="up" datasource="#session.dsn#">
+					update DAgrupador set Aplica=0 where Ddocumento='#rs.Ddocumento#'
+				</cfquery>
+	
+			</cfloop>
+		<!------>
+		<!---====Se eliminan los Anticipos asociados al Pago=======--->
+		<cfquery datasource="#Session.DSN#">
+			delete from APagosCxC
+			where CCTcodigo		 = <cfqueryparam cfsqltype="cf_sql_char" value="#Form.KCCTcodigo#">
+			  and rtrim(Pcodigo) = <cfqueryparam cfsqltype="cf_sql_char" value="#Form.KPcodigo#">
+			  and Ecodigo 	     = #Session.Ecodigo#
+		</cfquery>
+		<cfquery datasource="#Session.DSN#">
+			delete from DPagos 
+			where CCTcodigo = <cfqueryparam cfsqltype="cf_sql_char" value="#Form.KCCTcodigo#">
+			and rtrim(Pcodigo) = <cfqueryparam cfsqltype="cf_sql_char" value="#Form.KPcodigo#">
+			and Ecodigo = #Session.Ecodigo#
+		</cfquery>
+		<cfquery datasource="#Session.DSN#">
+			delete from Pagos 
+			where CCTcodigo = <cfqueryparam cfsqltype="cf_sql_char" value="#Form.KCCTcodigo#">
+			and rtrim(Pcodigo) = <cfqueryparam cfsqltype="cf_sql_char" value="#Form.KPcodigo#">
+			and Ecodigo = #Session.Ecodigo#
+		</cfquery>
+		<cfset modo="ALTA">
+		<cfset modoDet="ALTA">
+
+
+		<cflocation url="ListaPagos.cfm#params#" addtoken="no">
+
+	<cfelseif isdefined("Form.BorrarD")>
+		<cfquery datasource="#Session.DSN#">
+			delete from DPagos 
+			where Ecodigo = #Session.Ecodigo#
+			  and DPid = <cfqueryparam cfsqltype="cf_sql_numeric" value="#form.DPid#">
+		</cfquery>
+		<cfset modo="CAMBIO">
+		<cfset modoDet="ALTA">
+		
+	<cfelseif isdefined("Form.BorrarDD")>
+		<cfquery datasource="#Session.DSN#">
+			delete from DPagos 
+			 where CCTcodigo = <cfqueryparam cfsqltype="cf_sql_char" value="#Form.KCCTcodigo#">
+			   and rtrim(Pcodigo) = <cfqueryparam cfsqltype="cf_sql_char" value="#Form.KPcodigo#">
+			   and Ecodigo = #Session.Ecodigo#
+		</cfquery>
+		<cfset modo="CAMBIO">
+		<cfset modoDet="ALTA">
+		
+	<cfelseif isdefined("Form.AgregarD") or isdefined("Form.CambiarD")>
+		<cfquery name="rsPagos" datasource="#Session.DSN#">
+			select a.Seleccionado
+		   from Pagos a
+			where a.CCTcodigo = <cfqueryparam cfsqltype="cf_sql_char" value="#TRIM(KCCTcodigo)#"> 
+			and rtrim(a.Pcodigo) = <cfqueryparam cfsqltype="cf_sql_char" value="#KPcodigo#"> 
+			and a.Ecodigo = #Session.Ecodigo# 
+		</cfquery>
+		<cf_dbtimestamp datasource="#Session.DSN#"
+							table="Pagos"
+							redirect="PagosCxC.cfm"
+							timestamp="#Form.timestampE#"
+							field1="CCTcodigo" 		type1="varchar"  value1="#Form.KCCTcodigo#"
+							field2="rtrim(Pcodigo)" type2="varchar"  value2="#Form.KPcodigo#"
+							field3="Ecodigo" 		type3="integer" value3="#Session.Ecodigo#">
+		<cfquery datasource="#Session.DSN#">
+			update Pagos
+			set Ptotal = <cfqueryparam cfsqltype="cf_sql_money" value="#Form.Ptotal#">
+			  , Pfecha = <cfqueryparam cfsqltype="cf_sql_date" value="#lsParseDateTime(Form.Pfecha)#">
+			  <cfif isdefined("rsPagos") and rsPagos.Seleccionado eq 0>
+				, Ccuenta = <cfqueryparam cfsqltype="cf_sql_numeric" value="#CuentaE.Ccuenta#">
+			  </cfif>
+			  , Ocodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#Form.Ocodigo#">
+			  , Mcodigo = <cfqueryparam cfsqltype="cf_sql_numeric" value="#Form.Mcodigo#">
+			  , Preferencia = <cfqueryparam cfsqltype="cf_sql_varchar" value="#Form.Preferencia#">
+			  , Pobservaciones = <cfqueryparam cfsqltype="cf_sql_varchar" value="#Form.Pobservaciones#">
+			  , Ptipocambio = <cfqueryparam cfsqltype="cf_sql_float" value="#Form.Ptipocambio#">
+			  , Pusuario = <cfqueryparam cfsqltype="cf_sql_varchar" value="#Session.Usuario#">
+			 <cfif isdefined('Form.ID')>
+			  , ID = <cfqueryparam cfsqltype="cf_sql_numeric" value="#Form.ID#">
+			 </cfif>
+              , CBid = <cfqueryparam cfsqltype="cf_sql_numeric" value="#form.CBid#" null="#len(form.CBid) eq 0#">
+			where CCTcodigo = <cfqueryparam cfsqltype="cf_sql_char" value="#Form.KCCTcodigo#">
+			and rtrim(Pcodigo) = <cfqueryparam cfsqltype="cf_sql_char" value="#Form.KPcodigo#">
+			and Ecodigo = #Session.Ecodigo#
+		</cfquery>
+		
+		<cfif len(trim(form.Ddocumento)) gt 0 >
+			<cfquery name="rstotaldisponible" datasource="#Session.DSN#">
+				select round(round(a.Ptotal,2) - (select round(coalesce(sum(NC_total),0.00),2)
+													from APagosCxC Anti 
+												  where Anti.Ecodigo   = a.Ecodigo 
+												    and Anti.CCTcodigo = a.CCTcodigo 
+													and Anti.Pcodigo   = a.Pcodigo
+												 ) ,2) as ta
+				from Pagos a 
+				where a.Ecodigo 	 = #Session.Ecodigo#
+				and a.CCTcodigo 	 = <cfqueryparam cfsqltype="cf_sql_char" value="#Form.KCCTcodigo#">
+				and rtrim(a.Pcodigo) = <cfqueryparam cfsqltype="cf_sql_char" value="#Form.KPcodigo#">
+			</cfquery>
+
+			<cfset ta = 0.00>
+
+			<cfif rstotaldisponible.recordcount GT 0>
+				<cfset ta = rstotaldisponible.ta>
+			</cfif>
+		   <cf_dbfunction name="to_char" args="PPnumero" returnvariable="PPnumero" >
+			<cfquery name="rstotalcubierto" datasource="#Session.DSN#">
+				select coalesce(round( sum(coalesce(DPtotal , 0.00) ) , 2), 0.00) as tl
+				from DPagos 
+				where Ecodigo = #Session.Ecodigo#
+				and CCTcodigo = <cfqueryparam cfsqltype="cf_sql_char" value="#Form.KCCTcodigo#">
+				and rtrim(Pcodigo) = <cfqueryparam cfsqltype="cf_sql_char" value="#Form.KPcodigo#">
+				<cfif isdefined("Form.CambiarD")>
+				and <cf_dbfunction name="concat" args="rtrim(Doc_CCTcodigo)+rtrim(Ddocumento)+#PPnumero#" delimiters="+"> != <cfqueryparam cfsqltype="cf_sql_char" value="#Form.KDoc_CCTcodigo##Form.KDdocumento##Form.PPnumero#">
+				</cfif>
+			</cfquery>
+
+			<cfset tl = 0.00>
+
+			<cfif rstotalcubierto.recordcount GT 0 and len(rstotalcubierto.tl) GT 0>
+				<cfset tl = rstotalcubierto.tl>
+			</cfif>
+
+			<cfset total_documento = 0.00>
+
+			<cfif isdefined('Form.DPtotal') and len(Form.DPtotal) GT 0>
+				<cfset total_documento = Val(Form.DPtotal)>
+			</cfif>
+			
+			<cfif (total_documento + tl - ta) GT 0.009>
+				<cfset amount_overflow = true>
+			<cfelse>
+				<cfset amount_overflow = false>
+			</cfif>
+
+			<cfif amount_overflow eq true>
+				<cfoutput>
+					El recibo se excede del saldo del documento.  
+					<br>
+					El saldo actual del recibo es: #ta# 
+					<br>
+					El monto Documentos incluidos en el recibo es: #tl#
+					<br>
+					El monto que se desea pagar del documento es: #total_documento#
+					<br>
+					<br>
+					<br>
+					Se ha cancelado la seleccion de este documento en el recibo!
+				</cfoutput>
+				<cfabort>
+			</cfif>
+			<!--- Verificar que el documento del pago a insertar no fue ya usado en otro recibo de pago --->
+			<cfquery name="chkNotExist2" datasource="#Session.DSN#">
+				select count(1) as existe
+				from DPagos
+				where Ecodigo = #session.Ecodigo#
+				  and Ddocumento = <cfqueryparam cfsqltype="cf_sql_char" value="#Form.Ddocumento#">
+				  and CCTcodigo <> <cfqueryparam cfsqltype="cf_sql_char" value="#Form.KCCTcodigo#">
+				  and Pcodigo <> <cfqueryparam cfsqltype="cf_sql_char" value="#Form.KPcodigo#">
+				   <cfif len(Form.PPnumero)>
+					   and PPnumero = <cfqueryparam cfsqltype="cf_sql_integer" value="#Form.PPnumero#">
+				   </cfif>
+			</cfquery>
+			<cfif chkNotExist2.existe GT 0>
+				<cfset existDoc = true>
+			<cfelse>
+				<cfset existDoc = false>
+			</cfif>
+			
+			<!--- 
+				OJO: DPtipocambio NO ES TIPO CAMBIO, ES FACTOR DE CONVERSION
+				Factor de Conversion entre MonedaDoc y MonedaPago
+					Si Mcodigo_pago = Mcodigo_doc
+						FC = 1 
+					sino 
+						Si Mcodigo_pago es local, TC_pago = 1 si no TC_pago = form.TC_pago
+						Si Mcodigo_doc  es local, TC_doc  = 1 si no TC_doc  = Htipocambio.TCcompra (Mcodigo_doc)
+						FC = TC_pago / TC_doc
+					fin
+			--->
+			<cfquery name="rsSQL" datasource="#Session.DSN#">
+				select Mcodigo
+				  from Empresas
+				 where Ecodigo = #session.Ecodigo#
+			</cfquery>
+			<cfset LvarMcodigoLocal	= rsSQL.Mcodigo>
+			<cfset LvarMcodigoPago	= Form.Mcodigo>
+			<cfset LvarMcodigoDoc	= Form.Mcodigod>
+			<cfif LvarMcodigoPago EQ LvarMcodigoDoc>
+				<cfset factorConversion = 1>
+			<cfelse>
+				<cfif LvarMcodigoPago 	EQ LvarMcodigoLocal>
+					<cfset Form.Ptipocambio = 1>
+				</cfif>
+				<cfset LvarTCpago = Form.Ptipocambio>
+				<cfif LvarMcodigoDoc 	EQ LvarMcodigoLocal>
+					<cfset LvarTCdoc = 1>
+				<cfelse>
+					<cfquery name="rsTC" datasource="#Session.DSN#">
+						select tc.TCcompra
+						from Htipocambio tc
+						where tc.Mcodigo = #LvarMcodigoDoc#
+						  and tc.Ecodigo = <cfqueryparam value="#Session.Ecodigo#" cfsqltype="cf_sql_integer">
+						  and tc.Hfecha <= <cfqueryparam cfsqltype="cf_sql_date" value="#Now()#">
+						  and tc.Hfechah > <cfqueryparam cfsqltype="cf_sql_date" value="#Now()#">
+					</cfquery>
+					<cfif rsTC.TCcompra gt 0>
+						<cfset LvarTCdoc = rsTC.TCcompra>
+					<cfelse>
+						<cfset LvarTCdoc = 1>
+					</cfif>
+				</cfif>
+				<cfset factorConversion = LvarTCpago / LvarTCdoc>
+			</cfif>
+			
+			<cfif isdefined("AgregarD") and not amount_overflow and not existDoc>
+				<cfquery datasource="#Session.DSN#">
+					insert into DPagos(Ecodigo, CCTcodigo, Pcodigo, Doc_CCTcodigo, Ddocumento, Mcodigo, 
+						Ccuenta, DPmonto, DPtipocambio, DPmontodoc, DPtotal, DPmontoretdoc, PPnumero) 
+					values ( 
+						#Session.Ecodigo#,
+						<cfqueryparam cfsqltype="cf_sql_char" value="#Form.KCCTcodigo#">, 
+						<cfqueryparam cfsqltype="cf_sql_char" value="#Form.KPcodigo#">, 
+						<cfqueryparam cfsqltype="cf_sql_char" value="#Form.CCTcodigoConlis#">, 
+						<cfqueryparam cfsqltype="cf_sql_char" value="#Form.Ddocumento#">, 
+						<cfqueryparam cfsqltype="cf_sql_numeric" value="#Form.Mcodigod#">, 
+						<cfqueryparam cfsqltype="cf_sql_numeric" value="#Form.Ccuentad#">,
+						<cfqueryparam cfsqltype="cf_sql_money" value="#Form.DPtotal#">, 
+						<cfqueryparam cfsqltype="cf_sql_float" value="#factorConversion#">, 
+						<cfqueryparam cfsqltype="cf_sql_money" value="#Form.DPmontodoc#">, 
+						<cfqueryparam cfsqltype="cf_sql_money" value="#Form.DPtotal#">, 
+						<cfqueryparam cfsqltype="cf_sql_money" value="#Form.montoret#">,
+					    <cfif len(Form.PPnumero)>
+							<cfqueryparam cfsqltype="cf_sql_integer" value="#Form.PPnumero#">
+						<cfelse>
+							0
+						</cfif>
+					)
+				</cfquery>
+				
+			<cfelseif isdefined("CambiarD")>
+				<cfquery name="ABC_Pago" datasource="#Session.DSN#">
+					update DPagos 
+					set DPmonto = <cfqueryparam cfsqltype="cf_sql_money" value="#Form.DPtotal#">
+					  , DPtipocambio = <cfqueryparam cfsqltype="cf_sql_float" value="#factorConversion#">
+					  , DPmontodoc = <cfqueryparam cfsqltype="cf_sql_money" value="#Form.DPmontodoc#">
+					  , DPtotal = <cfqueryparam cfsqltype="cf_sql_money" value="#Form.DPtotal#">
+					  , DPmontoretdoc = <cfqueryparam cfsqltype="cf_sql_money" value="#Form.DPmontoretdoc#">
+					where Ecodigo = #Session.Ecodigo#
+					  and DPid = <cfqueryparam cfsqltype="cf_sql_numeric" value="#form.DPid#">
+                </cfquery>
+			</cfif>	
+		</cfif>
+
+		<cfset modo="CAMBIO">
+		<cfset modoDet="ALTA">
+	<cfelseif isdefined("Form.Aplicar") OR isdefined("Form.Ver")> 
+
+      	<cf_dbfunction name="to_char"	args="p.Pfecha"  returnvariable="Pfecha">    
+        <cf_dbfunction name="to_char"	args="d.Dfecha"  returnvariable="Dfecha"> 
+        <cf_dbfunction name="date_format" args="p.Pfecha,dd-mm-yyyy" returnvariable="LvarPfecha">
+        <cf_dbfunction name="date_format" args="d.Dfecha,dd-mm-yyyy" returnvariable="LvarDfecha">
+           
+		<cfquery name="rsValida" datasource="#session.DSN#" maxrows="1">
+			select 
+				(case when (#preservesingleQuotes(LvarPfecha)#) < (select #preservesingleQuotes(LvarDfecha)#               
+								from Documentos d 
+								where d.Ecodigo = dp.Ecodigo 
+									and d.CCTcodigo = dp.Doc_CCTcodigo
+									and d.Ddocumento = dp.Ddocumento)
+				then 1 else 2 end) as diferencia
+			from Pagos p
+				inner join DPagos dp
+					on dp.Ecodigo = p.Ecodigo
+						and dp.CCTcodigo = p.CCTcodigo
+						and dp.Pcodigo  = p.Pcodigo  
+			where p.Ecodigo = #Session.Ecodigo#
+				and p.CCTcodigo =  <cfqueryparam cfsqltype="cf_sql_char"  value="#Form.KCCTcodigo#" >
+				and p.Pcodigo = <cfqueryparam cfsqltype="cf_sql_char"  value="#Form.KPcodigo#" >
+			order by 1
+		</cfquery>    
+        
+           <cfquery name="rsSNid" datasource="#session.dsn#">
+              select b.SNid 
+              from Pagos p 
+              		inner join SNegocios  b
+              		on p.SNcodigo = b.SNcodigo
+              where p.Ecodigo = #Session.Ecodigo#
+				and p.CCTcodigo =  <cfqueryparam cfsqltype="cf_sql_char"  value="#Form.KCCTcodigo#" >
+				and p.Pcodigo = <cfqueryparam cfsqltype="cf_sql_char"  value="#Form.KPcodigo#" >
+           </cfquery>  
+       
+        <cfquery name="rsDatos" datasource="#session.dsn#">
+         select  Doc_CCTcodigo, Ddocumento,Ptipocambio as TC, coalesce(p.CBid,-1) as CBid   from Pagos p
+				inner join DPagos dp
+					on dp.Ecodigo = p.Ecodigo
+						and dp.CCTcodigo = p.CCTcodigo
+						and dp.Pcodigo  = p.Pcodigo  
+			where p.Ecodigo = #Session.Ecodigo#
+				and p.CCTcodigo =  <cfqueryparam cfsqltype="cf_sql_char"  value="#Form.KCCTcodigo#" >
+				and p.Pcodigo = <cfqueryparam cfsqltype="cf_sql_char"  value="#Form.KPcodigo#" >
+        </cfquery>      
+        
+        <cfif isdefined('rsDatos') and rsDatos.recordcount gt 0>                
+            <cfquery name="rsDocumentos" datasource="#session.dsn#">
+              select d.FCid, d.ETnumero
+                                    from Documentos d                                 
+                                    where d.Ecodigo = #session.Ecodigo#
+                                        and d.CCTcodigo = <cfqueryparam cfsqltype="cf_sql_char"  value="#rsDatos.Doc_CCTcodigo#" >                                
+                                        and d.Ddocumento = <cfqueryparam cfsqltype="cf_sql_char"  value="#rsDatos.Ddocumento#" >
+            </cfquery>
+         </cfif>   
+         
+          <cfinvoke component="sif.fa.operacion.CostosAuto"       Conexion="#session.dsn#"  method="CreaCostos"   returnvariable="Tb_Calculo"/>           
+          <cfinvoke component="sif.Componentes.CG_GeneraAsiento"  Conexion="#session.dsn#"  method="CreaIntarc" CrearPresupuesto="false" returnvariable="INTARC"/>
+          <cfinvoke component= "sif.Componentes.PRES_Presupuesto" Conexion ="#session.dsn#" method="CreaTablaIntPresupuesto"  returnvariable="IntPresup"/>
+       
+        <cfif isdefined('rsDocumentos') and rsDocumentos.recordcount gt 0 and isdefined('rsSNid.SNid') and len(trim(#rsSNid.SNid#)) gt 0 >         
+<!---            <cfinvoke component="sif.fa.operacion.CostosAuto" method="Cons_CostosIngresos" returnvariable="incos">
+                       <cfinvokeargument name="Ecodigo"		value="#session.Ecodigo#"/>
+                       <cfinvokeargument name="FCID"		value="#rsDocumentos.FCid#"/>
+                       <cfinvokeargument name="ETnumero"	value="#rsDocumentos.ETnumero#"/>
+                       <cfinvokeargument name="SNid"	    value="#rsSNid.SNid#"/>
+                       <cfinvokeargument name="incos"	    value="#Tb_Calculo#"/>
+                       <cfinvokeargument name="TIPO"	    value="CO"/>
+                       <cfinvokeargument name="CCTcodigo"	value="#Form.KCCTcodigo#"/>
+                       <cfinvokeargument name="Pcodigo"	    value="#Form.KPcodigo#"/> 
+				       <cfinvokeargument name="ETtc"	    value="#LvarETtc#"/>                            
+                       <cfinvokeargument name="Monloc"	    value="#LvarMonloc#"/>     
+                       <cfinvokeargument name="ETdocumento"	value="#LvarETdocumento#"/>  
+            </cfinvoke>   --->
+        </cfif>    
+        
+		
+		<cfif isdefined("rsValida") and rsValida.diferencia eq 1>
+			<cflocation url="../../errorPages/BDerror.cfm?errType=0&errMsg=#URLEncodedFormat('No se puede aplicar un recibo con fecha menor a la del documento!')#" addtoken="no">
+			<cfabort>
+		</cfif>
+		
+      
+        
+		<!--- ejecuta el proc.--->        
+		<cfinvoke component="sif.Componentes.CC_PosteoPagosCxC" method="PosteoPagosCxC" returnvariable="status"
+				Ecodigo 	= "#session.Ecodigo#"
+				CCTcodigo	= "#form.KCCTcodigo#"
+				Pcodigo		= "#form.KPcodigo#"
+				usuario  	= "#session.usulogin#"
+                SNid        = "#rsSNid.SNid#"                 
+                Tb_Calculo  = "#Tb_Calculo#"
+                transaccionActiva= "false"
+                INTARC      ="#INTARC#"
+                IntPresup   ="#IntPresup#"
+				debug		= "false"
+				PintaAsiento= "#isdefined("Form.Ver")#"/>
+		<cfset params = params & '&CCTcodigo=#form.KCCTcodigo#' >
+        <cfset params = params & '&Pcodigo=#form.KPcodigo#' >
+        <cfset params = params & '&documento=#form.KPcodigo#' >
+        <cfset params = params & '&Ecodigo=#session.Ecodigo#' >
+        
+		<!---<cflocation url="ListaPagos.cfm#params#" addtoken="no">--->
+       	<cflocation url="imprime.cfm#params#" addtoken="no">
+	<cfelse>
+		<cfset modo="ALTA">
+		<cfset modoDet="ALTA">
+	</cfif>
+
+<form action="PagosCxC.cfm" method="post" name="sql">
+	<cfif isdefined('Form.Anticipo') and not isdefined('Form.BorrarE')>
+		<input name="Anticipo" type="hidden" value="#form.Anticipo#">
+		<cfset modo ="CAMBIO">
+	</cfif>
+	<input name="modo" type="hidden" value="<cfif isdefined("modo")><cfoutput>#modo#</cfoutput></cfif>">
+	<input name="modoDet" type="hidden" value="<cfif isdefined("modoDet")><cfoutput>#modoDet#</cfoutput></cfif>">	
+	<cfif modo NEQ "ALTA">
+		<input name="KCCTcodigo" type="hidden" value="<cfif isdefined("form.CCTcodigo")><cfoutput>#form.CCTcodigo#</cfoutput><cfelseif isdefined("Form.KCCTcodigo") and not isDefined("Form.BorrarE")><cfoutput>#Form.KCCTcodigo#</cfoutput></cfif>">
+		<input name="KPcodigo" type="hidden" value="<cfif isdefined("form.Pcodigo")><cfoutput>#form.Pcodigo#</cfoutput><cfelseif isdefined("Form.Pcodigo") and not isDefined("Form.BorrarE")><cfoutput>#replace(Form.Pcodigo,'|','')#</cfoutput></cfif>">
+	</cfif>
+	
+	<cfoutput>
+		<input type="hidden" name="pageNum_rsLista" value="<cfif isdefined('form.PageNum_rsLista') and len(trim(form.PageNum_rsLista))>#form.PageNum_rsLista#<cfelse>1</cfif>" />
+		<input type="hidden" name="fecha" 			value="<cfif isdefined('form.fecha') and len(trim(form.fecha)) and form.fecha neq -1 >#form.fecha#<cfelse>-1</cfif>" />
+		<input type="hidden" name="transaccion" 	value="<cfif isdefined('form.transaccion') and len(trim(form.transaccion)) and form.transaccion neq -1 >#form.transaccion#<cfelse>-1</cfif>" />	
+		<input type="hidden" name="usuario" 		value="<cfif isdefined('form.usuario') and len(trim(form.usuario)) and form.usuario neq -1 >#form.usuario#<cfelse>-1</cfif>" />	
+		<input type="hidden" name="moneda" 			value="<cfif isdefined('form.moneda') and len(trim(form.moneda)) and form.moneda neq -1 >#form.moneda#<cfelse>-1</cfif>" />	
+	</cfoutput>	
+	
+</form>
+
+<HTML>
+<head>
+</head>
+<body>
+<script language="JavaScript1.2" type="text/javascript">document.forms[0].submit();</script>
+</body>
+</HTML>

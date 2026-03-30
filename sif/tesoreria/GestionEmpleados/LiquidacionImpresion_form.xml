@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+			<LB_Archivo>Settlement</LB_Archivo>
+			<LB_Titulo>Settlements Printing</LB_Titulo>
+			<LB_SistGastosEmp>Employee Expenses System</LB_SistGastosEmp>
+			<LB_NumeroComision>Commission Number</LB_NumeroComision>
+			<LB_LiquidacionGastos>Expenses Settlement</LB_LiquidacionGastos>
+			<LB_ResumenTransaccion>Transaction Summary</LB_ResumenTransaccion>
+			<LB_FechaLiquidacion>Settlement Day</LB_FechaLiquidacion>
+			<LB_Moneda>Currency</LB_Moneda>
+			<LB_MontoAnticipos>Advance Amount</LB_MontoAnticipos>
+			<LB_MontoGastos>Expenses Amount</LB_MontoGastos>
+			<LB_MontoDevoluciones>Repayment Amount</LB_MontoDevoluciones>
+			<LB_MontoDepositos>Deposits Amount</LB_MontoDepositos>
+			<LB_PagoEmpleado>Employee Payment</LB_PagoEmpleado>
+			<LB_Estado>Status</LB_Estado>
+			<LB_FormaPago>Payment Method</LB_FormaPago>
+			<LB_CajaChica>Petty Cash</LB_CajaChica>
+			<LB_Descripcion>Description</LB_Descripcion>
+			<LB_Detallecomision>Comission Detail</LB_Detallecomision>
+			<LB_Destino>Destination</LB_Destino>
+			<LB_CategoriaDestino>Category Destination</LB_CategoriaDestino>
+			<LB_PeriodoComision>Comission Period</LB_PeriodoComision>
+			<LB_DiasComision>Comission Days</LB_DiasComision>
+			<LB_ImporteMaximoComision>Maximum Amount for Commission</LB_ImporteMaximoComision>
+			<LB_AnticiposAsociados>Related Advances</LB_AnticiposAsociados>
+			<LB_AnticipoLineaConcepto>Advance - Line - Concept</LB_AnticipoLineaConcepto>
+			<LB_FechaAnticipo>Advance Date</LB_FechaAnticipo>
+			<LB_FechaDetalle>Detail Date</LB_FechaDetalle>
+			<LB_MontoAnticipo>Advance Amount</LB_MontoAnticipo>
+			<LB_DatosLiquidacion>Settlement Information</LB_DatosLiquidacion>
+			<LB_LiquidacionConcepto>Settlement Concept</LB_LiquidacionConcepto>
+			<LB_FechaLiquidacion>Liquidation Date</LB_FechaLiquidacion>
+			<LB_MontoLiquidacion>Settlement Amount</LB_MontoLiquidacion>
+			<LB_GastosAsociados>Related Expenses</LB_GastosAsociados>
+			<LB_GastoLineaConcepto>Expenses-Line-Concept</LB_GastoLineaConcepto>
+			<LB_TipoGasto>Expenses Type</LB_TipoGasto>
+			<LB_Empleado>Employee</LB_Empleado>
+			<LB_NDocumento>Document Number</LB_NDocumento>
+			<LB_FechaGasto>Expense Date</LB_FechaGasto>
+			<LB_ProveedorServicio>Service Period</LB_ProveedorServicio>
+			<LB_MontoGasto>Expense Amount</LB_MontoGasto>
+			<LB_IVA>VAT</LB_IVA>
+			<LB_DevolucionesAsociadas>Related Repayments</LB_DevolucionesAsociadas>
+			<LB_Monto>Amount</LB_Monto>			
+			<LB_DepositosAsociados>Related Deposits</LB_DepositosAsociados>
+			<LB_Referencia>Reference</LB_Referencia>
+			<LB_BancoChequera>Checkbook</LB_BancoChequera>
+			<LB_MontoDeposito>Deposit Amount</LB_MontoDeposito>
+			<LB_Observaciones>Comments</LB_Observaciones>			
+			<LB_Resultados>Explain the results or events realized during the comission</LB_Resultados>
+			<LB_MotivoExcedente>In case to exceed authorized amounts. Please explain the reasons</LB_MotivoExcedente>
+	</Idioma>
+</Etiquetas>

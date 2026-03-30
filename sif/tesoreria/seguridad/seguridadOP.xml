@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_Titulo>Users that can process payment orders</LB_Titulo>
+		<LB_AgregarUsuarios>Add Users to the Treasury</LB_AgregarUsuarios>
+		<LB_Usuario>User</LB_Usuario>
+		<LB_Tesoreria>Treasury</LB_Tesoreria>
+	<LB_Nombre>Name</LB_Nombre><MSG_DeseaBorrarUsu>Delete Selected User?</MSG_DeseaBorrarUsu></Idioma>
+</Etiquetas>

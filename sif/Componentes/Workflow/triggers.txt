@@ -1,0 +1,110 @@
+trigger insercion y update wftransition: Ordering no se utiliza en ninguna pantalla del workflow, ya que este editor es visual
+
+	/* reordenar actividades según las transiciones */
+    declare @ProcessId numeric(18)
+    select @ProcessId = 0
+    while (1=1) begin
+        select @ProcessId = min(ProcessId)
+        from inserted
+        where ProcessId > @ProcessId
+        if @ProcessId is null break
+        exec wf_reorder @ProcessId
+    end
+
+	create procedure wf_reorder
+		@ProcessId numeric(18) as
+	declare
+		@depth int, @ActivityId numeric(18)
+	begin
+		select @depth = 2
+	
+		update WfActivity
+		set Ordering = IsStart
+		where ProcessId = @ProcessId
+	
+		set rowcount 1
+		while (1=1) begin
+			select @ActivityId = a.ActivityId
+			from WfActivity a, WfActivity b, WfTransition t
+			where a.ProcessId = @ProcessId
+			  and b.ProcessId = @ProcessId
+			  and a.ActivityId = t.ToActivity
+			  and b.ActivityId = t.FromActivity
+			  and b.Ordering != 0
+			  and a.Ordering = 0
+			  order by a.IsFinish desc
+			if @@rowcount = 0 break
+	
+			update WfActivity
+			set Ordering = @depth,
+				@depth = @depth + 1
+			where ProcessId = @ProcessId
+			  and ActivityId = @ActivityId
+			if @@rowcount = 0 break
+	
+		end
+		set rowcount 0
+	end
+	go
+	
+	
+	exec sp_procxmode "wf_reorder", "anymode"
+	go	
+	
+	
+trigger update WfxActivity:  ya esta en ActivityMgmt.cfc::setActivityState
+	if update (State) begin
+	
+		/* contabilizar tiempo */
+		declare @now datetime select @now = getdate()
+	
+		update WfxActivity
+		set FinishTime = @now
+		from WfxActivity t, deleted d, inserted i
+		where i.State = 'COMPLETED'
+		  and d.State != 'COMPLETED'
+		  and d.ActivityInstanceId = t.ActivityInstanceId
+		  and i.ActivityInstanceId = t.ActivityInstanceId
+		  and i.ActivityInstanceId = d.ActivityInstanceId
+	
+		update WfxActivity
+		set WorkingTime = t.WorkingTime + 
+			case when d.State = 'ACTIVE' then
+				datediff (ms, t.UpdateTime, @now) / 1000.0
+			else 0 end
+		,   WaitingTime = t.WaitingTime + 
+			case when d.State in ('INACTIVE', 'SUSPENDED') then
+				datediff (ms, t.UpdateTime, @now) / 1000.0
+			else 0 end
+		,   UpdateTime = @now
+		from WfxActivity t, deleted d
+		where d.ActivityInstanceId = t.ActivityInstanceId
+	
+	
+	  /* completar procesos */
+	  if exists (select * from inserted where State = 'COMPLETED')
+	  and exists (select * from deleted where State != 'COMPLETED')
+	  begin
+		update WfxProcess
+		set State = 'COMPLETE'
+		, FinishTime = getdate()
+		from WfxProcess t, inserted i, deleted d
+		where t.ProcessInstanceId = i.ProcessInstanceId
+		  and t.ProcessInstanceId = d.ProcessInstanceId
+		  and i.State = 'COMPLETED'
+		  and d.State != 'COMPLETED'
+		  and not exists (
+			  select *
+			  from WfxActivity s
+			  where s.ProcessInstanceId = t.ProcessInstanceId
+				and State != 'COMPLETED' )
+		  and exists (
+			  select *
+			  from WfxActivity s, WfActivity a
+			  where s.ProcessInstanceId = t.ProcessInstanceId
+				and a.ActivityId = s.ActivityId
+				and a.IsFinish = 1 )
+		
+	  end /* State = 'COMPLETED' */
+	
+	end /* if update(State) */

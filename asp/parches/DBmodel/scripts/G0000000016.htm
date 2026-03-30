@@ -1,0 +1,239 @@
+<strong>INDICE:</strong><BR>- <A href='#TABs_ADD'>Tablas nuevas</A><BR>- <A href='#KEYs_ADD'>Llaves nuevas o a regenerarse</A><BR>- <A href='#KEYs_FI'>Indices para llaves foráneas</A><BR><BR><BR>
+			<BR><strong><A name='TABs_ADD'>TABLAS NUEVAS EN EL MODELO DBM QUE SE VAN A CREAR EN LA BASE DE DATOS</A></strong><BR>
+			<table>
+			<tr><td><strong>TABLA</strong></td></tr>
+			
+				<tr><td>EmpresaExterna</td></tr>
+			
+				<tr><td>IdProceso</td></tr>
+			
+				<tr><td>Interfaz</td></tr>
+			
+				<tr><td>InterfazBitacoraProcesos</td></tr>
+			
+				<tr><td>InterfazColaProcesos</td></tr>
+			
+				<tr><td>InterfazColaProcesosCancelar</td></tr>
+			
+				<tr><td>InterfazDatosXML</td></tr>
+			
+				<tr><td>InterfazMotor</td></tr>
+			
+			</table>
+		
+			<BR><strong><A name='COLs_ADD'>LLAVES QUE SE VAN A CREAR.</font></A></strong><BR>
+			<table>
+			<tr><td><strong>TABLA</strong></td><td><strong>TIPO</strong></td><td><strong>SEC.</strong></td><td><strong>COLUMNAS</strong></td><td><strong>TABLA REFERENCIADA</strong></td><td><strong>COLUMNAS REFERENCIADAS</strong></td><td><strong>RAZON</strong></td></tr>
+			
+				<tr><td>IdProceso</td><td>
+					
+						PK 
+					
+				</td><td>00</td><td>IdProceso</td><td>*</td><td>*</td>
+				<td>
+					
+						TABLA NUEVA EN DBM
+					
+				</td>
+				</tr>
+			
+				<tr><td>Interfaz</td><td>
+					
+						PK 
+					
+				</td><td>00</td><td>NumeroInterfaz</td><td>*</td><td>*</td>
+				<td>
+					
+						TABLA NUEVA EN DBM
+					
+				</td>
+				</tr>
+			
+				<tr><td>InterfazBitacoraProcesos</td><td>
+					
+						PK 
+					
+				</td><td>00</td><td>IdBitacora</td><td>*</td><td>*</td>
+				<td>
+					
+						TABLA NUEVA EN DBM
+					
+				</td>
+				</tr>
+			
+				<tr><td>InterfazBitacoraProcesos</td><td>
+					
+						ID 
+					
+				</td><td>01</td><td>IdProceso</td><td>*</td><td>*</td>
+				<td>
+					
+						TABLA NUEVA EN DBM
+					
+				</td>
+				</tr>
+			
+				<tr><td>InterfazBitacoraProcesos</td><td>
+					
+						ID 
+					
+				</td><td>02</td><td>CEcodigo,EcodigoSDC</td><td>*</td><td>*</td>
+				<td>
+					
+						TABLA NUEVA EN DBM
+					
+				</td>
+				</tr>
+			
+				<tr><td>InterfazBitacoraProcesos</td><td>
+					
+						ID 
+					
+				</td><td>03</td><td>CEcodigo,NumeroInterfaz,IdProceso,SecReproceso</td><td>*</td><td>*</td>
+				<td>
+					
+						TABLA NUEVA EN DBM
+					
+				</td>
+				</tr>
+			
+				<tr><td>InterfazColaProcesos</td><td>
+					
+						PK 
+					
+				</td><td>00</td><td>CEcodigo,NumeroInterfaz,IdProceso,SecReproceso</td><td>*</td><td>*</td>
+				<td>
+					
+						TABLA NUEVA EN DBM
+					
+				</td>
+				</tr>
+			
+				<tr><td>InterfazColaProcesos</td><td>
+					
+						FK 
+					
+				</td><td>01</td><td>NumeroInterfaz</td><td>Interfaz</td><td>NumeroInterfaz</td>
+				<td>
+					
+						TABLA NUEVA EN DBM
+					
+				</td>
+				</tr>
+			
+				<tr><td>InterfazColaProcesos</td><td>
+					
+						ID 
+					
+				</td><td>01</td><td>IdProceso</td><td>*</td><td>*</td>
+				<td>
+					
+						TABLA NUEVA EN DBM
+					
+				</td>
+				</tr>
+			
+				<tr><td>InterfazColaProcesos</td><td>
+					
+						ID 
+					
+				</td><td>02</td><td>NumeroInterfaz,EcodigoSDC</td><td>*</td><td>*</td>
+				<td>
+					
+						TABLA NUEVA EN DBM
+					
+				</td>
+				</tr>
+			
+				<tr><td>InterfazColaProcesos</td><td>
+					
+						ID 
+					
+				</td><td>03</td><td>CEcodigo,NumeroInterfaz,StatusProceso</td><td>*</td><td>*</td>
+				<td>
+					
+						TABLA NUEVA EN DBM
+					
+				</td>
+				</tr>
+			
+				<tr><td>InterfazColaProcesosCancelar</td><td>
+					
+						PK 
+					
+				</td><td>00</td><td>CEcodigo,NumeroInterfaz,IdProceso,SecReproceso</td><td>*</td><td>*</td>
+				<td>
+					
+						TABLA NUEVA EN DBM
+					
+				</td>
+				</tr>
+			
+				<tr><td>InterfazColaProcesosCancelar</td><td>
+					
+						FK 
+					
+				</td><td>01</td><td>CEcodigo,NumeroInterfaz,IdProceso,SecReproceso</td><td>InterfazColaProcesos</td><td>CEcodigo,NumeroInterfaz,IdProceso,SecReproceso</td>
+				<td>
+					
+						TABLA NUEVA EN DBM
+					
+				</td>
+				</tr>
+			
+				<tr><td>InterfazColaProcesosCancelar</td><td>
+					
+						ID 
+					
+				</td><td>01</td><td>NumeroInterfaz</td><td>*</td><td>*</td>
+				<td>
+					
+						TABLA NUEVA EN DBM
+					
+				</td>
+				</tr>
+			
+				<tr><td>InterfazDatosXML</td><td>
+					
+						PK 
+					
+				</td><td>00</td><td>CEcodigo,NumeroInterfaz,IdProceso,TipoIO</td><td>*</td><td>*</td>
+				<td>
+					
+						TABLA NUEVA EN DBM
+					
+				</td>
+				</tr>
+			
+				<tr><td>InterfazMotor</td><td>
+					
+						PK 
+					
+				</td><td>00</td><td>CEcodigo</td><td>*</td><td>*</td>
+				<td>
+					
+						TABLA NUEVA EN DBM
+					
+				</td>
+				</tr>
+			
+			</table>
+		
+			<BR><strong><A name='KEYs_FI'>INDICES QUE SE VAN A CREAR EN LA BASE DE DATOS PARA SOPORTAR LLAVES FORANEAS</A></strong><BR>
+			<table>
+			<tr><td><strong>TABLA</strong></td><td><strong>TIPO</strong></td><td><strong>SEC.</strong></td><td><strong>COLUMNAS</strong></td><td><strong>TABLA REFERENCIADA</strong></td><td><strong>COLUMNAS REFERENCIADAS</strong></td><td><strong>RAZON</strong></td></tr>
+			
+				<tr><td>InterfazColaProcesos</td><td>
+					
+						FK 
+					
+				</td><td>01</td><td>NumeroInterfaz</td><td>Interfaz</td><td>NumeroInterfaz</td>
+				<td>
+					
+						TABLA NUEVA EN DBM
+					
+				</td>
+				</tr>
+			
+			</table>
+		

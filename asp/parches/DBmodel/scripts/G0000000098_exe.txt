@@ -1,0 +1,21 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 219 - DBM 148: Diagram: Transferencias_Bancarias
+
+	         PARCHE:  Parche023_022_SIF_TEF_CB
+
+GENERADO EN:
+	SERVER:  http://mxvqapp34:8300
+	DSN:     sifcim
+	FECHA:   06/01/2012 10:26:43
+*/
+
+/* INI_SCRIPT */
+
+/* END_SCRIPT */

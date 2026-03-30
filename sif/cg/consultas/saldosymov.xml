@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	
+	<Idioma id="en">
+		<LB_Titulo>Balances and Movements by Account</LB_Titulo>
+		<LB_CuentaContable>Accounting Account</LB_CuentaContable>
+		<LB_Origen>Origin</LB_Origen>
+		<LB_Periodo>Period</LB_Periodo>
+		<LB_Moneda>Currency</LB_Moneda>
+		
+	</Idioma>
+</Etiquetas>

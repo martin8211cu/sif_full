@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<info>
+	<infoitem key="UD_rsForm" value="name:PRJRid;datatype:,name:Ucodigo;datatype:,name:PRJRcodigo;datatype:,name:PRJRdescripcion;datatype:,name:PRJtipoRecurso;datatype:,name:Ecodigo;datatype:,name:RHPcodigo;datatype:,name:Aid;datatype:,name:Cid;datatype:,name:ts_rversion;datatype:" />
+	<infoitem key="UD_rsRecurso" value="name:codigo;datatype:,name:descripcion;datatype:,name:unidadMedida;datatype:,name:puesto;datatype:,name:inventario;datatype:" />
+	<infoitem key="UD_rsManoObra" value="name:Ecodigo;datatype:,name:RHPcodigo;datatype:,name:RHOcodigo;datatype:,name:RHTPid;datatype:,name:RHPdescpuesto;datatype:,name:BMusuario;datatype:,name:BMfecha;datatype:,name:BMusumod;datatype:,name:BMfechamod;datatype:,name:HYLAcodigo;datatype:,name:HYMgrado;datatype:,name:HYIcodigo;datatype:,name:HYHEcodigo;datatype:,name:HYHGcodigo;datatype:,name:HYIHgrado;datatype:,name:HYCPgrado;datatype:,name:HYMRcodigo;datatype:,name:ptsHabilidad;datatype:,name:porcSP;datatype:,name:ptsSP;datatype:,name:ptsResp;datatype:,name:ptsTotal;datatype:,name:HYperfilnivel;datatype:,name:HYperfilvalor;datatype:,name:ts_rversion;datatype:" />
+	<infoitem key="UD_rsMateriales" value="name:Aid;datatype:,name:Ecodigo;datatype:,name:Acodigo;datatype:,name:Acodalterno;datatype:,name:Ucodigo;datatype:,name:Ccodigo;datatype:,name:Adescripcion;datatype:,name:Afecha;datatype:,name:Acosto;datatype:,name:Aconsumo;datatype:,name:ts_rversion;datatype:" />
+	<infoitem key="UD_rsServicios" value="name:Cid;datatype:,name:Ecodigo;datatype:,name:Ccodigo;datatype:,name:Cdescripcion;datatype:,name:Ctipo;datatype:,name:ts_rversion;datatype:,name:Ucodigo;datatype:" />
+	<infoitem key="UD_rsUnidades" value="name:Ucodigo;datatype:,name:Udescripcion;datatype:" />
+</info>

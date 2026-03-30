@@ -1,0 +1,246 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html>
+<head>
+<title>DHTML Menu 4 Menu Creation (WebFX)</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script type="text/javascript" src="local/webfxlayout.js"></script>
+</head>
+<body>
+<!-- WebFX Layout Include -->
+<script type="text/javascript">
+
+var articleMenu= new WebFXMenu;
+articleMenu.left  = 384;
+articleMenu.top   = 86;
+articleMenu.width = 140;
+articleMenu.add(new WebFXMenuItem("Introduction", "menu4.html"));
+articleMenu.add(new WebFXMenuItem("Menu Creation", "menucreation.html"));
+articleMenu.add(new WebFXMenuItem("Menu Bar Creation", "menubarcreation.html"));
+articleMenu.add(new WebFXMenuItem("Usage", "usage.html"));
+articleMenu.add(new WebFXMenuItem("API", "api.html"));
+articleMenu.add(new WebFXMenuItem("Customizing look &amp; feel", "looknfeel.html"));
+articleMenu.add(new WebFXMenuItem("Demos", "demos.html"));
+articleMenu.add(new WebFXMenuSeparator);
+articleMenu.add(new WebFXMenuItem("Download", "menu4.zip"));
+webfxMenuBar.add(new WebFXMenuButton("Article Menu", null, null, articleMenu));
+
+webfxLayout.writeTitle("DHTML Menu 4");
+webfxLayout.writeMenu();
+webfxLayout.writeDesignedByEdger();
+
+</script>
+<div class="webfx-main-body">
+<!-- end WebFX Layout Includes -->
+
+
+<h2>Menu Creation</h2>
+
+<p>The DHTML Menu 4 is build up of a few different classes. The most important
+ones are <code>Menu</code>, <code>MenuItem</code>, <code>MenuBar</code> and
+<code>MenuButton</code>. If you have used <a href="/dhtml/xmenu/xmenu.html">XMenu</a>
+before then the usage of DHTML Menu 4 should be very easy.</p>
+
+<h3>Menu</h3>
+
+<p>The first step to create a menu system is to first create the menus. This is
+done by creating an object by calling the constructor <code>Menu</code>. The
+constructor does not take any arguments but there are a few properties that you
+might want to change.</p>
+
+<pre>
+var m = new Menu();
+</pre>
+
+<p>To set a properti you can always set it directly on the actual object but in
+some cases you might want the property to apply to all instances of
+<code>Menu</code>. In these cases you should set the field on the
+<code>prototype</code> object. Below are the properties that are shared among
+all menus.</p>
+
+<pre>
+Menu.prototype.cssFile = "skins/winxp.css";
+Menu.prototype.mouseHoverDisabled = true;
+Menu.prototype.showTimeout = 250;
+Menu.prototype.closeTimeout = 250;
+</pre>
+
+<p>For a list of all fields available for the <code>Menu</code> class see the
+<a href="api.html">API page</a>.</p>
+
+<h3>MenuItem</h3>
+
+<p>The constructor for a <code>MenuItem</code> takes for argument but only the
+first one is required.</p>
+
+<pre>
+new MenuItem( sLabelText, fAction, sIconSrc, oSubMenu )
+</pre>
+
+<p>The second argument, <code>fAction</code>, should point to a function that
+is called when the user clicks on the menu item. This argument can also be a
+<code>String</code> and in that case it is treated as an URI that the browser
+should navigate to. In case an URI is used the <code>target</code> property can
+be used to tell the browser in what window or frame the page should be opened
+in.</p>
+
+<pre>
+function f() {
+   alert("f called");
+}
+var mi1 = new MenuItem("Call f", f);
+var mi2 = new MenuItem("Call anon", function () { alert("anon called"); });
+
+var mi3 = new MenuItem("Go to WebFX", "http://webfx.eae.net");
+var mi4 = new MenuItem("Google in new window", "http://www.google.com");
+mi4.target = "_blank";
+</pre>
+
+<p>To show an icon set the third argument, <code>sIconSrc</code>, to point at
+an image file located somewher on the internet.</p>
+
+<pre>
+var mi3 = new MenuItem("Go to WebFX", "http://webfx.eae.net",
+                       "http://webfx.eae.net/images/favicon.gif");
+</pre>
+
+<p>To make the menu item open up a sub menu you set the fourth argument,
+<code>oSubMenu</code>, to point to an already created menu. Notice that the
+submenu object must already exist or else you will get an error.</p>
+
+<pre>
+var subMenu = new Menu();
+var mi5 = new MenuItem("Item with sub", null, null, subMenu);
+</pre>
+
+<h4>Adding Items</h4>
+
+<p>A menu item on its own is not of much use so we have to add the item to a
+menu. This is done by calling the method <code>add</code> on the menu item.
+A common procedure is to create the menu item inside the call to
+<code>add</code> because it is such a common task. In some cases it is also
+desired to be able to add properties to the menu item and in these cases you
+can also assign the menu item to a variable inside the call to <code>add</code>.</p>
+
+<pre>
+var m = new Menu();
+m.add(new MenuItem("Menu Item 1"));
+
+var tmp;
+m.add( tmp = new Menu Item 2", "http://www.yahoo.com") );
+tmp.target = "myFrame";
+</pre>
+
+
+<h4>More properties</h4>
+
+<p>There are a few other interesting properties for you to set on a menu item.</p>
+
+<p>To show a tooltip when the user hovers the menu item set the
+<code>tooltip</code> property. This can be any string but HTML code is not
+handled.</p>
+
+<p>To show some text that descripts the shortcut used to invoke the action set
+the <code>shortcut</code> property. This is only there for show. It does not
+set up the keyboard command.</p>
+
+<p>When navigating using the keyboard it is common that a character is treated
+as a <code>mnemonic</code>. This is the key that the user should press to invoke
+the menu item when navigating through the menu. This is usually shown by
+underlining the character.</p>
+
+<p>You can also disable a menu item by setting the <code>disabled</code>
+property to <code>true</code>.</p>
+
+<pre>
+var copyItem = new MenuItem("Copy", doCopy, "images/copy.png");
+copyItem.title = "Copies the selected item to the clipboard";
+copyItem.mnemonic = 'c';
+copyItem.shortcut = "Ctrl+C";
+copyItem.disabled = true;
+</pre>
+
+<p>Notice that if you want to change any property of the menu item at runtime
+(after the first time shown) you need to invalidate the menu it is placed
+inside. To do this call <code>invalidate</code> on the menu.</p>
+
+<p>For more properties and methods see the <a href="api.html#MenuItem">API page</a>.</p>
+
+<h3>CheckBoxMenuItem</h3>
+
+<p>The class <code>CheckBoxMenuItem</code> represents a menu item that shows a
+check box instead of an icon. A <code>CheckBoxMenuItem</code> can be in two
+different states, checked or unchecked. When the user clicks on it the state
+changes. The state is represented using the property <code>checked</code>.</p>
+
+<pre>
+function onCheckBoxChanged() {
+   alert("The menu item with the text " + this.text +
+         " is now " + (this.checked ? "checked" : "unchecked"));
+}
+
+var cbmi = new CheckBoxMenuItem("Check Me", false, onCheckBoxChanged);
+</pre>
+
+<p>For more properties and methods see the <a href="api.html#CheckBoxMenuItem">API page</a>.</p>
+
+<h3>RadioButtonMenuItem</h3>
+
+<p>Another common type of menu items are radio button items. These allow one
+alternative from a group of items to be selected. Radio button items are
+represented by the class <code>RadioButtonMenuItem</code> which is another
+sub class of <code>MenuItem</code>. The radio item shows a radio button instead
+of the normal icon. To group radio items together the property
+<code>radioGroupName</code> is used. This is also the third argument that is 
+passed to the constructor. Notice that radio groups cannot span between
+different menus.</p>
+
+<pre>
+function onRadioChanged() {	
+   var text;
+   if (rb1.checked)
+      text = rb1.text;
+   else if (rb2.checked)
+      text = rb2.text;
+   else if (rb3.checked)
+      text = rb3.text;
+   alert("You selected " + text);
+};
+
+var rb1 = new RadioButtonMenuItem("Vanilla", false, "flavorGroup", onRadioChanged);
+var rb2 = new RadioButtonMenuItem("Chocolate", true, "flavorGroup", onRadioChanged);
+var rb3 = new RadioButtonMenuItem("Strawberry", false, "flavorGroup", onRadioChanged);
+</pre>
+
+<p>For more properties and methods see the <a href="api.html#RadioButtonMenuItem">API page</a>.</p>
+
+<h3>MenuSeparator</h3>
+
+<p>Another type of menu item is the <code>MenuSeparator</code>. This class is
+used to show a separator on a menu.</p>
+
+<pre>
+var m = new Menu();
+
+m.add( new MenuSeparator() );
+</pre>
+
+<p>
+<a href="menu4.html">Introduction</a><br />
+<a href="menucreation.html">Menu Creation</a><br />
+<a href="menubarcreation.html">Menu Bar Creation</a><br />
+<a href="usage.html">Usage</a><br />
+<a href="api.html">API</a><br />
+<a href="looknfeel.html">Customizing look &amp; feel<br />
+<a href="demos.html">Demos</a><br />
+<a href="menu4.zip">Download</a>
+</p>
+
+<p class="author">Author: Erik Arvidsson</p>
+
+<!-- end webfx-main-body -->
+</div>
+
+</body>
+</html>

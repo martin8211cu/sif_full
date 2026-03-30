@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_PeriodoPresupuestario>Budget Period</LB_PeriodoPresupuestario>
+		<LB_Estado>Status</LB_Estado>
+		<LB_Versiones>Versions</LB_Versiones>
+		<LB_Seleccionadas>Selected</LB_Seleccionadas>
+	</Idioma> 
+</Etiquetas>

@@ -1,0 +1,1963 @@
+//***********
+//*  ClassName: CAccountsImpl.class
+//*  Author: Alex Ortega Brenes.
+//*  Description:
+//*  Last Update: 21/05/2002
+//*  Por Gaston Alfaro
+//***********
+
+package com.soin.isp;
+
+import java.sql.*;
+import java.util.*;
+import com.sybase.jaguar.beans.enterprise.*;
+import com.soin.isp.services.Commands;
+import com.soin.isp.tools.DatosServicios;
+import com.soin.isp.tools.ConfigFile;
+import com.soin.core.*;
+
+
+
+public class CAccountsImpl extends SOINJaguarBaseComponent implements ServerBean
+{
+    
+    public CAccountsImpl()
+    {
+		super();
+		_ConfigFile = new ConfigFile("Components.cfg");
+		_DefaultDBName = _ConfigFile.getParameter("CAccounts", "DefaultDBName");
+    }
+
+    public void activate(InstanceContext ctx, String instanceKey)
+    {
+		_InstanceContext = ctx;
+    }
+
+    public void deactivate()
+    {
+		;
+    }
+
+    public boolean canReuse()
+    {
+		return true;
+    }
+
+    public void destroy()
+    {
+		;
+    }
+
+
+    //***********************
+    //*  ADD: 	Metodo para agregar cuentas en DB.
+    //***********************
+    public long add(java.lang.String pListParameters) throws soinisp.ISPException
+    {
+		long vResult = -1;
+		Connection vConnection = null;
+		_Statement1 = null;
+		
+		try
+		{
+			vConnection = getConnection(_DefaultDBName);
+			if(vConnection != null)
+			{
+				_Statement1 = vConnection.createStatement();
+			
+				String pCodCuenta = getParameter(pListParameters, "SAI07COD") ;     // Obtiene el codigo [No es requerido siempre].
+				String pNomCuenta = getParameter(pListParameters, "SAI07NCT");      // Nombre de la Cuenta.
+				String pCuentaPadre = getParameter(pListParameters, "SAI07CPA");    // Indica si es cuenta padre o no.
+				String pImpuestos = getParameter(pListParameters, "SAI07IMP");      // Indica si utiliza impuestos.
+				String pVendedor = getParameter(pListParameters, "SAI07VEN");       // Indica si es vendedor.
+				String pEstado = getParameter(pListParameters, "SAI07EST");             // Indica el estado de la cuenta.
+				String pNombre = getParameter(pListParameters, "SAI07NOM");         // Nombre del dueno de la cuenta.
+				String pApellido1 = getParameter(pListParameters, "SAI07AP1");
+				String pApellido2 = getParameter(pListParameters, "SAI07AP2");
+				String pCedula = getParameter(pListParameters, "SAI07CED");             // Cedula del dueno de la cuenta.
+				String pDominio = getParameter(pListParameters, "SAI07DOM");          // Dominio.
+				String pPaquete = getParameter(pListParameters, "SAI03COD");            // Codigo de Paquete
+				String pTipo = getParameter(pListParameters, "SAI35COD");                   // Tipo de Cuenta.
+				String pCalendario = getParameter(pListParameters, "SAI37COD");         // Calendario.
+				String pPeriodo = getParameter(pListParameters, "SAI21COD");                // Codigo de Periodo.
+				String pCategoria = getParameter(pListParameters, "SAI39COD");          // Categoria
+				String pPago = getParameter(pListParameters, "SAI34COD");
+				String pPais = getParameter(pListParameters, "SAI30COD");
+				String pCodCuentaPadre = getParameter(pListParameters, "SAI07COP");        
+				
+				try
+				{
+					Hashtable vTablaServicios = new Hashtable();
+					byte vEstadoDB = 0;
+					byte vEstadoServers = 1;
+			
+					// Verifica que el nombre de la cuenta no exista en la DB.
+					///ResultSet rsConfirmLogin = doQuery("Select * From SAI007 Where SAI07NCT = '" + pNomCuenta + "'");
+					//if(!rsConfirmLogin.next())
+					//{
+					// Obtiene la lista de Servicios que componen el paquete y los almacena en el HashTable.
+					ResultSet rsListaServicios = doQuery("Select SAI010.SAI03COD, SAI002.* " +
+														 " From SAI010, SAI002 " +
+														 " Where SAI010.SAI03COD = " + pPaquete + 
+														 " And SAI010.SAI02COD = SAI002.SAI02COD");
+					int vCont = 0;
+					while(rsListaServicios.next())
+					{
+						DatosServicios vDatosServicio = new DatosServicios();
+						
+						vDatosServicio.vCodServicio = rsListaServicios.getLong("SAI02COD");         // Obtiene el Codigo del Servicio.
+						vDatosServicio.vKbytes = rsListaServicios.getLong("SAI02ESP");              // Obtiene el Espacio en que ocupa el servicio. (En este caso no aplica)
+						vDatosServicio.vTipoServicio = (int)rsListaServicios.getLong("SAI29COD");   // Obtiene el Tipo de Servicio.
+						vCont++;
+						vTablaServicios.put(new Integer(vCont), vDatosServicio);
+					}
+					
+					// Si el HashTable contiene rows, la recorre para hacer la inclusiones en los servidores de servicios correspondientes.
+					if(vTablaServicios.size() > 0)
+					{
+						try
+						{
+						for(vCont = 1; vCont <= vTablaServicios.size(); vCont++)
+						{
+							Integer objCont = new Integer(vCont);
+							DatosServicios vDatosServicio = (DatosServicios)vTablaServicios.get(objCont);
+							switch(vDatosServicio.vTipoServicio)
+							{
+							case 1:         // Servicio de Mail.
+							{
+								// No existe codigo debido a que en el MailServer no existen las inclusiones de grupos.
+								break;
+							}
+							case 2:     // Servicio de AAA.
+							{
+								// No existe codigo debido a que en el MailServer no existen las inclusiones de grupos.
+								//System.out.println("Inicia el acceso del cliente del AAA");                                
+								//vDatosServicio.vEstado = Commands.addAccountAAA(pNomCuenta, pNomCuenta, "null");    // Envia la instrucción de agregar una cuenta en el ServerAAA.
+								//System.out.println("El resultado del Cliente del AAA es : " + String.valueOf(vDatosServicio.vEstado));
+								//vTablaServicios.put(objCont, vDatosServicio);
+								break;
+							}
+							}       // switch.
+							// Si algun server fallo, realiza un rollback y no accesa a la DB.
+							if(vDatosServicio.vEstado < 0)
+							{
+							vEstadoServers = 0;
+							vResult = vDatosServicio.vEstado;
+							break;
+							}
+						}       // for.
+						} catch(Exception e3) {System.out.println("Los Servers fallaron..... : " + e3.getMessage()); vEstadoServers = 0; vResult = -1;}
+						
+						// Si los servidores cumplieron con el objetivo.
+						if(vEstadoServers == 1)     // Si los server respondieron bien agrega la cuenta en la DB.
+						{
+						try
+						{
+							System.out.println("Ejecuta el sp_Alta_SAI007..........");
+							System.out.println("exec sp_Alta_SAI007 " + ((pCodCuenta == null)?"":"@SAI07COD=" + pCodCuenta + ", ") + 
+											 "@SAI07NCT='" + pNomCuenta +
+											 "', @SAI07CPA=" + pCuentaPadre + ", @SAI07IMP=" + pImpuestos + ", @SAI07VEN=" + pVendedor + 
+											 ", @SAI07EST='" + pEstado + "', @SAI07NOM='" +pNombre + "',@SAI07AP1='" + pApellido1 +
+											 "', @SAI07AP2='" + pApellido2 + "', @SAI07CED='" + pCedula + "', @SAI07DOM='" + pDominio +
+											 "', @SAI03COD=" + pPaquete + ", @SAI35COD=" + pTipo + ", @SAI37COD=" + pCalendario + 
+											 ", @SAI21COD=" + pPeriodo + ", @SAI39COD=" + pCategoria + ", @SAI34COD=" + pPago + 
+											 ", @SAI30COD=" + pPais + ((pCodCuentaPadre == null)?"":", @SAI07COP=" + pCodCuentaPadre));
+							ResultSet rs = doQuery("exec sp_Alta_SAI007 " + ((pCodCuenta == null)?"":"@SAI07COD=" + pCodCuenta + ", ") +
+											 "@SAI07NCT='" + pNomCuenta +
+											 "', @SAI07CPA=" + pCuentaPadre + ", @SAI07IMP=" + pImpuestos + ", @SAI07VEN=" + pVendedor + 
+											 ", @SAI07EST='" + pEstado + "', @SAI07NOM='" +pNombre + "',@SAI07AP1='" + pApellido1 +
+											 "', @SAI07AP2='" + pApellido2 + "', @SAI07CED='" + pCedula + "', @SAI07DOM='" + pDominio +
+											 "', @SAI03COD=" + pPaquete + ", @SAI35COD=" + pTipo + ", @SAI37COD=" + pCalendario + 
+											 ", @SAI21COD=" + pPeriodo + ", @SAI39COD=" + pCategoria + ", @SAI34COD=" + pPago + 
+											 ", @SAI30COD=" + pPais + ((pCodCuentaPadre == null)?"":", @SAI07COP=" + pCodCuentaPadre));
+							if(rs.next())
+							{
+							vResult = rs.getLong(1);
+							vEstadoDB = 1;
+							}
+							else
+							{
+							vResult = -3;
+							vEstadoDB = 0;
+							}
+						} catch(Exception e2) {System.out.println("El sp_Alta_SAI007 fallo..... : " + e2.getMessage()); vEstadoDB = 0; vResult = -3;}
+						}   // if vEstadoServers.
+						
+						//********************* 
+						//*   ROLLBACK 
+						//*********************
+						if(vEstadoServers == 0 || vEstadoDB == 0)     // Si los server fallaron o fallo el sp_Alta_SAI007.
+						{
+						for(vCont = 1; vCont <= vTablaServicios.size(); vCont++)
+						{
+							Integer objCont = new Integer(vCont);
+							DatosServicios vDatosServicio = (DatosServicios)vTablaServicios.get(objCont);
+							if(vDatosServicio.vEstado == 1)     // Si el servicio fue exitoso entonces aplicar rollback.
+							{
+							switch(vDatosServicio.vTipoServicio)
+							{
+								case 1:         // Servicio de Mail.
+								{
+								// No existe codigo debido a que en el MailServer no existen las inclusiones de grupos.
+								break;                                        
+								}
+								case 2:     // Servicio de AAA.
+								{
+								// No existe codigo debido a que en el MailServer no existen las inclusiones de grupos.
+								//System.out.println("Inicia el RollBack para borrar la cuenta del AAA");                                
+								//vDatosServicio.vEstado = Commands.deleteAccountAAA(pNomCuenta);
+								//System.out.println("El resultado del RollBack del AAA es : " + String.valueOf(vDatosServicio.vEstado));
+								//vTablaServicios.put(objCont, vDatosServicio);
+								break;
+								}
+							}       // switch.
+							}   // if vEstado.
+						}   // for.
+						}       // if ROLLBACK.
+					}       // if vTablaServicios.size
+					else
+					   vResult = -2;  // Indica que el paquete no tiene servicios
+					//}       // if(rsConfirmLogin).
+					//else
+					//    vResult = -10;       // Indica que el nombre de la cuenta ya existe en la DB.
+				} 
+				catch(Exception e) 
+				{
+					System.out.println("CAccountsImpl.add() fallo........ : " + e.getMessage()); 
+					vResult = -1;
+				}
+			}   // if(vConnection != null).
+			else
+			{
+			System.out.println("!!! CAccountsImpl.add() failed.....");
+			System.out.println("\tERROR : [Couldn't get a Connection Cache.....]");
+			if(_Statement1 != null) {try {_Statement1.close(); _Statement1 = null;} catch(Exception e1) {;}}
+			if(vConnection != null) {releaseConnection(_DefaultDBName, vConnection);}
+			throw new soinisp.ISPException("Couldn't get a Connection Cache.....");
+			}
+		}
+		catch(Exception e)
+		{
+			System.out.println("!!! CAccountsImpl.add() failed.....");
+			System.out.println("\tERROR : [" + e.getMessage() + "]");
+			if(_Statement1 != null) {try {_Statement1.close(); _Statement1 = null;} catch(Exception e1) {;}}
+			if(vConnection != null) {releaseConnection(_DefaultDBName, vConnection);}
+			throw new soinisp.ISPException(e.getMessage());
+		}
+		finally
+		{
+			if(_Statement1 != null) {try {_Statement1.close(); _Statement1 = null;} catch(Exception e1) {;}}
+			if(vConnection != null) {releaseConnection(_DefaultDBName, vConnection);}
+		}
+		return vResult;
+    }        
+    
+	
+    //***********************
+    //*  DELETE:	Metodo para borrar cuentas con usuarios en Cisco, PostOffce y DB.
+    //***********************
+    public long delete(java.lang.String pListParameters) throws soinisp.ISPException
+    {
+    	System.out.println("******************");
+    	System.out.println("CAccounts.delete()");
+    	System.out.println("******************");
+    	
+		long vResult = -1;
+		Connection vConnection = null;
+		_Statement1 = null;
+		try
+		{
+	    	vConnection = getConnection(_DefaultDBName);
+	    	if(vConnection != null)
+	    	{
+				_Statement1 = vConnection.createStatement();
+	    
+				String pCodCuenta = getParameter(pListParameters,"SAI07COD");
+				String pTarea = getParameter(pListParameters, "TAREA");
+				String pS01ort = getParameter(pListParameters, "S01ORT");
+				String pS02VA2 = getParameter(pListParameters, "S02VA2");
+				Hashtable vListServices = new Hashtable();
+				Hashtable vListUsers = new Hashtable();
+				long vConsecutivoTarea = 0;
+				long vCodPaquete = 0;
+				String vNomPaquete = null;
+				String vEstadoCta = null;
+				String vDomain = null;
+				boolean vStateServersOk = true;
+				boolean vStateDBOk = true;
+				boolean vStateTareasSACI = true;
+				boolean vEjecutarCumplimientoTarea = false;
+				soinisp.CTareasSACI vobjTareasSACI = com.soin.isp.tools.Instances.getInstance_CTareasSACI();
+    
+				try
+				{
+		    	//	Obtiene el paquete mas reciente al cual esta asociada la Cuenta.
+		    		ResultSet rsPaquete = doQuery("Select SAI007.SAI03COD, SAI03NOM, SAI07BOR, SAI07DOM " +
+												  " From SAI007, SAI003 " +
+												  " Where SAI07COD = " + pCodCuenta +
+												  " And SAI007.SAI03COD = SAI003.SAI03COD");
+			    // Si obtuvo el paquete.																			
+		    		if(rsPaquete.next())
+		    		{
+						vCodPaquete = rsPaquete.getLong("SAI03COD");
+						vNomPaquete = rsPaquete.getString("SAI03NOM");
+						vEstadoCta = rsPaquete.getString("SAI07BOR");
+						vDomain = rsPaquete.getString("SAI07DOM");
+			
+						System.out.println("Estado de la cuenta : " + vEstadoCta);
+						if(!vEstadoCta.equals("1")) // si la cuenta no esta borrada
+						{
+			
+			    			try
+			    			{
+							//	En el caso que se invoque este componente para Rollback en SACI no se debe enviar tareas.
+								if(pTarea != null) 
+								{
+				    				if(pTarea.equals("1")) 
+				    				{
+				    				//	Enviala tarea de borrar login al SIIC.
+										System.out.println("Se envia la tarea de borrado de login a SIIC");
+										vConsecutivoTarea = vobjTareasSACI.BorrarLoginSIIC("SAI07COD=" + pCodCuenta + ", CINCAT=" + vCodPaquete);
+										vEjecutarCumplimientoTarea = true;
+										System.out.println("El resultado de la tarea de borrado es : " + String.valueOf(vConsecutivoTarea));
+										if(vConsecutivoTarea < 0) 
+										    vStateTareasSACI = false;
+									}
+				    				else if(pTarea.equals("0")) 
+				    				{
+				    				//	Enviala tarea de cumplimiento en caso de que lo ordene SIIC.
+										System.out.println("Se envia la tarea de cumplimiento a SIIC");
+										//Buscador
+										if (!pS02VA2.equals(""))
+										{	//Este componente devuelve el consecutivo de la tarea de cumplimiento
+											String pOrden = pS02VA2.substring(0,1);											
+											if ((pOrden.equals("G")) || (pOrden.equals("O")))
+											{	vConsecutivoTarea = vobjTareasSACI.CumpTramSIIC("S01VA1=A,S01ORT="+ pS01ort);}
+											else
+											{	vConsecutivoTarea = 1;}
+										}
+										else
+										{	// La variable vConsecutivoTarea se actualiza con un 1 para continue la ejecución 
+											// del borrado aunque no se haya mandado tarea de cumplimiento
+											vConsecutivoTarea = 1;}
+											
+										vEjecutarCumplimientoTarea = true;
+										System.out.println("El resultado del cumplimiento es : " + String.valueOf(vConsecutivoTarea));
+										if(vConsecutivoTarea < 0) 
+										    vStateTareasSACI = false;
+									}
+								}
+			    			}
+			    			catch(Exception e)
+			    			{
+								System.out.println("La seccion de la ejecucion de tareas fallo......... : " + e.getMessage());
+								vStateTareasSACI = false;
+			    			}
+			    
+			    			if(vStateTareasSACI)
+			    			{
+							//	Determinar los servicios asociados al paquete a cual esta asociada la cuenta.
+								ResultSet rsListServices = doQuery("Select SAI002.SAI02COD, SAI02ESP, SAI29COD " +
+																   " From SAI010, SAI002 " +
+																   " Where SAI010.SAI03COD = " + String.valueOf(vCodPaquete) +
+																   " And SAI010.SAI02COD = SAI002.SAI02COD");
+								while(rsListServices.next()) 
+								{ 	
+								    Properties vProperties = new Properties();
+								    vProperties.put("SAI02COD", new Long(rsListServices.getLong("SAI02COD")));
+								    vProperties.put("SAI02ESP", new Long(rsListServices.getLong("SAI02ESP")));
+								    vProperties.put("SAI29COD", new Long(rsListServices.getLong("SAI29COD")));
+								    vListServices.put((Long)vProperties.get("SAI02COD"), vProperties);
+								}  // end while
+		    
+								if(vListServices.size() > 0)
+								{ 
+				    			//	Obtiene una Lista de Usuarios por Tipo de Servicio.
+				    				ResultSet rsListUsers = doQuery("Select SAI011.SAI01COD, SAI21USU, SAI21PAS, SAI01BOR, SAI29COD, SAI010.SAI02COD " +
+								    " From SAI011, SAI010, SAI002, SAI022, SAI001 " +
+								    " Where SAI011.SAI07COD = " + pCodCuenta +
+								    " And SAI010.SAI03COD = " + String.valueOf(vCodPaquete) +
+								    " And SAI002.SAI02COD = SAI010.SAI02COD " +
+								    " And SAI001.SAI01COD = SAI011.SAI01COD " +
+								    " And SAI022.SAI01COD = SAI011.SAI01COD " +
+								    " And SAI022.SAI02COD = SAI010.SAI02COD " +
+								    " And SAI001.SAI01BOR = 0");
+								    
+								    while(rsListUsers.next())
+								    {
+										Properties vProperties = new Properties();
+										vProperties.put("SAI01COD", new Long(rsListUsers.getLong("SAI01COD")));	// Codigo del Usuario
+										vProperties.put("SAI21USU", rsListUsers.getString("SAI21USU"));		// Login por Servicio.
+										vProperties.put("SAI21PAS", rsListUsers.getString("SAI21PAS"));		// Password por Servicio.
+										vProperties.put("SAI01BOR", rsListUsers.getString("SAI01BOR"));		// Estado de borrado del Usuario.
+										vProperties.put("SAI29COD", new Long(rsListUsers.getLong("SAI29COD")));	// Tipo de Servicio.
+										vProperties.put("SAI02COD", new Long(rsListUsers.getLong("SAI02COD")));	// Codigo de Servicio.
+										vProperties.put("STATE", new Long(0));								// Esta de ejecucion del bloqueo (0 no se realizo, 1 si se realizo).
+										String vKey = ((Long)vProperties.get("SAI01COD")).toString() + "-" + ((Long)vProperties.get("SAI29COD")).toString();
+										vListUsers.put(vKey, vProperties);
+								    }
+				    
+				    				if(vListUsers.size() > 0)
+				    				{
+										Properties vProperties = null;
+										String vKey = null;
+										try
+										{
+					    					for(Enumeration vEnum = vListUsers.keys(); vEnum.hasMoreElements();)
+										    {
+												vKey = (String)vEnum.nextElement();
+												vProperties = (Properties)vListUsers.get(vKey);
+												if (!((String)vProperties.get("SAI01BOR")).equals("1")) 
+												{ 
+						    						switch(((Long)vProperties.get("SAI29COD")).byteValue()) 
+						    						{
+														case 1:     // Servicio de Mail. (Borra al usuario de Mail)
+														    System.out.println("Inicia el acceso del cliente del MAIL");
+														    // Obtiene el espacio en disco de la lista de servicios
+														    Properties vServiceData = (Properties)vListServices.get((Long)vProperties.get("SAI02COD"));
+														    Properties vAccountData = new Properties();
+														    vAccountData.put("AccountName", (String)vProperties.get("SAI21USU"));
+														    vAccountData.put("Login", (String)vProperties.get("SAI21USU"));
+														    vAccountData.put("Password", (String)vProperties.get("SAI21PAS"));
+														    vAccountData.put("KBytes", ((Long)vServiceData.get("SAI02ESP")).toString());
+														    vAccountData.put("Domain", vDomain);
+														    vProperties.put("STATE", new Long(Commands.deleteAccountMail(vAccountData, ((Long)vProperties.get("SAI02COD")).longValue())));
+														    //vProperties.put("STATE", new Long(1));
+														    // vProperties.put("STATE", new Long(Commands.deleteAccountMail((String)vProperties.get("SAI21USU")))); 
+														    System.out.println("El resultado del Cliente de MAIL es : " + String.valueOf(((Long)vProperties.get("STATE")).toString()));
+														    break;
+														case 2:     // Servicio de AAA. (Borra al usuario de AAA Cisco)
+														    System.out.println("Inicia el acceso del cliente del AAA");
+														    System.out.println(" estado actual " + (String)vProperties.get("SAI01BOR"));
+														    vProperties.put("STATE", new Long(Commands.deleteUserAAA((String)vProperties.get("SAI21USU"),(String)vProperties.get("SAI21PAS"),vNomPaquete,((Long)vProperties.get("SAI02COD")).longValue())));
+														    System.out.println("El resultado del Cliente del AAA es : " + ((Long)vProperties.get("STATE")).toString());
+														    
+														    System.out.println ("***********************");
+															System.out.println ("DELETE IPASS");
+															System.out.println ("Paquete: " + vCodPaquete);
+															System.out.println ("***********************");
+															
+															System.out.println ("STATE " + ((Long)vProperties.get("STATE")).longValue());
+															
+															if (vCodPaquete == 85)
+															{
+																//**************
+																// DELETE IPASS: Elimina un usuario Internet Para El Hogar o Consumo Conmutado Cable de IPass (para que pueda accesar Ipass)
+																//**************
+																System.out.println("Borrando de Ipass:......  " + (String)vProperties.get("SAI21USU"));
+																int result = execUpdate("sp_Alta_SAI079 @SAI01LOG='" + (String)vProperties.get("SAI21USU") + "', @SAI79ACC='B'");
+//																int result = Commands.deleteUserIpass((String)vProperties.get("SAI21USU"));
+																System.out.println("Resultado de borrar en Ipass:......  " + result);
+																//**************
+																// DELETE IPASS: Elimina un usuario Internet Para El Hogar o Consumo Conmutado Cable de IPass (para que pueda accesar Ipass)
+																//**************
+															}
+							    							break;
+						    						}  // end switch.
+						    						vListUsers.put(vKey, vProperties);
+												} 
+						
+											//	Si algun server fallo, realiza un rollback y no accesa a la DB.
+												if(((Long)vProperties.get("STATE")).longValue() < 0) 
+												{
+												    vStateServersOk = false;
+												    break;
+												} 
+					    					}	// for.
+										}
+										catch(Exception e)
+										{	
+					    					System.out.println("La seccion de los Servers fallo.......... : " + e.getMessage());
+					    					vStateServersOk = false;
+										}
+					
+									//	Si los Servidores tuvieron exito, se intentara realizar el bloqueo en la DB.
+										if(vStateServersOk)
+										{
+						    				try
+						    				{
+												System.out.println("exec BorraUsuariosdeCuenta @cuenta = " + pCodCuenta);
+												ResultSet rsBloqueo = doQuery("exec BorraUsuariosdeCuenta @cuenta = " + pCodCuenta);
+												rsBloqueo.next();
+												
+												if(rsBloqueo.getLong(1) == 0) 
+												    vStateDBOk = false;
+											}
+											catch(Exception e)
+											{
+												System.out.println("CAccountsImpl.delete() failed executing sp BorraUsuariosdeCuenta.....");
+												System.out.println("\tERROR : [" + e.getMessage() + "]");
+												vStateDBOk = false;
+											}
+										}	// if(vStateServersOk).
+		    
+										//***************
+										//*  RollBack
+										//***************
+										if((!vStateServersOk) || (!vStateDBOk))
+										{
+										    try
+										    {
+												System.out.println("Inicia el RollBack de Delete de Cuentas......");
+												for(Enumeration vEnum = vListUsers.keys(); vEnum.hasMoreElements();)
+												{
+												    vKey = (String)vEnum.nextElement();
+												    vProperties = (Properties)vListUsers.get(vKey);
+												    if(((Long)vProperties.get("STATE")).longValue() > 0) 
+												    { 
+														switch(((Long)vProperties.get("SAI29COD")).byteValue()) 
+														{
+														    case 1:     // Servicio de Mail.
+																System.out.println("Inicia el acceso del cliente del MAIL");
+															//	Obtiene el espacio en disco de la lista de servicios
+																Properties vServiceData = (Properties)vListServices.get((String)vProperties.get("SAI02COD"));
+																Properties vAccountData = new Properties();
+																vAccountData.put("AccountName", (String)vProperties.get("SAI21USU"));
+																vAccountData.put("Login", (String)vProperties.get("SAI21USU"));
+																vAccountData.put("Password", (String)vProperties.get("SAI21PAS"));
+																vAccountData.put("KBytes", ((Long)vServiceData.get("SAI02ESP")).toString());
+																vAccountData.put("Domain", vDomain);
+																vProperties.put("STATE", new Long(Commands.addAccountMail(vAccountData, ((Long)vProperties.get("SAI02COD")).longValue())));
+																//vProperties.put("STATE", new Long(1)); // Commands.addAccountMail(pLogin, pPassword, vDatosServicio.vKbytes, vDomain, vDatosServicio.vCodServicio)
+																// vProperties.put("STATE", new Long(Commands.deleteAccountMail((String)vProperties.get("SAI21USU"),(String)vProperties.get("SAI21PAS"),(String)vProperties.get("SAI21USU")))); 
+																System.out.println("El resultado del Cliente de MAIL es : " + String.valueOf(((Long)vProperties.get("STATE")).toString()));
+																break;
+														    case 2:     // Servicio de AAA.
+																System.out.println("Inicia el acceso del cliente del AAA");
+																System.out.println(" estado actual " + (String)vProperties.get("SAI01BOR"));
+																// addUserAAA(pLogin, pPassword, vNombrePaquete, vDatosServicio.vCodServicio); 
+																//vProperties.put("STATE", new Long(Commands.addUserAAA((String)vProperties.get("SAI21USU"),(String)vProperties.get("SAI21PAS"),vNomPaquete,((Long)vProperties.get("SAI02COD")).longValue())));
+																System.out.println("El resultado del Cliente del AAA es : " + ((Long)vProperties.get("STATE")).toString());
+																
+																System.out.println ("***********************");
+																System.out.println ("ADD IPASS");
+																System.out.println ("Paquete: " + vCodPaquete);
+																System.out.println ("***********************");
+															
+																if (vCodPaquete == 85)
+																{
+																	//***********
+																	// ADD IPASS: Agrega un usuario de Internet Para El Hogar o Consumo Conmutado Cable en Ipass (para que no pueda accesar Ipass)
+																	//***********
+																	System.out.println("Agregando en Ipass:......  " + (String)vProperties.get("SAI21USU"));
+																	int result = execUpdate("sp_Alta_SAI079 @SAI01LOG='" + (String)vProperties.get("SAI21USU") + "', @SAI79ACC='A'");
+//																	int result = Commands.addUserIpass((String)vProperties.get("SAI21USU"));
+																	System.out.println("Resultado de agregar en Ipass:......  " + result);
+																	//***********
+																	// ADD IPASS: Agrega un usuario de Internet Para El Hogar o Consumo Conmutado Cable en Ipass (para que no pueda accesar Ipass)
+																	//***********
+																}
+																break;
+														}  // end switch.
+														vListUsers.put(vKey, vProperties);
+												    } 
+												}   // for.
+					    					}   // try.
+					    					catch(Exception e)
+										    {
+												System.out.println("La seccion del RollBack fallo........ : " + e.getMessage());
+										    }
+										}	// if((!vStateServersOk) || (!vStateDBOk)).
+										else
+										{
+					    					vResult = 1;	// Todo ha salido bien.
+					    					//Aqui se debe actualizar el S01COF de la tarea de cumplimiento	
+											System.out.println ("ANTES DE LLAMAR A SP_ACTUAL DELETE");
+
+					    					if (!pS02VA2.equals(""))				    					
+					    					{
+												String pOrden = pS02VA2.substring(0,1);											
+												if ((pOrden.equals("G")) || (pOrden.equals("O")))
+					    						{	
+						    						ResultSet rsActualiza = doQuery("exec SACISIIC..sp_ActualizaTareaCumplimiento @S01CON=" + vConsecutivoTarea);
+													System.out.println ("DESPUES DE LLAMAR A SP_ACTUAL DELETE");
+													rsActualiza.next();
+						    						if(rsActualiza.getLong(1) == 0)
+						    						{	System.out.println ("******************************Actualizacion tuvo exito en CAccounts...******************************");}
+						    						else
+						    						{	System.out.println ("******************************Actualizacion fallo en CAccounts...******************************");}
+					    						}
+					    					}
+					    				}					    										    					
+					    					
+				    				}   // if(vListUsers.size() > 0).
+				    				else
+										vResult = -4;
+								}	// if(vListServices.size() > 0).
+								else
+				    				vResult = -5;
+			    			}	// if(vStateTareasSACI).
+			    			else
+								vResult = -6;
+						}   // if(!vEstadoCta.equals("1")).
+						else
+						{   // la cuenta ya esta borrada
+			    			System.out.println("La cuenta ya esta borrada : " + vEstadoCta);
+			    			vResult= -3;
+						}	
+		    		}   // if(rsPaquete.next()).
+		    		else
+		    		{
+						System.out.println("No obtuvo el paquete.........");
+						vResult = -2;
+		    		}
+				}   // try.
+				catch(Exception e)
+				{
+		    		System.out.println("Ocurrio un error interno durante la ejecucion del borrado de la cuenta........ : " + e.getMessage());
+				}
+		    
+			//	Si se debia ejecutar un cumplimiento de tarea y algo fallo se realiza el RollBack.
+				if((vEjecutarCumplimientoTarea) && (vResult < 0))
+				{
+			    //	Borra la Tarea programada.
+			    //Buscador
+				    System.out.println("El RollBack borra la Tarea programada......");
+				    if (!pS02VA2.equals(""))
+			    	{	// Si el pS02VA2 = "" no se ejecuta ya que la tarea de cumpliminto no se mandó a SIIC
+						String pOrden = pS02VA2.substring(0,1);											
+						if ((pOrden.equals("G")) || (pOrden.equals("O")))			    	
+			    		{	vobjTareasSACI.DeleteTaskSIIC("S01CON="+ String.valueOf(vConsecutivoTarea));}
+			    	}
+				}
+	    	}   // if(vConnection != null).
+	    	else
+	    	{
+				System.out.println("!!! CAccountsImpl.delete() failed.....");
+				System.out.println("\tERROR : [Couldn't get a Connection Cache.....]");
+				if(_Statement1 != null) {try {_Statement1.close(); _Statement1 = null;} catch(Exception e1) {;}}
+				if(vConnection != null) {releaseConnection(_DefaultDBName, vConnection);}
+				throw new soinisp.ISPException("Couldn't get a Connection Cache.....");
+	    	}
+		}
+		catch(Exception e)
+		{
+		    System.out.println("!!! CAccountsImpl.delete() failed.....");
+		    System.out.println("\tERROR : [" + e.getMessage() + "]");
+		    if(_Statement1 != null) {try {_Statement1.close(); _Statement1 = null;} catch(Exception e1) {;}}
+		    if(vConnection != null) {releaseConnection(_DefaultDBName, vConnection);}
+		    throw new soinisp.ISPException(e.getMessage());
+		}
+		finally
+		{
+		    if(_Statement1 != null) {try {_Statement1.close(); _Statement1 = null;} catch(Exception e1) {;}}
+		    if(vConnection != null) {releaseConnection(_DefaultDBName, vConnection);}
+		}
+		return vResult;
+    }
+
+    //***********************
+    //*  LOCK / UNLOCK: 	Metodo para bloquear o desbloquear cuentas con usuarios en Cisco, PostOffce y DB.
+    //***********************
+    public long lock(java.lang.String pListParameters)  throws soinisp.ISPException
+	{
+		long vResult = -1;
+		Connection vConnection = null;
+		_Statement1 = null;
+		try 
+		{
+		    vConnection = getConnection(_DefaultDBName);
+		    if(vConnection != null)
+		    {
+				_Statement1 = vConnection.createStatement();
+		
+			   // Parametros del llamado del musico para bloquear y desbloquear
+			   // SPAM: si es = "N" tarea por Gestión / si SPAM = "S" tarea por spam 
+			   // SAIHACER: "S" = suspender / "A" = activar
+			   
+				String pCodCuenta = getParameter(pListParameters,"SAI07COD");
+				String pEstado    = getParameter(pListParameters, "SAIHACER");
+				String pTarea     = getParameter(pListParameters, "TAREA");
+				String pS01ort    = getParameter(pListParameters, "S01ORT");
+				String pS02VA2    = getParameter(pListParameters, "S02VA2");
+				String pSPAM      = getParameter(pListParameters, "SPAM");
+				
+				//Declaración de Variables
+				int codError    = 0;
+				String sTipEstado = "";
+				boolean bloquearXGestion    = false; 
+				boolean bloquearXSpam       = false;
+				boolean DesbloquearXGestion = false;
+				boolean DesbloquearXSpam    = false;
+				boolean BloqDesbloqServers  = true; //indica si el bloqueo o desbloqueo debe hacerse too a los servidores
+				String sEstadoActualiza     = ""; //es el estado en el cual va a quedar la cuenta (A=activa,S=suspendida por gestion,P=suspendida por spam,T=suspendida por spam y gestion)
+				
+				System.out.println ("Tarea de " + pEstado);
+				if(pEstado.equals("S"))  //Action lock
+				{
+					if(pSPAM.equals("N"))
+					{
+						bloquearXGestion = true;
+						sEstadoActualiza = "S";
+					}
+					else
+					{
+						bloquearXSpam    = true;
+						sEstadoActualiza = "P";
+					}
+				}
+				else
+				{
+					sEstadoActualiza = "A";
+					
+					if(pSPAM.equals("N"))  //Action unlock
+						DesbloquearXGestion = true;
+					else
+						DesbloquearXSpam    = true;	
+				}	
+					
+//**********************************************************************
+										
+				Hashtable vListServices = new Hashtable();
+				Hashtable vListUsers = new Hashtable();
+				long vConsecutivoTarea = 0;
+				long vCodPaquete = 0;
+				String vNomPaquete = null;
+				String vEstadoCta = null;
+				boolean vStateServersOk = true;
+				boolean vStateDBOk = true;
+				boolean vStateTareasSACI = true;
+				boolean vEjecutarCumplimientoTarea = false;
+				
+				soinisp.CTareasSACI vobjTareasSACI = com.soin.isp.tools.Instances.getInstance_CTareasSACI();
+		    
+				try
+				{
+				    pTarea = ((pTarea == null)?"1":pTarea);
+				    // Envia la tarea de cumplimiento en caso de que lo ordene SIIC.
+				    if(pTarea.equals("0")) 
+				    {
+						System.out.println("Se envia la tarea de cumplimiento");
+						
+						if (!pS02VA2.equals(""))
+						{
+							String pOrden = pS02VA2.substring(0,1);											
+							if ((pOrden.equals("G")) || (pOrden.equals("O")))
+							{	vConsecutivoTarea = vobjTareasSACI.CumpTramSIIC("S01VA1=A,S01ORT="+ pS01ort + ",SPAM="+pSPAM);}
+							else
+							{	vConsecutivoTarea = 1;}
+						}
+						else
+						{	vConsecutivoTarea = 1;}
+						
+						vEjecutarCumplimientoTarea = true;
+						System.out.println("El resultado del cumplimiento es : " + String.valueOf(vConsecutivoTarea));
+						if(vConsecutivoTarea < 0) 
+						    vStateTareasSACI = false;
+				    }
+				}
+				catch(Exception e)
+				{
+				    System.out.println("La seccion de la ejecucion de tareas fallo......... : " + e.getMessage());
+				    vStateTareasSACI = false;
+				}
+				
+				if(vStateTareasSACI) 
+				{
+				    try
+				    { 
+						// Obtiene el paquete mas reciente al cual esta asociada la Cuenta.
+						ResultSet rsPaquete = doQuery("Select SAI007.SAI03COD, SAI03NOM, SAI07EST " +
+									      " From SAI007, SAI003 " +
+									      " Where SAI07COD = " + pCodCuenta +
+									      " And SAI007.SAI03COD = SAI003.SAI03COD");
+						// Si no obtuvo el paquete.																			
+						if(rsPaquete.next())
+						{ 
+						    vCodPaquete = rsPaquete.getLong("SAI03COD");
+						    vNomPaquete = rsPaquete.getString("SAI03NOM");
+						    vEstadoCta = rsPaquete.getString("SAI07EST");
+						    
+						    System.out.println("Estado de la cuenta : " + vEstadoCta);
+//*************************************************************************************************************						    
+						    //new requerimiento de spaming
+						    //agregado por Gaston Alfaro 16/06/2005
+						    
+							if((bloquearXGestion) && (vEstadoCta.equals("S")))
+								codError = -3;
+							
+							if((bloquearXSpam) && (vEstadoCta.equals("P")))
+								codError = -3;
+								
+							if(((DesbloquearXGestion) || (DesbloquearXSpam)) && (vEstadoCta.equals("A")))
+								codError = -3;
+								
+							if(((bloquearXGestion) || (bloquearXSpam)) && (vEstadoCta.equals("T")))
+								codError = -3;
+								
+							if((DesbloquearXGestion) && (vEstadoCta.equals("P")))
+								codError = -33;
+								
+							if((DesbloquearXSpam) && (vEstadoCta.equals("S")))
+								codError = -33;
+//*************************************************************************************************************						    
+
+						    if(codError >= 0) 
+						    {
+						    	
+						    	//Valido para saber si debo realizar procesos en servers
+						    	if(vEstadoCta.equals("S") && (bloquearXSpam))
+						    	{
+						    		BloqDesbloqServers = false;
+						    		sEstadoActualiza = "T";
+						    	}
+						    		
+						    	if(vEstadoCta.equals("P") && (bloquearXGestion))
+						    	{
+						    		BloqDesbloqServers = false;
+						    		sEstadoActualiza = "T";
+						    	}
+
+
+						    	if(vEstadoCta.equals("T") && (DesbloquearXSpam))
+						    	{
+						    		BloqDesbloqServers = false;
+						    		sEstadoActualiza = "S";
+						    	}
+
+						    	if(vEstadoCta.equals("T") && (DesbloquearXGestion))
+						    	{
+						    		BloqDesbloqServers = false;
+						    		sEstadoActualiza = "P";
+						    	}
+						    	
+								if (BloqDesbloqServers)
+								{
+						    
+									// Determinar los servicios asociados al paquete a cual esta asociada la cuenta.
+									ResultSet rsListServices = doQuery("Select SAI002.SAI02COD, SAI02ESP, SAI29COD " +
+															       " From SAI010, SAI002 " +
+															       " Where SAI010.SAI03COD = " + String.valueOf(vCodPaquete) +
+															       " And SAI010.SAI02COD = SAI002.SAI02COD");
+									while(rsListServices.next()) 
+									{ 	
+									    Properties vProperties = new Properties();
+									    vProperties.put("SAI02COD", new Long(rsListServices.getLong("SAI02COD")));
+									    vProperties.put("SAI02ESP", new Long(rsListServices.getLong("SAI02ESP")));
+									    vProperties.put("SAI29COD", new Long(rsListServices.getLong("SAI29COD")));
+									    vListServices.put((Long)vProperties.get("SAI02COD"), vProperties);
+									}  // end while
+							    
+									if(vListServices.size() > 0) 
+									{ 
+									    // Obtiene una Lista de Usuarios por Tipo de Servicio.
+									    ResultSet rsListUsers = doQuery("Select SAI011.SAI01COD, SAI21USU, SAI01EST, SAI29COD, SAI010.SAI02COD " +
+																	    " From SAI011, SAI010, SAI002, SAI022, SAI001 " +
+																	    " Where SAI011.SAI07COD = " + pCodCuenta +
+																	    " And SAI010.SAI03COD = " + String.valueOf(vCodPaquete) +
+																	    " And SAI002.SAI02COD = SAI010.SAI02COD " +
+																	    " And SAI001.SAI01COD = SAI011.SAI01COD " +
+																	    " And SAI022.SAI01COD = SAI011.SAI01COD " +
+																	    " And SAI022.SAI02COD = SAI010.SAI02COD " +
+																	    " And SAI001.SAI01BOR = 0 ");
+									    while(rsListUsers.next())
+									    {
+											Properties vProperties = new Properties();
+											vProperties.put("SAI01COD", new Long(rsListUsers.getLong("SAI01COD")));	// Codigo del Usuario
+											vProperties.put("SAI21USU", rsListUsers.getString("SAI21USU"));		// Login por Servicio.
+											vProperties.put("SAI01EST", rsListUsers.getString("SAI01EST"));		// Estado de Usuario.
+											vProperties.put("SAI29COD", new Long(rsListUsers.getLong("SAI29COD")));	// Tipo de Servicio.
+											vProperties.put("SAI02COD", new Long(rsListUsers.getLong("SAI02COD")));	// Codigo de Servicio.
+											vProperties.put("STATE", new Long(0));          // Esta de ejecucion del bloqueo (0 no se realizo, 1 si se realizo).
+											String vKey = ((Long)vProperties.get("SAI01COD")).toString() + "-" + ((Long)vProperties.get("SAI29COD")).toString();
+											vListUsers.put(vKey, vProperties);
+									    }
+									    
+									    if(vListUsers.size() > 0)
+									    { 
+											Properties vProperties = null;
+											String vKey = null;
+											
+											try
+											{
+											    for(Enumeration vEnum = vListUsers.keys(); vEnum.hasMoreElements();)
+											    {
+													vKey = (String)vEnum.nextElement();
+													vProperties = (Properties)vListUsers.get(vKey);
+													if (!((String)vProperties.get("SAI01EST")).equals(sEstadoActualiza)) 
+													{ 
+													    switch(((Long)vProperties.get("SAI29COD")).byteValue()) 
+													    {
+															case 1:     // Servicio de Mail.
+															    System.out.println("Inicia el acceso del cliente del MAIL");
+															    System.out.println(" estado actual " + (String)vProperties.get("SAI01EST"));
+															    //vProperties.put("STATE", new Long(1));
+															    if (pEstado.equals("S")) 
+															    { // Si el Estado Recibido es Suspender, hace el bloqueo del Usuario.
+																	Properties vAccountData = new Properties();
+																	vAccountData.put("AccountName", (String)vProperties.get("SAI21USU"));
+																	vProperties.put("STATE", new Long(Commands.lockAccountMail(vAccountData, ((Long)vProperties.get("SAI02COD")).longValue())));
+															    }
+															    else
+															    { //  Sino, hace el desbloqueo del Usuario.
+																	Properties vAccountData = new Properties();
+																	vAccountData.put("AccountName", (String)vProperties.get("SAI21USU"));
+																	vProperties.put("STATE", new Long(Commands.unlockAccountMail(vAccountData, ((Long)vProperties.get("SAI02COD")).longValue())));
+															    }
+															    
+															    System.out.println("El resultado del Cliente de MAIL es : " + String.valueOf(((Long)vProperties.get("STATE")).toString()));
+															    break;
+															    
+															case 2:     // Servicio de AAA.
+															    System.out.println("Inicia el acceso del cliente del AAA");
+															    System.out.println(" estado actual " + (String)vProperties.get("SAI01EST"));
+															    
+															    if (pEstado.equals("S"))        // Si el Estado Recibido es Suspender, hace el bloqueo del Usuario.
+																	vProperties.put("STATE", new Long(Commands.lockUserAAA((String)vProperties.get("SAI21USU"),vNomPaquete,((Long)vProperties.get("SAI02COD")).longValue())));
+															    else                                    //  Sino, hace el desbloqueo del Usuario.
+																	vProperties.put("STATE", new Long(Commands.unlockUserAAA((String)vProperties.get("SAI21USU"),vNomPaquete,((Long)vProperties.get("SAI02COD")).longValue())));
+															    
+															    System.out.println("El resultado del Cliente del AAA es : " + ((Long)vProperties.get("STATE")).toString());
+															    break;
+														    
+													    }  // end switch.
+													    vListUsers.put(vKey, vProperties);
+													} 
+													
+													// Si algun server fallo, realiza un rollback y no accesa a la DB.
+													if(((Long)vProperties.get("STATE")).longValue() < 0) 
+													{
+													    vStateServersOk = false;
+													    break;
+													} 
+											    }	// for.
+											}
+											catch(Exception e)
+											{
+											    System.out.println("La seccion de los Servers fallo.......... : " + e.getMessage());
+											    vStateServersOk = false;
+											}
+											
+											
+											// Si los Servidores tuvieron exito, se intentara realizar el bloqueo en la DB.
+											if(vStateServersOk)
+											{
+											    try
+											    {
+											    	//************ sActividad *********
+													System.out.println("exec bloquearCuenta @SAI07COD =" + pCodCuenta + ", @CMESTADO = '" + sEstadoActualiza + "'");
+													ResultSet rsBloqueo = doQuery("exec bloquearCuenta @SAI07COD =" + pCodCuenta + ", @CMESTADO = '" + sEstadoActualiza + "'");
+													rsBloqueo.next();
+													if(rsBloqueo.getLong(1) == 0) 
+													    vStateDBOk = false;
+											    }
+											    catch(Exception e)
+											    {
+													vStateDBOk = false;
+													System.out.println("Error al ejecutar el sp bloquearCuenta..... : " + e.getMessage());
+											    }
+											}	// if(vStateServersOk).
+								    	
+								    	
+								    	
+											//***************
+											//*  RollBack
+											//***************
+											if((!vStateServersOk) || (!vStateDBOk))
+											{
+											    try
+											    {
+													System.out.println("Inicia el RollBack de Lock de Cuentas......");
+													for(Enumeration vEnum = vListUsers.keys(); vEnum.hasMoreElements();)
+													{
+													    vKey = (String)vEnum.nextElement();
+													    vProperties = (Properties)vListUsers.get(vKey);
+													    if(((Long)vProperties.get("STATE")).longValue() < 0) 
+													    { 
+															switch(((Long)vProperties.get("SAI29COD")).byteValue()) 
+															{
+															    case 1:     // Servicio de Mail.
+																	System.out.println("Inicia el acceso del cliente del MAIL");
+																	System.out.println(" estado actual " + (String)vProperties.get("SAI01EST"));
+																	//vProperties.put("STATE", new Long(1));
+																	
+																	if (pEstado.equals("S")) 
+																	{ // Si el Estado Recibido es Suspender, el RollBack realiza un Desbloqueo.
+																	    Properties vAccountData = new Properties();
+																	    vAccountData.put("AccountName", (String)vProperties.get("SAI21USU"));
+																	    vProperties.put("STATE", new Long(Commands.unlockAccountMail(vAccountData, ((Long)vProperties.get("SAI02COD")).longValue())));
+																	}
+																	else
+																	{ //  Sino, el RollBack realiza un Bloqueo.
+																	    Properties vAccountData = new Properties();
+																	    vAccountData.put("AccountName", (String)vProperties.get("SAI21USU"));
+																	    vProperties.put("STATE", new Long(Commands.lockAccountMail(vAccountData, ((Long)vProperties.get("SAI02COD")).longValue())));
+																	}
+																	
+																	System.out.println("El resultado del Cliente de MAIL es : " + String.valueOf(((Long)vProperties.get("STATE")).toString()));
+																	break;
+																	
+															    case 2:     // Servicio de AAA.
+																	System.out.println("Inicia el acceso del cliente del AAA");
+																	System.out.println(" estado actual " + (String)vProperties.get("SAI01EST"));
+																	
+																	if (pEstado.equals("S"))        // Si el Estado Recibido es Suspender, el RollBack realiza un Desbloqueo.
+																	    vProperties.put("STATE", new Long(Commands.unlockUserAAA((String)vProperties.get("SAI21USU"),vNomPaquete,((Long)vProperties.get("SAI02COD")).longValue())));
+																	else                            //  Sino, el RollBack realiza un Bloqueo.
+																	    vProperties.put("STATE", new Long(Commands.lockUserAAA((String)vProperties.get("SAI21USU"),vNomPaquete,((Long)vProperties.get("SAI02COD")).longValue())));
+																	
+																	System.out.println("El resultado del Cliente del AAA es : " + ((Long)vProperties.get("STATE")).toString());
+																	break;
+																	
+															}  // end switch.
+															
+															vListUsers.put(vKey, vProperties);
+													    } 
+													}   // for.
+											    }   // try.
+											    catch(Exception e)
+											    {	System.out.println("La seccion del RollBack fallo........ : " + e.getMessage());}
+											    
+											}	// if((!vStateServersOk) || (!vStateDBOk)).
+											else
+											{
+											    vResult = 1;	// Todo ha salido bien.
+										
+											    if (!pS02VA2.equals(""))				    					
+											    {	
+													String pOrden = pS02VA2.substring(0,1);											
+													if ((pOrden.equals("G")) || (pOrden.equals("O")))						
+											    	{
+												    	ResultSet rsActualiza = doQuery("exec sp_ActualizaTareaCumplimiento @S01CON=" + vConsecutivoTarea);
+														rsActualiza.next();
+										
+													    if(rsActualiza.getLong(1) == 0)
+													    {	System.out.println ("******************************Actualizacion tuvo exito en CAccounts...******************************");}
+													    else
+													    {	System.out.println ("******************************Actualizacion fallo en CAccounts...******************************");}
+												 	}
+											     }					    										    					
+											}
+										    
+								        }   // if(vListUsers.size() > 0).
+									    else
+										vResult = -4;
+									}	// if(vListServices.size() > 0).
+									else
+									    vResult = -5;
+								    
+								} //if (BloqDesbloqServers)
+								else
+								{
+									//No se deben actualizar estados de la cuenta en los servers (cisco / iplanet)
+										
+									ResultSet rsBloqueo = doQuery("exec bloquearCuenta @SAI07COD =" + pCodCuenta + ", @CMESTADO = '" + sEstadoActualiza + "'");
+									rsBloqueo.next();
+									if(rsBloqueo.getLong(1) == 0) 
+									    vStateDBOk = false;
+									
+									if(vStateDBOk)
+									{
+										ResultSet rsActualiza = doQuery("exec sp_ActualizaTareaCumplimiento @S01CON=" + vConsecutivoTarea);		
+								    	
+								    	if(rsActualiza.next())
+								    	{
+								    		if(rsActualiza.getLong(1) == 0)
+								    		{
+								    			System.out.println ("Actualizacion tuvo exito en CAccounts...");
+								    			vResult = 1;
+								    		}
+								    		else
+								    		{
+								    			System.out.println ("Actualizacion fallo en CAccounts...");
+								    			vResult = -1;
+								    		}
+								    	}
+								    	else
+								    		System.out.println ("Error en sp_ActualizaTareaCumplimiento....");
+								    }
+									
+								}
+								
+					        }   // if(!vEstadoCta.equals(pEstado)).
+						    else
+						    {
+								System.out.println ("Error -3 cuenta ya estaba en el estado, -33 diferencia entre tipo tarea y estado de cuenta.. "+codError);
+								vResult= codError;
+						    }
+				    	}   // if(rsPaquete.next()).
+						else
+						{
+						    System.out.println("No obtuvo el paquete.........");
+						    vResult = -2;
+						}
+			        }   // try.
+				    catch(Exception e)
+				    {	System.out.println("Ocurrio un error interno durante la ejecucion del bloqueo de la cuenta........ : " + e.getMessage());}
+				    
+				}	// if(vStateTareasSACI).
+				else
+				    vResult = -6;
+				    
+				// Si se debia ejecutar un cumplimiento de tarea y algo fallo se realiza el RollBack.
+				if((vEjecutarCumplimientoTarea) && (vResult < 0))
+				{
+				    // Borra la Tarea programada.
+				    System.out.println("El RollBack borra la Tarea programada......");
+				    if (!pS02VA2.equals("")) //Si pS02VA2 = "" no se ejecuta este rollback ya que la tarea de cumplimiento no se envió
+				    {	
+						String pOrden = pS02VA2.substring(0,1);											
+						if ((pOrden.equals("G")) || (pOrden.equals("O")))		    
+				    	{	vobjTareasSACI.DeleteTaskSIIC("S01CON="+ String.valueOf(vConsecutivoTarea));}
+				    }		    
+				    
+				}
+			
+	        }   // if(vConnection != null).
+		    else
+		    {
+				System.out.println("!!! CAccountsImpl.lock() failed.....");
+				System.out.println("\tERROR : [Couldn't get a Connection Cache.....]");
+				if(_Statement1 != null) {try {_Statement1.close(); _Statement1 = null;} catch(Exception e1) {;}}
+				if(vConnection != null) {releaseConnection(_DefaultDBName, vConnection);}
+				throw new soinisp.ISPException("Couldn't get a Connection Cache.....");
+		    }
+		    
+		} //try //** 1
+		catch(Exception e)
+		{
+		    System.out.println("!!! CAccountsImpl.lock() failed.....");
+		    System.out.println("\tERROR : [" + e.getMessage() + "]");
+		    if(_Statement1 != null) {try {_Statement1.close(); _Statement1 = null;} catch(Exception e1) {;}}
+		    if(vConnection != null) {releaseConnection(_DefaultDBName, vConnection);}
+		    throw new soinisp.ISPException(e.getMessage());
+		}
+		finally
+		{
+		    if(_Statement1 != null) {try {_Statement1.close(); _Statement1 = null;} catch(Exception e1) {;}}
+		    if(vConnection != null) {releaseConnection(_DefaultDBName, vConnection);}
+		}
+		
+		return vResult;
+	
+	} //public long lock  (fin proceso Bloqueo / Desbloqueo de cuentas)
+
+
+
+   private ResultSet doQuery(String pStrSQL)
+    {
+	return executeQuery(pStrSQL, _Statement1);
+    }
+    
+    private int execUpdate(String pStrSQL)
+    {
+	return executeUpdate(pStrSQL, _Statement1);
+    }
+
+    private ResultSet executeQuery(String pSQL, Statement pStatement)
+    {
+	ResultSet vResult = null;
+	try
+	{
+	    vResult = pStatement.executeQuery(pSQL);
+	}
+	catch(Exception e)
+	{
+	    System.out.println("CAccounts.executeQuery failed........ : " + e.getMessage());
+	}
+	return vResult;
+    }
+    
+    private int executeUpdate(String pSQL, Statement pStatement)
+    {        
+	int vResult = 0;
+	try
+	{
+	    vResult = pStatement.executeUpdate(pSQL);
+	}
+	catch(Exception e)
+	{
+	    System.out.println("CAccounts.executeUpdate failed........ : " + e.getMessage());
+	}
+	return vResult;
+    }
+
+
+    private InstanceContext _InstanceContext;
+    private ConfigFile _ConfigFile = null;    
+    private Statement _Statement1 = null;
+    private String _DefaultDBName = null;
+
+}
+
+
+
+
+/******************************************************************************
+    public long lock(java.lang.String pListParameters)  throws soinisp.ISPException
+    {
+	long vResult = -1;
+	Connection vConnection = null;
+	_Statement1 = null;
+	try
+	{
+	    vConnection = getConnection(_DefaultDBName);
+	    if(vConnection != null)
+	    {
+		_Statement1 = vConnection.createStatement();
+
+	   // Parametros del llamado del musico para bloquear y desbloquear
+	   // SPAM: si es = "N" tarea por Gestión / si SPAM = "S" tarea por spam 
+	   // SAIHACER: "S" = suspender / "A" = activar
+	   
+		String pCodCuenta = getParameter(pListParameters,"SAI07COD");
+		String pEstado    = getParameter(pListParameters, "SAIHACER");
+		String pTarea     = getParameter(pListParameters, "TAREA");
+		String pS01ort    = getParameter(pListParameters, "S01ORT");
+		String pS02VA2    = getParameter(pListParameters, "S02VA2");
+		String pSPAM      = getParameter(pListParameters, "SPAM");
+		
+		System.out.println ("******************************** pSPAM =  "+pSPAM);
+								
+		Hashtable vListServices = new Hashtable();
+		Hashtable vListUsers = new Hashtable();
+		long vConsecutivoTarea = 0;
+		long vCodPaquete = 0;
+		String vNomPaquete = null;
+		String vEstadoCta = null;
+		boolean vStateServersOk = true;
+		boolean vStateDBOk = true;
+		boolean vStateTareasSACI = true;
+		boolean vEjecutarCumplimientoTarea = false;
+		soinisp.CTareasSACI vobjTareasSACI = com.soin.isp.tools.Instances.getInstance_CTareasSACI();
+    
+		try
+		{
+		    pTarea = ((pTarea == null)?"1":pTarea);
+		    // Enviala tarea de cumplimiento en caso de que lo ordene SIIC.
+		    if(pTarea.equals("0")) 
+		    {
+				System.out.println("Se envia la tarea de cumplimiento");
+				
+				if (!pS02VA2.equals(""))
+				{
+					String pOrden = pS02VA2.substring(0,1);											
+					if ((pOrden.equals("G")) || (pOrden.equals("O")))
+					{	vConsecutivoTarea = vobjTareasSACI.CumpTramSIIC("S01VA1=A,S01ORT="+ pS01ort + ",SPAM="+pSPAM);}
+					else
+					{	vConsecutivoTarea = 1;}
+				}
+				else
+				{	vConsecutivoTarea = 1;}
+				
+				vEjecutarCumplimientoTarea = true;
+				System.out.println("El resultado del cumplimiento es : " + String.valueOf(vConsecutivoTarea));
+				if(vConsecutivoTarea < 0) 
+				    vStateTareasSACI = false;
+		    }
+		}
+		catch(Exception e)
+		{
+		    System.out.println("La seccion de la ejecucion de tareas fallo......... : " + e.getMessage());
+		    vStateTareasSACI = false;
+		}
+		    
+	
+		if(vStateTareasSACI)
+		{
+		    try
+		    {
+			// Obtiene el paquete mas reciente al cual esta asociada la Cuenta.
+			ResultSet rsPaquete = doQuery("Select SAI007.SAI03COD, SAI03NOM, SAI07EST " +
+						      " From SAI007, SAI003 " +
+						      " Where SAI07COD = " + pCodCuenta +
+						      " And SAI007.SAI03COD = SAI003.SAI03COD");
+			// Si no obtuvo el paquete.																			
+			if(rsPaquete.next())
+			{
+			    vCodPaquete = rsPaquete.getLong("SAI03COD");
+			    vNomPaquete = rsPaquete.getString("SAI03NOM");
+			    vEstadoCta = rsPaquete.getString("SAI07EST");
+			    
+			    System.out.println("Estado de la cuenta : " + vEstadoCta);
+			    if(!vEstadoCta.equals(pEstado)) 
+			    {
+				// Determinar los servicios asociados al paquete a cual esta asociada la cuenta.
+				ResultSet rsListServices = doQuery("Select SAI002.SAI02COD, SAI02ESP, SAI29COD " +
+										       " From SAI010, SAI002 " +
+										       " Where SAI010.SAI03COD = " + String.valueOf(vCodPaquete) +
+										       " And SAI010.SAI02COD = SAI002.SAI02COD");
+				while(rsListServices.next()) 
+				{ 	
+				    Properties vProperties = new Properties();
+				    vProperties.put("SAI02COD", new Long(rsListServices.getLong("SAI02COD")));
+				    vProperties.put("SAI02ESP", new Long(rsListServices.getLong("SAI02ESP")));
+				    vProperties.put("SAI29COD", new Long(rsListServices.getLong("SAI29COD")));
+				    vListServices.put((Long)vProperties.get("SAI02COD"), vProperties);
+				}  // end while
+		    
+				if(vListServices.size() > 0) 
+				{ 
+				    // Obtiene una Lista de Usuarios por Tipo de Servicio.
+				    ResultSet rsListUsers = doQuery("Select SAI011.SAI01COD, SAI21USU, SAI01EST, SAI29COD, SAI010.SAI02COD " +
+								    " From SAI011, SAI010, SAI002, SAI022, SAI001 " +
+								    " Where SAI011.SAI07COD = " + pCodCuenta +
+								    " And SAI010.SAI03COD = " + String.valueOf(vCodPaquete) +
+								    " And SAI002.SAI02COD = SAI010.SAI02COD " +
+								    " And SAI001.SAI01COD = SAI011.SAI01COD " +
+								    " And SAI022.SAI01COD = SAI011.SAI01COD " +
+								    " And SAI022.SAI02COD = SAI010.SAI02COD " +
+								    " And SAI001.SAI01BOR = 0 ");
+				    while(rsListUsers.next())
+				    {
+					Properties vProperties = new Properties();
+					vProperties.put("SAI01COD", new Long(rsListUsers.getLong("SAI01COD")));	// Codigo del Usuario
+					vProperties.put("SAI21USU", rsListUsers.getString("SAI21USU"));		// Login por Servicio.
+					vProperties.put("SAI01EST", rsListUsers.getString("SAI01EST"));		// Estado de Usuario.
+					vProperties.put("SAI29COD", new Long(rsListUsers.getLong("SAI29COD")));	// Tipo de Servicio.
+					vProperties.put("SAI02COD", new Long(rsListUsers.getLong("SAI02COD")));	// Codigo de Servicio.
+					vProperties.put("STATE", new Long(0));          // Esta de ejecucion del bloqueo (0 no se realizo, 1 si se realizo).
+					String vKey = ((Long)vProperties.get("SAI01COD")).toString() + "-" + ((Long)vProperties.get("SAI29COD")).toString();
+					vListUsers.put(vKey, vProperties);
+				    }
+				    
+				    if(vListUsers.size() > 0)
+				    {
+					Properties vProperties = null;
+					String vKey = null;
+					try
+					{
+					    for(Enumeration vEnum = vListUsers.keys(); vEnum.hasMoreElements();)
+					    {
+						vKey = (String)vEnum.nextElement();
+						vProperties = (Properties)vListUsers.get(vKey);
+						if (!((String)vProperties.get("SAI01EST")).equals(pEstado)) 
+						{ 
+						    switch(((Long)vProperties.get("SAI29COD")).byteValue()) 
+						    {
+							case 1:     // Servicio de Mail.
+							    System.out.println("Inicia el acceso del cliente del MAIL");
+							    System.out.println(" estado actual " + (String)vProperties.get("SAI01EST"));
+							    //vProperties.put("STATE", new Long(1));
+							    if (pEstado.equals("S")) 
+							    { // Si el Estado Recibido es Suspender, hace el bloqueo del Usuario.
+								Properties vAccountData = new Properties();
+								vAccountData.put("AccountName", (String)vProperties.get("SAI21USU"));
+								vProperties.put("STATE", new Long(Commands.lockAccountMail(vAccountData, ((Long)vProperties.get("SAI02COD")).longValue())));
+							    }
+							    else
+							    { //  Sino, hace el desbloqueo del Usuario.
+								Properties vAccountData = new Properties();
+								vAccountData.put("AccountName", (String)vProperties.get("SAI21USU"));
+								vProperties.put("STATE", new Long(Commands.unlockAccountMail(vAccountData, ((Long)vProperties.get("SAI02COD")).longValue())));
+							    }
+							    System.out.println("El resultado del Cliente de MAIL es : " + String.valueOf(((Long)vProperties.get("STATE")).toString()));
+							    break;
+							case 2:     // Servicio de AAA.
+							    System.out.println("Inicia el acceso del cliente del AAA");
+							    System.out.println(" estado actual " + (String)vProperties.get("SAI01EST"));
+							    if (pEstado.equals("S"))        // Si el Estado Recibido es Suspender, hace el bloqueo del Usuario.
+								vProperties.put("STATE", new Long(Commands.lockUserAAA((String)vProperties.get("SAI21USU"),vNomPaquete,((Long)vProperties.get("SAI02COD")).longValue())));
+							    else                                    //  Sino, hace el desbloqueo del Usuario.
+								vProperties.put("STATE", new Long(Commands.unlockUserAAA((String)vProperties.get("SAI21USU"),vNomPaquete,((Long)vProperties.get("SAI02COD")).longValue())));
+							    System.out.println("El resultado del Cliente del AAA es : " + ((Long)vProperties.get("STATE")).toString());
+							    break;
+						    }  // end switch.
+						    vListUsers.put(vKey, vProperties);
+						} 
+						
+						// Si algun server fallo, realiza un rollback y no accesa a la DB.
+						if(((Long)vProperties.get("STATE")).longValue() < 0) 
+						{
+						    vStateServersOk = false;
+						    break;
+						} 
+					    }	// for.
+					}
+					catch(Exception e)
+					{
+					    System.out.println("La seccion de los Servers fallo.......... : " + e.getMessage());
+					    vStateServersOk = false;
+					}
+					
+					// Si los Servidores tuvieron exito, se intentara realizar el bloqueo en la DB.
+					if(vStateServersOk)
+					{
+					    try
+					    {
+						System.out.println("exec bloquearCuenta @SAI07COD =" + pCodCuenta + ", @CMESTADO = '" + pEstado + "'");
+						ResultSet rsBloqueo = doQuery("exec bloquearCuenta @SAI07COD =" + pCodCuenta + ", @CMESTADO = '" + pEstado + "'");
+						rsBloqueo.next();
+						if(rsBloqueo.getLong(1) == 0) 
+						    vStateDBOk = false;
+					    }
+					    catch(Exception e)
+					    {
+						vStateDBOk = false;
+						System.out.println("Error al ejecutar el sp bloquearCuenta..... : " + e.getMessage());
+					    }
+					}	// if(vStateServersOk).
+		    
+		    
+		    
+					//***************
+					//*  RollBack
+					//***************
+					if((!vStateServersOk) || (!vStateDBOk))
+					{
+					    try
+					    {
+						System.out.println("Inicia el RollBack de Lock de Cuentas......");
+						for(Enumeration vEnum = vListUsers.keys(); vEnum.hasMoreElements();)
+						{
+						    vKey = (String)vEnum.nextElement();
+						    vProperties = (Properties)vListUsers.get(vKey);
+						    if(((Long)vProperties.get("STATE")).longValue() < 0) 
+						    { 
+							switch(((Long)vProperties.get("SAI29COD")).byteValue()) 
+							{
+							    case 1:     // Servicio de Mail.
+								System.out.println("Inicia el acceso del cliente del MAIL");
+								System.out.println(" estado actual " + (String)vProperties.get("SAI01EST"));
+								//vProperties.put("STATE", new Long(1));
+								if (pEstado.equals("S")) 
+								{ // Si el Estado Recibido es Suspender, el RollBack realiza un Desbloqueo.
+								    Properties vAccountData = new Properties();
+								    vAccountData.put("AccountName", (String)vProperties.get("SAI21USU"));
+								    vProperties.put("STATE", new Long(Commands.unlockAccountMail(vAccountData, ((Long)vProperties.get("SAI02COD")).longValue())));
+								}
+								else
+								{ //  Sino, el RollBack realiza un Bloqueo.
+								    Properties vAccountData = new Properties();
+								    vAccountData.put("AccountName", (String)vProperties.get("SAI21USU"));
+								    vProperties.put("STATE", new Long(Commands.lockAccountMail(vAccountData, ((Long)vProperties.get("SAI02COD")).longValue())));
+								}
+								System.out.println("El resultado del Cliente de MAIL es : " + String.valueOf(((Long)vProperties.get("STATE")).toString()));
+								break;
+							    case 2:     // Servicio de AAA.
+								System.out.println("Inicia el acceso del cliente del AAA");
+								System.out.println(" estado actual " + (String)vProperties.get("SAI01EST"));
+								if (pEstado.equals("S"))        // Si el Estado Recibido es Suspender, el RollBack realiza un Desbloqueo.
+								    vProperties.put("STATE", new Long(Commands.unlockUserAAA((String)vProperties.get("SAI21USU"),vNomPaquete,((Long)vProperties.get("SAI02COD")).longValue())));
+								else                            //  Sino, el RollBack realiza un Bloqueo.
+								    vProperties.put("STATE", new Long(Commands.lockUserAAA((String)vProperties.get("SAI21USU"),vNomPaquete,((Long)vProperties.get("SAI02COD")).longValue())));
+								System.out.println("El resultado del Cliente del AAA es : " + ((Long)vProperties.get("STATE")).toString());
+								break;
+							}  // end switch.
+							vListUsers.put(vKey, vProperties);
+						    } 
+						}   // for.
+					    }   // try.
+					    catch(Exception e)
+					    {
+						System.out.println("La seccion del RollBack fallo........ : " + e.getMessage());
+					    }
+					}	// if((!vStateServersOk) || (!vStateDBOk)).
+					else
+					{
+					    vResult = 1;	// Todo ha salido bien.
+
+						System.out.println ("ANTES DE LLAMAR A SP_ACTUAL LOCK");
+
+					    if (!pS02VA2.equals(""))				    					
+					    {	
+							String pOrden = pS02VA2.substring(0,1);											
+							if ((pOrden.equals("G")) || (pOrden.equals("O")))						
+					    	{
+						    	ResultSet rsActualiza = doQuery("exec sp_ActualizaTareaCumplimiento @S01CON=" + vConsecutivoTarea);
+							
+								System.out.println ("DESPUES DE LLAMAR A SP_ACTUAL LOCK");
+								rsActualiza.next();
+	
+							    if(rsActualiza.getLong(1) == 0)
+							    {	System.out.println ("******************************Actualizacion tuvo exito en CAccounts...******************************");}
+							    else
+							    {	System.out.println ("******************************Actualizacion fallo en CAccounts...******************************");}
+						 	}
+					     }					    										    					
+					}
+					    
+				    }   // if(vListUsers.size() > 0).
+				    else
+					vResult = -4;
+				}	// if(vListServices.size() > 0).
+				else
+				    vResult = -5;
+			    }   // if(!vEstadoCta.equals(pEstado)).
+			    else
+			    {
+				System.out.println("La cuenta ya esta en el estado : " + pEstado);
+				vResult= -3;
+			    }
+			}   // if(rsPaquete.next()).
+			else
+			{
+			    System.out.println("No obtuvo el paquete.........");
+			    vResult = -2;
+			}
+		    }   // try.
+		    catch(Exception e)
+		    {
+			System.out.println("Ocurrio un error interno durante la ejecucion del bloqueo de la cuenta........ : " + e.getMessage());
+		    }
+		}	// if(vStateTareasSACI).
+		else
+		    vResult = -6;
+		    
+		// Si se debia ejecutar un cumplimiento de tarea y algo fallo se realiza el RollBack.
+		if((vEjecutarCumplimientoTarea) && (vResult < 0))
+		{
+		    // Borra la Tarea programada.
+		    System.out.println("El RollBack borra la Tarea programada......");
+		    if (!pS02VA2.equals("")) //Si pS02VA2 = "" no se ejecuta este rollback ya que la tarea de cumplimiento no se envió
+		    {	
+				String pOrden = pS02VA2.substring(0,1);											
+				if ((pOrden.equals("G")) || (pOrden.equals("O")))		    
+		    	{	vobjTareasSACI.DeleteTaskSIIC("S01CON="+ String.valueOf(vConsecutivoTarea));}
+		    }		    
+		    
+		}
+		
+	    }   // if(vConnection != null).
+	    else
+	    {
+		System.out.println("!!! CAccountsImpl.lock() failed.....");
+		System.out.println("\tERROR : [Couldn't get a Connection Cache.....]");
+		if(_Statement1 != null) {try {_Statement1.close(); _Statement1 = null;} catch(Exception e1) {;}}
+		if(vConnection != null) {releaseConnection(_DefaultDBName, vConnection);}
+		throw new soinisp.ISPException("Couldn't get a Connection Cache.....");
+	    }
+	}
+	catch(Exception e)
+	{
+	    System.out.println("!!! CAccountsImpl.lock() failed.....");
+	    System.out.println("\tERROR : [" + e.getMessage() + "]");
+	    if(_Statement1 != null) {try {_Statement1.close(); _Statement1 = null;} catch(Exception e1) {;}}
+	    if(vConnection != null) {releaseConnection(_DefaultDBName, vConnection);}
+	    throw new soinisp.ISPException(e.getMessage());
+	}
+	finally
+	{
+	    if(_Statement1 != null) {try {_Statement1.close(); _Statement1 = null;} catch(Exception e1) {;}}
+	    if(vConnection != null) {releaseConnection(_DefaultDBName, vConnection);}
+	}
+	return vResult;
+    }
+
+
+*******************************************************************************/
+
+/****************************************************************************************
+identado
+    public long lock(java.lang.String pListParameters)  throws soinisp.ISPException
+	{
+		long vResult = -1;
+		Connection vConnection = null;
+		_Statement1 = null;
+		try //** 1
+		{
+		    vConnection = getConnection(_DefaultDBName);
+		    if(vConnection != null)
+		    {
+				_Statement1 = vConnection.createStatement();
+		
+			   // Parametros del llamado del musico para bloquear y desbloquear
+			   // SPAM: si es = "N" tarea por Gestión / si SPAM = "S" tarea por spam 
+			   // SAIHACER: "S" = suspender / "A" = activar
+			   
+				String pCodCuenta = getParameter(pListParameters,"SAI07COD");
+				String pEstado    = getParameter(pListParameters, "SAIHACER");
+				String pTarea     = getParameter(pListParameters, "TAREA");
+				String pS01ort    = getParameter(pListParameters, "S01ORT");
+				String pS02VA2    = getParameter(pListParameters, "S02VA2");
+				String pSPAM      = getParameter(pListParameters, "SPAM");
+				
+				System.out.println ("******************************** pSPAM =  "+pSPAM);
+
+//********************************************************************
+				//new requerimiento de spaming 
+				//agregado por Gaston Alfaro 16/06/2005
+				
+				int codError    = 0;
+				String sTipEstado = "";
+				boolean bloquearXGestion    = false; 
+				boolean bloquearXSpam       = false;
+				boolean DesbloquearXGestion = false;
+				boolean DesbloquearXSpam    = false;
+				
+				if(pEstado.equals("S"))  //Action lock
+				{
+					if(pSPAM.equals("N"))
+						bloquearXGestion = true;
+					else
+						bloquearXSpam    = true;
+				}
+				else
+				{
+					if(pSPAM.equals("N"))  //Action unlock
+						DesbloquearXGestion = true;
+					else
+						DesbloquearXSpam    = true;	
+				}		
+//**********************************************************************
+
+										
+				Hashtable vListServices = new Hashtable();
+				Hashtable vListUsers = new Hashtable();
+				long vConsecutivoTarea = 0;
+				long vCodPaquete = 0;
+				String vNomPaquete = null;
+				String vEstadoCta = null;
+				boolean vStateServersOk = true;
+				boolean vStateDBOk = true;
+				boolean vStateTareasSACI = true;
+				boolean vEjecutarCumplimientoTarea = false;
+				soinisp.CTareasSACI vobjTareasSACI = com.soin.isp.tools.Instances.getInstance_CTareasSACI();
+		    
+				try
+				{
+				    pTarea = ((pTarea == null)?"1":pTarea);
+				    // Envia la tarea de cumplimiento en caso de que lo ordene SIIC.
+				    if(pTarea.equals("0")) 
+				    {
+						System.out.println("Se envia la tarea de cumplimiento");
+						
+						if (!pS02VA2.equals(""))
+						{
+							String pOrden = pS02VA2.substring(0,1);											
+							if ((pOrden.equals("G")) || (pOrden.equals("O")))
+							{	vConsecutivoTarea = vobjTareasSACI.CumpTramSIIC("S01VA1=A,S01ORT="+ pS01ort + ",SPAM="+pSPAM);}
+							else
+							{	vConsecutivoTarea = 1;}
+						}
+						else
+						{	vConsecutivoTarea = 1;}
+						
+						vEjecutarCumplimientoTarea = true;
+						System.out.println("El resultado del cumplimiento es : " + String.valueOf(vConsecutivoTarea));
+						if(vConsecutivoTarea < 0) 
+						    vStateTareasSACI = false;
+				    }
+				}
+				catch(Exception e)
+				{
+				    System.out.println("La seccion de la ejecucion de tareas fallo......... : " + e.getMessage());
+				    vStateTareasSACI = false;
+				}
+				    
+			
+				if(vStateTareasSACI)
+				{
+				    try
+				    { 
+						// Obtiene el paquete mas reciente al cual esta asociada la Cuenta.
+						ResultSet rsPaquete = doQuery("Select SAI007.SAI03COD, SAI03NOM, SAI07EST " +
+									      " From SAI007, SAI003 " +
+									      " Where SAI07COD = " + pCodCuenta +
+									      " And SAI007.SAI03COD = SAI003.SAI03COD");
+						// Si no obtuvo el paquete.																			
+						if(rsPaquete.next())
+						{ 
+						    vCodPaquete = rsPaquete.getLong("SAI03COD");
+						    vNomPaquete = rsPaquete.getString("SAI03NOM");
+						    vEstadoCta = rsPaquete.getString("SAI07EST");
+						    
+						    System.out.println("Estado de la cuenta : " + vEstadoCta);
+//*************************************************************************************************************						    
+						    //new requerimiento de spaming
+						    //agregado por Gaston Alfaro 16/06/2005
+						    
+							if((bloquearXGestion) && (vEstadoCta.equals("S")))
+								codError = -3;
+							
+							if((bloquearXSpam) && (vEstadoCta.equals("P")))
+								codError = -3;
+								
+							if(((DesbloquearXGestion) || (DesbloquearXSpam)) && (vEstadoCta.equals("A")))
+								codError = -3;
+								
+							if(((bloquearXGestion) || (bloquearXSpam)) && (vEstadoCta.equals("T")))
+								codError = -3;
+								
+							if((DesbloquearXGestion) && (vEstadoCta.equals("P")))
+								codError = -33;
+								
+							if((DesbloquearXSpam) && (vEstadoCta.equals("S")))
+								codError = -33;
+//*************************************************************************************************************						    
+						    
+						    if(codError >= 0) //new
+						    { 
+						    
+						    
+								// Determinar los servicios asociados al paquete a cual esta asociada la cuenta.
+								ResultSet rsListServices = doQuery("Select SAI002.SAI02COD, SAI02ESP, SAI29COD " +
+														       " From SAI010, SAI002 " +
+														       " Where SAI010.SAI03COD = " + String.valueOf(vCodPaquete) +
+														       " And SAI010.SAI02COD = SAI002.SAI02COD");
+								while(rsListServices.next()) 
+								{ 	
+								    Properties vProperties = new Properties();
+								    vProperties.put("SAI02COD", new Long(rsListServices.getLong("SAI02COD")));
+								    vProperties.put("SAI02ESP", new Long(rsListServices.getLong("SAI02ESP")));
+								    vProperties.put("SAI29COD", new Long(rsListServices.getLong("SAI29COD")));
+								    vListServices.put((Long)vProperties.get("SAI02COD"), vProperties);
+								}  // end while
+						    
+								if(vListServices.size() > 0) 
+								{ 
+								    // Obtiene una Lista de Usuarios por Tipo de Servicio.
+								    ResultSet rsListUsers = doQuery("Select SAI011.SAI01COD, SAI21USU, SAI01EST, SAI29COD, SAI010.SAI02COD " +
+																    " From SAI011, SAI010, SAI002, SAI022, SAI001 " +
+																    " Where SAI011.SAI07COD = " + pCodCuenta +
+																    " And SAI010.SAI03COD = " + String.valueOf(vCodPaquete) +
+																    " And SAI002.SAI02COD = SAI010.SAI02COD " +
+																    " And SAI001.SAI01COD = SAI011.SAI01COD " +
+																    " And SAI022.SAI01COD = SAI011.SAI01COD " +
+																    " And SAI022.SAI02COD = SAI010.SAI02COD " +
+																    " And SAI001.SAI01BOR = 0 ");
+								    while(rsListUsers.next())
+								    {
+										Properties vProperties = new Properties();
+										vProperties.put("SAI01COD", new Long(rsListUsers.getLong("SAI01COD")));	// Codigo del Usuario
+										vProperties.put("SAI21USU", rsListUsers.getString("SAI21USU"));		// Login por Servicio.
+										vProperties.put("SAI01EST", rsListUsers.getString("SAI01EST"));		// Estado de Usuario.
+										vProperties.put("SAI29COD", new Long(rsListUsers.getLong("SAI29COD")));	// Tipo de Servicio.
+										vProperties.put("SAI02COD", new Long(rsListUsers.getLong("SAI02COD")));	// Codigo de Servicio.
+										vProperties.put("STATE", new Long(0));          // Esta de ejecucion del bloqueo (0 no se realizo, 1 si se realizo).
+										String vKey = ((Long)vProperties.get("SAI01COD")).toString() + "-" + ((Long)vProperties.get("SAI29COD")).toString();
+										vListUsers.put(vKey, vProperties);
+								    }
+								    
+								    if(vListUsers.size() > 0)
+								    { 
+										Properties vProperties = null;
+										String vKey = null;
+										
+										if(1==1) //*************** OOO *****************
+										{
+										
+										try
+										{
+										    for(Enumeration vEnum = vListUsers.keys(); vEnum.hasMoreElements();)
+										    {
+												vKey = (String)vEnum.nextElement();
+												vProperties = (Properties)vListUsers.get(vKey);
+												if (!((String)vProperties.get("SAI01EST")).equals(pEstado)) 
+												{ 
+												    switch(((Long)vProperties.get("SAI29COD")).byteValue()) 
+												    {
+														case 1:     // Servicio de Mail.
+														    System.out.println("Inicia el acceso del cliente del MAIL");
+														    System.out.println(" estado actual " + (String)vProperties.get("SAI01EST"));
+														    //vProperties.put("STATE", new Long(1));
+														    if (pEstado.equals("S")) 
+														    { // Si el Estado Recibido es Suspender, hace el bloqueo del Usuario.
+																Properties vAccountData = new Properties();
+																vAccountData.put("AccountName", (String)vProperties.get("SAI21USU"));
+																vProperties.put("STATE", new Long(Commands.lockAccountMail(vAccountData, ((Long)vProperties.get("SAI02COD")).longValue())));
+														    }
+														    else
+														    { //  Sino, hace el desbloqueo del Usuario.
+																Properties vAccountData = new Properties();
+																vAccountData.put("AccountName", (String)vProperties.get("SAI21USU"));
+																vProperties.put("STATE", new Long(Commands.unlockAccountMail(vAccountData, ((Long)vProperties.get("SAI02COD")).longValue())));
+														    }
+														    
+														    System.out.println("El resultado del Cliente de MAIL es : " + String.valueOf(((Long)vProperties.get("STATE")).toString()));
+														    break;
+														    
+														case 2:     // Servicio de AAA.
+														    System.out.println("Inicia el acceso del cliente del AAA");
+														    System.out.println(" estado actual " + (String)vProperties.get("SAI01EST"));
+														    
+														    if (pEstado.equals("S"))        // Si el Estado Recibido es Suspender, hace el bloqueo del Usuario.
+																vProperties.put("STATE", new Long(Commands.lockUserAAA((String)vProperties.get("SAI21USU"),vNomPaquete,((Long)vProperties.get("SAI02COD")).longValue())));
+														    else                                    //  Sino, hace el desbloqueo del Usuario.
+																vProperties.put("STATE", new Long(Commands.unlockUserAAA((String)vProperties.get("SAI21USU"),vNomPaquete,((Long)vProperties.get("SAI02COD")).longValue())));
+														    
+														    System.out.println("El resultado del Cliente del AAA es : " + ((Long)vProperties.get("STATE")).toString());
+														    break;
+													    
+												    }  // end switch.
+												    vListUsers.put(vKey, vProperties);
+												} 
+												
+												// Si algun server fallo, realiza un rollback y no accesa a la DB.
+												if(((Long)vProperties.get("STATE")).longValue() < 0) 
+												{
+												    vStateServersOk = false;
+												    break;
+												} 
+										    }	// for.
+										}
+										catch(Exception e)
+										{
+										    System.out.println("La seccion de los Servers fallo.......... : " + e.getMessage());
+										    vStateServersOk = false;
+										}
+										
+									} //if (1==1)
+										
+										
+										// Si los Servidores tuvieron exito, se intentara realizar el bloqueo en la DB.
+										if(vStateServersOk)
+										{
+										    try
+										    {
+												System.out.println("exec bloquearCuenta @SAI07COD =" + pCodCuenta + ", @CMESTADO = '" + pEstado + "'");
+												ResultSet rsBloqueo = doQuery("exec bloquearCuenta @SAI07COD =" + pCodCuenta + ", @CMESTADO = '" + pEstado + "'");
+												rsBloqueo.next();
+												if(rsBloqueo.getLong(1) == 0) 
+												    vStateDBOk = false;
+										    }
+										    catch(Exception e)
+										    {
+												vStateDBOk = false;
+												System.out.println("Error al ejecutar el sp bloquearCuenta..... : " + e.getMessage());
+										    }
+										}	// if(vStateServersOk).
+							    	
+							    	
+							    	
+										//***************
+										//*  RollBack
+										//***************
+										if((!vStateServersOk) || (!vStateDBOk))
+										{
+										    try
+										    {
+												System.out.println("Inicia el RollBack de Lock de Cuentas......");
+												for(Enumeration vEnum = vListUsers.keys(); vEnum.hasMoreElements();)
+												{
+												    vKey = (String)vEnum.nextElement();
+												    vProperties = (Properties)vListUsers.get(vKey);
+												    if(((Long)vProperties.get("STATE")).longValue() < 0) 
+												    { 
+														switch(((Long)vProperties.get("SAI29COD")).byteValue()) 
+														{
+														    case 1:     // Servicio de Mail.
+																System.out.println("Inicia el acceso del cliente del MAIL");
+																System.out.println(" estado actual " + (String)vProperties.get("SAI01EST"));
+																//vProperties.put("STATE", new Long(1));
+																
+																if (pEstado.equals("S")) 
+																{ // Si el Estado Recibido es Suspender, el RollBack realiza un Desbloqueo.
+																    Properties vAccountData = new Properties();
+																    vAccountData.put("AccountName", (String)vProperties.get("SAI21USU"));
+																    vProperties.put("STATE", new Long(Commands.unlockAccountMail(vAccountData, ((Long)vProperties.get("SAI02COD")).longValue())));
+																}
+																else
+																{ //  Sino, el RollBack realiza un Bloqueo.
+																    Properties vAccountData = new Properties();
+																    vAccountData.put("AccountName", (String)vProperties.get("SAI21USU"));
+																    vProperties.put("STATE", new Long(Commands.lockAccountMail(vAccountData, ((Long)vProperties.get("SAI02COD")).longValue())));
+																}
+																
+																System.out.println("El resultado del Cliente de MAIL es : " + String.valueOf(((Long)vProperties.get("STATE")).toString()));
+																break;
+																
+														    case 2:     // Servicio de AAA.
+																System.out.println("Inicia el acceso del cliente del AAA");
+																System.out.println(" estado actual " + (String)vProperties.get("SAI01EST"));
+																
+																if (pEstado.equals("S"))        // Si el Estado Recibido es Suspender, el RollBack realiza un Desbloqueo.
+																    vProperties.put("STATE", new Long(Commands.unlockUserAAA((String)vProperties.get("SAI21USU"),vNomPaquete,((Long)vProperties.get("SAI02COD")).longValue())));
+																else                            //  Sino, el RollBack realiza un Bloqueo.
+																    vProperties.put("STATE", new Long(Commands.lockUserAAA((String)vProperties.get("SAI21USU"),vNomPaquete,((Long)vProperties.get("SAI02COD")).longValue())));
+																
+																System.out.println("El resultado del Cliente del AAA es : " + ((Long)vProperties.get("STATE")).toString());
+																break;
+																
+														}  // end switch.
+														
+														vListUsers.put(vKey, vProperties);
+												    } 
+												}   // for.
+										    }   // try.
+										    catch(Exception e)
+										    {	System.out.println("La seccion del RollBack fallo........ : " + e.getMessage());}
+										    
+										}	// if((!vStateServersOk) || (!vStateDBOk)).
+										else
+										{
+										    vResult = 1;	// Todo ha salido bien.
+									
+											System.out.println ("ANTES DE LLAMAR A SP_ACTUAL LOCK");
+									
+										    if (!pS02VA2.equals(""))				    					
+										    {	
+												String pOrden = pS02VA2.substring(0,1);											
+												if ((pOrden.equals("G")) || (pOrden.equals("O")))						
+										    	{
+											    	ResultSet rsActualiza = doQuery("exec sp_ActualizaTareaCumplimiento @S01CON=" + vConsecutivoTarea);
+												
+													System.out.println ("DESPUES DE LLAMAR A SP_ACTUAL LOCK");
+													rsActualiza.next();
+									
+												    if(rsActualiza.getLong(1) == 0)
+												    {	System.out.println ("******************************Actualizacion tuvo exito en CAccounts...******************************");}
+												    else
+												    {	System.out.println ("******************************Actualizacion fallo en CAccounts...******************************");}
+											 	}
+										     }					    										    					
+										}
+									    
+							        }   // if(vListUsers.size() > 0).
+								    else
+									vResult = -4;
+								}	// if(vListServices.size() > 0).
+								else
+								    vResult = -5;
+					        }   // if(!vEstadoCta.equals(pEstado)).
+						    else
+						    {
+								System.out.println ("Error -3 cuenta ya estaba en el estado, -33 diferencia entre tipo tarea y estado de cuenta.. "+codError);
+								vResult= codError;
+						    }
+				    	}   // if(rsPaquete.next()).
+						else
+						{
+						    System.out.println("No obtuvo el paquete.........");
+						    vResult = -2;
+						}
+			        }   // try.
+				    catch(Exception e)
+				    {	System.out.println("Ocurrio un error interno durante la ejecucion del bloqueo de la cuenta........ : " + e.getMessage());}
+				    
+				}	// if(vStateTareasSACI).
+				else
+				    vResult = -6;
+				    
+				// Si se debia ejecutar un cumplimiento de tarea y algo fallo se realiza el RollBack.
+				if((vEjecutarCumplimientoTarea) && (vResult < 0))
+				{
+				    // Borra la Tarea programada.
+				    System.out.println("El RollBack borra la Tarea programada......");
+				    if (!pS02VA2.equals("")) //Si pS02VA2 = "" no se ejecuta este rollback ya que la tarea de cumplimiento no se envió
+				    {	
+						String pOrden = pS02VA2.substring(0,1);											
+						if ((pOrden.equals("G")) || (pOrden.equals("O")))		    
+				    	{	vobjTareasSACI.DeleteTaskSIIC("S01CON="+ String.valueOf(vConsecutivoTarea));}
+				    }		    
+				    
+				}
+			
+	        }   // if(vConnection != null).
+		    else
+		    {
+				System.out.println("!!! CAccountsImpl.lock() failed.....");
+				System.out.println("\tERROR : [Couldn't get a Connection Cache.....]");
+				if(_Statement1 != null) {try {_Statement1.close(); _Statement1 = null;} catch(Exception e1) {;}}
+				if(vConnection != null) {releaseConnection(_DefaultDBName, vConnection);}
+				throw new soinisp.ISPException("Couldn't get a Connection Cache.....");
+		    }
+		    
+		} //try //** 1
+		catch(Exception e)
+		{
+		    System.out.println("!!! CAccountsImpl.lock() failed.....");
+		    System.out.println("\tERROR : [" + e.getMessage() + "]");
+		    if(_Statement1 != null) {try {_Statement1.close(); _Statement1 = null;} catch(Exception e1) {;}}
+		    if(vConnection != null) {releaseConnection(_DefaultDBName, vConnection);}
+		    throw new soinisp.ISPException(e.getMessage());
+		}
+		finally
+		{
+		    if(_Statement1 != null) {try {_Statement1.close(); _Statement1 = null;} catch(Exception e1) {;}}
+		    if(vConnection != null) {releaseConnection(_DefaultDBName, vConnection);}
+		}
+		return vResult;
+	
+	} //public long lock  (fin proceso Bloqueo / Desbloqueo de cuentas)
+*****************************************************************************************/

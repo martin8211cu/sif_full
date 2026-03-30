@@ -1,0 +1,119 @@
+#AyudaTabla {
+	background-color: #F3F3F3 !important;
+	border-collapse: collapse;
+	width: 100%;
+	margin: 15px 0;
+}
+
+#AyudaTabla th {
+	background-color: #0079C1;
+	color: #FFF;
+	cursor: pointer;
+	padding: 5px 10px;
+}
+
+#AyudaTabla th small {
+	font-size: 9px; 
+}
+
+#AyudaTabla td, th {
+	text-align: left;
+}
+
+#AyudaTabla a {
+	text-decoration: none;
+}
+
+#AyudaTabla td a {
+	color: #663300;
+	display: block;
+	padding: 5px 10px;
+}
+#AyudaTabla th a {
+	padding-left: 0
+}
+
+#AyudaTabla td:first-of-type a {
+	background: url(./.images/file.png) no-repeat 10px 50%;
+	padding-left: 35px;
+}
+#AyudaTabla th:first-of-type {
+	padding-left: 35px;
+}
+
+#AyudaTabla  td:not(:first-of-type) a {
+	background-image: none !important;
+} 
+
+#AyudaTabla tr:nth-of-type(odd) {
+	background-color: #E6E6E6;
+}
+
+#AyudaTabla tr:hover td {
+	background-color:#CACACA;
+}
+
+#AyudaTabla tr:hover td a {
+	color: #000;
+}
+
+
+/* icons for file types (icons by famfamfam) */
+
+/* images */
+#AyudaTabla tr td:first-of-type a[href$=".jpg"], 
+#AyudaTabla tr td:first-of-type a[href$=".png"], 
+#AyudaTabla tr td:first-of-type a[href$=".gif"], 
+#AyudaTabla tr td:first-of-type a[href$=".svg"], 
+#AyudaTabla tr td:first-of-type a[href$=".jpeg"]
+{background-image: url(./.images/image.png);}
+
+/* zips */
+#AyudaTabla tr td:first-of-type a[href$=".zip"] 
+{background-image: url(./.images/zip.png);}
+
+/* css */
+#AyudaTabla tr td:first-of-type a[href$=".css"] 
+{background-image: url(./.images/css.png);}
+
+/* docs */
+#AyudaTabla tr td:first-of-type a[href$=".doc"],
+#AyudaTabla tr td:first-of-type a[href$=".docx"],
+#AyudaTabla tr td:first-of-type a[href$=".ppt"],
+#AyudaTabla tr td:first-of-type a[href$=".pptx"],
+#AyudaTabla tr td:first-of-type a[href$=".pps"],
+#AyudaTabla tr td:first-of-type a[href$=".ppsx"],
+#AyudaTabla tr td:first-of-type a[href$=".xls"],
+#AyudaTabla tr td:first-of-type a[href$=".xlsx"]
+{background-image: url(./.images/office.png)}
+
+/* videos */
+#AyudaTabla tr td:first-of-type a[href$=".avi"], 
+#AyudaTabla tr td:first-of-type a[href$=".wmv"], 
+#AyudaTabla tr td:first-of-type a[href$=".mp4"], 
+#AyudaTabla tr td:first-of-type a[href$=".mov"], 
+#AyudaTabla tr td:first-of-type a[href$=".m4a"]
+{background-image: url(./.images/video.png);}
+
+/* audio */
+#AyudaTabla tr td:first-of-type a[href$=".mp3"], 
+#AyudaTabla tr td:first-of-type a[href$=".ogg"], 
+#AyudaTabla tr td:first-of-type a[href$=".aac"], 
+#AyudaTabla tr td:first-of-type a[href$=".wma"] 
+{background-image: url(./.images/audio.png);}
+
+/* web pages */
+#AyudaTabla tr td:first-of-type a[href$=".html"],
+#AyudaTabla tr td:first-of-type a[href$=".htm"],
+#AyudaTabla tr td:first-of-type a[href$=".xml"]
+{background-image: url(./.images/xml.png);}
+
+#AyudaTabla tr td:first-of-type a[href$=".php"] 
+{background-image: url(./.images/php.png);}
+
+#AyudaTabla tr td:first-of-type a[href$=".js"] 
+{background-image: url(./.images/script.png);}
+
+/* directories */
+#AyudaTabla tr.dir td:first-of-type a
+{background-image: url(./.images/folder.png);}

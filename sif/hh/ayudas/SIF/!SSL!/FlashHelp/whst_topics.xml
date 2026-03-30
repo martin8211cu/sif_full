@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='ISO-8859-1' ?>
+<topictemplate>
+<topic type="normal">
+<add tag="head" pos="endbefore" >
+<![CDATA["<script type=\"text/javascript\" language=\"javascript1.2\" src=\"";SF_TOPIC_JS;"\"></script>
+<script type=\"text/javascript\" language=\"javascript1.2\" src=\"";SF_UTILS_JS;"\"></script>
+<script type=\"text/javascript\" language=\"javascript\" src=\"";SF_VERSION_JS;"\"></script>
+<script  type=\"text/javascript\" language=\"javascript1.2\">
+    <!--
+    var linkedScrollbarStyle = \"<link rel='stylesheet' href='%%%WFT_TOPICS_CSS%%%'>\";
+    if( (!isTopicOnly()) &&(parent.gbFHPureHtml == null) )
+    {
+        document.write(linkedScrollbarStyle);
+    }
+    //-->
+</script>
+";
+]]>
+</add>
+<add tag="body" pos="beginafter">
+<![CDATA["<script type=\"text/javascript\" language=\"javascript1.2\">
+<!--
+if (window.addTocInfo)
+{
+";
+  OutputInTopicNavBarDataToc("addTocInfo(\"%s\");\r\n");
+  OutputInTopicNavBarDataBrowse("addAvenueInfo(\"%s\",\"%s\",\"%s\");\r\n");"
+  addShowButton();
+}
+if (window.setRelStartPage)
+{
+";
+	  OutputInTopicNavBarDataHomePage("setRelStartPage(\"%s\");\r\n");
+"
+	sendTopicLoaded();
+	autoSync(";WH_USER_OPTIONS.autosync_toc;");
+	sendSyncInfo();
+	sendAveInfo();
+	sendBgColorInfo();
+}
+//-->
+</script>
+"]]>
+</add>  
+</topic>
+ 
+<topic type="frameset">
+<add tag="head" pos="endbefore" >
+   <![CDATA["<script type=\"text/javascript\" language=\"javascript1.2\" src=\"";WFT_FRAMES_JS;"\"></script>
+   <script type=\"text/javascript\" language=\"javascript1.2\" src=\"";SF_UTILS_JS;"\"></script>
+";
+]]>
+</add>
+ </topic>
+</topictemplate>

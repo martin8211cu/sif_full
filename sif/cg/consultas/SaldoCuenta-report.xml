@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_Titulo>Ledger Account Integration</LB_Titulo>
+		<LB_Archivo>Balance Account</LB_Archivo>
+		<LB_MontosEn>Amounts in</LB_MontosEn>
+		<LB_Cuenta>Account</LB_Cuenta>
+		<LB_Importe>Amount</LB_Importe>
+		<LB_ConsultaSinDatos>No data found</LB_ConsultaSinDatos>
+		<LB_FinReporte>End</LB_FinReporte>
+	</Idioma>
+</Etiquetas>

@@ -1,0 +1,1216 @@
+package com.soin.isp.services.AAA;
+
+//**********
+//*  ClassName: ExecAAACommands.class
+//*  Author: Jeffrey Bermudez P.
+//*  Modidy: Alexander Ortega B.
+//*  Description:
+//*  Last Update: 11/05/2004  -- Se modifica el m�todo createTemporalUser par�metro (default attribute=permit)
+//**********
+
+import java.io.*;
+import java.net.*;
+import java.util.*;
+import com.soin.isp.services.Monitor;
+import com.soin.isp.tools.ConfigFile;
+//import com.soin.isp.services.AAA.TestTimeOut;
+
+public class ExecAAACommands extends Thread
+{
+    public ExecAAACommands(Socket pSocket, Monitor pMonitor)
+    {
+		try 
+		{
+			vSocket = pSocket;
+			vMonitor = pMonitor;
+			in = new BufferedReader(new InputStreamReader(vSocket.getInputStream())); 
+			out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(vSocket.getOutputStream())), true);
+			vConfigFileServer = new ConfigFile("./Server.cfg");
+			PathCommandsCLI = vConfigFileServer.getParameter("Server Settings", "PathCommandsCLI");
+			PathProfiles = vConfigFileServer.getParameter("Server Settings", "PathProfiles");
+			PortDBCisco = vConfigFileServer.getParameter("Server Settings", "PortDBCisco");
+			HostDBCisco = vConfigFileServer.getParameter("Server Settings", "HostDBCisco");
+			DefaultEnabledGroups = vConfigFileServer.getParameter("Administration Settings", "DefaultEnabledGroups");
+			DefaultDisabledGroups = vConfigFileServer.getParameter("Administration Settings", "DefaultDisabledGroups");
+
+			// Obtiene los parametros de la DB CiscoSecure.
+			_DBHostName = vConfigFileServer.getParameter("DataBase Settings", "DBHostName");
+			_DBPort = Long.valueOf(vConfigFileServer.getParameter("DataBase Settings", "DBPort")).longValue();
+			_DBName = vConfigFileServer.getParameter("DataBase Settings", "DBName");
+			_DBUserName = vConfigFileServer.getParameter("DataBase Settings", "DBUserName");
+			_DBPassword = vConfigFileServer.getParameter("DataBase Settings", "DBPassword");
+			_DSN_ODBC = vConfigFileServer.getParameter("DataBase Settings", "DSN_ODBC");
+			start();    // Llama a run()
+		} catch(Exception e) 
+		{
+			System.out.println("!!! " + _ClassName + " fallo...");
+	    	System.out.println("\tERROR : [" + e.getMessage() + "]");
+		}
+    } // ExecAAACommands
+    public void run() 
+    {
+		String inLine = null;
+		byte vCodCommand = -1;
+
+		try 
+		{
+			while(true)
+			{
+				inLine = in.readLine();     // Recibe la instruccion a ejecutar o el fin de una instruccion.
+				out.println(inLine);
+
+				if (inLine.equalsIgnoreCase("END |"))
+					break;
+
+				StringTokenizer vStrToken = new StringTokenizer(inLine,";");  
+				inLine = vStrToken.nextToken();
+				vCodCommand = getCodCommand(inLine.trim());
+				vMonitor.println("Commando : " + inLine);
+
+				if (vCodCommand != 0) 
+				{
+					switch (vCodCommand) 
+					{
+						case 1 :  {this.createPackage(); break;}         	// createPackage.
+						case 2 :  {this.deletePackage(); break;}         	// deletePackage.
+						case 3 :  {this.changePackagePassword(); break;}  	// changePackagePassword.
+						case 4 :  {this.changePackageParent(); break;}    	// changePackageParent.
+						case 5 :  {this.createUser(); break;}             	// createUser.
+						case 6 :  {this.deleteUser(); break;}             	// deleteUser.
+						case 7 :  {this.changeUserPassword(); break;}     	// changeUserPassword.
+						case 8 :  {this.changeUserParent(); break;}       	// changeUserParent.
+						case 9 :  {this.verifyPassword(); break;}			// verifyPassword.
+						case 10 : {this.syncPasswords(); break;}      		// syncPasswords.
+						case 11 : {this.updateTimeOut(); break;}			// updateTimeOut.
+						case 12 : {this.createTemporalUser(); break;}		// createTemporalUser.
+						case 13 : {this.changeUserPasswordAdmon(); break;}	// changeUserPasswordAdmon.
+						case 14 : {this.updateTelefonoAAA(); break;}		// updateTelefonoAAA.
+						case 15 : {this.createUserVPN(); break;}			// createUserVPN.
+						default : {out.println("Error :  Instruccion desconocida"); break;}
+					}
+				}
+			}   // while.
+		} catch(Exception e) 
+		{
+			System.out.println("!!! " + _ClassName + ".run() fallo...");
+	    	System.out.println("\tERROR : [" + e.getMessage() + "]");
+		} 
+		finally 
+		{
+			try 
+			{
+				vSocket.close();
+			} 
+			catch(Exception e) 
+			{
+				System.out.println("Error al cerrar el Socket en ExecAAACommands.run()");
+			}
+		}
+    } // run()
+    private byte getCodCommand(String pStrCommand) 
+    {
+		if(pStrCommand.equalsIgnoreCase("createPackage")) return 1;                     		 // createPackage.
+		else if(pStrCommand.equalsIgnoreCase("deletePackage")) return 2;                		 // deletePackage.
+		else if(pStrCommand.equalsIgnoreCase("changePackagePassword")) return 3;       			 // changePackagePassword.
+		else if(pStrCommand.equalsIgnoreCase("changePackageParent")) return 4;          		 // changePackageParent.
+		else if(pStrCommand.equalsIgnoreCase("createUser")) return 5;                   		 // createUser.        
+		else if(pStrCommand.equalsIgnoreCase("deleteUser")) return 6;                   		 // deleteUser.        
+		else if(pStrCommand.equalsIgnoreCase("changeUserPassword")) return 7;           		 // changeUserPassword.        
+		else if(pStrCommand.equalsIgnoreCase("changeUserParent")) return 8;             		 // changeUserParent.
+		else if(pStrCommand.equalsIgnoreCase("verifyPassword")) return 9;               		 // verifyPassword.
+		else if(pStrCommand.equalsIgnoreCase("syncPasswords")) return 10;               		 // syncPasswords.
+		else if(pStrCommand.equalsIgnoreCase("updateTimeOut")) return 11;               		 // updateTimeOut.
+		else if(pStrCommand.equalsIgnoreCase("createTemporalUser")) return 12;          		 // createTemporaUser.
+        else if(pStrCommand.equalsIgnoreCase("changeUserPasswordAdmon")) return 13; 			 // changeUserPasswordAdmon.
+		else if(pStrCommand.equalsIgnoreCase("updateTelefonoAAA")) return 14; 			 		 // updateTelefonoAAA.
+		else if(pStrCommand.equalsIgnoreCase("createUserVPN")) return 15;                   	 // createUserVPN.        
+		else return 0;
+    }
+    /*************************************************************************************
+    *   createPackage() :   Crea un paquete o grupo en la Base de Datos del CiscoSecure, 
+    *                    	utilizando la linea de comando del Cisco "AddProfile".
+    **************************************************************************************/
+    private void createPackage()
+    {
+		String vRespuesta = "-1";
+
+		try 
+		{    
+			String vClientId = "";        // Define el Client ID.
+			String vStrIn = null;
+
+			// Captura los parametros que son enviados desde el cliente.
+			String vGroup = in.readLine();  // << Recibe el nombre del grupo.
+			vStrIn = in.readLine();     	// << Recibe el password.
+			String vPassword = ((vStrIn.equals("null"))?"":"-pw CHAP," + vStrIn + " PAP," + vStrIn + " DES," + vStrIn);
+			vStrIn = in.readLine();     	// << Recibe el nombre del grupo padre.
+			String vParentGroup = "-pr " + ((vStrIn.equals("__SOIN_DEFUALT_ENABLED_GROUPS__")?DefaultEnabledGroups:vStrIn));
+
+			String vEstrucGroup = in.readLine();     	// << Recibe la estructura del grupo VPN
+
+			int largo = vEstrucGroup.length();
+			System.out.println("before: Largo de vEstrucGroupVPN es : " + largo);
+
+			// Realiza la ejecuci�n de la instruccion.
+			//Ejenplo:		"AddProfile -h vulcanonuevo -p 9900 -g CT_1-2VIAS_512-256K_PYMES -pr __GRUPOS_HABILITADOS__"
+			/*System.out.println("El comando a ejecutar es : " + PathCommandsCLI + "AddProfile -h " + HostDBCisco + " -p " + PortDBCisco + " -g " + vGroup + " " + vParentGroup + " " + vPassword);
+			Process vProceso = Runtime.getRuntime().exec(PathCommandsCLI + "AddProfile -h " + HostDBCisco + " -p " + PortDBCisco + " -g " + vGroup + " " + vParentGroup + " " + vPassword);       */
+             Process vProceso;
+
+			if (largo > 4)
+			{ // Si viene estructura VPN la agrega al grupo 
+
+				// Cuando se crea el grupo en Cisco no es necesario los password (Peticion de Valor Agregado de RACSA)
+				System.out.println("El comando a ejecutar es : " + PathCommandsCLI + "AddProfile -h " + HostDBCisco + " -p " + PortDBCisco + " -g " + vGroup + " " + vParentGroup + " " + vEstrucGroup);
+				vProceso = Runtime.getRuntime().exec(PathCommandsCLI + "AddProfile -h " + HostDBCisco + " -p " + PortDBCisco + " -g " + vGroup + " " + vParentGroup + " " + vEstrucGroup);			
+			}
+			else
+			{ // Si no viene estructura VPN la agrega el grupo en Cisco Normal
+				// Cuando se crea el grupo en Cisco no es necesario los password (Peticion de Valor Agregado de RACSA)
+				System.out.println("El comando a ejecutar es : " + PathCommandsCLI + "AddProfile -h " + HostDBCisco + " -p " + PortDBCisco + " -g " + vGroup + " " + vParentGroup);
+				 vProceso = Runtime.getRuntime().exec(PathCommandsCLI + "AddProfile -h " + HostDBCisco + " -p " + PortDBCisco + " -g " + vGroup + " " + vParentGroup);			
+			}
+
+
+			// Espera a que se ejecute la instruccion y devuelve el resultado de la ejecuci�n.			
+			vRespuesta = String.valueOf(vProceso.waitFor());        
+			vMonitor.println("La respueta del proceso es : " + vRespuesta);
+
+			// Obtiene la respuesta del proceso.
+			BufferedReader inStr = new BufferedReader(new InputStreamReader(vProceso.getInputStream()));      
+
+			if(vRespuesta.equals("0"))
+				vMonitor.println("El comando se ejecuto satisfactoriamente...!!!!!!");
+			else
+				vMonitor.println("\tERROR : [" + inStr.readLine() + "]");
+		} catch(Exception e) 
+		{
+			System.out.println("!!! " + _ClassName + ".createPackage() fallo...");
+	    	System.out.println("\tERROR : [" + e.getMessage() + "]");
+		}
+		finally 
+		{
+			out.println(vRespuesta); // Envia la respuesta al Cliente.
+		}    
+    } // createPackage()
+    /******************************************************************************************
+    *   deletePackage() :   Borra un paquete o grupo de la Base de Datos del CiscoSecure, 
+    *                       utilizando la linea de comando del Cisco "DeleteProfile".
+    *******************************************************************************************/
+    private void deletePackage()
+    {
+		String vRespuesta = "-1";
+
+		try 
+		{    
+			String vClientId = ""; // Define el Client ID.
+
+			// Captura los parametros que son enviados desde el cliente.
+			String vGroup = in.readLine(); // << Recibe el nombre del grupo.
+
+			// Realiza la ejecuci�n de la instruccion.
+			System.out.println("El comando a ejecutar es : " + PathCommandsCLI + "DeleteProfile -h " + HostDBCisco + " -p " + PortDBCisco + " -g " + vGroup);
+			Process vProceso = Runtime.getRuntime().exec(PathCommandsCLI + "DeleteProfile -h " + HostDBCisco + " -p " + PortDBCisco + " -g " + vGroup);       
+
+			// Espera a que se ejecute la instruccion y devuelve el resultado de la ejecuci�n.
+			vRespuesta = String.valueOf(vProceso.waitFor());        
+			vMonitor.println("La respueta del proceso es : " + vRespuesta);           
+
+			// Obtiene la respuesta del proceso.
+			BufferedReader inStr = new BufferedReader(new InputStreamReader(vProceso.getInputStream()));      
+
+			if(vRespuesta.equals("0"))
+				vMonitor.println("El comando se ejecuto satisfactoriamente...!!!!!!");
+			else
+				vMonitor.println("\tERROR : [" + inStr.readLine() + "]");
+		} 
+		catch(Exception e) 
+		{
+			System.out.println("!!! " + _ClassName + ".deletePackage() fallo...");
+	    	System.out.println("\tERROR : [" + e.getMessage() + "]");
+		}
+		finally 
+		{
+			out.println(vRespuesta); // Envia la respuesta al Cliente.
+		}    
+    } // deletePackage()
+    /******************************************************************************************
+    *   changePackagePassword() :   Permite cambiar el Password de los Paquetes 
+	*								o Grupos de la Base de Datos del CiscoSecure, 
+    *                               utilizando las linea de comando del Cisco : "ChagePassword".
+    *******************************************************************************************/
+    private void changePackagePassword()
+    {
+		String vRespuesta = "-1";
+
+		try 
+		{    
+			String vClientId = "";        // Define el Client ID.
+			String vStrIn = null;
+
+			// Captura los parametros que son enviados desde el cliente.
+			String vGroup = in.readLine();              // << Recibe el nombre del grupo.
+			String vNewPassword = in.readLine();        // << Recibe el nuevo password.
+			String vOldPassword = in.readLine();        // << Recibe el password viejo.
+
+			// Construye la linea de passwords
+			String vLineaParametro = " -pr CHAP -opw " + vOldPassword + " -npw " + vNewPassword + 
+								     " -pr PAP -opw " + vOldPassword + " -npw " + vNewPassword + 
+								     " -pr DES -opw " + vOldPassword + " -npw " + vNewPassword;
+
+			// Realiza la ejecuci�n de la instruccion del ChangePassword.
+			System.out.println("El comando a ejecutar es : " + PathCommandsCLI + "ChangePassword -h " + HostDBCisco + " -p " + PortDBCisco + " -g " + vGroup + " " + vLineaParametro);
+			Process vProceso = Runtime.getRuntime().exec(PathCommandsCLI + "ChangePassword -h " + HostDBCisco + " -p " + PortDBCisco + " -g " + vGroup + " " + vLineaParametro);       
+
+			// Espera a que se ejecute la instruccion y devuelve el resultado de la ejecuci�n.
+			vRespuesta = String.valueOf(vProceso.waitFor());        
+			vMonitor.println("La respueta del proceso es : " + vRespuesta);
+
+			// Obtiene la respuesta del proceso.
+			BufferedReader inStr = new BufferedReader(new InputStreamReader(vProceso.getInputStream()));      
+
+			if(vRespuesta.equals("0"))
+				vMonitor.println("El comando se ejecuto satisfactoriamente...!!!!!!");
+			else
+				vMonitor.println("\tERROR : [" + inStr.readLine() + "]");
+		} 
+		catch(Exception e) 
+		{
+			System.out.println("!!! " + _ClassName + ".changePackagePassword() fallo...");
+	    	System.out.println("\tERROR : [" + e.getMessage() + "]");
+		}
+		finally 
+		{
+			out.println(vRespuesta); // Envia la respuesta al Cliente.
+		}    
+    } // changePackagePassword()
+    /******************************************************************************************
+    *   changePackageParent() :   Permite cambiar el padre de los Paquetes 
+	*							  o Grupos de la Base de Datos del CiscoSecure, 
+    *                             utilizando las linea de comando del Cisco : "ChageParent".
+    *******************************************************************************************/
+    private void changePackageParent()
+    {
+		String vRespuesta = "-1";
+
+		try 
+		{    
+			String vClientId = "";        // Define el Client ID.
+			String vStrIn = null;
+
+			// Captura los parametros que son enviados desde el cliente.
+			String vGroup = in.readLine();              // << Recibe el nombre del grupo.
+			vStrIn = in.readLine();                     // << Recibe el nuevo Grupo Padre.
+			String vNewParent = null;
+
+			if(vStrIn.equals("__SOIN_DEFUALT_ENABLED_GROUPS__"))
+				vNewParent = DefaultEnabledGroups;
+			else if(vStrIn.equals("__SOIN_DEFUALT_DISABLED_GROUPS__"))
+				vNewParent = DefaultDisabledGroups;
+			else
+				vNewParent = vStrIn;
+
+			// Realiza la ejecuci�n de la instruccion del ChangePassword.
+			System.out.println("El comando a ejecutar es : " + PathCommandsCLI + "ChangeParent -h " + HostDBCisco + " -p " + PortDBCisco + " -sg " + vGroup + " -dg " + vNewParent);
+			Process vProceso = Runtime.getRuntime().exec(PathCommandsCLI + "ChangeParent -h " + HostDBCisco + " -p " + PortDBCisco + " -sg " + vGroup + " -dg " + vNewParent);       
+
+			// Espera a que se ejecute la instruccion y devuelve el resultado de la ejecuci�n.
+			vRespuesta = String.valueOf(vProceso.waitFor());        
+			vMonitor.println("La respueta del proceso es : " + vRespuesta);           
+
+			// Obtiene la respuesta del proceso.
+			BufferedReader inStr = new BufferedReader(new InputStreamReader(vProceso.getInputStream()));      
+
+			if(vRespuesta.equals("0"))
+				vMonitor.println("El comando se ejecuto satisfactoriamente...!!!!!!");
+			else
+				vMonitor.println("\tERROR : [" + inStr.readLine() + "]");
+		} 
+		catch(Exception e) 
+		{
+			System.out.println("!!! " + _ClassName + ".changePackageParent() fallo...");
+	    	System.out.println("\tERROR : [" + e.getMessage() + "]");
+		}
+		finally 
+		{
+			out.println(vRespuesta); // Envia la respuesta al Cliente.
+		}    
+    } // changePackageParent()
+    /*************************************************************************************
+    *   createUser() :   Crea un usuario dentro de un paquete 
+	*					 o grupo en la Base de Datos del CiscoSecure, 
+    *                    utilizando la linea de comando del Cisco "AddProfile".
+    **************************************************************************************/
+    private void createUser()
+    {
+		String vRespuesta = "-1";
+
+		try 
+		{    
+			String vClientId = "";        // Define el Client ID.
+			String vStrIn = null;
+
+			// Captura los parametros que son enviados desde el cliente.
+			String vUser = in.readLine();         // << Recibe el nombre del usuario.
+			vStrIn = in.readLine();     	      // << Recibe el password.
+
+			// Example : [AddProfile -p 9900 -u jeffrey2 -pw CHAP,jeff -pw PAP,jeff -pw DES,jeff -prv WEB,jeff,0]
+			String vPassword = ((vStrIn.equals("null"))?"":" -pw CHAP," + vStrIn + " -pw PAP," + vStrIn + " -pw DES," + vStrIn + " -prv WEB," + vStrIn + ",0 ");
+
+			vStrIn = in.readLine();         	   // << Recibe el nombre del grupo padre.
+			String vParentGroup = "-pr " + ((vStrIn.equals("__SOIN_DEFUALT_ENABLED_GROUPS__")?DefaultEnabledGroups:vStrIn));
+
+			String ListaTelefonos = in.readLine(); // << Recibe el Telefono para paquete de un telefono.
+
+			System.out.println("before: La ListaTelefonos es : " + ListaTelefonos);
+
+			String vMaxSession = in.readLine();     // << Recibe el N�mero Maximo de Sesiones
+			System.out.println("N�mero Maximo de Sesiones : " + vMaxSession);
+
+			String Autoriza = "MSS.uranonuevo";     // << Asigna (Recibe) el Server que autoriza
+
+
+			// Comprueba que envian Lista de Telefonos (Internet Hogar)
+			int largoTel = ListaTelefonos.length();
+			System.out.println("before: Largo de ListaTelefonos es : " + largoTel);
+
+			String ComaSimple = "\"";
+			String ComaDoble = "\"\"";
+
+			//if ((ListaTelefonos != null) || (!ListaTelefonos.equals("null")))
+			if (largoTel >= 7)
+			{
+				ListaTelefonos = "-a 'allow '"+ ComaDoble +"' '"+ ComaDoble +"' '"+ ComaSimple + ListaTelefonos + ComaSimple +"' ";
+				ListaTelefonos += " \\\\n allow '"+ ComaDoble +"' '"+ ComaDoble +"' '"+ ComaSimple + "async" + ComaSimple +"' ";
+				ListaTelefonos += " \\\\n refuse '"+ ComaDoble +"' '"+ ComaDoble +"' '"+ ComaDoble +"''";
+
+				System.out.println("La ListaTelefonos  es : " + ListaTelefonos);
+			}
+
+
+			// Comprueba que envian Num Max Conexiones al login VPN
+			int largoVPN = vMaxSession.length();
+			System.out.println("before: Largo de vMaxSession es : " + largoVPN);
+
+			if (largoVPN < 4)
+			{
+               vMaxSession = "-a 'set server max-sessions = " + vMaxSession + " \\\\n set server max-authority=" + Autoriza + "'"; 
+            }
+
+
+			Process vProceso = null;
+
+			// Realiza la ejecuci�n de la instruccion.
+
+			if (largoVPN < 4)
+			{ //  Es usuario VPN se almacena las conexiones
+			   System.out.println("El comando a ejecutar es Usuario VPN : " + PathCommandsCLI + "AddProfile -h " + HostDBCisco + " -p " + PortDBCisco + " -u " + vUser + " " + vParentGroup + " " + vPassword + " " + vMaxSession);
+			   vProceso = Runtime.getRuntime().exec(PathCommandsCLI + "AddProfile -h " + HostDBCisco + " -p " + PortDBCisco + " -u " + vUser + " " + vParentGroup + " " + vPassword + " " + vMaxSession);
+			} 
+			else
+			{
+				if (largoTel >= 7)
+				{
+					System.out.println("El comando a ejecutar es : " + PathCommandsCLI + "AddProfile -h " + HostDBCisco + " -p " + PortDBCisco + " -u " + vUser + " " + vParentGroup + " " + vPassword + " " + ListaTelefonos);
+					vProceso = Runtime.getRuntime().exec(PathCommandsCLI + "AddProfile -h " + HostDBCisco + " -p " + PortDBCisco + " -u " + vUser + " " + vParentGroup + " " + vPassword + " " + ListaTelefonos);
+				}
+				else 
+				{
+					System.out.println("El comando a ejecutar es : " + PathCommandsCLI + "AddProfile -h " + HostDBCisco + " -p " + PortDBCisco + " -u " + vUser + " " + vParentGroup + " " + vPassword);
+					vProceso = Runtime.getRuntime().exec(PathCommandsCLI + "AddProfile -h " + HostDBCisco + " -p " + PortDBCisco + " -u " + vUser + " " + vParentGroup + " " + vPassword);
+				}
+			} // if (largoVPN < 4)
+
+		  // Espera a que se ejecute la instruccion y devuelve el resultado de la ejecuci�n.
+			vRespuesta = String.valueOf(vProceso.waitFor());        
+			profileDestoyer(vUser);
+			vMonitor.println("La respuesta del proceso es : " + vRespuesta);
+
+			// Obtiene la respuesta del proceso.
+			BufferedReader inStr = new BufferedReader(new InputStreamReader(vProceso.getInputStream()));      
+
+			if(vRespuesta.equals("0"))
+				vMonitor.println("El comando se ejecuto satisfactoriamente...!!!!!!");
+			else
+				vMonitor.println("\tERROR : [" + inStr.readLine() + "]");
+		} 
+		catch(Exception e) 
+		{
+			System.out.println("!!! " + _ClassName + ".createUser() fallo...");
+	    	System.out.println("\tERROR : [" + e.getMessage() + "]");
+		}
+		finally
+		{
+			out.println(vRespuesta); // Envia la respuesta al Cliente.
+		}    
+    } // createUser()
+    /******************************************************************************************
+    *   deleteUser() :   Borra un usuario de la Base de Datos del CiscoSecure, 
+    *                    utilizando la linea de comando del Cisco  "DeleteProfile".
+    *******************************************************************************************/
+    private void deleteUser()
+    {
+		String vRespuesta = "-1";
+
+		try 
+		{    
+			String vClientId = "";        // Define el Client ID.
+
+			// Captura los parametros que son enviados desde el cliente.
+			String vUser = in.readLine();              // << Recibe el nombre del usuario.
+
+			// Realiza la ejecuci�n de la instruccion.
+			System.out.println("El comando a ejecutar es : " + PathCommandsCLI + "DeleteProfile -h " + HostDBCisco + " -p " + PortDBCisco + " -u " + vUser);
+			Process vProceso = Runtime.getRuntime().exec(PathCommandsCLI + "DeleteProfile -h " + HostDBCisco + " -p " + PortDBCisco + " -u " + vUser);       // Envia la instruccion a ejecutar.
+
+			// Espera a que se ejecute la instruccion y devuelve el resultado de la ejecuci�n.
+			vRespuesta = String.valueOf(vProceso.waitFor());        
+			vMonitor.println("La respueta del proceso es : " + vRespuesta);           
+
+			// Obtiene la respuesta del proceso.
+			BufferedReader inStr = new BufferedReader(new InputStreamReader(vProceso.getInputStream()));      
+
+			if(vRespuesta.equals("0"))
+				vMonitor.println("El comando se ejecuto satisfactoriamente...!!!!!!");
+			else
+				vMonitor.println("\tERROR : [" + inStr.readLine() + "]");
+		} 
+		catch(Exception e) 
+		{
+			System.out.println("!!! " + _ClassName + ".deleteUser() fallo...");
+	    	System.out.println("\tERROR : [" + e.getMessage() + "]");
+		}
+		finally 
+		{
+			out.println(vRespuesta); // Envia la respuesta al Cliente.
+		}    
+    } // deleteUser()
+    /******************************************************************************************
+    *   changeUserPassword() :   Permite cambiar el Password de los usuarios de la Base de 
+	*							 Datos del CiscoSecure, 
+    *                            utilizando las linea de comando del Cisco : "ChagePassword".
+    *******************************************************************************************/
+    private void changeUserPassword()
+    {
+		String vRespuesta = "-1";
+
+		try 
+		{    
+			// Captura los parametros que son enviados desde el cliente.
+			String vUser = in.readLine();              // << Recibe el nombre del usuario.
+			String vNewPassword = in.readLine();        // << Recibe el nuevo password.
+			String vOldPassword = in.readLine();        // << Recibe el password viejo.
+			String vParametroPassword = null;
+			boolean vStateCommandsOk = true;
+			Hashtable vListCommands = new Hashtable();
+
+			for(int vCont = 1; vCont <= 3; vCont++)
+			{
+				Object[] vDataCommands = new Object[1];
+				vDataCommands[0] = new String("0");
+				String vKey = null;
+
+				switch(vCont)
+				{ // Construye el parametro con el tipo de password que se desea cambiar 
+					case 1: vParametroPassword = " -pr CHAP -opw " + vOldPassword + " -npw " + vNewPassword; vKey = "CHAP"; break;
+					case 2: vParametroPassword = " -pr PAP -opw " + vOldPassword + " -npw " + vNewPassword; vKey = "PAP"; break;
+					case 3: vParametroPassword = " -pr DES -opw " + vOldPassword + " -npw " + vNewPassword; vKey = "DES"; break;
+				}
+
+				// Envia la instruccion a ejecutar.
+				System.out.println("El comando a ejecutar es : " + PathCommandsCLI + "ChangePassword -h " + HostDBCisco + " -p " + PortDBCisco + " -u " + vUser + " " + vParametroPassword);
+				Process vProceso = Runtime.getRuntime().exec(PathCommandsCLI + "ChangePassword -h " + HostDBCisco + " -p " + PortDBCisco + " -u " + vUser + " " + vParametroPassword);
+
+				// Espera a que se ejecute la instruccion y devuelve el resultado de la ejecuci�n.
+				vRespuesta = String.valueOf(vProceso.waitFor());        
+				vMonitor.println("La respueta del proceso es : " + vRespuesta);
+
+				// Obtiene la respuesta del proceso.
+				BufferedReader inStr = new BufferedReader(new InputStreamReader(vProceso.getInputStream()));      
+
+				if(vRespuesta.equals("0"))
+					vMonitor.println("El comando se ejecuto satisfactoriamente...!!!!!!");
+				else
+				{
+					vMonitor.println("	ERROR : [" + inStr.readLine() + "]");
+					vStateCommandsOk = false;
+					break;
+				}
+				vDataCommands[0] = (String)vRespuesta;
+				vListCommands.put(vKey, vDataCommands);
+			}   // for.
+
+			// RollBack.
+			if(!vStateCommandsOk)
+			{
+				System.out.println("Inicia ejecucion del RollBack del changeUserPassword.......");
+
+				for(Enumeration vEnum = vListCommands.keys(); vEnum.hasMoreElements();)
+				{
+					String vKey = (String)vEnum.nextElement();
+					Object[] vDataCommands = (Object[])vListCommands.get(vKey);
+
+					if(((String)vDataCommands[0]).equals("0"))
+					{
+						// Construye el parametro con el tipo de password que se desea cambiar 
+						vParametroPassword = " -pr " + vKey + " -opw " + vNewPassword + " -npw " + vOldPassword;
+
+						// Envia la instruccion a ejecutar.
+						System.out.println("El comando a ejecutar es : " + PathCommandsCLI + "ChangePassword -h " + HostDBCisco + " -p " + PortDBCisco + " -u " + vUser + " " + vParametroPassword);
+						Process vProceso = Runtime.getRuntime().exec(PathCommandsCLI + "ChangePassword -h " + HostDBCisco + " -p " + PortDBCisco + " -u " + vUser + " " + vParametroPassword);
+
+						// Espera a que se ejecute la instruccion y devuelve el resultado de la ejecuci�n.
+						vRespuesta = String.valueOf(vProceso.waitFor());        
+						vMonitor.println("La respueta del proceso es : " + vRespuesta);
+
+						// Obtiene la respuesta del proceso.
+						BufferedReader inStr = new BufferedReader(new InputStreamReader(vProceso.getInputStream()));      
+
+						if(vRespuesta.equals("0"))
+							vMonitor.println("El comando se ejecuto satisfactoriamente...!!!!!!");
+						else
+						{
+							vMonitor.println("\tERROR : [" + inStr.readLine() + "]");
+						}
+					}
+				} // for
+				vRespuesta = "-1"; // Se envia el error para que se aplique el cambio de password
+				                   // por sustitucion de usuario con password erroneos
+			}   // if(!vStateCommandsOk).
+		} 
+		catch(Exception e) 
+		{
+			System.out.println("!!! " + _ClassName + ".changeUserPassword() fallo...");
+	    	System.out.println("\tERROR : [" + e.getMessage() + "]");
+		}
+		finally 
+		{
+			out.println(vRespuesta); // Envia la respuesta al Cliente.
+		}    
+    } // changeUserPassword()
+	/******************************************************************************************
+    *   changeUserPasswordAdmon() :   Permite cambiar el Password de los usuarios de la Base 
+	*								  de Datos del CiscoSecure para Sistema de Cambio de Claves, 
+    *                                 utilizando las linea de comando del Cisco : "ChagePassword".    
+	*   Nota: Este metodo fue de carcater temporal mientras se liberaba la autoadministraci�n, 
+	*         actualmente no es utilizado (Se deja para futuras aplicaciones)  
+	*   Last Date: 21/08/2000
+    *******************************************************************************************/
+	private void changeUserPasswordAdmon()
+    {
+		String vRespuesta = "-1";
+
+		try 
+		{    
+			// Captura los parametros que son enviados desde el cliente.
+			String vUser = in.readLine();              // << Recibe el nombre del usuario.
+			String vNewPassword = in.readLine();       // << Recibe el nuevo password.
+			String vOldPassword = in.readLine();       // << Recibe el password viejo.
+			String vSaciPassword = in.readLine();      // << Recibe el password de la base de datos
+
+			String vParametroPassword = null;
+			boolean vStateCommandsOk = true;
+			Hashtable vListCommands = new Hashtable();
+
+			for(int vCont = 1; vCont <= 3; vCont++)
+			{
+				switch(vCont)
+				{ // Construye el parametro con el tipo de password que se desea cambiar 
+					case 1: vParametroPassword = " -pr DES -opw " + vOldPassword + " -npw " + vNewPassword; break;
+					case 2: vParametroPassword = " -pr CHAP -opw " + vOldPassword + " -npw " + vNewPassword; break;
+					case 3: vParametroPassword = " -pr PAP -opw " + vOldPassword + " -npw " + vNewPassword; break;
+				}
+
+				// Envia la instruccion a ejecutar con los password del cliente.
+				System.out.println("El comando a ejecutar es : " + PathCommandsCLI + "ChangePassword -h " + HostDBCisco + " -p " + PortDBCisco + " -u " + vUser + " " + vParametroPassword);
+				Process vProceso = Runtime.getRuntime().exec(PathCommandsCLI + "ChangePassword -h " + HostDBCisco + " -p " + PortDBCisco + " -u " + vUser + " " + vParametroPassword);
+
+				// Espera a que se ejecute la instruccion y devuelve el resultado de la ejecuci�n.
+				vRespuesta = String.valueOf(vProceso.waitFor());        
+				vMonitor.println("La respueta del proceso es : " + vRespuesta);
+
+				// Obtiene la respuesta del proceso.
+				BufferedReader inStr = new BufferedReader(new InputStreamReader(vProceso.getInputStream()));      
+
+				if(vRespuesta.equals("0"))
+					vMonitor.println("El comando se ejecuto satisfactoriamente...!!!!!!");
+				else
+				{
+					vMonitor.println("	ERROR : [" + inStr.readLine() + "]");
+				    vStateCommandsOk = false;
+					break;
+				}
+			}   // for.
+
+			// Cambio con password de BD SACI.
+			if(!vStateCommandsOk)
+			{
+				System.out.println("Inicia ejecucion del changeUserPassword con password de BDSACI.......");
+
+				for(int vCont = 2; vCont <= 3; vCont++)
+				{
+					switch(vCont)
+					{ // Construye el parametro con el tipo de password que se desea cambiar 
+						case 2: vParametroPassword = " -pr CHAP -opw " + vSaciPassword + " -npw " + vNewPassword; break;
+						case 3: vParametroPassword = " -pr PAP -opw " + vSaciPassword + " -npw " + vNewPassword; break;
+					}
+
+					// Envia la instruccion a ejecutar con los password de la BD SACI.
+					System.out.println("El comando a ejecutar es : " + PathCommandsCLI + "ChangePassword -h " + HostDBCisco + " -p " + PortDBCisco + " -u " + vUser + " " + vParametroPassword);
+					Process vProceso = Runtime.getRuntime().exec(PathCommandsCLI + "ChangePassword -h " + HostDBCisco + " -p " + PortDBCisco + " -u " + vUser + " " + vParametroPassword);
+
+					// Espera a que se ejecute la instruccion y devuelve el resultado de la ejecuci�n.
+					vRespuesta = String.valueOf(vProceso.waitFor());        
+					vMonitor.println("La respueta del proceso es : " + vRespuesta);
+
+					// Obtiene la respuesta del proceso.
+					BufferedReader inStr = new BufferedReader(new InputStreamReader(vProceso.getInputStream()));      
+
+					if(vRespuesta.equals("0"))
+						vMonitor.println("El comando se ejecuto satisfactoriamente...!!!!!!");
+					else
+					{
+						vMonitor.println("\tERROR : [" + inStr.readLine() + "]");
+					}
+				}   // for.  
+			}   // if(!vStateCommandsOk).
+		} 
+		catch(Exception e) 
+		{
+			System.out.println("!!! " + _ClassName + ".changeUserPasswordAdmon() fallo...");
+	    	System.out.println("\tERROR : [" + e.getMessage() + "]");
+		}
+		finally 
+		{
+			out.println(vRespuesta); // Envia la respuesta al Cliente.
+		}    
+    } // changeUserPasswordAdmon
+    /******************************************************************************************
+    *   changeUserParent() :   Permite cambiar el padre de los Usuarios de la Base de Datos 
+	*						   del CiscoSecure, 
+    *                          utilizando las linea de comando del Cisco : "ChageParent".
+    *******************************************************************************************/
+    private void changeUserParent()
+    {
+		String vRespuesta = "-1";
+
+		try 
+		{    
+			String vClientId = "";        // Define el Client ID.
+			String vStrIn = null;
+
+			// Captura los parametros que son enviados desde el cliente.
+			String vUser = in.readLine();              // << Recibe el nombre del usuario.
+			vStrIn = in.readLine();                    // << Recibe el nuevo Grupo Padre.
+			String vNewParent = null;
+
+			if(vStrIn.equals("__SOIN_DEFUALT_ENABLED_GROUPS__"))
+				vNewParent = DefaultEnabledGroups;
+			else if(vStrIn.equals("__SOIN_DEFUALT_DISABLED_GROUPS__"))
+				vNewParent = DefaultDisabledGroups;
+			else
+				vNewParent = vStrIn;
+
+			// Realiza la ejecuci�n de la instruccion del ChangeParent.
+			System.out.println("El comando a ejecutar es : " + PathCommandsCLI + "ChangeParent -h " + HostDBCisco + " -p " + PortDBCisco + " -u " + vUser + " -dg " + vNewParent);
+			Process vProceso = Runtime.getRuntime().exec(PathCommandsCLI + "ChangeParent -h " + HostDBCisco + " -p " + PortDBCisco + " -u " + vUser + " -dg " + vNewParent);       
+
+			// Espera a que se ejecute la instruccion y devuelve el resultado de la ejecuci�n.
+			vRespuesta = String.valueOf(vProceso.waitFor());        
+			vMonitor.println("La respuesta del proceso es : " + vRespuesta);           
+
+			// Obtiene la respuesta del proceso.
+			BufferedReader inStr = new BufferedReader(new InputStreamReader(vProceso.getInputStream()));      
+
+			if(vRespuesta.equals("0"))
+				vMonitor.println("El comando se ejecuto satisfactoriamente...!!!!!!");
+			else
+				vMonitor.println("\tERROR : [" + inStr.readLine() + "]");
+		} 
+		catch(Exception e) 
+		{
+			System.out.println("!!! " + _ClassName + ".changeUserParent() fallo...");
+	    	System.out.println("\tERROR : [" + e.getMessage() + "]");
+		}
+		finally 
+		{
+			out.println(vRespuesta); // Envia la respuesta al Cliente.
+		}    
+    } // changeUserParent()
+    /******************************************************************************************
+    *   verifyPassword() :   Intenta cambiar el password DES para confirmar si el 
+	*						 password capturado es valido, 
+    *                        utilizando las linea de comando del Cisco : "ChagePassword".
+    *******************************************************************************************/
+    private void verifyPassword()
+    {
+		String vResult = "-1";
+
+		try 
+		{
+			// Captura los parametros que son enviados desde el cliente.
+			String pUserName = in.readLine();	// << Obtiene el username (login) 
+			String pPassword = in.readLine();	// << Obtiene el password a verificar.
+
+			// Construye la linea de comando para el protocolo DES.
+			String vCommandParameter = PathCommandsCLI + "ChangePassword -h " + HostDBCisco + " -p " + PortDBCisco + " -u " + pUserName + " -pr DES -opw " + pPassword + " -npw " + pPassword;
+
+			// Realiza la ejecuci�n de la instruccion del ChangePassword con protocolo DES.
+			System.out.println("El comando a ejecutar es : " + vCommandParameter);
+			Process vProcess = Runtime.getRuntime().exec(vCommandParameter);
+
+			// Espera a que se ejecute la instruccion y devuelve el resultado de la ejecuci�n.
+			vResult = String.valueOf(vProcess.waitFor());	
+			System.out.println("La respueta del proceso es : " + vResult);
+
+			// Obtiene la respuesta del proceso.
+			BufferedReader vErrorStream = new BufferedReader(new InputStreamReader(vProcess.getInputStream()));	
+
+			if(!vResult.equals("0"))	// Si ocurrio un error.
+			{
+				String vErrorLine = null;
+				StringBuffer vErrorMessage = new StringBuffer();
+
+				do
+				{
+					vErrorLine = vErrorStream.readLine();
+					if(vErrorLine != null)
+						vErrorMessage.append(vErrorLine);
+				} while(vErrorLine != null);
+
+				System.out.println("\tERROR : [" + vErrorMessage.toString() + "]");
+			}
+		}
+		catch(Exception e)
+		{
+			System.out.println("!!! " + _ClassName + ".verifyPassword() fallo...");
+	    	System.out.println("\tERROR : [" + e.getMessage() + "]");
+			vResult = "-1";
+		}
+		finally
+		{
+			out.println(vResult);	// Send the result of the process to the client.
+		}
+    } // verifyPassword()
+    /******************************************************************************************
+    *   syncPasswords() :   Permite cambiar los password CHAP y PAP para sincronizar con el 
+	*						password DES capturado, 
+    *                       utilizando las linea de comando del Cisco : "ChagePassword".
+    *******************************************************************************************/
+    private void syncPasswords()
+    {
+		String vResult = "-1";
+
+		try 
+		{
+			// Captura los parametros que son enviados desde el cliente.
+			String pUserName = in.readLine();		// << Obtiene el username (login) 
+			String pNewPassword = in.readLine();	// << Obtiene el nuevo password para los protocolos.
+			String pOldPassword = in.readLine();	// << Obtiene el viejo password del protocolo para tratar de cambiar.
+
+			// Construye la linea de comando para cada protocolo CHAP y PAP.
+			String vChangeCHAP = PathCommandsCLI + "ChangePassword -h " + HostDBCisco + " -p " + PortDBCisco + " -u " + pUserName + " -pr CHAP -opw " + pOldPassword + " -npw " + pNewPassword;
+			String vChangePAP = PathCommandsCLI + "ChangePassword -h " + HostDBCisco + " -p " + PortDBCisco + " -u " + pUserName + " -pr PAP -opw " + pOldPassword + " -npw " + pNewPassword;
+
+			// Realiza la ejecuci�n de la instruccion del ChangePassword para protocolo PAP.
+			System.out.println("El comando a ejecutar es : " + vChangePAP);
+			Process vProcess = Runtime.getRuntime().exec(vChangePAP);
+
+			// Espera a que se ejecute la instruccion y devuelve el resultado de la ejecuci�n.
+			vResult = String.valueOf(vProcess.waitFor());	
+			System.out.println("La respueta del proceso es : " + vResult);
+
+			// Obtiene la respuesta del proceso.
+			BufferedReader vErrorStream = new BufferedReader(new InputStreamReader(vProcess.getInputStream()));	
+
+			if(!vResult.equals("0"))	// Si ocurrio un error
+			{
+				String vErrorLine = null;
+				StringBuffer vErrorMessage = new StringBuffer();
+
+				do
+				{
+					vErrorLine = vErrorStream.readLine();
+					if(vErrorLine != null)
+					vErrorMessage.append(vErrorLine);
+				} while(vErrorLine != null);
+
+				System.out.println("\tERROR : [" + vErrorMessage.toString() + "]");
+			}
+
+			if(vResult.equals("0"))	// If the change of password of PAP is Ok.
+			{
+				// Realiza la ejecuci�n de la instruccion del ChangePassword para protocolo CHAP.
+				System.out.println("El comando a ejecutar es : " + vChangeCHAP);
+				vProcess = Runtime.getRuntime().exec(vChangeCHAP);
+
+				// Espera a que se ejecute la instruccion y devuelve el resultado de la ejecuci�n.
+				vResult = String.valueOf(vProcess.waitFor());	
+				System.out.println("La respueta del proceso es : " + vResult);
+
+				// Obtiene la respuesta del proceso.
+				vErrorStream = new BufferedReader(new InputStreamReader(vProcess.getInputStream()));	// Get the process output stream to check any possible error.
+
+				if(!vResult.equals("0"))	// If has occurred an error.
+				{
+					String vErrorLine = null;
+					StringBuffer vErrorMessage = new StringBuffer();
+
+					do
+					{
+						vErrorLine = vErrorStream.readLine();
+						if(vErrorLine != null)
+							vErrorMessage.append(vErrorLine);
+					} while(vErrorLine != null);
+
+					System.out.println("\tERROR : [" + vErrorMessage.toString() + "]");
+
+					// Execute the Rollback of the change with PAP.
+					System.out.println("!!! Rollback of PAP...");
+					// Construye la linea de comando para protocolo PAP.
+					vChangePAP = PathCommandsCLI + "ChangePassword -h " + HostDBCisco + " -p " + PortDBCisco + " -u " + pUserName + " -pr PAP -opw " + pNewPassword + " -npw " + pOldPassword;
+
+					// Realiza la ejecuci�n de la instruccion del ChangePassword para protocolo CHAP.
+					System.out.println("El comando a ejecutar es : " + vChangePAP);
+					vProcess = Runtime.getRuntime().exec(vChangePAP);
+
+					// Espera a que se ejecute la instruccion y devuelve el resultado de la ejecuci�n.
+					String vResultRollback = String.valueOf(vProcess.waitFor());	
+					System.out.println("The result is : " + vResultRollback);
+
+					// Obtiene la respuesta del proceso.
+					vErrorStream = new BufferedReader(new InputStreamReader(vProcess.getInputStream()));	
+
+					if(!vResultRollback.equals("0"))	// Si ocurrio un error
+					{
+						vErrorMessage = new StringBuffer();
+
+						do
+						{
+							vErrorLine = vErrorStream.readLine();
+							if(vErrorLine != null)
+							vErrorMessage.append(vErrorLine);
+						} while(vErrorLine != null);
+
+						System.out.println("\tERROR : [" + vErrorMessage.toString() + "]");
+					}		    
+				} // if(!vResult.equals("0"))	// If has occurred an error.
+			} // if(vResult.equals("0"))	// If the change of password of PAP is Ok.
+		}
+		catch(Exception e)
+		{
+			System.out.println("!!! " + _ClassName + ".syncPassword() fallo...");
+	    	System.out.println("\tERROR : [" + e.getMessage() + "]");
+			vResult = "-1";
+		}
+		finally
+		{
+			out.println(vResult);	// Send the result of the process to the client.
+		}
+    } // syncPasswords()
+    /******************************************************************************************
+    *   updateTimeOut() :   Modifica el timeout de los usuarios en CiscoSecure 
+	*						(Solamente Usuarios Temporales), 
+    *                       utilizando las linea de comando del Cisco : "updateTimeOut".
+    *******************************************************************************************/
+    private void updateTimeOut()
+    {
+		String vResult = "-1";		// This error is method general error. 
+
+		try 
+		{
+			// Captura los parametros que son enviados desde el cliente.
+			String pUserName = in.readLine();		// << Obtiene el username (login)
+			String pTimeOut = in.readLine();		// << Obtiene el TimeOut en segundos.
+			TestTimeOut vTestTimeOut = new TestTimeOut();
+			Properties vProperties = new Properties();
+			vProperties.put("HostName", _DBHostName);
+			vProperties.put("Port", new Long(_DBPort));
+			vProperties.put("DBName", _DBName);
+			vProperties.put("UserName", _DBUserName);
+			vProperties.put("Password", _DBPassword);
+			vProperties.put("DSN_ODBC", _DSN_ODBC);
+			vTestTimeOut.setProperties(vProperties);
+			vTestTimeOut.setDebugMode(true);
+
+			try
+			{
+				vTestTimeOut.updateTimeOut(pUserName, Long.valueOf(pTimeOut).longValue());
+				vResult = "0";		// This code say that process is Ok.
+			}
+			catch(Exception e) 
+			{
+				System.out.println("!!! " + _ClassName + "updateTimeOut() failed in the process of update...");
+				System.out.println("\tERROR : [" + e.getMessage() + "]");
+				vResult = "1";		// This error is about a DB error.
+			}
+		}
+		catch(Exception e)
+		{
+			System.out.println("!!! " + _ClassName + ".updateTimeOut() failed...");
+			System.out.println("\tERROR : [" + e.getMessage() + "]");
+			vResult = "-1";	// This error is method general error.
+		}
+		finally
+		{
+			out.println(vResult);	// Send the result of the process to the client.
+		}
+    } // updateTimeOut()
+	/*************************************************************************************
+    *   createTemporalUser() :   Crea un Usuario Temporal (Prepago) dentro de un paquete 
+	*					 		 o grupo en la Base de Datos del CiscoSecure, 
+    *                    		 utilizando la linea de comando del Cisco "AddProfile".
+    * Example:
+    * 		AddProfile -p 9900 -u jeffrey -pw CHAP,jeff -pw PAP,jeff -pw DES,jeff -prv WEB,jeff,0 -pr GroupName -a 'services=ppp{protocol lcp{timeout=3600}}'
+	**************************************************************************************/
+    private void createTemporalUser()
+    {
+		String vResult = "-1";
+		try 
+		{
+			// Captura los parametros que son enviados desde el cliente.
+			String pUserName = in.readLine();		// << Obtiene el UserName (login).
+			String pPassword = in.readLine();     	// << Obtiene el Password.
+			String pParentGroup = in.readLine();    // << Obtiene el Grupo Padre
+			String pTimeOut = in.readLine();		// << Obtiene el TimeOut.
+
+			// Definicion de Parametros para Crear un Usuario.
+			String vPasswordDefinition = ((pPassword.equals("null"))?"":" -pw CHAP," + pPassword + " -pw PAP," + pPassword + " -pw DES," + pPassword + " -prv WEB," + pPassword + ",0 ");
+			String vParentGroupDefinition = "-pr " + ((pParentGroup.equals("__SOIN_DEFUALT_ENABLED_GROUPS__")?DefaultEnabledGroups:pParentGroup));
+			//String vTimeOutDefinition = "-a 'service=ppp { protocol=lcp { set timeout=" + pTimeOut + " } \\\\n protocol=ip { set addr-pool=default } }'";
+			String vTimeOutDefinition = "-a 'service=ppp { protocol=lcp {default attribute=permit \\\\n set timeout=" + pTimeOut + " } \\\\n protocol=ip { set addr-pool=default } }'";
+			
+			// Realiza la ejecuci�n de la instruccion del ChangeParent.
+			System.out.println("The command is : [" + PathCommandsCLI + "AddProfile -h " + HostDBCisco + " -p " + PortDBCisco + " -u " + pUserName + " " + vParentGroupDefinition + " " + vPasswordDefinition + " " + vTimeOutDefinition + "]");
+			Process vProcess = Runtime.getRuntime().exec(PathCommandsCLI + "AddProfile -h " + HostDBCisco + " -p " + PortDBCisco + " -u " + pUserName + " " + vParentGroupDefinition + " " + vPasswordDefinition + " " + vTimeOutDefinition);
+
+			// Espera a que se ejecute la instruccion y devuelve el resultado de la ejecuci�n.
+			vResult = String.valueOf(vProcess.waitFor());	
+			System.out.println("The result is : [" + vResult + "]");
+
+			if(vResult.equals("0"))		// If the result is OK.
+			{
+				System.out.println("!!! The command result is OK...");
+			}
+			else
+			{
+				try
+				{
+					// Get the possible error message.
+					StringBuffer vErrorMessage = new StringBuffer();
+					BufferedReader vErrorReader = new BufferedReader(new InputStreamReader(vProcess.getInputStream()));
+					String vErrorLine = null;
+
+					do
+					{
+						vErrorLine = vErrorReader.readLine();
+						if(vErrorLine != null)
+							vErrorMessage.append(vErrorLine + "\n");
+					} while(vErrorLine != null);
+
+					System.out.println("!!! Has ocurred this error : [" + vErrorMessage.toString() + "]...");
+				}
+				catch(Exception e)
+				{
+					System.out.println("!!! " + _ClassName + ".createTemporalUsers() failed getting the error message...");
+					System.out.println("\tERROR : [" + e.getMessage() + "]");
+				}
+			} // if(vResult.equals("0"))		// If the result is OK.
+		}
+		catch(Exception e)
+		{
+			System.out.println("!!! " + _ClassName + ".createTemporalUsers() failed...");
+			System.out.println("\tERROR : [" + e.getMessage() + "]");
+			vResult = "-1";
+		}
+		finally
+		{
+			out.println(vResult);	// Send the result to client.
+		}
+    } // createTemporalUser()
+    /******************************************************************************************
+    *   updateTelefonoAAA() :   Modifica el telefono de los usuarios en CiscoSecure 
+	*							(Solamente para Usuarios suscritos a Paquete de Acceso 
+	*						     por un Telefono), 
+    *                       	utilizando las linea de comando del Cisco : "updateTelefonoAAA".
+    *******************************************************************************************/
+	private void updateTelefonoAAA()
+    {
+		String vResult = "-1";		// This error is method general error. 
+
+		try 
+		{
+			// Captura los parametros que son enviados desde el cliente.
+			String pUserName = in.readLine();		  // << Obtiene el username (login)
+			String pListaTelefonos = in.readLine();	  // << Obtiene la lista de Telefonos para (login).
+			String pOpcion = in.readLine();	  		  // << Obtiene la opcion a ejecutar (P: Incluir, B: Borrar y M: Modificar)
+			
+			System.out.println("pUserName" + pUserName);
+			System.out.println("pListaTelefonos" + pListaTelefonos);
+			System.out.println("pOpcion" + pOpcion);
+			
+			System.out.println("voy a llamar UpdateTelefonoAAA ");
+			
+			
+			UpdateTelefonoAAA vUpdateTelefonoAAA = new UpdateTelefonoAAA();
+			
+				System.out.println("despues a llamar UpdateTelefonoAAA ");
+			Properties vProperties = new Properties();
+			vProperties.put("HostName", _DBHostName);
+			vProperties.put("Port", new Long(_DBPort));
+			vProperties.put("DBName", _DBName);
+			vProperties.put("UserName", _DBUserName);
+			vProperties.put("Password", _DBPassword);
+			vProperties.put("DSN_ODBC", _DSN_ODBC);
+			vUpdateTelefonoAAA.setProperties(vProperties);
+			vUpdateTelefonoAAA.setDebugMode(true);
+
+		System.out.println("despues a llamar 1.1");
+
+			try
+			{
+					System.out.println("despues a llamar 1.2");
+				vResult = vUpdateTelefonoAAA.updateTelefonoAAA(pUserName, pListaTelefonos, pOpcion);
+				System.out.println("despues a llamar 1.3");
+				//vResult = "0";		// This code say that process is Ok.
+			}
+			catch(Exception e) 
+			{
+				System.out.println("!!! " + _ClassName + "updateTelefonoAAA() failed in the process of update...");
+				System.out.println("\tERROR : [" + e.getMessage() + "]");
+				vResult = "-1";		// This error is about a DB error.
+			}
+		}
+		catch(Exception e)
+		{
+			System.out.println("!!! " + _ClassName + ".updateTelefonoAAA() failed...");
+			System.out.println("\tERROR : [" + e.getMessage() + "]");
+			vResult = "-1";	// This error is method general error.
+		}
+		finally
+		{
+			out.println(vResult);	// Send the result of the process to the client.
+		}
+    } // updateTelefonoAAA()
+	/*************************************************************************************
+    *   createUserVPN() :Crea un usuario dentro de un paquete 
+	*					 o grupo en la Base de Datos del CiscoSecure, 
+    *                    utilizando la linea de comando del Cisco "AddProfile"
+	*					 con la estructura VPN.	
+    **************************************************************************************/
+    private void createUserVPN()
+    {
+		String vRespuesta = "-1";
+
+		try 
+		{    
+			String vClientId = "";        // Define el Client ID.
+			String vStrIn = null;
+
+			// Captura los parametros que son enviados desde el cliente.
+			String vUser = in.readLine();         // << Recibe el nombre del usuario.
+			vStrIn = in.readLine();     	      // << Recibe el password.
+
+			// Example : [AddProfile -p 9900 -u alexort -pw CHAP,maverick -pw PAP,maverick -pw DES,maverick -prv WEB,maverick,0]
+			String vPassword = ((vStrIn.equals("null"))?"":" -pw CHAP," + vStrIn + " -pw PAP," + vStrIn + " -pw DES," + vStrIn + " -prv WEB," + vStrIn + ",0 ");
+
+			vStrIn = in.readLine();         	   // << Recibe el nombre del grupo padre.
+			String vParentGroup = "-pr " + ((vStrIn.equals("__SOIN_DEFUALT_ENABLED_GROUPS__")?DefaultEnabledGroups:vStrIn));
+
+			String EstructuraVPN = in.readLine(); // << Recibe la Estructura para el dominio VPN.
+			System.out.println("La EstructuraVPN  es : " + EstructuraVPN);
+			Process vProceso = null;
+
+			// Realiza la ejecuci�n de la instruccion.
+			/*System.out.println("El comando a ejecutar es : " + PathCommandsCLI + "AddProfile -h " + HostDBCisco + " -p " + PortDBCisco + " -u " + vUser + " " + vParentGroup + " " + vPassword + " " + ListaTelefonos);
+			vProceso = Runtime.getRuntime().exec(PathCommandsCLI + "AddProfile -h " + HostDBCisco + " -p " + PortDBCisco + " -u " + vUser + " " + vParentGroup + " " + vPassword + " " + ListaTelefonos);*/
+
+			System.out.println("El comando a ejecutar es : " + PathCommandsCLI + "AddProfile -h " + HostDBCisco + " -p " + PortDBCisco + " -u " + vUser + " " + vParentGroup + " " + EstructuraVPN);
+			vProceso = Runtime.getRuntime().exec(PathCommandsCLI + "AddProfile -h " + HostDBCisco + " -p " + PortDBCisco + " -u " + vUser + " " + vParentGroup + " " + EstructuraVPN);
+
+			// Espera a que se ejecute la instruccion y devuelve el resultado de la ejecuci�n.
+			vRespuesta = String.valueOf(vProceso.waitFor());        
+			profileDestoyer(vUser);
+			vMonitor.println("La respueta del proceso es : " + vRespuesta);
+
+			// Obtiene la respuesta del proceso.
+			BufferedReader inStr = new BufferedReader(new InputStreamReader(vProceso.getInputStream()));      
+
+			if(vRespuesta.equals("0"))
+				vMonitor.println("El comando se ejecuto satisfactoriamente...!!!!!!");
+			else
+				vMonitor.println("\tERROR : [" + inStr.readLine() + "]");
+		} 
+		catch(Exception e) 
+		{
+			System.out.println("!!! " + _ClassName + ".createUser() fallo...");
+	    	System.out.println("\tERROR : [" + e.getMessage() + "]");
+		}
+		finally 
+		{
+			out.println(vRespuesta); // Envia la respuesta al Cliente.
+		}    
+    } // createUserVPN()
+    /*********************************************************************************
+    *   Permite crear el archivo de Profile que se necesita para crear o modificar una cuenta de CiscoSecure.
+    **********************************************************************************/
+    /*private boolean profileMaker(String pLogin, String pPassword)
+    {
+		boolean vResult = false;
+		try
+		{
+			File vFile = new File(PathProfiles, pLogin + ".profile");
+			java.io.FileWriter writer = new java.io.FileWriter(vFile);
+			/*writer.write("password=chap," + pPassword+ "\n");
+			writer.write("password=pap," + pPassword+ "\n");
+			writer.write("password=des," + pPassword+ "\n");*/
+		/*	writer.write("privilege=web \"" + pPassword+ "\" 0\n");
+			writer.close();
+			vResult = true;
+		  } 
+		  catch(Exception e) 
+		  {
+			  System.out.println("ExecAAACommands.profileMaker() fallo.......: " + e.getMessage());
+			  vResult = false;
+		  }
+		  return vResult;
+    } // profileMaker*/
+
+
+
+	// Elimina los archivos profiles de las cuenta de CiscoSecure.
+    private void profileDestoyer(String pFileName)
+    {
+		try
+		{
+			File vFile = new File(PathProfiles, pFileName);
+			vFile.delete();
+		} 
+		catch(Exception e) 
+		{
+			System.out.println("ExecAAACommands.profileDestroyer() failed with file  [" + pFileName + "] : " + e.getMessage());
+		}
+    }
+    // add your data members here
+    private Socket vSocket = null;
+    private Monitor vMonitor = null;
+    private BufferedReader in = null;      			// Lectura.
+    private PrintWriter out = null;            		// Escritura.
+    private ConfigFile vConfigFileServer = null;    // Permite accesar los datos del archivo de configuracion del Server.
+    private String PathCommandsCLI = null;      	// Ruta de los Comandos de CLI.
+    private String PathProfiles = null;             // Ruta de los Archivos para la creacion de profiles.
+    private String PortDBCisco = null;              // Puerto de la DB de CiscoSecure.
+    private String HostDBCisco = null;              // El host donde esta la DB nativa de CiscoSecure.
+    private String DefaultEnabledGroups = null;     // Nombre Default del Grupo que contiene los Paquetes Habilitados.
+    private String DefaultDisabledGroups = null;    // Nombre Default del Grupo que contiene los Paquetes Deshabilitados.
+
+    // CLASS PROPERTIES.
+    private String _DBHostName = null;		// It's the Hostname where the DB run.
+    private long _DBPort = 0;				// It's the port number for the DB.
+    private String _DBName = null;      	// It's the DBName where are the ciscosecure tables.
+    private String _DBUserName = null;		// It's the DB UserName to connect to the DB.
+    private String _DBPassword = null;		// It's the the password to connecto to the DB.
+    private String _DSN_ODBC = null;        // It's the DSN to connect to the DB.
+    private static String _ClassName = "ExecAAACommands";	// It's the name of this class.
+}
+

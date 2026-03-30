@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_DetallesAnticipoTipoCambio>Advance Detail - Exchange Rates</LB_DetallesAnticipoTipoCambio>
+		<LB_ModificacionTipoCambio>Modify Exchange Rates</LB_ModificacionTipoCambio>
+		<LB_ParrafoMoModificacionTipoCambio>This screen displays the foreign currencies associated to the selected advance. The system allows to change the  exchange rate, affecting the amount of advance</LB_ParrafoMoModificacionTipoCambio>
+		<LB_DATOSDELANTICIPO>Advance Data</LB_DATOSDELANTICIPO>
+		<LB_Moneda>Currency</LB_Moneda>
+	</Idioma>
+</Etiquetas>

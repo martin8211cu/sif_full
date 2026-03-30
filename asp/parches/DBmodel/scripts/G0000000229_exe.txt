@@ -1,0 +1,98 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 1 - Version 100: Actualizar hasta 27/01/2011
+
+	         PARCHE:  BASE CERO: SIF Sistemas
+
+GENERADO EN:
+	SERVER:  http://mxvqapp34:8300
+	DSN:     minisif
+	FECHA:   28/02/2012 13:09:14
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* CHG_TABLE CFinanciera: Cuentas Financieras o de Ultim */
+/* ======================================================================================== */
+/* DEL_CHECK OP = (OBSOLETO): chk=(Ccuenta IS NOT NULL AND CFmovimiento='S' OR CFmovimiento<>'S') */
+ALTER TABLE CFinanciera DROP CONSTRAINT CFinanciera_CK
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_CHECK: chk=(Ccuenta is not null and CFmovimiento = 'S' or CFmovimiento <> 'S') */
+ALTER TABLE CFinanciera ADD CONSTRAINT CFinanciera_CK CHECK (Ccuenta is not null and CFmovimiento = 'S' or CFmovimiento <> 'S')
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ======================================================================================== */
+/* CHG_TABLE CPresupuestoComprometidasNAPs: Bitacora de NAPs de Compromiso */
+/* ======================================================================================== */
+/* DEL_KEY OP = (OBSOLETO): TIP="P", COLS="CPPid,Ecodigo,CPNAPnum" */
+ALTER TABLE CPresupuestoComprometidasNAPs DROP CONSTRAINT CPresupuestoComprometid01_PK /* PRIMARY KEY (CPPid,Ecodigo,CPNAPnum) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (NUEVO): TIP="P", SEC="0", COLS="Ecodigo,CPPid,CPcuenta,Ocodigo,CPCano,CPCmes" */
+ALTER TABLE CPresupuestoComprometidasNAPs ADD CONSTRAINT CPresupuestoComprometid01_PK PRIMARY KEY NONCLUSTERED (Ecodigo,CPPid,CPcuenta,Ocodigo,CPCano,CPCmes)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE CPtipoMov: Movimientos de Presupuesto */
+/* ======================================================================================== */
+/* DEL_KEY OP = (OBSOLETO): TIP="P", COLS="CPTMtipoMov" */
+ALTER TABLE CPtipoMov DROP CONSTRAINT CPtipoMov_PK /* PRIMARY KEY (CPTMtipoMov) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (NUEVO): TIP="P", SEC="0", COLS="CPTMtipoMov" */
+ALTER TABLE CPtipoMov ADD CONSTRAINT CPtipoMov_PK PRIMARY KEY NONCLUSTERED (CPTMtipoMov)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE RHControlSaldos: RHControlSaldos */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="CIid", REF="CIncidentes" */
+CREATE INDEX RHControlSaldos_FI01 ON RHControlSaldos (CIid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="2", COLS="DEid", REF="DatosEmpleado" */
+CREATE INDEX RHControlSaldos_FI02 ON RHControlSaldos (DEid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="3", COLS="DLlinea", REF="DLaboralesEmpleado" */
+CREATE INDEX RHControlSaldos_FI03 ON RHControlSaldos (DLlinea)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE WfActivity: Actividad */
+/* ======================================================================================== */
+/* DEL_CHECK OP = (OBSOLETO): chk=(IsStart=(0) OR IsFinish=(0)) */
+ALTER TABLE WfActivity DROP CONSTRAINT WfActivity_CK
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_CHECK: chk=(IsStart = 0 or IsFinish = 0) */
+ALTER TABLE WfActivity ADD CONSTRAINT WfActivity_CK CHECK (IsStart = 0 or IsFinish = 0)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* END_SCRIPT */

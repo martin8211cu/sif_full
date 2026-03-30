@@ -1,0 +1,258 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html>
+<head>
+<title>DHTML Menu 4 Look &amp; Feel (WebFX)</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script type="text/javascript" src="local/webfxlayout.js"></script>
+</head>
+<body>
+<!-- WebFX Layout Include -->
+<script type="text/javascript">
+
+var articleMenu= new WebFXMenu;
+articleMenu.left  = 384;
+articleMenu.top   = 86;
+articleMenu.width = 140;
+articleMenu.add(new WebFXMenuItem("Introduction", "menu4.html"));
+articleMenu.add(new WebFXMenuItem("Menu Creation", "menucreation.html"));
+articleMenu.add(new WebFXMenuItem("Menu Bar Creation", "menubarcreation.html"));
+articleMenu.add(new WebFXMenuItem("Usage", "usage.html"));
+articleMenu.add(new WebFXMenuItem("API", "api.html"));
+articleMenu.add(new WebFXMenuItem("Customizing look &amp; feel", "looknfeel.html"));
+articleMenu.add(new WebFXMenuItem("Demos", "demos.html"));
+articleMenu.add(new WebFXMenuSeparator);
+articleMenu.add(new WebFXMenuItem("Download", "menu4.zip"));
+webfxMenuBar.add(new WebFXMenuButton("Article Menu", null, null, articleMenu));
+
+webfxLayout.writeTitle("DHTML Menu 4");
+webfxLayout.writeMenu();
+webfxLayout.writeDesignedByEdger();
+
+</script>
+<div class="webfx-main-body">
+<!-- end WebFX Layout Includes -->
+
+<h2>Customizing Look &amp; Feel</h2>
+
+<p>Just like for previous versions on the DHTML Menu the look and feel can be
+changed by changing the css file. In version 4 each menu can have its own css
+file but usually one wants to use the same file for all the menus. This is
+preferrably done by changing the prototype object for all the menus.</p>
+
+<pre>
+Menu.prototype.cssFile = "skins/officexp/officexp.css";
+</pre>
+
+<p>The css file used for the menu bar needs to be included in the page where
+the menu bar is located. This is done by using the <code>link</code> tag.</p>
+
+<pre>
+&lt;link type="text/css" rel="StyleSheet" href="skins/officexp/officexp.css" /&gt;
+</pre>
+
+<p>There are quite a few rules that needs to be defined to support all the
+features the menu system supports so it is ususally easier to change an
+already existing css file.</p>
+
+<h3>Menu</h3>
+
+<p>To get a feel for the structure of the menu code take a look at
+<a href="menulayout.html">menulayout.html</a> and view its source.</p>
+
+<p>The menu consists of the <code>body</code> element and then two
+<code>div</code>s that can be used to add more sophisticated borders. You should
+use the <code>div</code>s for your borders and not the <code>body</code>. These two <code>div</code>s are
+called <code>outer-border</code> and <code>inner-border</code>.</p>
+
+<p>This is taken from <a href="skins/winclassic.css">skins/winclassic.css</a>.</p>
+
+<pre>
+.menu-body {
+   background-color: Menu;
+   color:            MenuText;
+   margin:           0;
+   padding:          0;
+   overflow:         hidden;
+   border:           0;
+   cursor:           default;
+}
+
+.menu-body .outer-border {
+   border:           1px solid;
+   border-color:     ThreedHighlight ThreeDDarkShadow
+                     ThreeDDarkShadow ThreedHighlight;
+}
+
+.menu-body .inner-border {
+   border:           1px solid;
+   border-color:     ThreeDLightShadow ThreeDShadow
+                     ThreeDShadow ThreeDLightShadow;
+   padding:          1px;
+   width:            100%;
+   height:           100%;
+}
+</pre>
+
+<h3>Menu Item</h3>
+
+<p>Menu items are displayed as table rows. When an item becomes selected the
+class name is set to <code>hover</code>. Therefore we set the highlight colors
+in the <code>.hover</code> rule below.</p>
+
+<pre>
+.menu-body td {
+   font:             menu;
+}
+
+.menu-body .hover td {
+   background-color: Highlight;
+   color:            HighlightText;
+}
+</pre>
+
+<p>Each table row contains 4 cells. These cells have the class names
+<code>icon-cell</code> (or <code>empty-icon-cell</code>),
+<code>label-cell</code>, <code>shortcut-cell</code> and finally
+<code>arrow-cell</code>.</p>
+
+<p>In case the menu item does not have an icon a <code>span</code> element is
+inserted instead of an image and the class name of the cell is set to
+<code>empty-icon-cell</code> to allow more detailed rules to be set up.</p>
+
+<p>Below is some code from <a href="skins/office.css">skins/office.css</a>.
+Notice how the border is set on the <code>icon-cell</code> when hovered.</p>
+
+<pre>
+.menu-body td.empty-icon-cell {
+   padding:          1px;
+   border:           0;
+}
+
+.menu-body td.empty-icon-cell span {
+   width:            16px;
+}
+
+.menu-body td.icon-cell {
+   padding:          1px;
+   border:           0;
+}
+
+.menu-body .hover td.icon-cell {
+   padding:          0;
+   border:           1px solid;
+   border-color:     ThreeDHighlight ThreeDShadow
+                     ThreeDShadow ThreeDHighlight;
+   background-color: transparent;
+}
+
+.menu-body td.icon-cell img {
+   width:            16px;
+   height:           16px;
+   margin:           0;
+}
+
+.menu-body td.label-cell {
+   width:            100%;
+   padding:          0px 5px 0px 5px;
+}
+
+.menu-body td.shortcut-cell {
+   padding:          0px 5px 0px 5px;
+}
+
+.menu-body td.arrow-cell {
+   width:            20px;
+   padding:          0px 2px 0px 0px;
+   font-family:      Webdings;
+   font-size:        80%;
+}
+</pre>
+
+<h3>Menu Bar</h3>
+
+<p>The menu bar is built up of a <code>div</code> with <code>span</code>s with
+<code>display</code> set to <code>inline-block</code>. This allows the buttons
+to have a defined <code>width</code>. Each button contains three more
+<code>span</code>s. The reason for this is that one sometimes want special
+images at the edges.</p>
+
+<p>To get a feel for how the menu bar structure is done take a look at
+<a href="menubarlayout.html">menubarlayout.html</a>.</p>
+
+<p>The class name for the menu bar is <code>menu-bar</code> and for the buttons
+it is <code>menu-button</code>. When a button is hovered the class name is set
+to <code>menu-button hover</code>. When the button is active (pressed down) the
+class is set to <code>menu-button active</code>.</p>
+
+<p>Below is the code <a href="skins/winclassic.css">skins/winclassic.css</a>.</p>
+
+<pre>
+.menu-bar {
+   backgroun:    ButtonFace;
+   cursor:       default;
+   padding:      1px;
+}
+
+.menu-bar .menu-button {
+   background:   ButtonFace;
+   color:        ButtonText;
+   font:         Menu;
+   padding:      3px 7px 3px 7px;
+   border:       0;
+   margin:       0;
+   display:      inline-block;
+   white-space:  nowrap;
+   cursor:       default;
+}
+
+.menu-bar .menu-button.active {
+   padding:      3px 5px 1px 7px;
+   border:       1px solid;
+   border-color: ButtonShadow ButtonHighlight
+                 ButtonHighlight ButtonShadow;
+}
+
+.menu-bar .menu-button.hover {
+   padding:      2px 6px 2px 6px;
+   border:       1px solid;
+   border-color: ButtonHighlight ButtonShadow
+                 ButtonShadow ButtonHighlight;
+}
+</pre>
+
+<h3>Advanced</h3>
+
+<p>These are the basic parts that you might want to change. There are a few
+more rules that you might want to edit as well. For example the rules for
+the radio button and check box menu items. For these check out
+<a href="skins/office.css">skins/office.css</a> or
+<a href="skins/officexp/officexp.css">skins/officexp/officexp.css</a>.</p>
+
+<p>If you want to use background images take a look at the QNX skin
+(<a href="skins/qnx/qnx.css">skins/qnx/qnx.css</a>). This skin uses the extra
+<code>span</code>s inside the menu buttons to set the left and right background
+images.</p>
+
+<p>Then there are the disabled states where some of the skins uses the techniques
+explained in <a href="http://webfx.eae.net/dhtml/coolbutton2/cb2.css.html">Cool Button 2</a>.</p>
+
+<p>
+<a href="menu4.html">Introduction</a><br />
+<a href="menucreation.html">Menu Creation</a><br />
+<a href="menubarcreation.html">Menu Bar Creation</a><br />
+<a href="usage.html">Usage</a><br />
+<a href="api.html">API</a><br />
+<a href="looknfeel.html">Customizing look &amp; feel<br />
+<a href="demos.html">Demos</a><br />
+<a href="menu4.zip">Download</a>
+</p>
+
+<p class="author">Author: Erik Arvidsson</p>
+
+<!-- end webfx-main-body -->
+</div>
+
+</body>
+</html>

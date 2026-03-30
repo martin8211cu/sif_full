@@ -1,0 +1,8 @@
+<cfparam name="Attributes.name" type="string">
+<cfparam name="Attributes.value" type="string">
+<cfparam name="Attributes.nombre_tabla" type="string">
+<cfparam name="Attributes.id_tipo" type="string">
+<cfset Gvar_Name = Attributes.name>
+<cfset Gvar_Value = Attributes.value>
+<cfset Gvar_id_tipo = Attributes.id_tipo>
+<cfinclude template="tablas/T#Attributes.nombre_tabla#.cfm">

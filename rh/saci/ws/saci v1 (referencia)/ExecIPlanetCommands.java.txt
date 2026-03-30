@@ -1,0 +1,961 @@
+package com.soin.isp.services.mail;
+
+//**********
+//*  ClassName: ExecMailCommands.class
+//*  Author: Jeffrey Bermudez P.
+//*  Modify: Alexander Ortega B.
+//*  Description: Ejecuta los comandos por linea de comando de PostOffice (Servidor de Correo)
+//*  Last Update: 2005/08/03 
+//**********
+
+import java.io.*;
+import java.net.*;
+import java.util.*;
+import com.soin.isp.services.Monitor;
+import com.soin.isp.tools.ConfigFile;
+
+public class ExecIPlanetCommands extends Thread
+{
+    public ExecIPlanetCommands(Socket pSocket, Monitor pMonitor)
+    {
+		try 
+		{
+			vSocket = pSocket;
+			vMonitor = pMonitor;
+			in = new BufferedReader(new InputStreamReader(vSocket.getInputStream())); 
+			out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(vSocket.getOutputStream())), true);
+			vConfigFileServer = new ConfigFile("./Server.cfg");
+			PathCommandsUtils = vConfigFileServer.getParameter("Server Settings", "PathCommandsUtils");
+			_MailingList = vConfigFileServer.getParameter("Server Settings", "MailingList");
+						
+			
+			_PathBinCommands = vConfigFileServer.getParameter("MailSender Settings", "PathBinCommands");
+			_PathTemplates = vConfigFileServer.getParameter("MailSender Settings", "PathTemplates");
+			_PathTemporalFiles = vConfigFileServer.getParameter("MailSender Settings", "PathTemporalFiles");
+			_Sender = vConfigFileServer.getParameter("MailSender Settings", "Sender");
+			start();    // Calls run()
+		} 
+		catch(Exception e) 
+		{
+			System.out.println("ExecMailCommands() fallo......: " + e.getMessage());
+		}
+    }
+    public void run() 
+    {
+		String inLine = null;
+		byte vCodCommand = -1;
+
+		try 
+		{
+			while(true)
+			{
+				inLine = in.readLine();      // Recibe la instruccion a ejecutar o el fin de una instruccion.
+				out.println(inLine);         // Devuelve la confirmacion de la instruccion recibida.
+
+				if (inLine.equalsIgnoreCase("END |"))
+					break;
+				StringTokenizer vStrToken = new StringTokenizer(inLine,";");  
+				inLine = vStrToken.nextToken().trim();
+				vCodCommand = getCodCommand(inLine);
+				vMonitor.println("Comando : " + inLine);
+
+				if (vCodCommand != 0) 
+				{
+					switch (vCodCommand) 
+					{
+						case 1 : {createAccount(); break;}      // createAccount.
+						case 2 : {deleteAccount(); break;}      // deleteAccount.
+						case 3 : {updateAccount(); break;}      // updateAccount.
+						case 4 : {lockAccount();   break;}      // lockAccount.
+						case 5 : {unlockAccount(); break;}      // unlockAccount.
+						case 6 : {this.sendMail(); break;}		// Execute the method to send a mail.
+						default : {out.println("Error :  Instruccion desconocida"); break;}
+					}
+				}
+			}   // while.
+		} 
+		catch(Exception e) 
+		{
+			System.out.println("ExecMailCommands.run() fallo.....: " + e.getMessage());
+		} 
+		finally 
+		{
+			try 
+			{
+				vSocket.close();} catch(Exception e) {System.out.println("Error al cerrar el Socket en ExecMailCommands.run()");
+			}
+		}
+    } // end run
+    private byte getCodCommand(String pStrCommand) 
+    {
+		if(pStrCommand.equalsIgnoreCase("createAccount")) return 1;             // createAccount.
+		else if(pStrCommand.equalsIgnoreCase("deleteAccount")) return 2;        // deleteAccount.
+		else if(pStrCommand.equalsIgnoreCase("updateAccount")) return 3;        // updateAccount.
+		else if(pStrCommand.equalsIgnoreCase("lockAccount")) return 4;          // lockAccount.
+		else if(pStrCommand.equalsIgnoreCase("unlockAccount")) return 5;        // unlockAccount.
+		else if(pStrCommand.equalsIgnoreCase("sendMail")) return 6;				// Send a Mail.
+		else return 0;
+    }
+    /******************************************************************************************
+    *   createAccount() :   Crea una cuenta utilizando la linea de comando 
+	*						del PostOffice "addAcct".
+    *******************************************************************************************/
+    private void createAccount()
+    {
+		String vRespuesta = "[Server Error]";		
+        try
+        {
+            String vAccountID = null;
+            Process vProcess = null;
+            BufferedReader vIn = null;
+
+            String vAccountName = in.readLine();			//	Recibe información desde ClientMail
+            out.println(vAccountName);						//	Devuelve confirmación a ClientMail
+            System.out.println("Nombre de la Cuenta: " + vAccountName);
+
+            String vLogin = in.readLine();
+            out.println(vLogin);
+            System.out.println("Login: " + vLogin);
+
+            String vPassword = in.readLine();
+            out.println(vPassword);
+            System.out.println("Password: " + vPassword);
+
+            long vKbytes = Long.valueOf(in.readLine()).longValue();
+            out.println(String.valueOf(vKbytes));
+            System.out.println("KBytes: " + String.valueOf(vKbytes));
+
+            String vDomain = in.readLine();
+            out.println(vDomain);
+            System.out.println("Dominio: " + vDomain);
+
+            String vNombre = in.readLine();
+            out.println(vNombre);
+            System.out.println("Nombre: " + vNombre);
+
+            String vApellido = in.readLine();
+            out.println(vApellido);
+            System.out.println("Apellido: " + vApellido);
+
+		//	Crea el archivo para ingresar el login a iPlanet
+            if(profileMakerCreate(vAccountID, vAccountName, vNombre, vApellido, vLogin, vPassword, vDomain, vKbytes) == 1)
+            {
+                System.out.println("****************");
+                System.out.println("Adding New Entry");
+                System.out.println("****************");
+
+			//	Ejecuta el comando de inclusión en iPlanet
+                String iPlanetCommand = "/export/home/saci/MAILServerSOL/add.saci";
+                System.out.println("Executing command...: " + iPlanetCommand);
+                vProcess = Runtime.getRuntime().exec(iPlanetCommand);
+
+			//	Obtiene la respuesta
+                vProcess.waitFor();
+				vIn = new BufferedReader(new InputStreamReader(vProcess.getErrorStream()));
+                vRespuesta = vIn.readLine();
+
+                System.out.println("\tThe Result for login [" + vLogin + "] is : " + vRespuesta);
+            } else
+            {
+                System.out.println("Couldn't Create Profile [" + vLogin + "]");
+            }
+        }
+        catch(Exception e)
+        {
+            System.out.println("!!! ExecIPlanetCommands.createAccount() failed.....");
+            System.out.println("\tERROR : [" + e.getMessage() + "]");
+            vRespuesta = "[Server Error]";
+        }
+        finally
+        {
+            System.out.println("****************");
+            System.out.println("Adding New Entry");
+            System.out.println("****************");
+            System.out.println("The Result is : " + vRespuesta);
+            out.println(vRespuesta);
+        }
+    } // createAccount()
+    /******************************************************************************************
+    *   deleteAccount() :   Borra una cuenta utilizando la linea de comando 
+	*						del PostOffice "delAcct".
+    *******************************************************************************************/
+    private void deleteAccount()
+    {
+		String vRespuesta = "[Server Error]";
+		String vRespuesta1 = "[Error borrar_casillero]";
+        try
+        {
+            Process vProcess = null;
+            BufferedReader vIn = null;
+            String vAccountID = null;
+            String vLogin = null;
+
+            String vDomain = null;
+
+            vLogin = in.readLine();
+            out.println(vLogin);
+
+			vDomain = in.readLine();
+          	out.println(vDomain);
+
+            if(profileMakerDelete(vLogin, vDomain) == 1)
+            {
+                System.out.println("**************");
+                System.out.println("Deleting Entry");
+                System.out.println("**************");
+
+			//	Ejecuta el comando de borrado en iPlanet
+                String iPlanetCommand = "/export/home/saci/MAILServerSOL/del.saci";
+                System.out.println("The Command is: " + iPlanetCommand);
+                vProcess = Runtime.getRuntime().exec(iPlanetCommand);
+
+			//	Obtiene la respuesta
+                vProcess.waitFor();
+                vIn = new BufferedReader(new InputStreamReader(vProcess.getInputStream()));
+                vRespuesta = vIn.readLine();
+
+                System.out.println("\tThe Result is : " + vRespuesta);
+
+			//	Convierte a null la respuesta en caso de que si pudiera borrar el login
+                if (vRespuesta.equals("deleting entry uid=" + vLogin + ", ou=People, o=isp, o=racsa.co.cr"))
+                    vRespuesta = null;
+
+
+//********************************************************************************************
+// Nuevo agregado por Gaston Alfaro
+   
+                if (vRespuesta == null)
+                {
+	                String iPlanetCommand1 = "/opt/bin/borrar_casillero " + vLogin;
+	                System.out.println("The Command is: " + iPlanetCommand1);
+	                vProcess = Runtime.getRuntime().exec(iPlanetCommand1);
+	
+				//	Obtiene la respuesta
+	                vProcess.waitFor();
+	                vIn = new BufferedReader(new InputStreamReader(vProcess.getInputStream()));
+	                vRespuesta1 = vIn.readLine();		
+	
+	                System.out.println("\tThe Result of borrar_casillero is : " + vRespuesta1);
+	
+				}
+				else
+				{	System.out.println ("*** Atencion  No se ejecuto el comando borrar_casillero.....");}
+//********************************************************************************************
+
+			}
+			else
+			{	System.out.println("Couldn't Delete Profile [" + vLogin + "]");}
+
+
+        }
+        catch(Exception e)
+        {
+            System.out.println("!!! ExecIPlanetCommands.deleteAccount() failed.....");
+            System.out.println("\tERROR : [" + e.getMessage() + "]");
+            vRespuesta = "[Server Error]";
+        }
+        finally
+        {
+            System.out.println("**************");
+            System.out.println("Deleting Entry");
+            System.out.println("**************");
+            System.out.println("The Result is : " + vRespuesta);
+            out.println(vRespuesta);
+        }
+    } // deleteAccount()
+    /******************************************************************************************
+    *   updateAccount() :   Actualiza una cuenta utilizando la linea de comando 
+	*						del PostOffice "changeAcct".
+    *******************************************************************************************/
+    private void updateAccount()
+    {
+		String vRespuesta = "[Server Error]";
+        try
+        {
+            Process vProcess = null;
+            BufferedReader vIn = null;
+
+            String vLogin = in.readLine();
+            out.println(vLogin);
+			System.out.println("Login: " + vLogin);
+
+			String vAccountName = in.readLine();
+            out.println(vAccountName);
+			System.out.println("Nombre de la cuenta: " + vAccountName);
+
+            String vPassword = in.readLine();
+            out.println(vPassword);
+			System.out.println("Password: " + vPassword);
+
+            String vKbytes = in.readLine();
+            out.println(vKbytes);
+			System.out.println("KBytes: " + vKbytes);
+
+            String vDomain = in.readLine();
+            out.println(vDomain);
+			System.out.println("Dominio: " + vDomain);
+
+            String vListAddresses = in.readLine();
+            out.println(vListAddresses);
+			System.out.println("Forward Addresses: " + vListAddresses);
+
+            String vVacationMessage = in.readLine();
+            out.println(vVacationMessage);
+//			System.out.println("Vacation Message: " + vVacationMessage);
+
+			String vNewFirstName = in.readLine();
+            out.println(vNewFirstName);
+			System.out.println("Nombre: " + vNewFirstName);
+
+            String vNewLastName = in.readLine();
+            out.println(vNewLastName);
+			System.out.println("Apellido: " + vNewLastName);
+
+            Properties vListProperties = new Properties();
+			vListProperties.put("Login", vLogin);
+            vListProperties.put("AccountName", vAccountName);
+            vListProperties.put("Password", vPassword);
+			vListProperties.put("KBytes", vKbytes);
+            vListProperties.put("Domain", vDomain);
+            vListProperties.put("ListAddresses", vListAddresses);
+            vListProperties.put("VacationMessage", vVacationMessage);
+			vListProperties.put("Nombre", vNewFirstName);
+            vListProperties.put("Apellido", vNewLastName);
+
+			System.out.println("****************");
+            System.out.println("Updating Entry");
+            System.out.println("****************");
+
+		//	Borra el login viejo
+            if(profileMakerDelete(vLogin, vDomain) == 1)
+            {
+
+			//	Ejecuta el comando de borrado en iPlanet	
+                String iPlanetCommand = "/export/home/saci/MAILServerSOL/del.saci";
+                System.out.println("The Command is: " + iPlanetCommand);
+                vProcess = Runtime.getRuntime().exec(iPlanetCommand);
+
+			//	Obtiene la respuesta
+                vProcess.waitFor();
+                vIn = new BufferedReader(new InputStreamReader(vProcess.getInputStream()));
+                vRespuesta = vIn.readLine();
+
+                System.out.println("\tThe Result is : " + vRespuesta);
+            } else
+            {
+                System.out.println("Couldn't Delete Profile [" + vLogin + "]");
+            }
+
+		//	Crea el nuevo login
+            if(profileMakerUpdate(vListProperties) == 1)
+            {
+			//	Ejecuta el comando de inclusión en iPlanet
+                String iPlanetCommand = "/export/home/saci/MAILServerSOL/modify.saci";
+                System.out.println("Executing command...: " + iPlanetCommand);
+                vProcess = Runtime.getRuntime().exec(iPlanetCommand);
+
+			//	Obtiene la respuesta
+                vProcess.waitFor();
+				vIn = new BufferedReader(new InputStreamReader(vProcess.getErrorStream()));
+                vRespuesta = vIn.readLine();
+
+                System.out.println("\tThe Result for login [" + vLogin + "] is : " + vRespuesta);
+            } else
+            {
+                System.out.println("Couldn't Update Profile [" + vLogin + "].");
+            }
+        }
+        catch(Exception e)
+        {
+            System.out.println("!!! ExecIPlanetCommands.updateAccount() failed.....");
+            System.out.println("\tERROR : [" + e.getMessage() + "]");
+            vRespuesta = "[Server Error]";
+        }
+        finally
+        {
+			System.out.println("****************");
+           	System.out.println("Updating Entry");
+           	System.out.println("****************");
+			System.out.println("The Result is : " + vRespuesta);
+            out.println(vRespuesta);
+        }
+    } // updateAccount()
+    /******************************************************************************************
+    *   lockAccount() :   Permite bloquear una cuenta utilizando la linea de comando 
+	*					  del PostOffice "lockAcct".
+    *******************************************************************************************/
+    private void lockAccount()
+    {
+		String vRespuesta = "[Server Error]";
+        try
+        {
+            Process vProcess = null;
+            BufferedReader vIn = null;
+            String vLoginID = null;
+            String vDomain = null;
+
+            vLoginID = in.readLine();
+            out.println(vLoginID);
+
+            vDomain = in.readLine();
+            out.println(vDomain);
+
+            if(profileMakerLock(vLoginID, vDomain) == 1)
+            {
+                System.out.println("**************");
+                System.out.println("Locking Entry");
+                System.out.println("**************");
+
+			//	Ejecuta el comando de bloqueo en iPlanet
+                String iPlanetCommand = "/export/home/saci/MAILServerSOL/lock.saci";
+                System.out.println("The Command is: " + iPlanetCommand);
+                vProcess = Runtime.getRuntime().exec(iPlanetCommand);
+
+			//	Obtiene la respuesta
+                vProcess.waitFor();
+                vIn = new BufferedReader(new InputStreamReader(vProcess.getInputStream()));
+                vRespuesta = vIn.readLine();
+
+                System.out.println("\tThe Result is : " + vRespuesta);
+
+			//	Convierte a null la respuesta en caso de que si pudiera bloquear el login
+                if(vRespuesta.equals("modifying entry uid=" + vLoginID + ", ou=People, o=isp, o=racsa.co.cr"))
+                    vRespuesta = null;
+            } else
+            {
+                System.out.println("Couldn't Lock Profile [" + vLoginID + "]");
+            }
+        }
+        catch(Exception e)
+        {
+            System.out.println("!!! ExecIPlanetCommands.lockAccount() failed.....");
+            System.out.println("\tERROR : [" + e.getMessage() + "]");
+            vRespuesta = "[Server Error]";
+        }
+        finally
+        {
+            System.out.println("**************");
+            System.out.println("Locking Entry");
+            System.out.println("**************");
+            System.out.println("The Result is : " + vRespuesta);
+            out.println(vRespuesta);
+        }
+    } // lockAccount()
+    /******************************************************************************************
+    *   unlockAccount() :   Permite desbloquear una cuenta utilizando la linea de comando 
+	*						del PostOffice "unlockAcct".
+    *******************************************************************************************/
+    private void unlockAccount()
+    {
+
+        String vRespuesta = "[Server Error]";
+        try
+        {
+            Process vProcess = null;
+            BufferedReader vIn = null;
+            String vLoginID = null;
+            String vDomain = null; 
+
+			vLoginID = in.readLine();
+            out.println(vLoginID);
+
+            vDomain = in.readLine();
+            out.println(vDomain);
+
+            if(profileMakerUnLock(vLoginID, vDomain) == 1)
+            {
+                System.out.println("***************");
+                System.out.println("Unlocking Entry");
+                System.out.println("***************");
+
+			//	Ejecuta el comando de desbloqueo en iPlanet			
+                String iPlanetCommand = "/export/home/saci/MAILServerSOL/unlock.saci";
+                System.out.println("The Command is: " + iPlanetCommand);
+                vProcess = Runtime.getRuntime().exec(iPlanetCommand);
+
+			//	Obtiene la respuesta				
+                vProcess.waitFor();
+                vIn = new BufferedReader(new InputStreamReader(vProcess.getInputStream()));
+                vRespuesta = vIn.readLine();
+
+                System.out.println("\tThe Result is : " + vRespuesta);
+
+			//	Convierte a null la respuesta en caso de que si pudiera desbloquear el login
+                if(vRespuesta.equals("modifying entry uid=" + vLoginID + ", ou=People, o=isp, o=racsa.co.cr"))
+                    vRespuesta = null;
+            } else
+            {
+                System.out.println("Couldn't Unlock Profile [" + vLoginID + "]");
+            }
+        }
+        catch(Exception e)
+        {
+            System.out.println("!!! ExecIPlanetCommands.unlockAccount() failed.....");
+            System.out.println("\tERROR : [" + e.getMessage() + "]");
+            vRespuesta = "[Server Error]";
+        }
+        finally
+        {
+            System.out.println("***************");
+            System.out.println("Unlocking Entry");
+            System.out.println("***************");
+            System.out.println("The Result is : " + vRespuesta);
+            out.println(vRespuesta);
+        }    } // unlockAccount()
+    /*********************************************************************************
+    *   Permite crear el archivo de Profile que se necesita para crear o modificar 
+	*   una cuenta de correo.
+    **********************************************************************************/
+    private int profileMakerCreate(String pAccountID, String pAccountName, String pNombre, String pApellido, String pLogin, String pPassword, String pDomain, 
+            long pKbytes)
+    {
+        int vResult = 0;
+        try
+        {
+            File vFileProfile = new File("add.ldif");
+            PrintWriter vProfile = new PrintWriter(new BufferedWriter(new FileWriter(vFileProfile)), true);
+
+            StringTokenizer vStringDomain = new StringTokenizer(pDomain, "^");
+            String vFirstDomain =  vStringDomain.nextToken();
+            String vSecondDomain = vStringDomain.nextToken();
+            String vThirdDomain =  vStringDomain.nextToken();
+                        
+            
+            vProfile.println("dn: uid=" + pLogin + ", ou=People, o=isp, o=" + vFirstDomain);
+            vProfile.println("mailhost: " + vThirdDomain);
+            vProfile.println("maildeliveryoption: mailbox");
+            vProfile.println("mailuserstatus: active");
+            vProfile.println("mailquota: " + String.valueOf(pKbytes));
+            vProfile.println("mail: " + pLogin + "@" + vFirstDomain);
+            vProfile.println("preferredlanguage: es");
+            vProfile.println("objectclass: top");
+            vProfile.println("objectclass: person");
+            vProfile.println("objectclass: organizationalPerson");
+            vProfile.println("objectclass: inetorgperson");
+            vProfile.println("objectclass: inetUser");
+            vProfile.println("objectclass: inetSubscriber");
+            vProfile.println("objectclass: ipUser");
+            vProfile.println("objectclass: nsManagedPerson");
+            vProfile.println("objectclass: inetmailuser");
+            vProfile.println("objectclass: inetlocalmailrecipient");
+            vProfile.println("objectclass: userpresenceprofile");
+            vProfile.println("inetuserstatus: active");
+            vProfile.println("cn: " + pAccountName);
+            vProfile.println("uid: " + pLogin);
+            vProfile.println("datasource: iPlanet Messaging Server 5.0 Admin Console");
+            vProfile.println("givenname: " + pNombre);
+            vProfile.println("sn: " + pApellido);
+            vProfile.println("userpassword: " + pPassword);
+            vProfile.println("mailalternateaddress: " + pLogin + "@" + vSecondDomain);
+            vProfile.close();
+            vResult = 1;
+        
+        }
+        catch(Exception e)
+        {
+            System.out.println("!!! ExecIPlanetCommands.profileMakerCreate() failed.....");
+            System.out.println("\tERROR : [" + e.getMessage() + "]");
+        }
+        return vResult;
+    }
+ // profileMaker
+
+	/*********************************************************************************
+    *   Permite crear el archivo de Profile que se necesita para borrar
+	*   una cuenta de correo.
+    **********************************************************************************/
+	private int profileMakerDelete(String pLogin, String pDomain)
+    {
+        int vResult = 0;
+        try
+        {
+            File vFileProfile = new File("del.ldif");
+            PrintWriter vProfile = new PrintWriter(new BufferedWriter(new FileWriter(vFileProfile)), true);
+            StringTokenizer vStringDomain = new StringTokenizer(pDomain, "^");
+            String vFirstDomain = vStringDomain.nextToken();
+            vProfile.println("dn: uid=" + pLogin + ", ou=People, o=isp, o=" + vFirstDomain);
+            vProfile.println("changetype: delete");
+            vProfile.close();
+            vResult = 1;
+        }
+        catch(Exception e)
+        {
+            System.out.println("!!! ExecIPlanetCommands.profileMakerDelete() failed.....");
+            System.out.println("\tERROR : [" + e.getMessage() + "]");
+        }
+        return vResult;
+    }
+	/*********************************************************************************
+    *   Permite crear el archivo de Profile que se necesita para bloquear 
+	*   una cuenta de correo.
+    **********************************************************************************/
+	private int profileMakerLock(String pLogin, String pDomain)
+    {
+        int vResult = 0;
+        try
+        {
+            File vFileProfile = new File("lock.ldif");
+            PrintWriter vProfile = new PrintWriter(new BufferedWriter(new FileWriter(vFileProfile)), true);
+            StringTokenizer vStringDomain = new StringTokenizer(pDomain, "^");
+            String vFirstDomain = vStringDomain.nextToken();
+            vProfile.println("dn: uid=" + pLogin + ", ou=People, o=isp, o=" + vFirstDomain);
+            vProfile.println("changetype: modify");
+            vProfile.println("replace: inetUserStatus");
+            vProfile.println("inetUserStatus: inactive");
+            vProfile.close();
+            vResult = 1;
+        }
+        catch(Exception e)
+        {
+            System.out.println("!!! ExecIPlanetCommands.profileMakerLock() failed.....");
+            System.out.println("\tERROR : [" + e.getMessage() + "]");
+        }
+        return vResult;
+    }
+    /*********************************************************************************
+    *   Permite crear el archivo de Profile que se necesita para desbloquear 
+	*   una cuenta de correo.
+    **********************************************************************************/
+	private int profileMakerUnLock(String pLogin, String pDomain)
+    {
+        int vResult = 0;
+        try
+        {
+            File vFileProfile = new File("unlock.ldif");
+            PrintWriter vProfile = new PrintWriter(new BufferedWriter(new FileWriter(vFileProfile)), true);
+            StringTokenizer vStringDomain = new StringTokenizer(pDomain, "^");
+            String vFirstDomain = vStringDomain.nextToken();
+            vProfile.println("dn: uid=" + pLogin + ", ou=People, o=isp, o=" + vFirstDomain);
+            vProfile.println("changetype: modify");
+            vProfile.println("replace: inetUserStatus");
+            vProfile.println("inetUserStatus: active");
+            vProfile.close();
+            vResult = 1;
+        }
+        catch(Exception e)
+        {
+            System.out.println("!!! ExecIPlanetCommands.profileMakerUnLock() failed.....");
+            System.out.println("\tERROR : [" + e.getMessage() + "]");
+        }
+        return vResult;
+    }
+    /*********************************************************************************
+    *   Permite crear el archivo de Profile que se necesita para modificar
+	*   una cuenta de correo.
+    **********************************************************************************/
+    private int profileMakerUpdate(Properties pParameters)
+    {
+        int vResult = 0;
+        try
+        {
+            String vNewLogin = (String)pParameters.get("Login");
+            String vNewKBytes = (String)pParameters.get("KBytes");
+            String vNewDomain = (String)pParameters.get("Domain");
+            String vNewPassword = (String)pParameters.get("Password");
+            String vNewAccountName = (String)pParameters.get("AccountName");
+            String vNewFirstName = (String)pParameters.get("Nombre");
+            String vNewLastName = (String)pParameters.get("Apellido");
+            String vListAddresses = (String)pParameters.get("ListAddresses");
+            //String vVacationMessage = (String)pParameters.get("VacationMessage");
+
+            File vFileProfile = new File("modify.ldif");
+            PrintWriter vProfile = new PrintWriter(new BufferedWriter(new FileWriter(vFileProfile)), true);
+
+            StringTokenizer vStringDomain = new StringTokenizer(vNewDomain, "^");
+            String vFirstDomain  = vStringDomain.nextToken();
+            String vSecondDomain = vStringDomain.nextToken();
+            String vThirdDomain  = vStringDomain.nextToken();
+            
+
+            
+            vProfile.println("dn: uid=" + vNewLogin + ", ou=People, o=isp, o=" + vFirstDomain);
+            vProfile.println("mailhost: " + vThirdDomain);
+			vProfile.println("maildeliveryoption: mailbox");
+            vProfile.println("mailuserstatus: active");
+            vProfile.println("mailquota: " + String.valueOf(vNewKBytes));
+            vProfile.println("mail: " + vNewLogin + "@" + vFirstDomain);
+            vProfile.println("preferredlanguage: es");
+            vProfile.println("objectclass: top");
+            vProfile.println("objectclass: person");
+            vProfile.println("objectclass: organizationalPerson");
+            vProfile.println("objectclass: inetorgperson");
+            vProfile.println("objectclass: inetUser");
+            vProfile.println("objectclass: inetSubscriber");
+            vProfile.println("objectclass: ipUser");
+            vProfile.println("objectclass: nsManagedPerson");
+            vProfile.println("objectclass: inetmailuser");
+            vProfile.println("objectclass: inetlocalmailrecipient");
+            vProfile.println("objectclass: userpresenceprofile");
+            vProfile.println("inetuserstatus: active");
+            vProfile.println("cn: " + vNewAccountName);
+            vProfile.println("uid: " + vNewLogin);
+            vProfile.println("datasource: iPlanet Messaging Server 5.0 Admin Console");
+            vProfile.println("givenname: " + vNewFirstName);
+            vProfile.println("sn: " + vNewLastName);
+            vProfile.println("userpassword: " + vNewPassword);
+            vProfile.println("mailalternateaddress: " + vNewLogin + "@" + vSecondDomain);
+
+		//	Lista de Direcciones de Redireccionamiento
+			if(!vListAddresses.equals("_SOIN_NULL_"))
+			{
+				byte vSpecialChar[] = {8};
+                byte vSpecialChar2[] = {23};
+                int vPos = 0;
+				String vToken;
+
+				StringTokenizer vStringTokenizer = new StringTokenizer(vListAddresses, new String(vSpecialChar));
+
+				vProfile.println("maildeliveryoption: forward");
+
+				while(vStringTokenizer.hasMoreTokens())
+				{
+					vToken = vStringTokenizer.nextToken();
+                    vPos = vToken.indexOf(new String(vSpecialChar2));
+                    if(vPos != -1)
+                        vToken = vToken.substring(vPos + 1);
+					vProfile.println("mailforwardingaddress: " + vToken);
+//					System.out.println("Token: " + vToken);
+				}
+			}
+
+            vProfile.close();
+            vResult = 1;
+
+
+/*			if(!vVacationMessage.equals("_SOIN_NULL_"))
+            {
+                int vCountLines = 0;
+                vProfile.println("AutoReply-Mode:\t\t\t[vacation]");
+                for(StringTokenizer vStringTokenizer = new StringTokenizer(vVacationMessage, "\n"); vStringTokenizer.hasMoreTokens();)
+                {
+                    String vToken = vStringTokenizer.nextToken();
+                    if(vCountLines > 0)
+                        vProfile.println("\t\t\t\t[" + vToken + "]");
+                    else
+                        vProfile.println("AutoReply-Info:\t\t\t[" + vToken + "]");
+                    vCountLines++;
+                }
+
+            }
+*/          
+        }
+        catch(Exception e)
+        {
+            System.out.println("!!! ExecIPlanetCommands.profileMakerUpdate() failed.....");
+            System.out.println("\tERROR : [" + e.getMessage() + "]");
+            vResult = 0;
+        }
+        return vResult;
+    } // profileMaker2      
+    // With this method I can send EMail with HTML format to any address.
+	/******************************************************************************************
+    *   sendMail() :   Permite desbloquear una cuenta utilizando la linea de comando 
+	*				   del PostOffice "sendMail".
+    *******************************************************************************************/
+    private void sendMail()
+    {
+		System.out.println("******");
+		System.out.println("SendMail init");
+		System.out.println("******");
+		String vResult = "-1"; 
+
+		try 
+		{
+			Properties vParameters = new Properties();
+			String vTemplateName = in.readLine();	// << Recibe el Nombre de la Plantilla de Mail que se desea enviar.
+			out.println(vTemplateName);
+			vParameters.put("TemplateName", vTemplateName);
+			String vListAccounts = in.readLine();	// << Recibe la lista de cuentas a las que se les debe enviar el Mail
+			out.println(vListAccounts);
+			vParameters.put("ListAccounts", vListAccounts);
+			String vSubject = in.readLine();		// << Recibe el Subject del Mail.
+			out.println(vSubject);		
+			vParameters.put("Subject", vSubject);
+			String vListParameters = in.readLine();	// << Recibe la Lista de los Parametros a aplicar.
+			out.println(vListParameters);
+
+			// Distribuye todos los parametros recibidos en una forma mas ordena en un Properties.
+			Properties vMessageParameters = new Properties();
+			StringTokenizer vStrTok_Parameters = new StringTokenizer(vListParameters, "|");
+
+			do
+			{
+				String vParametersKey = null;
+				Properties vMessageSubParameters = new Properties();
+				StringTokenizer vStrTok_Values = new StringTokenizer(vStrTok_Parameters.nextToken(), "^");
+
+				do
+				{
+					String vParameterValues = vStrTok_Values.nextToken();
+					int vDivisionIndex = vParameterValues.indexOf("=");
+					String vParameterName = vParameterValues.substring(0, vDivisionIndex);
+					String vParameterValue = vParameterValues.substring(vDivisionIndex + 1);
+					vMessageSubParameters.put(vParameterName, vParameterValue);
+					if(vParameterName.equals("Name"))	// Si es el parametro que se utiliza como identificador unico entre los parametros.
+						vParametersKey = vParameterValue;
+					System.out.println("Parameter [" + vParameterName + "]" + " Value [" + vParameterValue + "]");
+					vParameterValues = null;
+					vParameterName = null;
+					vParameterValue = null;
+				} while(vStrTok_Values.hasMoreTokens());
+
+				vMessageParameters.put(vParametersKey, vMessageSubParameters);
+				vParametersKey = null;
+				vMessageSubParameters = null;
+			} while(vStrTok_Parameters.hasMoreTokens());
+
+			vParameters.put("Parameters", vMessageParameters);
+			System.out.println("Todos los parametros [Ok]");
+
+			/*
+			String vTemplateName = null;	// Nombre del Template que se usa para la contruccion del Mail.
+			switch(Integer.valueOf((String)vParameters.get("MailType")).intValue())
+			{
+			case 1:			// Envio de Mensaje por Creacion de la Nueva Cuenta.
+			{
+				vTemplateName = "NewAccount";
+				break;
+			}
+			}
+			*/
+
+			// Construye el Encabezado del Archivo que se tomara como base para el envio del Mail.
+			File vFileTarget = new File(_PathTemporalFiles, vTemplateName + String.valueOf(System.currentTimeMillis()) +  ".tmp"); 
+			PrintWriter vTarget = new PrintWriter(new BufferedWriter(new FileWriter(vFileTarget)), true);
+			vTarget.println("From: " + _Sender);
+			vTarget.println("To: " + (String)vParameters.get("ListAccounts"));
+			vTarget.println("Subject: " + (String)vParameters.get("Subject"));
+			vTarget.println("Content-type: text/html");
+			vTarget.println("Content-Transfer-Encoding: 8bit");
+
+			// Recorre el File Template para la construccion del Mail.
+			String vInputLine = null;
+			vMessageParameters = (Properties)vParameters.get("Parameters");
+			File vFileTemplate = new File(_PathTemplates, vTemplateName + ".tpl");
+			BufferedReader vTemplate = new BufferedReader(new FileReader(vFileTemplate));
+
+			do
+			{
+				vInputLine = vTemplate.readLine();
+
+				if(vInputLine != null)
+				{
+					StringBuffer vOutputLine = new StringBuffer();
+					int vLastPosition = 0;
+
+					while(true)
+					{
+						//System.out.println(vInputLine);
+						int vTagPosition = vInputLine.indexOf(_TagPrefix, vLastPosition);
+						//System.out.println(_TagPrefix);
+
+						if(vTagPosition != -1)
+						{
+							//System.out.println("vTagPosition : " + vTagPosition);
+							vOutputLine.append(vInputLine.substring(vLastPosition, vTagPosition));
+							int vTagNamePosition = vInputLine.indexOf("TagName=", vTagPosition + _TagPrefix.length());
+
+							if(vTagNamePosition != -1)
+							{
+								//System.out.println("vTagNamePosition : " + vTagNamePosition);
+								//System.out.println("Ojo : " + ("TagName=").length());
+								String vTagName = vInputLine.substring(vTagNamePosition + ("TagName=").length(), vInputLine.indexOf(_TagSufix, vTagNamePosition));
+								//System.out.println("TagName : [" + vTagName.trim() + "]");
+
+								if(vTagName != null)
+								{
+									if(vMessageParameters.containsKey(vTagName.trim()))	// Si el el Tag existe en la lista de Tags recibida.
+									{
+										Properties vMessageSubParameters = (Properties)vMessageParameters.get(vTagName.trim());
+										vOutputLine.append((String)vMessageSubParameters.get("Value"));
+									}
+									else
+									{
+										vOutputLine.append(vInputLine.substring(vTagPosition, vInputLine.indexOf(_TagSufix, vTagPosition) + _TagSufix.length()));
+									}
+								}
+							}
+							vLastPosition = vInputLine.indexOf(_TagSufix, vTagPosition) + _TagSufix.length();
+						}
+						else
+						{
+							vOutputLine.append(vInputLine.substring(vLastPosition, vInputLine.length()));
+							break;
+						}
+					}	// while(true).
+					vTarget.println(vOutputLine.toString());
+				}	// if(vInputLine != null).
+			} while(vInputLine != null);
+			vTemplate.close();
+			vTarget.close();
+
+
+		// 	Ejecuta el comando para el envio del mail y contruye los parametros de entrada para dicho comando.
+			System.out.println(_PathBinCommands + "sendmail " + "-t " + "< " + vFileTarget.getPath());
+			java.lang.Process vProcess = java.lang.Runtime.getRuntime().exec(_PathBinCommands + "sendmail " + "-t " + "< " + vFileTarget.getPath());
+			//java.lang.Process vProcess = java.lang.Runtime.getRuntime().exec(_PathBinCommands + "sendmail " + "-t ");
+
+		//	String iPlanetCommand = "/export/home/saci/MAILServerSOL/sendmail.saci";
+        //  System.out.println("The Command is: " + iPlanetCommand);
+        //  vProcess = Runtime.getRuntime().exec(iPlanetCommand);
+
+
+			PrintWriter vCommandInput = new PrintWriter(new BufferedWriter(new OutputStreamWriter(vProcess.getOutputStream())));
+			BufferedReader vFileInput = new BufferedReader(new FileReader(vFileTarget));
+			vInputLine = null;
+
+			do
+			{
+				vInputLine = vFileInput.readLine();
+				if(vInputLine != null)
+					vCommandInput.println(vInputLine);
+				else
+					vCommandInput.println(".");
+			} while(vInputLine != null);
+
+			vCommandInput.flush();
+			vFileInput.close();
+			vCommandInput.close();
+			// Espera a que se ejecute la instruccion.
+			int vReturnValue = vProcess.waitFor();        
+			System.out.println("ReturnValue : " + vReturnValue);
+			vResult = new java.io.BufferedReader(new java.io.InputStreamReader(vProcess.getInputStream())).readLine();
+
+			if(vResult == null)
+				System.out.println("The result of sendmail is null");
+			else
+				System.out.println("The result of sendmail is " + vResult);
+
+			// Elimina el archivo temporal del mail.
+			vFileTarget.delete();
+		}
+		catch(Exception e)
+		{
+			System.out.println("!!! ExecMailCommands.sendMail() failed.....");
+			System.out.println("\tERROR : [" + e.getMessage() + "]");
+		}
+		finally
+		{
+			out.println(vResult);
+		}
+    } // sendMail()      
+    // add your data members here
+    
+
+    private Socket vSocket;
+    private Monitor vMonitor;
+    private BufferedReader in;      				// Lectura.
+    private PrintWriter out;        				// Escritura.
+    private ConfigFile vConfigFileServer = null;    // Permite accesar los datos del archivo de configuracion del Server.    
+    //private String vDomain = null;          		// Conserva el domain del server de correo.
+    private String PathCommandsUtils = null;        // Contiene el path de las instrucciones que se utilizan para el manejo de las cuentas de correo.
+    //private String _PathProfiles = null;
+    private String _MailingList = null;				// Nombre de la Lista de Correo para suscribir las cuentas.
+    private String _PathBinCommands = null;			// Contiene el path de las instrucciones que se utilizan para el envio de correo.	
+    private String _PathTemplates = null;			// Path de los Templates Files.
+    private String _PathTemporalFiles = null;		// Path de los Archivos Temporales que se usan para el envio del Mail.
+    private String _Sender = null;
+    private static String _TagPrefix = "<!--SOINLabel";
+    private static String _TagSufix = "-->";
+}
+

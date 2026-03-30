@@ -1,0 +1,82 @@
+select datalength(Elogo), Elogo,* from asp..    Empresa  where Ecodigo >= 1170
+select datalength(CElogo), CElogo,* from asp.. CuentaEmpresarial where CEcodigo >= 500000000000890
+select * from aspweb.. Empresas where Ecodigo >= 244
+
+delete from asp.. UsuarioRol  where Ecodigo >= 1170
+delete from asp.. vUsuarioProcesos  where Ecodigo >= 1170
+delete from asp.. UsuarioPassword where Usucodigo in (
+	select Usucodigo from Usuario where CEcodigo >= 500000000000890)
+delete from asp.. Preferencias where Usucodigo in (
+	select Usucodigo from Usuario where CEcodigo >= 500000000000890)
+delete from asp.. Usuario where CEcodigo >= 500000000000890
+delete from asp.. ModulosCuentaE where CEcodigo >= 500000000000890
+delete from asp.. Empresa  where Ecodigo >= 1170
+delete from asp.. CECaches where CEcodigo >= 500000000000890
+delete from asp.. CuentaEmpresarial where CEcodigo >= 500000000000890
+
+delete from aspweb.. PCDCatalogoCuentaF where CFcuenta in (
+	select CFcuenta from aspweb.. CFinanciera where Ecodigo >= 244)
+delete from aspweb.. CFinanciera where Ecodigo >= 244
+
+delete from aspweb.. PCDCatalogoCuenta where Ccuenta in (
+	select Ccuenta from aspweb.. CContables where Ecodigo >= 244)
+delete from aspweb.. Impuestos where Ecodigo >= 244
+delete from aspweb.. CContables where Ecodigo >= 244
+delete from aspweb.. CPVigencia where Ecodigo >= 244
+delete from aspweb.. CtasMayor where Ecodigo >= 244
+delete from aspweb.. ConceptoContable where Ecodigo >= 244
+delete from aspweb.. ConceptoContableE where Ecodigo >= 244
+delete from aspweb.. CPTransacciones where Ecodigo >= 244
+delete from aspweb.. CCTransacciones where Ecodigo >= 244
+delete from aspweb.. BTransacciones where Ecodigo >= 244
+delete from aspweb.. EstadoSNegocios where Ecodigo >= 244
+delete from aspweb.. Parametros where Ecodigo >= 244
+delete from aspweb.. CFuncional where Ecodigo >= 244
+delete from aspweb.. Oficinas where Ecodigo >= 244
+delete from aspweb.. DatosEmpleado where Ecodigo >= 244
+delete from aspweb.. Departamentos where Ecodigo >= 244
+delete from aspweb.. CicloLectivoTipo where Ecodigo >= 244
+delete from aspweb.. ParametrosGenerales where Ecodigo >= 244
+delete from aspweb.. TablaResultadoRango where TRcodigo in (
+	select TRcodigo from aspweb.. TablaResultado where Ecodigo >= 244)
+delete from aspweb.. TablaResultado where Ecodigo >= 244
+delete from aspweb.. PlanEvaluacionConcepto where CEcodigo in (
+	select CEcodigo from aspweb.. ConceptoEvaluacion where Ecodigo >= 244)
+delete from aspweb.. ConceptoEvaluacion where Ecodigo >= 244
+delete from aspweb.. PlanEvaluacion where Ecodigo >= 244
+delete from aspweb.. GradoAcademico where Ecodigo >= 244
+delete from aspweb.. GradoAcademico where Ecodigo >= 244
+
+/* RH */
+delete from aspweb.. TiposNomina where Ecodigo >= 244
+delete from aspweb.. ConceptosTipoAccion where RHTid in(
+	select RHTid from aspweb.. RHTipoAccion where Ecodigo >= 244)
+delete from aspweb.. RHTipoAccion where Ecodigo >= 244
+delete from aspweb.. DCargas where ECid in (
+	select ECid from aspweb.. ECargas where Ecodigo >= 244)
+delete from aspweb.. ECargas where Ecodigo >= 244
+delete from aspweb.. TDeduccion where Ecodigo >= 244
+delete from aspweb.. CIncidentesD where CIid in (
+	select CIid from aspweb.. CIncidentes where Ecodigo >= 244)
+delete from aspweb.. CIncidentes where Ecodigo >= 244
+delete from aspweb.. RHPuestosExternos where Ecodigo >= 244
+delete from aspweb.. RHTPuestos where Ecodigo >= 244
+delete from aspweb.. RHConfigReportePuestos where Ecodigo >= 244
+delete from aspweb.. DRegimenVacaciones where RVid in (
+	select RVid from aspweb.. RegimenVacaciones where Ecodigo >= 244)
+delete from aspweb.. RegimenVacaciones where Ecodigo >= 244
+delete from aspweb.. DLaboralesEmpleado where Ecodigo >= 244
+delete from aspweb.. RHJornadas where Ecodigo >= 244
+
+delete from aspweb.. Empresas where Ecodigo >= 244
+ 
+sp_who
+
+sp_helpconstraint RHJornadas
+sp_helpconstraint DLaboralesEmpleado
+select * from RHJornadas where RHJid in (
+select RHJid from DLaboralesEmpleado where Ecodigo < 244)
+
+select * from DLaboralesEmpleado where RHJid = 311
+
+update PagosEmpleado set RHJid = 210 where RHJid = 311

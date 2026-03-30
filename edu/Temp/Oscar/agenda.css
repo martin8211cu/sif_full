@@ -1,0 +1,17 @@
+tr.citaParma, tr.citaParma * textarea.citaNormal { background-color:#D8E5F2; border: solid 1px #D8E5F2; }
+tr.citaNonma, tr.citaNonma * textarea.citaNormal { background-color:#FCFDFE; border: solid 1px #FCFDFE; }
+tr.citaParta, tr.citaParta * textarea.citaNormal { background-color:#C6DAEC; border: solid 1px #C6DAEC; }
+tr.citaNonta, tr.citaNonta * textarea.citaNormal { background-color:#FCFDFE; border: solid 1px #FCFDFE; }
+tr.citaParno, tr.citaParno * textarea.citaNormal { background-color:#A9C6E1; border: solid 1px #A9C6E1; }
+tr.citaNonno, tr.citaNonno * textarea.citaNormal { background-color:#F2F5F8; border: solid 1px #F2F5F8; }
+tr.citaParma * textarea, tr.citaNonma * textarea,
+tr.citaParta * textarea, tr.citaNonta * textarea,
+tr.citaParno * textarea, tr.citaNonno * textarea {
+	overflow: visible;
+	wrap:     virtual;
+	border:   none;
+	width:    100%;
+	height:   100%;
+	cursor:   default;
+	font:     10px Verdana, Arial, Helvetica, sans-serif;
+}

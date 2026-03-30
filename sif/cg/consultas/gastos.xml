@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_Imprimir>Print</LB_Imprimir>
+		<LB_Regresar>Return</LB_Regresar>
+		<LB_DetalleG>Expenses Detail</LB_DetalleG>
+		<LB_Departamento>Departament</LB_Departamento>
+		<LB_Sucursal>Office</LB_Sucursal>
+		<LB_Consolidado>Consolidated</LB_Consolidado>
+		<LB_Periodo>Period</LB_Periodo>
+		<LB_Presupuesto>Budget</LB_Presupuesto>
+		<LB_Anterior>Previous</LB_Anterior>
+		<LB_Descripcion>Description</LB_Descripcion>
+		<LB_SaldosR>Real Balances</LB_SaldosR>
+		<LB_Diferencia>Difference</LB_Diferencia>
+		<LB_Corriente>Current</LB_Corriente>
+		<LB_FinReporte>End</LB_FinReporte>
+	</Idioma>
+</Etiquetas>

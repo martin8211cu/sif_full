@@ -1,0 +1,64 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 126 - DBM 234: CPNAPdetallePagado
+
+	         PARCHE:  Parche023_169_SIF_NAP_pagado
+
+GENERADO EN:
+	SERVER:  http://mxpapp36:8300
+	DSN:     sifcim
+	FECHA:   01/08/2011 18:39:51
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* CHG_TABLE CPNAPdetallePagado: Detalle de Movimientos de Pago */
+/* ======================================================================================== */
+/* CHG_TABLE OP=RENAME: CPNAPdetallePago TO CPNAPdetallePagado */
+EXEC sp_rename 'CPNAPdetallePago', 'CPNAPdetallePagado', 'OBJECT'
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* CHG_COLUMN OP=(CAMBIO): CPNAPDPdocumento - Documento Origen */
+ALTER TABLE CPNAPdetallePagado ALTER COLUMN CPNAPDPdocumento varchar(50) NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+UPDATE CPNAPdetallePagado SET CPNAPDPdocumento = RTRIM(CPNAPDPdocumento)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_CHK_COL (OP=RENAME): cols=([CPNAPDPtipoMov]='P' OR [CPNAPDPtipoMov]='EJ') */
+EXEC sp_rename 'CPNAPdetallePago_CK07', 'CPNAPdetallePagado_CK07', 'OBJECT'
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* CHG_KEY_PK (OP=RENAME): cols=Ecodigo,CPNAPnum,CPNAPDPid */
+EXEC sp_rename 'CPNAPdetallePagado.CPNAPdetallePago_PK', 'CPNAPdetallePagado_PK', 'INDEX'
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* CHG_KEY_INDEX_FI (OP=RENAME): cols=Ecodigo,CPNAPnum */
+EXEC sp_rename 'CPNAPdetallePagado.CPNAPdetallePago_FI01', 'CPNAPdetallePagado_FI01', 'INDEX'
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* CHG_KEY_FK (OP=RENAME): cols=Ecodigo,CPNAPnum */
+EXEC sp_rename 'CPNAPdetallePago_FK01', 'CPNAPdetallePagado_FK01', 'OBJECT'
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* CHG_KEY_INDEX (OP=RENAME): cols=CPcuenta,Ocodigo,CPNAPDPtipoMov */
+EXEC sp_rename 'CPNAPdetallePagado.CPNAPdetallePago_ID01', 'CPNAPdetallePagado_ID01', 'INDEX'
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* END_SCRIPT */

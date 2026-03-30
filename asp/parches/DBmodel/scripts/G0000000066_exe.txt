@@ -1,0 +1,86 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 156 - DBM 259: GECitinerario Itinerariao de Viaje de Com
+
+	         PARCHE:  Parche023_225_SIF_ViaticosXcomision
+
+GENERADO EN:
+	SERVER:  http://mxpapp36:8300
+	DSN:     sifcim
+	FECHA:   27/08/2011 14:45:10
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* CHG_TABLE CCHVales: Vales de Caja Chica */
+/* ======================================================================================== */
+/* CHG_COLUMN OP=(CAMBIO): CCHVestado - Estado del vale */
+ALTER TABLE CCHVales DROP CONSTRAINT CCHVales_CK07 /* CHECK ([CCHVestado]='TERMINADO' OR [CCHVestado]='CANCELADO' OR [CCHVestado]='POR LIQUIDAR' OR [CCHVestado]='APLICADO') */
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE CCHVales ADD CONSTRAINT CCHVales_CK07 CHECK ([CCHVestado]='ENTREGADO' OR [CCHVestado]='TERMINADO' OR [CCHVestado]='CANCELADO' OR [CCHVestado]='POR LIQUIDAR' OR [CCHVestado]='APLICADO')
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE GEanticipo: GEanticipo */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): CPNAPnum_Pago - NAP de Pago */
+ALTER TABLE GEanticipo ADD CPNAPnum_Pago numeric(15) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* ADD_TABLE GECitinerario: Itinerariao de Viaje de Comisi */
+/* ======================================================================================== */
+
+CREATE TABLE GECitinerario (
+	 GECIid                         numeric(18)          identity
+	,GECid                          numeric(18)          NOT NULL
+	,GECIorigen                     varchar(10)          NULL
+	,GECIdestino                    varchar(10)          NULL
+	,GECIhotel                      varchar(20)          NULL
+	,GECIfsalida                    datetime             NULL
+	,GECIhinicio                    numeric(4)           NULL
+	,GECIhfinal                     numeric(4)           NULL
+	,GECIlineaAerea                 varchar(20)          NULL
+	,GECInumeroVuelo                integer              NULL
+	,BMUsucodigo                    numeric(18)          NULL
+	,ts_rversion                    timestamp           
+	)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="P", SEC="0", COLS="GECIid" */
+ALTER TABLE GECitinerario ADD CONSTRAINT GECitinerario_PK PRIMARY KEY CLUSTERED (GECIid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="F", SEC="1", COLS="GECid", REF="GEcomision" */
+CREATE INDEX GECitinerario_FI01 ON GECitinerario (GECid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ================================================================= */
+/*            CREA FKs NUEVOS O CON CAMPOS MODIFICADOS               */
+/* ================================================================= */
+/* CHG_TABLE GECitinerario */
+/* ADD_FK OP=(TAB NUEVA): TIP="F", SEC="1", COLS="GECid", REF="GEcomision" */
+ALTER TABLE GECitinerario ADD CONSTRAINT GECitinerario_FK01 FOREIGN KEY (GECid) REFERENCES GEcomision (GECid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

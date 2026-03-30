@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_NumeroSocio>Partner Code</LB_NumeroSocio>
+		<LB_EmpresaOrigen>Source Enterprise</LB_EmpresaOrigen>
+		<LB_GenerarSocioCorporacion>Generate Corporation Partner</LB_GenerarSocioCorporacion>
+		<LB_TipoPersona>Traducir Tipo de Persona</LB_TipoPersona>
+		<LB_Identificacion>Identification</LB_Identificacion>
+		<LB_Fisica>Natural Person</LB_Fisica>
+		<LB_Juridica>Legal Person</LB_Juridica>
+		<LB_Extranjero>Foreign</LB_Extranjero>
+		<LB_Ninguno>None</LB_Ninguno>
+		<LB_IdentificacionSecundaria>Identification (Secondary)</LB_IdentificacionSecundaria>
+		<LB_Fecha>Date</LB_Fecha>
+		<LB_Inactivo>Inactive</LB_Inactivo>
+		<LB_ClienteCorporativo>Corporate Client</LB_ClienteCorporativo>
+		<LB_InterCompany>Intercompany</LB_InterCompany>
+		<LB_Nombre>Name</LB_Nombre>
+		<LB_GrupoSocioNegocios>Partners Group</LB_GrupoSocioNegocios>
+		<LB_CodigoSocioSistemasExterno>Partner Code in External Systems</LB_CodigoSocioSistemasExterno>
+		<LB_EmpresaPertenece>Belonging Enterprise</LB_EmpresaPertenece>
+		<LB_SocioRelacionado>Partner Related</LB_SocioRelacionado>
+		<LB_CertificadoISO>ISO Certified</LB_CertificadoISO>
+		<MSG_NoSePuedeRelacionarYaQueHayOtrosSociosRelacionadosConEste>Can not be related, because there are assigned partners</MSG_NoSePuedeRelacionarYaQueHayOtrosSociosRelacionadosConEste>
+		<LB_Telefono>Phone Numbers</LB_Telefono>
+		<LB_Fax>Fax</LB_Fax>
+		<LB_CorreoElectronico>Email</LB_CorreoElectronico>
+		<LB_EstadoSocioNegocios>Partner Status</LB_EstadoSocioNegocios>
+		<LB_Idioma>Language</LB_Idioma>
+		<MSG_UsuarioAsignadoParaUsoDelSistema>User assigned for system use</MSG_UsuarioAsignadoParaUsoDelSistema>
+		<MSG_NoSeHaAsignadoUsuario>No user assigned</MSG_NoSeHaAsignadoUsuario>
+	</Idioma>
+</Etiquetas>

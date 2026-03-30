@@ -1,0 +1,129 @@
+p {
+font-family : Arial; 
+font-weight : normal; 
+color : white; 
+font-size : 8pt; 
+} 
+.table {
+border-right : 1px #FFFFFF; 
+border-top : 1px #FFFFFF; 
+border-left : 1px #FFFFFF; 
+border-bottom : 1px dashed #FFFFFF; 
+} 
+.medtable {
+border-right : 1px solid #373737; 
+border-top : 1px solid #373737; 
+border-left : 1px solid #373737; 
+border-bottom : 1px solid #373737; 
+} 
+.pictable {
+border-right : 1px dashed #373737; 
+border-top : 1px dashed #373737; 
+border-left : 1px dashed #373737; 
+border-bottom : 1px dashed #373737; 
+} 
+.table1 {
+	padding-right : 5px;
+	padding-top : 5px;
+	padding-bottom : 5px;
+	padding-left : 5px;
+	border-top: 1px dashed #FFFFFF;
+	border-right: 1px #FFFFFF;
+	border-bottom: 1px #FFFFFF;
+	border-left: 1px #FFFFFF;
+
+
+} 
+.table2 {
+padding-top : 5px; 
+padding-bottom : 5px; 
+padding-left : 5px; 
+padding-right : 5px; 
+font-family : Verdana; 
+font-size : 7.5pt; 
+} 
+
+.table3 {
+	border: 1px solid #FFFFFF;
+
+} 
+
+.para {
+line-height : 175%; 
+font-family : Verdana; 
+font-size : 9px; 
+} 
+.head1 {
+font-size : 11pt; 
+font-weight : bold; 
+font-family : Verdana; 
+} 
+.head2 {
+font-family : Verdana; 
+font-size : 9px; 
+} 
+.head3 {
+font-size : 8pt; 
+color : #eec500; 
+font-weight : bold; 
+} 
+.head4 {
+font-family : Arial; 
+font-size : 10pt; 
+font-weight : bold; 
+color : #fcb60d; 
+} 
+.head5 {
+font-family : Verdana; 
+font-size : 10px; 
+} 
+table {
+font-family : Arial, Helvetica, sans-serif; 
+color : white; 
+font-size : 8pt; 
+} 
+.HM1 {
+color : #eec500; 
+font-size : 8pt; 
+} 
+.HM1 A:link {
+color : #ffffcc; 
+} 
+.HM1 A:hover {
+color : #fcb50d; 
+} 
+A:link {
+color : white; 
+text-decoration : none; 
+font-weight : normal; 
+} 
+A:visited {
+color : white; 
+text-decoration : none; 
+font-weight : normal; 
+} 
+A:hover {
+color : #eec500; 
+text-decoration : none; 
+} 
+.formtable {
+	font-family: Verdana;
+	font-size: 7.5pt;
+	border: 1px solid #D4D4D4;
+}
+
+table.navbar {background-color:#373737; margin-bottom:0px;}
+table.navbar * {color:white; text-decoration:none;}
+.subTitulo {font-weight:bold; border-bottom:1px solid white}
+input[type='text'],input[type='file'],textarea,select { border:1px solid gray; font-size:12px; font-family:Verdana, Arial, Helvetica, sans-serif;}
+input[type='button'],input[type='submit'],input[type='reset'] { font-size:12px;background-color:black;color:white;border:2px outset gray; }
+input.cajasinborde,input.cajasinbordeb {width:1px; height:1px;border:0px none black;background-color:black}
+.listaNon { color:white; background-color:#000000; vertical-align:middle; padding-left:5px;}
+.listaPar { color:white; background-color:#333333; vertical-align:middle; padding-left:5px;}
+.tituloListas {
+	font-weight: bolder;
+	vertical-align: middle;
+	padding: 2px;
+	background-color: #454545;
+}
+.listaParSel, .listaNonSel { color:white; background-color:#666666; vertical-align:middle; padding-left:5px;}

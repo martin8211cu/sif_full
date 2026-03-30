@@ -1,0 +1,290 @@
+options
+{
+  STATIC=false;
+  LOOKAHEAD=2;
+  DEBUG_PARSER=false;
+  IGNORE_CASE=true;
+  COMMON_TOKEN_ACTION=true;
+  UNICODE_INPUT=true;
+}
+
+PARSER_BEGIN(Calculator)
+
+/* faltan las funciones round,floor,ceiling,min,max,iif */
+
+package com.soin.rh.calculo;
+
+import java.util.*;
+public class Calculator
+{
+
+  private SymbolTable symtable = new SymbolTable();
+  public SymbolTable getSymbolTable() { return symtable; }
+  public void setSymbolTable(SymbolTable v) { symtable=v; }
+
+  public static void main(String args[]) throws
+	ParseException, RHTokenMgrException
+  {
+    Calculator parser = new Calculator(System.in);
+    parser.parse();
+  }
+}
+
+PARSER_END(Calculator)
+
+SKIP :
+{
+    " "
+|   "\t"
+}
+
+TOKEN:
+{
+    < BOOLEAN: "true" | "false" >
+|   < DATE: "#" (<DIGIT>)(<DIGIT>)? "/" (<DIGIT>)(<DIGIT>)? "/"
+                (<DIGIT>)(<DIGIT>)(<DIGIT>)(<DIGIT>) "#"  >
+|   < NUMBER: (<DIGIT>)+ ( "." (<DIGIT>)+ )? >
+|   < FUNCTION: "round" | "ceiling" | "floor" | "min" | "max" | "iif" | "getdate"  >
+|   < IDENTIFIER: <LETTER> (<LETTER>|<DIGIT>)* >
+|   < STMTSEPARATOR: (["\r","\n",";"])+ >
+|   < #DIGIT: ["0"-"9",           "\u0660"-"\u0669", "\u06f0"-"\u06f9",
+               "\u0966"-"\u096f", "\u09e6"-"\u09ef", "\u0a66"-"\u0a6f",
+               "\u0ae6"-"\u0aef", "\u0b66"-"\u0b6f", "\u0be7"-"\u0bef",
+               "\u0c66"-"\u0c6f", "\u0ce6"-"\u0cef", "\u0d66"-"\u0d6f",
+               "\u0e50"-"\u0e59", "\u0ed0"-"\u0ed9", "\u1040"-"\u1049"] >
+|   < #LETTER: ["A"-"Z","_","a"-"z",
+                "\u00c0"-"\u00d6", "\u00d8"-"\u00f6", "\u00f8"-"\u00ff",
+                "\u0100"-"\u1fff", "\u3040"-"\u318f", "\u3300"-"\u337f",
+                "\u3400"-"\u3d2d", "\u4e00"-"\u9fff", "\uf900"-"\ufaff"] >
+}
+
+void parse() throws RHTokenMgrException : {}
+/* captura los TokenMgrError */
+{
+  try {
+    parse_with_errors()
+  } catch( Error err ) {
+    throw new RHTokenMgrException( err );
+  }
+}
+
+void parse_with_errors():{}
+/* parse principal, pero envia TokenMgrError */
+{
+  (
+    (Expression()
+    | <STMTSEPARATOR>)+
+  )*
+  <EOF>
+}
+/*
+Variant parseOneLine():
+{
+    Variant a;
+}
+{
+    (<STMTSEPARATOR>)*
+    a=Expression() (<STMTSEPARATOR>)*  { return a; }
+|   (<STMTSEPARATOR>)+                 { return Variant.VOID; }
+|   <EOF>                              { return null; }
+}
+*/
+
+/*
+ * Expression syntax follows.
+ */
+
+Variant Expression() :
+{Variant v;}
+{
+  ( v=Assignment() | v=ConditionalExpression() )
+  { return v; }
+}
+
+void AssignmentOperator() :
+{}
+{
+  "=" | "*=" | "/=" | "%=" | "+=" | "-=" | "<<=" | ">>=" | ">>>=" | "&=" | "^=" | "|="
+}
+
+Variant Assignment() :
+{
+    Token lval = null;
+    Variant rval;
+}
+{
+  lval=<IDENTIFIER>
+  (
+    AssignmentOperator()
+    rval=Expression()            { if ( lval != null) { symtable.put(lval.toString(), rval);  }  }
+  )+
+  { return symtable.get(lval.toString()); }
+}
+
+Variant ConditionalExpression() :
+{
+    Variant ret;
+    Variant expr1, expr2;
+}
+{
+  ( ret=ConditionalOrExpression()
+  [ "?" expr1=Expression()
+    ":" expr2=ConditionalExpression() { ret = ret.bool ? expr1 : expr2; }
+  ]
+  )
+  { return ret; }
+}
+
+Variant ConditionalOrExpression() :
+{ Variant a,b; }
+{
+  a=ConditionalAndExpression()
+  ( ("||"|"|") b=ConditionalAndExpression() { a = VariantOperations.or(a,b); } )*
+  { return a; }
+}
+
+Variant ConditionalAndExpression() :
+{ Variant a,b; }
+{
+  a=EqualityExpression()
+  ( ("&&"|"&") b=EqualityExpression()  { a = VariantOperations.and(a,b); } )*
+  { return a; }
+}
+
+Variant EqualityExpression() :
+{ Variant a,b;}
+{
+  a=RelationalExpression()
+  (   "==" b=RelationalExpression() { a = VariantOperations.equals(a,b); }
+    | "!=" b=RelationalExpression() { a = VariantOperations.notequals(a,b); } )*
+  { return a; }
+}
+
+Variant RelationalExpression() :
+{Variant a,b;}
+{
+  a=AdditiveExpression()
+  ( "<"  b=AdditiveExpression() { a = VariantOperations.lt(a,b);}
+  | ">"  b=AdditiveExpression() { a = VariantOperations.gt(a,b);}
+  | "<=" b=AdditiveExpression() { a = VariantOperations.le(a,b);}
+  | ">=" b=AdditiveExpression() { a = VariantOperations.ge(a,b);} )*
+  { return a; }
+}
+
+Variant AdditiveExpression() :
+{Variant a,b;}
+{
+  a=MultiplicativeExpression()
+  ( "+" b=MultiplicativeExpression() { a = VariantOperations.add(a,b); }
+  | "-" b=MultiplicativeExpression() { a = VariantOperations.subtract(a,b); } )*
+  { return a; }
+}
+
+Variant MultiplicativeExpression() :
+{Variant a,b;}
+{
+  a=UnaryExpression()
+  ( "*" b=UnaryExpression() { a = VariantOperations.multiply(a,b); }
+  | "/" b=UnaryExpression() { a = VariantOperations.divide(a,b); }
+  | "%" b=UnaryExpression() { a = VariantOperations.modulus(a,b); } )*
+  { return a; }
+}
+
+Variant UnaryExpression() :
+{Variant a;}
+{
+  (
+    "+" a=UnaryExpression()
+    | "-" a=UnaryExpression() { a = VariantOperations.negate(a); }
+    | a=PreIncrementExpression()
+    | a=UnaryExpressionNotPlusMinus()
+  )
+  { return a; }
+}
+
+Variant PreIncrementExpression() :
+{Variant a;}
+{
+{/* @todo: almacenar valor del ++ */}
+    "++" a=PrimaryExpression() { return VariantOperations.add(a, new Variant(1d)); }
+  | "--" a=PrimaryExpression() { return VariantOperations.subtract(a, new Variant(1d)); }
+}
+
+Variant UnaryExpressionNotPlusMinus() :
+{Variant a;}
+{
+  "!" a=UnaryExpression()   { return VariantOperations.negate(a); }
+  |   a=PostfixExpression() { return a; }
+}
+
+Variant PostfixExpression() :
+{Variant a,b;}
+{
+{/* @todo: almacenar valor del ++ */}
+  a=PrimaryExpression()
+  [ "++" { VariantOperations.add(a, new Variant(1d)); }
+  | "--" { VariantOperations.subtract(a, new Variant(1d)); } ]
+  { return a; }
+}
+
+Variant PrimaryExpression():
+{
+    Token t;
+    Variant a;
+}
+{
+    t=<NUMBER>              { return Variant.parseDouble(t.toString()); }
+  | t=<DATE>                { return Variant.parseDate(t.toString()); }
+  | t=<BOOLEAN>             { return Variant.parseBoolean(t.toString()); }
+  | "(" a=Expression() ")"  { return a; }
+  | t=<IDENTIFIER>          { return symtable.get(t.toString()); }
+  | a=FunctionInvocation()  { return a; }
+}
+
+Variant FunctionInvocation():
+{
+  Token func;
+  Variant arg;
+  Invocation mth;
+}
+{
+  func = <FUNCTION> "(" { mth = new Invocation(func.toString()); }
+  [
+  arg = Expression()    { mth.addArgument(arg); }
+  ( ","
+    arg = Expression()  { mth.addArgument(arg); }
+  )*
+  ]
+  ")"                   { return mth.invoke();  }
+}
+
+TOKEN_MGR_DECLS :
+{
+  public Vector instructions = new Vector();
+  public StringBuffer instr_buf = new StringBuffer(256);
+
+  void CommonTokenAction(Token t)
+  {
+    switch (t.kind) {
+    case CalculatorConstants.STMTSEPARATOR:
+    case CalculatorConstants.EOF:
+      if (instr_buf.length() != 0) {
+        instructions.add(instr_buf.toString());
+        instr_buf.setLength(0);
+      }
+      break;
+    default:
+      if (instr_buf.length() != 0) instr_buf.append(' ');
+      instr_buf.append(t.image);
+    }
+  }
+
+  public String formatted() {
+    StringBuffer sb = new StringBuffer();
+    for (int i = 0; i < instructions.size(); i++) {
+      if (i>0) sb.append(";\r\n");
+      sb.append(instructions.elementAt(i));
+    }
+    return sb.toString();
+  }
+}

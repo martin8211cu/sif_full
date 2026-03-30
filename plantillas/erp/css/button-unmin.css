@@ -1,0 +1,174 @@
+label {
+    font-style: oblique;
+    font-stretch: ultra-condensed;
+    font-weight: bolder
+}
+.modal-header .close {
+    margin-top: -11px
+}
+input[type=button],
+input[type=submit],
+input[type=reset],
+input[type=file] {
+    min-width: 28px;
+    background-color: #fff;
+    border: thin;
+    border-style: solid;
+    background-repeat: no-repeat;
+    background-position: left;
+    border-radius: 4px;
+    padding: 5px 7px;
+    color: #656565;
+    font-family: Arial, Verdana, Helvetica, sans-serif;
+    cursor: pointer;
+    text-align: center;
+    -webkit-transition-duration: .2s;
+    -moz-transition-duration: .2s;
+    transition-duration: .2s;
+    margin: 4px
+}
+.btnAnterior,
+.btnAplicar,
+.btnConsultar,
+.btnDetalle,
+.btnEliminar,
+.btnEmail,
+.btnExportar,
+.btnFiltrar,
+.btnGenerar,
+.btnGuardar,
+.btnImprimir,
+.btnLimpiar,
+.btnModificar,
+.btnNuevo,
+.btnPublicar,
+.btnRefresh,
+.btnSiguiente {
+    padding: 5px 7px 5px 33px!important;
+    text-align: left!important
+}
+input[type=button]:hover,
+input[type=submit]:hover,
+input[type=reset]:hover,
+input[type=file]:hover {
+    background-color: #3087a3;
+    color: #FFF;
+    border-color: #3087A3!important;
+    border: thin;
+    border-style: solid
+}
+.btnConsultar,
+.btnExportar {
+    background-image: url(/cfmx/plantillas/erp/img/botones/consultar_bg.png)
+}
+.btnGenerar {
+    background-image: url(/cfmx/plantillas/erp/img/botones/generar_bg.png)
+}
+.btnModificar {
+    background-image: url(/cfmx/plantillas/erp/img/botones/modificar_bg.png)
+}
+.btnGuardar {
+    background-image: url(/cfmx/plantillas/erp/img/botones/guardar_bg.png)
+}
+.btnEliminar {
+    background-image: url(/cfmx/plantillas/erp/img/botones/eliminar_bg.png)
+}
+.btnNuevo {
+    background-image: url(/cfmx/plantillas/erp/img/botones/nuevo_bg.png)
+}
+.btnFiltrar {
+    background-image: url(/cfmx/plantillas/erp/img/botones/filtrar_bg.png)
+}
+.btnLimpiar {
+    background-image: url(/cfmx/plantillas/erp/img/botones/limpiar_bg.png)
+}
+.btnImprimir {
+    background-image: url(/cfmx/plantillas/erp/img/botones/imprimir_bg.png)
+}
+.btnRefresh {
+    background-image: url(/cfmx/plantillas/erp/img/botones/refrescar_bg.png)
+}
+.btnAplicar {
+    background-image: url(/cfmx/plantillas/erp/img/botones/aplicar_bg.png)
+}
+.btnEmail {
+    background-image: url(/cfmx/plantillas/erp/img/botones/email_bg.png)
+}
+.btnPublicar {
+    background-image: url(/cfmx/plantillas/erp/img/botones/publicar_bg.png)
+}
+.btnDetalle {
+    background-image: url(/cfmx/plantillas/erp/img/botones/detalle_bg.png)
+}
+.btnAnterior {
+    background-image: url(/cfmx/plantillas/erp/img/botones/anterior_bg.png)
+}
+.btnSiguiente {
+    background-image: url(/cfmx/plantillas/erp/img/botones/siguiente_bg.png)
+}
+.btnConsultar:hover,
+.btnExportar:hover {
+    background-image: url(/cfmx/plantillas/erp/img/botones/consultar_bg_over.png)
+}
+.btnGenerar:hover {
+    background-image: url(/cfmx/plantillas/erp/img/botones/generar_bg_over.png)
+}
+.btnModificar:hover {
+    background-image: url(/cfmx/plantillas/erp/img/botones/modificar_bg_over.png)
+}
+.btnGuardar:hover {
+    background-image: url(/cfmx/plantillas/erp/img/botones/guardar_bg_over.png)
+}
+.btnEliminar:hover {
+    background-image: url(/cfmx/plantillas/erp/img/botones/eliminar_bg_over.png)
+}
+.btnNuevo:hover {
+    background-image: url(/cfmx/plantillas/erp/img/botones/nuevo_bg_over.png)
+}
+.btnFiltrar:hover {
+    background-image: url(/cfmx/plantillas/erp/img/botones/filtrar_bg_over.png)
+}
+.btnLimpiar:hover {
+    background-image: url(/cfmx/plantillas/erp/img/botones/limpiar_bg_over.png)
+}
+.btnImprimir:hover {
+    background-image: url(/cfmx/plantillas/erp/img/botones/imprimir_bg_over.png)
+}
+.btnRefresh:hover {
+    background-image: url(/cfmx/plantillas/erp/img/botones/refrescar_bg_over.png)
+}
+.btnAplicar:hover {
+    background-image: url(/cfmx/plantillas/erp/img/botones/aplicar_bg_over.png)
+}
+.btnEmail:hover {
+    background-image: url(/cfmx/plantillas/erp/img/botones/email_bg_over.png)
+}
+.btnPublicar:hover {
+    background-image: url(/cfmx/plantillas/erp/img/botones/publicar_bg_over.png)
+}
+.btnDetalle:hover {
+    background-image: url(/cfmx/plantillas/erp/img/botones/detalle_bg_over.png)
+}
+.btnAnterior:hover {
+    background-image: url(/cfmx/plantillas/erp/img/botones/anterior_bg_over.png)
+}
+.btnSiguiente:hover {
+    background-image: url(/cfmx/plantillas/erp/img/botones/siguiente_bg_over.png)
+}
+.btnBlueOval {
+    color: #000;
+    background: #D7DCE0;
+    font-size: 20px;
+    border-radius: 10px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border: 1px solid #9c9c9c
+}
+.btnBlueOval:hover {
+    color: #FFF;
+    background: #9CC
+}
+
+input.calndr_navbtn:hover {
+  border-color: #fff !important;
+}

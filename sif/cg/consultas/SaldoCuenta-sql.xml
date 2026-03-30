@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_Titulo>Ledger Account Integration</LB_Titulo>
+		<LB_Archivo>BalanceAccount</LB_Archivo>
+		<LB_A>Month:</LB_A>
+		<LB_de>Year:</LB_de>
+		
+	<LB_Cuenta>Account</LB_Cuenta><LB_FinReporte>End</LB_FinReporte><LB_Importe>Amount</LB_Importe></Idioma>
+</Etiquetas>

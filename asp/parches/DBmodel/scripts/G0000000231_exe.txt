@@ -1,0 +1,52 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  sifInterfaces
+	MODELO:  SIF Interfaces.pdm
+	VERSION: 537 - DBM 493: Creacion de la tabla OE711
+
+	         PARCHE:  Parche024_108_SIF_Interfaz711OE
+
+GENERADO EN:
+	SERVER:  http://mxvqapp34:8300
+	DSN:     sifinterfaces
+	FECHA:   02/03/2012 13:23:20
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* ADD_TABLE OE711: OE711 */
+/* ======================================================================================== */
+
+CREATE TABLE OE711 (
+	 ID                             numeric(18)          NOT NULL
+	,SecOrden                       numeric(18)          NULL
+	,TESOPnumero                    integer              NULL
+	,TESSPnumero                    integer              NULL
+	,BMUsucodigo                    numeric(18)          NULL
+	,ts_rversion                    timestamp           
+	)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP = (TAB NUEVA): TIP="P", SEC="0", COLS="ID" */
+ALTER TABLE OE711 ADD CONSTRAINT OE711_PK PRIMARY KEY CLUSTERED (ID)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ================================================================= */
+/*            CREA FKs NUEVOS O CON CAMPOS MODIFICADOS               */
+/* ================================================================= */
+/* CHG_TABLE OE711 */
+/* ADD_FK OP = (TAB NUEVA): TIP="F", SEC="1", COLS="ID,SecOrden", REF="IE711" */
+ALTER TABLE OE711 ADD CONSTRAINT OE711_FK01 FOREIGN KEY (ID,SecOrden) REFERENCES IE711 (ID,SecOrden)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

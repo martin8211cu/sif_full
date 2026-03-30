@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+<Idioma id="en">
+	<LB_Titulo>Daily Ledger Consult</LB_Titulo>
+	<LB_PeriodoInicial>Initial Period</LB_PeriodoInicial>
+	<LB_PeriodoFinal>Final Period</LB_PeriodoFinal>
+	<LB_MesInicial>Initial Month</LB_MesInicial>
+	<LB_MesFinal>Final Month</LB_MesFinal>
+	<LB_FechaInicial>Initial Date</LB_FechaInicial>
+	<LB_FechaFinal>Final Date</LB_FechaFinal>	
+	<LB_CuentaInicial>Initial Account</LB_CuentaInicial>
+	<LB_CuentaFinal>Final Account</LB_CuentaFinal>
+	<LB_Moneda>Currency</LB_Moneda>
+	<LB_Formato>Format</LB_Formato>
+	<LB_Orden>Order by</LB_Orden>
+	<LB_Oficina>Office</LB_Oficina>
+	<LB_Todos>All</LB_Todos>
+	<RBTN_MonedaLocal>Local Currency</RBTN_MonedaLocal>
+	<RBTN_MonedaOrigen>Origin Currency</RBTN_MonedaOrigen>
+	<CHK_ImpMontoMO>Print Amount in Origin Currency</CHK_ImpMontoMO>
+	<CHK_TotalFecha>Summarize by date</CHK_TotalFecha>
+	<CHK_CierreAnual>Year end Closing</CHK_CierreAnual>
+	<CHK_MostarCtas>Display Accounts Without Movements</CHK_MostarCtas>
+	<BTN_Limpiar>Clean</BTN_Limpiar>
+	<BTN_Consultar>Consult</BTN_Consultar>
+<LB_DescHTML>Download HTML</LB_DescHTML><LB_ExcCol>Excel Columnar</LB_ExcCol><LB_FecConAs>Date/Concept/Entry</LB_FecConAs><LB_FecMonAs>Date/Amount/Entry</LB_FecMonAs><LB_Linea>Line</LB_Linea><LB_MonConAs>Amount/Concept/Entry</LB_MonConAs></Idioma></Etiquetas>

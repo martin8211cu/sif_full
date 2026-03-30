@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<rhpml majorversion="1" minorversion="0">
+	<folders>
+		<folder>
+			<name>Plan_de_CtasFinancieras</name>
+		</folder>
+		<folder>
+			<name>Formulación_de_Presupuesto</name>
+		</folder>
+		<folder>
+			<name>Transacciones_de_Presupuesto</name>
+		</folder>
+		<folder>
+			<name>Seguridad_de_Presupuesto</name>
+		</folder>
+		<folder>
+			<name>Otras_Opciones_en_Presupuesto</name>
+		</folder>
+		<folder>
+			<name>Consultas</name>
+		</folder>
+		<folder>
+			<name>Reportes</name>
+		</folder>
+	</folders>
+	<topics/>
+</rhpml>

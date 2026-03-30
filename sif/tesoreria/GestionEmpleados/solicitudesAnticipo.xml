@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_Titulo>Advance Request</LB_Titulo>		
+		<LB_Numcomision>Commission Number</LB_Numcomision>
+		<LB_Fecha>Date</LB_Fecha>
+		<LB_Empleado>Employee</LB_Empleado>
+		<LB_NuevaComisionViaticos>New Allowance Commission</LB_NuevaComisionViaticos>
+		<LB_EmpleadoNoRegistrado>Unregistered Employee</LB_EmpleadoNoRegistrado>
+		<LB_CentroFuncional>Funtional Center</LB_CentroFuncional>
+		<LB_Moneda>Currency</LB_Moneda>
+		<LB_Descripcion>Description</LB_Descripcion>
+		<LB_ImprimirSolicitudEnviada>Print Request Sent</LB_ImprimirSolicitudEnviada>
+		<LB_NumAnticipo>Advance Number</LB_NumAnticipo>
+		<LB_NuevoAnticipo>New Advance</LB_NuevoAnticipo>
+		<LB_FechaSolicitud>Request Date</LB_FechaSolicitud>
+		<LB_TipoCambio>Exchange Rate</LB_TipoCambio>
+		<LB_TotalPagoSolicitado>Total Payment Requested</LB_TotalPagoSolicitado>
+		<LB_FormaPago>Payment Method</LB_FormaPago>
+		<LB_SeleccionFormaPago>Select Payment Method</LB_SeleccionFormaPago>
+		<LB_Tesoreria>Treasury</LB_Tesoreria>
+		<LB_Cheque>Check or EFT</LB_Cheque>
+		<LB_TipoGasto>Expense Type</LB_TipoGasto>
+		<LB_ConceptoGasto>Expenses Concept</LB_ConceptoGasto>
+		<LB_ActividadEmpresarial>Business Activity</LB_ActividadEmpresarial>
+		<LB_FechaPago>Payment Date</LB_FechaPago>
+		<LB_Desde>From</LB_Desde>
+		<LB_Hasta>To</LB_Hasta>
+		<LB_Monto>Amount</LB_Monto>
+		<LB_Horas>Hours</LB_Horas>
+		<LB_Inicio>Start</LB_Inicio>
+		<LB_Tipo>Type</LB_Tipo>
+		<LB_UtilizaTCE>Use Credit Card</LB_UtilizaTCE>
+		<LB_Auto>Car</LB_Auto>
+		<LB_Avion>Airplane</LB_Avion>
+		<LB_Destino>Destination</LB_Destino>
+		<LB_Observaciones>Comments</LB_Observaciones>
+		<LB_Arrendamiento>Lease</LB_Arrendamiento>
+		<LB_MonedaDetalle>Currency Detail</LB_MonedaDetalle>
+		<LB_MontoDetalle>Amount Detail</LB_MontoDetalle>
+		<LB_MontoAnticipo>Advance Amount</LB_MontoAnticipo>
+		<LB_CrearNueva>Create New</LB_CrearNueva>
+		<LB_Viatico>Allowance</LB_Viatico>
+		<LB_Nacional>National</LB_Nacional>
+		<LB_Exterior>International</LB_Exterior>
+		<LB_CategoriaDestino>category Destination</LB_CategoriaDestino>
+	</Idioma>
+</Etiquetas>

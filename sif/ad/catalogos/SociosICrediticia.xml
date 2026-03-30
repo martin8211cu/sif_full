@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_Ventas>Sales</LB_Ventas>
+		<LB_VencimientoVentas>Maturity for Sales</LB_VencimientoVentas>
+		<LB_Dias>Days</LB_Dias>
+		<LB_PlazoCredito>Term Credit</LB_PlazoCredito>
+		<LB_Compras>Purchases</LB_Compras>
+		<LB_VencimientoCompras>Maturity for Purchases</LB_VencimientoCompras>
+		<LB_PlazoEntrega>Delivery Period</LB_PlazoEntrega>
+		<LB_NombrePagosTesoreria>Treasury Payments Name</LB_NombrePagosTesoreria>
+		<LB_InformacionCredito>Credit Information</LB_InformacionCredito>
+		<LB_LimiteCredito>Credit Limit</LB_LimiteCredito>
+		<LB_DiasBloqueoFacturacion>Invoicing Days Lock</LB_DiasBloqueoFacturacion>
+		<LB_DiasDeMora>Days Past due</LB_DiasDeMora>
+		<LB_ListaPrecios>Price List</LB_ListaPrecios>
+		<LB_UsarPredeterminadaSistema>Use System Default</LB_UsarPredeterminadaSistema>
+		<LB_CobradorAsignado>Collector Assigned</LB_CobradorAsignado>
+		<LB_VendedorAsignado>Seller Asigned</LB_VendedorAsignado>
+		<LB_EjecutivoCuentaAsignado>Account Executive Assigned</LB_EjecutivoCuentaAsignado>
+		<MSG_PrimeroDebeIngresarLos>Define the</MSG_PrimeroDebeIngresarLos>
+		<MSG_DatosGenerales>general data</MSG_DatosGenerales>
+		<MSG_DelSocioDeNegocio>of the partners</MSG_DelSocioDeNegocio>
+	</Idioma>
+</Etiquetas>

@@ -1,0 +1,53 @@
+table.mlm_item {
+	border:1px solid black;
+}
+/* cada layer invisible, le cae encima mlm_item */
+.mlm_layer {
+}
+.mlm_topbar {
+	padding:2px;
+}
+.mlm_topitem  {
+	font-family:Geneva, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-weight:bold;
+	cursor:pointer;
+	color:white;
+	background-image:url(/cfmx/plantillas/Sapiens/css/images/mlm_whitearrow_d.gif);
+	background-position:right;
+	background-repeat:no-repeat;
+	padding-right:14px;
+}
+.mlm_topsel  {
+	font-family:Geneva, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-weight:bold;
+	cursor:pointer;
+	color:black;
+	background-image:url(/cfmx/plantillas/Sapiens/css/images/mlm_blackarrow_d.gif);
+	background-position:right;
+	background-repeat:no-repeat;
+	padding-right:14px;
+}
+/* cada linea del layer de submenu */
+.mlm_item, .mlm_item * {
+	padding:1px;
+	font-family:Geneva, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	cursor:pointer;
+	background-color:inherit;
+	font-weight:normal;
+}
+.mlm_sel, .mlm_sel * {
+	padding:1px;
+	font-family:Geneva, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	cursor:pointer;
+	font-weight:normal;
+}
+.imagen_sistema {
+	padding-top: 2px;
+	padding-bottom: 1px;
+	font-family:"Times New Roman", Times, serif;
+	font-weight:bold;
+}

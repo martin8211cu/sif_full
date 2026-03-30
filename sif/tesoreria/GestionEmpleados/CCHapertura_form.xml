@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_TipoCaja>Cash Type</LB_TipoCaja>
+		<LB_Codigo>Code</LB_Codigo>
+		<LB_Descripcion>Description</LB_Descripcion>
+		<LB_Estado>Status</LB_Estado>
+		<LB_CentroFuncional>Functional Center</LB_CentroFuncional>
+		<LB_Responsable>Person in Charge</LB_Responsable>
+		<LB_Moneda>Currency</LB_Moneda>
+		<LB_CuentaFinanciera>Financial Account</LB_CuentaFinanciera>
+		<LB_CuentaTransitoriaRecepcionEfectivo>Clearing Account for Receiving Cash</LB_CuentaTransitoriaRecepcionEfectivo>
+		<LB_MontoAsignado>Assigned Amount</LB_MontoAsignado>
+		<LB_PorcentajeMaximoSolicitud>Maximum percentage for request</LB_PorcentajeMaximoSolicitud>
+		<LB_PorcentajeDeConsumoReintregro>Consumption percentage for reimbursement</LB_PorcentajeDeConsumoReintregro>
+		<LB_PorcentajeMinimoSaldoCaja>Minimum percentage for cash balance</LB_PorcentajeMinimoSaldoCaja>
+		<LB_TesoreriaPago>Treasury Payment</LB_TesoreriaPago>
+		<LB_UnidadRedondeoReintegros>Rounding unit for reimbursements</LB_UnidadRedondeoReintegros>
+		<BTN_AbrirCaja>Open Petty Cash</BTN_AbrirCaja>
+		<BTN_Limpiar>Clean</BTN_Limpiar>
+		<BTN_Nuevo>New</BTN_Nuevo>
+		<BTN_Modificar>Modify</BTN_Modificar>
+		<BTN_Transacciones>Transactions</BTN_Transacciones>
+		<BTN_Regresar>Return</BTN_Regresar>
+		<BTN_CentrosFuncional>Functional Centers</BTN_CentrosFuncional>
+		<CHK_SuspenderOperacionCaja>Suspend petty cash operation</CHK_SuspenderOperacionCaja>
+		<LB_CajaChicaComprasMenores>Petty Cash for Minor Purchases</LB_CajaChicaComprasMenores>
+		<LB_CajaEspecialEntradaSalidaEfectivo>Special cash to incoming and cash outflow</LB_CajaEspecialEntradaSalidaEfectivo>
+		<LB_CajaExterna>External Cash (Not used for Personnel Expenses)</LB_CajaExterna> 
+		<MSG_MontoMaximo>The maximum amount and minimum percentage are suggested by the system, these values can be changed. But the amount allocated can not exceed the maximum amount mentioned</MSG_MontoMaximo>		
+	</Idioma>
+</Etiquetas>

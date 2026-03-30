@@ -1,0 +1,592 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+<!-- Created with iReport - A designer for JasperReports --><jasperReport bottomMargin="20" columnCount="1" columnSpacing="0" columnWidth="782" isSummaryNewPage="false" isTitleNewPage="false" leftMargin="30" name="classic_landscape" orientation="Landscape" pageHeight="612" pageWidth="842" printOrder="Vertical" rightMargin="30" topMargin="20" whenNoDataType="AllSectionsNoDetail">
+	<parameter class="java.math.BigDecimal" isForPrompting="false" name="Ecodigo">
+		<defaultValueExpression><![CDATA[new java.math.BigDecimal(1)]]></defaultValueExpression>
+	</parameter>
+	<parameter class="java.lang.String" isForPrompting="false" name="Ddocumento">
+		<defaultValueExpression><![CDATA["Todos"]]></defaultValueExpression>
+	</parameter>
+	<parameter class="java.lang.Integer" isForPrompting="false" name="PeriodoIni"/>
+	<parameter class="java.lang.Integer" isForPrompting="false" name="PeriodoFin"/>
+	<parameter class="java.lang.Integer" isForPrompting="false" name="MesIni"/>
+	<parameter class="java.lang.Integer" isForPrompting="false" name="MesFin"/>
+	<parameter class="java.lang.Double" isForPrompting="false" name="LoteIni"/>
+	<parameter class="java.lang.Double" isForPrompting="false" name="LoteFin"/>
+	<parameter class="java.lang.String" isForPrompting="false" name="fechaini"/>
+	<parameter class="java.lang.String" isForPrompting="false" name="fechafin"/>
+	<parameter class="java.lang.String" isForPrompting="false" name="UsuarioOrigen"/>
+	<parameter class="java.lang.Integer" isForPrompting="false" name="OficinaOrigen"/>
+	<parameter class="java.lang.String" isForPrompting="false" name="Origen"/>
+	<parameter class="java.lang.String" isForPrompting="false" name="Edesc"/>
+	<parameter class="java.lang.Integer" isForPrompting="false" name="CconceptoIni"/>
+	<parameter class="java.lang.Integer" isForPrompting="false" name="CconceptoFin"/>
+	<queryString><![CDATA[select 
+	e.Cconcepto as Concepto, 
+	c.Cdescripcion as DescripcionConcepto, 
+	e.Edocumento as Documento, 
+	convert(varchar,e.Efecha,103) as Fecha, 
+	e.Eperiodo as Periodo, 
+	e.Emes as Mes, 
+	e.ECauxiliar as Auxiliar, 
+	e.ECusuario as Usuario, 
+	d.Dlinea as Linea,
+	d.Ddocumento as DDocumento,
+	d.Ddescripcion as Descripcion,
+	d.Dreferencia as Referencia,
+	cf.CFformato as Cuenta,
+	o.Odescripcion as Oficina,
+	e.Oorigen,
+	coalesce(d.Doriginal, 0) as  Monto,
+	m.Msimbolo as Moneda,
+	coalesce(d.Dtipocambio, 1) as	 TipoCambio,    --- Formatear a 4 decimales
+	case when Dmovimiento = 'D' then d.Dlocal else 0.00 end as Debitos,
+	case when Dmovimiento = 'C' then d.Dlocal else 0.00 end as Creditos,
+	convert(varchar,getdate(), 103) || ' ' || convert(varchar,getdate(),108) as fecha_hora,
+	$P{Edesc} as Edescripcion
+from HEContables e
+	left join Oficinas o
+		on o.Ecodigo = e.Ecodigo
+		and o.Ocodigo = e.Ocodigo
+   inner join HDContables d
+	  on d.IDcontable = e.IDcontable
+   inner join ConceptoContableE c
+	  on c.Ecodigo = e.Ecodigo
+	 and c.Cconcepto = e.Cconcepto
+   inner join CFinanciera cf
+	  on cf.CFcuenta = d.CFcuenta
+   inner join Monedas m
+	  on m.Mcodigo = d.Mcodigo
+where e.Ecodigo = $P{Ecodigo}
+  and e.Eperiodo >= $P{PeriodoIni}
+  and e.Eperiodo <= $P{PeriodoFin}
+  and ((e.Eperiodo * 100 + e.Emes)  between ($P{PeriodoIni} * 100 + $P{MesIni}) and ($P{PeriodoFin} * 100 + $P{MesFin}))
+  and (upper(rtrim(ltrim(e.ECusuario))) = upper(rtrim(ltrim($P{UsuarioOrigen}))) or upper($P{UsuarioOrigen}) = 'TODOS')
+  and (e.Ocodigo = $P{OficinaOrigen} or $P{OficinaOrigen} = -1)
+  and e.Efecha between isnull(convert(datetime,$P{fechaini},103),e.Efecha) and isnull(convert(datetime,$P{fechafin},103),e.Efecha)
+  and e.Cconcepto between $P{CconceptoIni} and $P{CconceptoFin}
+  and (upper(rtrim(ltrim(e.Oorigen))) = upper(rtrim(ltrim($P{Origen}))) or $P{Origen} = '-1' )
+ order by e.Eperiodo, e.Emes, e.Cconcepto, e.Edocumento, d.Dlinea]]></queryString>
+	<field class="java.lang.Integer" name="Documento"/>
+	<field class="java.lang.String" name="Usuario"/>
+	<field class="java.lang.String" name="fecha_hora"/>
+	<field class="java.lang.Double" name="TipoCambio"/>
+	<field class="java.lang.String" name="Fecha"/>
+	<field class="java.lang.Double" name="Linea"/>
+	<field class="java.lang.String" name="Oficina"/>
+	<field class="java.lang.String" name="Descripcion"/>
+	<field class="java.lang.String" name="Referencia"/>
+	<field class="java.lang.String" name="Cuenta"/>
+	<field class="java.lang.String" name="Moneda"/>
+	<field class="java.lang.Double" name="Debitos"/>
+	<field class="java.lang.Double" name="Creditos"/>
+	<field class="java.lang.Double" name="Monto"/>
+	<field class="java.lang.Integer" name="Concepto"/>
+	<field class="java.lang.String" name="DescripcionConcepto"/>
+	<field class="java.lang.String" name="Edescripcion"/>
+	<field class="java.lang.String" name="Ddocumento"/>
+	<field class="java.lang.Integer" name="Periodo"/>
+	<field class="java.lang.Integer" name="Mes"/>
+	<field class="java.lang.String" name="Oorigen"/>
+	<variable calculation="Nothing" class="java.lang.String" name="test" resetType="None">
+		<variableExpression><![CDATA["test"]]></variableExpression>
+		<initialValueExpression><![CDATA["test"		]]></initialValueExpression>
+	</variable>
+	<variable calculation="Sum" class="java.lang.Double" name="TotalDoc" resetGroup="Documento" resetType="Group">
+		<variableExpression><![CDATA[$F{Monto}]]></variableExpression>
+		<initialValueExpression><![CDATA[new java.lang.Double("0.00")]]></initialValueExpression>
+	</variable>
+	<variable calculation="Sum" class="java.lang.Double" name="TotalConcepto" resetGroup="Cconcepto" resetType="Group">
+		<variableExpression><![CDATA[$F{Monto}]]></variableExpression>
+		<initialValueExpression><![CDATA[new java.lang.Double("0.00")]]></initialValueExpression>
+	</variable>
+	<variable calculation="Sum" class="java.lang.Double" name="TotalDeb" resetGroup="Documento" resetType="Group">
+		<variableExpression><![CDATA[$F{Debitos}]]></variableExpression>
+		<initialValueExpression><![CDATA[new java.lang.Double("0.00")]]></initialValueExpression>
+	</variable>
+	<variable calculation="Sum" class="java.lang.Double" name="TotalCre" resetGroup="Documento" resetType="Group">
+		<variableExpression><![CDATA[$F{Creditos}]]></variableExpression>
+		<initialValueExpression><![CDATA[new java.lang.Double("0.00")]]></initialValueExpression>
+	</variable>
+	<variable calculation="Sum" class="java.lang.Double" name="TotalDebCon" resetGroup="Cconcepto" resetType="Group">
+		<variableExpression><![CDATA[$F{Debitos}]]></variableExpression>
+		<initialValueExpression><![CDATA[new java.lang.Double("0.00")]]></initialValueExpression>
+	</variable>
+	<variable calculation="Sum" class="java.lang.Double" name="TotalCreCon" resetGroup="Cconcepto" resetType="Group">
+		<variableExpression><![CDATA[$F{Creditos}]]></variableExpression>
+		<initialValueExpression><![CDATA[new java.lang.Double("0.00")]]></initialValueExpression>
+	</variable>
+		<group isReprintHeaderOnEachPage="true" isResetPageNumber="false" isStartNewColumn="false" isStartNewPage="false" minHeightToStartNewPage="0" name="Cconcepto">
+			<groupExpression><![CDATA[$F{Concepto}]]></groupExpression>
+			<groupHeader>
+			<band height="24" isSplitAllowed="true">
+				<staticText>
+					<reportElement backcolor="#CCCCCC" forecolor="#000000" height="18" isPrintInFirstWholeBand="false" isPrintRepeatedValues="true" isPrintWhenDetailOverflows="false" isRemoveLineWhenBlank="false" mode="Transparent" positionType="FixRelativeToTop" width="78" x="3" y="2">
+							<printWhenExpression><![CDATA[new Boolean($F{Edescripcion} != null)]]></printWhenExpression>
+						</reportElement>
+					<textElement lineSpacing="Single" textAlignment="Left" verticalAlignment="Top">
+						<font fontName="Times-Roman" isBold="true" isItalic="false" isPdfEmbedded="false" isStrikeThrough="false" isUnderline="false" pdfEncoding="CP1252" pdfFontName="Times-Roman" size="14"/>
+					</textElement>
+				<text><![CDATA[Concepto :]]></text>
+				</staticText>
+				<textField evaluationTime="Now" hyperlinkType="None" isBlankWhenNull="false" isStretchWithOverflow="false" pattern="">					<reportElement backcolor="#CCCCCC" forecolor="#000000" height="18" isPrintInFirstWholeBand="false" isPrintRepeatedValues="true" isPrintWhenDetailOverflows="false" isRemoveLineWhenBlank="false" mode="Transparent" positionType="FixRelativeToTop" width="624" x="149" y="2">
+							<printWhenExpression><![CDATA[new Boolean($F{Edescripcion} != null)]]></printWhenExpression>
+						</reportElement>
+					<textElement lineSpacing="Single" textAlignment="Left" verticalAlignment="Top">
+						<font fontName="Times-Roman" isBold="true" isItalic="false" isPdfEmbedded="false" isStrikeThrough="false" isUnderline="false" pdfEncoding="CP1252" pdfFontName="Times-Roman" size="14"/>
+					</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{DescripcionConcepto}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Now" hyperlinkType="None" isBlankWhenNull="false" isStretchWithOverflow="false" pattern="">					<reportElement backcolor="#CCCCCC" forecolor="#000000" height="18" isPrintInFirstWholeBand="false" isPrintRepeatedValues="true" isPrintWhenDetailOverflows="false" isRemoveLineWhenBlank="false" mode="Transparent" positionType="FixRelativeToTop" width="63" x="85" y="2">
+							<printWhenExpression><![CDATA[new Boolean($F{Edescripcion} != null)]]></printWhenExpression>
+						</reportElement>
+					<textElement lineSpacing="Single" textAlignment="Left" verticalAlignment="Top">
+						<font fontName="Times-Roman" isBold="true" isItalic="false" isPdfEmbedded="false" isStrikeThrough="false" isUnderline="false" pdfEncoding="CP1252" pdfFontName="Times-Roman" size="14"/>
+					</textElement>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$F{Concepto}]]></textFieldExpression>
+				</textField>
+			</band>
+			</groupHeader>
+			<groupFooter>
+			<band height="20" isSplitAllowed="true">
+				<staticText>
+					<reportElement backcolor="#FFFFFF" forecolor="#000000" height="18" isPrintInFirstWholeBand="false" isPrintRepeatedValues="true" isPrintWhenDetailOverflows="false" isRemoveLineWhenBlank="false" mode="Opaque" positionType="FixRelativeToTop" width="252" x="2" y="1">
+							<printWhenExpression><![CDATA[new Boolean($F{Edescripcion} != null)]]></printWhenExpression>
+						</reportElement>
+					<textElement lineSpacing="Single" textAlignment="Left" verticalAlignment="Top">
+						<font fontName="SansSerif" isBold="true" isItalic="false" isPdfEmbedded="false" isStrikeThrough="false" isUnderline="false" pdfEncoding="CP1252" pdfFontName="Helvetica" size="12"/>
+					</textElement>
+				<text><![CDATA[Total Concepto: ]]></text>
+				</staticText>
+				<textField evaluationGroup="Documento" evaluationTime="Group" hyperlinkType="None" isBlankWhenNull="false" isStretchWithOverflow="false" pattern="#,##0.00">					<reportElement backcolor="#FFFFFF" forecolor="#000000" height="18" isPrintInFirstWholeBand="false" isPrintRepeatedValues="true" isPrintWhenDetailOverflows="false" isRemoveLineWhenBlank="false" mode="Opaque" positionType="FixRelativeToTop" width="105" x="669" y="2">
+							<printWhenExpression><![CDATA[new Boolean($F{Edescripcion} != null)]]></printWhenExpression>
+						</reportElement>
+					<textElement lineSpacing="Single" textAlignment="Right" verticalAlignment="Top">
+						<font fontName="SansSerif" isBold="true" isItalic="false" isPdfEmbedded="false" isStrikeThrough="false" isUnderline="false" pdfEncoding="CP1252" pdfFontName="Helvetica" size="10"/>
+					</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{TotalCreCon}]]></textFieldExpression>
+				</textField>
+				<textField evaluationGroup="Documento" evaluationTime="Group" hyperlinkType="None" isBlankWhenNull="false" isStretchWithOverflow="false" pattern="#,##0.00">					<reportElement backcolor="#FFFFFF" forecolor="#000000" height="18" isPrintInFirstWholeBand="false" isPrintRepeatedValues="true" isPrintWhenDetailOverflows="false" isRemoveLineWhenBlank="false" mode="Opaque" positionType="FixRelativeToTop" width="103" x="549" y="2">
+							<printWhenExpression><![CDATA[new Boolean($F{Edescripcion} != null)]]></printWhenExpression>
+						</reportElement>
+					<textElement lineSpacing="Single" textAlignment="Right" verticalAlignment="Top">
+						<font fontName="SansSerif" isBold="true" isItalic="false" isPdfEmbedded="false" isStrikeThrough="false" isUnderline="false" pdfEncoding="CP1252" pdfFontName="Helvetica" size="10"/>
+					</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{TotalDebCon}]]></textFieldExpression>
+				</textField>
+			</band>
+			</groupFooter>
+		</group>
+		<group isReprintHeaderOnEachPage="false" isResetPageNumber="false" isStartNewColumn="false" isStartNewPage="false" minHeightToStartNewPage="0" name="Documento">
+			<groupExpression><![CDATA[$F{Documento}]]></groupExpression>
+			<groupHeader>
+			<band height="21" isSplitAllowed="true">
+				<line direction="TopDown">
+					<reportElement backcolor="#FFFFFF" forecolor="#000000" height="0" isPrintInFirstWholeBand="false" isPrintRepeatedValues="true" isPrintWhenDetailOverflows="false" isRemoveLineWhenBlank="false" mode="Opaque" positionType="FixRelativeToTop" width="781" x="1" y="0"/>
+					<graphicElement fill="Solid" pen="2Point" stretchType="NoStretch"/>
+				</line>
+				<staticText>
+					<reportElement backcolor="#0000CC" forecolor="#000000" height="18" isPrintInFirstWholeBand="false" isPrintRepeatedValues="true" isPrintWhenDetailOverflows="false" isRemoveLineWhenBlank="false" mode="Transparent" positionType="FixRelativeToTop" width="76" x="3" y="2">
+							<printWhenExpression><![CDATA[new Boolean($F{Edescripcion} != null)]]></printWhenExpression>
+						</reportElement>
+					<textElement lineSpacing="Single" textAlignment="Left" verticalAlignment="Top">
+						<font fontName="SansSerif" isBold="true" isItalic="false" isPdfEmbedded="false" isStrikeThrough="false" isUnderline="false" pdfEncoding="CP1252" pdfFontName="Helvetica" size="12"/>
+					</textElement>
+				<text><![CDATA[Documento: ]]></text>
+				</staticText>
+				<textField evaluationTime="Now" hyperlinkType="None" isBlankWhenNull="false" isStretchWithOverflow="false" pattern="">					<reportElement backcolor="#0033CC" forecolor="#000000" height="18" isPrintInFirstWholeBand="false" isPrintRepeatedValues="true" isPrintWhenDetailOverflows="false" isRemoveLineWhenBlank="false" mode="Transparent" positionType="FixRelativeToTop" width="86" x="85" y="2">
+							<printWhenExpression><![CDATA[new Boolean($F{Documento} != null)]]></printWhenExpression>
+						</reportElement>
+					<textElement lineSpacing="Single" textAlignment="Left" verticalAlignment="Top">
+						<font fontName="SansSerif" isBold="false" isItalic="false" isPdfEmbedded="false" isStrikeThrough="false" isUnderline="false" pdfEncoding="CP1252" pdfFontName="Helvetica" size="12"/>
+					</textElement>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$F{Documento}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Now" hyperlinkType="None" isBlankWhenNull="false" isStretchWithOverflow="false" pattern="dd/mm/yyyy">					<reportElement backcolor="#0033CC" forecolor="#000000" height="18" isPrintInFirstWholeBand="false" isPrintRepeatedValues="true" isPrintWhenDetailOverflows="false" isRemoveLineWhenBlank="false" mode="Transparent" positionType="FixRelativeToTop" width="68" x="257" y="2">
+							<printWhenExpression><![CDATA[new Boolean($F{Fecha} != null)]]></printWhenExpression>
+						</reportElement>
+					<textElement lineSpacing="Single" textAlignment="Left" verticalAlignment="Top">
+						<font fontName="SansSerif" isBold="false" isItalic="false" isPdfEmbedded="false" isStrikeThrough="false" isUnderline="false" pdfEncoding="CP1252" pdfFontName="Helvetica" size="10"/>
+					</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{Fecha}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Now" hyperlinkType="None" isBlankWhenNull="false" isStretchWithOverflow="false" pattern="">					<reportElement backcolor="#0033CC" forecolor="#000000" height="18" isPrintInFirstWholeBand="false" isPrintRepeatedValues="true" isPrintWhenDetailOverflows="false" isRemoveLineWhenBlank="false" mode="Transparent" positionType="FixRelativeToTop" width="131" x="403" y="2">
+							<printWhenExpression><![CDATA[new Boolean($F{Usuario} != null)]]></printWhenExpression>
+						</reportElement>
+					<textElement lineSpacing="Single" textAlignment="Left" verticalAlignment="Top">
+						<font fontName="SansSerif" isBold="false" isItalic="false" isPdfEmbedded="false" isStrikeThrough="false" isUnderline="false" pdfEncoding="CP1252" pdfFontName="Helvetica" size="12"/>
+					</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{Usuario}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Now" hyperlinkType="None" isBlankWhenNull="false" isStretchWithOverflow="false" pattern="">					<reportElement backcolor="#0033CC" forecolor="#000000" height="18" isPrintInFirstWholeBand="false" isPrintRepeatedValues="true" isPrintWhenDetailOverflows="false" isRemoveLineWhenBlank="false" mode="Transparent" positionType="FixRelativeToTop" width="63" x="574" y="2">
+							<printWhenExpression><![CDATA[new Boolean($F{Periodo} != null)]]></printWhenExpression>
+						</reportElement>
+					<textElement lineSpacing="Single" textAlignment="Left" verticalAlignment="Top">
+						<font fontName="SansSerif" isBold="false" isItalic="false" isPdfEmbedded="false" isStrikeThrough="false" isUnderline="false" pdfEncoding="CP1252" pdfFontName="Helvetica" size="12"/>
+					</textElement>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$F{Periodo}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Now" hyperlinkType="None" isBlankWhenNull="false" isStretchWithOverflow="false" pattern="">					<reportElement backcolor="#0033CC" forecolor="#000000" height="18" isPrintInFirstWholeBand="false" isPrintRepeatedValues="true" isPrintWhenDetailOverflows="false" isRemoveLineWhenBlank="false" mode="Transparent" positionType="FixRelativeToTop" width="93" x="682" y="2">
+							<printWhenExpression><![CDATA[new Boolean($F{Mes} != null)]]></printWhenExpression>
+						</reportElement>
+					<textElement lineSpacing="Single" textAlignment="Left" verticalAlignment="Top">
+						<font fontName="SansSerif" isBold="false" isItalic="false" isPdfEmbedded="false" isStrikeThrough="false" isUnderline="false" pdfEncoding="CP1252" pdfFontName="Helvetica" size="12"/>
+					</textElement>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$F{Mes}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement backcolor="#0000CC" forecolor="#000000" height="18" isPrintInFirstWholeBand="false" isPrintRepeatedValues="true" isPrintWhenDetailOverflows="false" isRemoveLineWhenBlank="false" mode="Transparent" positionType="FixRelativeToTop" width="27" x="542" y="2">
+							<printWhenExpression><![CDATA[new Boolean($F{Edescripcion} != null)]]></printWhenExpression>
+						</reportElement>
+					<textElement lineSpacing="Single" textAlignment="Left" verticalAlignment="Top">
+						<font fontName="SansSerif" isBold="true" isItalic="false" isPdfEmbedded="false" isStrikeThrough="false" isUnderline="false" pdfEncoding="CP1252" pdfFontName="Helvetica" size="12"/>
+					</textElement>
+				<text><![CDATA[AÃ±o: ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement backcolor="#0000CC" forecolor="#000000" height="18" isPrintInFirstWholeBand="false" isPrintRepeatedValues="true" isPrintWhenDetailOverflows="false" isRemoveLineWhenBlank="false" mode="Transparent" positionType="FixRelativeToTop" width="27" x="649" y="2">
+							<printWhenExpression><![CDATA[new Boolean($F{Edescripcion} != null)]]></printWhenExpression>
+						</reportElement>
+					<textElement lineSpacing="Single" textAlignment="Left" verticalAlignment="Top">
+						<font fontName="SansSerif" isBold="true" isItalic="false" isPdfEmbedded="false" isStrikeThrough="false" isUnderline="false" pdfEncoding="CP1252" pdfFontName="Helvetica" size="12"/>
+					</textElement>
+				<text><![CDATA[Mes: ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement backcolor="#0000CC" forecolor="#000000" height="18" isPrintInFirstWholeBand="false" isPrintRepeatedValues="true" isPrintWhenDetailOverflows="false" isRemoveLineWhenBlank="false" mode="Transparent" positionType="FixRelativeToTop" width="76" x="173" y="2">
+							<printWhenExpression><![CDATA[new Boolean($F{Edescripcion} != null)]]></printWhenExpression>
+						</reportElement>
+					<textElement lineSpacing="Single" textAlignment="Left" verticalAlignment="Top">
+						<font fontName="SansSerif" isBold="true" isItalic="false" isPdfEmbedded="false" isStrikeThrough="false" isUnderline="false" pdfEncoding="CP1252" pdfFontName="Helvetica" size="12"/>
+					</textElement>
+				<text><![CDATA[Fecha Doc.: ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement backcolor="#0000CC" forecolor="#000000" height="18" isPrintInFirstWholeBand="false" isPrintRepeatedValues="true" isPrintWhenDetailOverflows="false" isRemoveLineWhenBlank="false" mode="Transparent" positionType="FixRelativeToTop" width="70" x="331" y="2">
+							<printWhenExpression><![CDATA[new Boolean($F{Edescripcion} != null)]]></printWhenExpression>
+						</reportElement>
+					<textElement lineSpacing="Single" textAlignment="Left" verticalAlignment="Top">
+						<font fontName="SansSerif" isBold="true" isItalic="false" isPdfEmbedded="false" isStrikeThrough="false" isUnderline="false" pdfEncoding="CP1252" pdfFontName="Helvetica" size="12"/>
+					</textElement>
+				<text><![CDATA[Usuario: ]]></text>
+				</staticText>
+			</band>
+			</groupHeader>
+			<groupFooter>
+			<band height="20" isSplitAllowed="true">
+				<staticText>
+					<reportElement backcolor="#FFFFFF" forecolor="#000000" height="18" isPrintInFirstWholeBand="false" isPrintRepeatedValues="true" isPrintWhenDetailOverflows="false" isRemoveLineWhenBlank="false" mode="Opaque" positionType="FixRelativeToTop" width="171" x="0" y="0">
+							<printWhenExpression><![CDATA[new Boolean($F{Edescripcion} != null)]]></printWhenExpression>
+						</reportElement>
+					<textElement lineSpacing="Single" textAlignment="Left" verticalAlignment="Top">
+						<font fontName="SansSerif" isBold="true" isItalic="false" isPdfEmbedded="false" isStrikeThrough="false" isUnderline="false" pdfEncoding="CP1252" pdfFontName="Helvetica" size="12"/>
+					</textElement>
+				<text><![CDATA[Total Documento: ]]></text>
+				</staticText>
+				<textField evaluationTime="Now" hyperlinkType="None" isBlankWhenNull="false" isStretchWithOverflow="false" pattern="">					<reportElement backcolor="#0033CC" forecolor="#000000" height="18" isPrintInFirstWholeBand="false" isPrintRepeatedValues="true" isPrintWhenDetailOverflows="false" isRemoveLineWhenBlank="false" mode="Transparent" positionType="FixRelativeToTop" width="86" x="178" y="0">
+							<printWhenExpression><![CDATA[new Boolean($F{Documento} != null)]]></printWhenExpression>
+						</reportElement>
+					<textElement lineSpacing="Single" textAlignment="Left" verticalAlignment="Top">
+						<font fontName="SansSerif" isBold="false" isItalic="false" isPdfEmbedded="false" isStrikeThrough="false" isUnderline="false" pdfEncoding="CP1252" pdfFontName="Helvetica" size="12"/>
+					</textElement>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$F{Documento}]]></textFieldExpression>
+				</textField>
+				<textField evaluationGroup="Documento" evaluationTime="Group" hyperlinkType="None" isBlankWhenNull="false" isStretchWithOverflow="false" pattern="#,##0.00">					<reportElement backcolor="#FFFFFF" forecolor="#000000" height="18" isPrintInFirstWholeBand="false" isPrintRepeatedValues="true" isPrintWhenDetailOverflows="false" isRemoveLineWhenBlank="false" mode="Opaque" positionType="FixRelativeToTop" width="105" x="669" y="0">
+							<printWhenExpression><![CDATA[new Boolean($F{Edescripcion} != null)]]></printWhenExpression>
+						</reportElement>
+					<textElement lineSpacing="Single" textAlignment="Right" verticalAlignment="Top">
+						<font fontName="SansSerif" isBold="true" isItalic="false" isPdfEmbedded="false" isStrikeThrough="false" isUnderline="false" pdfEncoding="CP1252" pdfFontName="Helvetica" size="10"/>
+					</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{TotalCre}]]></textFieldExpression>
+				</textField>
+				<textField evaluationGroup="Documento" evaluationTime="Group" hyperlinkType="None" isBlankWhenNull="false" isStretchWithOverflow="false" pattern="#,##0.00">					<reportElement backcolor="#FFFFFF" forecolor="#000000" height="18" isPrintInFirstWholeBand="false" isPrintRepeatedValues="true" isPrintWhenDetailOverflows="false" isRemoveLineWhenBlank="false" mode="Opaque" positionType="FixRelativeToTop" width="103" x="549" y="0">
+							<printWhenExpression><![CDATA[new Boolean($F{Edescripcion} != null)]]></printWhenExpression>
+						</reportElement>
+					<textElement lineSpacing="Single" textAlignment="Right" verticalAlignment="Top">
+						<font fontName="SansSerif" isBold="true" isItalic="false" isPdfEmbedded="false" isStrikeThrough="false" isUnderline="false" pdfEncoding="CP1252" pdfFontName="Helvetica" size="10"/>
+					</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{TotalDeb}]]></textFieldExpression>
+				</textField>
+			</band>
+			</groupFooter>
+		</group>
+		<background>
+			<band height="4" isSplitAllowed="true">
+			</band>
+		</background>
+		<title>
+			<band height="0" isSplitAllowed="true">
+			</band>
+		</title>
+		<pageHeader>
+			<band height="86" isSplitAllowed="true">
+				<staticText>
+					<reportElement backcolor="#666666" forecolor="#000000" height="15" isPrintInFirstWholeBand="false" isPrintRepeatedValues="true" isPrintWhenDetailOverflows="false" isRemoveLineWhenBlank="false" mode="Transparent" positionType="FixRelativeToTop" width="36" x="2" y="71">
+							<printWhenExpression><![CDATA[new Boolean($F{Edescripcion} != null)]]></printWhenExpression>
+						</reportElement>
+					<textElement lineSpacing="Single" textAlignment="Left" verticalAlignment="Top">
+						<font fontName="Times-Roman" isBold="true" isItalic="false" isPdfEmbedded="false" isStrikeThrough="false" isUnderline="false" pdfEncoding="CP1252" pdfFontName="Times-Roman" size="10"/>
+					</textElement>
+				<text><![CDATA[Linea]]></text>
+				</staticText>
+				<staticText>
+					<reportElement backcolor="#666666" forecolor="#000000" height="15" isPrintInFirstWholeBand="false" isPrintRepeatedValues="true" isPrintWhenDetailOverflows="false" isRemoveLineWhenBlank="false" mode="Transparent" positionType="FixRelativeToTop" width="69" x="90" y="71">
+							<printWhenExpression><![CDATA[new Boolean($F{Edescripcion} != null)]]></printWhenExpression>
+						</reportElement>
+					<textElement lineSpacing="Single" textAlignment="Left" verticalAlignment="Top">
+						<font fontName="Times-Roman" isBold="true" isItalic="false" isPdfEmbedded="false" isStrikeThrough="false" isUnderline="false" pdfEncoding="CP1252" pdfFontName="Times-Roman" size="10"/>
+					</textElement>
+				<text><![CDATA[Documento]]></text>
+				</staticText>
+				<staticText>
+					<reportElement backcolor="#666666" forecolor="#000000" height="15" isPrintInFirstWholeBand="false" isPrintRepeatedValues="true" isPrintWhenDetailOverflows="false" isRemoveLineWhenBlank="false" mode="Transparent" positionType="FixRelativeToTop" width="105" x="668" y="71">
+							<printWhenExpression><![CDATA[new Boolean($F{Edescripcion} != null)]]></printWhenExpression>
+						</reportElement>
+					<textElement lineSpacing="Single" textAlignment="Right" verticalAlignment="Top">
+						<font fontName="Times-Roman" isBold="true" isItalic="false" isPdfEmbedded="false" isStrikeThrough="false" isUnderline="false" pdfEncoding="CP1252" pdfFontName="Times-Roman" size="10"/>
+					</textElement>
+				<text><![CDATA[CrÃ©ditos]]></text>
+				</staticText>
+				<staticText>
+					<reportElement backcolor="#666666" forecolor="#000000" height="15" isPrintInFirstWholeBand="false" isPrintRepeatedValues="true" isPrintWhenDetailOverflows="false" isRemoveLineWhenBlank="false" mode="Transparent" positionType="FixRelativeToTop" width="89" x="322" y="71">
+							<printWhenExpression><![CDATA[new Boolean($F{Edescripcion} != null)]]></printWhenExpression>
+						</reportElement>
+					<textElement lineSpacing="Single" textAlignment="Right" verticalAlignment="Top">
+						<font fontName="Times-Roman" isBold="true" isItalic="false" isPdfEmbedded="false" isStrikeThrough="false" isUnderline="false" pdfEncoding="CP1252" pdfFontName="Times-Roman" size="10"/>
+					</textElement>
+				<text><![CDATA[Monto Original]]></text>
+				</staticText>
+				<staticText>
+					<reportElement backcolor="#666666" forecolor="#000000" height="15" isPrintInFirstWholeBand="false" isPrintRepeatedValues="true" isPrintWhenDetailOverflows="false" isRemoveLineWhenBlank="false" mode="Transparent" positionType="FixRelativeToTop" width="73" x="452" y="71">
+							<printWhenExpression><![CDATA[new Boolean($F{Edescripcion} != null)]]></printWhenExpression>
+						</reportElement>
+					<textElement lineSpacing="Single" textAlignment="Right" verticalAlignment="Top">
+						<font fontName="Times-Roman" isBold="true" isItalic="false" isPdfEmbedded="false" isStrikeThrough="false" isUnderline="false" pdfEncoding="CP1252" pdfFontName="Times-Roman" size="10"/>
+					</textElement>
+				<text><![CDATA[Tipo Cambio]]></text>
+				</staticText>
+				<staticText>
+					<reportElement backcolor="#666666" forecolor="#000000" height="15" isPrintInFirstWholeBand="false" isPrintRepeatedValues="true" isPrintWhenDetailOverflows="false" isRemoveLineWhenBlank="false" mode="Transparent" positionType="FixRelativeToTop" width="48" x="37" y="71">
+							<printWhenExpression><![CDATA[new Boolean($F{Edescripcion} != null)]]></printWhenExpression>
+						</reportElement>
+					<textElement lineSpacing="Single" textAlignment="Left" verticalAlignment="Top">
+						<font fontName="Times-Roman" isBold="true" isItalic="false" isPdfEmbedded="false" isStrikeThrough="false" isUnderline="false" pdfEncoding="CP1252" pdfFontName="Times-Roman" size="10"/>
+					</textElement>
+				<text><![CDATA[Oficina]]></text>
+				</staticText>
+				<staticText>
+					<reportElement backcolor="#666666" forecolor="#000000" height="15" isPrintInFirstWholeBand="false" isPrintRepeatedValues="true" isPrintWhenDetailOverflows="false" isRemoveLineWhenBlank="false" mode="Transparent" positionType="FixRelativeToTop" width="28" x="170" y="71">
+							<printWhenExpression><![CDATA[new Boolean($F{Edescripcion} != null)]]></printWhenExpression>
+						</reportElement>
+					<textElement lineSpacing="Single" textAlignment="Left" verticalAlignment="Top">
+						<font fontName="Times-Roman" isBold="true" isItalic="false" isPdfEmbedded="false" isStrikeThrough="false" isUnderline="false" pdfEncoding="CP1252" pdfFontName="Times-Roman" size="10"/>
+					</textElement>
+				<text><![CDATA[Ref]]></text>
+				</staticText>
+				<staticText>
+					<reportElement backcolor="#666666" forecolor="#000000" height="15" isPrintInFirstWholeBand="false" isPrintRepeatedValues="true" isPrintWhenDetailOverflows="false" isRemoveLineWhenBlank="false" mode="Transparent" positionType="FixRelativeToTop" width="94" x="215" y="71">
+							<printWhenExpression><![CDATA[new Boolean($F{Edescripcion} != null)]]></printWhenExpression>
+						</reportElement>
+					<textElement lineSpacing="Single" textAlignment="Left" verticalAlignment="Top">
+						<font fontName="Times-Roman" isBold="true" isItalic="false" isPdfEmbedded="false" isStrikeThrough="false" isUnderline="false" pdfEncoding="CP1252" pdfFontName="Times-Roman" size="10"/>
+					</textElement>
+				<text><![CDATA[Cuenta]]></text>
+				</staticText>
+				<staticText>
+					<reportElement backcolor="#666666" forecolor="#000000" height="15" isPrintInFirstWholeBand="false" isPrintRepeatedValues="true" isPrintWhenDetailOverflows="false" isRemoveLineWhenBlank="false" mode="Transparent" positionType="FixRelativeToTop" width="103" x="548" y="71">
+							<printWhenExpression><![CDATA[new Boolean($F{Edescripcion} != null)]]></printWhenExpression>
+						</reportElement>
+					<textElement lineSpacing="Single" textAlignment="Right" verticalAlignment="Top">
+						<font fontName="Times-Roman" isBold="true" isItalic="false" isPdfEmbedded="false" isStrikeThrough="false" isUnderline="false" pdfEncoding="CP1252" pdfFontName="Times-Roman" size="10"/>
+					</textElement>
+				<text><![CDATA[DÃ©bitos]]></text>
+				</staticText>
+				<staticText>
+					<reportElement backcolor="#FFFFFF" forecolor="#000000" height="24" isPrintInFirstWholeBand="false" isPrintRepeatedValues="true" isPrintWhenDetailOverflows="false" isRemoveLineWhenBlank="false" mode="Transparent" positionType="FixRelativeToTop" width="488" x="131" y="43">
+							<printWhenExpression><![CDATA[new Boolean($F{Edescripcion} != null)]]></printWhenExpression>
+						</reportElement>
+					<textElement lineSpacing="Single" textAlignment="Center" verticalAlignment="Top">
+						<font fontName="Times-Roman" isBold="true" isItalic="false" isPdfEmbedded="false" isStrikeThrough="false" isUnderline="false" pdfEncoding="CP1252" pdfFontName="Times-Roman" size="14"/>
+					</textElement>
+				<text><![CDATA[Reporte de Documentos Aplicados]]></text>
+				</staticText>
+				<line direction="TopDown">
+					<reportElement backcolor="#FFFFFF" forecolor="#000000" height="0" isPrintInFirstWholeBand="false" isPrintRepeatedValues="true" isPrintWhenDetailOverflows="false" isRemoveLineWhenBlank="false" mode="Opaque" positionType="FixRelativeToTop" width="781" x="0" y="0"/>
+					<graphicElement fill="Solid" pen="2Point" stretchType="NoStretch"/>
+				</line>
+				<textField evaluationTime="Now" hyperlinkType="None" isBlankWhenNull="false" isStretchWithOverflow="false" pattern="">					<reportElement backcolor="#FFFFFF" forecolor="#000000" height="31" isPrintInFirstWholeBand="false" isPrintRepeatedValues="true" isPrintWhenDetailOverflows="false" isRemoveLineWhenBlank="false" mode="Opaque" positionType="FixRelativeToTop" width="750" x="15" y="2">
+							<printWhenExpression><![CDATA[new Boolean($F{Edescripcion} != null)]]></printWhenExpression>
+						</reportElement>
+					<textElement lineSpacing="Single" textAlignment="Center" verticalAlignment="Top">
+						<font fontName="SansSerif" isBold="false" isItalic="false" isPdfEmbedded="false" isStrikeThrough="false" isUnderline="false" pdfEncoding="CP1252" pdfFontName="Helvetica" size="24"/>
+					</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{Edescripcion}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement backcolor="#FFFFFF" forecolor="#000000" height="21" isPrintInFirstWholeBand="false" isPrintRepeatedValues="true" isPrintWhenDetailOverflows="false" isRemoveLineWhenBlank="false" mode="Opaque" positionType="FixRelativeToTop" width="770" x="7" y="15">
+							<printWhenExpression><![CDATA[new Boolean($F{Edescripcion} == null)]]></printWhenExpression>
+						</reportElement>
+					<textElement lineSpacing="Single" textAlignment="Center" verticalAlignment="Top">
+						<font fontName="SansSerif" isBold="false" isItalic="false" isPdfEmbedded="false" isStrikeThrough="false" isUnderline="false" pdfEncoding="CP1252" pdfFontName="Helvetica" size="12"/>
+					</textElement>
+				<text><![CDATA[No se encontraron registros]]></text>
+				</staticText>
+			</band>
+		</pageHeader>
+		<columnHeader>
+			<band height="0" isSplitAllowed="true">
+			</band>
+		</columnHeader>
+		<detail>
+			<band height="14" isSplitAllowed="true">
+				<textField evaluationTime="Now" hyperlinkType="None" isBlankWhenNull="false" isStretchWithOverflow="false" pattern=" #,##0">					<reportElement backcolor="#FFFFFF" forecolor="#000000" height="12" isPrintInFirstWholeBand="false" isPrintRepeatedValues="false" isPrintWhenDetailOverflows="false" isRemoveLineWhenBlank="false" mode="Transparent" positionType="FixRelativeToTop" width="36" x="3" y="0">
+							<printWhenExpression><![CDATA[new Boolean($F{Edescripcion} != null)]]></printWhenExpression>
+						</reportElement>
+					<textElement lineSpacing="Single" textAlignment="Left" verticalAlignment="Top">
+						<font fontName="Times-Roman" isBold="false" isItalic="false" isPdfEmbedded="false" isStrikeThrough="false" isUnderline="false" pdfEncoding="CP1252" pdfFontName="Times-Roman" size="8"/>
+					</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{Linea}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Now" hyperlinkType="None" isBlankWhenNull="false" isStretchWithOverflow="false" pattern="">					<reportElement backcolor="#FFFFFF" forecolor="#000000" height="12" isPrintInFirstWholeBand="false" isPrintRepeatedValues="true" isPrintWhenDetailOverflows="false" isRemoveLineWhenBlank="false" mode="Transparent" positionType="FixRelativeToTop" width="69" x="91" y="0">
+							<printWhenExpression><![CDATA[new Boolean($F{Ddocumento} != null)]]></printWhenExpression>
+						</reportElement>
+					<textElement lineSpacing="Single" textAlignment="Left" verticalAlignment="Top">
+						<font fontName="Times-Roman" isBold="false" isItalic="false" isPdfEmbedded="false" isStrikeThrough="false" isUnderline="false" pdfEncoding="CP1252" pdfFontName="Times-Roman" size="8"/>
+					</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{Ddocumento}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Now" hyperlinkType="None" isBlankWhenNull="false" isStretchWithOverflow="false" pattern="#,##0.00">					<reportElement backcolor="#FFFFFF" forecolor="#000000" height="12" isPrintInFirstWholeBand="false" isPrintRepeatedValues="true" isPrintWhenDetailOverflows="false" isRemoveLineWhenBlank="false" mode="Transparent" positionType="FixRelativeToTop" width="105" x="669" y="0">
+							<printWhenExpression><![CDATA[new Boolean($F{Creditos} != null)]]></printWhenExpression>
+						</reportElement>
+					<textElement lineSpacing="Single" textAlignment="Right" verticalAlignment="Top">
+						<font fontName="Times-Roman" isBold="false" isItalic="false" isPdfEmbedded="false" isStrikeThrough="false" isUnderline="false" pdfEncoding="CP1252" pdfFontName="Times-Roman" size="8"/>
+					</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{Creditos}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Now" hyperlinkType="None" isBlankWhenNull="false" isStretchWithOverflow="false" pattern="">					<reportElement backcolor="#FFFFFF" forecolor="#000000" height="12" isPrintInFirstWholeBand="false" isPrintRepeatedValues="true" isPrintWhenDetailOverflows="false" isRemoveLineWhenBlank="false" mode="Transparent" positionType="FixRelativeToTop" width="25" x="424" y="0">
+							<printWhenExpression><![CDATA[new Boolean($F{Edescripcion} != null)]]></printWhenExpression>
+						</reportElement>
+					<textElement lineSpacing="Single" textAlignment="Left" verticalAlignment="Top">
+						<font fontName="Times-Roman" isBold="false" isItalic="false" isPdfEmbedded="false" isStrikeThrough="false" isUnderline="false" pdfEncoding="CP1252" pdfFontName="Times-Roman" size="8"/>
+					</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{Moneda}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Now" hyperlinkType="None" isBlankWhenNull="true" isStretchWithOverflow="false" pattern="#,##0.00">					<reportElement backcolor="#FFFFFF" forecolor="#000000" height="12" isPrintInFirstWholeBand="false" isPrintRepeatedValues="true" isPrintWhenDetailOverflows="false" isRemoveLineWhenBlank="false" mode="Transparent" positionType="FixRelativeToTop" width="89" x="328" y="0">
+							<printWhenExpression><![CDATA[new Boolean($F{Monto} != null)]]></printWhenExpression>
+						</reportElement>
+					<textElement lineSpacing="Single" textAlignment="Right" verticalAlignment="Top">
+						<font fontName="Times-Roman" isBold="false" isItalic="false" isPdfEmbedded="false" isStrikeThrough="false" isUnderline="false" pdfEncoding="CP1252" pdfFontName="Times-Roman" size="8"/>
+					</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{Monto}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Now" hyperlinkType="None" isBlankWhenNull="false" isStretchWithOverflow="false" pattern="#,##0.00">					<reportElement backcolor="#FFFFFF" forecolor="#000000" height="12" isPrintInFirstWholeBand="false" isPrintRepeatedValues="true" isPrintWhenDetailOverflows="false" isRemoveLineWhenBlank="false" mode="Transparent" positionType="FixRelativeToTop" width="73" x="453" y="0">
+							<printWhenExpression><![CDATA[new Boolean($F{TipoCambio} != null)]]></printWhenExpression>
+						</reportElement>
+					<textElement lineSpacing="Single" textAlignment="Right" verticalAlignment="Top">
+						<font fontName="Times-Roman" isBold="false" isItalic="false" isPdfEmbedded="false" isStrikeThrough="false" isUnderline="false" pdfEncoding="CP1252" pdfFontName="Times-Roman" size="8"/>
+					</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{TipoCambio}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Now" hyperlinkType="None" isBlankWhenNull="false" isStretchWithOverflow="false" pattern="#,##0.00">					<reportElement backcolor="#FFFFFF" forecolor="#000000" height="12" isPrintInFirstWholeBand="false" isPrintRepeatedValues="true" isPrintWhenDetailOverflows="false" isRemoveLineWhenBlank="false" mode="Opaque" positionType="FixRelativeToTop" width="103" x="549" y="0">
+							<printWhenExpression><![CDATA[new Boolean($F{Debitos} != null)]]></printWhenExpression>
+						</reportElement>
+					<textElement lineSpacing="Single" textAlignment="Right" verticalAlignment="Top">
+						<font fontName="SansSerif" isBold="false" isItalic="false" isPdfEmbedded="false" isStrikeThrough="false" isUnderline="false" pdfEncoding="CP1252" pdfFontName="Helvetica" size="8"/>
+					</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{Debitos}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Now" hyperlinkType="None" isBlankWhenNull="false" isStretchWithOverflow="false" pattern="">					<reportElement backcolor="#FFFFFF" forecolor="#000000" height="12" isPrintInFirstWholeBand="false" isPrintRepeatedValues="false" isPrintWhenDetailOverflows="false" isRemoveLineWhenBlank="false" mode="Transparent" positionType="FixRelativeToTop" width="48" x="38" y="0">
+							<printWhenExpression><![CDATA[new Boolean($F{Oficina} != null)]]></printWhenExpression>
+						</reportElement>
+					<textElement lineSpacing="Single" textAlignment="Left" verticalAlignment="Top">
+						<font fontName="Times-Roman" isBold="false" isItalic="false" isPdfEmbedded="false" isStrikeThrough="false" isUnderline="false" pdfEncoding="CP1252" pdfFontName="Times-Roman" size="8"/>
+					</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{Oficina}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Now" hyperlinkType="None" isBlankWhenNull="false" isStretchWithOverflow="false" pattern="">					<reportElement backcolor="#FFFFFF" forecolor="#000000" height="12" isPrintInFirstWholeBand="false" isPrintRepeatedValues="true" isPrintWhenDetailOverflows="false" isRemoveLineWhenBlank="false" mode="Transparent" positionType="FixRelativeToTop" width="31" x="165" y="0">
+							<printWhenExpression><![CDATA[new Boolean($F{Referencia} != null)]]></printWhenExpression>
+						</reportElement>
+					<textElement lineSpacing="Single" textAlignment="Left" verticalAlignment="Top">
+						<font fontName="Times-Roman" isBold="false" isItalic="false" isPdfEmbedded="false" isStrikeThrough="false" isUnderline="false" pdfEncoding="CP1252" pdfFontName="Times-Roman" size="8"/>
+					</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{Referencia}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Now" hyperlinkType="None" isBlankWhenNull="false" isStretchWithOverflow="false" pattern="">					<reportElement backcolor="#FFFFFF" forecolor="#000000" height="12" isPrintInFirstWholeBand="false" isPrintRepeatedValues="true" isPrintWhenDetailOverflows="false" isRemoveLineWhenBlank="false" mode="Transparent" positionType="FixRelativeToTop" width="94" x="215" y="0">
+							<printWhenExpression><![CDATA[new Boolean($F{Cuenta} != null)]]></printWhenExpression>
+						</reportElement>
+					<textElement lineSpacing="Single" textAlignment="Left" verticalAlignment="Top">
+						<font fontName="Times-Roman" isBold="false" isItalic="false" isPdfEmbedded="false" isStrikeThrough="false" isUnderline="false" pdfEncoding="CP1252" pdfFontName="Times-Roman" size="8"/>
+					</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{Cuenta}]]></textFieldExpression>
+				</textField>
+			</band>
+		</detail>
+		<columnFooter>
+			<band height="0" isSplitAllowed="true">
+			</band>
+		</columnFooter>
+		<pageFooter>
+			<band height="95" isSplitAllowed="true">
+				<textField evaluationTime="Now" hyperlinkType="None" isBlankWhenNull="false" isStretchWithOverflow="false" pattern="">					<reportElement backcolor="#FFFFFF" forecolor="#000000" height="19" isPrintInFirstWholeBand="false" isPrintRepeatedValues="true" isPrintWhenDetailOverflows="false" isRemoveLineWhenBlank="false" mode="Transparent" positionType="FixRelativeToTop" width="174" x="567" y="73">
+							<printWhenExpression><![CDATA[new Boolean($F{Edescripcion} != null)]]></printWhenExpression>
+						</reportElement>
+					<textElement lineSpacing="Single" textAlignment="Right" verticalAlignment="Top">
+						<font fontName="Helvetica" isBold="false" isItalic="false" isPdfEmbedded="false" isStrikeThrough="false" isUnderline="false" pdfEncoding="CP1252" pdfFontName="Helvetica" size="10"/>
+					</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["Page " + $V{PAGE_NUMBER} + " of "]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Report" hyperlinkType="None" isBlankWhenNull="false" isStretchWithOverflow="false" pattern="">					<reportElement backcolor="#FFFFFF" forecolor="#000000" height="19" isPrintInFirstWholeBand="false" isPrintRepeatedValues="true" isPrintWhenDetailOverflows="false" isRemoveLineWhenBlank="false" mode="Transparent" positionType="FixRelativeToTop" width="36" x="746" y="73">
+							<printWhenExpression><![CDATA[new Boolean($F{Edescripcion} != null)]]></printWhenExpression>
+						</reportElement>
+					<textElement lineSpacing="Single" textAlignment="Left" verticalAlignment="Top">
+						<font fontName="Helvetica" isBold="false" isItalic="false" isPdfEmbedded="false" isStrikeThrough="false" isUnderline="false" pdfEncoding="CP1252" pdfFontName="Helvetica" size="10"/>
+					</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["" + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<line direction="TopDown">
+					<reportElement backcolor="#FFFFFF" forecolor="#000000" height="0" isPrintInFirstWholeBand="false" isPrintRepeatedValues="true" isPrintWhenDetailOverflows="false" isRemoveLineWhenBlank="false" mode="Opaque" positionType="FixRelativeToTop" width="778" x="1" y="3">
+							<printWhenExpression><![CDATA[new Boolean($F{Edescripcion} != null)]]></printWhenExpression>
+						</reportElement>
+					<graphicElement fill="Solid" pen="2Point" stretchType="NoStretch"/>
+				</line>
+				<textField evaluationTime="Now" hyperlinkType="None" isBlankWhenNull="false" isStretchWithOverflow="false" pattern="">					<reportElement backcolor="#FFFFFF" forecolor="#000000" height="17" isPrintInFirstWholeBand="false" isPrintRepeatedValues="true" isPrintWhenDetailOverflows="false" isRemoveLineWhenBlank="false" mode="Opaque" positionType="FixRelativeToTop" width="285" x="0" y="73">
+							<printWhenExpression><![CDATA[new Boolean($F{Edescripcion} != null)]]></printWhenExpression>
+						</reportElement>
+					<textElement lineSpacing="Single" textAlignment="Left" verticalAlignment="Top">
+						<font fontName="SansSerif" isBold="false" isItalic="false" isPdfEmbedded="false" isStrikeThrough="false" isUnderline="false" pdfEncoding="CP1252" pdfFontName="Helvetica" size="10"/>
+					</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{fecha_hora}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement backcolor="#FFFFFF" forecolor="#000000" height="18" isPrintInFirstWholeBand="false" isPrintRepeatedValues="true" isPrintWhenDetailOverflows="false" isRemoveLineWhenBlank="false" mode="Opaque" positionType="FixRelativeToTop" width="171" x="174" y="47">
+							<printWhenExpression><![CDATA[new Boolean($F{Edescripcion} != null)]]></printWhenExpression>
+						</reportElement>
+					<textElement lineSpacing="Single" textAlignment="Center" verticalAlignment="Top">
+						<font fontName="SansSerif" isBold="true" isItalic="false" isPdfEmbedded="false" isStrikeThrough="false" isUnderline="false" pdfEncoding="CP1252" pdfFontName="Helvetica" size="12"/>
+					</textElement>
+				<text><![CDATA[Nombre:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement backcolor="#FFFFFF" forecolor="#000000" height="18" isPrintInFirstWholeBand="false" isPrintRepeatedValues="true" isPrintWhenDetailOverflows="false" isRemoveLineWhenBlank="false" mode="Opaque" positionType="FixRelativeToTop" width="171" x="431" y="47">
+							<printWhenExpression><![CDATA[new Boolean($F{Edescripcion} != null)]]></printWhenExpression>
+						</reportElement>
+					<textElement lineSpacing="Single" textAlignment="Center" verticalAlignment="Top">
+						<font fontName="SansSerif" isBold="true" isItalic="false" isPdfEmbedded="false" isStrikeThrough="false" isUnderline="false" pdfEncoding="CP1252" pdfFontName="Helvetica" size="12"/>
+					</textElement>
+				<text><![CDATA[Firma]]></text>
+				</staticText>
+				<line direction="TopDown">
+					<reportElement backcolor="#FFFFFF" forecolor="#000000" height="0" isPrintInFirstWholeBand="false" isPrintRepeatedValues="true" isPrintWhenDetailOverflows="false" isRemoveLineWhenBlank="false" mode="Opaque" positionType="FixRelativeToTop" width="170" x="174" y="45"/>
+					<graphicElement fill="Solid" pen="Thin" stretchType="NoStretch"/>
+				</line>
+				<line direction="TopDown">
+					<reportElement backcolor="#FFFFFF" forecolor="#000000" height="0" isPrintInFirstWholeBand="false" isPrintRepeatedValues="true" isPrintWhenDetailOverflows="false" isRemoveLineWhenBlank="false" mode="Opaque" positionType="FixRelativeToTop" width="170" x="431" y="45"/>
+					<graphicElement fill="Solid" pen="Thin" stretchType="NoStretch"/>
+				</line>
+			</band>
+		</pageFooter>
+		<summary>
+			<band height="0" isSplitAllowed="true">
+			</band>
+		</summary>
+</jasperReport>

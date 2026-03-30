@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<MSG_NoSePuedeIncluirUnaComisionManualmente>Can not include a commission manually</MSG_NoSePuedeIncluirUnaComisionManualmente>
+		<LB_NumeroAnticipo>Number of Advance</LB_NumeroAnticipo>
+		<LB_FechaSolicitud>Request Date</LB_FechaSolicitud>
+		<LB_CentroFuncional>Functional Center</LB_CentroFuncional>
+		<LB_Empleado>Employee</LB_Empleado>
+		<LB_Moneda>Currency</LB_Moneda>
+		<LB_Descripcion>Description</LB_Descripcion>
+		<LB_TipoCambio>Exchange Rate</LB_TipoCambio>
+		<LB_TipoCambioHistorico>Historical Exchange Rate</LB_TipoCambioHistorico>
+		<LB_FormaPago>Payment Method</LB_FormaPago>
+		<LB_SeleccionarFormaPago>Select Payment Method</LB_SeleccionarFormaPago>
+		<LB_PorTesoreria>By Treasury</LB_PorTesoreria>
+		<LB_ConChequeTEF>Check or EFT</LB_ConChequeTEF>
+		<LB_ConEfectivoPorCajaEspecial>Cash by Petty Cash</LB_ConEfectivoPorCajaEspecial>
+		<LB_TotalPagoSolicitado>Total Payment Requested</LB_TotalPagoSolicitado>
+		<LB_TipoViaticos>Allowance Type</LB_TipoViaticos>
+		<LB_FechaPagoSolicitado>Payment Date</LB_FechaPagoSolicitado>
+		<LB_MotivoRechazo>Rejection Reason</LB_MotivoRechazo>
+		<LB_DetalleAnticipo>Advance Detail</LB_DetalleAnticipo>
+		<LB_CuentaFinanciera>Financial Account</LB_CuentaFinanciera>
+		<LB_Concepto>Concept</LB_Concepto>
+		<LB_MontoOriginal>Original Amount</LB_MontoOriginal>
+		<LB_MontoSolicitado>Amount Requested</LB_MontoSolicitado>
+		<LB_Fechas>Dates</LB_Fechas>
+		<BTN_TiposCambio>Exchange Rate</BTN_TiposCambio>
+		<BTN_CalcularTC>ER Calculate</BTN_CalcularTC>
+		<MSG_PorFavorReviseLosSiguientesDatos>Please review following data</MSG_PorFavorReviseLosSiguientesDatos>
+		<MSG_LaFechaDeLaTransaccionNoPuedeQuedarEnBlanco>Define a Transaction Date</MSG_LaFechaDeLaTransaccionNoPuedeQuedarEnBlanco>
+		<MSG_DebeSeleccionarUnaFormaDePago>Select a payment method</MSG_DebeSeleccionarUnaFormaDePago>
+		<MSG_DeseaAprobarLaTransaccion>Approve selected transaction</MSG_DeseaAprobarLaTransaccion>
+		<MSG_ParaPagoPor>To payment by</MSG_ParaPagoPor>
+		<MSG_DeseaRechazarLaTransaccion>Reject selected transaction</MSG_DeseaRechazarLaTransaccion>
+		<MSG_DebeDigitarUnaRazonDeCambio>Define the change reason</MSG_DebeDigitarUnaRazonDeCambio>
+		<MSG_TesoreriaPago>Treasury Payment</MSG_TesoreriaPago>
+		<MSG_AdministradaPor>Managed by</MSG_AdministradaPor>
+		<MSG_CambioDeTesoreria>Treasury Change</MSG_CambioDeTesoreria>
+		<MSG_DeseaQueElProcesoDePagoSeRealiceEn>Payment process will be done in</MSG_DeseaQueElProcesoDePagoSeRealiceEn>
+	</Idioma>
+</Etiquetas>

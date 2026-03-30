@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<MSG_Cierre_Anual>Month end Closing</MSG_Cierre_Anual>
+		<MSG_Consultar>Consult</MSG_Consultar>
+		<MSG_Convertida>Converted</MSG_Convertida>
+		<MSG_Cuenta_Final>Final account</MSG_Cuenta_Final>
+		<MSG_Cuenta_Inicial>Initial account</MSG_Cuenta_Inicial>
+		<MSG_Empre_Ofic>Enterprise or Office</MSG_Empre_Ofic>
+		<MSG_Formato>Format</MSG_Formato>
+		<MSG_Informe_B15>B15 Report</MSG_Informe_B15>
+		<MSG_Limpiar>Clean</MSG_Limpiar>
+		<MSG_Local>Local</MSG_Local>
+		<MSG_Movimiento_Mensual>Monthly Movement</MSG_Movimiento_Mensual>
+		<MSG_Origen>Origin</MSG_Origen>
+		<MSG_Periodo>Period</MSG_Periodo>
+		<MSG_Saldos_Finales_Cero>Final Balances in Zero</MSG_Saldos_Finales_Cero>
+		<MSG_Saldos_por_Oficina>Balances by Office</MSG_Saldos_por_Oficina>
+		<MSG_Nivel_Seleccionado>Selected Level</MSG_Nivel_Seleccionado>
+		<LB_GpoEmpresas>Enterprise Group</LB_GpoEmpresas>
+		<LB_Empresa>Enterprise</LB_Empresa>
+		<LB_GpoOficinas>Office Group</LB_GpoOficinas>
+		<LB_Oficina>Office</LB_Oficina>
+		<LB_Titulo>Tryal Balance</LB_Titulo>
+		<LB_Titulo2>Trial Balance</LB_Titulo2>
+		
+	<LB_GrupoEmpresa>Enterprise Group</LB_GrupoEmpresa><LB_GrupoOficinas>Office Group</LB_GrupoOficinas><LB_MayorCtasDet>Ledger Account - Detail</LB_MayorCtasDet><LB_SoloCtasDet>Only Account Detail</LB_SoloCtasDet></Idioma>
+</Etiquetas>

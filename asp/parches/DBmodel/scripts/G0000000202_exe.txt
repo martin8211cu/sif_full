@@ -1,0 +1,65 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 522 - DBM 473: Se agrega un campo nuevo a esta tabla PCN
+
+	         PARCHE:  Parche024_022_SIF_Mascara al plan de CUENTAS
+
+GENERADO EN:
+	SERVER:  http://mxvqapp34:8300
+	DSN:     sifcim
+	FECHA:   08/02/2012 15:57:14
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* CHG_TABLE PCNivelMascara: Nivel por Mascara */
+/* ======================================================================================== */
+/* ADD_COLUMN OP = (NUEVO): PCNDescripCta - Descripcion de la cuenta */
+ALTER TABLE PCNivelMascara ADD PCNDescripCta bit NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+UPDATE PCNivelMascara SET PCNDescripCta = 0
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE PCNivelMascara ALTER COLUMN PCNDescripCta bit NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE RHDAumentos: Detalle de Relación de Aumento */
+/* ======================================================================================== */
+/* ADD_COLUMN OP = (NUEVO): LTid - LTid */
+ALTER TABLE RHDAumentos ADD LTid numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP = (NUEVO): LTRid - LTRid */
+ALTER TABLE RHDAumentos ADD LTRid numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP = (NUEVO): RHDsalario - RHDsalario */
+ALTER TABLE RHDAumentos ADD RHDsalario money NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP = (NUEVO): RHCPlinea - RHCPlinea */
+ALTER TABLE RHDAumentos ADD RHCPlinea numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

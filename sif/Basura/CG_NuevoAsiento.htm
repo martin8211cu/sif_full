@@ -1,0 +1,76 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>Untitled Document</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+
+<body>
+
+if exists (select 1
+          from sysobjects
+          where id = object_id('CG_NuevoAsiento')
+          and type = 'P')
+   drop procedure CG_NuevoAsiento
+go
+
+
+
+create procedure CG_NuevoAsiento
+    @Ecodigo int,
+    @Cconcepto int,
+    @Oorigen char(4),
+    @Eperiodo int,
+    @Emes int,
+    @Edocumento int output,
+    @hacerselect bit = 0
+as
+begin
+
+if @Cconcepto is null begin
+    select @Cconcepto = Cconcepto
+    from ConceptoContable
+    where Ecodigo = @Ecodigo
+      and Oorigen = @Oorigen
+end
+
+if @Cconcepto is null
+begin
+	raiserror 40000 "Error!, No se ha definido el concepto de asiento contable"
+	return -1
+end
+
+    update ConceptoContableN
+    set Edocumento = Edocumento + 1
+    where Ecodigo = @Ecodigo
+      and Cconcepto = @Cconcepto
+      and Eperiodo = @Eperiodo
+      and Emes = @Emes
+
+    if @@rowcount = 0 begin
+        insert ConceptoContableN (Ecodigo, Cconcepto, Eperiodo, Emes, Edocumento)
+        select @Ecodigo, @Cconcepto, @Eperiodo, @Emes, 1
+        if @@error != 0 begin
+           raiserror 40000 'Error, No se pudo insertar el Concepto Contable! (Tabla: ConceptoContableN) Proceso Cancelado!'
+           return -1
+        end
+
+    end
+
+    select @Edocumento = Edocumento
+    from ConceptoContableN
+    where Ecodigo = @Ecodigo
+      and Cconcepto = @Cconcepto
+      and Eperiodo = @Eperiodo
+      and Emes = @Emes
+
+if @hacerselect = 1
+    select @Edocumento as documento
+
+end
+go
+sp_procxmode CG_NuevoAsiento , anymode
+go
+</body>
+</html>

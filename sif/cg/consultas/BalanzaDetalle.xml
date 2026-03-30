@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="es">
+		<LB_Titulo>Balanza a Detalle
+		</LB_Titulo>
+		<LB_PeriodoInicial>Desde Período
+		</LB_PeriodoInicial>
+		<LB_PeriodoFinal>Hasta Período
+		</LB_PeriodoFinal>
+		<LB_MesInicial>Mes
+		</LB_MesInicial>
+		<LB_MesFinal>Mes
+		</LB_MesFinal>
+		<LB_FechaInicial>Fecha Inicio
+		</LB_FechaInicial>
+		<LB_FechaFinal>Fecha Fin
+		</LB_FechaFinal>	
+		<LB_CuentaInicial>Cuenta Inicial
+		</LB_CuentaInicial>
+		<LB_CuentaFinal>Cuenta Final
+		</LB_CuentaFinal>
+		<LB_Moneda>Moneda
+		</LB_Moneda>
+		<LB_Formato>Formato
+		</LB_Formato>
+		<LB_Orden>Ordenamiento
+		</LB_Orden>
+		<LB_Oficina>Oficina
+		</LB_Oficina>
+		<LB_Todos>Todas
+		</LB_Todos>
+		<RBTN_MonedaLocal>Local
+		</RBTN_MonedaLocal>
+		<RBTN_MonedaOrigen>Origen
+		</RBTN_MonedaOrigen>
+		<CHK_ImpMontoMO>Imprimir Monto en Moneda Origen
+		</CHK_ImpMontoMO>
+		<CHK_TotalFecha>Totalizar por Fecha
+		</CHK_TotalFecha>
+		<CHK_CierreAnual>Cierre Anual
+		</CHK_CierreAnual>
+		<BTN_Limpiar>Limpiar
+		</BTN_Limpiar>
+		<BTN_Consultar>Consultar
+		</BTN_Consultar>
+	</Idioma>
+	<Idioma id="en">
+		<BTN_Consultar>Consult</BTN_Consultar>
+		<BTN_Limpiar>Clean</BTN_Limpiar>
+		<CHK_CierreAnual>Year end Closing</CHK_CierreAnual>
+		<CHK_ImpMontoMO>Print Amount in Origin Currency</CHK_ImpMontoMO>
+		<CHK_TotalFecha>Summarize by date</CHK_TotalFecha>
+		<LB_CuentaFinal>Final Account</LB_CuentaFinal>
+		<LB_CuentaInicial>Initial Account</LB_CuentaInicial>
+		<LB_FechaFinal>Final Date</LB_FechaFinal>
+		<LB_FechaInicial>Initial Date</LB_FechaInicial>
+		<LB_Formato>Format</LB_Formato>
+		<LB_MesFinal>Month</LB_MesFinal>
+		<LB_MesInicial>Month</LB_MesInicial>
+		<LB_Moneda>Currency</LB_Moneda>
+		<LB_Oficina>Office</LB_Oficina>
+		<LB_Orden>Order by</LB_Orden>
+		<LB_PeriodoFinal>Final Period</LB_PeriodoFinal>
+		<LB_PeriodoInicial>Initial Period</LB_PeriodoInicial>
+		<LB_Titulo>Balance Sheet Detailed</LB_Titulo>
+		<LB_Todos>All</LB_Todos>
+		<RBTN_MonedaLocal>Local Currency</RBTN_MonedaLocal>
+		<RBTN_MonedaOrigen>Origin Currency</RBTN_MonedaOrigen>
+		<opc_mes1>January</opc_mes1>
+		<opc_mes2>February</opc_mes2>
+		<opc_mes3>March</opc_mes3>
+		<opc_mes4>April</opc_mes4>
+		<opc_mes5>May</opc_mes5>
+		<opc_mes6>June</opc_mes6>
+		<opc_mes7>July</opc_mes7>
+		<opc_mes8>August</opc_mes8>
+		<opc_mes9>September</opc_mes9>
+		<opc_mes10>October</opc_mes10>
+		<opc_mes11>November</opc_mes11>
+		<opc_mes12>December</opc_mes12>
+		<LB_Descarga>Download</LB_Descarga>
+		<opc_Orden0>Line</opc_Orden0>
+		<opc_Orden1>Date/Concept/Entry</opc_Orden1>
+		<opc_Orden2>Date/Amount/Entry</opc_Orden2>
+		<opc_Orden3>Amount/Concept/Entry</opc_Orden3>
+	</Idioma>
+</Etiquetas>

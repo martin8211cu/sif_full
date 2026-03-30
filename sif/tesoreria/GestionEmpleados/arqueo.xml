@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_ArqueoCajaChica>Petty Cash Count</LB_ArqueoCajaChica>	
+		<LB_FechaDesde>From</LB_FechaDesde>
+		<LB_FechaHasta>To</LB_FechaHasta>
+		<BTN_Filtrar>Filter</BTN_Filtrar>
+		<LB_CajaChica>Petty Cash</LB_CajaChica>
+		<LB_Fecha>Date</LB_Fecha>
+		<LB_MontoEfectivo>Cash Amount</LB_MontoEfectivo>
+		<LB_MontoGastos>Expense Amount</LB_MontoGastos>
+		<LB_MontoVales>Documents Amount</LB_MontoVales>
+		<LB_Sobrante>Leftover</LB_Sobrante>
+		<LB_Faltante>Shortfall</LB_Faltante>	
+		<LB_Caja>Cash</LB_Caja>	
+		<LB_ListasCajas>Petty Cash List</LB_ListasCajas>
+		<LB_Codigo>Code</LB_Codigo>
+		<LB_Descripcion>Description</LB_Descripcion>	
+		<LB_Encargado>Person in Charge</LB_Encargado>
+		<LB_ValesRegistrados>Documents Registered</LB_ValesRegistrados>
+		<LB_TotalGastosLiquidados>Total of Settled Expenses</LB_TotalGastosLiquidados>
+		<LB_TotalEfectivo>Total in Cash</LB_TotalEfectivo>
+		<LB_ResultadosArqueo>Cash Count Results</LB_ResultadosArqueo>
+		<LB_Concepto>Concept</LB_Concepto>
+		<LB_Registrado>Registered</LB_Registrado>
+		<LB_Fisico>Physical</LB_Fisico>
+		<LB_Diferencia>Difference</LB_Diferencia>
+		<LB_MontoAsignado>Amount Assigned</LB_MontoAsignado>
+		<LB_ValesNoLiquidados>Documents not Reimbursed</LB_ValesNoLiquidados>
+		<LB_GastosLiquidados>Settled Expenses</LB_GastosLiquidados>
+		<LB_EfectivoDisponible>Cash Available</LB_EfectivoDisponible>
+		<LB_Total>Total</LB_Total>
+		<LB_Faltante>Deficit</LB_Faltante>
+		<LB_Observaciones>Comments</LB_Observaciones>
+		<BTN_Aplicar>Apply</BTN_Aplicar>
+		<BTN_Regresar>Return</BTN_Regresar>
+		<BTN_GuardarObservacion>Save Comments</BTN_GuardarObservacion>
+	</Idioma>
+</Etiquetas>

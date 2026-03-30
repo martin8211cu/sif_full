@@ -1,0 +1,343 @@
+<!doctype HTML public "-//W3C//DTD HTML 4.0 Frameset//EN">
+
+<html>
+
+<head>
+<title>Funciones sobre logines</title>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252">
+<meta name="generator" content="RoboHelp by eHelp Corporation www.ehelp.com">
+<link rel="stylesheet" href="../default_ns.css"><script type="text/javascript" language="JavaScript" title="WebHelpSplitCss">
+<!--
+if (navigator.appName !="Netscape")
+{   document.write("<link rel='stylesheet' href='../default.css'>");}
+//-->
+</script>
+<style type="text/css">
+<!--
+div.whs1 { width:100%; }
+img_whs2 { border:none; width:18px; height:16px; float:none; border-style:none; }
+img_whs3 { border:none; width:20px; height:15px; float:none; border-style:none; }
+table.whs4 { x-cell-content-align:top; float:aligncenter; border-left-color:#ff8000; border-left-style:Outset; border-top-color:#ff8000; border-top-style:Outset; border-right-color:#ff8000; border-right-style:Outset; border-bottom-color:#ff8000; border-bottom-style:Outset; border-left-width:2px; border-right-width:2px; border-top-width:2px; border-bottom-width:2px; left:39px; top:308px; width:782px; border-spacing:0px; }
+col.whs5 { width:20.308%; }
+col.whs6 { width:79.692%; }
+tr.whs7 { x-cell-content-align:top; }
+td.whs8 { width:100%; padding-right:10px; padding-left:10px; x-cell-content-align:center; border-left-color:#000000; border-left-style:Solid; border-top-style:Solid; border-top-color:#000000; border-right-color:#000000; border-right-style:Solid; border-bottom-style:Solid; border-bottom-color:#000000; border-bottom-width:1px; border-left-width:1px; border-top-width:1px; border-right-width:1px; background-color:#ffb76f; }
+p.whs9 { text-align:center; font-weight:bold; font-size:12pt; margin-left:0pt; margin-top:4.5pt; margin-bottom:4.5pt; }
+td.whs10 { width:20.308%; padding-right:10px; padding-left:10px; x-cell-content-align:center; border-left-style:Solid; border-left-color:#000000; border-right-style:Solid; border-right-color:#000000; border-bottom-color:#000000; border-bottom-style:Solid; border-right-width:1px; border-left-width:1px; background-color:#ffb76f; border-bottom-width:1px; }
+p.whs11 { text-align:center; font-style:italic; color:#000000; font-size:8pt; }
+td.whs12 { width:79.692%; padding-right:10px; padding-left:10px; x-cell-content-align:center; border-right-style:Solid; border-right-color:#000000; border-bottom-color:#000000; border-bottom-style:Solid; border-right-width:1px; background-color:#ffb76f; border-bottom-width:1px; }
+td.whs13 { width:20.308%; padding-right:10px; padding-left:10px; x-cell-content-align:center; border-left-style:Solid; border-left-color:#000000; border-right-style:Solid; border-right-color:#000000; border-bottom-color:#000000; border-bottom-style:Solid; border-right-width:1px; border-left-width:1px; border-bottom-width:1px; background-color:#dfdfdf; }
+p.whs14 { font-size:12pt; font-weight:bold; }
+td.whs15 { width:79.692%; padding-right:10px; padding-left:10px; x-cell-content-align:center; border-right-style:Solid; border-right-color:#000000; border-bottom-color:#000000; border-bottom-style:Solid; border-bottom-width:1px; border-right-width:1px; background-color:#dfdfdf; }
+ul.whs16 { list-style:url('../Recursos/vi_eta.jpg'); }
+td.whs17 { width:20.308%; padding-right:10px; padding-left:10px; x-cell-content-align:center; border-left-style:Solid; border-left-color:#000000; border-left-width:1px; border-right-style:Solid; border-right-color:#000000; border-right-width:1px; border-bottom-width:1px; border-bottom-color:#000000; border-bottom-style:Solid; }
+td.whs18 { width:79.692%; padding-right:10px; padding-left:10px; x-cell-content-align:center; border-right-style:Solid; border-right-color:#000000; border-right-width:1px; border-bottom-width:1px; border-bottom-color:#000000; border-bottom-style:Solid; }
+td.whs19 { width:79.692%; padding-right:10px; padding-left:10px; x-cell-content-align:center; border-right-style:Solid; border-right-color:#000000; border-bottom-color:#000000; border-bottom-style:Solid; border-right-width:1px; border-bottom-width:1px; background-color:#dfdfdf; }
+td.whs20 { width:20.308%; padding-right:10px; padding-left:10px; x-cell-content-align:center; border-left-width:1px; border-left-color:#000000; border-left-style:Solid; border-right-width:1px; border-right-color:#000000; border-right-style:Solid; border-bottom-style:Solid; border-bottom-color:#000000; border-bottom-width:1px; }
+td.whs21 { width:79.692%; padding-right:10px; padding-left:10px; x-cell-content-align:center; border-right-width:1px; border-right-color:#000000; border-right-style:Solid; border-bottom-style:Solid; border-bottom-color:#000000; border-bottom-width:1px; }
+img_whs22 { border:none; width:18px; height:16px; float:none; border-style:none; }
+img_whs23 { border:none; width:133px; height:122px; float:left; border-style:none; }
+p.whs24 { text-align:center; }
+img_whs25 { border:none; width:20px; height:15px; float:none; border-style:none; }
+-->
+</style><script type="text/javascript" language="JavaScript">
+<!--
+if ((navigator.appName == "Netscape") && (parseInt(navigator.appVersion) == 4))
+{
+  var strNSS = "<style type='text/css'>";
+  strNSS += "p.whs9 {margin-left:1pt; }";
+  strNSS +="</style>";
+  document.write(strNSS);
+}
+//-->
+</script>
+<script type="text/javascript" language="JavaScript" title="WebHelpInlineScript">
+<!--
+function reDo() {
+  if (innerWidth != origWidth || innerHeight != origHeight)
+     location.reload();
+}
+if ((parseInt(navigator.appVersion) == 4) && (navigator.appName == "Netscape")) {
+	origWidth = innerWidth;
+	origHeight = innerHeight;
+	onresize = reDo;
+}
+onerror = null; 
+//-->
+</script>
+<style type="text/css">
+<!--
+div.WebHelpPopupMenu { position:absolute; left:0px; top:0px; z-index:4; visibility:hidden; }
+-->
+</style><script type="text/javascript" language="javascript1.2" src="../whmsg.js"></script>
+<script type="text/javascript" language="javascript" src="../whver.js"></script>
+<script type="text/javascript" language="javascript1.2" src="../whproxy.js"></script>
+<script type="text/javascript" language="javascript1.2" src="../whutils.js"></script>
+<script type="text/javascript" language="javascript1.2" src="../whtopic.js"></script>
+</head>
+<body><script type="text/javascript" language="javascript1.2">
+<!--
+if (window.gbWhTopic)
+{
+	if (window.addTocInfo)
+	{
+	addTocInfo("Procesos\nFunciones sobre logines");
+
+	}
+	if (window.writeBtnStyle)
+		writeBtnStyle();
+
+	if (window.writeIntopicBar)
+		writeIntopicBar(0);
+
+	if (window.setRelStartPage)
+	{
+	setRelStartPage("../SACI.htm");
+addSearchFormHref("javascript:document.ehelpform.submit()");
+
+		autoSync(1);
+		sendSyncInfo();
+		sendAveInfoOut();
+	}
+}
+else
+	if (window.gbIE4)
+		document.location.reload();
+//-->
+</script><script type="text/javascript" language="JavaScript1.2" src="../ehlpdhtm.js" x-save-method="compute-relative" name="EHELP_DHTM"></script>
+<script type="text/javascript"
+		language=JavaScript1.2>
+<!-- 
+if( typeof( kadovInitEffects ) != 'function' ) kadovInitEffects = new Function();if( typeof( kadovInitTrigger ) != 'function' ) kadovInitTrigger = new Function();if( typeof( kadovFilePopupInit ) != 'function' ) kadovFilePopupInit = new Function();if( typeof( kadovTextPopupInit ) != 'function' ) kadovTextPopupInit = new Function();
+ //-->
+</script>
+
+
+<div placeholder id="header" class="whs1">
+ <p class=Encabezado>Proceso</p>
+</div>
+<h1>Funciones sobre logines</h1>
+
+<h2>Concepto</h2>
+
+<p>Establece el alcance de tareas que puede realizarse para un login en 
+ el sistema. &nbsp;Las 
+ tareas son invocadas desde la <a href="Administraci_n_de_cuentas.htm">Administración 
+ de cuentas<img src="../Recursos/Referencia.gif" x-maintain-ratio="TRUE" width="18px" height="16px" border="0" class="img_whs2"></a> o bien, con algunas restricciones desde la 
+ <a href="../Autogesti_n/Autogesti_n.htm">autogestión de servicios</a><img src="../Recursos/Referencia.gif" x-maintain-ratio="TRUE" width="18px" height="16px" border="0" class="img_whs2">.</p>
+
+<p>Para poder utilizar estas tareas es necesario ubicarse en el entorno 
+ de un login específico dentro del paquete/cuenta al que pertenece, ya 
+ que todas las validaciones y reglas de negocio se definen en función de 
+ este, la información actualizada de su situación actual es definida y 
+ restringe la ejecución de las mismas.</p>
+
+<h2>Administración</h2>
+
+<p>Para la ejecución de tareas del login elegido, se utiliza un <a href="../Uso_del_Aplicativo/Formulario_selector.htm">formulario 
+ selector<img src="../Recursos/ReferenciaRapida.gif" x-maintain-ratio="TRUE" width="20px" height="15px" border="0" class="img_whs3"></a> desplegado a la derecha del menú de selección 
+ del nivel de la estructura de cuentas en el nivel adecuado.</p>
+
+<p>Las tareas disponibles se describen en la siguiente relación, sin embargo 
+ por aspectos de seguridad y alcance de los roles o perfiles de usuario 
+ algunas de estas podrían no estar disponibles en algunos casos, si esa 
+ fuera la situación la tarea no aparecerá del todo dentro de las opciones 
+ disponibles.</p>
+
+<p>&nbsp;</p>
+
+<div align=center>
+<table x-use-null-cells cellspacing="0" width="782" class="whs4">
+<col class="whs5">
+<col class="whs6">
+
+<tr valign="top" class="whs7">
+<td rowspan="1" colspan="2" bgcolor="#FFB76F" valign="middle" width="100%" class="whs8">
+<p align="center" class="whs9">Tareas sobre logines</td>
+</tr>
+
+<tr valign="top" class="whs7">
+<td bgcolor="#FFB76F" valign="middle" width="20.308%" class="whs10">
+<p align="center" class="whs11">Tarea</td>
+<td rowspan="1" colspan="1" bgcolor="#FFB76F" valign="middle" width="79.692%" class="whs12">
+<p align="center" class="whs11">Funcionalidad</td></tr>
+
+<tr valign="top" class="whs7">
+<td colspan="1" rowspan="1" bgcolor="#DFDFDF" valign="middle" width="20.308%" class="whs13">
+<p class="whs14">Login</td>
+<td colspan="1" rowspan="1" bgcolor="#DFDFDF" valign="middle" width="79.692%" class="whs15">
+<p><span class=glossterm>Cambia el login actual por otro, entendiendo el 
+ nombre de acceso, ya que mantiene todas sus funciones y configuraciones 
+ actuales. Utiliza</span> una <a href="javascript:void(0);" id="a21" onMouseOver="if (parseInt(navigator.appVersion) >= 4 && typeof(BSPSPopupOnMouseOver) == 'function') BSPSPopupOnMouseOver(event);" class="BSSCPopup" onclick="BSSCPopup('../Uso_del_Aplicativo/Plantilla_de_registro.htm');return false;">plantilla de registro<img src="../Recursos/ReferenciaRapida.gif" x-maintain-ratio="TRUE" width="20px" height="15px" border="0" class="img_whs3"></a><script type="text/javascript"
+											language=JavaScript1.2><!--
+kadovFilePopupInit('a21');
+//--></script> 
+ con los siguientes campos:</p>
+<ul class="whs16">
+	
+	<li class=kadov-p><p><span class=glossterm><a href="../Entidades/Login.htm">Login</span><img src="../Recursos/Referencia.gif" x-maintain-ratio="TRUE" width="18px" height="16px" border="0" class="img_whs2"></a></p></li>
+</ul></td></tr>
+
+<tr valign="top" class="whs7">
+<td colspan="1" rowspan="1" valign="middle" width="20.308%" class="whs17">
+<p class="whs14">Teléfono</td>
+<td colspan="1" rowspan="1" valign="middle" width="79.692%" class="whs18">
+<p>Cambia el teléfono de restricción de acceso para el login actual. <span 
+ class=glossterm>Utiliza</span> una <a href="javascript:void(0);" id="a1" onMouseOver="if (parseInt(navigator.appVersion) >= 4 && typeof(BSPSPopupOnMouseOver) == 'function') BSPSPopupOnMouseOver(event);" class="BSSCPopup" onclick="BSSCPopup('../Uso_del_Aplicativo/Plantilla_de_registro.htm');return false;">plantilla de registro<img src="../Recursos/ReferenciaRapida.gif" x-maintain-ratio="TRUE" width="20px" height="15px" border="0" class="img_whs3"></a><script type="text/javascript"
+											language=JavaScript1.2><!--
+kadovFilePopupInit('a1');
+//--></script> 
+ con los siguientes campos:</p>
+<ul class="whs16">
+	
+	<li class=kadov-p><p><span class=glossterm><a class="glossterm" href="javascript:kadovTextPopup(this)" id="A2">Teléfono de conexión</a><span class=glosstext style="display: 'none';" id=POPUP211453310 >   Es el número telefónico desde el cual se realiza la conexión a los sistemas 
+ de gestión de red, se reporta por estos para cada evento, obviamente cada 
+ evento solo podrá tener un teléfono de referencia.</span> 
+ actual</span></p></li>
+	
+	<li class=kadov-p><p><span class=glossterm>Nuevo teléfono de conexión</span></p></li>
+</ul></td></tr>
+
+<tr valign="top" class="whs7">
+<td colspan="1" rowspan="1" bgcolor="#DFDFDF" valign="middle" width="20.308%" class="whs13">
+<p class="whs14">Real name</td>
+<td colspan="1" rowspan="1" bgcolor="#DFDFDF" valign="middle" width="79.692%" class="whs19">
+<p>Cambia el Real Name, o nombre de remisión de la cuenta de correo, para 
+ el login actual. <span class=glossterm>Utiliza</span> una <a href="javascript:void(0);" id="a3" onMouseOver="if (parseInt(navigator.appVersion) >= 4 && typeof(BSPSPopupOnMouseOver) == 'function') BSPSPopupOnMouseOver(event);" class="BSSCPopup" onclick="BSSCPopup('../Uso_del_Aplicativo/Plantilla_de_registro.htm');return false;">plantilla de registro<img src="../Recursos/ReferenciaRapida.gif" x-maintain-ratio="TRUE" width="20px" height="15px" border="0" class="img_whs3"></a><script 
+ type="text/javascript"
+	language=JavaScript1.2><!--
+kadovFilePopupInit('a3');
+//--></script> 
+ con los siguientes campos:</p>
+<ul class="whs16">
+	
+	<li class=kadov-p><p><span class=glossterm><a class="glossterm" href="javascript:kadovTextPopup(this)" id="A4">Real Name</a><span class=glosstext style="display: 'none';" id=POPUP212348725 >   Es un texto no estructurado utilizado como nombre de remisión o remitente 
+ en los correos enviados con la cuenta de correo asociada a un login.</span> 
+ &nbsp;actual</span></p></li>
+	
+	<li class=kadov-p><p><span class=glossterm>Nuevo Real Name</span></p></li>
+</ul></td></tr>
+
+<tr valign="top" class="whs7">
+<td colspan="1" rowspan="1" valign="middle" width="20.308%" class="whs20">
+<p class="whs14">Password servicio</td>
+<td colspan="1" rowspan="1" valign="middle" width="79.692%" class="whs21">
+<p>Cambia al password a uno generado temporalmente con una vigencia de 
+ 24 Hrs, para ello carga la configuración de servicios del login y permite 
+ al usuario elegir a cual de ellos desea restablecer la contraseña. &nbsp;Para 
+ la tarea utiliza un <a href="javascript:void(0);" id="a7" onMouseOver="if (parseInt(navigator.appVersion) >= 4 && typeof(BSPSPopupOnMouseOver) == 'function') BSPSPopupOnMouseOver(event);" class="BSSCPopup" onclick="BSSCPopup('../Uso_del_Aplicativo/Plantilla_de_registro.htm');return false;">formulario de registro<img src="../Recursos/ReferenciaRapida.gif" x-maintain-ratio="TRUE" width="20px" height="15px" border="0" class="img_whs3"></a><script 
+ type="text/javascript"
+	language=JavaScript1.2><!--
+kadovFilePopupInit('a7');
+//--></script>con 
+ la siguiente información:</p>
+<ul class="whs16">
+	
+	<li class=kadov-p><p><span class=glossterm><a href="../Catalogos/servicio.htm">Servicio</span><img src="../Recursos/Referencia.gif" x-maintain-ratio="TRUE" width="18px" height="16px" border="0" class="img_whs22"></a></p></li>
+</ul>
+<p>Una vez elegido el servicio se ejecuta la tarea con el comando restablecer 
+ y la contraseña generada será mostrada.</td></tr>
+
+<tr valign="top" class="whs7">
+<td colspan="1" rowspan="1" bgcolor="#DFDFDF" valign="middle" width="20.308%" class="whs13">
+<p class="whs14">Password Global</td>
+<td colspan="1" rowspan="1" bgcolor="#DFDFDF" valign="middle" width="79.692%" class="whs19">
+<p>Cambia al password a uno generado temporalmente con una vigencia de 
+ 24 Hrs, para todos los servicios configurados para un login. presenta 
+ un pantalla de confirmación con una relación de los servicios, una vez 
+ elegido el servicio se ejecuta la tarea con el comando restablecer y la 
+ contraseña generada será mostrada al usuario.</td></tr>
+
+<tr valign="top" class="whs7">
+<td colspan="1" rowspan="1" valign="middle" width="20.308%" class="whs20">
+<p class="whs14"><span><font size=3 style="font-size:12pt;"><B>Forwarding</B></font></span></td>
+<td colspan="1" rowspan="1" valign="middle" width="79.692%" class="whs21">
+<p>Establece una serie de cuentas de correo corresponsales hacia donde 
+ se redirigirá una copia de cualquier correo electrónico que sea enviado 
+ a la cuenta e correo asociada como servicio al login<img src="../Recursos/listaborrar.gif" x-maintain-ratio="TRUE" width="133px" height="122px" align="left" border="0" class="img_whs23"> elegido. 
+ La pantalla corresponde con una relación de las cuentas configuradas, 
+ de la cual se pude borrar cualquiera de ellas con la &quot;equis roja 
+ a la derecha del registro&quot;.</p>
+<p>Para agregar a la lista se debe digitar un nuevo <a class="glossterm" href="javascript:kadovTextPopup(this)" id="A5">E-mail</a><span class=glosstext style="display: 'none';" id=POPUP212939501 >   Es una cuenta de correo electrónico. Puede contener valores nulos. Se 
+ valida de la siguiente forma &quot;str1@str2&quot; donde además se revisa 
+ que &quot;str2&quot; contenga al menos un &quot;.&quot; ni en la primera 
+ ni última posición.</span> 
+ , se debe digitar en el formulario superior de la lista y elegir el comando 
+ &quot;agregar&quot;.</p>
+<p>&nbsp;</p>
+<p align="center" class="whs24">&nbsp;</td></tr>
+
+<tr valign="top" class="whs7">
+<td colspan="1" rowspan="1" bgcolor="#DFDFDF" valign="middle" width="20.308%" class="whs13">
+<p class="whs14">Sobre</td>
+<td colspan="1" rowspan="1" bgcolor="#DFDFDF" valign="middle" width="79.692%" class="whs19">
+<p>Ejecuta el cambio de contraseña global del login asignando un <a href="../Catalogos/Sobre_de_acceso.htm">sobre 
+ de acceso<img src="../Recursos/Referencia.gif" x-maintain-ratio="TRUE" width="18px" height="16px" border="0" class="img_whs22"></a>, este proceso permite restablecer la contraseña 
+ de todos los <a href="../Catalogos/servicio.htm">servicios<img src="../Recursos/Referencia.gif" x-maintain-ratio="TRUE" width="18px" height="16px" border="0" class="img_whs22"></a> del login elegido con la llave privada del sobre utilizando 
+ un <a href="javascript:void(0);" id="a6" onMouseOver="if (parseInt(navigator.appVersion) >= 4 && typeof(BSPSPopupOnMouseOver) == 'function') BSPSPopupOnMouseOver(event);" class="BSSCPopup" onclick="BSSCPopup('../Uso_del_Aplicativo/Plantilla_de_registro.htm');return false;">formulario de registro<img src="../Recursos/ReferenciaRapida.gif" x-maintain-ratio="TRUE" width="20px" height="15px" border="0" class="img_whs25"></a><script 
+ type="text/javascript"
+	language=JavaScript1.2><!--
+kadovFilePopupInit('a6');
+//--></script> 
+ con un único campo:</p>
+<ul class="whs16">
+	
+	<li class=kadov-p><p><a class="glossterm" href="javascript:kadovTextPopup(this)" id="A8">Sobre de acceso</a><span class=glosstext style="display: 'none';" id=POPUP212242527 >   Es un lista de selección que despliega los números de sobre de acceso 
+ disponibles a asignar en el contexto actual.</span></p></li>
+</ul>
+<p>Esta es una opción irreversible.</td></tr>
+
+<tr valign="top" class="whs7">
+<td colspan="1" rowspan="1" valign="middle" width="20.308%" class="whs20">
+<p class="whs14">Bloqueo / Desbloqueo</td>
+<td colspan="1" rowspan="1" valign="middle" width="79.692%" class="whs21">
+<p>Permite bloquear o desbloquear un login manualmente, introduciendo una 
+ <a href="../Catalogos/Raz_n_de_bloqueo.htm">razón de bloqueo<img src="../Recursos/Referencia.gif" x-maintain-ratio="TRUE" width="18px" height="16px" border="0" class="img_whs22"></a> y ejecutando el comando bloquear en el primer caso. &nbsp;La 
+ pantalla corresponde con una lista de bloqueos realizado, de la cual se 
+ pude desbloquear cualquiera de ellas marcando esta y ejecutando el comando 
+ &quot;Desbloquear&quot;.</p>
+<p>El usuario de autogestión solo podrá desbloquear el login en el caso 
+ de que la razón de bloqueo sea precisamente &quot;Autogestión&quot;.</td></tr>
+
+<tr valign="top" class="whs7">
+<td bgcolor="#DFDFDF" valign="middle" width="20.308%" class="whs13">
+<p class="whs14">Retiro de login</td>
+<td rowspan="1" colspan="1" bgcolor="#DFDFDF" valign="middle" width="79.692%" class="whs19">
+<p>Desprograma el login seleccionado, impidiendo a partir de su ejecución 
+ el uso de los servicios asociados el mismo.</p>
+<ul class="whs16">
+	
+	<li class=kadov-p><p><span class=glossterm><a href="../Catalogos/Motivo_de_retiro.htm">Motivo 
+ de retiro</span><img src="../Recursos/Referencia.gif" x-maintain-ratio="TRUE" width="18px" height="16px" border="0" class="img_whs2"></a></p></li>
+	
+	<li class=kadov-p><p><a href="javascript:void(0);" id="a27" onMouseOver="if (parseInt(navigator.appVersion) >= 4 && typeof(BSPSPopupOnMouseOver) == 'function') BSPSPopupOnMouseOver(event);" class="BSSCPopup" onclick="BSSCPopup('../Uso_del_Aplicativo/Opci_n_de_ejecuci_n.htm');return false;">Opción de ejecución<img src="../Recursos/ReferenciaRapida.gif" x-maintain-ratio="TRUE" width="20px" height="15px" border="0" class="img_whs3"></a><script 
+ type="text/javascript"
+	language=JavaScript1.2><!--
+kadovFilePopupInit('a27');
+//--></script></p></li>
+</ul>
+<p>Adicionalmente ofrece la consulta de las tareas programadas particularmente 
+ para el retiro de login, brindando así al usuario la oportunidad de valorar 
+ su acción</td></tr>
+</table>
+</div>
+
+<script language="javascript1.2" type="text/javascript"><!--
+kadovTextPopupInit('A2','POPUP211453310');
+//--></script><script language="javascript1.2" type="text/javascript"><!--
+kadovTextPopupInit('A4','POPUP212348725');
+//--></script><script language="javascript1.2" type="text/javascript"><!--
+kadovTextPopupInit('A5','POPUP212939501');
+//--></script><script language="javascript1.2" type="text/javascript"><!--
+kadovTextPopupInit('A8','POPUP212242527');
+//--></script><script type="text/javascript" language="javascript1.2">
+<!--
+if (window.writeIntopicBar)
+	writeIntopicBar(0);
+//-->
+</script>
+<form method="POST" action="http://www.helpcommunity.com/ehelpapi.asp?cmd=WebSave" name="ehelpform" target="_top" style="display:'none';">
+<input type="hidden" name="data" value="2A0D021700000046756E63696F6E657320736F627265206C6F67696E657311020800000050726F6365736F7312021700000046756E63696F6E657320736F627265206C6F67696E657313022C00000053697374656D612041646D696E6973747261646F72206465204375656E74617320646520496E7465726E6574150208000000534143492E68746D1703740100003C3F786D6C2076657273696F6E3D22312E30223F3E0D0A3C21444F43545950452053595354454D20226568656C706F70742E647464223E0D0A3C46494C452D4F5054494F4E532046494C452D56455253494F4E3D2232222046494C452D4B45593D2265653431643334395F656365375F343062375F626137325F373331306464653365636233223E0D0A3C2F46494C452D4F5054494F4E533E0D0A3C4548454C502D4F5054494F4E5320464F524D41542D56455253494F4E3D22312E30223E0D0A203C4F5054494F4E5320454E41424C45443D225945532220454D4245444445443D2259455322204D41494E2D57494E444F572D4F4E4C593D224E4F2220434F4D4D554E4954592D4E4F544946593D224E4F222046495253542D504147453D224E4F542D534554223E0D0A203C2F4F5054494F4E533E0D0A203C425554544F4E2D4C4142454C3E5765625365617263680D0A203C2F425554544F4E2D4C4142454C3E0D0A3C2F4548454C502D4F5054494F4E533E18010400000002000000702A">
+</form>
+</body>
+</html>

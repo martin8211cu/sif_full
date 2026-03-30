@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<info>
+	<infoitem key="UD_rsTransacciones" value="name:CPTcodigo;datatype:,name:CPTdescripcion;datatype:" />
+	<infoitem key="UD_rsDocumentoNeteo" value="name:Mcodigo;datatype:,name:CCTcodigo;datatype:,name:DocumentoNeteo;datatype:,name:SNcodigo;datatype:,name:Dmonto;datatype:,name:ts_rversion;datatype:,name:ts;datatype:" />
+</info>

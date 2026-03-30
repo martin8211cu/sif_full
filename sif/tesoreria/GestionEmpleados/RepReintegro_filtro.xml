@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_Fecha>Date</LB_Fecha>
+		<LB_Hasta>To</LB_Hasta>
+		<LB_NumTransaccion>Transaction Number</LB_NumTransaccion>
+		<LB_Caja>Cash</LB_Caja>
+		<BTN_Filtrar>Filter</BTN_Filtrar>
+		<LB_Descripcion>Description</LB_Descripcion>
+		<LB_CajaChica>Petty Cash</LB_CajaChica>
+		<LB_Monto>Amount</LB_Monto>
+	</Idioma>
+</Etiquetas>

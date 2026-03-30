@@ -1,0 +1,2 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas><Idioma id="es"><NombreExp>Nombre Completo</NombreExp><CedulaExp>Cédula</CedulaExp><Puesto>Puesto</Puesto><SexExp>Sexo</SexExp><CFuncional>Centro Funcional</CFuncional><EstadoCivilExp>Estado Civil</EstadoCivilExp><FecNacExp>Fecha de Nacimiento</FecNacExp></Idioma><Idioma id="en"><CFuncional>Functional Center</CFuncional><CedulaExp>ID</CedulaExp><EstadoCivilExp>Marital Status</EstadoCivilExp><FecNacExp>Birthdate</FecNacExp><NombreExp>Name</NombreExp><Puesto>Position</Puesto><SexExp>Gender</SexExp></Idioma></Etiquetas>

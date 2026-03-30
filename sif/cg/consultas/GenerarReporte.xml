@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+
+	<Idioma id="en">
+		<LB_TituloR1>Accounting Balances Report by Account</LB_TituloR1>
+		<LB_TituloR2>Accounting Balances Consult by Account Range</LB_TituloR2>
+		<LB_TituloR3>Accounting Balances Consult  by an Account List</LB_TituloR3>
+		<LB_TodasLasOficinas>All Offices</LB_TodasLasOficinas>
+	<LB_Todas>All</LB_Todas></Idioma>
+</Etiquetas>

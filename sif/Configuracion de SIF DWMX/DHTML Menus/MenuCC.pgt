@@ -1,0 +1,41 @@
+========== Description Part Begin ==========
+Description = Menu del Sistema de Activos Fijos
+LastUpdateTime = 37589.848263889
+PreviewPath = 
+ProgID = PageletServer.DynamicMenu
+Title = MenuAF
+Version = 4.00
+========== Description Part End ==========
+========== Parameter Part Begin ==========
+MenuBody0 = 8;0;0;2;0;0;0;0;0;0;0;0;0;90;0;1;1;12230816;12230816;12230816;12230816;12230816;1;;3
+MenuBody1 = 2;1;0;3;0;0;0;0;0;0;8355711;0;0;90;1;1;0;0;0;0;0;16777215;0;;3
+MenuBody2 = 5;1;3;2;0;0;0;0;0;0;0;1;0;82;1;1;0;0;0;0;0;16777215;0;;2
+MenuBody3 = 5;1;0;3;0;0;0;0;0;0;8355711;0;0;90;1;1;0;0;0;0;0;16777215;0;;3
+MenuBody4 = 5;1;3;2;0;0;0;0;0;0;0;1;0;82;1;1;0;0;0;0;0;16777215;0;;3
+MenuItem0_0 = 2;2;;;0;Menú Principal;0;0;1;Menú Principal;;_self;Menú Principal;0;16777215;16777215;1;1;;;3;3;0;1;1;1;6710886;6710886;6710886;6710886;10066329;10066329;10066329;10066329;;;0;0;0;;;0;0;0;C:\\JRun4\\servers\\default\\cfmx-ear\\cfmx-war\\sif\\Configuracion de SIF DWMX\\DHTML Menus\\arrow_r.gif;C:\\JRun4\\servers\\default\\cfmx-ear\\cfmx-war\\sif\\Configuracion de SIF DWMX\\DHTML Menus\\arrow_r.gif;7;7;0;Verdana;Verdana;8;8;0;0;16777215;0;0;0;0;0;0;0;0;0;0;0;
+MenuItem0_1 = 0;0;;;0;1;0;1;;;0;0;0
+MenuItem0_2 = 2;2;;;0;Operación ;0;0;1;;;_self;;1;16777215;16777215;1;1;;;3;3;0;1;1;1;6710886;6710886;6710886;6710886;10066329;10066329;10066329;10066329;;;0;0;0;;;0;0;0;C:\\JRun4\\servers\\default\\cfmx-ear\\cfmx-war\\sif\\Configuracion de SIF DWMX\\DHTML Menus\\arrow_r.gif;C:\\JRun4\\servers\\default\\cfmx-ear\\cfmx-war\\sif\\Configuracion de SIF DWMX\\DHTML Menus\\arrow_r.gif;7;7;0;Verdana;Verdana;8;8;0;0;16777215;0;0;0;0;0;0;0;0;0;0;0;
+MenuItem0_3 = 0;0;;;0;1;0;1;;;1;1;0
+MenuItem0_4 = 2;2;;;0;Consultas;0;0;1;;;_self;;1;16777215;16777215;1;1;;;3;3;0;1;1;1;6710886;6710886;6710886;6710886;10066329;10066329;10066329;10066329;;;0;0;0;;;0;0;0;C:\\JRun4\\servers\\default\\cfmx-ear\\cfmx-war\\sif\\Configuracion de SIF DWMX\\DHTML Menus\\arrow_r.gif;C:\\JRun4\\servers\\default\\cfmx-ear\\cfmx-war\\sif\\Configuracion de SIF DWMX\\DHTML Menus\\arrow_r.gif;7;7;0;Verdana;Verdana;8;8;0;0;16777215;0;0;0;0;0;0;0;0;0;0;0;
+MenuItem0_5 = 0;0;;;0;1;0;1;;;0;0;0
+MenuItem0_6 = 2;2;;;0;Catálogos;0;0;1;;;_self;;1;16777215;16777215;1;1;;;3;3;0;1;1;1;6710886;6710886;6710886;6710886;10066329;10066329;10066329;10066329;;;0;0;0;;;0;0;0;C:\\JRun4\\servers\\default\\cfmx-ear\\cfmx-war\\sif\\Configuracion de SIF DWMX\\DHTML Menus\\arrow_r.gif;C:\\JRun4\\servers\\default\\cfmx-ear\\cfmx-war\\sif\\Configuracion de SIF DWMX\\DHTML Menus\\arrow_r.gif;7;7;0;Verdana;Verdana;8;8;0;0;16777215;0;0;0;0;0;0;0;0;0;0;0;
+MenuItem0_7 = 0;0;;;0;1;0;1;;;0;0;0
+MenuItem1_0 = 1;1;;;0;Menú de SIF;0;0;1;Menú Principal del Sistema Financiero Integral;/cfmx/sif/indexSif.cfm;_self;Menú de SIF;0;16777215;15395304;0;0;;;3;3;0;1;1;0;13421772;13421772;13421772;13421772;16777215;16777215;16777215;16777215;;;8;0;0;;;0;0;0;;;7;7;0;Verdana;Verdana;8;8;0;0;0;255;0;0;0;0;0;0;0;0;0;0;
+MenuItem1_1 = 0;1;;;0;Menú de Cuentas por Cobrar;0;0;1;Menú de Cuentas por Cobrar;/cfmx/sif/cc/MenuCC.cfm;_self;Menú de Cuentas por Cobrar;0;16777215;15395304;0;0;;;3;3;0;1;1;0;13421772;13421772;13421772;13421772;16777215;16777215;16777215;16777215;;;8;0;0;;;0;0;0;;;7;7;0;Verdana;Verdana;8;8;0;0;0;255;0;0;0;0;0;0;0;0;0;0;
+MenuItem2_0 = 0;1;;;0;Registro de Facturas;0;0;1;Registro de Facturas;/cfmx/sif/cc/operacion/listaDocumentosCC.cfm?tipo=D;_self;Registro de Facturas;0;16777215;15395304;0;0;;;3;3;0;1;1;0;13421772;13421772;13421772;13421772;16777215;16777215;16777215;16777215;;;8;0;0;;;0;0;0;;;7;7;0;Verdana;Verdana;8;8;0;0;0;255;0;0;0;0;0;0;0;0;0;0;
+MenuItem2_1 = 0;1;;;0;Registro de Notas de Crédito;0;0;1;Registro de Notas de Crédito;/cfmx/sif/cc/operacion/listaDocumentosCC.cfm?tipo=C;_self;Registro de Notas de Crédito;0;16777215;15395304;0;0;;;3;3;0;1;1;0;13421772;13421772;13421772;13421772;16777215;16777215;16777215;16777215;;;8;0;0;;;0;0;0;;;7;7;0;Verdana;Verdana;8;8;0;0;0;255;0;0;0;0;0;0;0;0;0;0;
+MenuItem2_2 = 0;0;;;0;1;0;0;;;1;1;0
+MenuItem2_3 = 0;1;;;0;Registro de Pagos;0;0;1;Registro de Pagos;/cfmx/sif/cc/operacion/ListaPagos.cfm;_self;Registro de Pagos;0;16777215;15395304;0;0;;;3;3;0;1;1;0;13421772;13421772;13421772;13421772;16777215;16777215;16777215;16777215;;;8;0;0;;;0;0;0;;;7;7;0;Verdana;Verdana;8;8;0;0;0;255;0;0;0;0;0;0;0;0;0;0;
+MenuItem2_4 = 0;1;;;0;Aplicación de Documentos a Favor;0;0;1;Aplicación de Documentos a Favor;/cfmx/sif/cc/operacion/listaDocsAfavorCC.cfm;_self;Aplicación de Documentos a Favor;0;16777215;15395304;0;0;;;3;3;0;1;1;0;13421772;13421772;13421772;13421772;16777215;16777215;16777215;16777215;;;8;0;0;;;0;0;0;;;7;7;0;Verdana;Verdana;8;8;0;0;0;255;0;0;0;0;0;0;0;0;0;0;
+MenuItem3_0 = 0;1;;;0;Estado de Cuenta Resumido;0;0;1;Estado de Cuenta Resumido;/cfmx/sif/cc/consultas/EstadoCuenta.cfm?q=1;_self;Estado de Cuenta Resumido;0;16777215;15395304;0;0;;;3;3;0;1;1;0;13421772;13421772;13421772;13421772;16777215;16777215;16777215;16777215;;;8;0;0;;;0;0;0;;;7;7;0;Verdana;Verdana;8;8;0;0;0;255;0;0;0;0;0;0;0;0;0;0;
+MenuItem3_1 = 0;1;;;0;Estado de Cuenta Detallado por Documento;0;0;1;Estado de Cuenta Detallado por Documento;/cfmx/sif/cc/consultas/EstadoCuenta.cfm?q=2;_self;Estado de Cuenta Detallado por Documento;0;16777215;15395304;0;0;;;3;3;0;1;1;0;13421772;13421772;13421772;13421772;16777215;16777215;16777215;16777215;;;8;0;0;;;0;0;0;;;7;7;0;Verdana;Verdana;8;8;0;0;0;255;0;0;0;0;0;0;0;0;0;0;
+MenuItem3_2 = 0;1;;;0;Estado de Cuenta Detallado por Movimiento;0;0;1;Estado de Cuenta Detallado por Movimiento;/cfmx/sif/cc/consultas/EstadoCuenta.cfm?q=3;_self;Estado de Cuenta Detallado por Movimiento;0;16777215;15395304;0;0;;;3;3;0;1;1;0;13421772;13421772;13421772;13421772;16777215;16777215;16777215;16777215;;;8;0;0;;;0;0;0;;;7;7;0;Verdana;Verdana;8;8;0;0;0;255;0;0;0;0;0;0;0;0;0;0;
+MenuItem3_3 = 0;1;;;0;Análisis de Antigüedad de Saldos;0;0;1;Análisis de Antigüedad de Saldos;/cfmx/sif/Admin/Consultas/AntigSaldosCxC.cfm;_self;Análisis de Antigüedad de Saldos;0;16777215;15395304;0;0;;;3;3;0;1;1;0;13421772;13421772;13421772;13421772;16777215;16777215;16777215;16777215;;;8;0;0;;;0;0;0;;;7;7;0;Verdana;Verdana;8;8;0;0;0;255;0;0;0;0;0;0;0;0;0;0;
+MenuItem3_4 = 0;0;;;0;1;0;0;;;1;1;0
+MenuItem4_0 = 0;1;;;0;Socios de Negocios;0;0;1;Socios de Negocios;/cfmx/sif/ad/catalogos/Socios.cfm;_self;Socios de Negocios;0;16777215;15395304;0;0;;;3;3;0;1;1;0;13421772;13421772;13421772;13421772;16777215;16777215;16777215;16777215;;;8;0;0;;;0;0;0;;;7;7;0;Verdana;Verdana;8;8;0;0;0;255;0;0;0;0;0;0;0;0;0;0;
+MenuItem4_1 = 0;1;;;0;Conceptos de Facturación;0;0;1;Conceptos de Facturación;/cfmx/sif/ad/catalogos/Conceptos.cfm;_self;Conceptos de Facturación;0;16777215;15395304;0;0;;;3;3;0;1;1;0;13421772;13421772;13421772;13421772;16777215;16777215;16777215;16777215;;;8;0;0;;;0;0;0;;;7;7;0;Verdana;Verdana;8;8;0;0;0;255;0;0;0;0;0;0;0;0;0;0;
+MenuItem4_2 = 0;0;;;0;1;0;0;;;1;1;0
+MenuItem4_3 = 0;1;;;0;Retenciones;0;0;1;Retenciones;/cfmx/sif/ad/catalogos/Retenciones.cfm;_self;Retenciones;0;16777215;15395304;0;0;;;3;3;0;1;1;0;13421772;13421772;13421772;13421772;16777215;16777215;16777215;16777215;;;8;0;0;;;0;0;0;;;7;7;0;Verdana;Verdana;8;8;0;0;0;255;0;0;0;0;0;0;0;0;0;0;
+MenuItem4_4 = 0;1;;;0;Tipos de Transacción;0;0;1;Tipos de Transacción;/cfmx/sif/cc/catalogos/TipoTransacciones.cfm;_self;Tipos de Transacción;0;16777215;15395304;0;0;;;3;3;0;1;1;0;13421772;13421772;13421772;13421772;16777215;16777215;16777215;16777215;;;8;0;0;;;0;0;0;;;7;7;0;Verdana;Verdana;8;8;0;0;0;255;0;0;0;0;0;0;0;0;0;0;
+TopMenuBody = 2;400;exnvfhr;0;1;1;0;0;0;1;150;100;100;/cfmx/sif/js/DHTMLMenu/;1;0;0;;1
+========== Parameter Part End ==========

@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_NumTransaccion>Transaction Number</LB_NumTransaccion>
+		<LB_FechaTransaccion>Transaction Date</LB_FechaTransaccion>
+		<LB_CentroFuncional>Functional Center</LB_CentroFuncional>
+		<LB_Descripcion>Description</LB_Descripcion>
+		<LB_EmpleadoLiquidante>Employee Settlement</LB_EmpleadoLiquidante>
+		<LB_Moneda>Currency</LB_Moneda>
+		<LB_TipoCambio>Exchange Rate</LB_TipoCambio>
+		<LB_Caja>Petty Cash</LB_Caja>
+		<LB_TipoTransaccion>Transaction Type</LB_TipoTransaccion>
+		<LB_AutorizadoPor>Authorized by</LB_AutorizadoPor>
+		<LB_TOTALANTICIPOPAGAR>Total amount of advance to pay</LB_TOTALANTICIPOPAGAR>
+		<LB_TipoGasto>Expenses Type</LB_TipoGasto>
+		<LB_Concepto>Concept</LB_Concepto>
+		<LB_MontoSolicitado>Amount Requested</LB_MontoSolicitado>
+		<LB_Monto>Amount</LB_Monto>
+		<LB_Anticipos>Advances</LB_Anticipos>
+		<LB_DocumentosGasto>Expense Documents</LB_DocumentosGasto>
+		<LB_Devoluciones>Repayment</LB_Devoluciones>
+		<LB_DepositosBancarios>Bank Deposits</LB_DepositosBancarios>
+		<LB_DepositosEfectivo>Cash Deposits</LB_DepositosEfectivo>
+	</Idioma>
+</Etiquetas>

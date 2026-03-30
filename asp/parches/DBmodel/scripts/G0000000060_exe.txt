@@ -1,0 +1,38 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 147 - DBM 250: Neteo de Documentos y Anticipos CxC CxP
+
+	         PARCHE:  Parche023_213_SIF_Neteos
+
+GENERADO EN:
+	SERVER:  http://mxpapp36:8300
+	DSN:     sifcim
+	FECHA:   18/08/2011 17:15:19
+*/
+
+/* INI_SCRIPT */
+
+/* ================================================================= */
+/*            CREA FKs NUEVOS O CON CAMPOS MODIFICADOS               */
+/* ================================================================= */
+/* CHG_TABLE DocumentoNeteoDCxC */
+/* ADD_FK OP=(NUEVO): TIP="F", SEC="2", COLS="Ddocumento,CCTcodigo,Ecodigo", REF="HDocumentos" */
+ALTER TABLE DocumentoNeteoDCxC ADD CONSTRAINT DocumentoNeteoDCxC_FK02 FOREIGN KEY (Ddocumento,CCTcodigo,Ecodigo) REFERENCES HDocumentos (Ddocumento,CCTcodigo,Ecodigo)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_TABLE DocumentoNeteoDCxP */
+/* ADD_FK OP=(NUEVO): TIP="F", SEC="2", COLS="idDocumento", REF="HEDocumentosCP" */
+ALTER TABLE DocumentoNeteoDCxP ADD CONSTRAINT DocumentoNeteoDCxP_FK02 FOREIGN KEY (idDocumento) REFERENCES HEDocumentosCP (IDdocumento)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

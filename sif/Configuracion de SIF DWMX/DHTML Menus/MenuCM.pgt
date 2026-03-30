@@ -1,0 +1,46 @@
+========== Description Part Begin ==========
+Description = Menu del Sistema de Activos Fijos
+LastUpdateTime = 37589.814849537
+PreviewPath = 
+ProgID = PageletServer.DynamicMenu
+Title = MenuAF
+Version = 4.00
+========== Description Part End ==========
+========== Parameter Part Begin ==========
+MenuBody0 = 8;0;0;2;0;0;0;0;0;0;0;0;0;90;0;1;1;12230816;12230816;12230816;12230816;12230816;1;;3
+MenuBody1 = 2;1;0;3;0;0;0;0;0;0;8355711;0;0;90;1;1;0;0;0;0;0;16777215;0;;3
+MenuBody2 = 11;1;3;2;0;0;0;0;0;0;0;1;0;82;1;1;0;0;0;0;0;16777215;0;;2
+MenuBody3 = 2;1;0;3;0;0;0;0;0;0;8355711;0;0;90;1;1;0;0;0;0;0;16777215;0;;3
+MenuBody4 = 7;1;3;2;0;0;0;0;0;0;0;1;0;82;1;1;0;0;0;0;0;16777215;0;;3
+MenuItem0_0 = 2;2;;;0;Menú Principal;0;0;1;Menú Principal;;_self;Menú Principal;0;16777215;16777215;1;1;;;3;3;0;1;1;1;6710886;6710886;6710886;6710886;10066329;10066329;10066329;10066329;;;0;0;0;;;0;0;0;J:\\Josué\\JS Menus\\arrow_r.gif;J:\\Josué\\JS Menus\\arrow_r.gif;7;7;0;Verdana;Verdana;8;8;0;0;16777215;0;0;0;0;0;0;0;0;0;0;0;
+MenuItem0_1 = 0;0;;;0;1;0;1;;;0;0;0
+MenuItem0_2 = 2;2;;;0;Operación ;0;0;1;;;_self;;1;16777215;16777215;1;1;;;3;3;0;1;1;1;6710886;6710886;6710886;6710886;10066329;10066329;10066329;10066329;;;0;0;0;;;0;0;0;J:\\Josué\\JS Menus\\arrow_r.gif;J:\\Josué\\JS Menus\\arrow_r.gif;7;7;0;Verdana;Verdana;8;8;0;0;16777215;0;0;0;0;0;0;0;0;0;0;0;
+MenuItem0_3 = 0;0;;;0;1;0;1;;;1;1;0
+MenuItem0_4 = 2;2;;;0;Consultas;0;0;1;;;_self;;1;16777215;16777215;1;1;;;3;3;0;1;1;1;6710886;6710886;6710886;6710886;10066329;10066329;10066329;10066329;;;0;0;0;;;0;0;0;J:\\Josué\\JS Menus\\arrow_r.gif;J:\\Josué\\JS Menus\\arrow_r.gif;7;7;0;Verdana;Verdana;8;8;0;0;16777215;0;0;0;0;0;0;0;0;0;0;0;
+MenuItem0_5 = 0;0;;;0;1;0;1;;;0;0;0
+MenuItem0_6 = 2;2;;;0;Catálogos;0;0;1;;;_self;;1;16777215;16777215;1;1;;;3;3;0;1;1;1;6710886;6710886;6710886;6710886;10066329;10066329;10066329;10066329;;;0;0;0;;;0;0;0;J:\\Josué\\JS Menus\\arrow_r.gif;J:\\Josué\\JS Menus\\arrow_r.gif;7;7;0;Verdana;Verdana;8;8;0;0;16777215;0;0;0;0;0;0;0;0;0;0;0;
+MenuItem0_7 = 0;0;;;0;1;0;1;;;0;0;0
+MenuItem1_0 = 0;1;;;0;Menú de SIF;0;0;1;Menú Principal del Sistema Financiero Integral;/cfmx/sif/index.cfm;_self;Menú de SIF;0;16777215;15395304;0;0;;;3;3;0;1;1;0;13421772;13421772;13421772;13421772;16777215;16777215;16777215;16777215;;;8;0;0;;;0;0;0;;;7;7;0;Verdana;Verdana;8;8;0;0;0;255;0;0;0;0;0;0;0;0;0;0;
+MenuItem1_1 = 0;1;;;0;Menú de Compras;0;0;1;Menú de Compras;/cfmx/sif/cm/MenuCM.cfm;_self;Menú de Compras;0;16777215;15395304;0;0;;;3;3;0;1;1;0;13421772;13421772;13421772;13421772;16777215;16777215;16777215;16777215;;;8;0;0;;;0;0;0;;;7;7;0;Verdana;Verdana;8;8;0;0;0;255;0;0;0;0;0;0;0;0;0;0;
+MenuItem2_0 = 0;1;;;0;Registro de Solicitudes;0;0;1;Registro de Solicitudes;/cfmx/sif/cm/operacion/listaSolicitudes.cfm;_self;Registro de Solicitudes;0;16777215;15395304;0;0;;;3;3;0;1;1;0;13421772;13421772;13421772;13421772;16777215;16777215;16777215;16777215;;;8;0;0;;;0;0;0;;;7;7;0;Verdana;Verdana;8;8;0;0;0;255;0;0;0;0;0;0;0;0;0;0;
+MenuItem2_1 = 0;0;;;0;1;0;0;;;1;1;0
+MenuItem2_10 = 0;1;;;0;Registro Manual de Orden de Compra;0;0;1;Registro Manual de Orden de Compra;/cfmx/sif/cm/operacion/listaOrdenCM.cfm;_self;Registro Manual de Orden de Compra;0;16777215;15395304;0;0;;;3;3;0;1;1;0;13421772;13421772;13421772;13421772;16777215;16777215;16777215;16777215;;;8;0;0;;;0;0;0;;;7;7;0;Verdana;Verdana;8;8;0;0;0;255;0;0;0;0;0;0;0;0;0;0;
+MenuItem2_2 = 0;1;;;0;Autorización de Solicitudes;0;0;1;Autorización de Solicitudes;/cfmx/sif/cm/operacion/listaAutorizacion.cfm;_self;Autorización de Solicitudes;0;16777215;15395304;0;0;;;3;3;0;1;1;0;13421772;13421772;13421772;13421772;16777215;16777215;16777215;16777215;;;8;0;0;;;0;0;0;;;7;7;0;Verdana;Verdana;8;8;0;0;0;255;0;0;0;0;0;0;0;0;0;0;
+MenuItem2_3 = 0;1;;;0;Solicitudes Autorizadas;0;0;1;Solicitudes Autorizadas;/cfmx/sif/cm/operacion/listaSolicitudesAutorizadas.cfm;_self;Solicitudes Autorizadas;0;16777215;15395304;0;0;;;3;3;0;1;1;0;13421772;13421772;13421772;13421772;16777215;16777215;16777215;16777215;;;8;0;0;;;0;0;0;J:\\Josué\\JS Menus\\arrow_r.gif;J:\\Josué\\JS Menus\\arrow_r.gif;7;7;0;Verdana;Verdana;8;8;0;0;0;255;0;0;0;0;0;0;0;0;0;0;
+MenuItem2_4 = 0;0;;;0;1;0;0;;;1;1;0
+MenuItem2_5 = 0;1;;;0;Asignación de Criterios de Compra;0;0;1;Asignación de Criterios de Compra;/cfmx/sif/cm/cotizaciones/operacion/listaAsignarCriterios.cfm;_self;Asignación de Criterios de Compra;0;16777215;15395304;0;0;;;3;3;0;1;1;0;13421772;13421772;13421772;13421772;16777215;16777215;16777215;16777215;;;8;0;0;;;0;0;0;;;7;7;0;Verdana;Verdana;8;8;0;0;0;255;0;0;0;0;0;0;0;0;0;0;
+MenuItem2_6 = 0;1;;;0;Asignación de Proveedores;0;0;1;Asignación de Proveedores;/cfmx/sif/cm/operacion/listaAsignarProveedores.cfm;_self;Asignación de Proveedores;0;16777215;15395304;0;0;;;3;3;0;1;1;0;13421772;13421772;13421772;13421772;16777215;16777215;16777215;16777215;;;8;0;0;;;0;0;0;;;7;7;0;Verdana;Verdana;8;8;0;0;0;255;0;0;0;0;0;0;0;0;0;0;
+MenuItem2_7 = 0;0;;;0;1;0;0;;;1;1;0
+MenuItem2_8 = 0;1;;;0;Comparación de Cotizaciones;0;0;1;Comparación de Cotizaciones;/cfmx/sif/cm/operacion/CompararCotizaciones.cfm;_self;Comparación de Cotizaciones;0;16777215;15395304;0;0;;;3;3;0;1;1;0;13421772;13421772;13421772;13421772;16777215;16777215;16777215;16777215;;;8;0;0;;;0;0;0;;;7;7;0;Verdana;Verdana;8;8;0;0;0;255;0;0;0;0;0;0;0;0;0;0;
+MenuItem2_9 = 0;0;;;0;1;0;0;;;1;1;0
+MenuItem3_0 = 0;1;;;0;Solicitudes de Compra;0;0;1;Solicitudes de Compra;/cfmx/sif/cm/consultas/conSolicitudes.cfm;_self;Solicitudes de Compra;0;16777215;15395304;0;0;;;3;3;0;1;1;0;13421772;13421772;13421772;13421772;16777215;16777215;16777215;16777215;;;8;0;0;;;0;0;0;;;7;7;0;Verdana;Verdana;8;8;0;0;0;255;0;0;0;0;0;0;0;0;0;0;
+MenuItem3_1 = 0;0;;;0;1;0;0;;;1;1;0
+MenuItem4_0 = 0;1;;;0;Solicitantes;0;0;1;Solicitantes;/cfmx/sif/cm/catalogos/SolicitantesCM.cfm;_self;Solicitantes;0;16777215;15395304;0;0;;;3;3;0;1;1;0;13421772;13421772;13421772;13421772;16777215;16777215;16777215;16777215;;;8;0;0;;;0;0;0;;;7;7;0;Verdana;Verdana;8;8;0;0;0;255;0;0;0;0;0;0;0;0;0;0;
+MenuItem4_1 = 0;1;;;0;Compradores;0;0;1;Compradores;/cfmx/sif/cm/catalogos/CompradoresCM.cfm;_self;Compradores;0;16777215;15395304;0;0;;;3;3;0;1;1;0;13421772;13421772;13421772;13421772;16777215;16777215;16777215;16777215;;;8;0;0;;;0;0;0;;;7;7;0;Verdana;Verdana;8;8;0;0;0;255;0;0;0;0;0;0;0;0;0;0;
+MenuItem4_2 = 0;0;;;0;1;0;0;;;1;1;0
+MenuItem4_3 = 0;1;;;0;Grupos de Solicitantes;0;0;1;Grupos de Solicitantes;/cfmx/sif/cm/catalogos/GruposSolicitantes.cfm;_self;Grupos de Solicitantes;0;16777215;15395304;0;0;;;3;3;0;1;1;0;13421772;13421772;13421772;13421772;16777215;16777215;16777215;16777215;;;8;0;0;;;0;0;0;;;7;7;0;Verdana;Verdana;8;8;0;0;0;255;0;0;0;0;0;0;0;0;0;0;
+MenuItem4_4 = 0;1;;;0;Grupos de Criterios de Comparación;0;0;1;Grupos de Criterios de Comparación;/cfmx/sif/cm/catalogos/GruposCriterios.cfm;_self;Grupos de Criterios de Comparación;0;16777215;15395304;0;0;;;3;3;0;1;1;0;13421772;13421772;13421772;13421772;16777215;16777215;16777215;16777215;;;8;0;0;;;0;0;0;;;7;7;0;Verdana;Verdana;8;8;0;0;0;255;0;0;0;0;0;0;0;0;0;0;
+MenuItem4_5 = 0;0;;;0;1;0;0;;;1;1;0
+MenuItem4_6 = 1;1;;;0;Contratos de Proveedores;0;0;1;Contratos de Proveedores;/cfmx/sif/cm/catalogos/listaContratosCM.cfm;_self;Contratos de Proveedores;0;16777215;15395304;1;0;;;3;3;0;1;1;0;13421772;13421772;13421772;13421772;16777215;16777215;16777215;16777215;;;8;0;0;;;0;0;0;;;7;7;0;Verdana;Verdana;8;8;0;0;0;255;0;0;0;0;0;0;0;0;0;0;
+TopMenuBody = 2;400;exnvfhr;0;1;1;0;0;0;1;150;100;100;/cfmx/sif/js/DHTMLMenu/;1;0;0;;1
+========== Parameter Part End ==========

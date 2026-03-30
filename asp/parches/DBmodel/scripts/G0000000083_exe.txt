@@ -1,0 +1,321 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 186 - DBM 308: Impuesto No Credito Fiscal en detalle de 
+
+	         PARCHE:  Parche023_320_SIF_Liquidacion
+
+GENERADO EN:
+	SERVER:  http://mxpapp36:8300
+	DSN:     sifcim
+	FECHA:   08/10/2011 07:56:49
+*/
+
+/* INI_SCRIPT */
+
+/* ================================================================= */
+/*    ELIMINA FKs QUE YA NO SE UTILIZAN O CON CAMPOS MODIFICADOS     */
+/* ================================================================= */
+/* CHG_TABLE GEliquidacionDepsEfectivo */
+/* DEL_FK OP=(OBSOLETO): TIP="F", COLS="CCHTAid", REF="CCHTransaccionesAplicadas" */
+ALTER TABLE GEliquidacionDepsEfectivo DROP CONSTRAINT GEliquidacionDepsEfectivo_FK02 /* REFERENCES CCHTransaccionesAplicadas (CCHTAid) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* ADD_TABLE CCHespecialMovs: Movimientos de Caja Especial d */
+/* ======================================================================================== */
+
+CREATE TABLE CCHespecialMovs (
+	 CCHEMid                        numeric(18)          identity
+	,CCHid                          numeric(18)          NOT NULL
+	,CCHEMtipo                      char(1)              NOT NULL
+	 CONSTRAINT CCHespecialMovs_CK03 CHECK ([CCHEMtipo]='S' OR [CCHEMtipo]='E')
+	,CCHEMnumero                    integer              NOT NULL
+	,CCHEMfecha                     datetime             NOT NULL
+	,Mcodigo                        numeric(8)           NOT NULL
+	,CCHEMmontoOri                  money                DEFAULT 0 NOT NULL
+	,CCHEMtipoCambio                money                DEFAULT 1 NOT NULL
+	,CCHEMfalta                     datetime             DEFAULT getdate() NOT NULL
+	,CCHEMfuso                      datetime             NULL
+	,CCHEMfreintegro                datetime             NULL
+	,Ecodigo                        integer              NOT NULL
+	,CCHTAid                        numeric(18)          NULL
+	,GEAid                          numeric(18)          NULL
+	,GELid                          numeric(18)          NULL
+	,BMUsucodigo                    numeric(18)          NULL
+	,ts_rversion                    timestamp           
+	)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="P", SEC="0", COLS="CCHEMid" */
+ALTER TABLE CCHespecialMovs ADD CONSTRAINT CCHespecialMovs_PK PRIMARY KEY NONCLUSTERED (CCHEMid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="U", SEC="1", COLS="CCHid,CCHEMtipo,CCHEMnumero" */
+CREATE UNIQUE NONCLUSTERED INDEX CCHespecialMovs_UI01 ON CCHespecialMovs (CCHid,CCHEMtipo,CCHEMnumero)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="F", SEC="1", COLS="CCHid", REF="CCHica" */
+CREATE INDEX CCHespecialMovs_FI01 ON CCHespecialMovs (CCHid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="F", SEC="2", COLS="GEAid", REF="GEanticipo" */
+CREATE INDEX CCHespecialMovs_FI02 ON CCHespecialMovs (GEAid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="F", SEC="3", COLS="GELid", REF="GEliquidacion" */
+CREATE INDEX CCHespecialMovs_FI03 ON CCHespecialMovs (GELid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="F", SEC="4", COLS="CCHTAid", REF="CCHTransaccionesAplicadas" */
+CREATE INDEX CCHespecialMovs_FI04 ON CCHespecialMovs (CCHTAid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE CCHica: CAJA CHICA */
+/* ======================================================================================== */
+/* CHG_COLUMN OP=(CAMBIO): CCHtipo - Tipo de Caja */
+ALTER TABLE CCHica DROP CONSTRAINT CCHica_CK16 /* CHECK ([CCHtipo]=(2) OR [CCHtipo]=(1)) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE CCHica ADD CONSTRAINT CCHica_CK16 CHECK ([CCHtipo]=(3) OR [CCHtipo]=(2) OR [CCHtipo]=(1))
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_COLUMN OP=(CAMBIO): CFcuentaRecepcion - ID Cuenta Financiera transitoria recepcion efectiv */
+EXEC sp_rename 'CCHica.CFcuentaSinLiquidar', 'CFcuentaRecepcion', 'COLUMN'
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(NUEVO): TIP="F", SEC="7", COLS="CFcuentaRecepcion", REF="CFinanciera" */
+CREATE INDEX CCHica_FI07 ON CCHica (CFcuentaRecepcion)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE GEliquidacion: GEliquidacion */
+/* ======================================================================================== */
+/* CHG_COLUMN OP=(CAMBIO): CPNAPnum - NAP de Aprobacion */
+ALTER TABLE GEliquidacion ALTER COLUMN CPNAPnum numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): CFcuentaCxP - ID Cuenta CxP Empleado Pago Adicional */
+ALTER TABLE GEliquidacion ADD CFcuentaCxP numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): TESSPid_Adicional - ID Solicitud de Pago Adicional */
+ALTER TABLE GEliquidacion ADD TESSPid_Adicional numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(NUEVO): TIP="F", SEC="10", COLS="TESSPid_Adicional", REF="TESsolicitudPago" */
+CREATE INDEX GEliquidacion_FI10 ON GEliquidacion (TESSPid_Adicional)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE GEliquidacionDepsEfectivo: Liquidacion Depósitos en Caja  */
+/* ======================================================================================== */
+/* DEL_KEY OP=(OBSOLETO): TIP="F", COLS="CCHTAid", REF="CCHTransaccionesAplicadas" */
+DROP INDEX GEliquidacionDepsEfectivo.GEliquidacionDepsEfectivo_FI02 /* REFERENCES INDEX (CCHTAid) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* DEL_COLUMN OP=(OBSOLETO): CCHTAid - ID de Transaccion de Efectivo */
+ALTER TABLE GEliquidacionDepsEfectivo DROP COLUMN CCHTAid
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_COLUMN OP=(NUEVO): CCHid - ID caja chica */
+ALTER TABLE GEliquidacionDepsEfectivo ADD CCHid numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+UPDATE GEliquidacionDepsEfectivo SET CCHid = 0
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE GEliquidacionDepsEfectivo ALTER COLUMN CCHid numeric(18) NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): CCHEMid - ID del Movimiento */
+ALTER TABLE GEliquidacionDepsEfectivo ADD CCHEMid numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(NUEVO): TIP="F", SEC="3", COLS="CCHid", REF="CCHica" */
+CREATE INDEX GEliquidacionDepsEfectivo_FI03 ON GEliquidacionDepsEfectivo (CCHid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(NUEVO): TIP="F", SEC="4", COLS="CCHEMid", REF="CCHespecialMovs" */
+CREATE INDEX GEliquidacionDepsEfectivo_FI04 ON GEliquidacionDepsEfectivo (CCHEMid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE GEliquidacionGasto: GEliquidacionGasto */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): GELGimpNCFOri - Impuesto No Credito Fiscal esta incluido en GELmon */
+ALTER TABLE GEliquidacionGasto ADD GELGimpNCFOri money DEFAULT 0 NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE GEliquidacionTCE: Liquidacion pagos con TCE */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): GELTfecha - TCE Fecha */
+ALTER TABLE GEliquidacionTCE ADD GELTfecha datetime DEFAULT getdate() NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE TESdetallePago: TESdetallePago */
+/* ======================================================================================== */
+/* CHG_KEY OP=(CAMBIO): TIP="I", COLS="TESDPidDocumento,EcodigoOri,TESDPestado" */
+DROP INDEX TESdetallePago.TESdetallePago_ID01 /* INDEX (TESDPidDocumento,EcodigoOri,TESDPestado) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_COLUMN OP=(CAMBIO): TESDPestado - Estado Detalle Pago */
+ALTER TABLE TESdetallePago DROP CONSTRAINT TESdetallePago_CK02 /* CHECK ([TESDPestado]=(13) OR [TESDPestado]=(12) OR [TESDPestado]=(110) OR [TESDPestado]=(11) OR [TESDPestado]=(103) OR [TESDPestado]=(101) OR [TESDPestado]=(10) OR [TESDPestado]=(23) OR [TESDPestado]=(3) OR [TESDPestado]=(212) OR [TESDPestado]=(202) OR [TESDPestado]=(2) OR [TESDPestado]=(1) OR [TESDPestado]=(0)) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE TESdetallePago ADD CONSTRAINT TESdetallePago_CK02 CHECK ([TESDPestado]=(312) OR [TESDPestado]=(302) OR [TESDPestado]=(13) OR [TESDPestado]=(12) OR [TESDPestado]=(110) OR [TESDPestado]=(11) OR [TESDPestado]=(103) OR [TESDPestado]=(101) OR [TESDPestado]=(10) OR [TESDPestado]=(23) OR [TESDPestado]=(3) OR [TESDPestado]=(212) OR [TESDPestado]=(202) OR [TESDPestado]=(2) OR [TESDPestado]=(1) OR [TESDPestado]=(0))
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): TESDPimpNCFOri - Impuesto No Credito Fiscal esta incluido en GELmon */
+ALTER TABLE TESdetallePago ADD TESDPimpNCFOri money DEFAULT 0 NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_KEY OP=(CAMBIO): TIP="I", SEC="1", COLS="TESDPidDocumento,EcodigoOri,TESDPestado" */
+CREATE NONCLUSTERED INDEX TESdetallePago_ID01 ON TESdetallePago (TESDPidDocumento,EcodigoOri,TESDPestado)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE TESsolicitudPago: TESsolicitudPago */
+/* ======================================================================================== */
+/* CHG_KEY OP=(CAMBIO): TIP="I", COLS="EcodigoOri,TESSPestado,TESSPfechaPagar" */
+DROP INDEX TESsolicitudPago.TESsolicitudPago_ID02 /* INDEX (EcodigoOri,TESSPestado,TESSPfechaPagar) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_COLUMN OP=(CAMBIO): TESSPestado - Estado de la Solicitud */
+ALTER TABLE TESsolicitudPago DROP CONSTRAINT TESsolicitudPago_CK06 /* CHECK ([TESSPestado]=(13) OR [TESSPestado]=(12) OR [TESSPestado]=(110) OR [TESSPestado]=(11) OR [TESSPestado]=(103) OR [TESSPestado]=(101) OR [TESSPestado]=(10) OR [TESSPestado]=(23) OR [TESSPestado]=(3) OR [TESSPestado]=(212) OR [TESSPestado]=(202) OR [TESSPestado]=(2) OR [TESSPestado]=(1) OR [TESSPestado]=(0)) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE TESsolicitudPago ADD CONSTRAINT TESsolicitudPago_CK06 CHECK ([TESSPestado]=(312) OR [TESSPestado]=(302) OR [TESSPestado]=(13) OR [TESSPestado]=(12) OR [TESSPestado]=(110) OR [TESSPestado]=(11) OR [TESSPestado]=(103) OR [TESSPestado]=(101) OR [TESSPestado]=(10) OR [TESSPestado]=(23) OR [TESSPestado]=(3) OR [TESSPestado]=(212) OR [TESSPestado]=(202) OR [TESSPestado]=(2) OR [TESSPestado]=(1) OR [TESSPestado]=(0))
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_KEY OP=(CAMBIO): TIP="I", SEC="2", COLS="EcodigoOri,TESSPestado,TESSPfechaPagar" */
+CREATE NONCLUSTERED INDEX TESsolicitudPago_ID02 ON TESsolicitudPago (EcodigoOri,TESSPestado,TESSPfechaPagar)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ================================================================= */
+/*            CREA FKs NUEVOS O CON CAMPOS MODIFICADOS               */
+/* ================================================================= */
+/* CHG_TABLE CCHespecialMovs */
+/* ADD_FK OP=(TAB NUEVA): TIP="F", SEC="1", COLS="CCHid", REF="CCHica" */
+ALTER TABLE CCHespecialMovs ADD CONSTRAINT CCHespecialMovs_FK01 FOREIGN KEY (CCHid) REFERENCES CCHica (CCHid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_FK OP=(TAB NUEVA): TIP="F", SEC="2", COLS="GEAid", REF="GEanticipo" */
+ALTER TABLE CCHespecialMovs ADD CONSTRAINT CCHespecialMovs_FK02 FOREIGN KEY (GEAid) REFERENCES GEanticipo (GEAid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_FK OP=(TAB NUEVA): TIP="F", SEC="3", COLS="GELid", REF="GEliquidacion" */
+ALTER TABLE CCHespecialMovs ADD CONSTRAINT CCHespecialMovs_FK03 FOREIGN KEY (GELid) REFERENCES GEliquidacion (GELid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_FK OP=(TAB NUEVA): TIP="F", SEC="4", COLS="CCHTAid", REF="CCHTransaccionesAplicadas" */
+ALTER TABLE CCHespecialMovs ADD CONSTRAINT CCHespecialMovs_FK04 FOREIGN KEY (CCHTAid) REFERENCES CCHTransaccionesAplicadas (CCHTAid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_TABLE CCHica */
+/* ADD_FK OP=(NUEVO): TIP="F", SEC="7", COLS="CFcuentaRecepcion", REF="CFinanciera" */
+ALTER TABLE CCHica ADD CONSTRAINT CCHica_FK07 FOREIGN KEY (CFcuentaRecepcion) REFERENCES CFinanciera (CFcuenta)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_TABLE GEliquidacion */
+/* ADD_FK OP=(NUEVO): TIP="F", SEC="10", COLS="TESSPid_Adicional", REF="TESsolicitudPago" */
+ALTER TABLE GEliquidacion ADD CONSTRAINT GEliquidacion_FK10 FOREIGN KEY (TESSPid_Adicional) REFERENCES TESsolicitudPago (TESSPid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_TABLE GEliquidacionDepsEfectivo */
+/* ADD_FK OP=(NUEVO): TIP="F", SEC="3", COLS="CCHid", REF="CCHica" */
+ALTER TABLE GEliquidacionDepsEfectivo ADD CONSTRAINT GEliquidacionDepsEfectivo_FK03 FOREIGN KEY (CCHid) REFERENCES CCHica (CCHid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_FK OP=(NUEVO): TIP="F", SEC="4", COLS="CCHEMid", REF="CCHespecialMovs" */
+ALTER TABLE GEliquidacionDepsEfectivo ADD CONSTRAINT GEliquidacionDepsEfectivo_FK04 FOREIGN KEY (CCHEMid) REFERENCES CCHespecialMovs (CCHEMid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

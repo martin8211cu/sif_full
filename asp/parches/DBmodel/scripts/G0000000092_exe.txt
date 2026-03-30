@@ -1,0 +1,21 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 205 - DBM 373: upload del dbmodel de la tabla AFTBRespon
+
+	         PARCHE:  Parche023_452_SIF_DBM_AFTBResponsablesRechazo
+
+GENERADO EN:
+	SERVER:  http://mxvdapp12:8301
+	DSN:     sifcim
+	FECHA:   06/12/2011 09:34:40
+*/
+
+/* INI_SCRIPT */
+
+/* END_SCRIPT */

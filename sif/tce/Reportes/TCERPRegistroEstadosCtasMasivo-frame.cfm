@@ -1,0 +1,1 @@
+﻿<cfinclude template="../../mb/Reportes/RPRegistroEstadosCtasMasivo-frame.cfm">

@@ -1,0 +1,96 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 109 - DBM 214: Cambios en CBTarjetaCredito, CBStatusTarj
+
+	         PARCHE:  Parche023_144_SIF_Catalogo_Bancos_Status_Modulo_TC
+
+GENERADO EN:
+	SERVER:  http://mxpapp36:8300
+	DSN:     sifcim
+	FECHA:   27/07/2011 18:15:23
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* ADD_TABLE CBStatusTarjetaCredito: CBStatusTarjetaCredito */
+/* ======================================================================================== */
+
+CREATE TABLE CBStatusTarjetaCredito (
+	 CBSTid                         numeric(18)          identity
+	,CBSTcodigo                     varchar(30)          NULL
+	,CBSTDescripcion                varchar(255)         NULL
+	,CBSTActiva                     bit                  NOT NULL
+	,Ecodigo                        integer              NULL
+	,BMUsucodigo                    numeric(18)          NULL
+	,ts_rversion                    timestamp           
+	)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="P", SEC="0", COLS="CBSTid" */
+ALTER TABLE CBStatusTarjetaCredito ADD CONSTRAINT CBStatusTarjetaCredito_PK PRIMARY KEY CLUSTERED (CBSTid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* ADD_TABLE CBTarjetaCredito: Tabla para el Catálogo de Tarj */
+/* ======================================================================================== */
+
+CREATE TABLE CBTarjetaCredito (
+	 CBTCid                         numeric(18)          identity
+	,Bid                            numeric(18)          NULL
+	,CBid                           numeric(18)          NULL
+	,CBTCDescripcion                varchar(255)         NULL
+	,CBTTid                         numeric(18)          NULL
+	,CBSTid                         numeric(18)          NULL
+	,DEid                           numeric(18)          NULL
+	,CBTCfechainico                 datetime             NULL
+	,CBTCfechacorte                 datetime             NULL
+	,CBTCfechacancelacion           datetime             NULL
+	,CBTCfechapago                  datetime             NULL
+	,CBTCfechavencimiento           datetime             NULL
+	,EIid                           numeric(18)          NULL
+	,Ecodigo                        integer              NULL
+	,CBTNumTarjeta                  varchar(30)          NULL
+	,BMUsucodigo                    numeric(18)          NULL
+	,ts_rversion                    timestamp           
+	)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="P", SEC="0", COLS="CBTCid" */
+ALTER TABLE CBTarjetaCredito ADD CONSTRAINT CBTarjetaCredito_PK PRIMARY KEY CLUSTERED (CBTCid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* ADD_TABLE CBTipoTarjetaCredito: Tipos de Tarjeta */
+/* ======================================================================================== */
+
+CREATE TABLE CBTipoTarjetaCredito (
+	 CBTTid                         numeric(18)          identity
+	,CBTTcodigo                     numeric(18)          NULL
+	,CBTTDescripcion                varchar(255)         NULL
+	,Ecodigo                        integer              NULL
+	,BMUsucodigo                    numeric(18)          NULL
+	,ts_rversion                    timestamp           
+	)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="P", SEC="0", COLS="CBTTid" */
+ALTER TABLE CBTipoTarjetaCredito ADD CONSTRAINT CBTipoTarjetaCredito_PK PRIMARY KEY CLUSTERED (CBTTid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

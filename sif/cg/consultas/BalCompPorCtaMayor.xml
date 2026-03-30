@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_Titulo>Tryal Balance by Ledger Account</LB_Titulo>
+		<LB_Moneda>Currency</LB_Moneda>
+		<LB_Periodo>Period</LB_Periodo>
+		<LB_EmpresaOficina>Enterprise or Office</LB_EmpresaOficina>
+		<LB_Mes>Month</LB_Mes>
+		<LB_Origen>Origin</LB_Origen>
+		<LB_ExportarExcel>Export to Excel</LB_ExportarExcel>
+		<LB_Saldos_por_Oficina>Balances by Office</LB_Saldos_por_Oficina>
+		<LB_Cierre_Anual>Year end Closing</LB_Cierre_Anual>
+		<LB_Saldos_Finales_Cero>Show Final Balances in Zero</LB_Saldos_Finales_Cero>
+		<BTN_Consultar>Consult</BTN_Consultar>
+		
+	</Idioma>
+</Etiquetas>

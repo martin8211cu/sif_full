@@ -1,0 +1,191 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 105 - DBM 216: Tesoreria
+
+	         PARCHE:  Parche023_146_SIF_CONTA_PRES
+
+GENERADO EN:
+	SERVER:  http://mxpapp36:8300
+	DSN:     sifcim
+	FECHA:   27/07/2011 11:53:18
+*/
+
+/* INI_SCRIPT */
+
+/* ================================================================= */
+/*    ELIMINA FKs QUE YA NO SE UTILIZAN O CON CAMPOS MODIFICADOS     */
+/* ================================================================= */
+/* CHG_TABLE CPresupuestoEjercido */
+/* DEL_FK OP=(NO DEFINIDO): TIP="F", COLS="Ecodigo,CPPid,CPCano,CPCmes,CPcuenta,Ocodigo", REF="CPresupuestoControl" */
+ALTER TABLE CPresupuestoEjercido DROP CONSTRAINT CPresupuestoEjercido_FK01 /* REFERENCES CPresupuestoControl (Ecodigo,CPPid,CPCano,CPCmes,CPcuenta,Ocodigo) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_TABLE CPtipoMovContable */
+/* DEL_FK OP=(OBSOLETO): TIP="F", COLS="CPTMtipoMov", REF="CPtipoMov" */
+ALTER TABLE CPtipoMovContable DROP CONSTRAINT CPtipoMovContable_FK01 /* REFERENCES CPtipoMov (CPTMtipoMov) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE CFinanciera: Cuentas Financieras o de Ultim */
+/* ======================================================================================== */
+/* DEL_CHECK OP=(OBSOLETO): chk=(Ccuenta IS NOT NULL AND CFmovimiento='S' OR CFmovimiento<>'S') */
+ALTER TABLE CFinanciera DROP CONSTRAINT CFinanciera_CK
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_CHECK: chk=(Ccuenta is not null and CFmovimiento = 'S' or CFmovimiento <> 'S') */
+ALTER TABLE CFinanciera ADD CONSTRAINT CFinanciera_CK CHECK (Ccuenta is not null and CFmovimiento = 'S' or CFmovimiento <> 'S')
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ======================================================================================== */
+/* ADD_TABLE CPNAPdetallePago: Detalle de Movimientos de Pago */
+/* ======================================================================================== */
+
+CREATE TABLE CPNAPdetallePago (
+	 Ecodigo                        integer              NOT NULL
+	,CPNAPnum                       numeric(18)          NOT NULL
+	,CPNAPDPid                      numeric(18)          identity
+	,CPNAPDPdocumento               varchar(30)          NOT NULL
+	,CPcuenta                       numeric(18)          NOT NULL
+	,Ocodigo                        integer              NOT NULL
+	,CPNAPDPtipoMov                 char(2)              NOT NULL
+	 CONSTRAINT CPNAPdetallePago_CK07 CHECK ([CPNAPDPtipoMov]='P' OR [CPNAPDPtipoMov]='EJ')
+	,Mcodigo                        numeric(8)           NOT NULL
+	,CPNAPDPmontoOri                money                NOT NULL
+	,CPNAPDPtipoCambio              float                NOT NULL
+	,CPNAPDPmonto                   money                NOT NULL
+	,CPNAPDPconExceso               bit                  NOT NULL
+	,CPCano                         integer              NOT NULL
+	,CPCmes                         integer              NOT NULL
+	,BMUsucodigo                    numeric(18)          NULL
+	,ts_rversion                    timestamp           
+	)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="P", SEC="0", COLS="Ecodigo,CPNAPnum,CPNAPDPid" */
+ALTER TABLE CPNAPdetallePago ADD CONSTRAINT CPNAPdetallePago_PK PRIMARY KEY NONCLUSTERED (Ecodigo,CPNAPnum,CPNAPDPid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="F", SEC="1", COLS="Ecodigo,CPNAPnum", REF="CPNAP" */
+CREATE INDEX CPNAPdetallePago_FI01 ON CPNAPdetallePago (Ecodigo,CPNAPnum)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="I", SEC="1", COLS="CPcuenta,Ocodigo,CPNAPDPtipoMov" */
+CREATE NONCLUSTERED INDEX CPNAPdetallePago_ID01 ON CPNAPdetallePago (CPcuenta,Ocodigo,CPNAPDPtipoMov)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE CPresupuestoControl: CPresupuestoControl */
+/* ======================================================================================== */
+/* CHG_COLUMN OP=(CAMBIO): CPCpagado - P Pagado */
+EXEC sp_rename 'CPresupuestoControl.CPCrealizado', 'CPCpagado', 'COLUMN'
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): CPCejercido - EJ Ejercido Autorizado para Pago */
+ALTER TABLE CPresupuestoControl ADD CPCejercido money DEFAULT 0 NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* DEL_TABLE CPresupuestoEjercido: CPresupuestoEjercido */
+/* ======================================================================================== */
+DROP TABLE CPresupuestoEjercido
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ======================================================================================== */
+/* CHG_TABLE CPtipoMov: Movimientos de Presupuesto */
+/* ======================================================================================== */
+/* DEL_KEY OP=(OBSOLETO): TIP="P", COLS="CPTMorden1,CPTMorden2" */
+ALTER TABLE CPtipoMov DROP CONSTRAINT CPtipoMov_PK /* PRIMARY KEY (CPTMorden1,CPTMorden2) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* DEL_KEY OP=(OBSOLETO): TIP="A", COLS="CPTMtipoMov" */
+ALTER TABLE CPtipoMov DROP CONSTRAINT CPtipoMov_AK01 /* UNIQUE KEY (CPTMtipoMov) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(NUEVO): TIP="P", SEC="0", COLS="CPTMtipoMov" */
+ALTER TABLE CPtipoMov ADD CONSTRAINT CPtipoMov_PK PRIMARY KEY NONCLUSTERED (CPTMtipoMov)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE CPtipoMovContable: CPtipoMovContable */
+/* ======================================================================================== */
+/* DEL_KEY OP=(OBSOLETO): TIP="F", COLS="CPTMtipoMov", REF="CPtipoMov" */
+DROP INDEX CPtipoMovContable.CPtipoMovContable_FI01 /* REFERENCES INDEX (CPTMtipoMov) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE CuentasBancos: Cuentas Bancarias */
+/* ======================================================================================== */
+/* CHG_COLUMN OP=(CAMBIO): CBTcodigo - Tipo de Cuenta Bancaria */
+ALTER TABLE CuentasBancos DROP CONSTRAINT CuentasBancos_CK11 /* CHECK ([CBTcodigo]=(1) OR [CBTcodigo]=(2)) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE CuentasBancos ADD CONSTRAINT CuentasBancos_CK11 CHECK ([CBTcodigo]=(3) OR [CBTcodigo]=(1) OR [CBTcodigo]=(2))
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): CBTCid - Referencia CBTarjetaCredito */
+ALTER TABLE CuentasBancos ADD CBTCid numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE IETUpago: IETUpago */
+/* ======================================================================================== */
+/* DEL_KEY OP=(OBSOLETO): TIP="U", COLS="EcodigoPago,IETUPtipo,IETUPreferencia,IETUPdocumento" */
+DROP INDEX IETUpago.IETUpago_UI01 /* UNIQUE INDEX (EcodigoPago,IETUPtipo,IETUPreferencia,IETUPdocumento) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(NUEVO): TIP="I", SEC="2", COLS="EcodigoPago,IETUPtipo,IETUPreferencia,IETUPdocumento" */
+CREATE NONCLUSTERED INDEX IETUpago_ID02 ON IETUpago (EcodigoPago,IETUPtipo,IETUPreferencia,IETUPdocumento)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ================================================================= */
+/*            CREA FKs NUEVOS O CON CAMPOS MODIFICADOS               */
+/* ================================================================= */
+/* CHG_TABLE CPNAPdetallePago */
+/* ADD_FK OP=(TAB NUEVA): TIP="F", SEC="1", COLS="Ecodigo,CPNAPnum", REF="CPNAP" */
+ALTER TABLE CPNAPdetallePago ADD CONSTRAINT CPNAPdetallePago_FK01 FOREIGN KEY (Ecodigo,CPNAPnum) REFERENCES CPNAP (Ecodigo,CPNAPnum)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

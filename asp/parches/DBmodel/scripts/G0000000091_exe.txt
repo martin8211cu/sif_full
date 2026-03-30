@@ -1,0 +1,30 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 204 - DBM 380: Agregar una nueva llave compuesta (Bid,EC
+
+	         PARCHE:  Parche023_485_SIF_LlaveCompuestaEcuentaBancaria
+
+GENERADO EN:
+	SERVER:  http://mxvdapp12:8301
+	DSN:     sifcim
+	FECHA:   26/11/2011 14:05:32
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* CHG_TABLE ECuentaBancaria: Encabezado de Estado de Cuenta */
+/* ======================================================================================== */
+/* ADD_KEY OP=(NUEVO): TIP="A", SEC="3", COLS="Bid,ECfecha,CBid" */
+ALTER TABLE ECuentaBancaria ADD CONSTRAINT ECuentaBancaria_AK03 UNIQUE NONCLUSTERED (Bid,ECfecha,CBid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

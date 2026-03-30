@@ -1,0 +1,220 @@
+/***************************************************************************************************/
+/****************							Corte de página							****************/
+/***************************************************************************************************/
+H1.Corte_Pagina
+{
+PAGE-BREAK-AFTER: always
+}
+/***************************************************************************************************/
+/****************							Celda normal							****************/
+/***************************************************************************************************/
+TD.CN {
+	font-style : normal;
+	font-weight : normal;
+	font-variant : normal;
+	border-left-width : 0;
+	border-right-width : 0;
+	border-top-width : 0;
+	border-bottom-width : 0;
+	font-family : Arial;
+	font-size : 9.5;
+	mso-style-parent:style0;
+	mso-number-format:Fixed;
+}
+/***************************************************************************************************/
+/****************							Celda centrada							****************/
+/***************************************************************************************************/
+TD.CC {
+	
+	font-style : normal;
+	font-weight : normal;
+	font-variant : normal;
+	text-align  : center;
+	border-left-width : 0;
+	border-right-width : 0;
+	border-top-width : 0;
+	border-bottom-width : 0;
+	font-family : Arial;
+	font-size : 9.5;
+}
+/***************************************************************************************************/
+/****************							Celda centrada	NEGRITA					****************/
+/***************************************************************************************************/
+TD.CCN {
+	
+	font-style : normal;
+	font-weight : bold;
+	font-variant : normal;
+	text-align  : center;
+	border-left-width : 0;
+	border-right-width : 0;
+	border-top-width : 0;
+	border-bottom-width : 0;
+	font-family : Arial;
+	font-size : 9.5;
+}
+
+/***************************************************************************************************/
+/****************							Celda centrada	Titulo					****************/
+/***************************************************************************************************/
+TD.CCT {
+	
+	font-style : normal;
+	font-weight : bold;
+	font-variant : normal;
+	text-align  : center;
+	border-left-width : 0;
+	border-right-width : 0;
+	border-top-width : 0;
+	border-bottom-width : 0;
+	font-family : Arial;
+	font-size : 9.5;
+	background-color : darkgray;
+
+}
+/***************************************************************************************************/
+/****************							Celda izquierda							****************/
+/***************************************************************************************************/
+TD.CI {
+	
+	font-style : normal;
+	font-weight : normal;
+	font-variant : normal;
+	text-align  : left;
+	border-left-width : 0;
+	border-right-width : 0;
+	border-top-width : 0;
+	border-bottom-width : 0;
+	font-family : Arial;
+	font-size : 9.5;
+}
+/***************************************************************************************************/
+/****************							Celda izquierda	NEGRITA					****************/
+/***************************************************************************************************/
+TD.CIN {
+	
+	font-style : normal;
+	font-weight : bold;
+	font-variant : normal;
+	text-align  : left;
+	border-left-width : 0;
+	border-right-width : 0;
+	border-top-width : 0;
+	border-bottom-width : 0;
+	font-family : Arial;
+	font-size : 9.5;
+}
+/***************************************************************************************************/
+/****************							Celda izquierda	Titulo					****************/
+/***************************************************************************************************/
+TD.CIT {
+	font-style : normal;
+	font-weight : bold;
+	font-variant : normal;
+	text-align  : left;
+	border-left-width : 0;
+	border-right-width : 0;
+	border-top-width : 0;
+	border-bottom-width : 0;
+	font-family : Arial;
+	font-size : 9.5;
+	background-color : darkgray;
+}
+/***************************************************************************************************/
+/****************							Celda izquierda	SUB-Titulo				****************/
+/***************************************************************************************************/
+TD.CIST {
+	font-style : normal;
+	font-weight : bold;
+	font-variant : normal;
+	text-align  : left;
+	border-left-width : 0;
+	border-right-width : 0;
+	border-top-width : 0;
+	border-bottom-width : 0;
+	font-family : Arial;
+	font-size : 9.5;
+	background-color : silver;
+}
+/***************************************************************************************************/
+/****************							Celda Derecha							****************/
+/***************************************************************************************************/
+TD.CD {
+	
+	font-style : normal;
+	font-weight : normal;
+	font-variant : normal;
+	text-align  : right;
+	border-left-width : 0;
+	border-right-width : 0;
+	border-top-width : 0;
+	border-bottom-width : 0;
+	font-family : Arial;
+	font-size : 9.5;
+}
+/***************************************************************************************************/
+/****************							Celda Derecha							****************/
+/***************************************************************************************************/
+TD.CDN {
+	font-style : normal;
+	font-weight : bold;
+	font-variant : normal;
+	text-align  : right;
+	border-left-width : 0;
+	border-right-width : 0;
+	border-top-width : 0;
+	border-bottom-width : 0;
+	font-family : Arial;
+	font-size : 9.5;
+}
+/***************************************************************************************************/
+/****************							Celda Derecha	Titulo					****************/
+/***************************************************************************************************/
+TD.CDT {
+	font-style : normal;
+	font-weight : bold;
+	font-variant : normal;
+	text-align  : right;
+	border-left-width : 0;
+	border-right-width : 0;
+	border-top-width : 0;
+	border-bottom-width : 0;
+	font-family : Arial;
+	font-size : 9.5;
+	background-color : darkgray;
+}
+/***************************************************************************************************/
+/****************							Tabla									****************/
+/***************************************************************************************************/
+TABLE.T1 {
+	
+	font-style : normal;
+	font-weight : normal;
+	font-variant : normal;
+	border-left-width : 0;
+	border-right-width : 0;
+	border-top-width : 0;
+	border-bottom-width : 0;
+	font-family : Arial;
+	font-size : 9.5;
+}
+/***************************************************************************************************/
+/****************							Celda normal con Negrita	    		****************/
+/***************************************************************************************************/
+TD.CNN {
+	font-style : normal;
+	font-weight : bold;
+	font-variant : normal;
+	border-left-width : 0;
+	border-right-width : 0;
+	border-top-width : 0;
+	border-bottom-width : 0;
+	font-family : Arial;
+	font-size : 11.5;
+	mso-style-parent:style0;
+	mso-number-format:Fixed;
+}
+
+
+
+

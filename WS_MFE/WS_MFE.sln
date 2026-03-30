@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "MFE", "..\..\WebSites\MFE\", "{0B5D3FDB-7F7A-4EE0-BD50-C6D670D08A41}"
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFramework = "3.5"
+		Debug.AspNetCompiler.VirtualPath = "/MFE"
+		Debug.AspNetCompiler.PhysicalPath = "..\..\WebSites\MFE\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\MFE\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/MFE"
+		Release.AspNetCompiler.PhysicalPath = "..\..\WebSites\MFE\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\MFE\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "49231"
+		DefaultWebSiteLanguage = "Visual C#"
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|.NET = Debug|.NET
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0B5D3FDB-7F7A-4EE0-BD50-C6D670D08A41}.Debug|.NET.ActiveCfg = Debug|.NET
+		{0B5D3FDB-7F7A-4EE0-BD50-C6D670D08A41}.Debug|.NET.Build.0 = Debug|.NET
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

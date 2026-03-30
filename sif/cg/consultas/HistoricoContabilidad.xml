@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	
+	<Idioma id="en">
+		<LB_Titulo>Accounting Documents Historical</LB_Titulo>
+		<LB_Desde>From</LB_Desde>
+		<LB_Hasta>To</LB_Hasta>
+		<LB_CuentaIni>Initial Account</LB_CuentaIni>
+		<LB_CuentaFin>Final Account</LB_CuentaFin>
+		<LB_Oficina>Office</LB_Oficina>
+		<LB_Moneda>Currency</LB_Moneda>
+		<LB_Origen>Origin</LB_Origen>
+		<LB_Todas>All</LB_Todas>
+		<CHK_OrdenMonto>Order by Amount</CHK_OrdenMonto>
+		<CHK_DescargarArchivo>Download File</CHK_DescargarArchivo>
+		<CHK_CierreAnual>Year end Closing</CHK_CierreAnual>
+		<CHK_Resumido>Summarized</CHK_Resumido>
+		<BTN_Limpiar>Clean</BTN_Limpiar>
+		<BTN_Consultar>Consult</BTN_Consultar>
+	</Idioma>
+</Etiquetas>

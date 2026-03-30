@@ -1,0 +1,34 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  sifControl
+	MODELO:  SIF Control.pdm
+	VERSION: 434 - DBM 370: PortalCuestionario modificación
+
+	         PARCHE:  Parche023_441_RH _CorreccionesVariasRH
+
+GENERADO EN:
+	SERVER:  http://mxvqapp34:8300
+	DSN:     sifcontrol
+	FECHA:   06/01/2012 18:04:56
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* CHG_TABLE PortalCuestionario: PortalCuestionario */
+/* ======================================================================================== */
+/* CHG_COLUMN OP=(CAMBIO): PCnombre - Nombre del cuestionario */
+ALTER TABLE PortalCuestionario ALTER COLUMN PCnombre varchar(255) NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+UPDATE PortalCuestionario SET PCnombre = RTRIM(PCnombre)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

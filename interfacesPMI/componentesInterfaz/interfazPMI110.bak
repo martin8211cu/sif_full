@@ -1,0 +1,151 @@
+<title>insert into OD110</title>
+<!--- 
+	Interfaces desde SOIN hacia PMI.
+	Interfaz 110 : "Intercambio de Información de Documentos de CXC y CXP desde SOIN hacia PMI"
+	Entradas :
+		ID : ID del Proceso a crear.
+		PK : PK de Documento (CXC y CXP).
+		MODO : Acción a realizar.
+	Salidas :
+		1 Registro en la Tabla OE110 : Datos del Encabezado del Documento (PK).
+	Creada : 03 de Enero del 2005
+--->
+<cfobject name="LobjInterfaz" component="interfacesSoin.Componentes.interfaces">
+<cfset LobjInterfaz.sbReportarActividad(110, url.ID)>
+<!--- Parámetros Requeridos --->
+<cfparam name="url.ID" type="numeric">
+<cfparam name="url.CXTcodigo" type="string">
+<cfparam name="url.Ddocumento" type="string">
+<cfparam name="url.SNcodigo" type="numeric">
+<cfparam name="url.MODULO" type="string">
+<cfparam name="url.MODO" type="string">
+<cfset session.debug = false>
+<!--- Valida Parámetros de entrada --->
+<cfquery name="rsid_vexists" datasource="sifinterfaces">
+	select 1 from OE110 where ID = <cfqueryparam cfsqltype="cf_sql_numeric" value="#url.ID#">
+</cfquery>
+<cfif rsid_vexists.Recordcount GT 0>
+	<!--- (Intento de Reprocesar) --->
+	<cfthrow message="Error en interfaz PMI 110, Intercambio de Información de Documentos de CXC y CXP, EL proceso ya fué ejecutado anteriormente, Proceso Cancelado!">
+</cfif>
+<cfif not url.MODO EQ 'R'>
+	<cfthrow message="Error en interfaz PMI 110, Intercambio de Información de Documentos de CXC y CXP, Modo inválido, Proceso Cancelado!">
+</cfif>
+<cfif not (url.MODULO EQ 'CC' or url.MODULO EQ 'CP')>
+	<cfthrow message="Error en interfaz PMI 110, Intercambio de Información de Documentos de CXC y CXP, Modulo inválido, Proceso Cancelado!">
+</cfif>
+<cfif url.MODULO EQ 'CC'>
+	<cfquery name="rsedr_vexists" datasource="#Session.Dsn#">
+		select 1
+		from Documentos
+		where Ecodigo = <cfqueryparam value="#Session.Ecodigo#" cfsqltype="cf_sql_integer">
+		  and CCTcodigo = <cfqueryparam cfsqltype="cf_sql_char" value="#url.CXTcodigo#">
+		  and Ddocumento = <cfqueryparam cfsqltype="cf_sql_char" value="#url.Ddocumento#">
+	</cfquery>
+<cfelse>
+	<cfquery name="rsedr_vexists" datasource="#Session.Dsn#">
+		select 1 
+		from EDocumentosCP 
+		where Ecodigo = <cfqueryparam value="#Session.Ecodigo#" cfsqltype="cf_sql_integer">
+		  and CPTcodigo = <cfqueryparam cfsqltype="cf_sql_char" value="#url.CXTcodigo#">
+		  and Ddocumento = <cfqueryparam cfsqltype="cf_sql_char" value="#url.Ddocumento#">
+		  and SNcodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#url.SNcodigo#">
+	</cfquery>
+</cfif>
+<cfif rsedr_vexists.Recordcount EQ 0>
+	<!--- (Error de datos en la Cola) --->
+	<cfthrow message="Error en interfaz PMI 110, Intercambio de Información de Documentos de CXC y CXP, Código de Documento no está definido en Módulo, Proceso Cancelado!">
+</cfif>
+<!--- Consulta Principal: De esta consulta se obtienen los datos para las operaciones. --->
+<cfif url.MODULO EQ 'CC'>
+	<cfquery name="documento" datasource="#Session.Dsn#">
+		select SNcodigoext as socio, SNnombre as sociolargo, Dvencimiento as fechavencimiento, Dtotal as monto, round(Dtotal * coalesce(Rporcentaje,0) / 100,4) as retencion, 
+			CCTcodigo as tipodocumento, Miso4217 as moneda, Ddocumento as documento, round(Dtotal * coalesce(Iporcentaje,0) / 100,4) as impuesto
+		from Documentos a
+			left outer join SNegocios b 
+				on a.SNcodigo = b.SNcodigo
+				and a.Ecodigo = b.Ecodigo
+			left outer join Retenciones c
+				on a.Rcodigo = c.Rcodigo
+				and a.Ecodigo = c.Ecodigo
+			left outer join Monedas d
+				on a.Mcodigo = d.Mcodigo
+				and a.Ecodigo = d.Ecodigo
+			left outer join Impuestos i
+				on i.Icodigo = a.Icodigo
+				and i.Ecodigo = a.Ecodigo
+		where a.Ecodigo = <cfqueryparam value="#Session.Ecodigo#" cfsqltype="cf_sql_integer">
+		  and a.CCTcodigo = <cfqueryparam cfsqltype="cf_sql_char" value="#url.CXTcodigo#">
+		  and a.Ddocumento = <cfqueryparam cfsqltype="cf_sql_char" value="#url.Ddocumento#">
+	</cfquery>
+<cfelse>
+	<cfquery name="documento" datasource="#Session.Dsn#">
+		select SNcodigoext as socio, SNnombre as sociolargo, Dfechavenc as fechavencimiento, Dtotal as monto, round(Dtotal * coalesce(Rporcentaje,0) / 100,4) as retencion,
+		CPTcodigo as tipodocumento, Miso4217 as moneda, Ddocumento as documento, round(Dtotal * coalesce(Iporcentaje,0) / 100,4) as impuesto
+		from EDocumentosCP a
+			left outer join SNegocios b 
+				on a.SNcodigo = b.SNcodigo
+				and a.Ecodigo = b.Ecodigo
+			left outer join Retenciones c
+				on a.Rcodigo = c.Rcodigo
+				and a.Ecodigo = c.Ecodigo
+			left outer join Monedas d
+				on a.Mcodigo = d.Mcodigo
+				and a.Ecodigo = d.Ecodigo
+			left outer join Impuestos i
+				on i.Icodigo = a.Icodigo
+				and i.Ecodigo = a.Ecodigo
+		where a.Ecodigo = <cfqueryparam value="#Session.Ecodigo#" cfsqltype="cf_sql_integer">
+		  and a.CPTcodigo = <cfqueryparam cfsqltype="cf_sql_char" value="#url.CXTcodigo#">
+		  and a.Ddocumento = <cfqueryparam cfsqltype="cf_sql_char" value="#url.Ddocumento#">
+		  and a.SNcodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#url.SNcodigo#">
+	</cfquery>
+</cfif>
+<!--- Valida requerimientos de los datos para exportación --->
+<cfif not isNumeric(documento.socio)>
+	<cfthrow message="Error en interfaz PMI 110, Intercambio de Información de Documentos de CXC y CXP, El socio es inválido para exportar a PMI, Proceso Cancelado!">
+</cfif>
+<cftransaction>
+	<cfquery datasource="sifinterfaces">
+		insert into OE110
+		(ID, contraparte_id, compania_prop_id, concepto_id, llave_soin_tbs, fecha_vencimiento, monto, iva, retencion, pago_cobro, aux_origen, tipo_documento, usuario_creacion, moneda, documento, nombre_largo, comentarios)
+		values
+		(
+		<cfqueryparam cfsqltype="cf_sql_numeric" value="#url.ID#">, 
+		<cfqueryparam cfsqltype="cf_sql_integer" value="#documento.socio#">, 
+		<cfqueryparam cfsqltype="cf_sql_integer" value="#Session.Ecodigo#">, 
+		<cfqueryparam cfsqltype="cf_sql_integer" value="1">, 
+		<cfqueryparam cfsqltype="cf_sql_numeric" value="1">, 
+		<cfqueryparam cfsqltype="cf_sql_date" value="#documento.fechavencimiento#">, 
+		<cfqueryparam cfsqltype="cf_sql_money" value="#documento.monto#">, 
+		<cfqueryparam cfsqltype="cf_sql_money" value="#documento.impuesto#">, 
+		<cfqueryparam cfsqltype="cf_sql_money" value="#documento.retencion#">, 
+		<cfqueryparam cfsqltype="cf_sql_char" value="#iif((url.MODULO EQ 'CC'),DE('R'),DE('P'))#">, 
+		<cfqueryparam cfsqltype="cf_sql_char" value="#url.MODULO#">, 
+		<cfqueryparam cfsqltype="cf_sql_char" value="#documento.tipodocumento#">, 
+		<cfqueryparam cfsqltype="cf_sql_char" value="#left(session.usulogin,3)#">, 
+		<cfqueryparam cfsqltype="cf_sql_char" value="#documento.moneda#">, 
+		<cfqueryparam cfsqltype="cf_sql_char" value="#documento.documento#">, 
+		<cfqueryparam cfsqltype="cf_sql_char" value="#documento.sociolargo#">, 
+		'REGISTRO GENERADO POR INTERFAZ PMI 110'
+		)
+	</cfquery>
+	<cfquery datasource="sifinterfaces">
+		insert into PmiEntradasSoinV6
+		(contraparte_id, compania_prop_id, concepto_id, llave_soin_tbs, fecha_vencimiento, monto, iva, retencion, pago_cobro, aux_origen, tipo_documento, usuario_creacion, moneda, documento, nombre_largo, comentarios)
+		select contraparte_id, compania_prop_id, concepto_id, llave_soin_tbs, fecha_vencimiento, monto, iva, retencion, pago_cobro, aux_origen, tipo_documento, usuario_creacion, moneda, documento, nombre_largo, comentarios
+		from OE110
+		where ID = <cfqueryparam cfsqltype="cf_sql_numeric" value="#url.ID#">
+	</cfquery>
+	<cfif session.debug>
+		<cfquery name="rsdebug" datasource="sifinterfaces">
+			select * from OE110
+		</cfquery>
+		<cfdump var="#rsdebug#">
+		<cfquery name="rsdebug" datasource="sifinterfaces">
+			select * from PmiEntradasSoinV6
+		</cfquery>
+		<cf_dump var="#rsdebug#">
+	</cfif>
+	<cfset LobjInterfaz.sbReportarActividad(110, url.ID)>
+</cftransaction>

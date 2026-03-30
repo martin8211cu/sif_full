@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiqueta>
+	<Idioma id="en">
+		<LB_PreFactura>Pre invoice</LB_PreFactura>
+		<LB_Estatus>Status</LB_Estatus>
+		<LB_Cliente>Client</LB_Cliente>
+		<LB_DireccionFacturacion>Invoicing Address</LB_DireccionFacturacion>
+		<LB_SeleccioneUna>Select</LB_SeleccioneUna>
+		<LB_Vendedor>Selling</LB_Vendedor>
+		<LB_Oficina>Office</LB_Oficina>
+		<LB_OrdenCompra>Purchase Order</LB_OrdenCompra>
+		<LB_Observaciones>Comments</LB_Observaciones>
+		<LB_TransaccionPreFactura>Pre invoice Transaction</LB_TransaccionPreFactura>
+		<LB_Fecha>Date</LB_Fecha>
+		<LB_Moneda>Currency</LB_Moneda>
+		<LB_TipoCambio>Exchange Rate</LB_TipoCambio>
+		<LB_Descuento>Discount</LB_Descuento>
+		<LB_DiasVigencia>Validity Days</LB_DiasVigencia>
+		<LB_Impuesto>Tax</LB_Impuesto>
+		<LB_Total>Total</LB_Total>
+		<LB_DetallesPreFacturas>Pre invoice Detail</LB_DetallesPreFacturas>
+		<BTN_Imprimir>Print</BTN_Imprimir>
+		<BTN_Regresar>Return</BTN_Regresar>
+		<LB_Pendiente>Pending</LB_Pendiente>
+		<LB_Estimada>Estimate</LB_Estimada>
+		<LB_Anulada>Canceled</LB_Anulada>
+		<LB_Terminada>Finished</LB_Terminada>
+		<LB_Vencida>Overdue</LB_Vencida>
+		<MSG_DeseaEliminarEstaCotizacion>Do you want to delete this quotation?</MSG_DeseaEliminarEstaCotizacion>
+		<LB_Retencion>Witholding to pay</LB_Retencion>
+		<LB_SinRetencion>Wihtout Witholding</LB_SinRetencion>
+	</Idioma>
+</Etiqueta>

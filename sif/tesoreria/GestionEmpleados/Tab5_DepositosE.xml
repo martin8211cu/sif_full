@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_Caja>Cash</LB_Caja>
+		<LB_Comprobante>Receipt</LB_Comprobante>
+		<LB_Fecha>Date</LB_Fecha>
+		<LB_Moneda>Currency</LB_Moneda>
+		<LB_Monto>Amount</LB_Monto>
+		<LB_CajaEfectivo>Petty Cash</LB_CajaEfectivo>
+		<LB_CajaChica>Petty Cash</LB_CajaChica>
+		<LB_CajaEspecialEfectivo>Special Petty Cash</LB_CajaEspecialEfectivo>
+		<LB_CajaExterna>External Cash</LB_CajaExterna>
+		<LB_TipoCambio>Exchange Rate</LB_TipoCambio>
+		<LB_FactorConversion>Conversion Factor</LB_FactorConversion>
+		<LB_MontoLiq>Settlement Amount</LB_MontoLiq>
+		<LB_RevisaDatos>Please review the following data</LB_RevisaDatos>
+		<LB_CampoCajaEfectivo>You must select a Petty Cash</LB_CampoCajaEfectivo>
+		<LB_CampoReferencia>The reference must not be blank</LB_CampoReferencia>
+		<LB_CampoMonto>The amount requested should not be blank</LB_CampoMonto>
+		<LB_CampoMontoMayor0>The amount requested must be greater than zero</LB_CampoMontoMayor0>
+		<LB_CampoTipoCambio>The exchange rate can not be blank</LB_CampoTipoCambio>
+		<LB_CampoFactorConversion>The conversion factor can not be blank</LB_CampoFactorConversion>
+	</Idioma>
+</Etiquetas>

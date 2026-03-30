@@ -1,0 +1,132 @@
+textarea {background-color: #FAFAFA; border:1px solid gray;}
+.tituloCuenta {
+	font-family: Tahoma, sans-serif;
+	font-size: 20pt;
+	font-style: normal;
+	font-weight: bold;
+}
+.tituloProceso {
+	font-family: "Times New Roman", Times, serif;
+	font-size: 15pt;
+	font-variant: small-caps;
+	font-weight: bolder;
+	padding-left: 20px;
+}
+.tituloPersona {
+	font-family: Tahoma, sans-serif;
+	font-size: 10pt;
+	text-align: right;
+	background-color: #CCCCCC;
+	padding: 2px;
+	font-weight: bold;
+}
+.etiquetaProgreso {
+	font-family: Tahoma, sans-serif;
+	font-size: 8pt;
+}
+.etiquetaCampo {
+	font-weight: bold;
+}
+.etiquetaCampoSIF {
+	font-weight: bold;
+	font-size:11px;
+}
+.textoAyuda {
+	font-family: Tahoma, sans-serif;
+	font-size: 8pt;
+	background-color: #EEEEEE;
+	border: 1px solid #CCCCCC;
+	padding: 3px;
+}
+.textoMensajes {
+	font-family: Tahoma, sans-serif;
+	font-size: 10pt;
+	font-weight: bold;
+}
+.label {
+	font-weight: bold;
+}
+.tituloLista {
+	font-family: Tahoma, sans-serif;
+	font-size: 10pt;
+	background-color: #CCCCCC;
+	padding:3px;
+}
+.corte {
+	font-family: Tahoma, sans-serif;
+	font-size: 10pt;
+	background-color: #F5F5F5;	
+	padding:3px;
+}
+.textoMenu {
+	font-family: Tahoma, sans-serif;
+	font-size: 8pt;
+}
+.textoMenuPrincipal {
+	font-family: "Times New Roman", Times, serif;
+	font-size: 15pt;
+	font-variant: small-caps;
+	font-weight: bolder;
+	padding-left: 10px;
+}
+.textoTituloMenuPrincipal {
+	font-family: "Times New Roman", Times, serif;
+	font-size: 25pt;
+	font-variant: small-caps;
+	font-weight: bolder;
+	padding-left: 10px;
+}
+.formatoCuenta {
+	border-top: 1px solid black;
+	border-bottom: 1px solid black;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+.botonDown {
+	font-family: Tahoma, sans-serif; 
+	font-size: 8pt; 
+	padding-left: 3px;
+	padding-right: 3px;
+	background-color: #E9F2F8;
+	border: 1px solid #336699;
+	cursor: pointer;
+}
+.botonUp {
+	font-family: Tahoma, sans-serif; 
+	font-size: 8pt; 
+	padding-left: 4px;
+	padding-right: 4px;
+	cursor: pointer;
+}
+.botonDown2 {
+	font-family: Tahoma, sans-serif; 
+	font-size: 8pt; 
+	background-color: #E9F2F8;
+	border: 1px solid #336699;
+	cursor: pointer;
+}
+.botonUp2 {
+	font-family: Tahoma, sans-serif; 
+	font-size: 8pt; 
+	cursor: pointer;
+}
+.itemtit { 
+	background-color: #CCCCCC;
+	overflow: hidden;
+	font-style: normal;
+	font-weight: bold;
+	padding: 3px;
+	text-align: center;
+}
+table.contenido {
+	width: 100%;
+	border-collapse: collapse;
+	border-style:solid;
+	border-color:#999999;
+	margin: 0px 0px 0px 0px;
+	font-size:10px;
+	font-family: Geneva, Arial, Helvetica, sans-serif;
+}
+table.contenido * td {
+    padding: 2px 2px 2px 2px;
+}

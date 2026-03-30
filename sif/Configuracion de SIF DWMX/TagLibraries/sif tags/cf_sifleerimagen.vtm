@@ -1,0 +1,19 @@
+<tag name="cf_sifleerimagen">
+<tagformat nlbeforetag="0" nlaftertag="0" />
+<attributes>
+  <attrib name="border" type="enumerated">
+    <attriboption value="true" />
+    <attriboption value="false" />
+  </attrib>
+  <attrib name="bordercolor" TYPE="color"/>
+  <attrib name="tabla"/>
+  <attrib name="campo"/>
+  <attrib name="conexion"/>
+  <attrib name="condicion"/>
+  <attrib name="imgname"/>
+  <attrib name="autosize" type="enumerated">
+    <attriboption value="true" />
+    <attriboption value="false" />
+  </attrib>
+</attributes>
+</tag>

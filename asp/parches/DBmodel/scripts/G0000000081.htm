@@ -1,0 +1,85 @@
+<strong>INDICE:</strong><BR>- <A href='#COLs_CHG'>Columnas a modificarse</A><BR>- <A href='#CHKs_DEL'>Reglas a eliminarse</A><BR>- <A href='#CHKs_ADD'>Reglas nuevas</A><BR><BR><BR>
+			<BR><strong><A name='COLs_CHG'>COLUMNAS QUE VAN A SER ALTERADAS EN LA BASE DE DATOS PORQUE TIENEN CARACTERISTICAS MODIFICADAS EN EL MODELO DBM</A></strong><BR>
+			<table>
+			<tr><td><strong>TABLA</strong></td><td><strong>COLUMNA</strong></td><td><strong>&nbsp;</strong></td><td><strong>TIPO</strong></td><td><strong>LON</strong></td><td><strong>DEC</strong></td><td><strong>obl</strong></td><td><strong>ide</strong></td><td><strong>dfl</strong></td><td><strong>rul</strong></td></tr>
+			
+				<tr>
+					<td>TESbeneficiario</td><td>TESBtipoId</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td>CHAR</td>
+					<td>1</td>
+					<td>0</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					<td>F</td>
+					<td><strong>([TESBtipoId]='O' OR [TESBtipoId]='E' OR [TESBtipoId]='J' OR [TESBtipoId]='F')</strong></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>CHAR</td>
+					<td>1</td>
+					<td>0</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					
+						<td>F</td>
+					
+					
+						<td>([TESBtipoId]='E' OR [TESBtipoId]='J' OR [TESBtipoId]='F')</td>
+					
+				</tr>
+			
+				<tr>
+					<td>TESbeneficiarioBitacora</td><td>TESBtipoId</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td>CHAR</td>
+					<td>1</td>
+					<td>0</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					<td>F</td>
+					<td><strong>**NULL**</strong></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>CHAR</td>
+					<td>1</td>
+					<td>0</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					
+						<td>F</td>
+					
+					
+						<td><font color="#FF0000">([TESBtipoId]='J' OR [TESBtipoId]='F')</font></td>
+					
+				</tr>
+			
+			</table>
+		
+			<BR><strong><A name='CHKs_DEL'>REGLAS A NIVEL DE TABLA QUE VAN A SER ELIMINADAS EN LA BASE DE DATOS PORQUE NO ESTAN DEFINIDAS EN EL MODELO DBM</A></strong><BR>
+			<table>
+			<tr><td><strong>TABLA</strong></td><td><strong>CHECK</strong></td><td><strong>REGLA</strong></td></tr>
+			
+				<tr><td>WfActivity</td><td>WfActivity_CK</td><td>(IsStart=(0) OR IsFinish=(0))</td></tr>
+			
+			</table>
+		
+			<BR><strong><A name='CHKs_ADD'>REGLAS A NIVEL DE TABLA NUEVAS EN POWER DESIGNER.</font></A></strong><BR>
+			<table>
+			<tr><td><strong>TABLA</strong></td><td><strong>CHECK</strong></td><td><strong>REGLA</strong></td></tr>
+			
+				<tr><td>WfActivity</td><td><strong>REGLA NUEVA</strong></td><td>(IsStart = 0 or IsFinish = 0)</td></tr>
+			
+			</table>
+		

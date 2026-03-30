@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_Titulo>Month end Closing in progress</LB_Titulo>
+		<LB_Mensaje>Please Wait... Subsidiary Ledger Closing in progress...</LB_Mensaje>
+		<LB_Mensaje1>Subsidiary Ledger Closing not executed</LB_Mensaje1>
+		<LB_Mensaje2>Pleas verify the process...</LB_Mensaje2>
+		<LB_Mensaje3>Subsidiary Ledger Closing is running</LB_Mensaje3>
+		<LB_Mensaje4>Please Wait</LB_Mensaje4>
+		<LB_Mensaje5>Process Time</LB_Mensaje5>
+		<LB_Mensaje6>Time</LB_Mensaje6>
+		<LB_Mensaje7a>There are</LB_Mensaje7a>
+		<LB_Mensaje7b>Fixed Assets documents in conciliation process</LB_Mensaje7b>
+		<LB_Mensaje8>Please Finish the process to execute Subsidiary Ledger Closing</LB_Mensaje8>
+	</Idioma>
+</Etiquetas>

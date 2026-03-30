@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_ImpresionDocumentos>Documents Printing</LB_ImpresionDocumentos>
+		<LB_OrdenImpresion>Printing Order</LB_OrdenImpresion>
+		<LB_Transaccion>Transaction</LB_Transaccion>
+		<LB_Estatus>Status</LB_Estatus>
+		<LB_Preparacion>Preparation</LB_Preparacion>
+		<LB_Impresion>Print</LB_Impresion>
+		<LB_RegistroResultados>Results Record</LB_RegistroResultados>
+		<LB_Desconocido>Unknown</LB_Desconocido>
+		<LB_Cliente>Customer</LB_Cliente>
+		<LB_DireccionFacturacion>Invoicing Address</LB_DireccionFacturacion>
+		<LB_DireccionEnvio>Shipping Address</LB_DireccionEnvio>
+		<LB_ConceptoCobroTerceros>Third Party Collection Concept</LB_ConceptoCobroTerceros>
+		<LB_Observaciones>Comments</LB_Observaciones>
+		<LB_Banco>Banks</LB_Banco>
+		<LB_Fecha>Date</LB_Fecha>
+		<LB_Moneda>Currency</LB_Moneda>
+		<LB_TipoCambio>Exchange Rates</LB_TipoCambio>
+		<LB_Vencimiento>Maturity</LB_Vencimiento>
+		<LB_DiasVencimiento>Days for Expiration</LB_DiasVencimiento>
+		<LB_FechaVencimiento>Maturity Date</LB_FechaVencimiento>
+		<LB_Totales>Totals</LB_Totales>
+		<LB_Descuento>Discount</LB_Descuento>
+		<LB_Impuesto>Tax</LB_Impuesto>
+		<LB_Total>Total</LB_Total>
+		<LB_Ninguna>None</LB_Ninguna>
+		<LB_DocumentoImpresoCorrectamente>Correct impression</LB_DocumentoImpresoCorrectamente>
+		<BTN_Guardar>Save</BTN_Guardar>
+		<BTN_RegistrarResultado>Result Record</BTN_RegistrarResultado>
+		<BTN_CancelarPreFactura>Cancel Pre invoice</BTN_CancelarPreFactura>
+		<BTN_GenerarVistaPrevia>Generate Preview</BTN_GenerarVistaPrevia>
+		<BTN_ListaOrdenes>Orders List</BTN_ListaOrdenes>
+		<LB_Linea>Line</LB_Linea>
+		<LB_Tipo>Type</LB_Tipo>
+		<LB_Descripcion>Description</LB_Descripcion>
+		<LB_DescripcionAlterna>Secondary Description</LB_DescripcionAlterna>
+		<LB_Documento>Document</LB_Documento>
+		<LB_PreFacturasRelacionadas>Pre invoices Related</LB_PreFacturasRelacionadas>
+		<MSG_CancelarOrdenImpresion>Cancel printing order?</MSG_CancelarOrdenImpresion>
+		<MSG_DigitarFechaImpresion>Define printing date</MSG_DigitarFechaImpresion>
+		<MSG_Guardar>Please, save document before generate the invoice preview</MSG_Guardar>
+		<LB_Monto>Amount</LB_Monto>
+		<LB_Retencion>Witholding to pay</LB_Retencion>
+		<LB_MostrarRetencion>Show Witholding in Document</LB_MostrarRetencion>
+	</Idioma>
+</Etiquetas>

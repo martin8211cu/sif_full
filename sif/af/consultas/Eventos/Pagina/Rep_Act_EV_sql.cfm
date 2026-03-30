@@ -1,0 +1,695 @@
+﻿<!--- 
+	Creado por Alejandro Bolaños
+		Fecha: 29/07/12
+		Motivo: Nuevo reporte Activo Contabilidad presupuestal
+ --->
+<cfinvoke component="sif.Componentes.Translate" method="Translate" key="LB_Titulo" default="Libro de Inventarios de Bienes" 
+returnvariable="LB_Titulo" xmlfile="Rep_Act_EV_sql.xml"/>
+<cfinvoke component="sif.Componentes.Translate" method="Translate" key="LB_Periodo" default="Periodo" 
+returnvariable="LB_Periodo" xmlfile="Rep_Act_EV_sql.xml"/>
+<cfinvoke component="sif.Componentes.Translate" method="Translate" key="LB_Mes" default="A" 
+returnvariable="LB_Mes" xmlfile="Rep_Act_EV_sql.xml"/>
+<cfinvoke component="sif.Componentes.Translate" method="Translate" key="LB_Categoria" default="Categoría" 
+returnvariable="LB_Categoria" xmlfile="Rep_Act_EV_sql.xml"/>
+<cfinvoke component="sif.Componentes.Translate" method="Translate" key="LB_Placa" default="Numero de Inventario" 
+returnvariable="LB_Placa" xmlfile="Rep_Act_EV_sql.xml"/>
+<cfinvoke component="sif.Componentes.Translate" method="Translate" key="LB_Desc" default="Desccripción" 
+returnvariable="LB_Desc" xmlfile="Rep_Act_EV_sql.xml"/>
+<cfinvoke component="sif.Componentes.Translate" method="Translate" key="LB_Cantidad" default="Cantidad" 
+returnvariable="LB_Cantidad" xmlfile="Rep_Act_EV_sql.xml"/>
+<cfinvoke component="sif.Componentes.Translate" method="Translate" key="LB_Unit" default="Costo Unitario" 
+returnvariable="LB_Unit" xmlfile="Rep_Act_EV_sql.xml"/>
+<cfinvoke component="sif.Componentes.Translate" method="Translate" key="LB_Uni" default="Unidad Medida" 
+returnvariable="LB_Uni" xmlfile="Rep_Act_EV_sql.xml"/>
+<cfinvoke component="sif.Componentes.Translate" method="Translate" key="LB_Monto" default="Monto" 
+returnvariable="LB_Monto" xmlfile="Rep_Act_EV_sql.xml"/>
+<cfinvoke component="sif.Componentes.Translate" method="Translate" key="LB_Fecha" default="Fecha" 
+returnvariable="LB_Fecha" xmlfile="Rep_Act_EV_sql.xml"/>
+<cfinvoke component="sif.Componentes.Translate" method="Translate" key="LB_Hora" default="Hora" 
+returnvariable="LB_Hora" xmlfile="Rep_Act_EV_sql.xml"/>
+<cfinvoke component="sif.Componentes.Translate" method="Translate" key="LB_Cifras" default="Cifras en Pesos y Centavos" 
+returnvariable="LB_Cifras" xmlfile="Rep_Act_EV_sql.xml"/>
+<cfinvoke component="sif.Componentes.Translate" method="Translate" key="LB_Bienes" default="Muebles e Inmuebles" 
+returnvariable="LB_Bienes" xmlfile="Rep_Act_EV_sql.xml"/>
+<!--- Meses --->
+<cfinvoke component="sif.Componentes.Translate" method="Translate" key="LB_Enero" default="Enero" 
+returnvariable="LB_Enero" xmlfile="Rep_Act_EV_sql.xml"/>
+<cfinvoke component="sif.Componentes.Translate" method="Translate" key="LB_Febrero" default="Febrero" 
+returnvariable="LB_Febrero" xmlfile="Rep_Act_EV_sql.xml"/>
+<cfinvoke component="sif.Componentes.Translate" method="Translate" key="LB_Marzo" default="Marzo" 
+returnvariable="LB_Marzo" xmlfile="Rep_Act_EV_sql.xml"/>
+<cfinvoke component="sif.Componentes.Translate" method="Translate" key="LB_Abril" default="Abril" 
+returnvariable="LB_Abril" xmlfile="Rep_Act_EV_sql.xml"/>
+<cfinvoke component="sif.Componentes.Translate" method="Translate" key="LB_Mayo" default="Mayo" 
+returnvariable="LB_Mayo" xmlfile="Rep_Act_EV_sql.xml"/>
+<cfinvoke component="sif.Componentes.Translate" method="Translate" key="LB_Junio" default="Junio" 
+returnvariable="LB_Junio" xmlfile="Rep_Act_EV_sql.xml"/>
+<cfinvoke component="sif.Componentes.Translate" method="Translate" key="LB_Julio" default="Julio" 
+returnvariable="LB_Julio" xmlfile="Rep_Act_EV_sql.xml"/>
+<cfinvoke component="sif.Componentes.Translate" method="Translate" key="LB_Agosto" default="Agosto" 
+returnvariable="LB_Agosto" xmlfile="Rep_Act_EV_sql.xml"/>
+<cfinvoke component="sif.Componentes.Translate" method="Translate" key="LB_Septiembre" default="Septiembre" 
+returnvariable="LB_Septiembre" xmlfile="Rep_Act_EV_sql.xml"/>
+<cfinvoke component="sif.Componentes.Translate" method="Translate" key="LB_Octubre" default="Octubre" 
+returnvariable="LB_Octubre" xmlfile="Rep_Act_EV_sql.xml"/>
+<cfinvoke component="sif.Componentes.Translate" method="Translate" key="LB_Noviembre" default="Noviembre" 
+returnvariable="LB_Noviembre" xmlfile="Rep_Act_EV_sql.xml"/>
+<cfinvoke component="sif.Componentes.Translate" method="Translate" key="LB_Diciembre" default="Diciembre" 
+returnvariable="LB_Diciembre" xmlfile="Rep_Act_EV_sql.xml"/>
+<cfinvoke component="sif.Componentes.Translate" method="Translate" key="LB_Pagina" default="Pagina" 
+returnvariable="LB_Pagina" xmlfile="CtrlEventosLibroMayor-SQL.xml"/>
+ 
+<!---<cfset form.Resumido =1>--->
+<cfset params = '' >
+<cfif isdefined("form.codigodesde") and len(trim(form.codigodesde)) >
+	<cfset params = params & "&codigodesde=#form.codigodesde#">
+</cfif>
+<cfif isdefined("form.ACinicio") and len(trim(form.ACinicio)) >
+	<cfset params = params & "&ACinicio=#form.ACinicio#">
+</cfif>
+<cfif isdefined("form.ACdescripciondesde") and len(trim(form.ACdescripciondesde)) >
+	<cfset params = params & "&ACdescripciondesde=#form.ACdescripciondesde#">
+</cfif>
+<cfif isdefined("form.codigohasta") and len(trim(form.codigohasta)) >
+	<cfset params = params & "&codigohasta=#form.codigohasta#">
+</cfif>
+<cfif isdefined("form.AChasta") and len(trim(form.AChasta)) >
+	<cfset params = params & "&AChasta=#form.AChasta#">
+</cfif>
+<cfif isdefined("form.ACdescripcionhasta") and len(trim(form.ACdescripcionhasta)) >
+	<cfset params = params & "&ACdescripcionhasta=#form.ACdescripcionhasta#">
+</cfif>
+<cfif isdefined("form.AidDesde") and len(trim(form.AidDesde)) >
+	<cfset params = params & "&AidDesde=#form.AidDesde#">
+</cfif>
+<cfif isdefined("form.AplacaDesde") and len(trim(form.AplacaDesde)) >
+	<cfset params = params & "&AplacaDesde=#form.AplacaDesde#">
+</cfif>
+<cfif isdefined("form.AdescripcionDesde") and len(trim(form.AdescripcionDesde)) >
+	<cfset params = params & "&AdescripcionDesde=#form.AdescripcionDesde#">
+</cfif>
+<cfif isdefined("form.AidHasta") and len(trim(form.AidHasta)) >
+	<cfset params = params & "&AidHasta=#form.AidHasta#">
+</cfif>
+<cfif isdefined("form.AplacaHasta") and len(trim(form.AplacaHasta)) >
+	<cfset params = params & "&AplacaHasta=#form.AplacaHasta#">
+</cfif>
+<cfif isdefined("form.AdescripcionHasta") and len(trim(form.AdescripcionHasta)) >
+	<cfset params = params & "&AdescripcionHasta=#form.AdescripcionHasta#">
+</cfif>
+<cfif isdefined("form.periodoInicial") and len(trim(form.periodoInicial)) >
+	<cfset params = params & "&periodoInicial=#form.periodoInicial#">
+</cfif>
+<cfif isdefined("form.mesInicial") and len(trim(form.mesInicial)) >
+	<cfset params = params & "&mesInicial=#form.mesInicial#">
+</cfif>
+<cfif isdefined("form.EstadoActivo") and len(trim(form.EstadoActivo)) >
+	<cfset params = params & "&EstadoActivo=#form.EstadoActivo#">
+</cfif>
+
+<cf_htmlreportsheaders
+        title="#LB_Titulo#" 
+        filename="#LB_Titulo##session.Usulogin##LSDateFormat(now(),'yyyymmdd')#.xls" 
+       ira="Rep_Act_EV_form.cfm?#params#"
+	  >  
+<cfif isdefined("url.ACinicio") and not isdefined("form.ACinicio")>
+	<cfset form.ACinicio = url.ACinicio>
+</cfif>
+
+<cfif isdefined("url.AChasta") and not isdefined("form.AChasta")>
+	<cfset form.AChasta = url.AChasta>
+</cfif>
+
+<cfif isdefined("url.CFcodigoinicio") and not isdefined("form.CFcodigoinicio")>
+	<cfset form.CFcodigoinicio = url.CFcodigoinicio>
+</cfif>
+
+<cfif isdefined("url.CFcodigofinal") and not isdefined("form.CFcodigofinal")>
+	<cfset form.CFcodigofinal = url.CFcodigofinal>
+</cfif>
+
+<cfif isdefined("url.AidDesde") and not isdefined("form.AidDesde")>
+	<cfset form.AidDesde = url.AidDesde>
+</cfif>
+
+<cfif isdefined("url.AidHasta") and not isdefined("form.AidHasta")>
+	<cfset form.AidHasta = url.AidHasta>
+</cfif>
+<cfif isdefined("url.periodoInicial") and not isdefined("form.periodoInicial")>
+	<cfset form.periodoInicial = url.periodoInicial>
+</cfif>
+
+<cfif isdefined("url.mesInicial") and not isdefined("form.mesInicial")>
+	<cfset form.mesInicial = url.mesInicial>
+</cfif>
+
+<cfif isdefined("url.EstadoActivo") and not isdefined("form.EstadoActivo")>
+	<cfset form.EstadoActivo = url.EstadoActivo>
+</cfif>
+
+
+<cfif isdefined("url.CFdescripcionInicio") and not isdefined("form.CFdescripcionInicio")>
+	<cfset form.CFdescripcionInicio = url.CFdescripcionInicio>
+</cfif>
+<cfif isdefined("url.CFdescripcionFinal") and not isdefined("form.CFdescripcionFinal")>
+	<cfset form.CFdescripcionFinal = url.CFdescripcionFinal>
+</cfif>
+<cfif isdefined("url.ACDescripcionDesde") and not isdefined("form.ACDescripcionDesde")>
+	<cfset form.ACDescripcionDesde = url.ACDescripcionDesde>
+</cfif>
+<cfif isdefined("url.ACDescripcionHasta") and not isdefined("form.ACDescripcionHasta")>
+	<cfset form.ACDescripcionHasta = url.ACDescripcionHasta>
+</cfif>
+
+<cfif isdefined("url.AplacaDesde") and not isdefined("form.AplacaDesde")>
+	<cfset form.AplacaDesde = url.AplacaDesde>
+</cfif>
+<cfif isdefined("url.AplacaHasta") and not isdefined("form.AplacaHasta")>
+	<cfset form.AplacaHasta = url.AplacaHasta>
+</cfif>
+
+<cfquery name="rsCuentaReg" datasource="#session.DSN#">
+	select  
+		count(1) as registros
+	from AFSaldos af
+		inner join Activos ac
+		on ac.Aid = af.Aid
+		
+	<cfif isdefined("form.ACinicio") and len(trim(form.ACinicio)) and isdefined("form.AChasta") and len(trim(form.AChasta))>
+		inner join ACategoria act 
+		on act.Ecodigo = af.Ecodigo 
+		and act.ACcodigo = af.ACcodigo
+		and act.ACcodigodesc between '#form.ACinicio#' and '#form.AChasta#'
+	</cfif>
+
+	where af.Ecodigo = #session.Ecodigo#
+	  and af.AFSperiodo = #form.PeriodoInicial#
+	  and af.AFSmes = #form.MesInicial#
+	  and (af.AFSvaladq + af.AFSvalrev + af.AFSvalmej) <> 0
+
+	<cfif isdefined("form.AplacaDesde") and len(trim(form.AplacaDesde)) and isdefined("form.AplacaHasta") and len(trim(form.AplacaHasta))>
+		and ac.Aplaca between '#form.AplacaDesde#' and '#form.AplacaHasta#'
+	</cfif>
+
+	<cfif isdefined("form.AplacaDesde") and len(trim(form.AplacaDesde)) and not isdefined("form.AplacaHasta")>
+		and ac.Aplaca >= '#form.AplacaDesde#'
+	</cfif>
+
+	<cfif isdefined("form.AplacaHasta") and len(trim(form.AplacaHasta)) and not isdefined("form.AplacaDesde")>
+		and ac.Aplaca <= '#form.AplacaHasta#'
+	</cfif> 
+    
+	<cfif isdefined("form.EstadoActivo") and len(trim(form.EstadoActivo))>
+			<cfswitch expression="#form.EstadoActivo#">	
+				<cfcase value="Vigente">
+					and ac.Astatus =0
+				</cfcase>
+				<cfcase value="Depreciado">					
+					and (af.AFSvaladq + af.AFSvalmej + af.AFSvalrev) - (af.AFSdepacumadq + af.AFSdepacummej + af.AFSdepacumrev) = ac.Avalrescate
+					and Astatus = 0
+				</cfcase>
+				<cfcase value="Retirado">
+					and ac.Astatus =60
+				</cfcase>								
+			</cfswitch>	
+	</cfif> 
+</cfquery>
+ 
+<cfquery name="rsUltimoMesCierreFiscalContable" datasource="#session.DSN#">
+	select Pvalor
+	from Parametros
+	where Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#session.Ecodigo#">
+	  and Pcodigo = 45
+</cfquery>
+
+<cfif isdefined("form.MesInicial") and len(trim(form.MesInicial)) 
+	and isdefined("rsUltimoMesCierreFiscalContable") and len(trim(rsUltimoMesCierreFiscalContable.Pvalor))>
+	<cfif form.MesInicial GT rsUltimoMesCierreFiscalContable.Pvalor>
+		<cfset LvarPeriodoCierre = form.PeriodoInicial>
+	<cfelse>
+		<cfset LvarPeriodoCierre = form.PeriodoInicial - 1>
+	</cfif>
+<cfelse>
+	<cf_errorCode	code = "50050" msg = "Debe Parametrizar Último Mes de Cierre Fiscal Contable">
+	<cfabort>
+</cfif>
+
+<cfset LvarMesCierre = rsUltimoMesCierreFiscalContable.Pvalor>
+
+<cfset LvarPeriodoAnt = form.PeriodoInicial>
+<cfset LvarMesAnt = form.MesInicial - 1>
+
+<cfif LvarMesAnt LT 1>
+	<cfset LvarMesAnt = 12>
+	<cfset LvarPeriodoAnt = LvarPeriodoAnt - 1>
+</cfif>
+
+<!--- Con la finalidad de Paginar se establece una tabla temporal --->
+<cf_dbtemp name="CG_LIBRO" returnvariable="CG_LIBRO" datasource="#session.dsn#">
+	<cf_dbtempcol name="Pagina"					type="int"				mandatory="yes">
+    <cf_dbtempcol name="LineaP"					type="int"				mandatory="yes">
+	<cf_dbtempcol name="Categoria"				type="varchar(60)"		mandatory="yes">
+    <cf_dbtempcol name="CategoriaCod"			type="char(10)"			mandatory="yes">
+    <cf_dbtempcol name="Codigo"					type="int"				mandatory="yes">
+    <cf_dbtempcol name="Placa"					type="char(40)"			mandatory="yes">
+    <cf_dbtempcol name="Activo"					type="varchar(100)"		mandatory="yes">
+    <cf_dbtempcol name="Proveedor"				type="varchar(255)"		mandatory="yes">
+    <cf_dbtempcol name="Marca"					type="varchar(80)"		mandatory="yes">
+    <cf_dbtempcol name="Modelo"					type="varchar(80)"		mandatory="yes">
+    <cf_dbtempcol name="Aserie"					type="varchar(50)"		mandatory="yes">
+    <cf_dbtempcol name="Num_Factura"			type="char(20)"			mandatory="yes">
+    <cf_dbtempcol name="FAdquisicion"			type="datetime"			mandatory="yes">
+    <cf_dbtempcol name="FfinDeprecia"			type="datetime"			mandatory="yes">
+    <cf_dbtempcol name="MVida"					type="int"				mandatory="yes">
+    <cf_dbtempcol name="MFalta"					type="int"				mandatory="yes">
+    <cf_dbtempcol name="MonedaOri"				type="char(3)"			mandatory="yes">
+    <cf_dbtempcol name="Valor"					type="money"			mandatory="yes">
+    <cf_dbtempcol name="DepreciacionAcumulada"	type="money"			mandatory="yes">
+    <cf_dbtempcol name="DepAnual"				type="money"			mandatory="yes">
+    <cf_dbtempcol name="DepMensual"				type="money"			mandatory="yes">
+    <cf_dbtempcol name="ValorNeto"				type="money"			mandatory="yes">
+</cf_dbtemp>
+
+<cfquery name="rsLibro" datasource="#session.dsn#">
+    insert into #CG_LIBRO#
+        (Pagina, LineaP, Categoria, CategoriaCod, Codigo,
+         Placa, Activo, Proveedor, Marca, 
+         Modelo, Aserie,Num_Factura,FAdquisicion,FfinDeprecia,
+         MVida, MFalta, MonedaOri, Valor, DepreciacionAcumulada, 
+         DepAnual, DepMensual, ValorNeto)
+		select  0,0, 
+			 (select min(rtrim(ltrim(aa.ACdescripcion)))
+			  	from ACategoria aa
+			  where aa.Ecodigo = af.Ecodigo
+			   and aa.ACcodigo = af.ACcodigo
+			  ) as Categoria,  
+			
+			(select min(rtrim(ltrim(aa.ACcodigodesc)))
+				from ACategoria aa
+			  where aa.Ecodigo = af.Ecodigo
+				and aa.ACcodigo = af.ACcodigo
+			 ) as CategoriaCod, 
+			af.ACcodigo as Codigo,
+			rtrim(ltrim(ac.Aplaca)) as Placa,
+			ac.Adescripcion as Activo,
+			
+			coalesce((select min(sn.SNnombre)
+						from SNegocios sn
+					   where sn.Ecodigo = ac.Ecodigo
+						and sn.SNcodigo = ac.SNcodigo),'N/A'
+			) as Proveedor,
+			
+			coalesce((select min(m.AFMdescripcion)
+						from AFMarcas m
+					   where m.AFMid = ac.AFMid),'N/A'
+		    ) as Marca,
+			
+			coalesce((select min(mm.AFMMdescripcion)
+						from AFMModelos mm
+						where mm.AFMMid = ac.AFMMid),'N/A'
+			) as Modelo,
+			ac.Aserie,
+			
+			coalesce((select min(ds.EAcpdoc) 
+						from  DSActivosAdq ds
+						where ds.lin = ac.Areflin
+						  and ds.Ecodigo = ac.Ecodigo),'N/A'
+			) as Num_Factura,
+			
+			ac.Afechaaltaadq as FAdquisicion,
+			<cf_dbfunction name="dateaddm" args="ac.Avutil, ac.Afechainidep"> as FfinDeprecia,
+			af.AFSvutiladq as MVida,
+			af.AFSsaldovutiladq  as MFalta,   
+            (Select Miso4217 from Moneda m               
+               where m.Mcodigo= tac.Mcodigo
+            ) as MonedaOri,                   
+            <!------   Saldos en moneda local      ----->
+			af.AFSvaladq <!---+ af.AFSvalrev + af.AFSvalmej---> as Valor,
+			af.AFSdepacumadq + af.AFSdepacummej + af.AFSdepacumrev as DepreciacionAcumulada,
+			(af.AFSdepacumadq + af.AFSdepacummej + af.AFSdepacumrev) - 
+				coalesce( (select sum(afB.AFSdepacumadq + afB.AFSdepacummej + afB.AFSdepacumrev)
+					from AFSaldos afB
+					where afB.Ecodigo = af.Ecodigo
+					and afB.Aid = af.Aid
+					and afB.AFSperiodo = #LvarPeriodoCierre#
+					and afB.AFSmes = #LvarMesCierre#), 0.00
+					) as DepAnual,
+			(af.AFSdepacumadq + af.AFSdepacummej + af.AFSdepacumrev) - 
+				coalesce( 
+					(select sum(afB.AFSdepacumadq + afB.AFSdepacummej + afB.AFSdepacumrev)
+						from AFSaldos afB
+						where afB.Ecodigo = af.Ecodigo
+						and afB.Aid = af.Aid
+						and afB.AFSperiodo = #LvarPeriodoAnt#
+						and afB.AFSmes = #LvarMesAnt#) ,0.00) as DepMensual,
+			(af.AFSvaladq + af.AFSvalrev + af.AFSvalmej) - 
+				(af.AFSdepacumadq + af.AFSdepacummej + af.AFSdepacumrev) as ValorNeto
+		from AFSaldos af
+			inner join Activos ac
+			on ac.Aid = af.Aid
+    		
+            inner join TransaccionesActivos tac
+              on af.Aid = tac.Aid 
+              
+			inner join ACategoria act
+			on act.Ecodigo = af.Ecodigo
+			and act.ACcodigo = af.ACcodigo
+		where af.Ecodigo = #session.Ecodigo#
+		  and af.AFSperiodo = #form.PeriodoInicial#
+		  and af.AFSmes = #form.MesInicial#
+          and tac.IDtrans = 1
+		  and (af.AFSvaladq + af.AFSvalrev + af.AFSvalmej) <> 0
+
+		<cfif isdefined("form.ACinicio") and len(trim(form.ACinicio)) and isdefined("form.AChasta") and len(trim(form.AChasta))>
+			  and act.Ecodigo      = #session.Ecodigo#
+			  and act.ACcodigodesc between '#form.ACinicio#' and '#form.AChasta#'
+		</cfif>	
+
+		<cfif isdefined("form.EstadoActivo") and len(trim(form.EstadoActivo))>
+			<cfswitch expression="#form.EstadoActivo#">	
+				<cfcase value="Vigente">
+					and ac.Astatus =0	
+				</cfcase>
+				<cfcase value="Depreciado">
+					and (af.AFSvaladq + af.AFSvalmej + af.AFSvalrev) - (af.AFSdepacumadq + af.AFSdepacummej + af.AFSdepacumrev) = ac.Avalrescate
+					and ac.Astatus = 0
+				</cfcase>
+				<cfcase value="Retirado">
+					and ac.Astatus =60
+				</cfcase>								
+			</cfswitch>			
+		</cfif> 
+        order by Categoria, Placa 	         
+</cfquery>
+
+<cfquery name="rsLibro" datasource="#session.dsn#">
+	declare @Pagina int, @NumLin int 
+	select @Pagina = 0, @NumLin = 0
+	update #CG_LIBRO# 
+    	set @NumLin = case when @NumLin = 5 then 1 else @NumLin + 1 end,
+        @Pagina = case when @NumLin = 1 then @Pagina + 1 else @Pagina end,
+        Pagina = @Pagina,
+        LineaP = @NumLin
+</cfquery>
+
+<cfquery name="rsReporte" datasource="#session.dsn#">
+select * from #CG_LIBRO#
+		order by Pagina,Categoria, Placa
+</cfquery>
+
+<cfswitch expression="#form.MesInicial#">
+	<cfcase value="1">
+    	<cfset vMes = LB_Enero>
+    </cfcase>
+	<cfcase value="2">
+    	<cfset vMes = LB_Febrero>
+    </cfcase>
+    <cfcase value="3">
+    	<cfset vMes = LB_Marzo>
+    </cfcase>
+    <cfcase value="4">
+    	<cfset vMes = LB_Abril>
+    </cfcase>
+    <cfcase value="5">
+    	<cfset vMes = LB_Mayo>
+    </cfcase>
+    <cfcase value="6">
+    	<cfset vMes = LB_Junio>
+    </cfcase>
+    <cfcase value="7">
+    	<cfset vMes = LB_Julio>
+    </cfcase>
+    <cfcase value="8">
+    	<cfset vMes = LB_Agosto>
+    </cfcase>
+    <cfcase value="9">
+    	<cfset vMes = LB_Septiembre>
+    </cfcase>
+    <cfcase value="10">
+    	<cfset vMes = LB_Octubre>
+    </cfcase>
+    <cfcase value="11">
+    	<cfset vMes = LB_Noviembre>
+    </cfcase>
+    <cfcase value="12">
+    	<cfset vMes = LB_Diciembre>
+    </cfcase>    
+    <cfdefaultcase>
+    	<cfset vMes = LB_Enero>
+    </cfdefaultcase>
+</cfswitch>
+
+<cfoutput>
+<style type="text/css">
+	.Titulos {
+		font-size:18px;
+	}
+	.Titulos2 {
+		font-size:12px;
+	}
+	.encabReporteLine {
+		background-color: ##006699;
+		color: ##FFFFFF;
+		padding-top: 2px;
+		padding-bottom: 2px;
+		font-size: 12px; 
+		border-right-width: 1px;
+		border-right-style: solid;
+		border-right-color: ##CCCCCC;
+		border-bottom-width: 1px;
+		border-bottom-style: solid;
+		border-bottom-color: ##CCCCCC;
+	}
+	.imprimeDatos {
+		font-size: 11px;	
+		padding-left: 5px; 
+	}
+	.imprimeDatosLinea {
+		color: ##FF0000;
+		font-size: 11px;
+		font-weight: bold;
+		padding-left: 5px; 
+	}
+	.imprimeMonto {
+		font-size: 11px;
+		text-align: right;
+	}
+	.imprimeMontoBold {
+		font-size: 14px;
+		text-align: right;
+		font-weight: bold;
+	}
+	.imprimeMontoLinea {
+		color: ##FF0000;
+		font-size: 11px;
+		text-align: right;
+		font-weight: bold;
+	}
+</style>
+</cfoutput>
+
+	<html>
+	<body>
+	
+	<cfif isdefined("rsCuentaReg") and rsCuentaReg.registros gt 0>
+        <cfquery dbtype="query" name="rsCuentasM">
+            select max(Pagina) as PaginaMax 
+            from rsReporte
+        </cfquery>
+	<cftry>
+			<cfset registros = 0 >
+			<cfflush interval="16000">
+            <cfset varPaginaMax = rsCuentasM.PaginaMax>
+		<cfif isdefined("form.Exportar")>
+			<cf_exportQueryToFile query="#rsReporte#" filename="Adq_Dep_#session.Usucodigo#_#dateformat(now(),'ddmmyyyy')#_#hour(now())#_#Minute(now())#_#second(now())#.xls" jdbc="true">
+		</cfif>
+		
+		<table cellpadding="2" cellspacing="0" border="0" width="100%" align="center">
+			<cfset TotalRegGen = 0>		
+			<cfset TotalValorGen = 0>
+			<cfset TotalDepreciacionAcumuladaGen = 0>
+			<cfset TotalDepAnualGen = 0>
+			<cfset TotalDepMensualGen = 0>
+			<cfset TotalValorNetoGen = 0>
+			
+			<cfset vPagina=0>
+			<cfoutput query="rsReporte" group="Categoria">
+            
+            	<cfif isDefined('form.Resumido') and  #vPagina# neq #rsReporte.Pagina#>
+                    <tr>
+                    <td colspan="6">
+                    <table border="0" align="center" cellpadding="2" cellspacing="0" style="width:100%">
+                    
+                            <tr><td align="center" colspan="7"><cfinclude template="tituloPagina.cfm"></td></tr>
+                            <tr style="font-weight:bold">
+                              <td align="center"><strong class="Titulos">#session.Enombre#</strong></td>
+                              <td  align="right">
+                                <table cellpadding="0" cellspacing="0" width="100%">
+                                    <tr>
+                                        <td align="right"><strong class="Titulos2">Hora:</strong><a class="Titulos2">&nbsp;&nbsp;#timeformat(now(),"HH:mm:ss")#</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td align="right"><strong class="Titulos2">Fecha:</strong><a class="Titulos2"> #dateformat(now(),"dd/mm/yyyy")# </a></td>
+                                    </tr>
+                                </table>
+                              </td>
+                            </tr>
+                            <tr style="font-weight:bold">
+                              <td align="center"><strong class="Titulos">#LB_Titulo#</strong></td>
+                              <td  align="right">&nbsp;</td>
+                            </tr>
+                            <tr style="font-weight:bold">
+                                <td align="center"><strong class="Titulos2">#LB_Bienes#</strong></td>
+                                <td>&nbsp;</td>
+                            </tr>
+                            <tr style="font-weight:bold">
+                                <td align="center"><strong class="Titulos2">#LB_Mes#&nbsp;#vMes#&nbsp;-&nbsp;#form.PeriodoInicial#</strong></td>
+                                <td>&nbsp;</td>
+                            </tr>
+                            <tr style="font-weight:bold">
+                                <td align="center"><strong class="Titulos2">#LB_Cifras#</strong></td>
+                                <td>&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">&nbsp;</td>
+                            </tr>
+                    </table>
+                    </td>
+                    </tr>
+            	</cfif>
+            	
+				<cfset TotalRegCat = 0>			
+				<cfset TotalValorCat = 0>
+				<cfif  isDefined('form.Resumido') and vPagina neq #rsReporte.Pagina#>	
+                    <tr>
+                        <td width="20%" nowrap="nowrap" align="center" class="encabReporteLine" style="width:20% ;font-weight:bold">#LB_Categoria#</td>
+                        <td width="25%" nowrap="nowrap" align="center" class="encabReporteLine" style="width:25% ;font-weight:bold">#LB_Desc#</td>
+                        <td width="15%" nowrap="nowrap" align="center" class="encabReporteLine" style="width:15% ;font-weight:bold">#LB_Cantidad#</td>						
+                        <td width="15%" nowrap="nowrap" align="center" class="encabReporteLine" style="width:15% ;font-weight:bold">#LB_Unit#</td>
+                        <td width="15%" nowrap="nowrap" align="center" class="encabReporteLine" style="width:15% ;font-weight:bold">#LB_Uni#</td>
+                        <td width="10%" nowrap="nowrap" align="center" class="encabReporteLine" style="width:10% ;font-weight:bold">#LB_Monto#</td>
+                    </tr>
+                </cfif>
+				<cfif isDefined('form.Resumido')>
+                    <cfoutput>
+                    	<cfset TotalValorCat = TotalValorCat + Valor>
+                        <cfset TotalRegCat = TotalRegCat + 1>
+                        <cfset vPagina=#rsReporte.Pagina#>			
+                    </cfoutput>
+                    <tr>
+                        <td class="imprimeDatos" align="center">#CategoriaCod#</td>
+                        <td class="imprimeDatos" align="right">#Categoria#</td>												
+                        <td class="imprimeDatos" align="right">#NumberFormat(TotalRegCat,'_,_')#</td>
+                        <td class="imprimeMonto" align="center">#LSCUrrencyFormat(TotalValorCat/TotalRegCat,'none')#</td>
+                        <td class="imprimeDatos" align="center">Unidad</td>
+                        <td class="imprimeMonto" align="center">#LSCUrrencyFormat(TotalValorCat,'none')#</td>
+                    </tr>
+                <cfelse>
+					<cfoutput>
+                        <cfif vPagina neq #rsReporte.Pagina#>
+                            <tr <cfif #vPagina# EQ 0>style="width:100%"<cfelse> style="page-break-before: always;"</cfif> >
+                            <td colspan="6">
+                            <table border="0" align="center" cellpadding="2" cellspacing="0" style="width:100%">
+                            
+                                    <tr><td align="center" colspan="7"><cfinclude template="tituloPagina.cfm"></td></tr>
+                                    <tr style="font-weight:bold">
+                                      <td align="center"><strong class="Titulos">#session.Enombre#</strong></td>
+                                      <td  align="right">
+                                        <table cellpadding="0" cellspacing="0" width="100%">
+                                            <tr>
+                                                <td align="right"><strong class="Titulos2">Hora:</strong><a class="Titulos2">&nbsp;&nbsp;#timeformat(now(),"HH:mm:ss")#</a></td>
+                                            </tr>
+                                            <tr>
+                                                <td align="right"><strong class="Titulos2">Fecha:</strong><a class="Titulos2"> #dateformat(now(),"dd/mm/yyyy")# </a></td>
+                                            </tr>
+                                        </table>
+                                      </td>
+                                    </tr>
+                                    <tr style="font-weight:bold">
+                                      <td align="center"><strong class="Titulos">#LB_Titulo#</strong></td>
+                                      <td  align="right">&nbsp;</td>
+                                    </tr>
+                                    <tr style="font-weight:bold">
+                                        <td align="center"><strong class="Titulos2">#LB_Bienes#</strong></td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                    <tr style="font-weight:bold">
+                                        <td align="center"><strong class="Titulos2">#LB_Mes#&nbsp;#vMes#&nbsp;-&nbsp;#form.PeriodoInicial#</strong></td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                    <tr style="font-weight:bold">
+                                        <td align="center"><strong class="Titulos2">#LB_Cifras#</strong></td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">&nbsp;</td>
+                                    </tr>
+                            </table>
+                            </td>
+                            </tr>
+<!---                            <tr>
+                                <td colspan="2">&nbsp;</td>
+                                <td nowrap="nowrap" align="center" class="encabReporteLine" style="width:20% ;font-weight:bold">#LB_Categoria#</td>
+                                <td colspan="3" nowrap="nowrap" align="center" class="encabReporteLine" style="width:20% ;font-weight:bold">#CategoriaCod#-#Categoria#</td>
+                            </tr>--->	
+        
+                            <tr>
+                                <td width="20%" nowrap="nowrap" align="center" class="encabReporteLine" style="width:20% ;font-weight:bold">#LB_Placa#</td>
+                            <td width="25%" nowrap="nowrap" align="center" class="encabReporteLine" style="width:25% ;font-weight:bold">#LB_Desc#</td>
+                            <td width="15%" nowrap="nowrap" align="center" class="encabReporteLine" style="width:15% ;font-weight:bold">#LB_Cantidad#</td>						
+                            <td width="15%" nowrap="nowrap" align="center" class="encabReporteLine" style="width:15% ;font-weight:bold">#LB_Unit#</td>
+                            <td width="15%" nowrap="nowrap" align="center" class="encabReporteLine" style="width:15% ;font-weight:bold">#LB_Uni#</td>
+                            <td width="10%" nowrap="nowrap" align="center" class="encabReporteLine" style="width:10% ;font-weight:bold">#LB_Monto#</td>
+                            </tr>
+                            <cfset vPagina=#rsReporte.Pagina#>
+                        </cfif>  
+                    	<cfset TotalValorCat = TotalValorCat + Valor>
+                        <cfset TotalRegCat = TotalRegCat + 1>			
+                    	<tr>
+                            <td class="imprimeDatos" align="center">#Placa#</td>
+                            <td class="imprimeDatos" align="right" nowrap="nowrap">#Trim(Activo)#</td>												
+                            <td class="imprimeDatos" align="right">#NumberFormat(1,'_,_')#</td>
+                            <td class="imprimeMonto" align="center">#LSCUrrencyFormat(Valor,'none')#</td>
+                            <td class="imprimeDatos" align="center">Unidad</td>
+                            <td class="imprimeMonto" align="center">#LSCUrrencyFormat(Valor,'none')#</td>
+                        </tr>
+                    </cfoutput>
+                </cfif>
+				
+<!---                <cfif not isDefined('form.Resumido')>				
+                    <tr>
+                        <td colspan="2">Total por Categoria:</td>
+                        <td class="imprimeMonto" align="center">#NumberFormat(TotalRegCat,'_,_.__')#</td>
+                        <td colspan="2">&nbsp;</td>
+                        <td class="imprimeMonto" align="center">#NumberFormat(TotalValorCat,'_,_.__')#</td>
+                   </tr>
+				</cfif>								
+--->				
+				<cfset TotalRegGen = TotalRegGen + TotalRegCat>			
+                <cfset TotalValorGen = TotalValorGen + TotalValorCat>
+			</cfoutput>
+		<cfoutput>
+            <tr>
+                <td class="imprimeMontoBold" colspan="2">Total General:&nbsp;</td>
+                <td class="imprimeMontoBold" align="right" style="font-weight:bold">#NumberFormat(TotalRegGen,'_,_.__')#</td>
+                <td colspan="2">&nbsp;</td>
+                <td class="imprimeMontoBold" align="center">#NumberFormat(TotalValorGen,'_,_.__')#</td>
+            </tr>
+		</cfoutput>
+			<tr>
+				<td colspan="6" align="center" class="niv3">
+					------------------------------------------- Fin de la Consulta -------------------------------------------
+				</td>
+		  	</tr>
+        <cfcatch type="any">
+            <cfrethrow>
+        </cfcatch>
+	</cftry>
+		</table>
+	<cfelse>
+		<div align="center"> ------------------------------------------- No se encontraron registros -------------------------------------------</div>
+	</cfif>
+	</body>
+	</html>
+
+

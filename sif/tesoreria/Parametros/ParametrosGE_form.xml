@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="es">
+		<LB_CPcuentaAnticipo>Cuenta Presupuestal para Anticipos</LB_CPcuentaAnticipo>
+		<LB_CuentaPorPagarEmpleados>Utilizar cuenta por pagar a empleados</LB_CuentaPorPagarEmpleados>
+	</Idioma>
+	<Idioma id="en">
+		<LB_CPcuentaAnticipo>Account Budget</LB_CPcuentaAnticipo>
+		<LB_CuentaPorPagarEmpleados>Use account payable to employees</LB_CuentaPorPagarEmpleados>
+	</Idioma>
+</Etiquetas>

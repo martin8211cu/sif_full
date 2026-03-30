@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+			<LB_Titulo>Employee Transactions Report</LB_Titulo>
+			<LB_Empleado>Employee</LB_Empleado>
+			<LB_Estado>Status</LB_Estado>
+			<LB_FechaDesde>From</LB_FechaDesde>
+			<LB_FechaHasta>To</LB_FechaHasta>
+			<LB_FormaPago>Payment Method</LB_FormaPago>
+			<LB_Tesoreria>Treasury</LB_Tesoreria>
+			<LB_Todos>All</LB_Todos>
+			<LB_EnPreparacion>Forthcoming</LB_EnPreparacion>
+			<LB_EnAprobacion>In Approval</LB_EnAprobacion>
+			<LB_Aprobadas>Approved</LB_Aprobadas>
+			<LB_Rechazadas>Rejected</LB_Rechazadas>
+			<LB_Finalizada>Finished</LB_Finalizada>
+			<LB_PorReintegrar>By Reimburse</LB_PorReintegrar>
+			<LB_Pagada>Paid</LB_Pagada>
+			<LB_Liquidada>Liquidated</LB_Liquidada>
+			<LB_Terminada>Completed</LB_Terminada>
+	</Idioma>
+</Etiquetas>

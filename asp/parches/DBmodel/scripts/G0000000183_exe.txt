@@ -1,0 +1,90 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 507 - DBM 451: Creacion de la  tabla FACodigosConceptos
+
+	         PARCHE:  Parche023_669_SIF_RegistroCursosFacturacion
+
+GENERADO EN:
+	SERVER:  http://mxvqapp34:8300
+	DSN:     minisiftrd
+	FECHA:   20/01/2012 17:07:14
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* ADD_TABLE FACodigosConceptos: FACodigosConceptos */
+/* ======================================================================================== */
+
+CREATE TABLE FACodigosConceptos (
+	 FACCid                         numeric(18)          identity
+	,CFid                           numeric(18)          NOT NULL
+	,CFcodigo                       char(10)             NULL
+	,Cid                            numeric(18)          NOT NULL
+	,Codigo_Concepto                char(10)             NULL
+	,FCid                           numeric(18)          NOT NULL
+	,FCcodigo                       char(15)             NULL
+	,Ecodigo                        integer              NULL
+	,Ccodigo                        char(10)             NULL
+	,BMUsucodigo                    numeric(18)          NULL
+	,ts_rversion                    timestamp           
+	)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP = (TAB NUEVA): TIP="P", SEC="0", COLS="FACCid" */
+ALTER TABLE FACodigosConceptos ADD CONSTRAINT FACodigosConceptos_PK PRIMARY KEY CLUSTERED (FACCid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (TAB NUEVA): TIP="U", SEC="1", COLS="CFid,Cid,FCid" */
+CREATE UNIQUE NONCLUSTERED INDEX FACodigosConceptos_UI01 ON FACodigosConceptos (CFid,Cid,FCid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (TAB NUEVA): TIP="U", SEC="2", COLS="CFid,Cid,FCid,Ecodigo" */
+CREATE UNIQUE NONCLUSTERED INDEX FACodigosConceptos_UI02 ON FACodigosConceptos (CFid,Cid,FCid,Ecodigo)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE FCajas: FCajas */
+/* ======================================================================================== */
+/* ADD_COLUMN OP = (NUEVO): FCcodigoAllt - Código Alterno */
+ALTER TABLE FCajas ADD FCcodigoAllt char(50) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+UPDATE FCajas SET FCcodigoAllt = ' '
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE FCajas ALTER COLUMN FCcodigoAllt char(50) NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP = (NUEVO): FCcodigoAlt - Código Alterno */
+ALTER TABLE FCajas ADD FCcodigoAlt char(50) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+UPDATE FCajas SET FCcodigoAlt = ' '
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE FCajas ALTER COLUMN FCcodigoAlt char(50) NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

@@ -1,0 +1,57 @@
+/*
+ *                 Sun Public License Notice
+ * 
+ * The contents of this file are subject to the Sun Public License
+ * Version 1.0 (the "License"). You may not use this file except in
+ * compliance with the License. A copy of the License is available at
+ * http://www.sun.com/
+ * 
+ * The Original Code is JavaCC. The Initial Developer of the Original
+ * Code is Sun Microsystems, Inc. Portions Copyright 1996-2002 Sun
+ * Microsystems, Inc. All Rights Reserved.
+ */
+
+options {
+  LOOKAHEAD = 1;
+  CHOICE_AMBIGUITY_CHECK = 2;
+  OTHER_AMBIGUITY_CHECK = 1;
+  STATIC = true;
+  DEBUG_PARSER = false;
+  DEBUG_LOOKAHEAD = false;
+  DEBUG_TOKEN_MANAGER = false;
+  ERROR_REPORTING = true;
+  JAVA_UNICODE_ESCAPE = false;
+  UNICODE_INPUT = false;
+  IGNORE_CASE = false;
+  USER_TOKEN_MANAGER = false;
+  USER_CHAR_STREAM = false;
+  BUILD_PARSER = true;
+  BUILD_TOKEN_MANAGER = true;
+  SANITY_CHECK = true;
+  FORCE_LA_CHECK = false;
+}
+
+PARSER_BEGIN(Simple1)
+
+public class Simple1 {
+
+  public static void main(String args[]) throws ParseException {
+    Simple1 parser = new Simple1(System.in);
+    parser.Input();
+  }
+
+}
+
+PARSER_END(Simple1)
+
+void Input() :
+{}
+{
+  MatchedBraces() ("\n"|"\r")* <EOF>
+}
+
+void MatchedBraces() :
+{}
+{
+  "{" [ MatchedBraces() ] "}"
+}

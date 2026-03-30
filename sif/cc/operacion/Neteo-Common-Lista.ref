@@ -1,0 +1,299 @@
+﻿<!--- 
+	Creado por: Ana Villavicencio
+	Fecha: 18 de julio del 2005
+	Motivo:	se agregó un nuevo boton para la importacion de documentos de CxC para neteo. 
+			Se corrigió el desplieque de la lista de los documentos, mostraba el codigo del
+			socio de negocio en lugar del nombre.
+			
+	Modificado por: Ana Villavicencio
+	Fecha: 23 de agosto del 2005
+	Motivo: Correccion del titulo de la forma, cuando entraba por CxP dejaba el titulo "Cuentas por Cobrar".
+			Esto porque solo existen un proceso de neteo de documentos y este se encuentra dentro de la carpeta 
+			de CxC. Creando un archivo dentro de CxP y haciendo la llamada del proceso, hace la corrección. Además 
+			cambios en la seguridad de CxP.
+			Se cambia la direccion de ubicacion de las distintas llamadas a fuentes condicionado a el modulo en q me encuentro. 
+			Utilizando la variable de session modulo.		
+
+	Modificado por: Ana Villavicencio R.
+	Fecha: 29 de Agosto del 2005
+	Motivo: Se cambió el url de los procesos de importación de documentos. Esto porque creaba un error en la ubicación del proceso
+			en modulo respectivo (CP o CC). El URl es ../../cc/operacion/ImportarDocNeteo.cfm o ../../cp/operacion/ImportarDocNeteo.cfm
+			
+	Modificado:Por Gustavo Fonseca H.
+		Fecha: 7-9-2005.
+		Motivo:Se elimina la fecha mínima del filtro, esto por que daba problemas con el filtro de las fechas a la hora de importar Documentos.
+			
+	Modificado por: Ana Villavicencio
+	Fecha: 12 de octubre del 2005
+	Motivo: Agregar el boton nuevo en la parte superior derecha de la lista de documentos. 
+			Corregir error de navegación en la lista de documentos. No mantenia el dato del filtro (socio)
+----------->
+
+<!--- Filtro común entre Documentos de Neteo de Tipos distintos, diferenciados por el parámetros TipoNeteo --->
+<!--- Pasa Parámetros desde Url a Form --->
+<cfif isdefined("url.Fecha_F") and len(trim(url.Fecha_F)) GT 0>
+	<cfset form.Fecha_F = url.Fecha_F>
+</cfif>
+<cfif isdefined("url.DocumentoNeteo_F") and len(trim(url.DocumentoNeteo_F)) GT 0>
+	<cfset form.DocumentoNeteo_F = url.DocumentoNeteo_F>
+</cfif>
+<cfif isdefined("url.SNcodigo_F") and len(trim(url.SNcodigo_F))>
+	<cfset form.SNcodigo_F = url.SNcodigo_F>
+</cfif>
+
+<cfset params = "">
+<cfif isdefined("form.Fecha_F")  and LEN(TRIM(form.Fecha_F))>
+	<cfset params = params & "Fecha_F=#form.Fecha_F#">
+</cfif>
+<cfif isdefined("form.DocumentoNeteo_F") and LEN(TRIM(form.DocumentoNeteo_F))>
+	<cfset params = params & "&DocumentoNeteo_F=#form.DocumentoNeteo_F#">
+</cfif>
+<cfif isdefined("form.SNcodigo_F") and len(trim(form.SNcodigo_F))>
+	<cfset params = params & "&SNcodigo_F=#form.SNcodigo_F#">
+</cfif>
+
+
+<cfif isdefined("form.Fecha_F") and len(trim(form.Fecha_F))>
+	<cfset form.Fecha_F = LSParseDateTime(form.Fecha_F)>
+<!--- <cfelse>
+	<cfquery name="rsMinFec" datasource="#session.dsn#">
+		select coalesce(min(Dfechadoc), <cfqueryparam cfsqltype="cf_sql_timestamp" value="#Now()#">) as MinDfechadoc
+		from DocumentoNeteo
+		where Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#session.Ecodigo#">
+			and TipoNeteo = #TipoNeteo#
+			and Aplicado = 0
+	</cfquery>
+	 <cfset form.Fecha = LSDateFormat(rsMinFec.MinDfechadoc,'dd/mm/yyyy')> --->
+</cfif>
+
+<!--- Pasa Parámetros a Navegación --->
+
+<cfset navegacion = "">
+<cfif isdefined("form.Fecha_F")  and LEN(TRIM(form.Fecha_F))>
+	<cfset navegacion = navegacion & "&Fecha_F=#LSDateFormat(form.Fecha_F,'dd/mm/yyyy')#">
+</cfif>
+<cfif isdefined("form.DocumentoNeteo_F") and LEN(TRIM(form.DocumentoNeteo_F))>
+	<cfset navegacion = navegacion & "&DocumentoNeteo_F=#form.DocumentoNeteo_F#">
+</cfif>
+<cfif isdefined("form.SNcodigo_F") and len(trim(form.SNcodigo_F))>
+	<cfset navegacion = navegacion & "&SNcodigo_F=#form.SNcodigo_F#">
+</cfif>
+
+
+<!--- Pintado del Filtro de la lista --->
+<br>
+<table width="95%" align="center"  border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td>
+	<cfoutput>
+		<form action="../../#lcase(Session.monitoreo.smcodigo)#/operacion/Neteo-Lista#TipoNeteo#.cfm" method="post" name="formListaDocumentoNeteo">
+			<table width="100%"border="0" cellspacing="0" cellpadding="0" class="tituloListas">
+				<tr>
+					<td width="13%" nowrap align="right"><strong>Documento&nbsp;:&nbsp;</strong></td>
+					<td width="21%" >
+						<input name="DocumentoNeteo_F" type="text" tabindex="1"
+							value="<cfif isdefined("form.DocumentoNeteo_F")>#form.DocumentoNeteo_F#</cfif>">
+					</td>
+					<td width="8%" nowrap align="right"><strong>Fecha&nbsp;:&nbsp;</strong></td>
+					<td width="17%" >
+						<cfif isdefined("form.Fecha_F") and len(trim(form.Fecha_F))>
+							<cf_sifcalendario name="Fecha_F" form="formListaDocumentoNeteo" tabindex="1"
+								value="#LSDateFormat(Form.Fecha_F,'dd/mm/yyyy')#">
+						<cfelse>
+							<cf_sifcalendario name="Fecha_F" form="formListaDocumentoNeteo"  tabindex="1">
+						</cfif>
+					</td>
+					<td width="19%" nowrap align="right"><strong>Socio de Negocio&nbsp;:&nbsp;</strong></td>
+					<td width="12%" >
+						<cfif isdefined("form.SNcodigo_F") and len(trim(form.SNcodigo_F))>
+							<cf_sifsociosnegocios2 form="formListaDocumentoNeteo" SNcodigo="SNcodigo_F" tabindex="1"
+								SNumero="SNumero_F" SNdescripcion="SNdescripcion_F" idquery="#form.SNcodigo_F#">
+						<cfelse>
+							<cf_sifsociosnegocios2 form="formListaDocumentoNeteo" SNcodigo="SNcodigo_F" tabindex="1"
+								SNumero="SNumero_F" SNdescripcion="SNdescripcion_F">
+						</cfif>
+					</td>
+									
+					<td width="3%" nowrap align="right">&nbsp;</td>
+					<td width="7%" nowrap align="right">
+						<input name="butFiltro" type="submit" value="Filtrar" tabindex="1">
+						<input name="Nuevo" type="button" value="Nuevo" onClick="javascript: funcNuevo();" tabindex="1">
+					</td>
+				</tr>
+                <tr>
+                	<td class="tituloListas" align="rigth">
+                    	<input type="checkbox" name="chkall" value="T" onClick="javascript: funcChequeaTodos();">
+                    </td>
+                	<td align="left"> <strong>Seleccionar Todos</strong></td>
+                </tr>
+			</table>
+		</form>	
+	</cfoutput>
+
+</td>
+</tr>
+<tr>
+<td>
+	<cfquery name="rsLista" datasource="#session.dsn#">
+		select a.idDocumentoNeteo, a.Mcodigo, a.CCTcodigo, a.DocumentoNeteo, a.Observaciones, a.SNcodigo, a.Dmonto, b.Mnombre,
+			c.CCTdescripcion, d.SNnombre, a.Dfechadoc 
+			from DocumentoNeteo a
+				inner join Monedas b
+					on a.Mcodigo = b.Mcodigo
+					and a.Ecodigo = b.Ecodigo
+				left outer join CCTransacciones c
+					on a.CCTcodigo = c.CCTcodigo
+					and a.Ecodigo = c.Ecodigo
+				left outer join SNegocios d
+					on a.SNcodigo = d.SNcodigo
+					and a.Ecodigo = d.Ecodigo
+		where a.Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#session.Ecodigo#">
+			and a.TipoNeteo = #TipoNeteo#
+			and a.Aplicado = 0
+			<cfif isdefined("form.Fecha_F") and len(trim(form.Fecha_F))>
+				and a.Dfechadoc >= <cfqueryparam cfsqltype="cf_sql_date"  value="#form.Fecha_F#"> 
+			</cfif>
+			<cfif isdefined("form.DocumentoNeteo_F") and len(trim(form.DocumentoNeteo_F))>
+				and upper(rtrim(a.DocumentoNeteo)) like '%#Ucase(Trim(form.DocumentoNeteo_F))#%'
+			</cfif>
+			<cfif isdefined("form.SNcodigo_F") and len(trim(form.SNcodigo_F))>
+				and a.SNcodigo = <cfqueryparam cfsqltype="cf_sql_numeric" value="#form.SNcodigo_F#">
+			</cfif>
+			<cfif TipoNeteo NEQ 1>
+				<!--- Temporalmente este código no es necesario porque no se va a permitir la eliminación masiva de saldos en cxp pero se deja por seguridad --->
+				<cfif session.menues.smcodigo eq "CC">
+					and not exists(
+						select 1
+						from DocumentoNeteoDCxP l
+						where l.idDocumentoNeteo = a.idDocumentoNeteo
+					)
+				<cfelseif session.menues.smcodigo eq "CP">
+					and not exists(
+						select 1
+						from DocumentoNeteoDCxC l
+						where l.idDocumentoNeteo = a.idDocumentoNeteo
+					)
+				</cfif>
+			</cfif>
+		order by a.Mcodigo, a.Dfechadoc, a.DocumentoNeteo
+	</cfquery>
+    	<cfset NumprodArea = #rsLista.recordCount# >
+	<form name="form1" method="post" action="<cfoutput>../../#lcase(Session.monitoreo.smcodigo)#/operacion/Neteo#TipoNeteo#.cfm</cfoutput>">
+	<cfoutput>
+	<cfif isdefined("form.Fecha_F")  and LEN(TRIM(form.Fecha_F))>
+		<input name="Fecha_F" type="hidden" value="#LSDateFormat(form.Fecha_F,'dd/mm/yyyy')#" tabindex="-1">
+	</cfif>
+	<cfif isdefined("form.DocumentoNeteo_F") and LEN(TRIM(form.DocumentoNeteo_F))>
+		<input name="DocumentoNeteo_F" type="hidden" value="#form.DocumentoNeteo_F#" tabindex="-1">
+	</cfif>
+	<cfif isdefined("form.SNcodigo_F") and len(trim(form.SNcodigo_F))>
+		<input name="SNcodigo_F" type="hidden" value="#form.SNcodigo_F#" tabindex="-1">
+	</cfif>
+	</cfoutput>
+	<cfinvoke 
+		component="sif.Componentes.pListas" 
+		method="pListaQuery"
+		returnvariable="pLista"
+		query="#rsLista#"
+		cortes="Mnombre"
+		desplegar="DocumentoNeteo, Dfechadoc, SNnombre, Dmonto"
+		etiquetas="Documento, Fecha, Socio de Negocio, Diferencia"
+		formatos="S, D, V, M"
+		align="left, left, left, rigth"
+		irA="../../#lcase(Session.monitoreo.smcodigo)#/operacion/Neteo#TipoNeteo#.cfm"
+		incluyeForm="no"
+		formName="form1"
+		botones="Aplicar,Nuevo,Importar_Neteo_CxC,Importar_Neteo_CxP"
+		navegacion="#navegacion#"
+        showEmptyListMsg="yes"
+        checkboxes="S"
+        checkbox_function="return funcChequea()"
+        keys="idDocumentoNeteo,DocumentoNeteo,Dfechadoc, SNnombre, Dmonto"/>
+	</form>
+</td>
+</tr>
+</table>
+<br>
+<script language="JavaScript1.2">
+
+	function funcImportar_Neteo_CxC(){
+		
+		eval("document.form1.action = '../../<cfoutput>#lcase(Session.monitoreo.smcodigo)#</cfoutput>/operacion/ImportarDocNeteo.cfm?Importador=VENTASCOBRO&<cfoutput>#params#</cfoutput>';");
+		document.form1.submit();
+	}
+	function funcImportar_Neteo_CxP(){
+		eval("document.form1.action = '../../<cfoutput>#lcase(Session.monitoreo.smcodigo)#</cfoutput>/operacion/ImportarDocNeteo.cfm?Importador=COMPRASPAGO&<cfoutput>#params#</cfoutput>';");
+		document.form1.submit();
+	}	
+	function funcNuevo(){
+		eval("document.form1.action = '../../<cfoutput>#lcase(Session.monitoreo.smcodigo)#</cfoutput>/operacion/Neteo<cfoutput>#TipoNeteo#</cfoutput>.cfm?<cfoutput>#params#</cfoutput>';");
+		document.form1.submit();
+	}
+	function funcAplicar(){
+		var result = true;
+		if (confirm('Desea Aplicar el Neteo de los Documentos?')){
+			eval("document.form1.action = '../../cc/operacion/Neteo-Masivo-Aplicar.cfm?TipoNeteo=<cfoutput>#TipoNeteo#</cfoutput>';");		
+			document.form1.submit();
+//			document.form1.action = "../../cc/operacion/Neteo-Masivo-Aplicar.cfm";
+		}
+		else
+			result = false;
+		return result;
+	}
+	function funcChequeaTodos(){
+		var c = document.formListaDocumentoNeteo.chkall;
+		if (document.form1.chk) {
+			if (document.form1.chk.value) {
+				if (!document.form1.chk.disabled) { 
+					document.form1.chk.checked = c.checked;
+				}
+			} 
+			else {
+				for (var counter = 0; counter < document.form1.chk.length; counter++) {
+					var valores = document.form1.chk[counter].value.split("|");				
+					var Dmonto = parseFloat( valores[4] );
+						
+					if (Dmonto != 0) {
+						document.form1.chk[counter].disabled=true;
+					}
+					
+					if (!document.form1.chk[counter].disabled) {
+						document.form1.chk[counter].checked = c.checked;
+					}
+				}
+			}
+		}
+	}
+	function funcChequea(){
+		var c = document.formListaDocumentoNeteo.chkall;
+		var checked = true;
+		if (document.form1.chk) {
+			if (document.form1.chk.value) {
+				if (!document.form1.chk.disabled) { 
+					if (!document.form1.chk.checked) {
+						checked = false;
+					}									
+				}
+			} else {
+				for (var counter = 0; counter < document.form1.chk.length; counter++) {
+					if (!document.form1.chk[counter].disabled) {
+						if (!document.form1.chk[counter].checked) {
+							checked = false;
+						}	
+					}
+				}
+			}
+		}
+		document.formListaDocumentoNeteo.chkall.checked = checked;
+	}
+	
+	for (var counter = 0; counter < document.form1.chk.length; counter++) {
+		var valores = document.form1.chk[counter].value.split("|");				
+		var Dmonto = parseFloat( valores[4] );
+		if (Dmonto != 0) {
+			document.form1.chk[counter].disabled=true;
+		}
+	}
+	
+	
+</script>

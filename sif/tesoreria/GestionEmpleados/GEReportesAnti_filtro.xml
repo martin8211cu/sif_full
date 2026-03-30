@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+			<LB_Archivo>Employees Management</LB_Archivo>	
+			<LB_Fecha>Date</LB_Fecha>
+			<LB_RpteEdoCtaEmp>Employee Statement Report</LB_RpteEdoCtaEmp>
+			<LB_LiqPagTeso>Reimbursement paid by Treasury</LB_LiqPagTeso>	
+			<LB_NumeroLiquidacion>Settlement Number</LB_NumeroLiquidacion>
+			<LB_Empleado>Employee</LB_Empleado>
+			<LB_Descripcion>Description</LB_Descripcion>
+			<LB_Estado>Status</LB_Estado>
+			<LB_MontoAnticipo>Advance Amount</LB_MontoAnticipo>
+			<LB_MontoDeposito>Deposit Amount</LB_MontoDeposito>
+			<LB_MontoGasto>Expense Amount</LB_MontoGasto>
+			<LB_SolicitudPagoEstado>Payment Request/Status</LB_SolicitudPagoEstado>
+			<LB_OrdenPagoEstado>Payment Order/Status</LB_OrdenPagoEstado>
+			<LB_PagoEmpleado>Employee Payment</LB_PagoEmpleado>
+			<LiqPagCajaChica>Payment of Settlement by Petty Cash</LiqPagCajaChica>
+			<LB_CajaChica>Petty Cash</LB_CajaChica>
+			<LB_EstadoReintegroSPOP>Status/Reimbursements/N°Reimbursements/N°PR/N°PO</LB_EstadoReintegroSPOP>
+			<LB_AnticiposinFormaPago>Advances without Payment Method</LB_AnticiposinFormaPago>
+			<LB_NumeroAnticipo>Advance Number</LB_NumeroAnticipo>
+			<LB_AnticipoPagadoPorTesoreria>Advances Paid by Treasury</LB_AnticipoPagadoPorTesoreria>
+			<LB_AnticipoPagadoCajaChica>Advances Paid by Petty Cash</LB_AnticipoPagadoCajaChica>
+	</Idioma>
+</Etiquetas>

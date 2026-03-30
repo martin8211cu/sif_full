@@ -1,0 +1,1 @@
+﻿<cfset Session.DSN="control">

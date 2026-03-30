@@ -1,0 +1,71 @@
+﻿<script language="JavaScript" type="text/javascript">
+	function Asignar(name,desc) {
+		<cfoutput>
+		window.opener.document.#Url.form#.#Url.name#.value = name;
+		window.opener.document.#Url.form#.#Url.desc#.value = desc;
+		</cfoutput>
+		window.close();			
+	}
+</script>
+
+<cfif isdefined("Url.CGM1IM") and not isdefined("Form.CGM1IM")>
+	<cfparam name="Form.CGM1IM" default="#Url.CGM1IM#">
+</cfif>
+
+
+<cfset filtro = "">
+<cfset navegacion = "">
+<cfset cond = "">
+<cfif isdefined("Form.CGM1IM") and Len(Trim(Form.CGM1IM)) NEQ 0>
+	<cfset cond = " and ">
+	<cfset filtro = filtro & cond & " upper(CGM1IM) like '%" & #UCase(Form.CGM1IM)# & "%'">
+	<cfset navegacion = navegacion & Iif(Len(Trim(navegacion)) NEQ 0, DE("&"), DE("")) & "CGM1IM=" & Form.CGM1IM>
+</cfif>
+<html>
+<head>
+<title>Lista de Cuenta </title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link href="/cfmx/sif/Contaweb/css/estilos.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<cfoutput>
+	<form style="margin:0; " name="filtrocuenta" method="post">
+	
+		<table width="100%" border="0" cellpadding="2" cellspacing="0" class="areaFiltro">
+			<tr>
+				<td align="center" colspan="5"><strong>Catálogo de Cuentas Mayores </strong></td>
+			</tr>			
+			<tr>
+				<td width="16%" align="left"><strong>Cuenta Mayor:</strong>&nbsp;</td>
+				<td width="56%"> 
+					<input name="CGM1IM" type="text" id="CGM1IM" size="4" maxlength="4" value="<cfif isdefined("Form.CGM1IM")>#Form.CGM1IM#</cfif>">
+				</td>
+				<td width="28%" align="center">
+					<input name="btnFiltrar" type="submit" id="btnFiltrar" value="Filtrar">
+				</td>
+			</tr>
+		</table>
+	</form>
+</cfoutput>
+<cfinvoke 
+ component="sif.fondos.Componentes.pListas"
+ method="pLista"
+ returnvariable="pListaRet">
+	<cfinvokeargument name="tabla" value="CGM001"/>
+	<cfinvokeargument name="columnas" value="CGM1IM,CTADES"/>
+	<cfinvokeargument name="desplegar" value="CGM1IM,CTADES"/>
+	<cfinvokeargument name="etiquetas" value="Mayor,Descripción"/>
+	<cfinvokeargument name="formatos" value=""/>
+	<cfinvokeargument name="filtro" value=" 1=1 #filtro# and CGM1CD  is null  order by CGM1IM,CGM1CD"/>
+	<cfinvokeargument name="align" value="left,left"/>
+	<cfinvokeargument name="ajustar" value=""/>
+	<cfinvokeargument name="irA" value="cjcConlis.cfm"/>
+	<cfinvokeargument name="formName" value="cuentas"/>
+	<cfinvokeargument name="MaxRows" value="20"/>
+	<cfinvokeargument name="funcion" value="Asignar"/>
+	<cfinvokeargument name="fparams" value="CGM1IM,CTADES"/>
+	<cfinvokeargument name="navegacion" value="#navegacion#"/>
+	<cfinvokeargument name="Conexion" value="#session.Conta.dsn#"/>
+</cfinvoke> 
+</body>
+</html>

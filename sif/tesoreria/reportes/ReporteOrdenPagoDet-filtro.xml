@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_Titulo>Batch Printing</LB_Titulo>
+		<LB_Fecha>Date</LB_Fecha>
+		<LB_Lote>Batch</LB_Lote>
+		<LB_Codigo>Code</LB_Codigo>
+		<LB_Descripcion>Description</LB_Descripcion>
+		<LB_ImpresionInicial>Initial Printing</LB_ImpresionInicial>
+		<LB_ImpresionFinal>Final Printing</LB_ImpresionFinal>
+		<LB_TrabajarTesoreria>Working with Treasury</LB_TrabajarTesoreria>
+		<LB_EmpresaPago>Payment Enterprise</LB_EmpresaPago>
+		<LB_Beneficiario>Beneficiary</LB_Beneficiario>
+		<LB_CuentaPago>Payment Account</LB_CuentaPago>
+		<LB_MonedaPago>Currency Payment</LB_MonedaPago>
+		<LB_Estado>Status</LB_Estado>
+		<LB_Todos>All</LB_Todos>
+		<LB_EnPreparacion>Preparing</LB_EnPreparacion>
+		<LB_EnEmision>On Issue</LB_EnEmision>
+		<LB_Emitidas>Issued</LB_Emitidas>
+		<LB_Anuladas>Canceled</LB_Anuladas>
+		<LB_NumOrden>Order Number</LB_NumOrden>
+		<LB_DocumentoPago>Payment Document</LB_DocumentoPago>
+		<LB_ExportarArchivoE>Export to Excel File</LB_ExportarArchivoE>
+		<LB_ExportarArchivoT>Export to Plain Text File</LB_ExportarArchivoT>
+		<LB_Formato>Format</LB_Formato>
+		<LB_FechaIni>Initial Date</LB_FechaIni>
+		<LB_FechaFin>Final Month</LB_FechaFin>
+		<LB_LoteImpresion>Batch Printing</LB_LoteImpresion>
+		<LB_LoteTransferencia>Batch Transfer</LB_LoteTransferencia>
+		<LB_LoteImpresionInicial>Initial Batch Printing</LB_LoteImpresionInicial>
+		<LB_LoteTransferenciaInicial>Batch Initial Transfer</LB_LoteTransferenciaInicial>	
+		<LB_LoteImpresionFinal>Final Batch Printing</LB_LoteImpresionFinal>
+		<LB_LoteTransferenciaFinal>Final Batch Transfer</LB_LoteTransferenciaFinal>
+	<LB_ImpresoFinal>Final Print</LB_ImpresoFinal><LB_ImpresoInicial>Initial Print</LB_ImpresoInicial></Idioma>
+</Etiquetas>

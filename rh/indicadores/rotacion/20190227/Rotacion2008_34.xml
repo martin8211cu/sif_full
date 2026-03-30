@@ -1,0 +1,411 @@
+
+	<data>
+		<variable name="EmpleadosInicial">
+		<row><column>39</column></row>
+		</variable>
+
+		<variable name="DatosPeriodoMes"> 
+		<row>
+			<column>2016</column>
+			<column>1</column>
+			<column>0</column>
+			<column>0</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2016</column>
+			<column>2</column>
+			<column>0</column>
+			<column>0</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2016</column>
+			<column>3</column>
+			<column>0</column>
+			<column>0</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2016</column>
+			<column>4</column>
+			<column>0</column>
+			<column>0</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2016</column>
+			<column>5</column>
+			<column>0</column>
+			<column>0</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2016</column>
+			<column>6</column>
+			<column>0</column>
+			<column>0</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2016</column>
+			<column>7</column>
+			<column>0</column>
+			<column>0</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2016</column>
+			<column>8</column>
+			<column>0</column>
+			<column>0</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2016</column>
+			<column>9</column>
+			<column>0</column>
+			<column>0</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2016</column>
+			<column>10</column>
+			<column>0</column>
+			<column>0</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2016</column>
+			<column>11</column>
+			<column>0</column>
+			<column>0</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2016</column>
+			<column>12</column>
+			<column>0</column>
+			<column>0</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2017</column>
+			<column>1</column>
+			<column>0</column>
+			<column>0</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2017</column>
+			<column>2</column>
+			<column>0</column>
+			<column>0</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2017</column>
+			<column>3</column>
+			<column>0</column>
+			<column>0</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2017</column>
+			<column>4</column>
+			<column>0</column>
+			<column>0</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2017</column>
+			<column>5</column>
+			<column>0</column>
+			<column>0</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2017</column>
+			<column>6</column>
+			<column>0</column>
+			<column>0</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2017</column>
+			<column>7</column>
+			<column>0</column>
+			<column>0</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2017</column>
+			<column>8</column>
+			<column>0</column>
+			<column>0</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2017</column>
+			<column>9</column>
+			<column>0</column>
+			<column>0</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2017</column>
+			<column>10</column>
+			<column>0</column>
+			<column>0</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2017</column>
+			<column>11</column>
+			<column>0</column>
+			<column>0</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2017</column>
+			<column>12</column>
+			<column>0</column>
+			<column>0</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2018</column>
+			<column>1</column>
+			<column>0</column>
+			<column>0</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2018</column>
+			<column>2</column>
+			<column>0</column>
+			<column>0</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2018</column>
+			<column>3</column>
+			<column>0</column>
+			<column>0</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2018</column>
+			<column>4</column>
+			<column>0</column>
+			<column>0</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2018</column>
+			<column>5</column>
+			<column>0</column>
+			<column>0</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2018</column>
+			<column>6</column>
+			<column>0</column>
+			<column>0</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2018</column>
+			<column>7</column>
+			<column>0</column>
+			<column>0</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2018</column>
+			<column>8</column>
+			<column>0</column>
+			<column>0</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2018</column>
+			<column>9</column>
+			<column>0</column>
+			<column>0</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2018</column>
+			<column>10</column>
+			<column>0</column>
+			<column>0</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2018</column>
+			<column>11</column>
+			<column>0</column>
+			<column>0</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2018</column>
+			<column>12</column>
+			<column>0</column>
+			<column>0</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2019</column>
+			<column>1</column>
+			<column>0</column>
+			<column>0</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2019</column>
+			<column>2</column>
+			<column>0</column>
+			<column>0</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2019</column>
+			<column>3</column>
+			<column>0</column>
+			<column>0</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2019</column>
+			<column>4</column>
+			<column>0</column>
+			<column>0</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2019</column>
+			<column>5</column>
+			<column>0</column>
+			<column>0</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2019</column>
+			<column>6</column>
+			<column>0</column>
+			<column>0</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2019</column>
+			<column>7</column>
+			<column>0</column>
+			<column>0</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2019</column>
+			<column>8</column>
+			<column>0</column>
+			<column>0</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2019</column>
+			<column>9</column>
+			<column>0</column>
+			<column>0</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2019</column>
+			<column>10</column>
+			<column>0</column>
+			<column>0</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2019</column>
+			<column>11</column>
+			<column>0</column>
+			<column>0</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2019</column>
+			<column>12</column>
+			<column>0</column>
+			<column>0</column>
+			<column>0</column>
+		</row>
+		
+		</variable>
+
+		<variable name="DatosPeriodo"> 
+		<row><column>2016</column></row>
+		
+		<row><column>2017</column></row>
+		
+		<row><column>2018</column></row>
+		
+		<row><column>2019</column></row>
+		
+		</variable>
+		
+		<variable name="DatosCFuncional"> 
+			<row><column>Centro Funcional: RAIZ-Centro Funcional Raiz</column></row>
+			
+			</variable>
+		
+	</data>
+

@@ -1,0 +1,51 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 112 - DBM 220: Creacion de la Tabla CBTMarcas
+
+	         PARCHE:  Parche023_147_SIF_Catalogo_TCE
+
+GENERADO EN:
+	SERVER:  http://mxpapp36:8300
+	DSN:     sifcim
+	FECHA:   27/07/2011 18:27:13
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* CHG_TABLE CBTarjetaCredito: Tabla para el Catálogo de Tarj */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): CBTMid - Referencia CBTMarcas */
+ALTER TABLE CBTarjetaCredito ADD CBTMid numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* ADD_TABLE CBTMarcas: Tabla de Marcas */
+/* ======================================================================================== */
+
+CREATE TABLE CBTMarcas (
+	 CBTMid                         numeric(18)          identity
+	,Ecodigo                        integer              NULL
+	,CBTMarca                       varchar(30)          NULL
+	,CBTMascara                     varchar(30)          NULL
+	,BMUsucodigo                    numeric(18)          NULL
+	,ts_rversion                    timestamp           
+	)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="P", SEC="0", COLS="CBTMid" */
+ALTER TABLE CBTMarcas ADD CONSTRAINT CBTMarcas_PK PRIMARY KEY CLUSTERED (CBTMid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

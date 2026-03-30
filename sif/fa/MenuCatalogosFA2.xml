@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_Titulo>Catalog</LB_Titulo>
+		<LB_Cajas>Cash</LB_Cajas>
+		<LB_TiposTransaccionCaja>Cash Transactions Types</LB_TiposTransaccionCaja>
+		<LB_TiposVentaPerdida>Loss Sales Types</LB_TiposVentaPerdida>
+		<LB_ConceptosFacturacion>Invoicing Concepts</LB_ConceptosFacturacion>
+		<LB_Talonario>Invoice Stub</LB_Talonario>
+		<LB_Vendedores>Sellers</LB_Vendedores>
+		<LB_ListaPrecios>Price List</LB_ListaPrecios>
+		<LB_SociosNegocios>Partners</LB_SociosNegocios>
+		<LB_ZonasVenta>Sales Zone</LB_ZonasVenta>
+		<LB_TipoTransaccionesPreFactura>Pre invoice  Transactions</LB_TipoTransaccionesPreFactura>
+		<LB_CalendariosVenta>Sales Calendar</LB_CalendariosVenta>
+		<LB_CodigosConceptos>Code Concepts</LB_CodigosConceptos>
+		<LB_TiposGeneracionFactura>Invoice Generation  Types</LB_TiposGeneracionFactura>
+	</Idioma>
+</Etiquetas>

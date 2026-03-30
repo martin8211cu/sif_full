@@ -1,0 +1,504 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0043)http://www.bosrup.com/web/overlib/docs.html -->
+<HTML><HEAD><TITLE>overLIB - Manual</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><LINK 
+href="overLIB - Manual_archivos/site.css" type=text/css rel=stylesheet>
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff>
+<DIV id=overDiv 
+style="Z-INDEX: 1000; VISIBILITY: hidden; POSITION: absolute"></DIV>
+<SCRIPT src="overLIB - Manual_archivos/overlib.js" 
+langauge="JavaScript"></SCRIPT>
+
+<TABLE cellSpacing=20 cellPadding=0 width=800>
+  <TBODY>
+  <TR>
+    <TD class=mainmenu vAlign=top align=right width=70><A 
+      href="http://www.bosrup.com/web/overlib/"><IMG height=113 
+      src="overLIB - Manual_archivos/logo.gif" width=26 
+      border=0></A><BR><BR><B>contents</B><BR><A class=mainmenu 
+      onmouseover="return overlib('Back to the overLIB homepage.');" 
+      onmouseout="return nd();" 
+      href="http://www.bosrup.com/web/overlib/">home</A><BR><A class=mainmenu 
+      onmouseover="return overlib('overLIB\'s documentation.');" 
+      onmouseout="return nd();" 
+      href="http://www.bosrup.com/web/overlib/docs.html">manual</A><BR><A 
+      class=mainmenu 
+      onmouseover="return overlib('History, feature shows, examples and more.');" 
+      onmouseout="return nd();" 
+      href="http://www.bosrup.com/web/overlib/#Articles and Information">articles</A><BR><A 
+      class=mainmenu 
+      onmouseover="return overlib('Information how you can get help.');" 
+      onmouseout="return nd();" 
+      href="http://www.bosrup.com/web/overlib/support.html">support</A><BR><BR>
+      <FORM action=https://www.paypal.com/cgi-bin/webscr method=post><INPUT 
+      type=hidden value=_xclick name=cmd><INPUT type=hidden 
+      value=erik@bosrup.com name=business><INPUT type=hidden 
+      value="overLIB Donation" name=item_name><INPUT type=hidden value=1 
+      name=no_shipping><INPUT type=hidden 
+      value=http://www.bosrup.com/web/overlib/thankyou.html name=return><INPUT 
+      type=hidden value="Feature request" name=cn><INPUT type=image 
+      alt="Make payments with PayPal - it's fast, free and secure!" 
+      src="overLIB - Manual_archivos/x-click-but04.gif" border=0 
+      name=submit></FORM></TD>
+    <TD vAlign=top width=534>
+      <TABLE cellSpacing=1 cellPadding=0 width="100%">
+        <TBODY>
+        <TR>
+          <TD class=title>Manual</TD></TR>
+        <TR>
+          <TD class=author>By Erik Bosrup</TD></TR>
+        <TR>
+          <TD class=author><BR></TD></TR></TBODY></TABLE>
+      <TABLE cellSpacing=2 cellPadding=1 width="100%">
+        <TBODY>
+        <TR>
+          <TD class=sectiontitle vAlign=top>1.</TD>
+          <TD vAlign=top>
+            <TABLE cellSpacing=0 cellPadding=0 width="100%">
+              <TBODY>
+              <TR>
+                <TD class=sectiontitle><A 
+              name=Introduction>Introduction</A></TD></TR></TBODY></TABLE>
+            <TABLE cellSpacing=10 cellPadding=0 width="100%">
+              <TBODY>
+              <TR>
+                <TD>The best way to learn how to use something is to get your 
+                  hands dirty and do it. Therefor this documentation isn't very 
+                  long, instead it provides some basic instructions and then the 
+                  command reference will be where you want dig deep. That way 
+                  you'll learn to do all the cool stuff yourself. 
+            </TD></TR></TBODY></TABLE><BR></TD></TR>
+        <TR>
+          <TD class=sectiontitle vAlign=top>2.</TD>
+          <TD vAlign=top>
+            <TABLE cellSpacing=0 cellPadding=0 width="100%">
+              <TBODY>
+              <TR>
+                <TD class=sectiontitle><A name="Preparing the page">Preparing 
+                  the page</A></TD></TR></TBODY></TABLE>
+            <TABLE cellSpacing=10 cellPadding=0 width="100%">
+              <TBODY>
+              <TR>
+                <TD>First of all you need to prepare the page that you will be 
+                  using overLIB on. Add these two lines inside the 
+                  &lt;body&gt;&lt;/body&gt; section of your page. Preferably 
+                  immediately when the body section starts. <BR><BR>
+                  <TABLE cellSpacing=0 cellPadding=6 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD class=code bgColor=#f1f1ff>&lt;div id="overDiv" 
+                        style="position:absolute; visibility:hidden; 
+                        z-index:1000;"&gt;&lt;/div&gt;<BR>&lt;script 
+                        language="JavaScript" src="overlib.js"&gt;&lt;!-- 
+                        overLIB (c) Erik Bosrup --&gt;&lt;/script&gt; 
+                    </TD></TR></TBODY></TABLE>
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD class=codedesc align=right>HTML code to place on 
+                        overLIB pages.</TD></TR></TBODY></TABLE><BR>If you have other 
+                  layers (&lt;div&gt;) on the page you might want to change the 
+                  z-index. You must also change overlib.js to the correct path 
+                  if the files are not placed in the same directory. 
+              </TD></TR></TBODY></TABLE><BR></TD></TR>
+        <TR>
+          <TD class=sectiontitle vAlign=top>3.</TD>
+          <TD vAlign=top>
+            <TABLE cellSpacing=0 cellPadding=0 width="100%">
+              <TBODY>
+              <TR>
+                <TD class=sectiontitle><A name="Two different behaviours">Two 
+                  different behaviours</A></TD></TR></TBODY></TABLE>
+            <TABLE cellSpacing=10 cellPadding=0 width="100%">
+              <TBODY>
+              <TR>
+                <TD>There are two different types of popups that you can make 
+                  with overLIB. The first type is when the popup goes away after 
+                  you move your mouse away from a link. The other type sticks 
+                  around afterwards. We call these "stickies", or in singularis 
+                  a "sticky". See the difference <A 
+                  onmouseover="return overlib('This is an ordinary popup.')" 
+                  onmouseout="return nd();" href="javascript:void(0);">here</A> 
+                  and <A 
+                  onmouseover="return overlib('This is what we call a sticky, since I stick around.', STICKY)" 
+                  onmouseout="return nd();" href="javascript:void(0);">here</A>. 
+                </TD></TR></TBODY></TABLE><BR></TD></TR>
+        <TR>
+          <TD class=sectiontitle vAlign=top>4.</TD>
+          <TD vAlign=top>
+            <TABLE cellSpacing=0 cellPadding=0 width="100%">
+              <TBODY>
+              <TR>
+                <TD class=sectiontitle><A name="Tooltip popups">Tooltip 
+                  popups</A></TD></TR></TBODY></TABLE>
+            <TABLE cellSpacing=10 cellPadding=0 width="100%">
+              <TBODY>
+              <TR>
+                <TD>Let's look into the code for the popup that went away 
+                  quickly, or a tooltip which it often is called. <BR><BR>
+                  <TABLE cellSpacing=0 cellPadding=6 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD class=code bgColor=#f1f1ff>&lt;a 
+                        href="javascript:void(0);" onmouseover="return 
+                        overlib('This is an ordinary popup.');" 
+                        onmouseout="return nd();"&gt;here&lt;/a&gt; 
+                    </TD></TR></TBODY></TABLE>
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD class=codedesc align=right>Tooltip 
+                    popup.</TD></TR></TBODY></TABLE><BR>As you see this is no 
+                  ordinary hyperlink as we've placed javascript:void(0); instead 
+                  of an url as href. This causes the browser not to load a new 
+                  page when we click on the link. This is of course optional. 
+                  You can link to a page or anything else if you want. 
+                  <BR><BR>In the onmouseover part overLIB comes in. Whichever 
+                  type of popup you want to make you call the overlib() 
+                  function. It can take any amount of parameters. You'll 
+                  understand why that is good soon. To make a simple popup we 
+                  just pass the text we want to display to the function inside 
+                  single quotes. <BR><BR>After that comes onmouseout. It contain 
+                  one cryptic function that has to be there. The call to the 
+                  nd() function makes the popup go away when you move the mouse 
+                  outside the link. You still have to have it there when making 
+                  stickies though. </TD></TR></TBODY></TABLE><BR></TD></TR>
+        <TR>
+          <TD class=sectiontitle vAlign=top>5.</TD>
+          <TD vAlign=top>
+            <TABLE cellSpacing=0 cellPadding=0 width="100%">
+              <TBODY>
+              <TR>
+                <TD class=sectiontitle><A name="Sticky popups">Sticky 
+                  popups</A></TD></TR></TBODY></TABLE>
+            <TABLE cellSpacing=10 cellPadding=0 width="100%">
+              <TBODY>
+              <TR>
+                <TD>Now let's look at the popup that stayed after the mouse 
+                  was moved away from the link - the sticky popup. <BR><BR>
+                  <TABLE cellSpacing=0 cellPadding=6 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD class=code bgColor=#f1f1ff>&lt;a 
+                        href="javascript:void(0);" onmouseover="return 
+                        overlib('This is what we call a sticky, since I stick 
+                        around.', STICKY);" onmouseout="return 
+                        nd();"&gt;here&lt;/a&gt; </TD></TR></TBODY></TABLE>
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD class=codedesc align=right>Sticky 
+                    popup.</TD></TR></TBODY></TABLE><BR>The only difference 
+                  between the two of them (except for the text passed) is that 
+                  the sticky one has more text after the text inside quotes. 
+                  This is called a command. In this case it is the STICKY 
+                  command which tells overLIB that we want the popup to stick 
+                  around. </TD></TR></TBODY></TABLE><BR></TD></TR>
+        <TR>
+          <TD class=sectiontitle vAlign=top>6.</TD>
+          <TD vAlign=top>
+            <TABLE cellSpacing=0 cellPadding=0 width="100%">
+              <TBODY>
+              <TR>
+                <TD class=sectiontitle><A 
+                  name="Clickable popups and commands">Clickable popups and 
+                  commands</A></TD></TR></TBODY></TABLE>
+            <TABLE cellSpacing=10 cellPadding=0 width="100%">
+              <TBODY>
+              <TR>
+                <TD>Now that you know the really basic parts lets look at a 
+                  bit tougher stuff. You remember from the frontpage that you 
+                  could click on links and make a popup show up then? This isn't 
+                  hard either. You just place the overLIB code in onclick 
+                  instead of onmouseover. (Or both.) Here is an example: <A 
+                  onclick="return overlib('This is a sticky with a caption. And it is centered under the mouse!', STICKY, CAPTION, 'Sticky!', CENTER);" 
+                  onmouseout="return nd();" href="javascript:void(0);">Click 
+                  here!</A> Lets digest the code again: <BR><BR>
+                  <TABLE cellSpacing=0 cellPadding=6 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD class=code bgColor=#f1f1ff>&lt;a 
+                        href="javascript:void(0);" onclick="return overlib('This 
+                        is a sticky with a caption. And it is centered under the 
+                        mouse!', STICKY, CAPTION, 'Sticky!', CENTER);" 
+                        onmouseout="nd();"&gt;Click here!&lt;/a&gt; 
+                    </TD></TR></TBODY></TABLE>
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD class=codedesc align=right>Clickable 
+                    popup</TD></TR></TBODY></TABLE><BR>Here we have the overlib() 
+                  call in onclick instead, and we have lots more commands! Just 
+                  as STICKY is a command that tells overLIB to make the popup 
+                  sticky, the other ones tell overLIB to do other things. The 
+                  first command to a popup is always just a text string inside 
+                  of single quotes. (This is not entirely true, experienced 
+                  codes can read about INARRAY in the command reference.). 
+                  Following that you can pass any command you want to overLIB. 
+                  In any order you want. Some commands expect to receive more 
+                  than just a command though, it also want some data. When that 
+                  is the case the next parameter is expected to be that data. 
+                  Some commands also expect more than just one parameter. 
+                  <BR><BR>Lets go through the commands in this call to see what 
+                  actually happens. First we have STICKY that tells overLIB that 
+                  this popup should be a sticky and stay around. Followed by 
+                  that is CAPTION and its parameter 'Sticky!'. This tells 
+                  overLIB that we want a caption on the popup and that that 
+                  caption should be Sticky!. After that the last command is 
+                  CENTER which tells overLIB to place the popup centered under 
+                  the mouse pointer. </TD></TR></TBODY></TABLE><BR></TD></TR>
+        <TR>
+          <TD class=sectiontitle vAlign=top>7.</TD>
+          <TD vAlign=top>
+            <TABLE cellSpacing=0 cellPadding=0 width="100%">
+              <TBODY>
+              <TR>
+                <TD class=sectiontitle><A 
+                  name="Customizing overLIB">Customizing 
+              overLIB</A></TD></TR></TBODY></TABLE>
+            <TABLE cellSpacing=10 cellPadding=0 width="100%">
+              <TBODY>
+              <TR>
+                <TD>You can customize overLIB in three different ways. The 
+                  first method you already know, by passing commands. However if 
+                  you want all the popups to be red and use a larger font, it 
+                  isn't very fun to pass a bunch of commands for each and every 
+                  popup. The commands you pass only last for one specific popup 
+                  and commands are intended when you want something different 
+                  than the ordinary. 
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD class=sectiontitle><BR><A name="In overlib.js">In 
+                        overlib.js</A></TD></TR></TBODY></TABLE>
+                  <TABLE cellSpacing=10 cellPadding=0 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD>To set site-wide (all pages using the same 
+                        overlib.js) defaults just open up overlib.js in your 
+                        favourite text editor. In it, look for "Configuration". 
+                        There you can change javascript variables to change the 
+                        defaults. The variables you should change all start with 
+                        ol_ and there is a description on how you change each of 
+                        them. They look like this: <BR><BR>
+                        <TABLE cellSpacing=0 cellPadding=6 width="100%">
+                          <TBODY>
+                          <TR>
+                            <TD class=code bgColor=#f1f1ff>// Font face for 
+                              the main text<BR>if (typeof ol_textfont == 
+                              'undefined') { var ol_textfont = 
+                              "Verdana,Arial,Helvetica";} </TD></TR></TBODY></TABLE>
+                        <TABLE cellSpacing=0 cellPadding=0 width="100%">
+                          <TBODY>
+                          <TR>
+                            <TD class=codedesc align=right>Default font in 
+                              overlib.js.</TD></TR></TBODY></TABLE><BR>In the command 
+                        reference you can also see which variable that each 
+                        command overrides. Changing settings in overlib.js is 
+                        the smartest and most effective way of using overLIB. 
+                        Use it whenever you can. </TD></TR></TBODY></TABLE>
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD class=sectiontitle><BR><A name="On a page">On a 
+                        page</A></TD></TR></TBODY></TABLE>
+                  <TABLE cellSpacing=10 cellPadding=0 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD>When you need to make changes to many popups on one 
+                        specific page, you can do that on the page. Simply 
+                        assign the variable you want to have a page default for 
+                        and place that JavaScript code before loading 
+                        overlib.js. Here's how it looks: <BR><BR>
+                        <TABLE cellSpacing=0 cellPadding=6 width="100%">
+                          <TBODY>
+                          <TR>
+                            <TD class=code bgColor=#f1f1ff>&lt;script 
+                              language="JavaScript"&gt;<BR>var ol_textfont = 
+                              "Courier New, 
+                              Courier";<BR>&lt;/script&gt;<BR>&lt;div 
+                              id="overDiv" style="position:absolute; 
+                              visibility:hidden; 
+                              z-index:1000;"&gt;&lt;/div&gt;<BR>&lt;script 
+                              language="JavaScript" src="overlib.js"&gt;&lt;!-- 
+                              overLIB (c) Erik Bosrup --&gt;&lt;/script&gt; 
+                          </TD></TR></TBODY></TABLE>
+                        <TABLE cellSpacing=0 cellPadding=0 width="100%">
+                          <TBODY>
+                          <TR>
+                            <TD class=codedesc align=right>Default font on a 
+                              page.</TD></TR></TBODY></TABLE><BR></TD></TR></TBODY></TABLE>
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD class=sectiontitle><BR><A 
+                        name="When calling overlib()">When calling 
+                      overlib()</A></TD></TR></TBODY></TABLE>
+                  <TABLE cellSpacing=10 cellPadding=0 width="100%">
+                    <TBODY>
+                    <TR>
+                      <TD>And, as you know, you can pass commands to overlib() 
+                        to change settings as well. Here is the previous example 
+                        as a command instead: <BR><BR>
+                        <TABLE cellSpacing=0 cellPadding=6 width="100%">
+                          <TBODY>
+                          <TR>
+                            <TD class=code bgColor=#f1f1ff>&lt;a 
+                              href="javascript:void(0);" onmouseover="return 
+                              overlib('Different font.', TEXTFONT, 'Courier, 
+                              Courier New');" onmouseout="return nd();"&gt;My 
+                              link&lt;/a&gt; </TD></TR></TBODY></TABLE>
+                        <TABLE cellSpacing=0 cellPadding=0 width="100%">
+                          <TBODY>
+                          <TR>
+                            <TD class=codedesc align=right>Overriding font 
+                              with a 
+                    command.</TD></TR></TBODY></TABLE><BR></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE><BR></TD></TR>
+        <TR>
+          <TD class=sectiontitle vAlign=top>8.</TD>
+          <TD vAlign=top>
+            <TABLE cellSpacing=0 cellPadding=0 width="100%">
+              <TBODY>
+              <TR>
+                <TD class=sectiontitle><A name="Command reference">Command 
+                  reference</A></TD></TR></TBODY></TABLE>
+            <TABLE cellSpacing=10 cellPadding=0 width="100%">
+              <TBODY>
+              <TR>
+                <TD>Now that you know the basics how the overlib() function 
+                  works, as well as how you can change the settings in the 
+                  script or on the page as well, you are ready to start having 
+                  fun with all the advanced features overLIB has to offer you. 
+                  The <A 
+                  onmouseover="return overlib('Here you\'ll find all commands overLIB supports.');" 
+                  onmouseout="return nd();" 
+                  href="http://www.bosrup.com/web/overlib/reference.html">command 
+                  reference</A> has all the commands overLIB understands (there 
+                  are more than 50!) and it where you will find information on 
+                  how to use them. <BR><BR></TD></TR></TBODY></TABLE><BR></TD></TR>
+        <TR>
+          <TD class=sectiontitle vAlign=top>9.</TD>
+          <TD vAlign=top>
+            <TABLE cellSpacing=0 cellPadding=0 width="100%">
+              <TBODY>
+              <TR>
+                <TD class=sectiontitle><A name="Still don't understand?">Still 
+                  don't understand?</A></TD></TR></TBODY></TABLE>
+            <TABLE cellSpacing=10 cellPadding=0 width="100%">
+              <TBODY>
+              <TR>
+                <TD>Don't worry, you're not the first. Before you start 
+                  looking for help though, try going through the manual again 
+                  and trying out the examples etc. Also make sure you use an 
+                  "empty" page that doesn't have any other JavaScript's, applets 
+                  and the like on it. Make a page with just overLIB first and 
+                  then try the more complex things. <BR><BR>When things just 
+                  don't work, there are ways of getting help though. Take a look 
+                  at overLIB's <A 
+                  onmouseover="return overlib('Look no further for help.');" 
+                  onmouseout="return nd();" 
+                  href="http://www.bosrup.com/web/overlib/support.html">support</A> 
+                  page and see what fits you. 
+        </TD></TR></TBODY></TABLE><BR></TD></TR></TBODY></TABLE></TD>
+    <TD vAlign=top width=156><BR><BR><BR><BR>
+      <TABLE cellSpacing=0 cellPadding=0 width=156>
+        <TBODY>
+        <TR>
+          <TD class=snip colSpan=4><B>On this page</B></TD></TR>
+        <TR>
+          <TD width=2><IMG height=2 src="overLIB - Manual_archivos/empty.gif" 
+            width=2 border=0></TD>
+          <TD width=1 bgColor=#333333><IMG height=1 
+            src="overLIB - Manual_archivos/empty.gif" width=1 border=0></TD>
+          <TD width=3><IMG height=2 src="overLIB - Manual_archivos/empty.gif" 
+            width=2 border=0></TD>
+          <TD class=snip width=150><A class=snip 
+            onmouseover="return overlib('Jump to this section.');" 
+            onmouseout="return nd();" 
+            href="http://www.bosrup.com/web/overlib/docs.html#Introduction">Introduction</A><BR><A 
+            class=snip onmouseover="return overlib('Jump to this section.');" 
+            onmouseout="return nd();" 
+            href="http://www.bosrup.com/web/overlib/docs.html#Preparing the page">Preparing 
+            the page</A><BR><A class=snip 
+            onmouseover="return overlib('Jump to this section.');" 
+            onmouseout="return nd();" 
+            href="http://www.bosrup.com/web/overlib/docs.html#Two different behaviours">Two 
+            different behaviours</A><BR><A class=snip 
+            onmouseover="return overlib('Jump to this section.');" 
+            onmouseout="return nd();" 
+            href="http://www.bosrup.com/web/overlib/docs.html#Tooltip popups">Tooltip 
+            popups</A><BR><A class=snip 
+            onmouseover="return overlib('Jump to this section.');" 
+            onmouseout="return nd();" 
+            href="http://www.bosrup.com/web/overlib/docs.html#Sticky popups">Sticky 
+            popups</A><BR><A class=snip 
+            onmouseover="return overlib('Jump to this section.');" 
+            onmouseout="return nd();" 
+            href="http://www.bosrup.com/web/overlib/docs.html#Clickable popups and commands">Clickable 
+            popups and commands</A><BR><A class=snip 
+            onmouseover="return overlib('Jump to this section.');" 
+            onmouseout="return nd();" 
+            href="http://www.bosrup.com/web/overlib/docs.html#Customizing overLIB">Customizing 
+            overLIB</A><BR><A class=snip 
+            onmouseover="return overlib('Jump to this section.');" 
+            onmouseout="return nd();" 
+            href="http://www.bosrup.com/web/overlib/docs.html#Command reference">Command 
+            reference</A><BR><A class=snip 
+            onmouseover="return overlib('Jump to this section.');" 
+            onmouseout="return nd();" 
+            href="http://www.bosrup.com/web/overlib/docs.html#Still don't understand?">Still 
+            don't understand?</A><BR></TD></TR></TBODY></TABLE><BR><BR>
+      <TABLE cellSpacing=0 cellPadding=0 width=156>
+        <TBODY>
+        <TR>
+          <TD class=snip colSpan=4><B>Contributors</B></TD></TR>
+        <TR>
+          <TD width=2><IMG height=2 src="overLIB - Manual_archivos/empty.gif" 
+            width=2 border=0></TD>
+          <TD width=1 bgColor=#333333><IMG height=1 
+            src="overLIB - Manual_archivos/empty.gif" width=1 border=0></TD>
+          <TD width=3><IMG height=2 src="overLIB - Manual_archivos/empty.gif" 
+            width=2 border=0></TD>
+          <TD class=snip width=150><A class=snip 
+            onmouseover="return overlib('Send e-mail to Erik Bosrup.');" 
+            onmouseout="return nd();" href="mailto:erik@bosrup.com">Erik 
+            Bosrup</A><BR></TD></TR></TBODY></TABLE><BR><BR>
+      <TABLE cellSpacing=0 cellPadding=0 width=156>
+        <TBODY>
+        <TR>
+          <TD class=snip colSpan=4><B>Status</B></TD></TR>
+        <TR>
+          <TD width=2><IMG height=2 src="overLIB - Manual_archivos/empty.gif" 
+            width=2 border=0></TD>
+          <TD width=1 bgColor=#333333><IMG height=1 
+            src="overLIB - Manual_archivos/empty.gif" width=1 border=0></TD>
+          <TD width=3><IMG height=2 src="overLIB - Manual_archivos/empty.gif" 
+            width=2 border=0></TD>
+          <TD class=snip width=150>overLIB version: 3.51<BR>Document version: 
+            1.0<BR>Created: 2001-08-29<BR>Changed: 
+      2001-08-29<BR></TD></TR></TBODY></TABLE><BR><BR>
+      <SCRIPT src="overLIB - Manual_archivos/cm.htm" 
+      type=text/JavaScript></SCRIPT>
+      <NOSCRIPT>
+      <TABLE cellSpacing=0 cellPadding=0 width=125 border=0>
+        <TBODY>
+        <TR>
+          <TD><MAP name=boxmap><AREA shape=RECT alt=Amazon 
+              coords=18,263,105,274 
+              href="http://rcm.amazon.com/e/cm/privacy-policy.html?o=1"><AREA 
+              shape=RECT alt=Amazon coords=0,0,10000,10000 
+              href="http://www.amazon.com/exec/obidos/redirect-home/thebesite"></MAP><IMG 
+            height=275 src="overLIB - Manual_archivos/gnbox125x275.gif" 
+            width=125 useMap=#boxmap 
+  border=0></TD></TR></TBODY></TABLE></NOSCRIPT></TD></TR></TBODY></TABLE><BR><BR>Copyright 
+Erik Bosrup 2001-2002. All rights reserved. <BR><BR><FONT color=white size=1><A 
+href="http://extreme-dm.com/s/?tag=ol2t" target=_top><IMG height=38 
+src="overLIB - Manual_archivos/i.gif" width=41 border=0 name=im></A>
+<SCRIPT></SCRIPT>
+
+<SCRIPT language=javascript1.2></SCRIPT>
+
+<SCRIPT></SCRIPT>
+<NOSCRIPT><IMG height=1 src="overLIB - Manual_archivos/z.gif" 
+width=1></NOSCRIPT></FONT> </BODY></HTML>

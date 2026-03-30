@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	
+		<Idioma id="en">
+			<PolizaE>Voucher</PolizaE>
+			<PolizaBalOri>Origin Currency Balance</PolizaBalOri>
+			<PolizaBalLoc>Local Currency Balance</PolizaBalLoc>
+			<PolizaAplicar>Not authorized to apply document</PolizaAplicar>
+			<monto>Amount</monto>
+			<oficina>Office</oficina>
+			<debito>Debits</debito>
+			<credito>Credits</credito>
+			<titulodoc>Retroactive Documents</titulodoc>
+			<concepto>Concept</concepto>
+			<periodo>Period</periodo>
+			<mes>Month</mes>
+			<reversible>Reversible</reversible>
+			<descripcion>Description</descripcion>
+			<fecha>Date</fecha>
+			<referencia>Reference</referencia>
+			<documento>Document</documento>
+			<cuenta_contable>Financial Account</cuenta_contable>
+			<movimiento>Movement</movimiento>
+			<todas>All</todas>
+			<documento_auxiliar>Document Generated from an Auxiliary System. It is not possible to be modified..</documento_auxiliar>
+			<PolizaBalOri>Balance Voucher in Origin Currency</PolizaBalOri>
+			<PolizaBalLoc>Balance Voucher in Local Currency</PolizaBalLoc>
+			<Diferencia>Difference</Diferencia>
+			<Recurrente>Recurrent</Recurrente>
+		<Borrar>Delete</Borrar><CFuncional>Functional Center</CFuncional><LB_CrearNueva>Create New</LB_CrearNueva><LB_Lista_de_Centros_Funcionales>Functional Centers List</LB_Lista_de_Centros_Funcionales><cuenta_doc>Doc. Account</cuenta_doc><cuenta_ref>Ref. Account</cuenta_ref><linea>Line</linea></Idioma>
+</Etiquetas>

@@ -1,0 +1,204 @@
+[Root]
+Most Recent Package=soinPrintDocs
+Most Recent Deploy=prueba
+
+[Deploy|Web Deployment 1|Root]
+Package=soinPrint
+Handler=PDWizard.WebPostDplySubWiz
+
+[Deploy|Web Deployment 1|Package Files]
+C:\Mis documentos\VB\soinPrintDocs\Package\soinPrintDocs.CAB=Yes
+C:\Mis documentos\VB\soinPrintDocs\Package\soinPrintDocs.HTM=No
+
+[Deploy|Web Deployment 1|Other Files and Folders]
+
+[Deploy|Web Deployment 1|WebPost Site]
+URL=http://10.7.7.195
+Provider={8B14B770-748C-11D0-A309-00C04FD7CFC5}
+Explode=No
+
+[Deploy|prueba|Root]
+Package=soinPrint
+Handler=PDWizard.WebPostDplySubWiz
+
+[Deploy|prueba|Package Files]
+C:\Mis documentos\VB\soinPrintDocs\Package\soinPrintDocs.CAB=Yes
+C:\Mis documentos\VB\soinPrintDocs\Package\soinPrintDocs.HTM=No
+
+[Deploy|prueba|Other Files and Folders]
+
+[Deploy|prueba|WebPost Site]
+URL=http://10.7.7.195
+Provider={8B14B770-748C-11D0-A309-00C04FD7CFC5}
+Explode=No
+
+
+[Package|soinPrint|Root]
+SubWizProgID=PDWizard.InetCABPkgSubWiz
+BuildFolder=L:\sif\tesoreria\_soinPrintDocs_OCX\Package
+Controls Design-Time Support=No
+
+[Package|soinPrint|Configure DAO ISAMs]
+Applicable=No
+
+[Package|soinPrint|Configure DAO ODBC]
+JetWorkspace=
+ODBCDirect=
+
+[Package|soinPrint|Files Found]
+
+[Package|soinPrint|Files Released]
+msstkprp.dll=
+
+[Package|soinPrint|Missing Dependency Information]
+
+[Package|soinPrint|Out-of-Date Dependency Information]
+
+[Package|soinPrint|Files Added]
+c:\windows\system32\msstkprp.dll=This file is needed for usercontrol design-time support.
+
+[Package|soinPrint|Files Removed]
+c:\windows\system\msstkprp.dll=
+
+[Package|soinPrint|Files In Project]
+C:\WINDOWS\system32\msvbvm60.dll=Yes
+C:\WINDOWS\system32\oleaut32.dll=Yes
+C:\WINDOWS\system32\olepro32.dll=Yes
+C:\WINDOWS\system32\asycfilt.dll=Yes
+C:\WINDOWS\system32\stdole2.tlb=Yes
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\COMCAT.DLL=Yes
+C:\WINDOWS\system32\msstkprp.dll=Yes
+L:\sif\tesoreria\_soinPrintDocs_OCX\soinPrintDocs.ocx=Yes
+
+[Package|soinPrint|Configure Registry Files]
+Applicable=No
+
+[Package|soinPrint|Configure Remote Servers]
+Applicable=No
+
+[Package|soinPrint|Install Locations]
+
+[Package|soinPrint|Configure Shared Files]
+Applicable=
+
+[Package|soinPrint|ComponentInfo]
+soinPrintDocs.ocx=thiscab
+MSVBVM60.DLL=thiscab
+OLEAUT32.DLL=thiscab
+OLEPRO32.DLL=thiscab
+ASYCFILT.DLL=thiscab
+STDOLE2.TLB=thiscab
+COMCAT.DLL=thiscab
+MSSTKPRP.DLL=thiscab
+
+[Package|soinPrint|ObjectInfo]
+cntImpresora=true;true
+clsFormatoPos=true;true
+clsFormatoImg=true;true
+clsFormatoLin=true;true
+
+[Package|soinPrint|Package]
+PackageFolder=L:\sif\tesoreria\_soinPrintDocs_OCX\Package
+ProjectFolder=L:\sif\tesoreria\_soinPrintDocs_OCX
+ServerSideCab=L:\sif\tesoreria\_soinPrintDocs_OCX\Package\soinPrintDocs.CAB
+File1=L:\sif\tesoreria\_soinPrintDocs_OCX\Package\soinPrintDocs.CAB
+File2=L:\sif\tesoreria\_soinPrintDocs_OCX\Package\soinPrintDocs.HTM
+Handler1=PDWizard.WebPostDplySubWiz
+Handler2=PDWizard.FolderDplySubWiz
+
+
+[Package|soinPrintDocs|Root]
+SubWizProgID=PDWizard.SetupPkgSubWiz
+BuildFolder=L:\sif\tesoreria\_soinPrintDocs_OCX\Package
+Controls Design-Time Support=No
+
+[Package|soinPrintDocs|Configure DAO ISAMs]
+Applicable=No
+
+[Package|soinPrintDocs|Configure DAO ODBC]
+JetWorkspace=
+ODBCDirect=
+
+[Package|soinPrintDocs|Files Found]
+
+[Package|soinPrintDocs|Files Released]
+msstkprp.dll=
+
+[Package|soinPrintDocs|Missing Dependency Information]
+
+[Package|soinPrintDocs|Out-of-Date Dependency Information]
+
+[Package|soinPrintDocs|Files Added]
+c:\windows\system32\msstkprp.dll=This file is needed for usercontrol design-time support.
+
+[Package|soinPrintDocs|Files Removed]
+c:\windows\system\msstkprp.dll=
+
+[Package|soinPrintDocs|Files In Project]
+C:\WINDOWS\system32\msvbvm60.dll=Yes
+C:\WINDOWS\system32\oleaut32.dll=Yes
+C:\WINDOWS\system32\olepro32.dll=Yes
+C:\WINDOWS\system32\asycfilt.dll=Yes
+C:\WINDOWS\system32\stdole2.tlb=Yes
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\COMCAT.DLL=Yes
+C:\WINDOWS\system32\msstkprp.dll=Yes
+L:\sif\tesoreria\_soinPrintDocs_OCX\soinPrintDocs.ocx=Yes
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\SETUP.EXE=Yes
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\SETUP1.EXE=Yes
+C:\WINDOWS\system32\VB6STKIT.DLL=Yes
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\ST6UNST.EXE=Yes
+
+[Package|soinPrintDocs|Configure Registry Files]
+Applicable=No
+
+[Package|soinPrintDocs|Configure Remote Servers]
+Applicable=No
+
+[Package|soinPrintDocs|Install Locations]
+L:\sif\tesoreria\_soinPrintDocs_OCX\soinPrintDocs.ocx=$(AppPath)
+C:\WINDOWS\system32\msvbvm60.dll=$(WinSysPathSysFile)
+C:\WINDOWS\system32\oleaut32.dll=$(WinSysPathSysFile)
+C:\WINDOWS\system32\olepro32.dll=$(WinSysPathSysFile)
+C:\WINDOWS\system32\asycfilt.dll=$(WinSysPathSysFile)
+C:\WINDOWS\system32\stdole2.tlb=$(WinSysPathSysFile)
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\COMCAT.DLL=$(WinSysPathSysFile)
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\SETUP.EXE=$(AppPath)
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\SETUP1.EXE=$(WinPath)
+C:\WINDOWS\system32\VB6STKIT.DLL=$(WinSysPathSysFile)
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\ST6UNST.EXE=$(WinPath)
+C:\WINDOWS\system32\msstkprp.dll=$(WinSysPath)
+
+[Package|soinPrintDocs|Configure Shared Files]
+Applicable=Yes
+L:\sif\tesoreria\_soinPrintDocs_OCX\soinPrintDocs.ocx=No
+
+[Package|soinPrintDocs|ComponentInfo]
+soinPrintDocs.ocx=thiscab
+MSVBVM60.DLL=thiscab
+OLEAUT32.DLL=thiscab
+OLEPRO32.DLL=thiscab
+ASYCFILT.DLL=thiscab
+STDOLE2.TLB=thiscab
+COMCAT.DLL=thiscab
+MSSTKPRP.DLL=thiscab
+
+[Package|soinPrintDocs|ObjectInfo]
+cntImpresora=true;true
+clsFormatoPos=true;true
+clsFormatoImg=true;true
+clsFormatoLin=true;true
+
+[Package|soinPrintDocs|Distribution]
+Type=single
+Size=
+Title=soinPrintDocs
+
+[Package|soinPrintDocs|Package]
+PackageFolder=L:\sif\tesoreria\_soinPrintDocs_OCX\Package
+ProjectFolder=L:\sif\tesoreria\_soinPrintDocs_OCX
+ServerSideCab=
+File1=L:\sif\tesoreria\_soinPrintDocs_OCX\Package\setup.exe
+File2=L:\sif\tesoreria\_soinPrintDocs_OCX\Package\Setup.Lst
+File3=L:\sif\tesoreria\_soinPrintDocs_OCX\Package\soinPrintDocs.CAB
+Handler1=PDWizard.FolderDplySubWiz
+Handler2=PDWizard.WebPostDplySubWiz

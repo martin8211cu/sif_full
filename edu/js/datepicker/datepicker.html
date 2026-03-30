@@ -1,0 +1,149 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html>
+<head>
+<title>DatePicker (WebFX)</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script type="text/javascript" src="local/webfxlayout.js"></script>
+</head>
+<body>
+<!-- WebFX Layout Include -->
+<script type="text/javascript">
+
+var articleMenu= new WebFXMenu;
+articleMenu.left  = 384;
+articleMenu.top   = 86;
+articleMenu.width = 140;
+articleMenu.add(new WebFXMenuItem("Date Picker", "datepicker.html"));
+articleMenu.add(new WebFXMenuItem("API", "api.html"));
+articleMenu.add(new WebFXMenuItem("Demo", "demo.html"));
+articleMenu.add(new WebFXMenuSeparator);
+articleMenu.add(new WebFXMenuItem("Download", "datepicker.zip"));
+webfxMenuBar.add(new WebFXMenuButton("Article Menu", null, null, articleMenu));
+
+webfxLayout.writeTitle("DatePicker");
+webfxLayout.writeMenu();
+webfxLayout.writeDesignedByEdger();
+
+</script>
+<div class="webfx-main-body">
+<!-- end WebFX Layout Includes -->
+
+<p>
+<span class="date">2002-02-16</span>: First public version released<br />
+<span class="date">2002-02-19</span>: Added a month popup selector
+</p>
+
+<h2>Introduction</h2>
+
+<p>This date picker was designed to be a very flexible date picker that would both
+allow American week format, Arabian week format as well as any other international
+date formats. This means that the week can start at any day of the week and that any
+day can be marked <em>red</em> to mark it as beeing a sabbath day or whatever is the
+custom your users call it.</p>
+
+<p>The date picker is also designed to be easy to include in your page and it is
+designed to be DOM level 1 compliant. This means that it works in IE5+, Mozilla and
+it should work in all the other DOM1 borwsers such as IE5 Mac and Konqueror but it is
+yet to be verified.</p>
+
+
+<h2>Usage</h2>
+
+<p>To use the date picker two files should be included in your page.
+These are the css and js files describing the look and the logic of
+the date picker.</p>
+
+<pre>
+&lt;link type="text/css" rel="StyleSheet" href="<a href="css/datepicker.css">css/datepicker.css</a>" /&gt;
+&lt;script type="text/javascript" src="<a href="js/datepicker.js">js/datepicker.js</a>"&gt;&lt;/script&gt;
+</pre>
+
+
+<h3>Creation</h3>
+
+<p>The date picker is represented by a JavaScript object instantiated
+from the <code>DatePicker</code> constructor. The date picker constructor
+has one optional argument that is a js <code>Date</code> object.
+This object represents the date to select. If no argument is provided
+today's date is used and if the argument is null no date is selected.</p>
+
+<pre>
+var dp1 = new DatePicker();
+
+var birthDate = new Date( 1975, 7, 19 );
+var dp2 = new DatePicker( birthDate );
+
+var dp3 = new DatePicker( null );
+</pre>
+
+<p>This just creates a js object representing the date picker. To create
+the actual user interface for the date picker the <code>create</code>
+method should be called. This method returns an <code>HTMLElement</code>
+object that can be inserted into the actual page. The <code>create</code>
+method has one optional argument that is the document to create the elements
+in. This can be useful if one needs to create the user interface for the
+date picker in another document (for example a popup window).</p>
+
+<pre>
+var dp1 = new DatePicker();
+var el = dp1.create();
+document.body.appendChild( el );
+</pre>
+
+<p>Notice that if you call create more than once the old user interface
+will not be removed but it will not work correctly any more.</p>
+
+
+<h3>Change notifications</h3>
+
+<p>To be notified when the selected date changes inside the date picker
+one listens to the pseudo-event <code>onchange</code>. This is actually
+a method on the <code>DatePicker</code> class but you can override this
+to execute your own code.</p>
+
+<pre>
+// assign onchange a new funtion
+dp1.onchange = function () {
+	window.status = dp1.getDate();
+};
+
+// or point onchange to an already existing function
+dp2.onchange = datePicker2Changed;
+</pre>
+
+
+<h3>Working with the Date Picker</h3>
+
+<p>All methods listed in the <a href="api.html">API</a> page can be used
+at any time. The UI will reflect your changes immediately if there is an element
+representing the UI, if there isn't, the changes will still be applied
+and once the UI is created it will reflect the state of the date picker.</p>
+
+<p>There is one more thing to point out about the date picker and that
+is the use of the value <code>null</code> for the date property. When
+the date is set to <code>null</code> the date picker is set into a state
+where no date is selected.</p>
+
+
+
+
+
+
+
+
+<p>
+<a href="datepicker.html">Date Picker</a><br />
+<a href="api.html">API</a><br />
+<a href="demo.html">Demo</a><br />
+<a href="datepicker.zip">Download</a>
+</p>
+
+<p class="author">Author: Erik Arvidsson</p>
+
+<!-- end webfx-main-body -->
+</div>
+
+</body>
+</html>

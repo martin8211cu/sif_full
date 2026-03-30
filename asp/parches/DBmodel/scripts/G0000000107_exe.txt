@@ -1,0 +1,72 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 350 - DBM 263: Permite desalmacenajes Parciales. Solicit
+
+	         PARCHE:  Parche023_228_SIF_CM
+
+GENERADO EN:
+	SERVER:  http://mxvqapp34:8300
+	DSN:     sifcim
+	FECHA:   06/01/2012 15:54:06
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* CHG_TABLE DPolizaDesalmacenaje: Detalle de Póliza de Desalmace */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): DPDfletesrealRCPar - Recalculo flete Real Desalmacena Parcial */
+ALTER TABLE DPolizaDesalmacenaje ADD DPDfletesrealRCPar money NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): DPDsegurosrealRCPar - Recalculo Seguro Real Desalmacena Parcial */
+ALTER TABLE DPolizaDesalmacenaje ADD DPDsegurosrealRCPar money NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): DPDaduanalesrealRCPar - Recalculo Gastos Aduanales Real Desalmacena Parcia */
+ALTER TABLE DPolizaDesalmacenaje ADD DPDaduanalesrealRCPar money NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE EDocumentosI: Encabezado de Documentos de Im */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): Ocodigo - Oficina */
+ALTER TABLE EDocumentosI ADD Ocodigo integer NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): CPTcodigo - Transaccion CxP */
+ALTER TABLE EDocumentosI ADD CPTcodigo char(2) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE EPolizaDesalmacenaje: Encabezado de Poliza de Desalm */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): PermiteDesParcial - Permite desalmacenaje Parcial */
+ALTER TABLE EPolizaDesalmacenaje ADD PermiteDesParcial bit DEFAULT 0 NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): EPDidpadre - Id de Doc desalmecenaje padre */
+ALTER TABLE EPolizaDesalmacenaje ADD EPDidpadre numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

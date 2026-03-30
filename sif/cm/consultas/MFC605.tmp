@@ -1,0 +1,486 @@
+<cfdump var="#form#">
+<!---Descripcion del centro funcional--->
+<cfquery name="rsCtroFunc" datasource="#session.DSN#">
+	select a.CFcodigo||' - '||a.CFdescripcion as ctrofuncional, rtrim(ltrim(b.CMTScodigo)) as CMTScodigo
+	from CFuncional a
+		inner join CMTSolicitudCF b
+			on a.Ecodigo = b.Ecodigo
+			and a.CFid = b.CFid		
+	where a.Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#session.Ecodigo#">
+		and a.CFid = <cfqueryparam cfsqltype="cf_sql_numeric" value="#form.CFid#">
+</cfquery>
+<!---Todos los tipos de solicitud de ese centro funcional--->
+<!------Ciclo A----->
+<cfquery name="rsCicloA" datasource="#session.DSN#"><!---RECORRER--->
+	select  distinct a.CMTScodigo, a.ESidsolicitud,<cf_dbfunction name="date_part" args="MM,a.ESfecha"> as mes,
+		case when a.ProcessInstanceid is null then coalesce(<cf_dbfunction name="datediff" args="a.ESfalta, a.ESfalta">,0)
+			else coalesce(<cf_dbfunction name="datediff" args="b.FinishTime, a.ESfalta">,0) end as diferencia 
+	from ESolicitudCompraCM a
+		left outer join  WfxProcess b
+			on a.ProcessInstanceid = b.ProcessInstanceId
+			and b.State = 'COMPLETE'
+	where a.Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#session.Ecodigo#">
+		and a.ESestado = 20		
+		<cfif isdefined("form.CFid") and len(trim(form.CFid))>
+			and a.CFid = <cfqueryparam cfsqltype="cf_sql_numeric" value="#form.CFid#">
+		</cfif>
+		<cfif isdefined("form.CMTScodigo") and len(trim(form.CMTScodigo))>
+			and a.CMTScodigo = <cfqueryparam cfsqltype="cf_sql_char" value="#form.CMTScodigo#">
+		</cfif>					
+		and <cf_dbfunction name="date_part" args="MM,a.ESfecha"> between <cfqueryparam cfsqltype="cf_sql_integer" value="#form.mesIni#"> and <cfqueryparam cfsqltype="cf_sql_integer" value="#form.mesFin#"> 
+		and <cf_dbfunction name="date_part" args="YY,a.ESfecha"> between <cfqueryparam cfsqltype="cf_sql_integer" value="#form.anoIni#"> and <cfqueryparam cfsqltype="cf_sql_integer" value="#form.anoFin#">		
+		
+</cfquery><!---RECORRER EL QUERY PARA SUMAR LAS DIFERENCIAS EN UN SUB OUTPUT agrupado por tipo de solicitud--->
+<!---CICLO A:<cfdump var="#rsCicloA#"><br>--->
+<!---Ciclo C(Publicacion y vencimientopara la recepcion de ofertas)--->
+<cfquery name="rsCicloc" datasource="#session.DSN#"><!----NO RECORRER--->
+	select distinct CMTScodigo, e.ESidsolicitud, <cf_dbfunction name="date_part" args="MM,e.ESfecha"> as mes,
+		coalesce(<cf_dbfunction name="datediff" args="c.CMPfechapublica, c.CMPfmaxofertas">,0) as diferencia		
+	from ESolicitudCompraCM e
+	
+		inner join DSolicitudCompraCM a
+			on e.Ecodigo = a.Ecodigo
+			and e.ESidsolicitud = a.ESidsolicitud			
+	
+		inner join CMLineasProceso d
+			on a.ESidsolicitud = d.ESidsolicitud
+			and a.DSlinea = d.DSlinea	
+		
+		inner join CMProcesoCompra c
+			on d.CMPid = c.CMPid
+			and c.CMPestado = 50
+	
+	where e.Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#session.Ecodigo#">
+		and e.ESestado = 20
+		
+		<cfif isdefined("form.CFid") and len(trim(form.CFid))>
+			and e.CFid = <cfqueryparam cfsqltype="cf_sql_numeric" value="#form.CFid#">
+		</cfif>
+		
+		<cfif isdefined("form.CMTScodigo") and len(trim(form.CMTScodigo))>
+			and e.CMTScodigo = <cfqueryparam cfsqltype="cf_sql_char" value="#form.CMTScodigo#">
+		</cfif>					
+		and <cf_dbfunction name="date_part" args="MM,e.ESfecha"> between <cfqueryparam cfsqltype="cf_sql_integer" value="#form.mesIni#"> and <cfqueryparam cfsqltype="cf_sql_integer" value="#form.mesFin#"> 
+		and <cf_dbfunction name="date_part" args="YY,e.ESfecha"> between <cfqueryparam cfsqltype="cf_sql_integer" value="#form.anoIni#"> and <cfqueryparam cfsqltype="cf_sql_integer" value="#form.anoFin#">	
+	
+</cfquery>
+<!---CICLO C:<cfdump var="#rsCicloc#"><br>--->
+<!---
+<cfset x=0>
+<cfoutput query="rsCicloc" group="mes">
+	<!---<cfif #rsCicloc.mes# EQ #form.mesIni#>---->
+		Mes:#rsCicloc.mes#<br>
+	
+	<cfoutput group="CMTScodigo">
+		Tipo:#rsCicloc.CMTScodigo#<br>
+		<cfset x =0>
+		<cfoutput group="ESidsolicitud">			
+			<cfset x = x + rsCicloc.diferencia>
+			Suma:#x#-----#rsCicloc.diferencia#----#rsCicloc.ESidsolicitud#<br> 
+		</cfoutput>
+	</cfoutput>	
+	<!---<cfelse>
+		ahhhh
+	</cfif>---->
+</cfoutput>
+---->
+<cfquery name="rsCiclod" datasource="#session.DSN#">
+	select  distinct CMTScodigo,a.ESidsolicitud,<cf_dbfunction name="date_part" args="MM,a.ESfecha"> as mes
+			,coalesce(<cf_dbfunction name="datediff" args="e.CMPfmaxofertas, (select max(EOfalta)
+																		from EOrdenCM eo
+																			inner join DOrdenCM do
+																				on eo.Ecodigo = do.Ecodigo
+																				and eo.EOidorden = do.EOidorden
+																				and eo.EOestado = 10
+																		where do.ESidsolicitud = d.ESidsolicitud)">,0) as diferencia
+	from ESolicitudCompraCM a
+	
+		inner join DSolicitudCompraCM b
+			on a.Ecodigo = b.Ecodigo
+			and a.ESidsolicitud = b.ESidsolicitud	
+	
+		inner join CMLineasProceso d
+			on b.ESidsolicitud = d.ESidsolicitud
+			and b.DSlinea = d.DSlinea	
+		
+		inner join CMProcesoCompra e
+			on d.CMPid = e.CMPid
+			and e.CMPestado = 50
+	
+	where  a.Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#session.Ecodigo#">
+		and a.ESestado = 20
+		<cfif isdefined("form.CFid") and len(trim(form.CFid))>
+			and a.CFid = <cfqueryparam cfsqltype="cf_sql_numeric" value="#form.CFid#">
+		</cfif>
+		<cfif isdefined("form.CMTScodigo") and len(trim(form.CMTScodigo))>
+			and a.CMTScodigo = <cfqueryparam cfsqltype="cf_sql_char" value="#form.CMTScodigo#">
+		</cfif>					
+		and <cf_dbfunction name="date_part" args="MM,a.ESfecha"> between <cfqueryparam cfsqltype="cf_sql_integer" value="#form.mesIni#"> and <cfqueryparam cfsqltype="cf_sql_integer" value="#form.mesFin#"> 
+		and <cf_dbfunction name="date_part" args="YY,a.ESfecha"> between <cfqueryparam cfsqltype="cf_sql_integer" value="#form.anoIni#"> and <cfqueryparam cfsqltype="cf_sql_integer" value="#form.anoFin#">		
+
+</cfquery>
+<!---CICLO D:<cfdump var="#rsCiclod#"><br><!----HACER UN LOOP PARA OBTENER EL SUM DE LA DIFERENCIA DE LAS FECHAS---->--->
+<!----CICLO B---->
+<cfquery name="rsCicloB" datasource="#session.DSN#"><!---AGRUPAR POR CMTSCODIGO--->
+	select 	distinct a.CMTScodigo, a.ESidsolicitud,<cf_dbfunction name="date_part" args="MM,a.ESfecha"> as mes, 
+		case  when a.ProcessInstanceid is null then coalesce(<cf_dbfunction name="datediff" args="a.ESfalta,d.fechaalta">,0)
+			else coalesce(<cf_dbfunction name="datediff" args="b.FinishTime,d.fechaalta">,0) end as diferencia
+		
+	from ESolicitudCompraCM a	 
+		left outer join  WfxProcess b
+			on a.ProcessInstanceid = b.ProcessInstanceId
+			and b.State = 'COMPLETE'
+			and b.FinishTime is not null
+	
+		inner join DSolicitudCompraCM c
+			on a.Ecodigo = c.Ecodigo
+			and a.ESidsolicitud = c.ESidsolicitud	
+	
+		inner join CMLineasProceso d
+			on c.ESidsolicitud = d.ESidsolicitud
+			and c.DSlinea = d.DSlinea	
+		
+		<!---inner join CMProcesoCompra e
+			on d.CMPid = e.CMPid
+			and e.CMPestado = 50---->
+	
+	where a.Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#session.Ecodigo#">
+		and a.ESestado = 20
+		<cfif isdefined("form.CFid") and len(trim(form.CFid))>
+			and a.CFid = <cfqueryparam cfsqltype="cf_sql_numeric" value="#form.CFid#">
+		</cfif>
+		<cfif isdefined("form.CMTScodigo") and len(trim(form.CMTScodigo))>
+			and a.CMTScodigo = <cfqueryparam cfsqltype="cf_sql_char" value="#form.CMTScodigo#">
+		</cfif>					
+		and <cf_dbfunction name="date_part" args="MM,a.ESfecha"> between <cfqueryparam cfsqltype="cf_sql_integer" value="#form.mesIni#"> and <cfqueryparam cfsqltype="cf_sql_integer" value="#form.mesFin#"> 
+		and <cf_dbfunction name="date_part" args="YY,a.ESfecha"> between <cfqueryparam cfsqltype="cf_sql_integer" value="#form.anoIni#"> and <cfqueryparam cfsqltype="cf_sql_integer" value="#form.anoFin#">		
+</cfquery>
+<!---CICLO B:<cfdump var="#rsCicloB#"><br>--->
+<!---Ciclo  E ---->
+<cfquery name="rsCicloE" datasource="#session.DSN#"><!---NO AGRUPAR---->
+	select distinct a.CMTScodigo, a.ESidsolicitud, <cf_dbfunction name="date_part" args="MM,a.ESfecha"> as mes, 
+		case when d.fechamod is null then coalesce(<cf_dbfunction name="datediff" args="d.EOfalta,d.EOfalta">,0)
+			else coalesce(<cf_dbfunction name="datediff" args="d.EOfalta,d.fechamod">,0) end as diferencia		
+	from ESolicitudCompraCM a
+
+		inner join DSolicitudCompraCM b
+			on a.Ecodigo = b.Ecodigo
+			and a.ESidsolicitud = b.ESidsolicitud
+		
+		inner join DOrdenCM c
+			on b.Ecodigo = c.Ecodigo
+			and b.ESidsolicitud = c.ESidsolicitud
+			and b.DSlinea = c.DSlinea
+		
+		inner join EOrdenCM d
+			on c.Ecodigo = d.Ecodigo
+			and c.EOidorden = d.EOidorden
+			and d.EOestado = 10
+	
+	where a.Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#session.Ecodigo#">
+		and a.ESestado = 20
+		<cfif isdefined("form.CFid") and len(trim(form.CFid))>
+			and a.CFid = <cfqueryparam cfsqltype="cf_sql_numeric" value="#form.CFid#">
+		</cfif>
+		<!---
+		<cfif isdefined("form.CMTScodigo") and len(trim(form.CMTScodigo))>
+			and a.CMTScodigo = <cfqueryparam cfsqltype="cf_sql_char" value="#form.CMTScodigo#">
+		</cfif>					
+		--->
+		and <cf_dbfunction name="date_part" args="MM,a.ESfecha"> between <cfqueryparam cfsqltype="cf_sql_integer" value="#form.mesIni#"> and <cfqueryparam cfsqltype="cf_sql_integer" value="#form.mesFin#"> 
+		and <cf_dbfunction name="date_part" args="YY,a.ESfecha"> between <cfqueryparam cfsqltype="cf_sql_integer" value="#form.anoIni#"> and <cfqueryparam cfsqltype="cf_sql_integer" value="#form.anoFin#">		
+
+		<!---and a.CMTScodigo = 'RCV'--->
+</cfquery>
+<!---CICLO E:<cfdump var="#rsCicloE#"><br>--->
+<!---Ciclo F ---->
+<cfquery name="rsCicloF" datasource="#session.DSN#">
+	select distinct a.CMTScodigo,a.ESidsolicitud, <cf_dbfunction name="date_part" args="MM,a.ESfecha"> as mes,
+			coalesce(<cf_dbfunction name="datediff" args="co.DOfechaes,(select  max(c.EDRfecharec)
+																from ESolicitudCompraCM e
+						
+																inner join DSolicitudCompraCM f
+																	on e.Ecodigo = f.Ecodigo
+																	and e.ESidsolicitud = f.ESidsolicitud
+							
+																inner join DOrdenCM a
+																	on f.Ecodigo = a.Ecodigo
+																	and f.ESidsolicitud = a.ESidsolicitud
+																	and f.DSlinea = a.DSlinea		
+						
+																inner join EOrdenCM d
+																	on a.Ecodigo = d.Ecodigo
+																	and a.EOidorden = d.EOidorden
+																	and d.EOestado = 10
+						
+																inner join DDocumentosRecepcion b
+																	on a.Ecodigo = b.Ecodigo		
+																	and a.DOlinea = b.DOlinea		
+						
+																inner join EDocumentosRecepcion c
+																	on b.Ecodigo = c.Ecodigo
+																	and b.EDRid = c.EDRid
+																	and c.EDRestado = 10
+																	and c.EOidorden = a.EOidorden	
+								
+																where a.Ecodigo = 1	
+																	and a.EOidorden = co.EOidorden										
+																group by c.EOidorden)">,0) as diferencia
+	from ESolicitudCompraCM a
+		inner join DSolicitudCompraCM b
+			on a.Ecodigo = b.Ecodigo
+			and a.ESidsolicitud = b.ESidsolicitud
+	
+		inner join DOrdenCM co
+			on b.Ecodigo = co.Ecodigo
+			and b.ESidsolicitud = co.ESidsolicitud
+			and b.DSlinea = co.DSlinea
+		
+		inner join EOrdenCM do
+			on  co.Ecodigo = do.Ecodigo
+			and co.EOidorden = do.EOidorden
+			and do.EOestado = 10
+	
+	where a.Ecodigo = 1
+		and a.ESestado = 20
+		<cfif isdefined("form.CFid") and len(trim(form.CFid))>
+			and a.CFid = <cfqueryparam cfsqltype="cf_sql_numeric" value="#form.CFid#">
+		</cfif>
+		<cfif isdefined("form.CMTScodigo") and len(trim(form.CMTScodigo))>
+			and a.CMTScodigo = <cfqueryparam cfsqltype="cf_sql_char" value="#form.CMTScodigo#">
+		</cfif>					
+		and <cf_dbfunction name="date_part" args="MM,a.ESfecha"> between <cfqueryparam cfsqltype="cf_sql_integer" value="#form.mesIni#"> and <cfqueryparam cfsqltype="cf_sql_integer" value="#form.mesFin#"> 
+		and <cf_dbfunction name="date_part" args="YY,a.ESfecha"> between <cfqueryparam cfsqltype="cf_sql_integer" value="#form.anoIni#"> and <cfqueryparam cfsqltype="cf_sql_integer" value="#form.anoFin#">		
+
+</cfquery>
+<!---ciclo F:<cfdump var="#rsCicloF#"><br>--->
+
+<!---<cfdump var="#rsCicloA#">--->
+
+<cfset temp = ArrayNew(1)>
+<!---<cfset temp[1] = 'A'>--->
+<cfset QueryAddColumn(rsCicloA, 'ciclo', temp)><!---Nueva columna para indicar cual ciclo pertenece---->
+
+<cfoutput>	
+	
+	<cfloop query="rsCicloB">	
+		<cfset QueryAddRow(rsCicloA)>
+		<cfset QuerySetCell(rsCicloA, 'CMTScodigo', #trim(rsCicloB.CMTScodigo)#)>
+		<cfset QuerySetCell(rsCicloA, 'ESidsolicitud', #rsCicloB.ESidsolicitud#)>
+		<cfset QuerySetCell(rsCicloA, 'mes', #rsCicloB.mes#)>
+		<cfset QuerySetCell(rsCicloA, 'diferencia', #rsCicloB.diferencia#)>
+		<cfset QuerySetCell(rsCicloA, 'ciclo', 'B')>
+	</cfloop>
+	<cfloop query="rsCicloc">	
+		<cfset QueryAddRow(rsCicloA)>
+		<cfset QuerySetCell(rsCicloA, 'CMTScodigo', #trim(rsCicloc.CMTScodigo)#)>
+		<cfset QuerySetCell(rsCicloA, 'ESidsolicitud', #rsCicloc.ESidsolicitud#)>
+		<cfset QuerySetCell(rsCicloA, 'mes', #rsCicloc.mes#)>
+		<cfset QuerySetCell(rsCicloA, 'diferencia', #rsCicloc.diferencia#)>
+		<cfset QuerySetCell(rsCicloA, 'ciclo', 'C')>
+	</cfloop>
+	<cfloop query="rsCiclod">	
+		<cfset QueryAddRow(rsCicloA)>
+		<cfset QuerySetCell(rsCicloA, 'CMTScodigo', #trim(rsCiclod.CMTScodigo)#)>
+		<cfset QuerySetCell(rsCicloA, 'ESidsolicitud', #rsCiclod.ESidsolicitud#)>
+		<cfset QuerySetCell(rsCicloA, 'mes', #rsCiclod.mes#)>
+		<cfset QuerySetCell(rsCicloA, 'diferencia', #rsCiclod.diferencia#)>
+		<cfset QuerySetCell(rsCicloA, 'ciclo', 'D')>
+	</cfloop>	
+	<cfloop query="rsCicloE">	
+		<cfset QueryAddRow(rsCicloA)>
+		<cfset QuerySetCell(rsCicloA, 'CMTScodigo', #trim(rsCicloE.CMTScodigo)#)>
+		<cfset QuerySetCell(rsCicloA, 'ESidsolicitud', #rsCicloE.ESidsolicitud#)>
+		<cfset QuerySetCell(rsCicloA, 'mes', #rsCicloE.mes#)>
+		<cfset QuerySetCell(rsCicloA, 'diferencia', #rsCicloE.diferencia#)>
+		<cfset QuerySetCell(rsCicloA, 'ciclo', 'E')>
+	</cfloop>	
+	<cfloop query="rsCicloF">	
+		<cfset QueryAddRow(rsCicloA)>
+		<cfset QuerySetCell(rsCicloA, 'CMTScodigo', #trim(rsCicloF.CMTScodigo)#)>
+		<cfset QuerySetCell(rsCicloA, 'ESidsolicitud', #rsCicloF.ESidsolicitud#)>
+		<cfset QuerySetCell(rsCicloA, 'mes', #rsCicloF.mes#)>
+		<cfset QuerySetCell(rsCicloA, 'diferencia', #rsCicloF.diferencia#)>
+		<cfset QuerySetCell(rsCicloA, 'ciclo', 'F')>
+	</cfloop>
+	
+</cfoutput>
+<!---
+<cfdump var="#rsCicloc#">
+
+<cfdump var="#rsCicloA#">
+---->
+
+	<!---
+	<cfoutput query="rsCicloA" group="CMTScodigo">
+		Tipo:#rsCicloA.CMTScodigo#<br>
+		<cfoutput group="ciclo">
+			Ciclo:#rsCicloA.ciclo#<br>
+			<cfoutput group="mes">
+				mes:#rsCicloA.mes#<br>
+				<cfset x = 0>
+				<cfoutput group="ESidsolicitud">
+					<cfset x = x+#rsCicloA.diferencia#>
+				</cfoutput>
+				suma:#x#<br>
+			</cfoutput>
+		</cfoutput>
+	</cfoutput>
+	---->	
+	<cfquery dbtype="query" name="_rsCicloA">
+		select distinct CMTScodigo
+		from rsCicloA
+	</cfquery>
+	
+	<cfset x= QuotedValueList(_rsCicloA.CMTScodigo)>
+	
+	<cfquery name="rr" dbtype="query">
+		select * 
+		from rsCtroFunc 
+		where CMTScodigo not in(#preservesinglequotes(x)#)
+	</cfquery>
+	
+	<cfdump var="#rr#">
+	<!---
+	<cfoutput query="rsCicloA" group="ciclo">
+		ciclo:#rsCicloA.ciclo#<br>
+		<cfoutput group="CMTScodigo">
+			tipo:#rsCicloA.CMTScodigo#<br>
+			<cfoutput group="mes">
+				mes:#rsCicloA.mes#<br>
+				<cfset x = 0>
+				<cfoutput group="ESidsolicitud">
+					<cfset x = x+#rsCicloA.diferencia#>
+				</cfoutput>
+				suma:#x#<br>
+			</cfoutput>
+		</cfoutput>		
+	</cfoutput>
+	---->
+	
+	<cf_dbtemp name="rsDatos" returnvariable="rsDatos" datasource="#session.DSN#">
+		<cf_dbtempcol name="CMTScodigo"  type="varchar" mandatory="yes">
+		<cf_dbtempcol name="C1"       type="varchar" mandatory="no">
+		<cf_dbtempcol name="C2"       type="varchar" mandatory="no">
+		<cf_dbtempcol name="C3"       type="varchar" mandatory="no">
+		<cf_dbtempcol name="C4"       type="varchar" mandatory="no">
+		<cf_dbtempcol name="C5"       type="varchar" mandatory="no">
+		<cf_dbtempcol name="C6"       type="varchar" mandatory="no">
+		<cf_dbtempcol name="diferencia"       type="varchar" mandatory="no">
+		<cf_dbtempcol name="mes"       type="varchar" mandatory="no">		
+	</cf_dbtemp>
+
+	<cfoutput query="rsCicloA" group="CMTScodigo">
+		tipo:#rsCicloA.CMTScodigo#<br>
+		<cfoutput group="ciclo">
+			ciclo:#rsCicloA.ciclo#<br>
+			<cfoutput group="mes">
+				mes:#rsCicloA.mes#<br>
+				<cfset x = 0>
+				<cfoutput group="ESidsolicitud">
+					<cfset x = x+#rsCicloA.diferencia#>
+				</cfoutput>
+				suma:#x#<br>
+			</cfoutput>
+		</cfoutput>		
+	</cfoutput>
+	
+	
+	
+
+<cfswitch expression="#form.mesIni#">
+	<cfcase value="1"><cfset vsMesIni = 'Enero'></cfcase>
+	<cfcase value="2"><cfset vsMesIni = 'Febrero'></cfcase>
+	<cfcase value="3"><cfset vsMesIni = 'Marzo'></cfcase>
+	<cfcase value="4"><cfset vsMesIni = 'Abril'></cfcase>
+	<cfcase value="5"><cfset vsMesIni = 'Mayo'></cfcase>
+	<cfcase value="6"><cfset vsMesIni = 'Junio'></cfcase>
+	<cfcase value="7"><cfset vsMesIni = 'Julio'></cfcase>
+	<cfcase value="8"><cfset vsMesIni = 'Agosto'></cfcase>
+	<cfcase value="9"><cfset vsMesIni = 'Setiembre'></cfcase>
+	<cfcase value="10"><cfset vsMesIni = 'Octubre'></cfcase>
+	<cfcase value="11"><cfset vsMesIni = 'Noviembre'></cfcase>
+	<cfcase value="12"><cfset vsMesIni = 'Diciembre'></cfcase>
+</cfswitch>
+<cfswitch expression="#form.mesFin#">
+	<cfcase value="1"><cfset vsMesFin = 'Enero'></cfcase>
+	<cfcase value="2"><cfset vsMesFin = 'Febrero'></cfcase>
+	<cfcase value="3"><cfset vsMesFin = 'Marzo'></cfcase>
+	<cfcase value="4"><cfset vsMesFin = 'Abril'></cfcase>
+	<cfcase value="5"><cfset vsMesFin = 'Mayo'></cfcase>
+	<cfcase value="6"><cfset vsMesFin = 'Junio'></cfcase>
+	<cfcase value="7"><cfset vsMesFin = 'Julio'></cfcase>
+	<cfcase value="8"><cfset vsMesFin = 'Agosto'></cfcase>
+	<cfcase value="9"><cfset vsMesFin = 'Setiembre'></cfcase>
+	<cfcase value="10"><cfset vsMesFin = 'Octubre'></cfcase>
+	<cfcase value="11"><cfset vsMesFin = 'Noviembre'></cfcase>
+	<cfcase value="12"><cfset vsMesFin = 'Diciembre'></cfcase>
+</cfswitch>
+
+<table width="100%" cellpadding="0" cellspacing="0">	
+	<tr><td align="center"><strong><cfoutput>#session.Enombre#</cfoutput></strong></td></tr>
+	<tr><td align="center"><strong>Ciclos de compra</strong></td></tr>
+	<tr>			
+		<td align="center"><strong><cfoutput>Desde:&nbsp;#vsMesIni#&nbsp;del&nbsp;#form.anoIni#&nbsp; a &nbsp;#vsMesFin#&nbsp;del&nbsp;#form.anoFin#</cfoutput></strong></td>
+	</tr>		
+	<tr><td align="center"><strong><cfoutput>Centro Funcional:&nbsp;#rsCtroFunc.ctrofuncional#</cfoutput></strong></td></tr>
+	<tr><td>&nbsp;</td></tr>
+	<tr>
+		<td>
+			<table width="100%" cellpadding="0" cellspacing="0">				
+				<tr>
+					<td><strong>Tipo Solicitud</strong></td>
+					<!---<td><strong>Mes</strong></td>--->
+					<td><strong>C1</strong></td>
+					<td><strong>C2</strong></td>
+					<td><strong>C3</strong></td>
+					<td><strong>C4</strong></td>
+					<td><strong>C5</strong></td>
+					<td><strong>C6</strong></td>
+				</tr>
+				<cfset ctipo=''>
+				<cfoutput query="rsCicloA" group="CMTScodigo">					
+					<tr>											
+						<td>#rsCicloA.CMTScodigo#</td>					
+						<!---tipo:#rsCicloA.CMTScodigo#<br>--->
+						<cfif rsCicloA.CMTScodigo NEQ ctipo>
+							<cfoutput group="ciclo">
+								ciclo:#rsCicloA.ciclo#<br>							
+								<cfoutput group="mes">
+									<!---mes:#rsCicloA.mes#<br>--->
+									<cfset x = 0>
+									<cfoutput group="ESidsolicitud">
+										<cfset x = x+#rsCicloA.diferencia#>
+									</cfoutput>
+									<cfif rsCicloA.ciclo EQ ''>
+										<td>#x#</td><!---suma:#x#<br>--->
+										<td colspan="5">&nbsp;</td>
+									<cfelseif rsCicloA.ciclo EQ 'B'>
+										<td>&nbsp;</td><!---suma:#x#<br>--->
+										<td>#x#</td>
+										<td colspan="4">&nbsp;</td>									
+									</cfif>								
+								</cfoutput>
+								<cfset ctipo=rsCicloA.CMTScodigo>
+							</cfoutput>						
+						</cfif>
+					</tr>
+				</cfoutput>
+				
+				<!---<tr>
+					<td><strong>Tipo solicitud</strong></td>
+					<td>&nbsp;</td>
+					<td><strong>C1</strong></td>
+					<td><strong>C2</strong></td>
+					<td><strong>C3</strong></td>
+					<td><strong>C4</strong></td>
+					<td><strong>C5</strong></td>
+					<td><strong>C6</strong></td>
+				</tr>--->					
+			</table>
+		</td>
+	</tr>
+</table>
+
+
+

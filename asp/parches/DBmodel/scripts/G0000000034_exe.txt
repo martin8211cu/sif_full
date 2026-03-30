@@ -1,0 +1,39 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 62 - DBM 187: DAnualidad (TEC), RHTipoAccion (MEX)
+
+	         PARCHE:  Parche023_103_RH _Varios
+
+GENERADO EN:
+	SERVER:  http://mxpapp36:8300
+	DSN:     sifcim
+	FECHA:   11/07/2011 11:32:35
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* CHG_TABLE DAnualidad: DAnualidad */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): DAaplicada - DAaplicada */
+ALTER TABLE DAnualidad ADD DAaplicada integer NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE RHTipoAccion: Tipos de Acciones de RH */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): RHTfactorfalta - Factor Pago Dias Falta */
+ALTER TABLE RHTipoAccion ADD RHTfactorfalta float DEFAULT 1 NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

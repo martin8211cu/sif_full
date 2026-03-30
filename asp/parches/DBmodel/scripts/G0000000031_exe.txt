@@ -1,0 +1,186 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 55 - DBM 181: Modificaciones en parametros de presupues
+
+	         PARCHE:  Parche023_089_SIF_Parametrización de Contabilidad 
+
+GENERADO EN:
+	SERVER:  http://mxpapp36:8300
+	DSN:     sifcim
+	FECHA:   08/07/2011 12:51:59
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* ADD_TABLE CPDistribucionCostos: Distribucion_de_Costos_por_Cen */
+/* ======================================================================================== */
+
+CREATE TABLE CPDistribucionCostos (
+	 CPDCid                         numeric(18)          identity
+	,Ecodigo                        integer              NOT NULL
+	,CPDCcodigo                     char(10)             NOT NULL
+	,CPDCdescripcion                varchar(50)          NULL
+	,CPDCactivo                     bit                  NOT NULL
+	,CPDCporcTotal                  numeric(5,2)         NULL
+	,BMUsucodigo                    numeric(18)          NULL
+	,ts_rversion                    timestamp           
+	)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="P", SEC="0", COLS="CPDCid" */
+ALTER TABLE CPDistribucionCostos ADD CONSTRAINT CPDistribucionCostos_PK PRIMARY KEY NONCLUSTERED (CPDCid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="A", SEC="1", COLS="Ecodigo,CPDCcodigo" */
+ALTER TABLE CPDistribucionCostos ADD CONSTRAINT CPDistribucionCostos_AK01 UNIQUE CLUSTERED (Ecodigo,CPDCcodigo)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* ADD_TABLE CPDistribucionCostosCF: Distribución de Costos por Cen */
+/* ======================================================================================== */
+
+CREATE TABLE CPDistribucionCostosCF (
+	 CPDCid                         numeric(18)          NOT NULL
+	,CFid                           numeric(18)          NOT NULL
+	,CPDCCFporc                     numeric(5,2)         NULL
+	,CPDCCFdefault                  bit                  NOT NULL
+	,BMUsucodigo                    numeric(18)          NULL
+	,ts_rversion                    timestamp           
+	)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="P", SEC="0", COLS="CPDCid,CFid" */
+ALTER TABLE CPDistribucionCostosCF ADD CONSTRAINT CPDistribucionCostosCF_PK PRIMARY KEY CLUSTERED (CPDCid,CFid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="F", SEC="1", COLS="CFid", REF="CFuncional" */
+CREATE INDEX CPDistribucionCostosCF_FI01 ON CPDistribucionCostosCF (CFid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="F", SEC="2", COLS="CPDCid", REF="CPDistribucionCostos" */
+CREATE INDEX CPDistribucionCostosCF_FI02 ON CPDistribucionCostosCF (CPDCid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* ADD_TABLE CPtipoMov: Movimientos de Presupuesto */
+/* ======================================================================================== */
+
+CREATE TABLE CPtipoMov (
+	 CPTMorden1                     numeric(1)           NOT NULL
+	,CPTMorden2                     numeric(2)           NOT NULL
+	,CPTMtipoMov                    char(2)              NOT NULL
+	,CPTMdescripcion                varchar(40)          NOT NULL
+	,BMUsucodigo                    numeric(18)          NULL
+	,ts_rversion                    timestamp           
+	)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="P", SEC="0", COLS="CPTMorden1,CPTMorden2" */
+ALTER TABLE CPtipoMov ADD CONSTRAINT CPtipoMov_PK PRIMARY KEY CLUSTERED (CPTMorden1,CPTMorden2)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="A", SEC="1", COLS="CPTMtipoMov" */
+ALTER TABLE CPtipoMov ADD CONSTRAINT CPtipoMov_AK01 UNIQUE NONCLUSTERED (CPTMtipoMov)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* ADD_TABLE CPtipoMovContable: CPtipoMovContable */
+/* ======================================================================================== */
+
+CREATE TABLE CPtipoMovContable (
+	 CPPid                          numeric(18)          NOT NULL
+	,CPCCtipo                       char(1)              NOT NULL
+	 CONSTRAINT CPtipoMovContable_CK02 CHECK ([CPCCtipo]='C' OR [CPCCtipo]='E' OR [CPCCtipo]='I')
+	,CPTMtipoMov                    char(2)              NOT NULL
+	,Ecodigo                        integer              NOT NULL
+	,Cmayor                         char(4)              NOT NULL
+	,BMUsucodigo                    numeric(18)          NULL
+	,ts_rversion                    timestamp           
+	)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="P", SEC="0", COLS="CPPid,CPCCtipo,CPTMtipoMov" */
+ALTER TABLE CPtipoMovContable ADD CONSTRAINT CPtipoMovContable_PK PRIMARY KEY CLUSTERED (CPPid,CPCCtipo,CPTMtipoMov)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="F", SEC="1", COLS="CPTMtipoMov", REF="CPtipoMov" */
+CREATE INDEX CPtipoMovContable_FI01 ON CPtipoMovContable (CPTMtipoMov)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="F", SEC="2", COLS="Ecodigo,Cmayor", REF="CtasMayor" */
+CREATE INDEX CPtipoMovContable_FI02 ON CPtipoMovContable (Ecodigo,Cmayor)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="F", SEC="3", COLS="Ecodigo,CPPid", REF="CPresupuestoPeriodo" */
+CREATE INDEX CPtipoMovContable_FI03 ON CPtipoMovContable (Ecodigo,CPPid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ================================================================= */
+/*            CREA FKs NUEVOS O CON CAMPOS MODIFICADOS               */
+/* ================================================================= */
+/* CHG_TABLE CPDistribucionCostosCF */
+/* ADD_FK OP=(TAB NUEVA): TIP="F", SEC="1", COLS="CFid", REF="CFuncional" */
+ALTER TABLE CPDistribucionCostosCF ADD CONSTRAINT CPDistribucionCostosCF_FK01 FOREIGN KEY (CFid) REFERENCES CFuncional (CFid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_FK OP=(TAB NUEVA): TIP="F", SEC="2", COLS="CPDCid", REF="CPDistribucionCostos" */
+ALTER TABLE CPDistribucionCostosCF ADD CONSTRAINT CPDistribucionCostosCF_FK02 FOREIGN KEY (CPDCid) REFERENCES CPDistribucionCostos (CPDCid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_TABLE CPtipoMovContable */
+/* ADD_FK OP=(TAB NUEVA): TIP="F", SEC="1", COLS="CPTMtipoMov", REF="CPtipoMov" */
+ALTER TABLE CPtipoMovContable ADD CONSTRAINT CPtipoMovContable_FK01 FOREIGN KEY (CPTMtipoMov) REFERENCES CPtipoMov (CPTMtipoMov)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_FK OP=(TAB NUEVA): TIP="F", SEC="2", COLS="Ecodigo,Cmayor", REF="CtasMayor" */
+ALTER TABLE CPtipoMovContable ADD CONSTRAINT CPtipoMovContable_FK02 FOREIGN KEY (Ecodigo,Cmayor) REFERENCES CtasMayor (Ecodigo,Cmayor)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_FK OP=(TAB NUEVA): TIP="F", SEC="3", COLS="Ecodigo,CPPid", REF="CPresupuestoPeriodo" */
+ALTER TABLE CPtipoMovContable ADD CONSTRAINT CPtipoMovContable_FK03 FOREIGN KEY (Ecodigo,CPPid) REFERENCES CPresupuestoPeriodo (Ecodigo,CPPid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

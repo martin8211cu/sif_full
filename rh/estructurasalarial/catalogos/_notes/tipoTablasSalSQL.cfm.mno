@@ -1,0 +1,4 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<info>
+	<infoitem key="UD_rs" value="name:Usucodigo;datatype:,name:CEcodigo;datatype:,name:id_direccion;datatype:,name:datos_personales;datatype:,name:LOCIdioma;datatype:,name:Usulogin;datatype:,name:admin;datatype:,name:Ureferencia1;datatype:,name:Ureferencia2;datatype:,name:Ureferencia3;datatype:,name:BMfecha;datatype:,name:BMUsucodigo;datatype:,name:Uestado;datatype:,name:Utemporal;datatype:,name:Ufdesde;datatype:,name:Ufhasta;datatype:,name:Usupregunta;datatype:,name:Usurespuesta;datatype:" />
+</info>

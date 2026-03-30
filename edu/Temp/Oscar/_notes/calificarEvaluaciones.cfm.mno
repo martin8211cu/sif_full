@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+<info>
+	<infoitem key="UD_qryProfesores" value="name:Codigo;datatype:,name:Descripcion;datatype:" />
+	<infoitem key="UD_qryCursos" value="name:Codigo;datatype:,name:Descripcion;datatype:" />
+	<infoitem key="UD_qryPeriodos" value="name:Codigo;datatype:,name:Descripcion;datatype:" />
+	<infoitem key="UD_qryComponentes" value="name:CodigoEC;datatype:,name:DescripcionEC;datatype:,name:PorcentajeEC;datatype:,name:OrdenEC;datatype:,name:CodigoCEC;datatype:,name:DescripcionCEC;datatype:,name:PorcentajeCEC;datatype:,name:Porcentaje;datatype:" />
+	<infoitem key="UD_qryValoresTabla" value="name:Tabla;datatype:,name:Codigo;datatype:,name:Descripcion;datatype:,name:EVorden;datatype:,name:Equivalente;datatype:,name:Minimo;datatype:,name:Maximo;datatype:" />
+	<infoitem key="UD_qryEstudiantes" value="name:Codigo;datatype:,name:Nombre;datatype:,name:Ajuste;datatype:" />
+</info>

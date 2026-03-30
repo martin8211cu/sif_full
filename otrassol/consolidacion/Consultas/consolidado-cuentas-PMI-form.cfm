@@ -1,0 +1,408 @@
+﻿<cfif isdefined("url.GEid") and not isdefined("form.GEid")>
+	<cfparam name="form.GEid" default="#url.GEid#">
+</cfif>
+<cfif isdefined("url.periodo") and not isdefined("form.periodo")>
+	<cfparam name="form.periodo" default="#url.periodo#">
+</cfif>
+<cfif isdefined("url.mes") and not isdefined("form.mes")>
+	<cfparam name="form.mes" default="#url.mes#">
+</cfif>
+<cfif isdefined("url.nivel") and not isdefined("form.nivel")>
+	<cfparam name="form.nivel" default="#url.nivel#">
+</cfif>
+<cfif isdefined("url.tipo") and not isdefined("form.tipo")>
+	<cfparam name="form.tipo" default="#url.tipo#">
+</cfif>
+<cfif isdefined("url.mcodigoopt")>
+	<cfparam name="Form.mcodigoopt" default="#url.mcodigoopt#">
+</cfif>
+<!--- Tabla de las empresas del reporte --->
+<cf_dbtemp name="empresas">
+	<cf_dbtempcol name="id"  		type="int" identity="yes" mandatory="yes" >			
+	<cf_dbtempcol name="nombre"		type="varchar(100)"	>
+	<cf_dbtempcol name="codigo"  	type="int" >
+</cf_dbtemp>
+
+<cfset empresas = temp_table >
+
+<!--- 2. Tabla de Cuentas --->
+<cf_dbtemp name="fcuentas">
+	<cf_dbtempcol name="Cformato"  		type="varchar(100)" >			
+	<cf_dbtempcol name="Cdescripcion"	type="varchar(100)"	>
+	<cf_dbtempcol name="Cmayor"  		type="char(4)" >
+	<cf_dbtempcol name="subtipo"  		type="int" >
+	<cf_dbtempcol name="tipo" 	 		type="char(1)" >
+</cf_dbtemp>
+<cfset fcuentas = temp_table >
+
+<!--- Tabla de Monedas Conversion --->
+<cf_dbtemp name="monedaconver" returnvariable="monedaconver">
+	<cf_dbtempcol name="Ecodigo"  type="int" 			mandatory="yes" >
+   	<cf_dbtempcol name="Mcodigo"  type="numeric(18,9)" 	mandatory="yes" >
+</cf_dbtemp>
+
+<!--- 3. Tabla de Saldos x Cuenta x Empresa --->
+<cf_dbtemp name="saldosxempresa">
+	<cf_dbtempcol name="Ccuenta"  type="numeric" 		mandatory="yes" >			
+	<cf_dbtempcol name="Ecodigo"  type="int" 			mandatory="yes" >
+	<cf_dbtempcol name="Cformato" type="varchar(100)" 	mandatory="yes" >
+	<cf_dbtempcol name="nivel"    type="int" >
+	<cf_dbtempcol name="saldo"    type="money" 			mandatory="yes" >
+	<cf_dbtempcol name="tipo"	  type="char(1)"		mandatory="yes" >
+</cf_dbtemp>
+<cfset saldosxempresa = temp_table >
+
+<cfset moneda ="">
+<cfif isdefined("Form.mcodigoopt") and Form.mcodigoopt EQ "-2">
+	<cfquery name="rsMonedaLocal" datasource="#Session.DSN#">
+		select a.Mcodigo, b.Mnombre, b.Msimbolo, b.Miso4217
+		from Empresas a, Monedas b 
+		where a.Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#Session.Ecodigo#">
+		  and a.Mcodigo = b.Mcodigo
+	</cfquery>
+	<cfset moneda =rsMonedaLocal.Mnombre>
+    <cfset monedaCod =rsMonedaLocal.Miso4217>
+
+    <!---Verifica si las monedas locales de las empresas del grupo son diferentes--->
+    <cfquery name="rsEmpresasG" datasource="#session.DSN#">
+        select e.Ecodigo,e.Edescripcion
+        from AnexoGEmpresaDet dg
+            inner join Empresas e
+                on e.Ecodigo = dg.Ecodigo
+        where dg.GEid = <cfqueryparam cfsqltype="cf_sql_numeric" value="#form.GEid#" >
+        order by e.Ecodigo
+    </cfquery>
+    <cfloop query="rsEmpresasG">
+        <cfquery name="rsValidaMonedaLocal" datasource="#Session.DSN#">
+            select a.Mcodigo, b.Mnombre, b.Msimbolo, b.Miso4217
+            from Empresas a, Monedas b
+            where a.Ecodigo = <cfqueryparam cfsqltype="cf_sql_numeric" value="#rsEmpresasG.Ecodigo#">
+                and a.Ecodigo = b.Ecodigo
+                and a.Mcodigo = b.Mcodigo
+                and b.Miso4217 like <cfqueryparam cfsqltype="cf_sql_varchar" value="#monedaCod#">
+        </cfquery>
+        <cfif rsValidaMonedaLocal.recordcount EQ 0>
+            <cfthrow message="Las Empresas que pertenecen al grupo no tienen la misma moneda Local. El Reporte solo se puede Generar por Moneda Convertida o Informe">
+        </cfif>
+    </cfloop>
+<cfelseif isdefined("Form.mcodigoopt") and (Form.mcodigoopt EQ "-3" or Form.mcodigoopt EQ "-4")>
+
+	<cfif Form.mcodigoopt EQ "-3">
+		<cfset BarPcodigo = 660>
+        <cfset TipoB15 = 0>
+    <cfelse>
+    	<cfset BarPcodigo = 3900>
+        <cfset TipoB15 = 2>    
+    </cfif>
+    
+	<cfquery name="rsParam" datasource="#Session.DSN#">
+		select Pvalor
+		from Parametros
+		where Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#Session.Ecodigo#">
+		and Pcodigo = #BarPcodigo#
+	</cfquery>
+	
+	<cfif rsParam.recordCount> 
+		<cfquery name="rsMonedaConvertida" datasource="#Session.DSN#">
+			select Mcodigo, Mnombre
+			from Monedas
+			where Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#Session.Ecodigo#">
+			and Mcodigo = <cfqueryparam cfsqltype="cf_sql_numeric" value="#rsParam.Pvalor#">
+		</cfquery>
+	</cfif>
+	<cfset moneda ='Convertida a ' & rsMonedaConvertida.Mnombre>
+</cfif>
+
+<cfquery datasource="#session.DSN#">
+	insert into #empresas# (nombre, codigo)
+	values ('CONSOLIDADO', 0)
+</cfquery>
+
+<cfquery datasource="#session.DSN#">
+	insert into #empresas# (nombre, codigo)
+	select e.Edescripcion, e.Ecodigo
+	from AnexoGEmpresaDet dg
+		inner join Empresas e
+			on e.Ecodigo = dg.Ecodigo
+	where dg.GEid = <cfqueryparam cfsqltype="cf_sql_numeric" value="#form.GEid#" >
+	order by e.Ecodigo
+</cfquery>
+
+<cfquery datasource="#session.DSN#">
+	insert into #saldosxempresa#
+		(	
+			Ccuenta,
+			Ecodigo,
+			Cformato,
+			nivel,
+			tipo,
+			saldo
+		)
+	select distinct
+			cu.Ccuentaniv,
+			cc.Ecodigo,
+			cc.Cformato,
+			cu.PCDCniv,
+			cm.Ctipo,
+			0.00
+	from #empresas# e, CtasMayor cm, CContables cc, PCDCatalogoCuenta cu <cfif Application.dsinfo[session.dsn].type is 'sybase'>(index PCDCatalogoCuenta_04)</cfif>
+		where e.codigo = cm.Ecodigo 
+			<cfif form.tipo eq 1 >
+				and cm.Ctipo in ('A', 'P', 'C')
+			<cfelse>
+				and cm.Ctipo in ('I', 'G')
+			</cfif>
+		  and cm.Ecodigo = cc.Ecodigo
+		  and cm.Cmayor = cc.Cmayor
+		  and cc.Ccuenta = cu.Ccuentaniv
+		  and cu.PCDCniv < <cfqueryparam cfsqltype="cf_sql_integer" value="#form.nivel#">
+<!---		  and cu.PCDCniv <= <cfqueryparam cfsqltype="cf_sql_integer" value="#form.nivel#"> --->
+</cfquery>
+
+<!--- ACA hay que poner los saldos segun la moneda--->
+<cfif isdefined("Form.mcodigoopt") and Form.mcodigoopt EQ "-2">
+    <cfquery datasource="#session.DSN#">
+        update #saldosxempresa#
+        set saldo = coalesce(( 
+                select sum(SLinicial + DLdebitos - CLcreditos)
+                from SaldosContables sc
+                where sc.Ecodigo = #saldosxempresa#.Ecodigo
+                  and sc.Ccuenta = #saldosxempresa#.Ccuenta
+                  and sc.Speriodo = <cfqueryparam cfsqltype="cf_sql_integer" value="#form.periodo#">
+                  and sc.Smes = <cfqueryparam cfsqltype="cf_sql_integer" value="#form.mes#">), 0.00)
+    </cfquery>
+<cfelseif isdefined("Form.mcodigoopt") and (Form.mcodigoopt EQ "-3" or Form.mcodigoopt EQ "-4")>
+<!---
+
+<cfquery name="MontosL" datasource="#session.DSN#">
+				select * from #saldosxempresa#
+</cfquery>
+<cfthrow message = "valores. id 18 #MontosL.Ecodigo#" > 
+<cfquery datasource="#session.DSN#" name="CONSUL">
+select * from #saldosxempresa#
+</cfquery>
+<cf_dump var="#CONSUL">
+--->
+    <cfquery datasource="#session.DSN#">
+    	insert #monedaconver# (Ecodigo,Mcodigo)
+        select Ecodigo, CONVERT(numeric,Pvalor) 
+        from Parametros 
+        where Ecodigo in (select distinct Ecodigo from #saldosxempresa#)
+        and Pcodigo = #BarPcodigo#
+    </cfquery>
+    
+    <cfquery datasource="#session.DSN#">
+        update #saldosxempresa#
+        set saldo = coalesce((         
+                select sum(SLinicial + DLdebitos - CLcreditos)                
+                from SaldosContablesConvertidos sc
+                where sc.Ecodigo = #saldosxempresa#.Ecodigo
+                  and sc.Ccuenta = #saldosxempresa#.Ccuenta
+                  and sc.Speriodo = <cfqueryparam cfsqltype="cf_sql_integer" value="#form.periodo#">
+                  and sc.Smes = <cfqueryparam cfsqltype="cf_sql_integer" value="#form.mes#">
+				  and sc.Mcodigo = (select Mcodigo from #monedaconver# where Ecodigo = sc.Ecodigo)
+                  and sc.B15 = #TipoB15#),
+				   0.00)
+         where len(Ccuenta) > 0
+    </cfquery>
+</cfif>
+<!--- Borrar las cuentas que tengan saldo en cero --->
+<cfquery datasource="#session.DSN#">
+	delete from #saldosxempresa#
+	where saldo = 0.00
+	  and nivel <> 0
+</cfquery>
+<!--- Cambiar el signo estandar de las cuentas:  P=Pasivo, C=Capital, I=Ingreso  pues tienen saldos normalmente al Credito  --->
+<cfquery datasource="#session.DSN#">
+	update #saldosxempresa#
+	set saldo = -saldo
+	where tipo in ('P', 'C', 'I')
+</cfquery>
+
+<!--- Insertar todas las cuentas diferentes encontradas --->
+<cfquery datasource="#session.DSN#">
+	insert into #fcuentas# (Cformato, Cdescripcion, Cmayor, tipo, subtipo)
+	select distinct 
+		se.Cformato, 
+		' ', 
+		c.Cmayor, 
+		se.tipo,
+		case se.tipo
+			when 'A' then 200 
+			when 'P' then 210 
+			when 'C' then 220 
+			else cm.Csubtipo 
+		end as subtipo
+	from #saldosxempresa# se
+			inner join CContables c
+					inner join CtasMayor cm
+						on cm.Ecodigo=c.Ecodigo
+						and cm.Cmayor=c.Cmayor
+			  on c.Ecodigo = se.Ecodigo and c.Ccuenta=se.Ccuenta
+</cfquery>
+<cfif form.tipo eq 1 >
+	<!--- Insertar la cuenta de utilidad por cada empresa --->
+    <cfquery datasource="#session.DSN#">
+        insert into #fcuentas# (Cformato, Cdescripcion, Cmayor, tipo, subtipo)
+        select 
+            'zzzzzzzz', 
+            'Utilidad del Periodo', 
+            'zzzz', 
+            'C',
+            220 
+         from dual
+    </cfquery>
+    
+<!--- Saldos segun la moneda--->
+	<cfif isdefined("Form.mcodigoopt") and Form.mcodigoopt EQ "-2">
+        <cfquery datasource="#session.DSN#">
+            insert into #saldosxempresa#
+                (	
+                    Ccuenta,
+                    Ecodigo,
+                    Cformato,
+                    nivel,
+                    tipo,
+                    saldo
+                )
+            select 	0,
+                    e.codigo,
+                    'zzzzzzzz',
+                    0,
+                    'C',
+                    coalesce((select sum(-s.SLinicial - s.DLdebitos + s.CLcreditos)
+                        from CContables c
+                                inner join CtasMayor m
+                                     on m.Cmayor = c.Cmayor
+                                    and m.Ecodigo = c.Ecodigo
+                                inner join SaldosContables s
+                                    on s.Ccuenta = c.Ccuenta
+                        where c.Ecodigo  = e.codigo
+                          and c.Cformato = c.Cmayor
+                          and m.Ctipo in ('I', 'G')
+                          and s.Speriodo = <cfqueryparam cfsqltype="cf_sql_integer" value="#form.periodo#">
+                          and s.Smes     = <cfqueryparam cfsqltype="cf_sql_integer" value="#form.mes#">
+                    ), 0.00) as saldo
+            from #empresas# e
+            where e.codigo <> 0
+        </cfquery>
+        
+	<cfelseif isdefined("Form.mcodigoopt") and (Form.mcodigoopt EQ "-3" or Form.mcodigoopt EQ "-4")>
+        <cfquery datasource="#session.DSN#">
+            insert into #saldosxempresa#
+                (	
+                    Ccuenta,
+                    Ecodigo,
+                    Cformato,
+                    nivel,
+                    tipo,
+                    saldo
+                )
+            select 	0,
+                    e.codigo,
+                    'zzzzzzzz',
+                    0,
+                    'C',
+                    coalesce((select sum(-s.SLinicial - s.DLdebitos + s.CLcreditos)
+                        from CContables c
+                                inner join CtasMayor m
+                                     on m.Cmayor = c.Cmayor
+                                    and m.Ecodigo = c.Ecodigo
+                                inner join SaldosContablesConvertidos s
+                                    on s.Ccuenta = c.Ccuenta
+                        where c.Ecodigo  = e.codigo
+                          and c.Cformato = c.Cmayor
+                          and m.Ctipo in ('I', 'G')
+                          and s.Speriodo = <cfqueryparam cfsqltype="cf_sql_integer" value="#form.periodo#">
+                          and s.Smes     = <cfqueryparam cfsqltype="cf_sql_integer" value="#form.mes#">
+                          and s.Mcodigo = (select CONVERT(numeric,Pvalor) from Parametros where Ecodigo = e.codigo and Pcodigo = #BarPcodigo#)
+                          and s.B15 = #TipoB15#), 0.00) as 			saldo
+            from #empresas# e
+            where e.codigo <> 0
+        </cfquery>
+	</cfif>       
+</cfif>
+
+<!--- Actualizar la descripcion de la cuenta.  Pueden tener descripciones distintas, por lo que se usa la primera --->
+<cfquery datasource="#session.DSN#">
+	update #fcuentas#
+	set Cdescripcion = coalesce(( select min(c.Cdescripcion)
+						  		  from #empresas# e, CContables c
+								  where c.Ecodigo = e.codigo
+								    and c.Cformato = #fcuentas#.Cformato), 'N/A')
+	where Cformato <> 'zzzzzzzz'
+</cfquery>
+
+<!--- Insertar las cuentas y saldos de la empresa CONSOLIDADA --->
+<cfquery datasource="#session.DSN#">
+	insert into #saldosxempresa# (
+			Ccuenta,
+			Ecodigo,
+			Cformato,
+			nivel,
+			tipo,
+			saldo)
+	select 0, 0, Cformato, nivel, min(tipo), sum(saldo)
+	from #saldosxempresa#
+	group by Cformato, nivel
+</cfquery>
+
+<!--- Cantidad de columnas a generar -  A esto se debe sumar dos columnas de la cuenta y la descripcion --->
+<cfquery name="empresa" datasource="#session.DSN#">
+	select id as Columna, codigo as Codigo, nombre as Nombre
+	from #empresas# 
+	where codigo > 0
+	order by id
+</cfquery>	
+	
+<!--- Salida para generar la tabla HTML --->
+<cfquery datasource="#session.DSN#" name="datos">	
+	select 	fc.Cformato as Cuenta, 
+			fc.Cdescripcion as Cdescripcion, 
+			e.id as Columna, 
+			e.codigo as Ecodigo, 
+			e.nombre as NombreEmpresa, 
+			se.nivel, 
+			coalesce(se.saldo, 0.00) as Saldo,
+			fc.tipo,
+			fc.subtipo
+	from #fcuentas# fc
+		inner join #empresas# e
+			on 1=1
+    	left outer join #saldosxempresa# se
+           on e.codigo    = se.Ecodigo
+          and se.Cformato = fc.Cformato 
+	order by fc.subtipo, fc.Cformato, fc.Cdescripcion, e.id
+</cfquery>
+
+<!--- Estructura para totalizar --->
+<cfset subtotales = structnew()>
+<cfset subtotales['0'] = 0>
+<cfset totales = structnew()>
+<cfset totales['0'] = 0>
+<cfset subtotalizar = 0>
+
+<cfcontent reset="yes">
+<cfif not isdefined('form.btnDownload')>
+                <cf_templatecss>
+</cfif>    
+<cf_htmlReportsHeaders irA="consolidado-cuentasPMI-filtro.cfm" FileName="consolidado.xls" title="Consolidado de Empresas">
+<cfsetting enablecfoutputonly="no">
+
+<cfflush interval="1000">
+<style type="text/css">
+	.negrita{ font-weight:bold; }
+	
+	.encabReporte {
+		background-color: #006699;
+		font-weight: bold;
+		color: #FFFFFF;
+		padding-top: 2px;
+		padding-bottom: 2px;
+		font-size:12px;
+		font:Arial, Helvetica, sans-serif;
+		text-transform:uppercase;
+	}
+</style> 
+<cfinclude template="consolidado-cuentas-impr.cfm">
+</body></html>

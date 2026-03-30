@@ -1,0 +1,21 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 499 - DBM 442: Asientos Recurrentes
+
+	         PARCHE:  Parche023_630_SIF_CierreContaPresupuestal
+
+GENERADO EN:
+	SERVER:  http://mxvqapp34:8300
+	DSN:     sifcim
+	FECHA:   13/01/2012 12:56:05
+*/
+
+/* INI_SCRIPT */
+
+/* END_SCRIPT */

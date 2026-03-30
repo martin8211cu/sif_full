@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://td.e_mig._sif" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="http://td.e_mig._sif" xmlns:intf="http://td.e_mig._sif" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns1="http://rpc.xml.coldfusion" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<!--WSDL created by ColdFusion version 8,0,1,195765-->
+ <wsdl:types>
+  <schema targetNamespace="http://td.e_mig._sif" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://rpc.xml.coldfusion"/>
+   <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+   <complexType name="R_StatusF">
+    <sequence>
+     <element name="rApellido1" nillable="true" type="xsd:string"/>
+     <element name="rApellido2" nillable="true" type="xsd:string"/>
+     <element name="rCedula" nillable="true" type="xsd:string"/>
+     <element name="rNombre" nillable="true" type="xsd:string"/>
+     <element name="rStatus" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+   <complexType name="R_StatusJ">
+    <sequence>
+     <element name="rCedulaJ" nillable="true" type="xsd:string"/>
+     <element name="rNombreJ" nillable="true" type="xsd:string"/>
+     <element name="rStatusJ" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+  </schema>
+  <schema targetNamespace="http://rpc.xml.coldfusion" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://td.e_mig._sif"/>
+   <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+   <complexType name="CFCInvocationException">
+    <sequence/>
+   </complexType>
+  </schema>
+ </wsdl:types>
+
+   <wsdl:message name="getStatusFResponse">
+
+      <wsdl:part name="getStatusFReturn" type="impl:R_StatusF"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="getStatusFRequest">
+
+      <wsdl:part name="tCedula" type="xsd:string"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="getStatusJRequest">
+
+      <wsdl:part name="tCedulaJ" type="xsd:string"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="getStatusJResponse">
+
+      <wsdl:part name="getStatusJReturn" type="impl:R_StatusJ"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="CFCInvocationException">
+
+      <wsdl:part name="fault" type="tns1:CFCInvocationException"/>
+
+   </wsdl:message>
+
+   <wsdl:portType name="TributacionWS">
+
+      <wsdl:operation name="getStatusF" parameterOrder="tCedula">
+
+         <wsdl:input message="impl:getStatusFRequest" name="getStatusFRequest"/>
+
+         <wsdl:output message="impl:getStatusFResponse" name="getStatusFResponse"/>
+
+         <wsdl:fault message="impl:CFCInvocationException" name="CFCInvocationException"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getStatusJ" parameterOrder="tCedulaJ">
+
+         <wsdl:input message="impl:getStatusJRequest" name="getStatusJRequest"/>
+
+         <wsdl:output message="impl:getStatusJResponse" name="getStatusJResponse"/>
+
+         <wsdl:fault message="impl:CFCInvocationException" name="CFCInvocationException"/>
+
+      </wsdl:operation>
+
+   </wsdl:portType>
+
+   <wsdl:binding name="tributacionWS.cfcSoapBinding" type="impl:TributacionWS">
+
+      <wsdlsoap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+      <wsdl:operation name="getStatusF">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getStatusFRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://td.e_mig._sif" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getStatusFResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://td.e_mig._sif" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="CFCInvocationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="CFCInvocationException" namespace="http://td.e_mig._sif" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getStatusJ">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getStatusJRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://td.e_mig._sif" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getStatusJResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://td.e_mig._sif" use="encoded"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="CFCInvocationException">
+
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="CFCInvocationException" namespace="http://td.e_mig._sif" use="encoded"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+   </wsdl:binding>
+
+   <wsdl:service name="TributacionWSService">
+
+      <wsdl:port binding="impl:tributacionWS.cfcSoapBinding" name="tributacionWS.cfc">
+
+         <wsdlsoap:address location="http://localhost:8300/cfmx/_sif/e_mig/TD/tributacionWS.cfc"/>
+
+      </wsdl:port>
+
+   </wsdl:service>
+
+</wsdl:definitions>
+
+	
+
+	
+
+	
+
+	

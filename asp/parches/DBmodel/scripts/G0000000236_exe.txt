@@ -1,0 +1,39 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 540 - DBM 496: Creacion de nuevo campo en GEanticipo
+
+	         PARCHE:  Parche024_119_SIF_AnulacionAnticiposOP
+
+GENERADO EN:
+	SERVER:  http://mxvqapp34:8300
+	DSN:     minisif
+	FECHA:   13/03/2012 09:38:12
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* CHG_TABLE CCHTransaccionesProceso: TRANSACCIONES DE CAJA EN PROCE */
+/* ======================================================================================== */
+/* ADD_COLUMN OP = (NUEVO): SEC_NAP - Secuencia del NAP */
+ALTER TABLE CCHTransaccionesProceso ADD SEC_NAP integer NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE GEanticipo: GEanticipo */
+/* ======================================================================================== */
+/* ADD_COLUMN OP = (NUEVO): CPNAPnum_cancelacion - Nap de Cancelacion */
+ALTER TABLE GEanticipo ADD CPNAPnum_cancelacion numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

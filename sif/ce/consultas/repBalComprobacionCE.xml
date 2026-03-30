@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Etiquetas>
+	<Idioma id = "en">
+		<MSG_BalanceComprobacion></MSG_BalanceComprobacion>
+		<LB_Mes></LB_Mes>
+		<LB_Periodo></LB_Periodo>
+		<LB_Cuenta></LB_Cuenta>
+		<LB_Descripcion></LB_Descripcion>
+		<LB_SaldoInicial></LB_SaldoInicial>
+		<LB_Debitos></LB_Debitos>
+		<LB_Creditos></LB_Creditos>
+		<LB_SaldoFinal></LB_SaldoFinal>
+		<MSG_CierreAuxiliares></MSG_CierreAuxiliares>
+	</Idioma>
+</Etiquetas>

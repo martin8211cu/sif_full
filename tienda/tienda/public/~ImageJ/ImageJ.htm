@@ -1,0 +1,2670 @@
+
+
+
+
+
+
+
+	
+
+
+
+		
+		
+			
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+			
+
+
+<html>
+<head>
+<title>Component imageJ</title>
+<style>
+body  {
+	font-family: verdana, arial, helvetica, sans-serif;
+	background-color: #FFFFFF;
+	font-size: 12px;
+	margin-top: 10px;
+	margin-left: 10px;
+}
+
+table	{
+	font-size: 11px;
+	font-family: Verdana, arial, helvetica, sans-serif;
+	width: 90%;
+}
+
+th {
+	padding: 6px;
+	font-size: 12px;
+	background-color: #cccccc;
+}
+
+td {
+	padding: 6px;
+	background-color: #eeeeee;
+	vertical-align : top;
+}
+
+code {
+	color: #000099 ;
+}
+</style>
+
+</head>
+<body style="padding-bottom : 800px;">
+
+
+
+
+
+
+
+<font size="-2">imageJ</font><br>
+<font size="+1"><b>Component imageJ
+(ImageJ imaging API wrapper)
+</b></font>
+
+
+
+
+
+<br><br><br>
+<table>
+<tr><td>hierarchy:</td><td>
+
+
+
+	<a href="/CFIDE/componentutils/cfcexplorer.cfc?method=getcfcinhtml&name=WEB-INF.cftags.component">WEB-INF.cftags.component</a><br>
+	
+
+
+
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;imageJ<br>
+	
+
+
+
+</td></tr>
+<tr><td>path:</td>
+	<td>D:\APPLICATIONS\www.affinitiz.local\ImageJ.cfc</td>
+</tr>
+
+
+
+ 
+
+
+
+<p>version 0.9, 24 april 2003, Benoit Hediard (ben@benorama.com, http://www.benorama.com)</p>
+
+<tr><td>properties:</td>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<br>
+	<td> <a href="#property_imagePath">imagePath</a>, <a href="#property_imagePlus">imagePlus</a>, <a href="#property_imageProcessor">imageProcessor</a>, <a href="#property_imageType">imageType</a></td>
+</tr>
+<tr><td>methods:</td>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<td> <a href="#method_crop">crop</a>, <a href="#method_dilate">dilate</a>, <a href="#method_drawLine">drawLine</a>, <a href="#method_drawPixel">drawPixel</a>, <a href="#method_drawRect">drawRect</a>, <a href="#method_drawString">drawString</a>, <a href="#method_erode">erode</a>, <a href="#method_fill">fill</a>, <a href="#method_findEdges">findEdges</a>, <a href="#method_flipHorizontal">flipHorizontal</a>, <a href="#method_flipVertical">flipVertical</a>, <a href="#method_gamma">gamma</a>, <a href="#method_getHeight">getHeight</a>, <a href="#method_getImagePlus">getImagePlus</a>, <a href="#method_getImageProcessor">getImageProcessor</a>, <a href="#method_getType">getType</a>, <a href="#method_getWidth">getWidth</a>, <a href="#method_grayscale">grayscale</a>, <a href="#method_invert">invert</a>, <a href="#method_lineTo">lineTo</a>, <a href="#method_medianFilter">medianFilter</a>, <a href="#method_moveTo">moveTo</a>, <a href="#method_open">open</a>, <a href="#method_resetROI">resetROI</a>, <a href="#method_resize">resize</a>, <a href="#method_rotateLeft">rotateLeft</a>, <a href="#method_rotateRight">rotateRight</a>, <a href="#method_save">save</a>, <a href="#method_saveAs">saveAs</a>, <a href="#method_saveAsGif">saveAsGif</a>, <a href="#method_saveAsJpeg">saveAsJpeg</a>, <a href="#method_saveAsTiff">saveAsTiff</a>, <a href="#method_saveAsZip">saveAsZip</a>, <a href="#method_scale">scale</a>, <a href="#method_setColor">setColor</a>, <a href="#method_setFont">setFont</a>, <a href="#method_setLineWidth">setLineWidth</a>, <a href="#method_setROI">setROI</a>, <a href="#method_sharpen">sharpen</a>, <a href="#method_smooth">smooth</a></td>
+</tr>
+
+
+
+
+
+</table>
+<font size="-2">* - private method</font>
+
+
+
+
+
+<br><br><table>
+<tr>
+	<th>Property</th>
+	<th>Hint</th>
+	<th>Type</th>
+	<th>Req.</th>
+	<th>Implemented In</th>
+	<th>Default Value</th>
+</tr>
+
+	
+	
+	<tr>
+		<td><a name="property_imagePath"><b>imagePath</b></a> 
+			</td>
+		<td>Image path of the opened image (private)</td>
+		<td></td>
+		<td></td>
+		<td>imageJ
+		</td>
+		<td>
+				-
+			</td>
+		</tr>
+
+	
+	
+	<tr>
+		<td><a name="property_imagePlus"><b>imagePlus</b></a> 
+			</td>
+		<td>ij.ImagePlus java object (private)</td>
+		<td></td>
+		<td></td>
+		<td>imageJ
+		</td>
+		<td>
+				-
+			</td>
+		</tr>
+
+	
+	
+	<tr>
+		<td><a name="property_imageProcessor"><b>imageProcessor</b></a> 
+			</td>
+		<td>ij.process.ImageProcessor java object (private)</td>
+		<td></td>
+		<td></td>
+		<td>imageJ
+		</td>
+		<td>
+				-
+			</td>
+		</tr>
+
+	
+	
+	<tr>
+		<td><a name="property_imageType"><b>imageType</b></a> 
+			</td>
+		<td>Image type of the opened image (private)</td>
+		<td></td>
+		<td></td>
+		<td>imageJ
+		</td>
+		<td>
+				-
+			</td>
+		</tr>
+
+</table>
+
+
+
+
+
+
+
+
+
+<br><br><table>
+
+
+	
+	
+	
+	
+	
+	<tr><th align="left" colspan="1">
+		<a name="method_crop">crop</a>
+		
+		</th></tr>
+	<tr><td>
+	
+	
+	
+	<code>
+	
+	
+	<b>crop</b>
+	
+	(
+ 		
+	)
+	</i>
+	</code>
+	<br><br>	
+	
+	
+	Crops the image, based on the given ROI (Region Of Interest)<br><br>
+	
+	Output: supressed<br>
+	
+	
+	
+	<br>
+	</td></tr>
+
+
+	
+	
+	
+	
+	
+	<tr><th align="left" colspan="1">
+		<a name="method_dilate">dilate</a>
+		
+		</th></tr>
+	<tr><td>
+	
+	
+	
+	<code>
+	
+	
+	<b>dilate</b>
+	
+	(
+ 		
+	)
+	</i>
+	</code>
+	<br><br>	
+	
+	
+	Dilates the image or ROI using a 3x3 minimum filter<br><br>
+	
+	Output: supressed<br>
+	
+	
+	
+	<br>
+	</td></tr>
+
+
+	
+	
+	
+	
+	
+	<tr><th align="left" colspan="1">
+		<a name="method_drawLine">drawLine</a>
+		
+		</th></tr>
+	<tr><td>
+	
+	
+	
+	<code>
+	
+	
+	<b>drawLine</b>
+	
+	(
+ 	
+		
+		<i>
+		required
+		numeric
+		</i>
+		x1,
+	
+		
+		<i>
+		required
+		numeric
+		</i>
+		y1,
+	
+		
+		<i>
+		required
+		numeric
+		</i>
+		x2,
+	
+		
+		<i>
+		required
+		numeric
+		</i>
+		y2
+		
+	)
+	</i>
+	</code>
+	<br><br>	
+	
+	
+	Draws a line from (x1,y1) to (x2,y2)<br><br>
+	
+	Output: supressed<br>
+	
+	
+	
+		Parameters:<br>
+		
+			
+			&nbsp;&nbsp; <b>x1:</b>
+			numeric,
+			required,
+			x1
+			
+			<br>
+		
+			
+			&nbsp;&nbsp; <b>y1:</b>
+			numeric,
+			required,
+			y1
+			
+			<br>
+		
+			
+			&nbsp;&nbsp; <b>x2:</b>
+			numeric,
+			required,
+			x2
+			
+			<br>
+		
+			
+			&nbsp;&nbsp; <b>y2:</b>
+			numeric,
+			required,
+			y2
+			
+			<br>
+		
+	
+	
+	<br>
+	</td></tr>
+
+
+	
+	
+	
+	
+	
+	<tr><th align="left" colspan="1">
+		<a name="method_drawPixel">drawPixel</a>
+		
+		</th></tr>
+	<tr><td>
+	
+	
+	
+	<code>
+	
+	
+	<b>drawPixel</b>
+	
+	(
+ 	
+		
+		<i>
+		required
+		numeric
+		</i>
+		x,
+	
+		
+		<i>
+		required
+		numeric
+		</i>
+		y
+		
+	)
+	</i>
+	</code>
+	<br><br>	
+	
+	
+	Sets the pixel at (x,y) to the current fill/draw value<br><br>
+	
+	Output: supressed<br>
+	
+	
+	
+		Parameters:<br>
+		
+			
+			&nbsp;&nbsp; <b>x:</b>
+			numeric,
+			required,
+			x
+			
+			<br>
+		
+			
+			&nbsp;&nbsp; <b>y:</b>
+			numeric,
+			required,
+			y
+			
+			<br>
+		
+	
+	
+	<br>
+	</td></tr>
+
+
+	
+	
+	
+	
+	
+	<tr><th align="left" colspan="1">
+		<a name="method_drawRect">drawRect</a>
+		
+		</th></tr>
+	<tr><td>
+	
+	
+	
+	<code>
+	
+	
+	<b>drawRect</b>
+	
+	(
+ 	
+		
+		<i>
+		required
+		numeric
+		</i>
+		x,
+	
+		
+		<i>
+		required
+		numeric
+		</i>
+		y,
+	
+		
+		<i>
+		required
+		numeric
+		</i>
+		width,
+	
+		
+		<i>
+		required
+		numeric
+		</i>
+		height
+		
+	)
+	</i>
+	</code>
+	<br><br>	
+	
+	
+	Draws a rectangle.<br><br>
+	
+	Output: supressed<br>
+	
+	
+	
+		Parameters:<br>
+		
+			
+			&nbsp;&nbsp; <b>x:</b>
+			numeric,
+			required,
+			x
+			
+			<br>
+		
+			
+			&nbsp;&nbsp; <b>y:</b>
+			numeric,
+			required,
+			y
+			
+			<br>
+		
+			
+			&nbsp;&nbsp; <b>width:</b>
+			numeric,
+			required,
+			width
+			
+			<br>
+		
+			
+			&nbsp;&nbsp; <b>height:</b>
+			numeric,
+			required,
+			height
+			
+			<br>
+		
+	
+	
+	<br>
+	</td></tr>
+
+
+	
+	
+	
+	
+	
+	<tr><th align="left" colspan="1">
+		<a name="method_drawString">drawString</a>
+		
+		</th></tr>
+	<tr><td>
+	
+	
+	
+	<code>
+	
+	
+	<b>drawString</b>
+	
+	(
+ 	
+		
+		<i>
+		required
+		numeric
+		</i>
+		x,
+	
+		
+		<i>
+		required
+		numeric
+		</i>
+		y,
+	
+		
+		<i>
+		required
+		string
+		</i>
+		text
+		
+	)
+	</i>
+	</code>
+	<br><br>	
+	
+	
+	Draws a string at the current location using the current fill/draw value<br><br>
+	
+	Output: supressed<br>
+	
+	
+	
+		Parameters:<br>
+		
+			
+			&nbsp;&nbsp; <b>x:</b>
+			numeric,
+			required,
+			x
+			
+			<br>
+		
+			
+			&nbsp;&nbsp; <b>y:</b>
+			numeric,
+			required,
+			y
+			
+			<br>
+		
+			
+			&nbsp;&nbsp; <b>text:</b>
+			string,
+			required,
+			text
+			
+			<br>
+		
+	
+	
+	<br>
+	</td></tr>
+
+
+	
+	
+	
+	
+	
+	<tr><th align="left" colspan="1">
+		<a name="method_erode">erode</a>
+		
+		</th></tr>
+	<tr><td>
+	
+	
+	
+	<code>
+	
+	
+	<b>erode</b>
+	
+	(
+ 		
+	)
+	</i>
+	</code>
+	<br><br>	
+	
+	
+	Erodes the image or ROI using a 3x3 maximum filter<br><br>
+	
+	Output: supressed<br>
+	
+	
+	
+	<br>
+	</td></tr>
+
+
+	
+	
+	
+	
+	
+	<tr><th align="left" colspan="1">
+		<a name="method_fill">fill</a>
+		
+		</th></tr>
+	<tr><td>
+	
+	
+	
+	<code>
+	
+	
+	<b>fill</b>
+	
+	(
+ 		
+	)
+	</i>
+	</code>
+	<br><br>	
+	
+	
+	Fills the image or ROI with the current fill/draw value<br><br>
+	
+	Output: supressed<br>
+	
+	
+	
+	<br>
+	</td></tr>
+
+
+	
+	
+	
+	
+	
+	<tr><th align="left" colspan="1">
+		<a name="method_findEdges">findEdges</a>
+		
+		</th></tr>
+	<tr><td>
+	
+	
+	
+	<code>
+	
+	
+	<b>findEdges</b>
+	
+	(
+ 		
+	)
+	</i>
+	</code>
+	<br><br>	
+	
+	
+	Finds edges in the image or ROI using a Sobel operator<br><br>
+	
+	Output: supressed<br>
+	
+	
+	
+	<br>
+	</td></tr>
+
+
+	
+	
+	
+	
+	
+	<tr><th align="left" colspan="1">
+		<a name="method_flipHorizontal">flipHorizontal</a>
+		
+		</th></tr>
+	<tr><td>
+	
+	
+	
+	<code>
+	
+	
+	<b>flipHorizontal</b>
+	
+	(
+ 		
+	)
+	</i>
+	</code>
+	<br><br>	
+	
+	
+	Flips the image or ROI horizontally<br><br>
+	
+	Output: supressed<br>
+	
+	
+	
+	<br>
+	</td></tr>
+
+
+	
+	
+	
+	
+	
+	<tr><th align="left" colspan="1">
+		<a name="method_flipVertical">flipVertical</a>
+		
+		</th></tr>
+	<tr><td>
+	
+	
+	
+	<code>
+	
+	
+	<b>flipVertical</b>
+	
+	(
+ 		
+	)
+	</i>
+	</code>
+	<br><br>	
+	
+	
+	Flips the image or ROI vertically<br><br>
+	
+	Output: supressed<br>
+	
+	
+	
+	<br>
+	</td></tr>
+
+
+	
+	
+	
+	
+	
+	<tr><th align="left" colspan="1">
+		<a name="method_gamma">gamma</a>
+		
+		</th></tr>
+	<tr><td>
+	
+	
+	
+	<code>
+	
+	
+	<b>gamma</b>
+	
+	(
+ 	
+		
+		<i>
+		required
+		numeric
+		</i>
+		value
+		
+	)
+	</i>
+	</code>
+	<br><br>	
+	
+	
+	Performs gamma correction of the image or ROI<br><br>
+	
+	Output: supressed<br>
+	
+	
+	
+		Parameters:<br>
+		
+			
+			&nbsp;&nbsp; <b>value:</b>
+			numeric,
+			required,
+			value
+			- ex. : 0.5 for lighter, 2 for darker
+			<br>
+		
+	
+	
+	<br>
+	</td></tr>
+
+
+	
+	
+	
+	
+	
+	<tr><th align="left" colspan="1">
+		<a name="method_getHeight">getHeight</a>
+		
+		</th></tr>
+	<tr><td>
+	
+	
+	
+	<code>
+	
+	
+		<i>numeric</i>
+	
+	<b>getHeight</b>
+	
+	(
+ 		
+	)
+	</i>
+	</code>
+	<br><br>	
+	
+	
+	
+	
+	Output: supressed<br>
+	
+	
+	
+	<br>
+	</td></tr>
+
+
+	
+	
+	
+	
+	
+	<tr><th align="left" colspan="1">
+		<a name="method_getImagePlus">getImagePlus</a>
+		
+		</th></tr>
+	<tr><td>
+	
+	
+	
+	<code>
+	
+	
+	<b>getImagePlus</b>
+	
+	(
+ 		
+	)
+	</i>
+	</code>
+	<br><br>	
+	
+	
+	
+	
+	Output: supressed<br>
+	
+	
+	
+	<br>
+	</td></tr>
+
+
+	
+	
+	
+	
+	
+	<tr><th align="left" colspan="1">
+		<a name="method_getImageProcessor">getImageProcessor</a>
+		
+		</th></tr>
+	<tr><td>
+	
+	
+	
+	<code>
+	
+	
+	<b>getImageProcessor</b>
+	
+	(
+ 		
+	)
+	</i>
+	</code>
+	<br><br>	
+	
+	
+	
+	
+	Output: supressed<br>
+	
+	
+	
+	<br>
+	</td></tr>
+
+
+	
+	
+	
+	
+	
+	<tr><th align="left" colspan="1">
+		<a name="method_getType">getType</a>
+		
+		</th></tr>
+	<tr><td>
+	
+	
+	
+	<code>
+	
+	
+		<i>string</i>
+	
+	<b>getType</b>
+	
+	(
+ 		
+	)
+	</i>
+	</code>
+	<br><br>	
+	
+	
+	
+	
+	Output: supressed<br>
+	
+	
+	
+	<br>
+	</td></tr>
+
+
+	
+	
+	
+	
+	
+	<tr><th align="left" colspan="1">
+		<a name="method_getWidth">getWidth</a>
+		
+		</th></tr>
+	<tr><td>
+	
+	
+	
+	<code>
+	
+	
+		<i>numeric</i>
+	
+	<b>getWidth</b>
+	
+	(
+ 		
+	)
+	</i>
+	</code>
+	<br><br>	
+	
+	
+	
+	
+	Output: supressed<br>
+	
+	
+	
+	<br>
+	</td></tr>
+
+
+	
+	
+	
+	
+	
+	<tr><th align="left" colspan="1">
+		<a name="method_grayscale">grayscale</a>
+		
+		</th></tr>
+	<tr><td>
+	
+	
+	
+	<code>
+	
+	
+	<b>grayscale</b>
+	
+	(
+ 		
+	)
+	</i>
+	</code>
+	<br><br>	
+	
+	
+	Convert color to grayscale<br><br>
+	
+	Output: supressed<br>
+	
+	
+	
+	<br>
+	</td></tr>
+
+
+	
+	
+	
+	
+	
+	<tr><th align="left" colspan="1">
+		<a name="method_invert">invert</a>
+		
+		</th></tr>
+	<tr><td>
+	
+	
+	
+	<code>
+	
+	
+	<b>invert</b>
+	
+	(
+ 		
+	)
+	</i>
+	</code>
+	<br><br>	
+	
+	
+	Inverts the image or ROI<br><br>
+	
+	Output: supressed<br>
+	
+	
+	
+	<br>
+	</td></tr>
+
+
+	
+	
+	
+	
+	
+	<tr><th align="left" colspan="1">
+		<a name="method_lineTo">lineTo</a>
+		
+		</th></tr>
+	<tr><td>
+	
+	
+	
+	<code>
+	
+	
+	<b>lineTo</b>
+	
+	(
+ 	
+		
+		<i>
+		required
+		numeric
+		</i>
+		x,
+	
+		
+		<i>
+		required
+		numeric
+		</i>
+		y
+		
+	)
+	</i>
+	</code>
+	<br><br>	
+	
+	
+	Draws a line from the current drawing location to (x,y)<br><br>
+	
+	Output: supressed<br>
+	
+	
+	
+		Parameters:<br>
+		
+			
+			&nbsp;&nbsp; <b>x:</b>
+			numeric,
+			required,
+			x
+			
+			<br>
+		
+			
+			&nbsp;&nbsp; <b>y:</b>
+			numeric,
+			required,
+			y
+			
+			<br>
+		
+	
+	
+	<br>
+	</td></tr>
+
+
+	
+	
+	
+	
+	
+	<tr><th align="left" colspan="1">
+		<a name="method_medianFilter">medianFilter</a>
+		
+		</th></tr>
+	<tr><td>
+	
+	
+	
+	<code>
+	
+	
+	<b>medianFilter</b>
+	
+	(
+ 		
+	)
+	</i>
+	</code>
+	<br><br>	
+	
+	
+	A 3x3 median filter<br><br>
+	
+	Output: supressed<br>
+	
+	
+	
+	<br>
+	</td></tr>
+
+
+	
+	
+	
+	
+	
+	<tr><th align="left" colspan="1">
+		<a name="method_moveTo">moveTo</a>
+		
+		</th></tr>
+	<tr><td>
+	
+	
+	
+	<code>
+	
+	
+	<b>moveTo</b>
+	
+	(
+ 	
+		
+		<i>
+		required
+		numeric
+		</i>
+		x,
+	
+		
+		<i>
+		required
+		numeric
+		</i>
+		y
+		
+	)
+	</i>
+	</code>
+	<br><br>	
+	
+	
+	Sets the current drawing location<br><br>
+	
+	Output: supressed<br>
+	
+	
+	
+		Parameters:<br>
+		
+			
+			&nbsp;&nbsp; <b>x:</b>
+			numeric,
+			required,
+			x
+			
+			<br>
+		
+			
+			&nbsp;&nbsp; <b>y:</b>
+			numeric,
+			required,
+			y
+			
+			<br>
+		
+	
+	
+	<br>
+	</td></tr>
+
+
+	
+	
+	
+	
+	
+	<tr><th align="left" colspan="1">
+		<a name="method_open">open</a>
+		
+		</th></tr>
+	<tr><td>
+	
+	
+	
+	<code>
+	
+	
+	<b>open</b>
+	
+	(
+ 	
+		
+		<i>
+		required
+		string
+		</i>
+		imagePath
+		
+	)
+	</i>
+	</code>
+	<br><br>	
+	
+	
+	
+	
+	Output: supressed<br>
+	
+	
+	
+		Parameters:<br>
+		
+			
+			&nbsp;&nbsp; <b>imagePath:</b>
+			string,
+			required,
+			imagePath
+			- Opens tiff (and tiff stacks), dicom, fits, pgm, png, jpeg, bmp or gif images
+			<br>
+		
+	
+	
+	<br>
+	</td></tr>
+
+
+	
+	
+	
+	
+	
+	<tr><th align="left" colspan="1">
+		<a name="method_resetROI">resetROI</a>
+		
+		</th></tr>
+	<tr><td>
+	
+	
+	
+	<code>
+	
+	
+	<b>resetROI</b>
+	
+	(
+ 		
+	)
+	</i>
+	</code>
+	<br><br>	
+	
+	
+	Sets the ROI (Region of Interest) to the entire image<br><br>
+	
+	Output: supressed<br>
+	
+	
+	
+	<br>
+	</td></tr>
+
+
+	
+	
+	
+	
+	
+	<tr><th align="left" colspan="1">
+		<a name="method_resize">resize</a>
+		
+		</th></tr>
+	<tr><td>
+	
+	
+	
+	<code>
+	
+	
+	<b>resize</b>
+	
+	(
+ 	
+		
+		<i>
+		required
+		numeric
+		</i>
+		value,
+	
+		
+		<i>
+		
+		string
+		</i>
+		type="auto"
+		
+	)
+	</i>
+	</code>
+	<br><br>	
+	
+	
+	Resizes the image, based on height value, width value or a maximum value (height or width)<br><br>
+	
+	Output: supressed<br>
+	
+	
+	
+		Parameters:<br>
+		
+			
+			&nbsp;&nbsp; <b>value:</b>
+			numeric,
+			required,
+			value
+			
+			<br>
+		
+			
+			&nbsp;&nbsp; <b>type:</b>
+			string,
+			optional,
+			type
+			- Possible value : auto, width or height
+			<br>
+		
+	
+	
+	<br>
+	</td></tr>
+
+
+	
+	
+	
+	
+	
+	<tr><th align="left" colspan="1">
+		<a name="method_rotateLeft">rotateLeft</a>
+		
+		</th></tr>
+	<tr><td>
+	
+	
+	
+	<code>
+	
+	
+	<b>rotateLeft</b>
+	
+	(
+ 		
+	)
+	</i>
+	</code>
+	<br><br>	
+	
+	
+	Rotates the entire image 90 degrees counter-clockwise<br><br>
+	
+	Output: supressed<br>
+	
+	
+	
+	<br>
+	</td></tr>
+
+
+	
+	
+	
+	
+	
+	<tr><th align="left" colspan="1">
+		<a name="method_rotateRight">rotateRight</a>
+		
+		</th></tr>
+	<tr><td>
+	
+	
+	
+	<code>
+	
+	
+	<b>rotateRight</b>
+	
+	(
+ 		
+	)
+	</i>
+	</code>
+	<br><br>	
+	
+	
+	Rotates the entire image 90 degrees counter-clockwise<br><br>
+	
+	Output: supressed<br>
+	
+	
+	
+	<br>
+	</td></tr>
+
+
+	
+	
+	
+	
+	
+	<tr><th align="left" colspan="1">
+		<a name="method_save">save</a>
+		
+		</th></tr>
+	<tr><td>
+	
+	
+	
+	<code>
+	
+	
+	<b>save</b>
+	
+	(
+ 	
+		
+		<i>
+		
+		numeric
+		</i>
+		quality="70"
+		
+	)
+	</i>
+	</code>
+	<br><br>	
+	
+	
+	Writes the image file on the original file (automatically detect format)<br><br>
+	
+	Output: supressed<br>
+	
+	
+	
+		Parameters:<br>
+		
+			
+			&nbsp;&nbsp; <b>quality:</b>
+			numeric,
+			optional,
+			quality
+			- 0 to 100 (for Jpeg only)
+			<br>
+		
+	
+	
+	<br>
+	</td></tr>
+
+
+	
+	
+	
+	
+	
+	<tr><th align="left" colspan="1">
+		<a name="method_saveAs">saveAs</a>
+		
+		</th></tr>
+	<tr><td>
+	
+	
+	
+	<code>
+	
+	
+	<b>saveAs</b>
+	
+	(
+ 	
+		
+		<i>
+		
+		string
+		</i>
+		imagePath="",
+	
+		
+		<i>
+		
+		numeric
+		</i>
+		quality="70"
+		
+	)
+	</i>
+	</code>
+	<br><br>	
+	
+	
+	Writes the image file (automatically detect format)<br><br>
+	
+	Output: supressed<br>
+	
+	
+	
+		Parameters:<br>
+		
+			
+			&nbsp;&nbsp; <b>imagePath:</b>
+			string,
+			optional,
+			imagePath
+			- If not provided, it overwrites the original file
+			<br>
+		
+			
+			&nbsp;&nbsp; <b>quality:</b>
+			numeric,
+			optional,
+			quality
+			- 0 to 100 (for Jpeg only)
+			<br>
+		
+	
+	
+	<br>
+	</td></tr>
+
+
+	
+	
+	
+	
+	
+	<tr><th align="left" colspan="1">
+		<a name="method_saveAsGif">saveAsGif</a>
+		
+		</th></tr>
+	<tr><td>
+	
+	
+	
+	<code>
+	
+	
+	<b>saveAsGif</b>
+	
+	(
+ 	
+		
+		<i>
+		required
+		string
+		</i>
+		imagePath
+		
+	)
+	</i>
+	</code>
+	<br><br>	
+	
+	
+	Writes the image file to Gif format<br><br>
+	
+	Output: supressed<br>
+	
+	
+	
+		Parameters:<br>
+		
+			
+			&nbsp;&nbsp; <b>imagePath:</b>
+			string,
+			required,
+			imagePath
+			
+			<br>
+		
+	
+	
+	<br>
+	</td></tr>
+
+
+	
+	
+	
+	
+	
+	<tr><th align="left" colspan="1">
+		<a name="method_saveAsJpeg">saveAsJpeg</a>
+		
+		</th></tr>
+	<tr><td>
+	
+	
+	
+	<code>
+	
+	
+	<b>saveAsJpeg</b>
+	
+	(
+ 	
+		
+		<i>
+		required
+		string
+		</i>
+		imagePath,
+	
+		
+		<i>
+		
+		numeric
+		</i>
+		quality="70"
+		
+	)
+	</i>
+	</code>
+	<br><br>	
+	
+	
+	Writes the image file to Jpeg format, returns true if OK<br><br>
+	
+	Output: supressed<br>
+	
+	
+	
+		Parameters:<br>
+		
+			
+			&nbsp;&nbsp; <b>imagePath:</b>
+			string,
+			required,
+			imagePath
+			
+			<br>
+		
+			
+			&nbsp;&nbsp; <b>quality:</b>
+			numeric,
+			optional,
+			quality
+			- 0 to 100
+			<br>
+		
+	
+	
+	<br>
+	</td></tr>
+
+
+	
+	
+	
+	
+	
+	<tr><th align="left" colspan="1">
+		<a name="method_saveAsTiff">saveAsTiff</a>
+		
+		</th></tr>
+	<tr><td>
+	
+	
+	
+	<code>
+	
+	
+	<b>saveAsTiff</b>
+	
+	(
+ 	
+		
+		<i>
+		required
+		string
+		</i>
+		imagePath
+		
+	)
+	</i>
+	</code>
+	<br><br>	
+	
+	
+	Writes the image file to Tiff format<br><br>
+	
+	Output: supressed<br>
+	
+	
+	
+		Parameters:<br>
+		
+			
+			&nbsp;&nbsp; <b>imagePath:</b>
+			string,
+			required,
+			imagePath
+			
+			<br>
+		
+	
+	
+	<br>
+	</td></tr>
+
+
+	
+	
+	
+	
+	
+	<tr><th align="left" colspan="1">
+		<a name="method_saveAsZip">saveAsZip</a>
+		
+		</th></tr>
+	<tr><td>
+	
+	
+	
+	<code>
+	
+	
+	<b>saveAsZip</b>
+	
+	(
+ 	
+		
+		<i>
+		required
+		string
+		</i>
+		filePath
+		
+	)
+	</i>
+	</code>
+	<br><br>	
+	
+	
+	Writes the image file to zipped Tiff format<br><br>
+	
+	Output: supressed<br>
+	
+	
+	
+		Parameters:<br>
+		
+			
+			&nbsp;&nbsp; <b>filePath:</b>
+			string,
+			required,
+			filePath
+			- File path without extension
+			<br>
+		
+	
+	
+	<br>
+	</td></tr>
+
+
+	
+	
+	
+	
+	
+	<tr><th align="left" colspan="1">
+		<a name="method_scale">scale</a>
+		
+		</th></tr>
+	<tr><td>
+	
+	
+	
+	<code>
+	
+	
+	<b>scale</b>
+	
+	(
+ 	
+		
+		<i>
+		required
+		numeric
+		</i>
+		xScale,
+	
+		
+		<i>
+		required
+		numeric
+		</i>
+		yScale
+		
+	)
+	</i>
+	</code>
+	<br><br>	
+	
+	
+	Scales the image by the specified factors. Does not change the image size<br><br>
+	
+	Output: supressed<br>
+	
+	
+	
+		Parameters:<br>
+		
+			
+			&nbsp;&nbsp; <b>xScale:</b>
+			numeric,
+			required,
+			xScale
+			
+			<br>
+		
+			
+			&nbsp;&nbsp; <b>yScale:</b>
+			numeric,
+			required,
+			yScale
+			
+			<br>
+		
+	
+	
+	<br>
+	</td></tr>
+
+
+	
+	
+	
+	
+	
+	<tr><th align="left" colspan="1">
+		<a name="method_setColor">setColor</a>
+		
+		</th></tr>
+	<tr><td>
+	
+	
+	
+	<code>
+	
+	
+	<b>setColor</b>
+	
+	(
+ 	
+		
+		<i>
+		required
+		string
+		</i>
+		hexaColor
+		
+	)
+	</i>
+	</code>
+	<br><br>	
+	
+	
+	Sets the default fill/draw value to the pixel value closest to the specified color<br><br>
+	
+	Output: supressed<br>
+	
+	
+	
+		Parameters:<br>
+		
+			
+			&nbsp;&nbsp; <b>hexaColor:</b>
+			string,
+			required,
+			hexaColor
+			- Hexadecimal color, ex: FF0044
+			<br>
+		
+	
+	
+	<br>
+	</td></tr>
+
+
+	
+	
+	
+	
+	
+	<tr><th align="left" colspan="1">
+		<a name="method_setFont">setFont</a>
+		
+		</th></tr>
+	<tr><td>
+	
+	
+	
+	<code>
+	
+	
+	<b>setFont</b>
+	
+	(
+ 	
+		
+		<i>
+		
+		string
+		</i>
+		name="SansSerif",
+	
+		
+		<i>
+		
+		numeric
+		</i>
+		size="11",
+	
+		
+		<i>
+		
+		boolean
+		</i>
+		isBold="false",
+	
+		
+		<i>
+		
+		boolean
+		</i>
+		isItalic="false",
+	
+		
+		<i>
+		required
+		boolean
+		</i>
+		isAntialiased
+		
+	)
+	</i>
+	</code>
+	<br><br>	
+	
+	
+	Sets the font used by drawString()<br><br>
+	
+	Output: supressed<br>
+	
+	
+	
+		Parameters:<br>
+		
+			
+			&nbsp;&nbsp; <b>name:</b>
+			string,
+			optional,
+			name
+			- logical name of this font
+			<br>
+		
+			
+			&nbsp;&nbsp; <b>size:</b>
+			numeric,
+			optional,
+			size
+			- point size
+			<br>
+		
+			
+			&nbsp;&nbsp; <b>isBold:</b>
+			boolean,
+			optional,
+			isBold
+			
+			<br>
+		
+			
+			&nbsp;&nbsp; <b>isItalic:</b>
+			boolean,
+			optional,
+			isItalic
+			
+			<br>
+		
+			
+			&nbsp;&nbsp; <b>isAntialiased:</b>
+			boolean,
+			required,
+			isAntialiased
+			- does not work... (???)
+			<br>
+		
+	
+	
+	<br>
+	</td></tr>
+
+
+	
+	
+	
+	
+	
+	<tr><th align="left" colspan="1">
+		<a name="method_setLineWidth">setLineWidth</a>
+		
+		</th></tr>
+	<tr><td>
+	
+	
+	
+	<code>
+	
+	
+	<b>setLineWidth</b>
+	
+	(
+ 	
+		
+		<i>
+		required
+		numeric
+		</i>
+		width
+		
+	)
+	</i>
+	</code>
+	<br><br>	
+	
+	
+	Sets the line width used by lineTo() and drawDot()<br><br>
+	
+	Output: supressed<br>
+	
+	
+	
+		Parameters:<br>
+		
+			
+			&nbsp;&nbsp; <b>width:</b>
+			numeric,
+			required,
+			width
+			
+			<br>
+		
+	
+	
+	<br>
+	</td></tr>
+
+
+	
+	
+	
+	
+	
+	<tr><th align="left" colspan="1">
+		<a name="method_setROI">setROI</a>
+		
+		</th></tr>
+	<tr><td>
+	
+	
+	
+	<code>
+	
+	
+	<b>setROI</b>
+	
+	(
+ 	
+		
+		<i>
+		required
+		numeric
+		</i>
+		x,
+	
+		
+		<i>
+		required
+		numeric
+		</i>
+		y,
+	
+		
+		<i>
+		required
+		numeric
+		</i>
+		width,
+	
+		
+		<i>
+		required
+		numeric
+		</i>
+		height
+		
+	)
+	</i>
+	</code>
+	<br><br>	
+	
+	
+	Defines a rectangular region of interest<br><br>
+	
+	Output: supressed<br>
+	
+	
+	
+		Parameters:<br>
+		
+			
+			&nbsp;&nbsp; <b>x:</b>
+			numeric,
+			required,
+			x
+			- ROI x coordinate
+			<br>
+		
+			
+			&nbsp;&nbsp; <b>y:</b>
+			numeric,
+			required,
+			y
+			- ROI y coordinate
+			<br>
+		
+			
+			&nbsp;&nbsp; <b>width:</b>
+			numeric,
+			required,
+			width
+			- ROI width
+			<br>
+		
+			
+			&nbsp;&nbsp; <b>height:</b>
+			numeric,
+			required,
+			height
+			- ROI height
+			<br>
+		
+	
+	
+	<br>
+	</td></tr>
+
+
+	
+	
+	
+	
+	
+	<tr><th align="left" colspan="1">
+		<a name="method_sharpen">sharpen</a>
+		
+		</th></tr>
+	<tr><td>
+	
+	
+	
+	<code>
+	
+	
+	<b>sharpen</b>
+	
+	(
+ 		
+	)
+	</i>
+	</code>
+	<br><br>	
+	
+	
+	Sharpens the image or ROI using a 3x3 convolution kernel<br><br>
+	
+	Output: supressed<br>
+	
+	
+	
+	<br>
+	</td></tr>
+
+
+	
+	
+	
+	
+	
+	<tr><th align="left" colspan="1">
+		<a name="method_smooth">smooth</a>
+		
+		</th></tr>
+	<tr><td>
+	
+	
+	
+	<code>
+	
+	
+	<b>smooth</b>
+	
+	(
+ 		
+	)
+	</i>
+	</code>
+	<br><br>	
+	
+	
+	Replaces each pixel or ROI  with the 3x3 neighborhood mean<br><br>
+	
+	Output: supressed<br>
+	
+	
+	
+	<br>
+	</td></tr>
+
+	
+</table>
+
+
+
+</body></html>
+
+
+		
+
+		
+		
+	

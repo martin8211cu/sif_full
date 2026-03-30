@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+<info>
+	<infoitem key="UD_rsEmpresas" value="name:Ecodigo;datatype:,name:Mcodigo;datatype:,name:Edescripcion;datatype:,name:Elocalizacion;datatype:,name:Ecache;datatype:,name:Usucodigo;datatype:,name:Ulocalizacion;datatype:,name:timestamp;datatype:" />
+	<infoitem key="UD_rsDefEmpresas" value="name:minimo;datatype:" />
+</info>

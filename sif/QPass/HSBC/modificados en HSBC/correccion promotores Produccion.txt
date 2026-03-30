@@ -1,0 +1,5 @@
+-- correr en minisif_qp
+
+alter table QPassTag drop constraint CK__QPassTag__QPTEst__78EDBDFE
+alter table QPassTag drop constraint QPassTag_01
+alter table QPassTag add constraint QPassTag_01 CHECK  (QPTEstadoActivacion in(1,2,3,4,5,6,7,8,9,90))

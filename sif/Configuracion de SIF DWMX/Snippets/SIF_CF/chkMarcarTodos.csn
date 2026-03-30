@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<snippet name="chkMarcarTodos" description="Marca todos los chekboxes de un form que no estén desactivados" preview="code" type="wrap">
+<insertText location="beforeSelection">
+<![CDATA[function Marcar(c) {
+	if (c.checked) {
+		for (counter = 0; counter < document.form1.chk.length; counter++)
+		{
+			if ((!document.form1.chk[counter].checked) && (!document.form1.chk[counter].disabled))
+				{  document.form1.chk[counter].checked = true;}
+		}
+		if ((counter==0)  && (!document.form1.chk.disabled)) {
+			document.form1.chk.checked = true;
+		}
+	};
+	else {
+		for (var counter = 0; counter < document.form1.chk.length; counter++)
+		{
+			if ((document.form1.chk[counter].checked) && (!document.form1.chk[counter].disabled))
+				{  document.form1.chk[counter].checked = false;}
+		};
+		if ((counter==0) && (!document.form1.chk.disabled)) {
+			document.form1.chk.checked = false;
+		}
+	};
+}
+]]>
+</insertText>
+<insertText location="afterSelection"><![CDATA[]]>
+</insertText>
+</snippet>

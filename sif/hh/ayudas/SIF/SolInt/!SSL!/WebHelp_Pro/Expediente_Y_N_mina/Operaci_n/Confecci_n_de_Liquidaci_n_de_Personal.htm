@@ -1,0 +1,242 @@
+<!doctype HTML public "-//W3C//DTD HTML 4.0 Frameset//EN">
+
+<html>
+
+<head>
+<title>Confección de Liquidación de Personal</title>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252">
+<meta name="generator" content="RoboHelp by eHelp Corporation www.ehelp.com">
+<link rel="stylesheet" href="../../default_ns.css"><script type="text/javascript" language="JavaScript" title="WebHelpSplitCss">
+<!--
+if (navigator.appName !="Netscape")
+{   document.write("<link rel='stylesheet' href='../../default.css'>");}
+//-->
+</script>
+<style type="text/css">
+<!--
+h1.whs1 { text-align:center; color:#000080; }
+p.whs2 { text-align:justify; }
+p.whs3 { color:#ff0000; font-weight:bold; font-style:italic; text-align:justify; }
+p.whs4 { text-align:center; }
+img_whs5 { border:none; width:665px; height:186px; float:none; border-style:none; }
+p.whs6 { text-align:justify; color:#000080; font-weight:bold; }
+img_whs7 { border:none; width:677px; height:367px; float:none; border-style:none; }
+img_whs8 { border:none; width:175px; height:28px; float:none; border-style:none; }
+img_whs9 { border:none; width:676px; height:367px; float:none; border-style:none; }
+img_whs10 { border:none; width:691px; height:373px; float:none; border-style:none; }
+p.whs11 { text-align:justify; font-weight:bold; color:#000080; }
+img_whs12 { border:none; width:693px; height:350px; float:none; border-style:none; }
+-->
+</style><script type="text/javascript" language="JavaScript" title="WebHelpInlineScript">
+<!--
+function reDo() {
+  if (innerWidth != origWidth || innerHeight != origHeight)
+     location.reload();
+}
+if ((parseInt(navigator.appVersion) == 4) && (navigator.appName == "Netscape")) {
+	origWidth = innerWidth;
+	origHeight = innerHeight;
+	onresize = reDo;
+}
+onerror = null; 
+//-->
+</script>
+<style type="text/css">
+<!--
+div.WebHelpPopupMenu { position:absolute; left:0px; top:0px; z-index:4; visibility:hidden; }
+-->
+</style><script type="text/javascript" language="javascript1.2" src="../../whmsg.js"></script>
+<script type="text/javascript" language="javascript" src="../../whver.js"></script>
+<script type="text/javascript" language="javascript1.2" src="../../whproxy.js"></script>
+<script type="text/javascript" language="javascript1.2" src="../../whutils.js"></script>
+<script type="text/javascript" language="javascript1.2" src="../../whtopic.js"></script>
+</head>
+<body><script type="text/javascript" language="javascript1.2">
+<!--
+if (window.gbWhTopic)
+{
+	if (window.addTocInfo)
+	{
+	addTocInfo("Expediente Y Nómina\nOperación\nConfección de Liquidación de Personal");
+
+	}
+	if (window.writeBtnStyle)
+		writeBtnStyle();
+
+	if (window.writeIntopicBar)
+		writeIntopicBar(0);
+
+	if (window.setRelStartPage)
+	{
+	setRelStartPage("../../Compras.htm");
+addSearchFormHref("javascript:document.ehelpform.submit()");
+
+		autoSync(1);
+		sendSyncInfo();
+		sendAveInfoOut();
+	}
+}
+else
+	if (window.gbIE4)
+		document.location.reload();
+//-->
+</script>
+<h1 align="center" class="whs1">Confección de Liquidación de Personal</h1>
+
+<p class="whs2">En esta opción se calcula la liquidación 
+ de un empleado, calculando sus vacaciones, su aguinaldo, su preaviso y 
+ su cesantía. Para ello es importante mencionar que dichos conceptos se 
+ deben de crear en la sección de <span style="font-weight: bold;"><B>Conceptos 
+ de Pago</B></span>, en el módulo de <span style="font-weight: bold;"><B>Parámetros 
+ RH</B></span>; cada uno con su respectiva fórmula de cálculo. </p>
+
+<p class="whs2">&nbsp;</p>
+
+<p class="whs2">Por otro lado se debe de crear uno o varios 
+ tipos de acción según corresponda (dependiendo de lo que se vaya a pagar 
+ en la liquidación) a los cuales se le deben de asociar los conceptos creados 
+ anteriormente. Además mediante un parámetro en el tipo de acción se puede 
+ definir si se pagan los días de salario que están pendientes de cancelar, 
+ en el pago de la nómina o en la liquidación. Por ejemplo si una planilla 
+ va del 1 al 15 y una persona renuncia el 10, esos 10 días de salario se 
+ pueden pagar en la nómina o en la liquidación. Para esto se tendría que 
+ crear dos tipos de acción: una que pague esos días en la planilla y otra 
+ que los pague en la liquidación. &nbsp;&nbsp;&nbsp;</p>
+
+<p class="whs2">&nbsp;</p>
+
+<p class="whs2">Una vez parametrizados los conceptos y 
+ los tipos de acciones, se procede a realizar la acción de liquidación 
+ al empleado, la misma debe de calcular los conceptos que se le asociaron, 
+ los cuales se mostrarán cuando se confeccione y se salve dicha acción.</p>
+
+<p class="whs2">&nbsp;</p>
+
+<p class="whs3">Confección de Liquidación de Personal:</p>
+
+<p class="whs2">En esta opción del sistema, se procederá 
+ a realizar la liquidación de los empleados que han sido cesados. En la 
+ siguiente pantalla se muestra la lista de dichos empleados:</p>
+
+<p class="whs2">&nbsp;</p>
+
+<p align="center" class="whs4"><img src="LiqPer1.jpg" x-maintain-ratio="TRUE" width="665px" height="186px" border="0" class="img_whs5"></p>
+
+<p class="whs2">&nbsp;</p>
+
+<p class="whs2">Se procede a seleccionar a un empleado 
+ para comenzar con el proceso de la confección de la liquidación:</p>
+
+<p class="whs2">&nbsp;</p>
+
+<p class="whs6">Paso 1 Otros Ingresos: </p>
+
+<p class="whs2">En este primer paso se podrán asociar, 
+ rubros adicionales de tipo importe, a la liquidación. Así como también 
+ todas las incidencias (horas extra, comisiones, etc.) que no le fueron 
+ pagadas al funcionario. </p>
+
+<p class="whs2">&nbsp;</p>
+
+<p class="whs2">Además se van a mostrar automáticamente 
+ los conceptos que fueron calculados en la acción de personal, más un detalle 
+ de la cantidad de años, meses y días que tenia el empleado de laborar 
+ al momento del cese. Toda esta información no se puede modificar</p>
+
+<p class="whs2">&nbsp;</p>
+
+<p align="center" class="whs4"><img src="LiqPer2.jpg" x-maintain-ratio="TRUE" width="677px" height="367px" border="0" class="img_whs7"></p>
+
+<p class="whs2">&nbsp;</p>
+
+<p class="whs2">Una vez agregadas las incidencias se presiona 
+ el botón<img src="Boton13.jpg" x-maintain-ratio="TRUE" width="175px" height="28px" border="0" class="img_whs8">para continuar con el paso#2:</p>
+
+<p class="whs2">&nbsp;</p>
+
+<p class="whs2">&nbsp;</p>
+
+<p class="whs6">Paso 2 Provisiones:</p>
+
+<p class="whs2">En este paso se debe se considerar que 
+ conceptos de provisiones se deben de cancelar. Un ejemplo puede ser el 
+ aporte patronal que brinda la empresa y esta se lo da a la asociación 
+ para que esta sea quien maneje dicho aporte </p>
+
+<p class="whs2">&nbsp;</p>
+
+<p align="center" class="whs4"><img src="LiqPer3.jpg" x-maintain-ratio="TRUE" width="676px" height="367px" border="0" class="img_whs9"></p>
+
+<p class="whs2">&nbsp;</p>
+
+<p class="whs2">Una vez agregadas las provisiones se presiona 
+ el botón<img src="Boton13.jpg" x-maintain-ratio="TRUE" width="175px" height="28px" border="0" class="img_whs8"> para continuar con el paso#3:</p>
+
+<p class="whs2">&nbsp;</p>
+
+<p class="whs2">&nbsp;</p>
+
+<p class="whs6">Paso 3 Deducciones:</p>
+
+<p class="whs2">En este paso se cargan automáticamente 
+ todas las deducciones que tiene asociado el empleado y que de una u otra 
+ forma se comprometió a cancelar durante su estancia dentro de la empresa. 
+ Se cargarán aquellas deducciones cuyo estado sea “Controla Saldo” y que 
+ estén activas al momento del cese. Estas deducciones no se pueden rebajar 
+ de la liquidación de acuerdo a lo que estipula la ley, solamente es informativo 
+ para tesorería y son ingresadas al sistema con el fin de distribuir el 
+ monto de la liquidación en tantos socios de negocios tenga. El socio de 
+ negocio se usa para agrupar el total de las deducciones ya que puede haber 
+ varias deducciones que pertenecen a un mismo socio de negocio.</p>
+
+<p class="whs2">&nbsp;</p>
+
+<p class="whs2">Por ejemplo el total de la liquidación 
+ es por 1.000.000 de colones y la persona le debe a la asociación 400.000 
+ colones y &nbsp;a 
+ la empresa 250.000. Por lo que saldrían varios cheques uno por 400.000 
+ colones otro por 250.000 colones y otro por 350.000 colones, todos a nombre 
+ del empleado y es decisión de él, si los endosa o no para cancelar las 
+ deudas.</p>
+
+<p class="whs2">&nbsp;</p>
+
+<p align="center" class="whs4"><img src="LiqPer4.jpg" x-maintain-ratio="TRUE" width="691px" height="373px" border="0" class="img_whs10"></p>
+
+<p class="whs2">&nbsp;</p>
+
+<p class="whs2">Una vez agregadas las provisiones se presiona 
+ el botón <img src="Boton13.jpg" x-maintain-ratio="TRUE" width="175px" height="28px" border="0" class="img_whs8"> para continuar con el último paso:</p>
+
+<p class="whs2">&nbsp;</p>
+
+<p class="whs2">&nbsp;</p>
+
+<p class="whs11">Paso 4 Aprobación:</p>
+
+<p class="whs2">Este último paso consiste en una verificación 
+ final de cada uno de los rubros calculados y también en dar por finalizado 
+ el proceso de ingresos de rubros a la liquidación. Además se muestra el 
+ monto total de la liquidación, el cual consiste en la sumatoria de los 
+ siguientes rubros: preaviso, vacaciones, aguinaldo, cesantía, más los 
+ ingresos adicionales y provisiones.</p>
+
+<p class="whs2">Además al estar aprobada la liquidación 
+ se podrá imprimir la boleta de liquidación laboral, esto se podrá realizar 
+ en la siguiente opción.</p>
+
+<p class="whs2">&nbsp;</p>
+
+<p align="center" class="whs4"><img src="LiqPer5.jpg" x-maintain-ratio="TRUE" width="693px" height="350px" border="0" class="img_whs12"></p>
+
+<script type="text/javascript" language="javascript1.2">
+<!--
+if (window.writeIntopicBar)
+	writeIntopicBar(0);
+//-->
+</script>
+<form method="POST" action="http://www.helpcommunity.com/ehelpapi.asp?cmd=WebSave" name="ehelpform" target="_top" style="display:'none';">
+<input type="hidden" name="data" value="2A0D0225000000436F6E6665636369F36E206465204C6971756964616369F36E20646520506572736F6E616C1102090000004F706572616369F36E120225000000436F6E6665636369F36E206465204C6971756964616369F36E20646520506572736F6E616C130207000000436F6D7072617315020B000000436F6D707261732E68746D1703740100003C3F786D6C2076657273696F6E3D22312E30223F3E0D0A3C21444F43545950452053595354454D20226568656C706F70742E647464223E0D0A3C46494C452D4F5054494F4E532046494C452D56455253494F4E3D2232222046494C452D4B45593D2237373165346464305F316330365F346436365F393561335F623962313431326531633566223E0D0A3C2F46494C452D4F5054494F4E533E0D0A3C4548454C502D4F5054494F4E5320464F524D41542D56455253494F4E3D22312E30223E0D0A203C4F5054494F4E5320454E41424C45443D225945532220454D4245444445443D2259455322204D41494E2D57494E444F572D4F4E4C593D224E4F2220434F4D4D554E4954592D4E4F544946593D224E4F222046495253542D504147453D224E4F542D534554223E0D0A203C2F4F5054494F4E533E0D0A203C425554544F4E2D4C4142454C3E5765625365617263680D0A203C2F425554544F4E2D4C4142454C3E0D0A3C2F4548454C502D4F5054494F4E533E18010400000002000000702A">
+</form>
+</body>
+</html>

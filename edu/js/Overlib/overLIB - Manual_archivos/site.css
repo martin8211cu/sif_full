@@ -1,0 +1,51 @@
+BODY {
+	FONT-SIZE: 12px; FONT-FAMILY: Verdana, Arial, Helvetica
+}
+B {
+	FONT-WEIGHT: bold
+}
+TD {
+	FONT-SIZE: 12px; FONT-FAMILY: Verdana,Arial,Helvetica
+}
+TD.snip {
+	FONT-SIZE: 10px
+}
+TD.mainmenu {
+	FONT-SIZE: 16px; COLOR: #333366; FONT-FAMILY: Arial,Helvetica
+}
+TD.title {
+	FONT-WEIGHT: bold; FONT-SIZE: 26px; FONT-FAMILY: Arial,Helvetica
+}
+TD.author {
+	FONT-SIZE: 10px; FONT-STYLE: italic
+}
+TD.sectiontitle {
+	FONT-WEIGHT: bold; FONT-SIZE: 18px; FONT-FAMILY: Arial,Helvetica
+}
+TD.code {
+	FONT-SIZE: 9px; FONT-FAMILY: Courier New, Courier
+}
+TD.codedesc {
+	FONT-SIZE: 10px; FONT-FAMILY: Verdana,Arial,Helvetica
+}
+A.snip:link {
+	COLOR: #000000; FONT-STYLE: normal; TEXT-DECORATION: none
+}
+A.snip:active {
+	COLOR: #000000; FONT-STYLE: normal; TEXT-DECORATION: none
+}
+A.snip:visited {
+	COLOR: #000000; FONT-STYLE: normal; TEXT-DECORATION: none
+}
+A.mainmenu:link {
+	FONT-SIZE: 16px; COLOR: #333366; FONT-STYLE: normal; FONT-FAMILY: Arial,Helvetica; TEXT-DECORATION: none
+}
+A.mainmenu:active {
+	FONT-SIZE: 16px; COLOR: #333366; FONT-STYLE: normal; FONT-FAMILY: Arial,Helvetica; TEXT-DECORATION: none
+}
+A.mainmenu:visited {
+	FONT-SIZE: 16px; COLOR: #333366; FONT-STYLE: normal; FONT-FAMILY: Arial,Helvetica; TEXT-DECORATION: none
+}
+INPUT {
+	FONT-WEIGHT: normal; FONT-SIZE: 10px; FONT-STYLE: normal; FONT-FAMILY: Verdana, Arial, Helvetica
+}

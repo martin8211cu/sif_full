@@ -1,0 +1,56 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 175 - DBM 291: Deducible Diario
+
+	         PARCHE:  Parche023_285_SIF_Deducible
+
+GENERADO EN:
+	SERVER:  http://mxpapp36:8300
+	DSN:     sifcim
+	FECHA:   08/10/2011 07:33:54
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* CHG_TABLE GEconceptoGasto: GEconceptoGasto */
+/* ======================================================================================== */
+/* CHG_COLUMN OP=(CAMBIO): montoI - montoI */
+ALTER TABLE GEconceptoGasto ALTER COLUMN montoI money NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE GEconceptoGasto ADD CONSTRAINT GEconceptoGasto_DF06 DEFAULT 0 FOR montoI
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_COLUMN OP=(CAMBIO): montoM - montoM */
+ALTER TABLE GEconceptoGasto ALTER COLUMN montoM money NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE GEconceptoGasto ADD CONSTRAINT GEconceptoGasto_DF07 DEFAULT 0 FOR montoM
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): GECmontoDeducibleDia - Monto de deducible diario */
+ALTER TABLE GEconceptoGasto ADD GECmontoDeducibleDia money NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): GECcomplemento2 - Complemento de no deducible */
+ALTER TABLE GEconceptoGasto ADD GECcomplemento2 varchar(100) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

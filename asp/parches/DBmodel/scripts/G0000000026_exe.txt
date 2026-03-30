@@ -1,0 +1,69 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  asp
+	MODELO:  ASP Framework.pdm
+	VERSION: 28 - DBM 127: Pasar CDParametros de minisif a asp
+
+	         PARCHE:  ParcheParche023_008_ASP_CDParametros
+
+GENERADO EN:
+	SERVER:  http://mxvdapp10:8300
+	DSN:     asp
+	FECHA:   01/06/2011 12:36:13
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* CHG_TABLE CDParametros: CDParametros */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): CDPomitir - CDPomitir */
+ALTER TABLE CDParametros ADD CDPomitir bit DEFAULT 0 NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* ADD_TABLE CDPImportador: CDPImportador */
+/* ======================================================================================== */
+
+CREATE TABLE CDPImportador (
+	 CDPIid                         numeric(18)          identity
+	,Ecodigo                        integer              NOT NULL
+	,CDPItablaCarga                 varchar(45)          NOT NULL
+	,CDPIEIid                       numeric(18)          NOT NULL
+	,BMFecha                        datetime             NULL
+	,BMUsucodigo                    numeric(18)          NULL
+	,ts_rversion                    timestamp           
+	)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="P", SEC="0", COLS="CDPIid" */
+ALTER TABLE CDPImportador ADD CONSTRAINT CDPImportador_PK PRIMARY KEY NONCLUSTERED (CDPIid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE DBMcontrolParches: Registra todos los parches ins */
+/* ======================================================================================== */
+/* CHG_KEY_PK (OP=RENAME): cols=IDparche */
+EXEC sp_rename 'DBMcontrolParches.PK__DBMcontrolParche__628FA481', 'DBMcontrolParches_PK', 'INDEX'
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ======================================================================================== */
+/* CHG_TABLE DBMkeyU: Llaves Upload */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): colsAnt - Columnas Renombradas PK AK */
+ALTER TABLE DBMkeyU ADD colsAnt varchar(255) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

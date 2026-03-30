@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+<info>
+	<infoitem key="UD_rsCuentas" value="name:cliente_empresarial;datatype:,name:nombre;datatype:" />
+	<infoitem key="UD_rsForm" value="name:nombre;datatype:,name:descripcion;datatype:,name:Usucuenta;datatype:,name:cache_empresarial;datatype:,name:logo;datatype:" />
+	<infoitem key="UD_rsPais" value="name:Ppais;datatype:,name:Pnombre;datatype:" />
+	<infoitem key="UD_rsIdentificacion" value="name:TIcodigo;datatype:,name:TInombre;datatype:" />
+</info>

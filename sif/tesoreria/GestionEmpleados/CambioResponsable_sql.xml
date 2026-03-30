@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_TituloHeadHistoricoCambiosResponsable>Changes of Person in Charge</LB_TituloHeadHistoricoCambiosResponsable>
+		<LB_GestionEmpleado>Personel Management</LB_GestionEmpleado>
+		<LB_SolucionesIntegrales>Integral Solutions</LB_SolucionesIntegrales>
+		<LB_CajaChica>Petty Cash</LB_CajaChica>
+		<LB_ResponsableActual>Current Person in Charge</LB_ResponsableActual>
+		<LB_ResponsableAnterior>Previous Person in Charge</LB_ResponsableAnterior>
+		<LB_EncargadoCambio>Change Person in Charge</LB_EncargadoCambio>
+		<LB_FechaCambio>Change Date</LB_FechaCambio>
+		<MSG_FinReporte>End</MSG_FinReporte>
+		<MSG_NoHayRegistros>No Records Found</MSG_NoHayRegistros>
+	</Idioma>
+</Etiquetas>

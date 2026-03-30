@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="es">
+		<inicio>Inicio</inicio>
+		<favoritos>Favoritos</favoritos>
+		<compania>Compa&amp;ntilde;&amp;iacute;a</compania>
+	</Idioma>
+	<Idioma id="en">
+		<compania>Company</compania>
+		<favoritos>Favorites</favoritos>
+		<inicio>Start</inicio>
+		<LB_SociosNegociosCorporativos>Corporate Partners</LB_SociosNegociosCorporativos>
+		<LB_SociosNegocio>Partners</LB_SociosNegocio>
+		<LB_SeleccionarSocio>Select Partner</LB_SeleccionarSocio>
+		<LB_DatosGenerales>General Information</LB_DatosGenerales>
+		<LB_Identificacion>Identification</LB_Identificacion>
+		<LB_ModalidadCorp>Corporate Mode</LB_ModalidadCorp>
+		<LB_NumeroSocio>Partner Code</LB_NumeroSocio>
+		<LB_Correo>Email</LB_Correo>
+		<LB_Clasificaciones>Classifications</LB_Clasificaciones>
+		<LB_ConsultarSaldoSocio>Partner Balance Consult</LB_ConsultarSaldoSocio>
+		<LB_InformacionCreditoVentas>Credit / Sales Information</LB_InformacionCreditoVentas>
+		<LB_InformacionCrediticiaVentas>Credit and Sales Information</LB_InformacionCrediticiaVentas>
+		<LB_InformacionContable>Accounting Information</LB_InformacionContable>
+		<LB_Contactos>Contacts</LB_Contactos>
+		<LB_ContactosSociosNegocio>Contact information</LB_ContactosSociosNegocio>
+		<LB_Anotaciones>Notes</LB_Anotaciones>
+		<LB_AnotacionesSocioNegocio>Partner Notes</LB_AnotacionesSocioNegocio>
+		<LB_Documento>Documents</LB_Documento>
+		<LB_ObjetosSocioNegocios>Partner Objects</LB_ObjetosSocioNegocios>
+		<LB_ClasificacionGeneral>General Classification</LB_ClasificacionGeneral>
+		<LB_Clasificacion>Classification</LB_Clasificacion>
+	<LB_AtencionA>Responsible</LB_AtencionA><LB_Ciudad>City</LB_Ciudad><LB_CodigoPostal>Zip Code</LB_CodigoPostal><LB_Complementos>Complements</LB_Complementos><LB_Cuenta>Account</LB_Cuenta><LB_Direccion1>Adress 1</LB_Direccion1><LB_Direccion2>Adress 2</LB_Direccion2><LB_Estado>State</LB_Estado><LB_OrigenDeTransaccion>Transaction Source</LB_OrigenDeTransaccion><LB_Pais>Country</LB_Pais></Idioma>
+</Etiquetas>

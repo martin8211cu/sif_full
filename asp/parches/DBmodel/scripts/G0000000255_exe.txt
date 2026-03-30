@@ -1,0 +1,1209 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 1 - Version 100: Actualizar hasta 27/01/2011
+
+	         PARCHE:  BASE CERO: SIF Sistemas
+
+GENERADO EN:
+	SERVER:  http://mxvpapp41:8300
+	DSN:     minisiftrd
+	FECHA:   22/03/2012 13:38:26
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* CHG_TABLE CFinanciera: Cuentas Financieras o de Ultim */
+/* ======================================================================================== */
+/* DEL_CHECK OP = (OBSOLETO): chk=(Ccuenta IS NOT NULL AND CFmovimiento='S' OR CFmovimiento<>'S') */
+ALTER TABLE CFinanciera DROP CONSTRAINT CFinanciera_CK
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_CHECK: chk=(Ccuenta is not null and CFmovimiento = 'S' or CFmovimiento <> 'S') */
+ALTER TABLE CFinanciera ADD CONSTRAINT CFinanciera_CK CHECK (Ccuenta is not null and CFmovimiento = 'S' or CFmovimiento <> 'S')
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP = (NUEVO): TIP="I", SEC="1", COLS="CFformato,Ecodigo,Cmayor,CPVid" */
+CREATE NONCLUSTERED INDEX CFinanciera_ID01 ON CFinanciera (CFformato,Ecodigo,Cmayor,CPVid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE CPtipoMov: Movimientos de Presupuesto */
+/* ======================================================================================== */
+/* DEL_KEY OP = (OBSOLETO): TIP="P", COLS="CPTMtipoMov" */
+ALTER TABLE CPtipoMov DROP CONSTRAINT CPtipoMov_PK /* PRIMARY KEY (CPTMtipoMov) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (NUEVO): TIP="P", SEC="0", COLS="CPTMtipoMov" */
+ALTER TABLE CPtipoMov ADD CONSTRAINT CPtipoMov_PK PRIMARY KEY NONCLUSTERED (CPTMtipoMov)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE RCuentasTipoExactus: RCuentasTipoExactus */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="RCTid", REF="RCuentasTipo" */
+CREATE INDEX RCuentasTipoExactus_FI01 ON RCuentasTipoExactus (RCTid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE RegistroEvaluacion: RegistroEvaluacion */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="Ecodigo", REF="Empresas" */
+CREATE INDEX RegistroEvaluacion_FI01 ON RegistroEvaluacion (Ecodigo)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="2", COLS="TEcodigo", REF="TablaEvaluacion" */
+CREATE INDEX RegistroEvaluacion_FI02 ON RegistroEvaluacion (TEcodigo)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE RegistroEvaluadoresE: RegistroEvaluadoresE */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="REid", REF="RegistroEvaluacion" */
+CREATE INDEX RegistroEvaluadoresE_FI01 ON RegistroEvaluadoresE (REid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE ResponsableEvento: Responsable(s) del Evento */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="DEid", REF="DatosEmpleado" */
+CREATE INDEX ResponsableEvento_FI01 ON ResponsableEvento (DEid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="2", COLS="CEVid", REF="ControlEvento" */
+CREATE INDEX ResponsableEvento_FI02 ON ResponsableEvento (CEVid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE RHAreasxInst: RHAreasxInst */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="RHIid", REF="RHInstructores" */
+CREATE INDEX RHAreasxInst_FI01 ON RHAreasxInst (RHIid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="2", COLS="RHACid", REF="RHAreasCapacitacion" */
+CREATE INDEX RHAreasxInst_FI02 ON RHAreasxInst (RHACid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE RHAsistenciaCurso: RHAsistenciaCurso */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="RHCid", REF="RHCursos" */
+CREATE INDEX RHAsistenciaCurso_FI01 ON RHAsistenciaCurso (RHCid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="2", COLS="DEid", REF="DatosEmpleado" */
+CREATE INDEX RHAsistenciaCurso_FI02 ON RHAsistenciaCurso (DEid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="3", COLS="RHDCid", REF="RHDiasCurso" */
+CREATE INDEX RHAsistenciaCurso_FI03 ON RHAsistenciaCurso (RHDCid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE RHBitPuestos: RHBitPuestos */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="RHPcodigo,Ecodigo", REF="RHPuestos" */
+CREATE INDEX RHBitPuestos_FI01 ON RHBitPuestos (RHPcodigo,Ecodigo)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE RHCesantiaSaldos: RHCesantiaSaldos */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="DClinea", REF="DCargas" */
+CREATE INDEX RHCesantiaSaldos_FI01 ON RHCesantiaSaldos (DClinea)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="2", COLS="DEid", REF="DatosEmpleado" */
+CREATE INDEX RHCesantiaSaldos_FI02 ON RHCesantiaSaldos (DEid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE RHCesantiaSaldosHist: RHCesantiaSaldosHist */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="RHCLBid", REF="RHCesantiaLiqBitacora" */
+CREATE INDEX RHCesantiaSaldosHist_FI01 ON RHCesantiaSaldosHist (RHCLBid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE RHCesantiaTransacciones: RHCesantiaTransacciones */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="DClinea", REF="DCargas" */
+CREATE INDEX RHCesantiaTransacciones_FI01 ON RHCesantiaTransacciones (DClinea)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="2", COLS="DEid", REF="DatosEmpleado" */
+CREATE INDEX RHCesantiaTransacciones_FI02 ON RHCesantiaTransacciones (DEid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE RHCMControlSemanal: RHCMControlSemanal */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="DEid", REF="DatosEmpleado" */
+CREATE INDEX RHCMControlSemanal_FI01 ON RHCMControlSemanal (DEid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE RHCMDia: RHCMDia */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="RHJid", REF="RHJornadas" */
+CREATE INDEX RHCMDia_FI01 ON RHCMDia (RHJid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="2", COLS="RHCMCSid", REF="RHCMControlSemanal" */
+CREATE INDEX RHCMDia_FI02 ON RHCMDia (RHCMCSid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE RHComisionMonge: RHComisionMonge */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="DEid", REF="DatosEmpleado" */
+CREATE INDEX RHComisionMonge_FI01 ON RHComisionMonge (DEid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="2", COLS="CPid", REF="CalendarioPagos" */
+CREATE INDEX RHComisionMonge_FI02 ON RHComisionMonge (CPid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE RHComisionMongeD: RHComisionMongeD */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="CIid", REF="CIncidentes" */
+CREATE INDEX RHComisionMongeD_FI01 ON RHComisionMongeD (CIid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="2", COLS="DEid", REF="DatosEmpleado" */
+CREATE INDEX RHComisionMongeD_FI02 ON RHComisionMongeD (DEid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="3", COLS="CPid", REF="CalendarioPagos" */
+CREATE INDEX RHComisionMongeD_FI03 ON RHComisionMongeD (CPid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE RHConocimientoPuestoP: RHConocimientoPuestoP */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="RHCid", REF="RHConocimientos" */
+CREATE INDEX RHConocimientoPuestoP_FI01 ON RHConocimientoPuestoP (RHCid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="2", COLS="RHDPPid", REF="RHDescripPuestoP" */
+CREATE INDEX RHConocimientoPuestoP_FI02 ON RHConocimientoPuestoP (RHDPPid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE RHControlSaldos: RHControlSaldos */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="CIid", REF="CIncidentes" */
+CREATE INDEX RHControlSaldos_FI01 ON RHControlSaldos (CIid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="2", COLS="DEid", REF="DatosEmpleado" */
+CREATE INDEX RHControlSaldos_FI02 ON RHControlSaldos (DEid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="3", COLS="DLlinea", REF="DLaboralesEmpleado" */
+CREATE INDEX RHControlSaldos_FI03 ON RHControlSaldos (DLlinea)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE RHCPFormulacion: RHCPFormulacion */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="CFid", REF="CFuncional" */
+CREATE INDEX RHCPFormulacion_FI01 ON RHCPFormulacion (CFid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="2", COLS="DClinea", REF="DCargas" */
+CREATE INDEX RHCPFormulacion_FI02 ON RHCPFormulacion (DClinea)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="3", COLS="Mcodigo", REF="Monedas" */
+CREATE INDEX RHCPFormulacion_FI03 ON RHCPFormulacion (Mcodigo)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="4", COLS="RHEid", REF="RHEscenarios" */
+CREATE INDEX RHCPFormulacion_FI04 ON RHCPFormulacion (RHEid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE RHDBecasEmpleado: RHDBecasEmpleado */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="RHDCBid", REF="RHDConceptosBeca" */
+CREATE INDEX RHDBecasEmpleado_FI01 ON RHDBecasEmpleado (RHDCBid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="2", COLS="RHEBEid", REF="RHEBecasEmpleado" */
+CREATE INDEX RHDBecasEmpleado_FI02 ON RHDBecasEmpleado (RHEBEid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="3", COLS="RHTBDFid", REF="RHTipoBecaDFormatos" */
+CREATE INDEX RHDBecasEmpleado_FI03 ON RHDBecasEmpleado (RHTBDFid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE RHDConceptosBeca: RHDConceptosBeca */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="RHECBid", REF="RHEConceptosBeca" */
+CREATE INDEX RHDConceptosBeca_FI01 ON RHDConceptosBeca (RHECBid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE RHDConfigCertBecas: RHDConfigCertBecas */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="RHECCBid", REF="RHEConfigCertBecas" */
+CREATE INDEX RHDConfigCertBecas_FI01 ON RHDConfigCertBecas (RHECCBid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="2", COLS="RHTBDFid", REF="RHTipoBecaDFormatos" */
+CREATE INDEX RHDConfigCertBecas_FI02 ON RHDConfigCertBecas (RHTBDFid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE RHDescripPuestoP: RHDescripPuestoP */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="RHPcodigo,Ecodigo", REF="RHPuestos" */
+CREATE INDEX RHDescripPuestoP_FI01 ON RHDescripPuestoP (RHPcodigo,Ecodigo)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE RHDiasCurso: RHDiasCurso */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="RHCid", REF="RHCursos" */
+CREATE INDEX RHDiasCurso_FI01 ON RHDiasCurso (RHCid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE RHDOtrasPartidas: RHDOtrasPartidas */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="CFid", REF="CFuncional" */
+CREATE INDEX RHDOtrasPartidas_FI01 ON RHDOtrasPartidas (CFid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="2", COLS="RHOPid", REF="RHOtrasPartidas" */
+CREATE INDEX RHDOtrasPartidas_FI02 ON RHDOtrasPartidas (RHOPid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE RHDrpt: RHDrpt */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="rptid", REF="RHErpt" */
+CREATE INDEX RHDrpt_FI01 ON RHDrpt (rptid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE RHDValoracionFactores: RHDValoracionFactores */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="RHEVFid", REF="RHEValoracionFactores" */
+CREATE INDEX RHDValoracionFactores_FI01 ON RHDValoracionFactores (RHEVFid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="2", COLS="Ecodigo", REF="Empresas" */
+CREATE INDEX RHDValoracionFactores_FI02 ON RHDValoracionFactores (Ecodigo)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE RHDVariablesDinamicas: RHDVariablesDinamicas */
+/* ======================================================================================== */
+/* DEL_COLUMN OP = (OBSOLETO): RHDVDcalculo - RHDVDcalculo */
+ALTER TABLE RHDVariablesDinamicas DROP COLUMN RHDVDcalculo
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="RHEVDid", REF="RHEVariablesDinamicas" */
+CREATE INDEX RHDVariablesDinamicas_FI01 ON RHDVariablesDinamicas (RHEVDid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE RHDVExperiencia: RHDVExperiencia */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="Ecodigo", REF="Empresas" */
+CREATE INDEX RHDVExperiencia_FI01 ON RHDVExperiencia (Ecodigo)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE RHDVPuestoP: RHDVPuestoP */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="RHDPPid", REF="RHDescripPuestoP" */
+CREATE INDEX RHDVPuestoP_FI01 ON RHDVPuestoP (RHDPPid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE RHEBecasEmpleado: RHEBecasEmpleado */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="DEid", REF="DatosEmpleado" */
+CREATE INDEX RHEBecasEmpleado_FI01 ON RHEBecasEmpleado (DEid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="2", COLS="RHTBid", REF="RHTipoBeca" */
+CREATE INDEX RHEBecasEmpleado_FI02 ON RHEBecasEmpleado (RHTBid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE RHECargasPatrolanes: RHECargasPatrolanes */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="DClinea", REF="DCargas" */
+CREATE INDEX RHECargasPatrolanes_FI01 ON RHECargasPatrolanes (DClinea)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="2", COLS="RHEid", REF="RHEscenarios" */
+CREATE INDEX RHECargasPatrolanes_FI02 ON RHECargasPatrolanes (RHEid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE RHEConfigCertBecas: RHEConfigCertBecas */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="RHTBid", REF="RHTipoBeca" */
+CREATE INDEX RHEConfigCertBecas_FI01 ON RHEConfigCertBecas (RHTBid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE RHEjecucionPlazas: RHEjecucionPlazas */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="RHPPid", REF="RHPlazaPresupuestaria" */
+CREATE INDEX RHEjecucionPlazas_FI01 ON RHEjecucionPlazas (RHPPid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE RHEmpleadosporCurso: RHEmpleadosporCurso */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="RHCid", REF="RHCursos" */
+CREATE INDEX RHEmpleadosporCurso_FI01 ON RHEmpleadosporCurso (RHCid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE RHFiadoresBecasEmpleado: RHFiadoresBecasEmpleado */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="DEid", REF="DatosEmpleado" */
+CREATE INDEX RHFiadoresBecasEmpleado_FI01 ON RHFiadoresBecasEmpleado (DEid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="2", COLS="RHEBEid", REF="RHEBecasEmpleado" */
+CREATE INDEX RHFiadoresBecasEmpleado_FI02 ON RHFiadoresBecasEmpleado (RHEBEid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="4", COLS="RHFid", REF="RHFiadores" */
+CREATE INDEX RHFiadoresBecasEmpleado_FI04 ON RHFiadoresBecasEmpleado (RHFid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE RHGrados: RHGrados */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="RHFid", REF="RHFactores" */
+CREATE INDEX RHGrados_FI01 ON RHGrados (RHFid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE RHGradosFactorPuesto: RHGradosFactorPuesto */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="RHGid", REF="RHGrados" */
+CREATE INDEX RHGradosFactorPuesto_FI01 ON RHGradosFactorPuesto (RHGid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="2", COLS="RHFid", REF="RHFactores" */
+CREATE INDEX RHGradosFactorPuesto_FI02 ON RHGradosFactorPuesto (RHFid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="3", COLS="RHPcodigo,Ecodigo", REF="RHPuestos" */
+CREATE INDEX RHGradosFactorPuesto_FI03 ON RHGradosFactorPuesto (RHPcodigo,Ecodigo)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE RHHabilidadPuestoP: RHHabilidadPuestoP */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="RHHid", REF="RHHabilidades" */
+CREATE INDEX RHHabilidadPuestoP_FI01 ON RHHabilidadPuestoP (RHHid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="2", COLS="RHDPPid", REF="RHDescripPuestoP" */
+CREATE INDEX RHHabilidadPuestoP_FI02 ON RHHabilidadPuestoP (RHDPPid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE RHHistoricoSDI: RHHistoricoSDI */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="DEid", REF="DatosEmpleado" */
+CREATE INDEX RHHistoricoSDI_FI01 ON RHHistoricoSDI (DEid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE RHHSubfactores: RHHSubfactores */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="RHHFid", REF="RHHFactores" */
+CREATE INDEX RHHSubfactores_FI01 ON RHHSubfactores (RHHFid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE RHIndicadoresDetalle: Detalle de Indicadores */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="RHIcodigo", REF="RHIndicadores" */
+CREATE INDEX RHIndicadoresDetalle_FI01 ON RHIndicadoresDetalle (RHIcodigo)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE RHLiqFL: Tabla de Resultado de Concento */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="DEid", REF="DatosEmpleado" */
+CREATE INDEX RHLiqFL_FI01 ON RHLiqFL (DEid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="2", COLS="DLlinea", REF="RHLiquidacionPersonal" */
+CREATE INDEX RHLiqFL_FI02 ON RHLiqFL (DLlinea)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE RHMovPlazaPresupuesto: RH Montos Traslado Presupuesta */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="RHMPid", REF="RHMovPlaza" */
+CREATE INDEX RHMovPlazaPresupuesto_FI01 ON RHMovPlazaPresupuesto (RHMPid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE RHOPDFormulacion: RHOPDFormulacion */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="CFid", REF="CFuncional" */
+CREATE INDEX RHOPDFormulacion_FI01 ON RHOPDFormulacion (CFid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="2", COLS="RHOPFid", REF="RHOPFormulacion" */
+CREATE INDEX RHOPDFormulacion_FI02 ON RHOPDFormulacion (RHOPFid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE RHOPFormulacion: RHOPFormulacion */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="Mcodigo", REF="Monedas" */
+CREATE INDEX RHOPFormulacion_FI01 ON RHOPFormulacion (Mcodigo)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="2", COLS="RHEid", REF="RHEscenarios" */
+CREATE INDEX RHOPFormulacion_FI02 ON RHOPFormulacion (RHEid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="3", COLS="RHOPid", REF="RHOtrasPartidas" */
+CREATE INDEX RHOPFormulacion_FI03 ON RHOPFormulacion (RHOPid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE RHPagosExternos: RHPagosExternos */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="DEid", REF="DatosEmpleado" */
+CREATE INDEX RHPagosExternos_FI01 ON RHPagosExternos (DEid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="2", COLS="PEXTid", REF="RHPagosExternosTipo" */
+CREATE INDEX RHPagosExternos_FI02 ON RHPagosExternos (PEXTid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE RHPagosExternosTipo: RHPagosExternosTipo */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="DClinea", REF="DCargas" */
+CREATE INDEX RHPagosExternosTipo_FI01 ON RHPagosExternosTipo (DClinea)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE RHPTUD: RH nomina PTU detalle */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="RHPTUEid", REF="RHPTUE" */
+CREATE INDEX RHPTUD_FI01 ON RHPTUD (RHPTUEid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="2", COLS="Ecodigo,Tcodigo", REF="TiposNomina" */
+CREATE INDEX RHPTUD_FI02 ON RHPTUD (Ecodigo,Tcodigo)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE RHPTUEMpleados: RHPTUEMpleados */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="DEid", REF="DatosEmpleado" */
+CREATE INDEX RHPTUEMpleados_FI01 ON RHPTUEMpleados (DEid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="2", COLS="RHPTUEid", REF="RHPTUE" */
+CREATE INDEX RHPTUEMpleados_FI02 ON RHPTUEMpleados (RHPTUEid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE RHRentaOrigenes: Origenes de las proyecciones y */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="RHCRPTid", REF="RHColumnasReporte" */
+CREATE INDEX RHRentaOrigenes_FI01 ON RHRentaOrigenes (RHCRPTid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="2", COLS="RHRentaId", REF="RHLiquidacionRenta" */
+CREATE INDEX RHRentaOrigenes_FI02 ON RHRentaOrigenes (RHRentaId)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE RHSolicitudPersonal: RHSolicitudPersonal */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="RHTid", REF="RHTipoAccion" */
+CREATE INDEX RHSolicitudPersonal_FI01 ON RHSolicitudPersonal (RHTid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="2", COLS="RHMSid", REF="RHMotivoSol" */
+CREATE INDEX RHSolicitudPersonal_FI02 ON RHSolicitudPersonal (RHMSid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="3", COLS="RHPcodigo,Ecodigo", REF="RHPuestos" */
+CREATE INDEX RHSolicitudPersonal_FI03 ON RHSolicitudPersonal (RHPcodigo,Ecodigo)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE RHSValoracionFactores: RHSValoracionFactores */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="RHHid", REF="RHHabilidades" */
+CREATE INDEX RHSValoracionFactores_FI01 ON RHSValoracionFactores (RHHid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="2", COLS="RHDVFid", REF="RHDValoracionFactores" */
+CREATE INDEX RHSValoracionFactores_FI02 ON RHSValoracionFactores (RHDVFid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="3", COLS="RHECGid", REF="RHECatalogosGenerales" */
+CREATE INDEX RHSValoracionFactores_FI03 ON RHSValoracionFactores (RHECGid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="4", COLS="RHDDVlinea", REF="RHDDatosVariables" */
+CREATE INDEX RHSValoracionFactores_FI04 ON RHSValoracionFactores (RHDDVlinea)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="5", COLS="Ecodigo", REF="Empresas" */
+CREATE INDEX RHSValoracionFactores_FI05 ON RHSValoracionFactores (Ecodigo)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE RHTipoBecaConceptos: RHTipoBecaConceptos */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="RHTBid", REF="RHTipoBeca" */
+CREATE INDEX RHTipoBecaConceptos_FI01 ON RHTipoBecaConceptos (RHTBid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="2", COLS="RHECBid", REF="RHEConceptosBeca" */
+CREATE INDEX RHTipoBecaConceptos_FI02 ON RHTipoBecaConceptos (RHECBid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE RHTipoBecaDFormatos: RHTipoBecaDFormatos */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="RHECBid", REF="RHEConceptosBeca" */
+CREATE INDEX RHTipoBecaDFormatos_FI01 ON RHTipoBecaDFormatos (RHECBid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="2", COLS="RHTBEFid", REF="RHTipoBecaEFormatos" */
+CREATE INDEX RHTipoBecaDFormatos_FI02 ON RHTipoBecaDFormatos (RHTBEFid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE RHTipoBecaEFormatos: RHTipoBecaEFormatos */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="RHTBid", REF="RHTipoBeca" */
+CREATE INDEX RHTipoBecaEFormatos_FI01 ON RHTipoBecaEFormatos (RHTBid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE RHTiposServxInst: RHTiposServxInst */
+/* ======================================================================================== */
+/* DEL_COLUMN OP = (OBSOLETO): RHTCid - RHTCid */
+ALTER TABLE RHTiposServxInst DROP COLUMN RHTCid
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="2", COLS="RHTSid", REF="RHTiposServ" */
+CREATE INDEX RHTiposServxInst_FI02 ON RHTiposServxInst (RHTSid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE RHValorPuestoP: RHValorPuestoP */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="RHDPPid", REF="RHDescripPuestoP" */
+CREATE INDEX RHValorPuestoP_FI01 ON RHValorPuestoP (RHDPPid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE SalariosOtrosPatronos: SalariosOtrosPatronos */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="DEid", REF="DatosEmpleado" */
+CREATE INDEX SalariosOtrosPatronos_FI01 ON SalariosOtrosPatronos (DEid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="2", COLS="OPid", REF="RH_OtrosPatronos" */
+CREATE INDEX SalariosOtrosPatronos_FI02 ON SalariosOtrosPatronos (OPid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE SeguimientoEvento: Seguimiento de los Estados del */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="CEVid", REF="ControlEvento" */
+CREATE INDEX SeguimientoEvento_FI01 ON SeguimientoEvento (CEVid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE TESacuerdoPagoH: Acuerdos de Pago Historico */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="TESAPid", REF="TESacuerdoPago" */
+CREATE INDEX TESacuerdoPagoH_FI01 ON TESacuerdoPagoH (TESAPid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="2", COLS="TESSPid", REF="TESsolicitudPago" */
+CREATE INDEX TESacuerdoPagoH_FI02 ON TESacuerdoPagoH (TESSPid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE TESdetallePagoCPC: Bitacora de Multas Cesiones y  */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="CPCid", REF="CPCesion" */
+CREATE INDEX TESdetallePagoCPC_FI01 ON TESdetallePagoCPC (CPCid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="2", COLS="TESDPid", REF="TESdetallePago" */
+CREATE INDEX TESdetallePagoCPC_FI02 ON TESdetallePagoCPC (TESDPid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="3", COLS="TESSPid", REF="TESsolicitudPago" */
+CREATE INDEX TESdetallePagoCPC_FI03 ON TESdetallePagoCPC (TESSPid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="4", COLS="TESDPidNew", REF="TESdetallePago" */
+CREATE INDEX TESdetallePagoCPC_FI04 ON TESdetallePagoCPC (TESDPidNew)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE TESgastosPago: Tesoreria gastos Pago */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="CFcuenta", REF="CFinanciera" */
+CREATE INDEX TESgastosPago_FI01 ON TESgastosPago (CFcuenta)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="2", COLS="TESDPid", REF="TESdetallePago" */
+CREATE INDEX TESgastosPago_FI02 ON TESgastosPago (TESDPid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="3", COLS="TESSPid", REF="TESsolicitudPago" */
+CREATE INDEX TESgastosPago_FI03 ON TESgastosPago (TESSPid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="4", COLS="EcodigoOri,OcodigoOri", REF="Oficinas" */
+CREATE INDEX TESgastosPago_FI04 ON TESgastosPago (EcodigoOri,OcodigoOri)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="5", COLS="Miso4217Ori,EcodigoOri", REF="Monedas" */
+CREATE INDEX TESgastosPago_FI05 ON TESgastosPago (Miso4217Ori,EcodigoOri)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE TESreintegro: Documento de Reintegro de cuen */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="TESid", REF="Tesoreria" */
+CREATE INDEX TESreintegro_FI01 ON TESreintegro (TESid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="3", COLS="CBidOri", REF="CuentasBancos" */
+CREATE INDEX TESreintegro_FI03 ON TESreintegro (CBidOri)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="4", COLS="TESid,TESTILid", REF="TEStransfIntercomL" */
+CREATE INDEX TESreintegro_FI04 ON TESreintegro (TESid,TESTILid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="5", COLS="TESid,CBidOri,TESMPcodigoOri", REF="TESmedioPago" */
+CREATE INDEX TESreintegro_FI05 ON TESreintegro (TESid,CBidOri,TESMPcodigoOri)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE TESreintegroDet: Reintegros a cuentas corriente */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="TESDPid", REF="TESdetallePago" */
+CREATE INDEX TESreintegroDet_FI01 ON TESreintegroDet (TESDPid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="2", COLS="TESRnumero", REF="TESreintegro" */
+CREATE INDEX TESreintegroDet_FI02 ON TESreintegroDet (TESRnumero)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE TESRPTcontables: Almacena los conceptos de pago */
+/* ======================================================================================== */
+/* ADD_KEY OP = (NO GENERAR): TIP="F", SEC="1", COLS="EMid", REF="EMovimientos" */
+CREATE INDEX TESRPTcontables_FI01 ON TESRPTcontables (EMid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (NO GENERAR): TIP="F", SEC="2", COLS="IDcontable", REF="EContables" */
+CREATE INDEX TESRPTcontables_FI02 ON TESRPTcontables (IDcontable)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="3", COLS="SNid", REF="SNegocios" */
+CREATE INDEX TESRPTcontables_FI03 ON TESRPTcontables (SNid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="4", COLS="TESBid", REF="TESbeneficiario" */
+CREATE INDEX TESRPTcontables_FI04 ON TESRPTcontables (TESBid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="5", COLS="TESRPTCid", REF="TESRPTconcepto" */
+CREATE INDEX TESRPTcontables_FI05 ON TESRPTcontables (TESRPTCid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="6", COLS="CDCcodigo", REF="ClientesDetallistasCorp" */
+CREATE INDEX TESRPTcontables_FI06 ON TESRPTcontables (CDCcodigo)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE TESTramiteSolPago: TESTramiteSolPago */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="CFid", REF="CFuncional" */
+CREATE INDEX TESTramiteSolPago_FI01 ON TESTramiteSolPago (CFid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="2", COLS="ProcessId", REF="WfProcess" */
+CREATE INDEX TESTramiteSolPago_FI02 ON TESTramiteSolPago (ProcessId)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE TEStransferenciaG2: Parametros Adicionales para la */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="TESTGid", REF="TEStransferenciaG" */
+CREATE INDEX TEStransferenciaG2_FI01 ON TEStransferenciaG2 (TESTGid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE TESusuario: Seguridad Tesoreria */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="TESid", REF="Tesoreria" */
+CREATE INDEX TESusuario_FI01 ON TESusuario (TESid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE TipoEventoEstado: TipoEventoEstado */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="TEVid", REF="TipoEvento" */
+CREATE INDEX TipoEventoEstado_FI01 ON TipoEventoEstado (TEVid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE TiposGarantia: TiposGarantia */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="Mcodigo", REF="Monedas" */
+CREATE INDEX TiposGarantia_FI01 ON TiposGarantia (Mcodigo)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE TotDebitosCreditos: TotDebitosCreditos */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="ID_salprod", REF="ESalidaProd" */
+CREATE INDEX TotDebitosCreditos_FI01 ON TotDebitosCreditos (ID_salprod)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE UsuarioCFuncional: Usuarios por Centro Funcional  */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="CFid", REF="CFuncional" */
+CREATE INDEX UsuarioCFuncional_FI01 ON UsuarioCFuncional (CFid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE VFPDEstimacion: Versiones Detalle de la Estima */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="Aid", REF="Articulos" */
+CREATE INDEX VFPDEstimacion_FI01 ON VFPDEstimacion (Aid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="2", COLS="Cid", REF="Conceptos" */
+CREATE INDEX VFPDEstimacion_FI02 ON VFPDEstimacion (Cid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="3", COLS="OBOid", REF="OBobra" */
+CREATE INDEX VFPDEstimacion_FI03 ON VFPDEstimacion (OBOid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="4", COLS="FPCid", REF="FPConcepto" */
+CREATE INDEX VFPDEstimacion_FI04 ON VFPDEstimacion (FPCid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="5", COLS="Mcodigo", REF="Monedas" */
+CREATE INDEX VFPDEstimacion_FI05 ON VFPDEstimacion (Mcodigo)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="6", COLS="FPAEid", REF="FPActividadE" */
+CREATE INDEX VFPDEstimacion_FI06 ON VFPDEstimacion (FPAEid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="7", COLS="FPEPid", REF="FPEPlantilla" */
+CREATE INDEX VFPDEstimacion_FI07 ON VFPDEstimacion (FPEPid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="8", COLS="FPCCid", REF="FPCatConcepto" */
+CREATE INDEX VFPDEstimacion_FI08 ON VFPDEstimacion (FPCCid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="9", COLS="FPDEid", REF="FPDEstimacion" */
+CREATE INDEX VFPDEstimacion_FI09 ON VFPDEstimacion (FPDEid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="10", COLS="PCGDid", REF="PCGDplanCompras" */
+CREATE INDEX VFPDEstimacion_FI10 ON VFPDEstimacion (PCGDid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="11", COLS="PCGcuenta", REF="PCGcuentas" */
+CREATE INDEX VFPDEstimacion_FI11 ON VFPDEstimacion (PCGcuenta)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="12", COLS="Ucodigo,Ecodigo", REF="Unidades" */
+CREATE INDEX VFPDEstimacion_FI12 ON VFPDEstimacion (Ucodigo,Ecodigo)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="13", COLS="Version,FPEEid", REF="VFPEEstimacion" */
+CREATE INDEX VFPDEstimacion_FI13 ON VFPDEstimacion (Version,FPEEid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE VFPEEstimacion: versiones Encabezado de la Est */
+/* ======================================================================================== */
+/* ADD_KEY OP = (OK): TIP="F", SEC="1", COLS="CFid", REF="CFuncional" */
+CREATE INDEX VFPEEstimacion_FI01 ON VFPEEstimacion (CFid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="2", COLS="FPEEid", REF="FPEEstimacion" */
+CREATE INDEX VFPEEstimacion_FI02 ON VFPEEstimacion (FPEEid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="3", COLS="FPTVid", REF="TipoVariacionPres" */
+CREATE INDEX VFPEEstimacion_FI03 ON VFPEEstimacion (FPTVid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (OK): TIP="F", SEC="4", COLS="Ecodigo,CPPid", REF="CPresupuestoPeriodo" */
+CREATE INDEX VFPEEstimacion_FI04 ON VFPEEstimacion (Ecodigo,CPPid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE WfActivity: Actividad */
+/* ======================================================================================== */
+/* DEL_CHECK OP = (OBSOLETO): chk=(IsStart=(0) OR IsFinish=(0)) */
+ALTER TABLE WfActivity DROP CONSTRAINT WfActivity_CK
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_CHECK: chk=(IsStart = 0 or IsFinish = 0) */
+ALTER TABLE WfActivity ADD CONSTRAINT WfActivity_CK CHECK (IsStart = 0 or IsFinish = 0)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* END_SCRIPT */

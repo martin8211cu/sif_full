@@ -1,0 +1,30 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  sifPublica
+	MODELO:  SIF Publica.pdm
+	VERSION: 491 - DBM 436: Agregar el campo ETA_R para señalar cual 
+
+	         PARCHE:  Parche023_588_SIF_CatalogoActividadTracking
+
+GENERADO EN:
+	SERVER:  http://mxvqapp34:8300
+	DSN:     sifpublica
+	FECHA:   09/01/2012 13:04:28
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* CHG_TABLE CMActividadTracking: Actividad por Tracking */
+/* ======================================================================================== */
+/* ADD_COLUMN OP = (NUEVO): ETA_R - Fecha real de arribo del embarque */
+ALTER TABLE CMActividadTracking ADD ETA_R bit DEFAULT 0 NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

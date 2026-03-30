@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+
+	<Idioma id="en">
+		<LB_Titulo>Mapping Accounts Type</LB_Titulo>
+		<LB_Codigo>Code</LB_Codigo>
+		<LB_NombreMapeo>Mapping Name</LB_NombreMapeo>&gt;
+		<LB_Nombre>Name</LB_Nombre>
+		<LB_Empresas>Enterprises</LB_Empresas>
+		<LB_Cuentas>Accounts</LB_Cuentas>
+	</Idioma>
+</Etiquetas>

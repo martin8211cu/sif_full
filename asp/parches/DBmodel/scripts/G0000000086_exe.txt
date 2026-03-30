@@ -1,0 +1,21 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 196 - DBM 333: Diagram: Viaticos_por_Comision
+
+	         PARCHE:  Parche023_361_SIF_GastoEmpleados
+
+GENERADO EN:
+	SERVER:  http://mxpapp36:8300
+	DSN:     sifcim
+	FECHA:   08/10/2011 08:15:30
+*/
+
+/* INI_SCRIPT */
+
+/* END_SCRIPT */

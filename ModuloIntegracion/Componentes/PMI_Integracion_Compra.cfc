@@ -1,0 +1,778 @@
+<!--- ABG: Integracion de Compras PMI --->
+<!--- La Integracion de Compra, procesa todas las compras de producto FACT y NOFACT generando los documentos de CxP correspondientes --->
+<!--- La Interfaz solo funciona con versiones de Coldfusion 8.0 en adelante --->
+<!--- Elaboró: Maria de los Angeles Blanco López 26 de Octubre del 2009--->
+
+<cfcomponent extends="Interfaz_Base">
+	<cffunction name="Ejecuta" access="public" returntype="string" output="no">
+    	<cfargument name="Disparo" required="no" type="boolean" default="false">
+		<!--- Rutina para Obtener Parametros a Ocupar --->
+		<cfset ParImp = true>
+		<!--- Crear un Parametro Ver 2.0 --->
+		<cfset ParBorrado = false>
+		
+		<!---Invocar al GC para liberar memoria--->
+        <cfset javaRT = createobject("java","java.lang.Runtime").getRuntime()>
+        <cfset javaRT.gc()><!--- invoca el GC --->
+		
+        <!---Actualiza los registros a Estatus en Proceso--->
+		<cfif Application.dsinfo.sifinterfaces.type EQ "sybase">
+			<cfquery name="rsActualiza" datasource="sifinterfaces" result="Rupdate">
+                update top 10 ESIFLD_Facturas_Compra 
+                set Estatus = 10 
+                where 			
+                <cfif isdefined("Arguments.Disparo") and Arguments.Disparo>
+                    Estatus = 1
+                    <!---Tipo_Documento in ('FC','ND', 'NC', 'EC', 'DC') --->
+                    and not exists (select 1 from ESIFLD_Facturas_Compra where Estatus in (10, 11,94,92,99,100))
+                <cfelse>
+                    Estatus = 99
+                    <!---Tipo_Documento in ('FC','ND', 'NC', 'EC', 'DC') --->
+                    and not exists (select 1 from ESIFLD_Facturas_Compra where Estatus in (10, 11))
+                </cfif>
+                and Clas_Compra in ('PRFC', 'PRNF', 'PFFC', 'PFNC', 'PNFC', 'PNNC', 'CCFC', 'CCNF')
+            </cfquery>
+        <cfelseif Application.dsinfo.sifinterfaces.type EQ "sqlserver">
+        	<cfquery name="rsActualiza" datasource="sifinterfaces" result="Rupdate">
+                update top (10) ESIFLD_Facturas_Compra 
+                set Estatus = 10 
+                where 			
+                <cfif isdefined("Arguments.Disparo") and Arguments.Disparo>
+                    Estatus = 1
+                    <!---Tipo_Documento in ('FC','ND', 'NC', 'EC', 'DC') --->
+                    and not exists (select 1 from ESIFLD_Facturas_Compra where Estatus in (10, 11,94,92,99,100))
+                <cfelse>
+                    Estatus = 99
+                    <!---Tipo_Documento in ('FC','ND', 'NC', 'EC', 'DC') --->
+                    and not exists (select 1 from ESIFLD_Facturas_Compra where Estatus in (10, 11))
+                </cfif>
+                and Clas_Compra in ('PRFC', 'PRNF', 'PFFC', 'PFNC', 'PNFC', 'PNNC', 'CCFC', 'CCNF')
+            </cfquery>
+        <cfelseif Application.dsinfo.sifinterfaces.type EQ "oracle">
+			<cfthrow message="Base de datos #Application.dsinfo.sifinterfaces.type# no implementada">
+        <cfelse>
+        	<cfthrow message="Base de datos no reconocida">
+		</cfif>
+        
+		<!--- toma registros cabecera de las Compras --->
+		<cfquery name="rsIDECompras" datasource="sifinterfaces">
+			select ID_DocumentoC
+			from ESIFLD_Facturas_Compra
+			where 
+				Clas_Compra in ('PRFC', 'PRNF', 'PFFC', 'PFNC', 'PNFC', 'PNNC', 'CCFC', 'CCNF')
+				and Estatus = 10  
+			<!--- Si se quiere basar la logica en el tipo de documento utilizar esta linea 
+			Tipo_Documento in ('FC','ND', 'NC', 'EC', 'DC') --->
+            <cfif Rupdate.recordcount EQ 0>
+            	and 1 = 2
+            </cfif> 
+		</cfquery>
+		
+	  	<cfif isdefined("rsIDECompras") AND rsIDECompras.recordcount GT 0>
+		<cfloop query="rsIDECompras">
+        <cfsilent>
+      	<cftry>
+			<!--- toma registros cabecera de las Compras --->
+            <cfquery name="rsECompras" datasource="sifinterfaces">
+                select Ecodigo, Origen, ID_DocumentoC, Tipo_Documento, Fecha_Compra, Fecha_Arribo, Fecha_Vencimiento, Contrato,
+                     Numero_Documento,  Proveedor, Sucursal, Moneda, Fecha_Tipo_Cambio, Tipo_Cambio,
+                     Retencion, Almacen, Clas_Compra, Dest_Compra, Usuario, TimbreFiscal
+                from ESIFLD_Facturas_Compra
+                where 
+                    ID_DocumentoC = <cfqueryparam cfsqltype="cf_sql_numeric" value="#rsIDECompras.ID_DocumentoC#">
+            </cfquery>
+			<cfset DocumentoFact = rsECompras.ID_DocumentoC>
+			
+            <cfquery datasource="sifinterfaces">
+                update ESIFLD_Facturas_Compra
+                set Fecha_Inicio_Proceso = <cfqueryparam cfsqltype="cf_sql_timestamp" value="#now()#">
+                where ID_DocumentoC = #DocumentoFact# 
+            </cfquery>
+                    
+			<!--- Extrae Maximo+1 de tabla IE10 para insertar nuevo reg, en IE10 --->                      
+            <cfset RsMaximo = ExtraeMaximo("IE10","ID")>
+            <cfif isdefined(#RsMaximo.Maximo#) or #RsMaximo.Maximo# gt 0>
+				<cfset Maximus = #RsMaximo.Maximo#>
+			<cfelse>
+				<cfset Maximus = 1>
+			</cfif>
+			
+			<!---BUSCA EQUIVALENCIAS--->
+			<!--- EMPRESAS --->
+			<cfset varEcodigo = ConversionEquivalencia (rsECompras.Origen, 'CADENA', rsECompras.Ecodigo, rsECompras.Ecodigo, 'Cadena')>
+			<cfset session.dsn = getConexion(varEcodigo.EQUidSIF)>
+			
+			<!--- MONEDA --->
+            <cfset varMoneda = ConversionEquivalencia (rsECompras.Origen, 'MONEDA', rsECompras.Ecodigo, rsECompras.Moneda, 'Moneda')>
+			
+			<!---OFICINA --->
+			<cfset VarOficina = ConversionEquivalencia (rsECompras.Origen, 'SUCURSAL', rsECompras.Ecodigo, rsECompras.Sucursal, 
+			'Sucursal')>
+			
+			<!---RETENCION--->
+			<cfif isdefined("rsECompras.Retencion") and trim(rsECompras.Retencion) NEQ "">
+				<cfset Equiv = ConversionEquivalencia (rsECompras.Origen, 'RETENCION', rsECompras.Ecodigo, rsECompras.Retencion, 	                 'Retencion')>     
+				<cfset VarRetencion = Equiv.EQUcodigoSIF>
+			</cfif>
+			
+		    <!--- , 'PROVEEDOR', 'ECODIGO' --->
+			<cfset VarPrv = ExtraeCliente(rsECompras.Proveedor, varEcodigo.EQUidSIF,"P","S")>  
+			
+			<!---Tipo de Contraparte --->
+			<cfset varCEcodigo = getCEcodigo(varEcodigo.EQUidSIF)>
+						
+			<cfquery name="rsContraparte" datasource="#session.dsn#">
+				select sn.SNcodigo, snd.SNCDdescripcion from 
+				SNClasificacionSN csn
+				inner join SNegocios sn	on csn.SNid = sn.SNid 
+				and sn.Ecodigo = <cfqueryparam cfsqltype ="cf_sql_integer" value="#varEcodigo.EQUidSIF#">
+				and sn.SNcodigo = <cfqueryparam cfsqltype ="cf_sql_integer" value="#VarPrv.SNcodigo#"> 
+				inner join SNClasificacionD snd
+		        inner join SNClasificacionE sne on snd.SNCEid = sne.SNCEid
+	 	        and sne.CEcodigo = <cfqueryparam cfsqltype ="cf_sql_integer" value="#varCEcodigo#">
+		        and SNCEcodigo like 'SN-001' on csn.SNCDid = snd.SNCDid
+			</cfquery>
+			
+			<cfif isdefined("rsContraparte") and rsContraparte.recordcount GT 0>
+				<cfset varContraParte = rsContraparte.SNCDdescripcion>
+			<cfelse>
+				<cfthrow message="El Socio de Negocio #rsECompras.Proveedor# no tiene asignado un valor para su contraparte">
+			</cfif>
+			<!---Origen Socio --->
+			<cfset varCEcodigo = getCEcodigo(varEcodigo.EQUidSIF)>
+			<cfquery name="rsSN002" datasource="#session.dsn#">
+            	select count(SNCEcodigo) as existe from SNClasificacionE
+                where SNCEcodigo ='SN-002'
+                and PCCEactivo=1
+            </cfquery>
+            <cfif isdefined("rsSN002") and rsSN002.existe EQ 1>			
+                <cfquery name="rsOrigenSocio" datasource="#session.dsn#">
+                    select sn.SNcodigo, snd.SNCDdescripcion from 
+                    SNClasificacionSN csn
+                    inner join SNegocios sn	on csn.SNid = sn.SNid 
+                    and sn.Ecodigo = <cfqueryparam cfsqltype ="cf_sql_integer" value="#varEcodigo.EQUidSIF#">
+                    and sn.SNcodigo = <cfqueryparam cfsqltype ="cf_sql_integer" value="#VarPrv.SNcodigo#"> 
+                    inner join SNClasificacionD snd
+                    inner join SNClasificacionE sne on snd.SNCEid = sne.SNCEid
+                    and sne.CEcodigo = <cfqueryparam cfsqltype ="cf_sql_integer" value="#varCEcodigo#">
+                    and SNCEcodigo like 'SN-002' on csn.SNCDid = snd.SNCDid
+                </cfquery>
+                <cfif isdefined("rsOrigenSocio") and rsOrigenSocio.recordcount GT 0>
+                    <cfset varOrigenSocio = rsOrigenSocio.SNCDdescripcion>
+                <cfelse>
+                    <cfthrow message="El Socio de Negocio #rsECompras.Proveedor# no tiene asignado un valor de Origen del Socio">
+                </cfif>
+            <cfelse>    
+            	<cfset varOrigenSocio = "NA">
+            </cfif>    
+            <!---Region Socio --->
+			<cfset varCEcodigo = getCEcodigo(varEcodigo.EQUidSIF)>
+			<cfquery name="rsSN003" datasource="#session.dsn#">
+            	select count(SNCEcodigo) as existe from SNClasificacionE
+                where SNCEcodigo ='SN-003'
+                and PCCEactivo=1
+            </cfquery>
+            <cfif isdefined("rsSN003") and rsSN003.existe EQ 1>
+            	<cfquery name="rsRegionSocio" datasource="#session.dsn#">
+                    select sn.SNcodigo, snd.SNCDdescripcion from 
+                    SNClasificacionSN csn
+                    inner join SNegocios sn	on csn.SNid = sn.SNid 
+                    and sn.Ecodigo = <cfqueryparam cfsqltype ="cf_sql_integer" value="#varEcodigo.EQUidSIF#">
+                    and sn.SNcodigo = <cfqueryparam cfsqltype ="cf_sql_integer" value="#VarPrv.SNcodigo#"> 
+                    inner join SNClasificacionD snd
+                    inner join SNClasificacionE sne on snd.SNCEid = sne.SNCEid
+                    and sne.CEcodigo = <cfqueryparam cfsqltype ="cf_sql_integer" value="#varCEcodigo#">
+                    and SNCEcodigo like 'SN-003' on csn.SNCDid = snd.SNCDid
+                </cfquery>                
+                <cfif isdefined("rsRegionSocio") and rsRegionSocio.recordcount GT 0>
+                    <cfset varRegionSocio = rsRegionSocio.SNCDdescripcion>
+                <cfelse>
+                    <cfthrow message="El Socio de Negocio #rsECompras.Proveedor# no tiene asignado un valor de Region del Socio">
+                </cfif>
+            <cfelse>    
+            	<cfset varRegionSocio = "NA">
+            </cfif>
+			<!---Usuario --->
+			<cfset UsuInterfaz = UInterfaz(varCEcodigo, rsECompras.Usuario)>
+								
+			<!--- Busca la Moneda Local para la empresa --->
+            <cfquery name="rsMonedaL" datasource="#session.dsn#">	
+                select m.Miso4217
+                from Monedas m
+	                inner join Empresas e
+    	            on m.Ecodigo = e.Ecodigo
+        	        and m.Mcodigo = e.Mcodigo
+            	    and e.Ecodigo = <cfqueryparam cfsqltype ="cf_sql_integer" value="#varEcodigo.EQUidSIF#">
+            </cfquery>
+            <cfif rsMonedaL.recordcount EQ 1 AND len(rsMonedaL.Miso4217) GT 0>
+            	<cfset varMonedaL = rsMonedaL.Miso4217>
+            <cfelse>
+            	<cfthrow message="Imposible obtener la moneda local para la empresa">
+            </cfif>
+            
+			<!---Ver si existe el tipo de cambio para la fecha indicada --->
+			<cfif varMoneda.EQUcodigoSIF NEQ varMonedaL>
+				<cfset varTipoCambio = ExtraeTipoCambio(varMoneda.EQUcodigoSIF,varEcodigo.EQUidSIF,rsECompras.Fecha_Tipo_Cambio)>
+			</cfif> 
+
+			<cfset varPolizaC = true>
+            <!---PREVALIDACION DE DOCUMENTO EN SIF, SI EXISTE EL DOCUMENTO NO SE GENERA LA POLIZA COMPLEMENTARIA --->
+            <cfquery name="query" datasource="#session.dsn#">
+                select 1 
+                from EDocumentosCxP
+                where Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#varEcodigo.EQUidSIF#">
+                  and rtrim(ltrim(CPTcodigo)) = <cfqueryparam cfsqltype="cf_sql_char" value="#trim(rsECompras.Tipo_Documento)#">
+                  and rtrim(ltrim(EDdocumento)) = <cfqueryparam cfsqltype="cf_sql_char" value="#trim(rsECompras.Numero_Documento)#">
+                  and SNcodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#VarPrv.SNcodigo#">
+                union
+                select 1 
+                from EDocumentosCP
+                where SNcodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#VarPrv.SNcodigo#">
+                  and rtrim(ltrim(Ddocumento)) = <cfqueryparam cfsqltype="cf_sql_char" value="#trim(rsECompras.Numero_Documento)#">
+                  and rtrim(ltrim(CPTcodigo)) = <cfqueryparam cfsqltype="cf_sql_char" value="#trim(rsECompras.Tipo_Documento)#">
+                  and Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#varEcodigo.EQUidSIF#">
+                union
+                select 1 
+                from HEDocumentosCP
+                where SNcodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#VarPrv.SNcodigo#">
+                  and rtrim(ltrim(Ddocumento)) = <cfqueryparam cfsqltype="cf_sql_char" value="#trim(rsECompras.Numero_Documento)#">
+                  and rtrim(ltrim(CPTcodigo)) = <cfqueryparam cfsqltype="cf_sql_char" value="#trim(rsECompras.Tipo_Documento)#">
+                  and Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#varEcodigo.EQUidSIF#">
+            </cfquery>
+            <cfif query.recordcount GT 0>
+                <cfset varPolizaC = false>
+            </cfif>					 						
+			<!--- Insercion de cabecera en IE10 --->
+			<cfquery datasource="sifinterfaces"> 
+				insert into SIFLD_IE10
+					(ID, 
+					 EcodigoSDC, 
+					 NumeroSocio, 
+					 Modulo, 
+					 CodigoTransacion, 
+					 Documento, 
+					 Estado, 
+					 CodigoMoneda, 
+					 FechaDocumento, 
+					 FechaVencimiento,
+					 DiasVencimiento,
+					 Facturado, 
+					 Origen, 
+					 VoucherNo, 
+					 CodigoRetencion, 
+					 CodigoOficina, 
+					 CuentaFinanciera, 
+					 CodigoConceptoServicio, 
+					 CodigoDireccionEnvio, 
+					 CodigoDireccionFact, 
+					 FechaTipoCambio,
+                     Dtipocambio,
+					 BMUsucodigo, 
+	                 ConceptoCobroPago, 
+					 StatusProceso,
+                     CEcodigo,
+                     Usulogin,
+                     Usucodigo,
+                     TimbreFiscal)
+				values 
+				(<cfqueryparam cfsqltype ="cf_sql_numeric" value="#Maximus#">,
+				 <cfqueryparam cfsqltype ="cf_sql_integer" value="#varEcodigo.EQUcodigoSIF#">, 
+				 <cfqueryparam cfsqltype="cf_sql_varchar" value="#rsECompras.Proveedor#">,
+				 'CP',
+				 <cfqueryparam cfsqltype="cf_sql_char" value="#rsECompras.Tipo_Documento#">,
+				 <cfqueryparam cfsqltype="cf_sql_varchar" value="#rsECompras.Numero_Documento#">,
+				 null, 
+				 <cfqueryparam cfsqltype="cf_sql_varchar" value="#varMoneda.EQUcodigoSIF#">,
+				 <cfqueryparam cfsqltype="cf_sql_date" value="#dateformat(rsECompras.Fecha_Compra,'yyyy/mm/dd')#">, 
+				 <cfif isdefined("rsECompras.Fecha_Vencimiento") and trim(rsECompras.Fecha_Vencimiento) NEQ "">
+				 	<cfqueryparam cfsqltype="cf_sql_date" value="#dateformat(rsECompras.Fecha_Vencimiento,'yyyy/mm/dd')#">,  
+				 <cfelse>
+				 	<cfqueryparam cfsqltype="cf_sql_date" value="#dateformat(rsECompras.Fecha_Compra,'yyyy/mm/dd')#">,  
+				 </cfif>
+				 0, 
+				 'S', 
+				 <cfqueryparam cfsqltype="cf_sql_varchar" value="#rsECompras.Origen#">,
+				 '0', 
+				 <cfif isdefined("rsECompras.Retencion") and trim(rsECompras.Retencion) EQ "" >
+				 	null,
+				 <cfelse>
+				 	<cfqueryparam cfsqltype="cf_sql_char" value="#VarRetencion#">,
+				 </cfif> 
+				 <cfqueryparam cfsqltype="cf_sql_char" value="#varOficina.EQUcodigoSIF#">,
+				 null, 
+				 null, 
+				 null, 
+				 null,
+				 <cfqueryparam cfsqltype="cf_sql_date" value="#rsECompras.Fecha_Tipo_Cambio#">,
+                 <cfif isdefined(rsECompras.Tipo_Cambio) and rsECompras.Tipo_Cambio NEQ	'' >				 
+	                <cfqueryparam cfsqltype="cf_sql_float" value="#rsECompras.Tipo_Cambio#">, <!---Controla los nulos en campo float--->			 
+                 <cfelse>
+					 null,
+				 </cfif>
+				 <cfqueryparam cfsqltype="cf_sql_integer" value="#UsuInterfaz.Usucodigo#">,
+				 null,
+				 1,
+                 <cfqueryparam cfsqltype ="cf_sql_numeric" value="#varCEcodigo#">,
+                 <cfqueryparam cfsqltype="cf_sql_varchar" value="#UsuInterfaz.Usulogin#">,
+                 <cfqueryparam cfsqltype="cf_sql_integer" value="#UsuInterfaz.Usucodigo#">,
+                 <cfqueryparam cfsqltype="cf_sql_varchar" value="#rsECompras.TimbreFiscal#">)
+			</cfquery>
+			
+			<!--- Seleccion de Detalles --->
+			<cfquery name="rsDCompras" datasource="sifinterfaces">
+				select Ecodigo, ID_linea, Tipo_Lin, Tipo_Item, Clas_Item, Cod_Item, Cod_Impuesto, Cantidad,
+				       isnull(Precio_Unitario, 0) as Precio_Unitario, isnull(Descuento_Lin, 0) as Descuento_Lin, 
+					   isnull (Subtotal_Lin, 0) as Subtotal_Lin, isnull(Impuesto_Lin, 0) as Impuesto_Lin, 
+					   isnull(Total_Lin, 0) as Total_Lin, Clas_Compra_Lin, Dest_Compra_Lin, Contrato_Lin, Clas_Venta_Ref,
+                       CFuncional   
+				from DSIFLD_Facturas_Compra
+				where ID_DocumentoC = #DocumentoFact#
+			</cfquery>
+			
+			<cfset IDlinea = 1>
+			<cfif isdefined("rsDCompras") and rsDCompras.recordcount GT 0>
+			<cfloop query = "rsDCompras">
+            <cfsilent>
+				<!--- Busca equivalencia de Impuesto en SIF --->
+				<cfset VarImpuesto = ConversionEquivalencia (rsECompras.Origen, 'IMPUESTO', rsDCompras.Ecodigo, 
+				rsDCompras.Cod_Impuesto, 'Cod_Impuesto')>
+				
+                <!--- CENTRO FUNCIONAL--->
+				<cfif rsDCompras.CFuncional NEQ "" and len(rsDCompras.CFuncional) GT 0>
+					<cfset varCF = ConversionEquivalencia (rsECompras.Origen, 'CENTRO_FUN', rsECompras.Ecodigo, rsDCompras.CFuncional,
+				'Centro_Funcional')>
+                <cfelse>
+                	<cfquery name="rsCF" datasource="#session.dsn#">
+                    	select isnull(CFid,0) as CFid 
+                        from CFuncional 
+                        where Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#varEcodigo.EQUidSIF#">
+                        and CFcodigo like 'RAIZ'
+                    </cfquery>
+                	<cfset varCF = StructNew()>
+					<cfset varCF.EQUcodigoSIF = "RAIZ">
+                    <cfset varCF.EQUidSIF = rsCF.CFid>
+                </cfif>
+                
+				<!--- , 'CONCEPTO SERVICIO' --->
+     			<cfset VarConcepServicio = ExtraeConceptoServicio(rsDCompras.Cod_Item, varEcodigo.EQUidSIF)>
+				<cfset VarCodigoServicio = VarConcepServicio.Cid>
+				
+                <!---ABG: Rutina para IETU --->
+                <!--- Valida parametro para verificar si aplica IETU a la empresa --->
+                <!--- Obtiene los parametros --->
+				<cftry>
+					<cfset IETU = Parametros(Ecodigo=varEcodigo.EQUidSIF,Pcodigo=110,Parametro="Aplicación de IETU",ExtBusqueda=true, Sistema = rsECompras.Origen)>
+                <cfcatch>
+                	<cfset IETU = 0>
+                </cfcatch>
+                </cftry>
+                <cfif IETU EQ 1>
+					<cfset VarIETU = ConversionEquivalencia (rsECompras.Origen, 'IETU', rsDCompras.Ecodigo, rsDCompras.Cod_Item, 'Cod_Item')>
+					<!--- Verifica el Concepto Cobro Pago, Si tiene IETU actualiza el encabezado --->
+                    <cfquery name="rsIETU" datasource="#session.dsn#">
+                    	select 1 
+                        from TESRPTconcepto a
+                        inner join TESRPTCietu b
+                        on a.TESRPTCid=b.TESRPTCid
+                        and a.TESRPTCcxp = 1
+                        and a.TESRPTCid = <cfqueryparam cfsqltype="cf_sql_numeric" value="#varIETU.EQUidSIF#">
+                        and b.Ecodigo = <cfqueryparam cfsqltype="cf_sql_numeric" value="#varEcodigo.EQUidSIF#">
+                    </cfquery>
+                    
+                    <cfif rsIETU.recordcount GT 0>
+                    	<!--- Actualiza el concepto de Pago --->
+                        <cfquery datasource="sifinterfaces">
+                        	update SIFLD_IE10
+                            set ConceptoCobroPago = <cfqueryparam cfsqltype="cf_sql_varchar" value="#varIETU.EQUcodigoSIF#">
+                            where ID = <cfqueryparam cfsqltype ="cf_sql_numeric" value="#Maximus#">
+                        </cfquery>
+                    </cfif>
+                </cfif>
+                
+				<!---Validar Importes Negativos--->
+				<cfif rsDCompras.Precio_Unitario LT 0 or rsDCompras.Subtotal_Lin LT 0 or rsDCompras.Impuesto_Lin LT 0 or 	                rsDCompras.Total_Lin LT 0 or rsDCompras.Descuento_Lin LT 0>
+					<cfthrow message="El documento contiene valores negativos, no pueden ser procesados valores negativos">
+				</cfif>				 
+							
+				<!--- Cuenta de Resultados --->
+				<cfinvoke returnvariable="Cuenta" component="sif.Componentes.CG_Complementos" method="TraeCuenta"
+					Oorigen="PMIC"
+					Ecodigo="#varEcodigo.EQUidSIF#"
+					Conexion="#session.dsn#"
+					CConceptos="#rsDCompras.Clas_Item#"
+                    PMI_Cmdty_Padre="#rsDCompras.Clas_Item#"
+					Conceptos="#VarCodigoServicio#"
+					Oficinas="#varOficina.EQUidSIF#"
+					SNegocios="#VarPrv.SNcodigo#"
+					CPTransacciones="#rsECompras.Tipo_Documento#"
+					Impuestos="#varImpuesto.EQUidSIF#"
+                    CFuncional="#varCF.EQUidSIF#"
+					PMI_Clas_Compra="#rsECompras.Clas_Compra#"
+					PMI_Clas_Compra_Lin="#rsDCompras.Clas_Compra_Lin#"
+					PMI_Destino_Compra_Lin="#rsDCompras.Dest_Compra_Lin#"
+					PMI_Destino_Compra="NA"
+					PMI_Linea_Negocio="#rsDCompras.Tipo_Item#"
+					PMI_Orden_Comercial="#rsECompras.Contrato#"
+				 	PMI_Tipo_Acreedor="N/A"
+					PMI_Tipo_Contraparte="#varContraparte#"
+					PMI_Clas_Venta_Ref="#rsDCompras.Clas_Venta_Ref#"
+                    PMI_Origen_Socio="#varOrigenSocio#"
+                    PMI_Region_Socio="#varRegionSocio#"
+					>				
+				</cfinvoke>
+				<cfset Cuenta = Cuenta>
+				
+				<cfquery datasource="sifinterfaces">
+					insert into SIFLD_ID10
+						(ID,
+						 Consecutivo, 
+						 TipoItem, 
+						 CodigoItem, 
+						 NombreBarco, 
+						 FechaHoraCarga, 
+						 FechaHoraSalida, 
+						 PrecioUnitario,
+						 CodigoUnidadMedida,
+						 CantidadTotal,
+						 CantidadNeta, 
+						 CodEmbarque, 
+						 NumeroBOL, 
+						 FechaBOL, 
+						 TripNo, 
+						 ContractNo, 
+						 CodigoImpuesto, 
+						 ImporteImpuesto, 
+						 ImporteDescuento, 
+						 CodigoAlmacen, 
+						 CodigoDepartamento, 
+						 CentroFuncional,
+						 CuentaFinancieraDet, 
+						 BMUsucodigo, 
+						 PrecioTotal,
+						 DDdescripcion)
+					values 
+					(<cfqueryparam cfsqltype ="cf_sql_numeric" value="#Maximus#">,
+					 <cfqueryparam cfsqltype="cf_sql_integer" value="#IDlinea#">, 
+					 <cfqueryparam cfsqltype="cf_sql_char" value="#rsDCompras.Tipo_Lin#">,  
+					 <cfqueryparam cfsqltype="cf_sql_char" value="#rsDCompras.Cod_Item#">,
+					 ' ',
+					 getdate(), 
+					 getdate(), 
+					 <cfqueryparam cfsqltype="cf_sql_money" value="#numberformat(rsDCompras.Precio_Unitario,'9.99')#">,                 	 ' ', 
+					 round(#rsDCompras.Cantidad#, 5),
+					 round(#rsDCompras.Cantidad#, 5),
+					 ' ',
+					 ' ', 
+					 getdate(),  
+					 ' ', 
+					 ' ', 
+					 <cfqueryparam cfsqltype="cf_sql_varchar" value="#varImpuesto.EQUcodigoSIF#">, 
+					 <cfif rsDCompras.Impuesto_Lin GT 0>
+						 <cfqueryparam cfsqltype="cf_sql_money" value="#numberformat(rsDCompras.Impuesto_Lin,'9.99')#">,
+					 <cfelse>
+					 	 null,
+					 </cfif>
+					 null,
+					 <cfif rsDCompras.Tipo_Lin EQ 'A'>
+						<cfqueryparam cfsqltype="cf_sql_varchar" value="rsECompras.Almacen">
+					 <cfelse>
+						null,
+					 </cfif>
+					 null,
+					 <cfqueryparam cfsqltype="cf_sql_varchar" value="#varCF.EQUcodigoSIF#">, 
+					 <cfqueryparam cfsqltype="cf_sql_varchar" value="#Cuenta.CFformato#">,
+					 <cfqueryparam cfsqltype="cf_sql_integer" value="#UsuInterfaz.Usucodigo#">,
+<!---					 <cfqueryparam cfsqltype="cf_sql_money" value="#numberformat(rsDCompras.Total_Lin,'9.99')#">,--->
+					 round(#rsDCompras.Total_Lin#,2),
+					 'OC-O.#rsDCompras.Contrato_Lin#.#rsDCompras.Cod_Item#')
+				</cfquery>
+				<cfset IDlinea = IDlinea + 1>
+			</cfsilent>
+            </cfloop>
+			</cfif> <!--- Detalles Ventas --->
+			
+			<!--- Marca o Borra las Tablas Origen Registro Procesado --->
+			<!--- BORRADO DE TABLAS ORIGEN --->  
+			<cfset Producto = 0>
+			<cfif isdefined("rsDCompras") and rsDCompras.recordcount GT 0>
+			<cfloop query = "rsDCompras">
+            <cfsilent>
+				<cfif rsDcompras.Clas_Compra_Lin EQ 'Producto'>
+					<cfset Producto = 1>
+				</cfif>
+			</cfsilent>
+            </cfloop>
+			</cfif>
+        	<cfset stMemInfo = javaRT.totalMemory()-javaRT.freeMemory()>
+            <cfquery datasource="sifinterfaces"> 
+        		<cfif Parborrado>
+					delete 	DSIFLD_Facturas_Compra where ID_DocumentoC = #DocumentoFact# 
+    	        	delete	ESIFLD_Facturas_Compra where ID_DocumentoC = #DocumentoFact#     
+				<cfelseif Producto EQ 1>
+                    update ESIFLD_Facturas_Compra
+                    set Estatus = <cfif varPolizaC>94<cfelse>92</cfif>,
+                    	ID10 = <cfqueryparam cfsqltype="cf_sql_numeric" value="#Maximus#">,
+                        Fecha_Fin_Proceso = <cfqueryparam cfsqltype="cf_sql_timestamp" value="#now()#">,
+						ControlMem = #stMemInfo#
+                    where ID_DocumentoC = #DocumentoFact# 
+				<cfelse>
+                    update ESIFLD_Facturas_Compra
+                    set Estatus = 92,
+                    	ID10 = <cfqueryparam cfsqltype="cf_sql_numeric" value="#Maximus#">,
+                        Fecha_Fin_Proceso = <cfqueryparam cfsqltype="cf_sql_timestamp" value="#now()#">,
+						ControlMem = #stMemInfo#
+                    where ID_DocumentoC = #DocumentoFact# 
+                </cfif>
+		   	</cfquery>    
+
+			 <cfset rsContraparte = javacast("null","")>
+			 <cfset query = javacast("null","")>
+			 <cfset rsDCompras = javacast("null","")>
+             <cfset rsECompras = javacast("null","")>
+	         <cfset javaRT.gc()><!--- invoca el GC --->
+		<cfcatch>
+			
+			<!--- Marca El registro con Error--->
+			<cfquery datasource="sifinterfaces">
+				update ESIFLD_Facturas_Compra
+				set Estatus = 3, 
+                Fecha_Fin_Proceso = <cfqueryparam cfsqltype="cf_sql_timestamp" value="#now()#">
+				where ID_DocumentoC = #DocumentoFact#
+			</cfquery>
+			<!--- Elimina Registros Insertados. Verifica si se grabo algo en las tablas --->
+			<cfif isdefined("Maximus")>
+				<cfquery datasource="sifinterfaces">
+					delete SIFLD_ID10
+					where ID = <cfqueryparam cfsqltype ="cf_sql_numeric" value="#Maximus#">
+				</cfquery>
+				<cfquery datasource="sifinterfaces">
+					delete SIFLD_IE10
+					where ID = <cfqueryparam cfsqltype ="cf_sql_numeric" value="#Maximus#">
+				</cfquery>
+			</cfif>
+			
+		
+			<cfif isdefined("cfcatch.Message")>
+				<cfset Mensaje="#cfcatch.Message#">
+			<cfelse>
+				<cfset Mensaje="">
+            </cfif>
+            <cfif isdefined("cfcatch.Detail")>
+               	<cfset Detalle="#cfcatch.Detail#">
+			<cfelse>
+				<cfset Detalle="">
+            </cfif>
+			<cfif isdefined("cfcatch.sql")>
+               	<cfset SQL="#cfcatch.sql#">
+			<cfelse>
+				<cfset SQL="">
+            </cfif>
+			<cfif isdefined("cfcatch.where")>
+               	<cfset PARAM="#cfcatch.where#">
+			<cfelse>
+				<cfset PARAM="">
+            </cfif>
+			<cfif isdefined("cfcatch.StackTrace")>
+               	<cfset PILA="#cfcatch.StackTrace#">
+			<cfelse>
+				<cfset PILA="">
+            </cfif>
+            <cfset MensajeError= #Mensaje# & #Detalle#>
+			<cfquery datasource="sifinterfaces">
+				insert into SIFLD_Errores 
+				(Interfaz, Tabla, ID_Documento, MsgError, MsgErrorDet, MsgErrorSQL, MsgErrorParam, MsgErrorPila, Ecodigo, Usuario)
+				values 
+				('CP_Compras', 
+				 'ESIFLD_Facturas_Compra',
+				 <cfqueryparam cfsqltype="cf_sql_integer" value="#DocumentoFact#">, 
+				 <cfqueryparam cfsqltype="cf_sql_varchar" value="#Mensaje#">,
+				 <cfqueryparam cfsqltype="cf_sql_varchar" value="#Detalle#">,
+				 <cfqueryparam cfsqltype="cf_sql_varchar" value="#SQL#">,
+				 <cfqueryparam cfsqltype="cf_sql_varchar" value="#PARAM#">,
+ 				 <cfqueryparam cfsqltype="cf_sql_varchar" value="#PILA#">,				 
+				 <cfqueryparam cfsqltype="cf_sql_integer" value="#rsECompras.Ecodigo#">,
+                 <cfqueryparam cfsqltype="cf_sql_varchar" value="#rsECompras.Usuario#">) 
+			</cfquery>
+		</cfcatch>
+		</cftry>
+        </cfsilent>
+		</cfloop> <!--- Encabezado de Compras --->
+			<cfquery name="rsVerifica" datasource="sifinterfaces">
+            	select count(1) as Registros from ESIFLD_Facturas_Compra
+                where Estatus in (99,10)
+            </cfquery>
+            <cfif rsVerifica.Registros LT 1>
+				<!---Se Dispara la Interfaz de forma Masiva--->
+                <cftransaction action="begin">
+                <cftry>
+                    <cfquery datasource="sifinterfaces">
+                        insert into IE10
+                            (ID, 
+                             EcodigoSDC, 
+                             NumeroSocio, 
+                             Modulo, 
+                             CodigoTransacion, 
+                             Documento, 
+                             Estado, 
+                             CodigoMoneda, 
+                             FechaDocumento, 
+                             FechaVencimiento,
+                             DiasVencimiento,
+                             Facturado, 
+                             Origen, 
+                             VoucherNo, 
+                             CodigoRetencion, 
+                             CodigoOficina, 
+                             CuentaFinanciera, 
+                             CodigoConceptoServicio, 
+                             CodigoDireccionEnvio, 
+                             CodigoDireccionFact, 
+                             FechaTipoCambio,
+                             Dtipocambio,
+                             BMUsucodigo, 
+                             ConceptoCobroPago, 
+                             StatusProceso,
+                             TimbreFiscal)
+                         select a.ID, a.EcodigoSDC, a.NumeroSocio, a.Modulo, a.CodigoTransacion, 
+                             a.Documento, a.Estado, a.CodigoMoneda, a.FechaDocumento, a.FechaVencimiento,
+                             a.DiasVencimiento, a.Facturado, a.Origen, a.VoucherNo, a.CodigoRetencion, 
+                             a.CodigoOficina, a.CuentaFinanciera, a.CodigoConceptoServicio, 
+                             a.CodigoDireccionEnvio, a.CodigoDireccionFact, 
+                             a.FechaTipoCambio, a.Dtipocambio, a.BMUsucodigo, a.ConceptoCobroPago, a.StatusProceso,
+                             a.TimbreFiscal
+                         from SIFLD_IE10 a 
+                         where exists (select 1 from ESIFLD_Facturas_Compra b where a.ID = b.ID10 and b.Estatus in (92,94))
+                    </cfquery>
+                    <cfquery datasource="sifinterfaces">
+                        insert into ID10 
+                                (ID,
+                                 Consecutivo, 
+                                 TipoItem, 
+                                 CodigoItem, 
+                                 NombreBarco, 
+                                 FechaHoraCarga, 
+                                 FechaHoraSalida, 
+                                 PrecioUnitario,
+                                 CodigoUnidadMedida,
+                                 CantidadTotal,
+                                 CantidadNeta, 
+                                 CodEmbarque, 
+                                 NumeroBOL, 
+                                 FechaBOL, 
+                                 TripNo, 
+                                 ContractNo, 
+                                 CodigoImpuesto, 
+                                 ImporteImpuesto, 
+                                 ImporteDescuento, 
+                                 CodigoAlmacen, 
+                                 CodigoDepartamento, 
+                                 CentroFuncional,
+                                 CuentaFinancieraDet, 
+                                 BMUsucodigo, 
+                                 PrecioTotal,
+                                 DDdescripcion)
+                        select a.ID, a.Consecutivo, a.TipoItem, a.CodigoItem, a.NombreBarco, 
+                                 a.FechaHoraCarga, a.FechaHoraSalida, a.PrecioUnitario, a.CodigoUnidadMedida, a.CantidadTotal,
+                                 a.CantidadNeta, a.CodEmbarque, a.NumeroBOL, a.FechaBOL, a.TripNo, 
+                                 a.ContractNo, a.CodigoImpuesto, a.ImporteImpuesto, a.ImporteDescuento, a.CodigoAlmacen, 
+                                 a.CodigoDepartamento, a.CentroFuncional, a.CuentaFinancieraDet, a.BMUsucodigo, 
+                                 a.PrecioTotal, a.DDdescripcion
+                        from SIFLD_ID10 a 
+                        where exists (select 1 from ESIFLD_Facturas_Compra b where a.ID = b.ID10 and b.Estatus in (92,94))
+                    </cfquery>
+                    
+                    <cfquery datasource="sifinterfaces">
+                        insert into InterfazColaProcesos (
+                            CEcodigo, NumeroInterfaz, IdProceso, SecReproceso,
+                            EcodigoSDC, OrigenInterfaz, TipoProcesamiento, StatusProceso,
+                            FechaInclusion, UsucodigoInclusion, UsuarioBdInclusion, Cancelar)
+                        select
+                          a.CEcodigo,
+                          10,
+                          ID,
+                          0 as SecReproceso,
+                          a.EcodigoSDC,
+                          'E' as OrigenInterfaz,
+                          'A' as TipoProcesamiento,
+                          1 as StatusProceso,
+                          <cfqueryparam cfsqltype="cf_sql_timestamp" value="#Now()#">,<!--- timestamp para que guarde fecha de proceso --->
+                          Usucodigo,
+                          Usulogin,
+                          0 as Cancelar
+                        from SIFLD_IE10 a 
+                        where exists (select 1 from ESIFLD_Facturas_Compra b where a.ID = b.ID10 and b.Estatus in (92,94))
+                    </cfquery>
+                    
+                    <cfquery datasource="sifinterfaces">
+                        update ESIFLD_Facturas_Compra
+                            set Estatus = case when Estatus = 94 then 4 else 2 end
+                        where Estatus in (94,92)
+                        and ID10 in (select ID from SIFLD_IE10)
+                    </cfquery>
+                    
+                    <cftransaction action="commit" />
+                <cfcatch>
+                    <cftransaction action="rollback" />
+                    <cfif isdefined("cfcatch.Message")>
+                        <cfset Mensaje="#cfcatch.Message#">
+                    <cfelse>
+                        <cfset Mensaje="">
+                    </cfif>
+                    <cfif isdefined("cfcatch.Detail")>
+                        <cfset Detalle="#cfcatch.Detail#">
+                    <cfelse>
+                        <cfset Detalle="">
+                    </cfif>
+                    <cfif isdefined("cfcatch.sql")>
+                        <cfset SQL="#cfcatch.sql#">
+                    <cfelse>
+                        <cfset SQL="">
+                    </cfif>
+                    <cfif isdefined("cfcatch.where")>
+                        <cfset PARAM="#cfcatch.where#">
+                    <cfelse>
+                        <cfset PARAM="">
+                    </cfif>
+                    <cfif isdefined("cfcatch.StackTrace")>
+                        <cfset PILA="#cfcatch.StackTrace#">
+                    <cfelse>
+                        <cfset PILA="">
+                    </cfif>
+                    <cfset MensajeError= #Mensaje# & #Detalle#>
+                    <cfquery datasource="sifinterfaces">
+                        insert into SIFLD_Errores 
+                        (Interfaz, Tabla, ID_Documento, MsgError, MsgErrorDet, MsgErrorSQL, MsgErrorParam, MsgErrorPila, Ecodigo, Usuario)
+                        select 'CP_Compras', 'ESIFLD_Facturas_Compra', ID_DocumentoC,
+                            <cfqueryparam cfsqltype="cf_sql_varchar" value="#Mensaje#">,
+                            <cfqueryparam cfsqltype="cf_sql_varchar" value="#Detalle#">,
+                            <cfqueryparam cfsqltype="cf_sql_varchar" value="#SQL#">,
+                            <cfqueryparam cfsqltype="cf_sql_varchar" value="#PARAM#">,
+                            <cfqueryparam cfsqltype="cf_sql_varchar" value="#PILA#">,				 
+                            Ecodigo,
+                            Usuario
+                        from ESIFLD_Facturas_Compra
+                        where Estatus in (94,92)  
+                        and ID10 in (select ID from SIFLD_IE10)
+                    </cfquery>
+                    <cfquery datasource="sifinterfaces">
+                        update ESIFLD_Facturas_Compra set Estatus = 3
+                        where Estatus in (94,92) 
+                        and ID10 in (select ID from SIFLD_IE10)
+                    </cfquery>
+                </cfcatch>
+                </cftry>
+                </cftransaction>
+                
+                <cfquery datasource="sifinterfaces">
+                    delete SIFLD_ID10
+                    where ID in (select ID10 from ESIFLD_Facturas_Compra where Estatus in (2,4,3))
+                </cfquery>
+                <cfquery datasource="sifinterfaces">
+                    delete SIFLD_IE10
+                    where ID in (select ID10 from ESIFLD_Facturas_Compra where Estatus in (2,4,3))
+                </cfquery>
+            </cfif>
+            
+		</cfif>         
+	</cffunction>
+</cfcomponent>

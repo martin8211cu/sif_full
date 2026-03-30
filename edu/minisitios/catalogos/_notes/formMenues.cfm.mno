@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+<info>
+	<infoitem key="UD_rsPaginasLigadas" value="name:MSPcodigo;datatype:,name:MSPtitulo;datatype:" />
+	<infoitem key="UD_rsForm" value="name:Scodigo;datatype:,name:MSMenu;datatype:,name:MSPcodigo;datatype:,name:MSMpadre;datatype:,name:MSMtexto;datatype:,name:MSMlink;datatype:,name:MSMorden;datatype:,name:MSMpath;datatype:,name:MSMprofundidad;datatype:,name:MSMhijos;datatype:,name:MSMumod;datatype:,name:MSMfmod;datatype:" />
+	<infoitem key="UD_rsPadreCambio" value="name:MSMmenu;datatype:" />
+	<infoitem key="UD_rsPadresAlta" value="name:MSMmenu;datatype:" />
+	<infoitem key="UD_rsSubmenuesAsociados" value="name:cuantos;datatype:" />
+</info>

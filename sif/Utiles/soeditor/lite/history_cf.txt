@@ -1,0 +1,73 @@
+ллллллллллллллллллллллллллллллллл
+К                               К
+К  version: soEditor Lite 2.5   К
+К  released: Dec.02.2002        К
+К  Љ 2002 SiteObjects, Inc.     К
+К                               К
+К  http://www.siteobjects.com/  К
+К                               К
+ллллллллллллллллллллллллллллллллл
+
+
+BUILD HISTORY
+=-=-=-=-=-=-=
+Є Dec.02.2002
+  Build 2.5.0 released
+  + Multiple instances of soEditor can now be used in a single form
+  + A new anchor tool that lets you create and manage anchor links in your content
+  + Right-click context menus
+  + The initial focus can now be set to another field in your form
+  + New example applications and help documentation
+  + Many bug fixes and performance enhancements
+
+Є Aug.07.2002
+  Build 2.16.20020807 released
+  + Added documentation on basefontsize
+  + Added in compatability for ColdFusion MX
+
+Є Jun.20.2002
+  Build 2.15.20020620 released
+  + Added initialfocus attribute to toggle whether to place focus on the editor. 
+  + Added further information on extending soeditor and an example to the docs.
+  + Fixed issue with soEditor style sheet conflicts.
+  + Fixed issue with validateonsave not correctly counting certain elements as content.
+  + Fixed issue when singlespaced was set to true not correctly breaking to the next line.
+  + Fixed issue when attempting to print a page with the editor displayed.
+  + Fixed issue with Apache and CF 5.0 not displaying the editor correctly.
+  + Fixed issue with tooltips not displaying properly.
+  + Fixed issue with the editor not sizing correctly when using percentages.
+
+Є Mar.16.2002
+  Build 2.14.20020316 released
+  + Fixed list issue when singlespaced was set to true.
+  + Added back in support for Spellchecker.net.
+  + Fixed hyperlink issue in IE 5.5.
+  
+Є Jan.22.2002
+  Build 2.12.20020122 released
+  + Updated license agreement
+  
+Є Jan.21.2002
+  Build 2.12.20020121 released
+  + Added unlink functionality.
+  + Fixed several html insertion issues.
+  + Added option to turn table borders on by default.
+
+Є Jan.12.2002
+  Version 2.1 released
+  + Added superscript and subscript buttons.
+  + Added help dialog.
+  + Fixed editing hyperlink issues.
+  + Added baseFontColor attribute to set initial text color.
+  + Added baseBGColor to set soEditor's default background color.
+  + Turned Spellchecker.net support off by default.
+  
+Є Dec.12.2001
+  Version 2.0 released.
+
+=-=-=-=-=-=-=
+
+
+SUPPORT
+=-=-=-=-=-=-=-=
+Є http://www.siteobjects.com/pages/support.cfm

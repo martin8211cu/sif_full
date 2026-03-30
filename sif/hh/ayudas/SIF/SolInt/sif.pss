@@ -1,0 +1,65 @@
+[MAS SUPPORT]
+SupportMas_Prj=1
+[Target:WebHelp]
+SupportMas_Prj=1
+ResultFileName=!SSL!\WebHelp\Compras.htm
+SSLayoutType=2
+CreateProjectTime=
+CreateProjectUser=
+SupportMas_MPJ=1
+[Target:WebHelp Pro]
+SupportMas_Prj=1
+ResultFileName=!SSL!\WebHelp_Pro\Compras.htm
+SSLayoutType=32
+ServerProjectName=Compras
+CreateProjectTime=10:05, March 23, 2006
+CreateProjectUser=Administrator
+SupportMas_MPJ=1
+ActionID For Generation=1013
+Remove Folder with prompt=1
+ViewFileName=!SSL!\WebHelp_Pro\Compras.htm
+ResultStatus=0
+BuildTimeHi=29773459
+BuildTimeLow=-142138352
+MindReader Server=
+[Target:Microsoft HTML Help]
+ResultFileName=!SSL!\Microsoft_HTML_Help\Compras.chm
+SSLayoutType=1
+CreateProjectTime=
+CreateProjectUser=
+SupportMas_MPJ=1
+[Target:FlashHelp]
+ResultFileName=!SSL!\FlashHelp\Compras.htm
+SSLayoutType=2
+CreateProjectTime=
+CreateProjectUser=
+SupportMas_MPJ=1
+[Target:Printed Documentation]
+ResultFileName=!SSL!\Printed_Documentation\Compras.doc
+SSLayoutType=7
+[Target:XML Output]
+ResultFileName=!SSL!\XML_Output\Compras.xml
+SSLayoutType=8192
+[PreSingleSource]
+Html Help Project=C:\Documents and Settings\Administrator\Desktop\SolInt\sif.hhp
+Table Of Content=C:\Documents and Settings\Administrator\Desktop\SolInt\sif.hhc
+Index=C:\Documents and Settings\Administrator\Desktop\SolInt\sif_merged$.hhk
+See Also Index=C:\Documents and Settings\Administrator\Desktop\SolInt\sif.hha
+Browse Sequence=C:\Documents and Settings\Administrator\Desktop\SolInt\sif.brs
+Topic Properties=C:\Documents and Settings\Administrator\Desktop\SolInt\sif.trs
+Active Folders=C:\Documents and Settings\Administrator\Desktop\SolInt\sif.trf
+Baggage Files=C:\Documents and Settings\Administrator\Desktop\SolInt\sif.trb
+Skin List=C:\Documents and Settings\Administrator\Desktop\SolInt\sif.trk
+OriginalHhk=C:\Documents and Settings\Administrator\Desktop\SolInt\sif.hhk
+Active Layout Names=C:\Documents and Settings\Administrator\Desktop\SolInt\sif.trl
+Default Topic=C:\Documents and Settings\Administrator\Desktop\SolInt\Inicio.htm
+Build Tags0=17988;Online | Print
+Build Tags=
+Build Expression=
+Language ID=3082
+Language Name=Español
+Language=C:\Documents and Settings\Administrator\Desktop\SolInt\RoboHHRE.lng
+Stop List=C:\Documents and Settings\Administrator\Desktop\SolInt\sif.stp
+[Layout Settings]
+MRULayoutCount=1
+MRULayout0=WebHelp Pro]03/23/06]0

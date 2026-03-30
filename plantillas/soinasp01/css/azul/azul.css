@@ -1,0 +1,142 @@
+﻿/* CSS Document */
+
+/* colores en: styles.css */
+
+.listaNon { background-color:#FFFFFF;  }
+.listaPar { background-color:#FAFAFA; }
+.listaParSel, .listaNonSel { background-color:#E4E8F3; }
+.listaCorte { background-color: #f5f5f5; }
+
+.tituloListas {
+	background-color: #F5F5F5;
+}
+.tituloAlterno {
+	background-color:#F0F0FF;
+}
+table.navbar, table.navbar a {
+	background-color:#ECECFF;
+	color:#009966;
+}
+table.navbar .navbig, table.navbar .navbig a {
+	color:#006699;
+}
+table.navbar .navlast, table.navbar .navlast a {
+	color:black;
+}
+.errormsg {
+	color:#993300;
+}
+
+
+/* colores en tabs.css*/
+/**
+ * Funcionalidad de los tabs
+ */
+.tab_sel_l { background-image:url(/cfmx/plantillas/soinasp01/css/azul/tabs/sel_l.gif);height:21px}
+.tab_sel_m { background-image:url(/cfmx/plantillas/soinasp01/css/azul/tabs/sel_m.gif);height:21px;cursor:pointer;}
+.tab_sel_r { background-image:url(/cfmx/plantillas/soinasp01/css/azul/tabs/sel_r.gif);height:21px}
+.tab_contents { background-color:#f3f4f8;}
+
+/* colores en template.css */
+.iconoTop {
+	background:url(/cfmx/plantillas/soinasp01/css/azul/images/02-01b.jpg);
+	background-repeat: repeat-x;
+}
+.logoTop  {	
+	background:url(/cfmx/plantillas/soinasp01/css/azul/images/logo2.gif);
+	background-repeat: no-repeat;
+}
+* {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size:12px;
+}
+
+/* colores en mlm_menu.css */
+.mlm_layer {
+	background-color:#CCE3F8;
+}
+.mlm_topbar {
+	background-color:#152b5d;
+}
+.mlm_topsel  {
+	background-color:#CCE3F8;
+}
+.mlm_item, .mlm_item * {
+	color:black;
+}
+.mlm_sel, .mlm_sel * {
+	background-color:white;
+	color:black;
+}
+/* colores en leftmenu.css */
+.cfmenu_titulo {
+	background-color: #98B1C4; 
+}
+.cfmenu_titulo a {
+	color: #ffffff; 
+}
+.cfmenu_menu, .cfmenu_submenu {
+	background-color: #C8D7E3;
+}
+.cfmenu_menu a, .cfmenu_submenu a {
+	color: #293D6B;
+}
+.cfmenu_bottom {
+	background-image:url(/cfmx/plantillas/soinasp01/css/azul/images/menubottom.gif);
+	background-position:right;
+	background-repeat:no-repeat;
+	background-color:#C8D7E3;
+}
+
+
+/* nuevos menus */
+.imagen_sistema {
+	padding-top: 2px;
+	padding-bottom: 1px;
+	color: #336699;
+	font-weight:bold;
+	text-decoration:none;	
+}
+
+/*
+.menu_letra_prin{	font:Arial, Helvetica, sans-serif;
+					font-size:16px;
+					font-weight:bold;
+} 
+.menu_letra_titulo{	font:Arial, Helvetica, sans-serif;
+					font-size:18px;
+					font-weight:bold;
+					border-bottom:thin;
+					border-bottom-style:solid;
+} 
+
+.menu_link { text-decoration:none;color:#003268;
+			 font:Arial, Helvetica, sans-serif;
+			 font-size:16px;
+			 font-weight:bold;
+ }
+.menu_link:hover { text-decoration:underline;color:#003268; 
+}
+
+.menu_letra_sec{	font:Arial, Helvetica, sans-serif;
+					font-size:10px;
+					font-weight:bold;
+					color: #325BAD;
+} 
+
+.menu_letra_opc{	font:Arial, Helvetica, sans-serif;
+					font-size:10px;
+					font-weight:bold;
+					color:#FFFFFF;
+					background-color: #325bad;
+} 
+
+.menu_imagen_padding { padding-left: 10px; }
+
+.menu_tabla_sec{ background-color:#F6F6F4; 
+				 border:#325BAD thin solid; }
+.menu_flecha{ background:url(/cfmx/plantillas/soinasp01/css/azul/images/flecha.gif);
+			  background-repeat: no-repeat;
+			  background-position:center; }
+				 
+*/

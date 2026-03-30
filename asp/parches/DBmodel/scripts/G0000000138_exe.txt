@@ -1,0 +1,36 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 443 - DBM 379: Cambio a Tabla de Cargas Historicas
+
+	         PARCHE:  Parche023_481_RH _CargasHistoricos
+
+GENERADO EN:
+	SERVER:  http://mxvqapp34:8300
+	DSN:     sifcim
+	FECHA:   06/01/2012 18:25:17
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* CHG_TABLE CDRHHPagosEmpleado: CDRHHPagosEmpleado */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): CDRHHPEfcorteinic - CDRHHPEfcorteinic */
+ALTER TABLE CDRHHPagosEmpleado ADD CDRHHPEfcorteinic datetime NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): CDRHHPEfcortefin - CDRHHPEfcortefin */
+ALTER TABLE CDRHHPagosEmpleado ADD CDRHHPEfcortefin datetime NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

@@ -1,0 +1,34 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 505 - DBM 449: Definicion que se va a enviar a méxico
+
+	         PARCHE:  Parche023_652_SIF_DefinicionTablaCMTiposSolicitud
+
+GENERADO EN:
+	SERVER:  http://mxvqapp34:8300
+	DSN:     minisif
+	FECHA:   18/01/2012 18:27:21
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* CHG_TABLE CMTiposSolicitud: CM Tipos de Solicitud */
+/* ======================================================================================== */
+/* ADD_COLUMN OP = (NUEVO): CMTSasignacion - Orden de Asignacion del Comprador */
+ALTER TABLE CMTiposSolicitud ADD CMTSasignacion integer DEFAULT 0 NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE CMTiposSolicitud ADD CONSTRAINT CMTiposSolicitud_CK22 CHECK ([CMTSasignacion] IS NULL OR ([CMTSasignacion]=(1) OR [CMTSasignacion]=(0)))
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

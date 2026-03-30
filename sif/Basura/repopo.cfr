@@ -1,0 +1,204 @@
+<!-- This file has been automatically generated and should not be modified by hand -->
+<cfcomponent>
+	<cffunction name="GetReportXML" output="no">
+		<extrabuilderinfo localroot="C:\coldfusion\wwwroot\" wwwroot="http://Hawk/" theme="Silver"/>
+		<cfsavecontent variable="XMLDocument">
+			<jasperReport name="ColdFusionReport" pageWidth="792" pageHeight="612" orientation="Landscape" columnSpacing="15" columnWidth="720" previewURL="http://hawk/cfmx/sif/Basura">
+				<reportFont name="ReportTitle" size="24"/>
+				<reportFont name="CompanyName" isBold="true"/>
+				<reportFont name="PageTitle" size="14" isBold="true"/>
+				<reportFont name="ReportDate"/>
+				<reportFont name="SubTitle" size="12" isBold="true"/>
+				<reportFont name="DetailLabel" isBold="true"/>
+				<reportFont name="DetailData" isDefault="true"/>
+				<reportFont name="PageFooter" size="8"/>
+				<field name="Ecodigo" class="java.lang.Integer"/>
+				<field name="Edescripcion"/>
+				<field name="Mnombre"/>
+				<title>
+					<band height="89">
+						<rectangle>
+							<reportElement mode="Opaque" x="0" y="0" width="720" height="80" backcolor="#E3EDEF"/>
+							<graphicElement pen="None"/>
+						</rectangle>
+						<staticText>
+							<reportElement x="10" y="20" width="530" height="16" forecolor="#6188A5"/>
+							<textElement>
+								<font reportFont="CompanyName"/>
+							</textElement>
+							<text>
+								<![CDATA[Soluciones Integrales S.A.]]>
+							</text>
+						</staticText>
+						<staticText>
+							<reportElement x="9" y="37" width="530" height="31"/>
+							<textElement>
+								<font reportFont="ReportTitle"/>
+							</textElement>
+							<text>
+								<![CDATA[Empresas]]>
+							</text>
+						</staticText>
+					</band>
+				</title>
+				<pageHeader>
+					<band height="36">
+						<staticText>
+							<reportElement x="10" y="10" width="450" height="20" forecolor="#333333"/>
+							<textElement>
+								<font reportFont="PageTitle"/>
+							</textElement>
+							<text>
+								<![CDATA[SIF]]>
+							</text>
+						</staticText>
+						<textField>
+							<reportElement x="599" y="11" width="121" height="20" forecolor="#333333"/>
+							<textElement textAlignment="Right">
+								<font reportFont="ReportDate"/>
+							</textElement>
+							<textFieldExpression>
+								<![CDATA[DateFormat(Now (), "d mmmm yyyy")]]>
+							</textFieldExpression>
+						</textField>
+					</band>
+				</pageHeader>
+				<columnHeader>
+					<band height="20">
+						<line>
+							<reportElement mode="Opaque" x="0" y="19" width="719" height="0" forecolor="#CCCCCC"/>
+							<graphicElement pen="Thin"/>
+						</line>
+						<staticText>
+							<reportElement mode="Opaque" x="0" y="0" width="238" height="18" backcolor="#E3EDEF"/>
+							<textElement>
+								<font reportFont="DetailLabel"/>
+							</textElement>
+							<text>
+								<![CDATA[Ecodigo]]>
+							</text>
+						</staticText>
+						<staticText>
+							<reportElement mode="Opaque" x="240" y="0" width="238" height="18" backcolor="#E3EDEF"/>
+							<textElement>
+								<font reportFont="DetailLabel"/>
+							</textElement>
+							<text>
+								<![CDATA[Edescripcion]]>
+							</text>
+						</staticText>
+						<staticText>
+							<reportElement mode="Opaque" x="480" y="0" width="238" height="18" backcolor="#E3EDEF"/>
+							<textElement>
+								<font reportFont="DetailLabel"/>
+							</textElement>
+							<text>
+								<![CDATA[Mnombre]]>
+							</text>
+						</staticText>
+					</band>
+				</columnHeader>
+				<detail>
+					<band height="17">
+						<textField>
+							<reportElement x="0" y="0" width="232" height="18" forecolor="#333333"/>
+							<textElement textAlignment="Right">
+								<font reportFont="DetailData"/>
+							</textElement>
+							<textFieldExpression>
+								<![CDATA[LSNumberFormat(query.Ecodigo, ",")]]>
+							</textFieldExpression>
+						</textField>
+						<textField>
+							<reportElement x="240" y="0" width="238" height="18" forecolor="#333333"/>
+							<textElement>
+								<font reportFont="DetailData"/>
+							</textElement>
+							<textFieldExpression>
+								<![CDATA[query.Edescripcion]]>
+							</textFieldExpression>
+						</textField>
+						<textField>
+							<reportElement x="480" y="0" width="238" height="18" forecolor="#333333"/>
+							<textElement>
+								<font reportFont="DetailData"/>
+							</textElement>
+							<textFieldExpression>
+								<![CDATA[query.Mnombre]]>
+							</textFieldExpression>
+						</textField>
+					</band>
+				</detail>
+				<pageFooter>
+					<band height="43">
+						<line>
+							<reportElement mode="Opaque" x="0" y="0" width="719" height="0" forecolor="#CCCCCC"/>
+							<graphicElement pen="Thin"/>
+						</line>
+						<staticText>
+							<reportElement x="0" y="30" width="420" height="13" forecolor="#2F2F2F"/>
+							<textElement>
+								<font reportFont="PageFooter"/>
+							</textElement>
+							<text>
+								<![CDATA[SOIN]]>
+							</text>
+						</staticText>
+						<textField>
+							<reportElement x="599" y="30" width="121" height="13" forecolor="#2F2F2F"/>
+							<textElement textAlignment="Right">
+								<font reportFont="PageFooter"/>
+							</textElement>
+							<textFieldExpression>
+								<![CDATA[calc.PAGE_NUMBER]]>
+							</textFieldExpression>
+						</textField>
+					</band>
+				</pageFooter>
+			</jasperReport>
+		</cfsavecontent>
+		<![CDATA[
+		<cfsavecontent variable="HeaderInfo"><?xml version="1.0"?>
+<!DOCTYPE jasperReport PUBLIC "-//JasperReports//DTD Report Design//EN" "C:\\Program Files\\Macromedia\\ColdFusion Report Builder\\CFReport.dtd">
+		</cfsavecontent>
+		<cfreturn HeaderInfo & XMLDocument> <!--- Return the saved content --->
+		]]>
+	</cffunction>
+	<cffunction name="GetQueryObject" output="no">
+		<cfargument name="param" required="yes"/>
+		<rdsserver name="Hawk" datasource="minisif"/>
+		<querydef type="Select Query" table="" datasource="minisif">
+			<tablemap>
+				<tablepanel name="dbo.Empresas" right="9" down="9" width="100" height="179"/>
+				<tablepanel name="dbo.Monedas" right="208" down="22" width="100" height="135"/>
+				<joinpanel table1="dbo.Monedas" table2="dbo.Empresas" field1="Mcodigo" field2="Mcodigo" alltable1rows="NO" alltable2rows="NO"/>
+				<joinpanel table1="dbo.Monedas" table2="dbo.Empresas" field1="Ecodigo" field2="Ecodigo" alltable1rows="NO" alltable2rows="NO"/>
+			</tablemap>
+			<querygrid rows="3">
+				<gridline col1="dbo.Empresas.Ecodigo" col2="" col3="dbo.Empresas" col4="True" col5="" col6="0" col7="" col8="" col9="" col10="" col11=""/>
+				<gridline col1="dbo.Empresas.Edescripcion" col2="Nombre" col3="dbo.Empresas" col4="True" col5="" col6="0" col7="" col8="" col9="" col10="" col11=""/>
+				<gridline col1="dbo.Monedas.Mnombre" col2="" col3="dbo.Monedas" col4="True" col5="" col6="0" col7="" col8="" col9="" col10="" col11=""/>
+			</querygrid>
+			<generatedsql>      SELECT    Empresas.Ecodigo, Empresas.Edescripcion AS Nombre, Monedas.Mnombre
+FROM      dbo.Empresas, dbo.Monedas 
+WHERE     dbo.Monedas.Mcodigo = dbo.Empresas.Mcodigo
+  AND     dbo.Monedas.Ecodigo = dbo.Empresas.Ecodigo
+   </generatedsql>
+		</querydef>
+		<![CDATA[
+<cfquery name="CFReportDataQuery" datasource="minisif">
+SELECT    Empresas.Ecodigo, Empresas.Edescripcion AS Nombre, Monedas.Mnombre
+FROM      dbo.Empresas, dbo.Monedas 
+WHERE     dbo.Monedas.Mcodigo = dbo.Empresas.Mcodigo
+  AND     dbo.Monedas.Ecodigo = dbo.Empresas.Ecodigo
+</cfquery>
+<cfreturn CFReportDataQuery>
+]]>
+	</cffunction>
+	<cffunction name="GetDefaultReportFormat" output="no" returntype="string">
+		<![CDATA[ <cfreturn "flashpaper" > ]]>
+	</cffunction>
+	<cffunction name="IsClickable" output="no" returntype="boolean">
+		<![CDATA[ <cfreturn true > ]]>
+	</cffunction>
+</cfcomponent>

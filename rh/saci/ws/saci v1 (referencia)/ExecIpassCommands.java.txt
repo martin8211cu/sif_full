@@ -1,0 +1,336 @@
+package com.soin.isp.services.Ipass;
+
+
+//**********
+//*  ClassName: ExecIpassCommands.class
+//*  Author:  Alexander Ortega B.
+//*  Description: Ingresa los logines de prepagos a un archivo para 
+//*	              no permitirles el ingreso al servicio de acceso externo (IPASS)
+//*  Last Update: 27/08/2004
+//**********
+
+
+import java.io.*;
+import java.net.*;
+import java.util.*;
+import com.soin.isp.services.Monitor;
+import com.soin.isp.tools.ConfigFile;
+
+public class ExecIpassCommands extends Thread
+{
+    public ExecIpassCommands(Socket pSocket, Monitor pMonitor)
+    {
+		try 
+		{
+			vSocket = pSocket;
+			vMonitor = pMonitor;
+			in = new BufferedReader(new InputStreamReader(vSocket.getInputStream())); 
+			out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(vSocket.getOutputStream())), true);
+			// obtiene la informacion del archivo de configuracion 
+			vConfigFileServer = new ConfigFile("./Server.cfg");
+			PathArchNoIpass = vConfigFileServer.getParameter("Server Settings", "PathArchNoIpass");  // obtiene la ruta del nombre del archivo "negados.txt" 
+			start();    // Llama a run()
+		} catch(Exception e) 
+		{
+			System.out.println("!!! " + _ClassName + " fallo...");
+	    	System.out.println("\tERROR : [" + e.getMessage() + "]");
+		}
+    } // ExecIpassCommands
+    
+    
+    public void run() 
+    {
+		String inLine = null;
+		byte vCodCommand = -1;
+
+
+		try 
+		{
+			while(true)
+			{
+				inLine = in.readLine();     // Recibe la instruccion a ejecutar o el fin de una instruccion.
+				out.println(inLine);
+
+				if (inLine.equalsIgnoreCase("END |"))
+					break;
+
+				StringTokenizer vStrToken = new StringTokenizer(inLine,";");  
+				inLine = vStrToken.nextToken();
+				vCodCommand = getCodCommand(inLine.trim());
+				vMonitor.println("Commando : " + inLine);
+
+				if (vCodCommand != 0) 
+				{
+					switch (vCodCommand) 
+					{
+						case 1 :  {this.guardarLoginIpass(); break;}         	// guardarLoginIpass.
+						case 2 :  {this.borrarLoginIpass(); break;}         	// guardarLoginIpass.
+						default : {out.println("Error :  Instruccion desconocida"); break;}
+					}
+				}
+			}   // while.
+		} catch(Exception e) 
+		{
+			System.out.println("!!! " + _ClassName + ".run() fallo...");
+	    	System.out.println("\tERROR : [" + e.getMessage() + "]");
+		} 
+		finally 
+		{
+			try 
+			{
+				vSocket.close();
+			} 
+			catch(Exception e) 
+			{
+				System.out.println("Error al cerrar el Socket en " + _ClassName + ".run()");
+			}
+		}
+    } // run()
+    
+    private byte getCodCommand(String pStrCommand) 
+    {
+		if(pStrCommand.equalsIgnoreCase("guardarLoginIpass")) return 1;           // Add User
+		else if (pStrCommand.equalsIgnoreCase("borrarLoginIpass")) return 2;      // DeleteUser
+		else return 0;
+    }
+    
+    /*************************************************************************************
+    *   guardarLoginIpass() :   Realiza un append al archivo policy.txt en la ruta 
+	*							/usr/ipass/saci/java/jdk1.1.5/bin/
+    *                    	    con el login del prepago para que este no pueda entrar al 
+	*						    servicio de acceso externo IPASS.
+    **************************************************************************************/
+    private void guardarLoginIpass()
+    {
+		String vRespuesta = "-1";
+
+
+		try 
+		{    
+			// Captura los parametros que son enviados desde el cliente.
+			
+			String class_of_ser = "*                  \t";
+		    String country_code = "*                  \t";
+		    String allow_access = "N\n";
+		    String vLogin = "";
+		    
+			String vUserid = in.readLine();  // << Recibe el login del prepago.
+			int   vlargoLogin = vUserid.length();
+			String vFileName = PathArchNoIpass; //"/usr/ipass/saci/java/jdk1.1.5/bin/policy.txt"; 
+
+
+			/*------------------------------------------------------------*/
+			/*    AGREGADO PARA VERIFICAR QUE NO SE INCLUYAN DUPLICADOS   */
+			/*------------------------------------------------------------*/
+
+			String vRespuestaCLI = "-1";
+           	Process vProceso;
+            System.out.println("El comando a ejecutar es : " + "grep -w " + vUserid + " " + PathArchNoIpass);
+			vProceso = Runtime.getRuntime().exec("grep -w " + vUserid + " " +  PathArchNoIpass);			
+	
+			
+           	vRespuestaCLI = String.valueOf(vProceso.waitFor());        
+           	
+           	System.out.println ("La respuesta del proceso grep -w " + vUserid + " es : " + vRespuestaCLI);
+           	
+			BufferedReader inStr = new BufferedReader(new InputStreamReader(vProceso.getInputStream()));         
+          
+          	if(vRespuestaCLI.equals(""))
+				System.out.println("El comando se ejecuto satisfactoriamente...!!!!!!");
+			else
+				System.out.println("\tERROR : [" + inStr.readLine() + "]");
+
+
+		if (vRespuestaCLI.equals("1"))
+		
+		{
+			System.out.println ("No matches were found " + vUserid);	
+
+			/*------------------------------------------------------*/
+			
+
+
+			for (int i=0; i<= (17-vlargoLogin); i++)
+			 		vUserid += " ";
+					
+			 vUserid += "\t"; 
+			 vLogin = class_of_ser + vUserid + country_code + allow_access;
+
+
+			// abre el archivo para append   
+			FileWriter vFileOut = new FileWriter(vFileName,true);
+			BufferedWriter vBufferOut = new BufferedWriter(vFileOut);
+			PrintWriter salida = new PrintWriter(vBufferOut);
+			
+			// Escribe el login del prepago uno por linea
+			vMonitor.println("Escribiendo usuario: " + vUserid);
+			salida.print(vLogin);
+
+			// cierra el archivo
+			salida.close(); 
+			vRespuesta = "1";
+			vMonitor.println("La respuesta del proceso es : " + vRespuesta);
+
+			if(vRespuesta.equals("1"))
+
+				vMonitor.println("El comando se ejecuto satisfactoriamente...!!!!!!");
+		
+		} else
+				
+		
+			System.out.println ("One or more matches were found " + vUserid);
+
+		
+		} 
+		catch(Exception e) 
+		{
+			System.out.println("!!! " + _ClassName + ".guardarLoginIpass() fallo...");
+	    	System.out.println("\tERROR : [" + e.getMessage() + "]");
+		}
+		finally 
+		{
+			out.println(vRespuesta); // Envia la respuesta al Cliente.
+		}
+    } // guardarLoginIpass()
+    
+    /*************************************************************************************
+    *   borrarLoginIpass() :   Sobreescribe una línea en archivo policy.txt en la ruta 
+	*							/usr/ipass/saci/java/jdk1.1.5/bin/
+    *                    	    con los caracteres (',) en caso de borrados y cambios de 
+	*						    login para que el login pueda accesar IPASS.
+    **************************************************************************************/
+    private void borrarLoginIpass()
+    {
+    	int i;
+    	long filePointer;
+    	boolean stringFound = false, LineDeleted = false;
+    	String CharacterSet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    	String vRespuesta = "-1";
+        
+        try
+        {
+        	
+        	String class_of_ser = "*                  \t";
+		    String country_code = "*                  \t";
+		    String allow_access = "N\n";
+		    String user_id = "******************\t";
+		    String vLogin = "",password = "";
+		    String deletelogin = "";
+        	
+        	
+        	String vUserid = in.readLine();  					// 	Recibe el login del prepago.
+        	int   vlargoLogin = vUserid.length();
+        	String vFileName = PathArchNoIpass; 				//"/usr/ipass/saci/java/jdk1.1.5/bin/policy.txt"; 
+        	String thisString = "";
+        	long FilePointer = 0;
+        	RandomAccessFile raf = new RandomAccessFile(vFileName, "rw");
+        	
+        	raf.seek(0); // Starts at the beginning of the file
+        	        	
+        	
+            do
+            {
+            	FilePointer = raf.getFilePointer();
+            	thisString = raf.readLine();
+            	
+//            	if (raf.getFilePointer() < raf.length())
+//            		thisString = thisString.substring(0, thisString.length() -1);
+
+            	//i = vLogin.compareTo(thisString);
+            	i = thisString.indexOf(vUserid);
+            	
+            	
+            	if (i > 0)
+            	{
+            		stringFound = true;
+            		deletelogin = "";
+/*            		System.out.println(FilePointer);
+            		System.out.println(thisString);
+            		System.out.println(thisString.length());
+*/            		raf.seek(FilePointer); // Starts at the beginning of the file
+
+					password = "',";
+					password += this.getPassword((vlargoLogin-password.length()),CharacterSet);
+					//System.out.println ("password "+ password);
+					
+					
+					
+					for (int k=0; k<= (17-password.trim().length());k++)
+						 password += " ";
+			  	
+			 			 password += "\t";
+			 			 
+					vMonitor.println("Borrando usuario: " + vUserid);
+					deletelogin = class_of_ser + password + country_code + allow_access;
+					
+					raf.writeBytes(deletelogin);
+            	}
+            		
+        	} while (raf.getFilePointer() < raf.length() && stringFound == false);
+        	
+        	vRespuesta = "1";
+        
+        	if (vRespuesta.equals("1"))
+				vMonitor.println("El comando se ejecuto satisfactoriamente...!!!!!!");
+				
+		} catch(IOException e)
+		{
+			System.out.println("!!! " + _ClassName + ".borrarLoginIpass() fallo...");
+			System.out.println("\tERROR : [" + e.getMessage() + "]");
+		}
+		finally 
+		{
+			vMonitor.println("La respuesta del proceso es : " + vRespuesta);
+			out.println(vRespuesta); // Envia la respuesta al Cliente.
+		}
+    } // borrarLoginIpass()
+    
+      
+    private String getPassword(long pCharactersNumber, String pCharactersSet)
+    {
+        String vResult = null;
+        Random vRandom = null;
+        int vPosition = 0;
+        try
+        {
+            vResult = "";
+            vRandom = new Random();
+            for(long vCount = 0; vCount < pCharactersNumber; vCount++)
+            {
+                vPosition = (int)(vRandom.nextFloat() * pCharactersSet.length());
+                vResult += pCharactersSet.substring(vPosition, vPosition + 1);
+                for(long i=0; i<= 10000; i++);
+            }
+        }
+        catch(Exception e)
+        {
+            System.out.println("!!! " + _ClassName + ".getPassword() failed...");
+            System.out.println("\tERROR : [" + e.getMessage() + "]");
+            vResult = null;
+        }
+        return vResult;  
+        
+     }                       
+   
+    private String Cadena(String Caracter, long Cantidad)
+	{
+		String CadenaNueva = Caracter;
+		for (int i=1; i<Cantidad; i++)
+			CadenaNueva += Caracter;
+			
+		return CadenaNueva;
+	}
+    
+//	add your data members here
+    private Socket vSocket = null;
+    private Monitor vMonitor = null;
+    private BufferedReader in = null;      			// Lectura.
+    private PrintWriter out = null;            		// Escritura.
+    private ConfigFile vConfigFileServer = null;    // Permite accesar los datos del archivo de configuracion del Server.
+    private String PathArchNoIpass = null;      	// Ruta del archivo de Ipass negados
+
+
+//	CLASS PROPERTIES.
+    private static String _ClassName = "ExecIpassCommands";	// It's the name of this class.
+}
+

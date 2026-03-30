@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+<info>
+	<infoitem key="UD_rsForm" value="name:Usucodigo;datatype:,name:Pnombre;datatype:,name:Papellido1;datatype:,name:Papellido2;datatype:,name:TIcodigo;datatype:,name:Pid;datatype:,name:Psexo;datatype:,name:Pdireccion;datatype:,name:Ppais;datatype:,name:Poficina;datatype:,name:Pcelular;datatype:,name:Pcasa;datatype:,name:Pfax;datatype:,name:Ppagertel;datatype:,name:Ppagernum;datatype:,name:Pemail1;datatype:,name:Pemail2;datatype:,name:Pnacimiento;datatype:" />
+	<infoitem key="UD_rsPais" value="name:Ppais;datatype:,name:Pnombre;datatype:" />
+	<infoitem key="UD_rsIdentificacion" value="name:TIcodigo;datatype:,name:TInombre;datatype:" />
+	<infoitem key="UD_rsSkin" value="name:Scodigo;datatype:,name:Snombre;datatype:" />
+</info>

@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_ImpresionDocumentos>Documents Printing</LB_ImpresionDocumentos>
+		<LB_OrdenImpresion>Order Printing</LB_OrdenImpresion>
+		<LB_PreFactura>Pre invoice</LB_PreFactura>
+		<LB_Cliente>Customer</LB_Cliente>
+		<BTN_Filtrar>Filter</BTN_Filtrar>
+		<LB_NumeroOrden>Order Number</LB_NumeroOrden>
+		<LB_Transaccion>Transaction</LB_Transaccion>
+		<LB_Moneda>Currency</LB_Moneda>
+		<LB_Total>Total</LB_Total>
+		<LB_Socio>Partner</LB_Socio>
+		
+	</Idioma>
+</Etiquetas>

@@ -1,0 +1,30 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 506 - DBM 450: bit para recordar datos de formulario en 
+
+	         PARCHE:  Parche023_655_SIF_CG_Recordar_Form
+
+GENERADO EN:
+	SERVER:  http://mxvqapp34:8300
+	DSN:     minisiftrd
+	FECHA:   19/01/2012 15:58:20
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* CHG_TABLE EContables: Encabezado Documentos Contable */
+/* ======================================================================================== */
+/* ADD_COLUMN OP = (NUEVO): ECrecordarForm - bit de recordario de informacion */
+ALTER TABLE EContables ADD ECrecordarForm bit DEFAULT 0 NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

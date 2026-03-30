@@ -1,0 +1,128 @@
+﻿<cfinvoke component="sif.Componentes.Translate" method="init" returnvariable="t">
+<cfset LB_Title 		= t.Translate('LB_SNegocio','Confirmacion de Orden de Pago Manual')>
+
+<cfoutput>
+
+<!--- Validar la definicion del Concepto de servicio en Parametros CRC--->
+<cfset objParams = createObject("component", "crc.Componentes.CRCParametros")>
+<cfset val = objParams.GetParametroInfo('30200504')>
+<cfif val.valor eq ''><cfthrow message="El parametro [30200504 - Concepto de Servicio para Pago de Gestores] no esta definido"></cfif>
+
+<!--- Obtener Concepto de Servicio --->
+<cfquery name="rsConcepto" datasource="#session.DSN#">
+	select Cid, Ccodigo, Cdescripcion from Conceptos where Ecodigo = #Session.Ecodigo#
+	and Cid = <cfqueryparam cfsqltype="cf_sql_numeric" value="#val.valor#">
+	order by Ccodigo
+</cfquery>
+
+<!--- Obtener Cuenta Financiera Asociada al concepto de servicio --->
+<cfquery name="rsCformato" datasource="#session.dsn#">
+	select '' as ccuenta, '' as cdescripcion, Cformato from Conceptos where Ecodigo = #Session.Ecodigo#
+	and Cid = <cfqueryparam cfsqltype="cf_sql_numeric" value="#val.valor#">
+</cfquery>
+
+
+<cf_templateheader title="#LB_Title#">
+	<cf_web_portlet_start border="true" skin="#Session.Preferences.Skin#" tituloalign="center" titulo='#LB_Title#'>
+	<form name="form1" method="post" action="PagosGestor_sql.cfm">
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" align="center">
+			<tr>
+				<td colspan="2">
+					<cfinclude template="/home/menu/pNavegacion.cfm">
+				</td>
+			</tr>
+			<tr>
+				<td align="right">
+					<font size="2">Total de Comision: </font>
+				</td>
+				<td align="left">
+					<cfquery name="q_totalComision" datasource="#session.dsn#">
+						select round(sum(((d.DTpreciou- d.DTdeslinea)*(d.CRCDEidPorc/100))),2) DTtotalComision
+						from ETransacciones e 
+							inner join DTransacciones d 
+								on d.ETnumero = e.ETnumero 
+						where e.Ecodigo=#session.Ecodigo# and e.ETestado = 'C' and e.ETnumero in (#form.chk#) and d.DTborrado = 0
+					</cfquery>
+					<input type="text"  value="#lsCurrencyFormat(q_totalComision.DTtotalComision)#" readonly>
+				</td>
+				<td>
+					<input type="hidden" name="comisionTotal" value="#q_totalComision.DTtotalComision#">
+					<input type="hidden" name="ETnumeros" value="#form.chk#">
+					<input type="hidden" name="BeneficiarioID" value="#url.BGst#">
+					<cf_botones values="Aplicar,Regresar">
+				</td>
+			</tr>
+			<tr style="display:none;">
+				<td align="right"><font size="2">Concepto de Servicio:&nbsp;</font> <td>
+				<cf_sifconceptos form="form1" query=#rsConcepto# size="22"  tabindex="1" readonly>
+				
+			</tr>
+			<tr style="display:none;">
+				<td align="right"><font size="2">Cta. Financiera:&nbsp;</font> <td>
+				<cf_cuentasanexo
+					auxiliares="S" movimientos="N" conlis="N"
+					ccuenta="Ccuenta" cdescripcion="Cdescripcion2" cformato="Cformato"
+					conexion="#Session.DSN#" form="form1" frame="frCuentac"
+					query="#rsCformato#" comodin="?" tabindex="7">
+			</tr>
+			<tr>
+				<td align="right"><font size="2">Centro Funcional:&nbsp;</font> <td>
+				<cf_cboCFid form="form1" tabindex="1">
+			</tr>
+			<tr>
+				<td colspan="3">
+					<cfinvoke component="commons.Componentes.pListas" method="pListaRH"
+						tabla="ETransacciones e 
+								inner join DTransacciones d 
+									on d.ETnumero = e.ETnumero 
+								inner join CRCCuentas c 
+									on d.CRCCuentaid = c.id 
+								inner join DatosEmpleado de 
+									on d.CRCDEid = de.DEid"
+						columnas="
+								e.ETnumero
+								, e.Ecodigo
+								, e.ETestado
+								, e.ETfecha
+								, round(sum(d.DTpreciou),2) DTtotal
+								, round(sum(d.DTtotal),2) DTSubTotal
+								, round(sum(d.DTdeslinea),2) DTdeslinea
+								, d.CRCDEid
+								, round(sum((d.DTpreciou- d.DTdeslinea)*d.CRCDEidPorc/100),2) DTtotalComision
+								, de.DEnombre + ' ' + de.DEapellido1 + ' ' + de.DEapellido2 As Empleadoe
+								"
+						desplegar="ETfecha,Empleadoe,DTSubTotal,DTtotal,DTtotalComision"
+						etiquetas="Fecha,Gestor/Abogado,SubTotal Pago,Total Pago, Total Comision"
+						formatos="S,S,M,M,M"
+						filtro="e.Ecodigo=#session.Ecodigo# and e.ETestado = 'C' and e.ETnumero in (#form.chk#)
+							and d.DTborrado = 0
+							group by 
+								e.ETnumero
+								, e.Ecodigo
+								, e.ETestado
+								, e.ETfecha
+								, d.CRCDEid,de.DEnombre + ' ' + de.DEapellido1 + ' ' + de.DEapellido2
+							order by e.ETfecha"
+						align="left,left,left,left,left"
+						ajustar="S"
+						showlink="false">
+					</cfinvoke>
+				</td>
+			</tr>
+			<tr>
+				<td>
+				</td>
+			</tr>		
+		</table>
+	<cf_web_portlet_end>
+<cf_templatefooter>
+</cfoutput>
+
+<script>
+	function funcRegresar(){
+		document.form1.action = "PagosGestor.cfm?"
+	}
+	function funcAplicar(){
+		return confirm("Esta seguro que desea generar el Pago de Comision?");
+	}
+</script>

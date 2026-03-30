@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_Titulo>Entries Applied and Unapplied</LB_Titulo>
+		<LB_ConceptoIni>Initial Concept</LB_ConceptoIni>
+		<LB_ConceptoFin>Final Concept</LB_ConceptoFin>
+		<LB_PolizaIni>Initial Voucher</LB_PolizaIni>
+		<LB_PolizaFin>Final Voucher</LB_PolizaFin>
+		<LB_PeriodoIni>Initial Period</LB_PeriodoIni>
+		<LB_PeriodoFin>Final Period</LB_PeriodoFin>
+		<LB_MesIni>Initial Month</LB_MesIni>
+		<LB_MesFin>Final Month</LB_MesFin>
+		<LB_FechaGIni>Initial Registration Date</LB_FechaGIni>
+		<LB_FechaGFin>Final Registration Date</LB_FechaGFin>
+		<LB_FechaAIni>Initial Application Date</LB_FechaAIni>
+		<LB_FechaAFin>Final Application Date</LB_FechaAFin>
+		<LB_TipoRpte>Report Type</LB_TipoRpte>
+		<LB_Aplicado>Applied</LB_Aplicado>
+		<LB_PendienteDeAplicar>Unapplied</LB_PendienteDeAplicar>
+		<LB_VerReporte>Report</LB_VerReporte>
+		<LB_Resumido>Summarized</LB_Resumido>
+		<LB_Detallado>Detailed</LB_Detallado>
+		<CHK_ExportarExcel>Export to Excel</CHK_ExportarExcel>
+		<BTN_Limpiar>Clean</BTN_Limpiar>
+		<BTN_Consultar>Consult</BTN_Consultar>
+	</Idioma>
+</Etiquetas>

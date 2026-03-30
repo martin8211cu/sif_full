@@ -1,0 +1,73 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+PDtoCF
+</name>
+</assembly>
+<members>
+<member name="M:PDtoCF.DBmodel.WSService.#ctor">
+	<remarks/>
+</member><member name="E:PDtoCF.DBmodel.WSService.uploadCompleted">
+	<remarks/>
+</member><member name="E:PDtoCF.DBmodel.WSService.addModeloCompleted">
+	<remarks/>
+</member><member name="E:PDtoCF.DBmodel.WSService.qryEsquemasModeloCompleted">
+	<remarks/>
+</member><member name="M:PDtoCF.DBmodel.WSService.upload(System.String,System.String,System.String,System.String,System.Byte[])">
+	<remarks/>
+</member><member name="M:PDtoCF.DBmodel.WSService.uploadAsync(System.String,System.String,System.String,System.String,System.Byte[])">
+	<remarks/>
+</member><member name="M:PDtoCF.DBmodel.WSService.uploadAsync(System.String,System.String,System.String,System.String,System.Byte[],System.Object)">
+	<remarks/>
+</member><member name="M:PDtoCF.DBmodel.WSService.addModelo(System.String,System.String,System.String)">
+	<remarks/>
+</member><member name="M:PDtoCF.DBmodel.WSService.addModeloAsync(System.String,System.String,System.String)">
+	<remarks/>
+</member><member name="M:PDtoCF.DBmodel.WSService.addModeloAsync(System.String,System.String,System.String,System.Object)">
+	<remarks/>
+</member><member name="M:PDtoCF.DBmodel.WSService.qryEsquemasModelo(System.String)">
+	<remarks/>
+</member><member name="M:PDtoCF.DBmodel.WSService.qryEsquemasModeloAsync(System.String)">
+	<remarks/>
+</member><member name="M:PDtoCF.DBmodel.WSService.qryEsquemasModeloAsync(System.String,System.Object)">
+	<remarks/>
+</member><member name="M:PDtoCF.DBmodel.WSService.CancelAsync(System.Object)">
+	<remarks/>
+</member><member name="T:PDtoCF.DBmodel.WSService">
+	<remarks/>
+</member><member name="P:PDtoCF.DBmodel.Map.item">
+	<remarks/>
+</member><member name="T:PDtoCF.DBmodel.Map">
+	<remarks/>
+</member><member name="P:PDtoCF.DBmodel.mapItem.key">
+	<remarks/>
+</member><member name="P:PDtoCF.DBmodel.mapItem.value">
+	<remarks/>
+</member><member name="T:PDtoCF.DBmodel.mapItem">
+	<remarks/>
+</member><member name="P:PDtoCF.DBmodel.QueryBean.columnList">
+	<remarks/>
+</member><member name="P:PDtoCF.DBmodel.QueryBean.data">
+	<remarks/>
+</member><member name="T:PDtoCF.DBmodel.QueryBean">
+	<remarks/>
+</member><member name="T:PDtoCF.DBmodel.CFCInvocationException">
+	<remarks/>
+</member><member name="T:PDtoCF.DBmodel.uploadCompletedEventHandler">
+	<remarks/>
+</member><member name="P:PDtoCF.DBmodel.uploadCompletedEventArgs.Result">
+	<remarks/>
+</member><member name="T:PDtoCF.DBmodel.uploadCompletedEventArgs">
+	<remarks/>
+</member><member name="T:PDtoCF.DBmodel.addModeloCompletedEventHandler">
+	<remarks/>
+</member><member name="T:PDtoCF.DBmodel.qryEsquemasModeloCompletedEventHandler">
+	<remarks/>
+</member><member name="P:PDtoCF.DBmodel.qryEsquemasModeloCompletedEventArgs.Result">
+	<remarks/>
+</member><member name="T:PDtoCF.DBmodel.qryEsquemasModeloCompletedEventArgs">
+	<remarks/>
+</member>
+</members>
+</doc>

@@ -1,0 +1,359 @@
+
+	<data>
+		<variable name="DatosPeriodoMes"> 
+		<row>
+			<column>2012</column>
+			<column>ENE</column>
+			<column>0.000001</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2012</column>
+			<column>FEB</column>
+			<column>0.000001</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2012</column>
+			<column>MAR</column>
+			<column>0.000001</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2012</column>
+			<column>ABR</column>
+			<column>0.000001</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2012</column>
+			<column>MAY</column>
+			<column>0.000001</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2012</column>
+			<column>JUN</column>
+			<column>0.000001</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2012</column>
+			<column>JUL</column>
+			<column>0.000001</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2012</column>
+			<column>AGO</column>
+			<column>0.000001</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2012</column>
+			<column>SET</column>
+			<column>0.000001</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2012</column>
+			<column>OCT</column>
+			<column>0.000001</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2012</column>
+			<column>NOV</column>
+			<column>0.000001</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2012</column>
+			<column>DIC</column>
+			<column>0.000001</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2013</column>
+			<column>ENE</column>
+			<column>0.000001</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2013</column>
+			<column>FEB</column>
+			<column>0.000001</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2013</column>
+			<column>MAR</column>
+			<column>0.000001</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2013</column>
+			<column>ABR</column>
+			<column>0.000001</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2013</column>
+			<column>MAY</column>
+			<column>0.000001</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2013</column>
+			<column>JUN</column>
+			<column>0.000001</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2013</column>
+			<column>JUL</column>
+			<column>0.000001</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2013</column>
+			<column>AGO</column>
+			<column>0.000001</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2013</column>
+			<column>SET</column>
+			<column>0.000001</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2013</column>
+			<column>OCT</column>
+			<column>0.000001</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2013</column>
+			<column>NOV</column>
+			<column>0.000001</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2013</column>
+			<column>DIC</column>
+			<column>0.000001</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2014</column>
+			<column>ENE</column>
+			<column>0.000001</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2014</column>
+			<column>FEB</column>
+			<column>0.000001</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2014</column>
+			<column>MAR</column>
+			<column>0.000001</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2014</column>
+			<column>ABR</column>
+			<column>0.000001</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2014</column>
+			<column>MAY</column>
+			<column>0.000001</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2014</column>
+			<column>JUN</column>
+			<column>0.000001</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2014</column>
+			<column>JUL</column>
+			<column>0.000001</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2014</column>
+			<column>AGO</column>
+			<column>0.000001</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2014</column>
+			<column>SET</column>
+			<column>0.000001</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2014</column>
+			<column>OCT</column>
+			<column>0.000001</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2014</column>
+			<column>NOV</column>
+			<column>0.000001</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2014</column>
+			<column>DIC</column>
+			<column>0.000001</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2015</column>
+			<column>ENE</column>
+			<column>0.000001</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2015</column>
+			<column>FEB</column>
+			<column>0.000001</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2015</column>
+			<column>MAR</column>
+			<column>0.000001</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2015</column>
+			<column>ABR</column>
+			<column>0.000001</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2015</column>
+			<column>MAY</column>
+			<column>0.000001</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2015</column>
+			<column>JUN</column>
+			<column>0.000001</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2015</column>
+			<column>JUL</column>
+			<column>0.000001</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2015</column>
+			<column>AGO</column>
+			<column>0.000001</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2015</column>
+			<column>SET</column>
+			<column>0.000001</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2015</column>
+			<column>OCT</column>
+			<column>0.000001</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2015</column>
+			<column>NOV</column>
+			<column>0.000001</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2015</column>
+			<column>DIC</column>
+			<column>0.000001</column>
+			<column>0</column>
+		</row>
+		
+		</variable>
+
+		<variable name="DatosPeriodo"> 
+		<row><column>2012</column></row>
+		
+		<row><column>2013</column></row>
+		
+		<row><column>2014</column></row>
+		
+		<row><column>2015</column></row>
+		
+		</variable>
+		
+		<variable name="DatosCFuncional"> 
+			<row><column>Centro Funcional: RAIZ-Centro Funcional Raiz</column></row>
+			
+			</variable>
+		
+	</data>
+

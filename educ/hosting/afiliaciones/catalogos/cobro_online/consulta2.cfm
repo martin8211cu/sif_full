@@ -1,0 +1,95 @@
+
+<cf_template>
+<cf_templatearea name="title">Detalle de Cobros Realizados</cf_templatearea>
+
+<cf_templatearea name="body">
+
+<cfquery datasource="#session.dsn#" name="cobros">
+	select
+		c.id_cobro,
+		p.Pnombre, p.Papellido1, p.Papellido2, p.Pid,
+		r.nombre_programa,
+		v.nombre_vigencia,
+		c.fecha_cobro,
+		c.importe,
+		c.importe - c.pagado as saldo
+	from sa_cobros c
+		join sa_afiliaciones a
+			on  a.id_persona = c.id_persona
+			and a.id_programa = c.id_programa
+			and a.id_vigencia = c.id_vigencia
+		join sa_vigencia v
+			on  v.id_programa = c.id_programa
+			and v.id_vigencia = c.id_vigencia
+		join sa_programas r
+			on  r.id_programa = c.id_programa
+		join sa_personas p
+			on  p.id_persona = c.id_persona
+	where a.CEcodigo = <cfqueryparam cfsqltype="cf_sql_numeric" value="#session.CEcodigo#">
+	  and c.id_cobro = <cfqueryparam cfsqltype="cf_sql_numeric" value="#url.id_cobro#">
+</cfquery>
+
+<cfinvoke component="sif.rh.Componentes.pListas" method="pListaQuery"
+	query="#cobros#"
+	desplegar="Pnombre,Papellido1,Papellido2,Pid,nombre_programa,nombre_vigencia,fecha_cobro,importe,saldo"
+	etiquetas="Nombre,Apellidos, ,C&eacute;dula,Programa,Vigencia,Fecha,Importe,Saldo"
+	align="left,left,left,left,left,left,left,right,right"
+	formatos="S,S,S,S,S,S,D,M,M"
+	irA="consulta2.cfm"
+	form_method="get"
+	showEmptyListMsg="true"
+	totales="importe,saldo"
+	EmptyListMsg="<h2>No se encontraron cobros</h2>" />
+
+<cfoutput>
+<table width="87%"  border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="20%">&nbsp;</td>
+    <td width="15%">&nbsp;</td>
+    <td width="65%">&nbsp;</td>
+  </tr>
+  <tr>
+    <td  >Nombre</td>
+    <td colspan="2">#cobros.Pnombre# #cobros.Papellido1# #cobros.Papellido2#</td>
+    </tr>
+  <tr>
+    <td>C&eacute;dula</td>
+    <td colspan="2">#cobros.Pid#</td>
+    </tr>
+  <tr>
+    <td>Programa</td>
+    <td colspan="2">#cobros.nombre_programa# </td>
+    </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td colspan="2">#cobros.nombre_vigencia#</td>
+  </tr>
+  <tr>
+    <td>Fecha al cobro </td>
+    <td colspan="2">#DateFormat(cobros.fecha_cobro,'dd/mm/yyyy')#</td>
+    </tr>
+  <tr>
+    <td>Importe</td>
+    <td align="right">#NumberFormat(cobros.importe,',0.00')#</td>
+    <td align="right">&nbsp;</td>
+  </tr>
+  <tr>
+    <td>Saldo</td>
+    <td align="right">#NumberFormat(cobros.saldo,',0.00')#</td>
+    <td align="right">&nbsp;</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+</table>
+</cfoutput>
+
+</cf_templatearea>
+</cf_template>

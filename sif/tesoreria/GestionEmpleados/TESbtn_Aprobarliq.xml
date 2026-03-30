@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<CHK_ImprimirAnticipoEnviada>Print Advance Sent</CHK_ImprimirAnticipoEnviada>
+		<CHK_ImprimirLiquidacionEnviada>Print Settlement Sent</CHK_ImprimirLiquidacionEnviada>
+		<BTN_ListaLiquidaciones>Settlements List</BTN_ListaLiquidaciones>
+		<MSG_DeseaAprobarLaLiquidacion>Approve selected settlement?</MSG_DeseaAprobarLaLiquidacion>
+	</Idioma>
+</Etiquetas>

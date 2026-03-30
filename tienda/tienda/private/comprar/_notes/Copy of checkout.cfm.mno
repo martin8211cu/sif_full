@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+<info>
+	<infoitem key="MM_css_include" value="" />
+	<infoitem key="MM_css_exclude" value="" />
+	<infoitem key="UD_cuentas" value="name:Iaba;datatype:,name:CBTcodigo;datatype:,name:CBcodigo;datatype:,name:CBdescripcion;datatype:" />
+	<infoitem key="UD_personal" value="name:nombre;datatype:,name:Pdireccion;datatype:" />
+</info>

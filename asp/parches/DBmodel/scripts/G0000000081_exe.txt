@@ -1,0 +1,56 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 183 - DBM 299: Tipo Identificacion Beneficiario
+
+	         PARCHE:  Parche023_301_SIF_ViaticosComision
+
+GENERADO EN:
+	SERVER:  http://mxpapp36:8300
+	DSN:     sifcim
+	FECHA:   08/10/2011 07:49:19
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* CHG_TABLE TESbeneficiario: Beneficiario */
+/* ======================================================================================== */
+/* CHG_COLUMN OP=(CAMBIO): TESBtipoId - Tipo Identificacion */
+ALTER TABLE TESbeneficiario DROP CONSTRAINT TESbeneficiario_CK03 /* CHECK ([TESBtipoId]='E' OR [TESBtipoId]='J' OR [TESBtipoId]='F') */
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE TESbeneficiario ADD CONSTRAINT TESbeneficiario_CK03 CHECK ([TESBtipoId]='O' OR [TESBtipoId]='E' OR [TESBtipoId]='J' OR [TESBtipoId]='F')
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE TESbeneficiarioBitacora: Bitacora de cambios al Benefic */
+/* ======================================================================================== */
+/* CHG_COLUMN OP=(CAMBIO): TESBtipoId - Tipo Identificacion */
+ALTER TABLE TESbeneficiarioBitacora DROP CONSTRAINT TESbeneficiarioBitacora_CK03 /* CHECK ([TESBtipoId]='J' OR [TESBtipoId]='F') */
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE WfActivity: Actividad */
+/* ======================================================================================== */
+/* DEL_CHECK OP=(OBSOLETO): chk=(IsStart=(0) OR IsFinish=(0)) */
+ALTER TABLE WfActivity DROP CONSTRAINT WfActivity_CK
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_CHECK: chk=(IsStart = 0 or IsFinish = 0) */
+ALTER TABLE WfActivity ADD CONSTRAINT WfActivity_CK CHECK (IsStart = 0 or IsFinish = 0)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* END_SCRIPT */

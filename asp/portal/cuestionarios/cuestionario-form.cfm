@@ -1,0 +1,183 @@
+﻿<!--- VARIABLES DE TRADUCCION --->
+<cfinvoke Key="LB_CODIGO" Default="C&oacute;digo" XmlFile="/sif/rh/generales.xml" returnvariable="LB_CODIGO" component="sif.Componentes.Translate" method="Translate"/>
+<cfinvoke Key="LB_DESCRIPCION" Default="Descripci&oacute;n" XmlFile="/sif/rh/generales.xml" returnvariable="LB_DESCRIPCION" component="sif.Componentes.Translate" method="Translate"/>
+<cfinvoke Key="BTN_Agregar" Default="Agregar" XmlFile="/sif/rh/generales.xml" returnvariable="BTN_Agregar" component="sif.Componentes.Translate" method="Translate"/>
+<cfinvoke Key="BTN_Modificar" Default="Modificar" XmlFile="/sif/rh/generales.xml" returnvariable="BTN_Modificar" component="sif.Componentes.Translate" method="Translate"/>	
+<cfinvoke Key="BTN_Eliminar" Default="Eliminar" XmlFile="/sif/rh/generales.xml" returnvariable="BTN_Eliminar" component="sif.Componentes.Translate" method="Translate"/>
+<cfinvoke Key="BTN_Lista" Default="Lista" returnvariable="BTN_Lista" component="sif.Componentes.Translate" method="Translate"/>	
+<cfinvoke key="BTN_Replicar" Default="Replicar" returnvariable="BTN_Replicar" component="sif.Componentes.Translate" method="Translate">
+<cfinvoke Key="LB_Parte" Default="Parte" returnvariable="LB_Parte" component="sif.Componentes.Translate" method="Translate"/>
+<cfinvoke Key="MSG_DeseaEliminarElCuestionario" Default="Desea eliminar el Cuestionario?" returnvariable="MSG_DeseaEliminarElCuestionario" component="sif.Componentes.Translate" method="Translate"/>				
+<cfinvoke Key="LB_Numero" Default="N&uacute;mero" returnvariable="LB_Numero" component="sif.Componentes.Translate" method="Translate"/>
+<cfinvoke Key="LB_Pregunta" Default="Pregunta" returnvariable="LB_Pregunta" component="sif.Componentes.Translate" method="Translate"/>
+
+<!--- FIN VARIABLES DE TRADUCCION --->
+<cfif isdefined("url.pageNum_Lista") and not isdefined('form.pageNum_Lista') >
+	<cfset form.pageNum_Lista = url.pageNum_Lista >
+</cfif>
+<cfif isdefined("url.fPCcodigo") and not isdefined('form.fPCcodigo') >
+	<cfset form.fPCcodigo = url.fPCcodigo >
+</cfif>
+<cfif isdefined("url.fPCnombre") and not isdefined("form.fPCnombre") >
+	<cfset form.fPCnombre = url.fPCnombre >
+</cfif>
+<cfif isdefined("url.fPCdescripcion") and not isdefined("form.fPCdescripcion") >
+	<cfset form.fPCdescripcion = url.fPCdescripcion >
+</cfif>
+<cfif isdefined("url.PPparte") and not isdefined('form.pPPparte')>
+	<cfset form.pPPparte = url.pPParte>
+</cfif>
+<cfif isdefined("url.PPid") and not isdefined('form.pPPid')>
+	<cfset form.pPPid = url.PPid>
+</cfif>
+
+<cfoutput>
+<script language="javascript1.2" type="text/javascript" src="utilesMonto.js"></script>
+<!---
+	<cfif modo neq 'ALTA'>
+		<cf_rhimprime datos="/asp/portal/cuestionarios/cuestionario-imprimir.cfm" objetosform="false" paramsuri="?PCid=#form.PCid#">
+	</cfif>
+--->	
+	<table width="100%" cellpadding="2" cellspacing="0" border="0">
+		<form name="form1" method="post" action="cuestionario-sql.cfm" onSubmit="return validacion(this);" style="margin:0; " id="form1">
+			<cfset modo = 'ALTA'>
+			<cfif isdefined("form.PCid") and len(trim(form.PCid))>
+				<cfset modo = 'CAMBIO'>
+				
+				<cfquery name="pcdata" datasource="sifcontrol">
+					select PCid, PCcodigo, PCnombre, PCdescripcion, PCtipo
+					from PortalCuestionario
+					where PCid = <cfqueryparam cfsqltype="cf_sql_numeric" value="#form.PCid#">
+				</cfquery>
+			</cfif>
+			<cfif modo neq 'ALTA'>
+				<input type="hidden" name="PCid" value="#pcdata.PCid#">
+			</cfif>
+			<cfparam  name="form.pageNum_lista" default="1">			
+			<input type="hidden"            name="pagenum_lista" value="<cfif isdefined("form.pagenum_lista") >#form.pagenum_lista#<cfelse>1</cfif>" />
+			<input name="fPCcodigo" 		type="hidden"	value="<cfif isdefined('form.fPCcodigo')>#trim(form.fPCcodigo)#</cfif>"/>
+			<input name="fPCnombre" 		type="hidden"	value="<cfif isdefined('form.fPCnombre')>#trim(form.fPCnombre)#</cfif>"/>
+			<input name="fPCdescripcion" 	type="hidden" 	value="<cfif isdefined('form.fPCdescripcion')>#trim(form.fPCdescripcion)#</cfif>" />			
+            <tr>
+				<td colspan="6" align="center">
+				<table align="center" cellpadding="0" cellspacing="0" width="99%">
+					<tr>
+						<cfif modo neq 'ALTA'>
+							<td align="center" colspan="3" width="99%" class="tituloPersona" style="text-align:center;">
+							<cf_translate key="LB_Cuestionarios">Cuestionarios</cf_translate>
+							</td>							
+							<td>
+								<a href="##" tabindex="-1">
+								<img src="/cfmx/sif/imagenes/search.gif" 
+									alt="Previsualizar" 
+									name="imagen" 
+									border="0" 
+									align="absmiddle" 
+									onClick='javascript: ver(#form.PCid#);'>	
+								</a>
+							</td>
+						<cfelse>
+						<td align="center" colspan="4" width="99%" class="tituloPersona" style="text-align:center;">
+							<cf_translate key="LB_Cuestionarios">Cuestionarios</cf_translate>
+							</td>
+						</cfif>	
+					</tr>
+				</table>
+				</td>
+			</tr>
+            
+            <tr>
+				<td align="right" width="1%"><cfoutput>#LB_CODIGO#</cfoutput>:&nbsp;</td>
+				<td><input type="text" name="PCcodigo" size="10" maxlength="10" onFocus="restaurar_color(this); this.select(); " value="<cfif modo neq 'ALTA'>#trim(pcdata.PCcodigo)#</cfif>"></td>
+				<td align="right" width="1%" nowrap="nowrap"><cf_translate key="LB_Cuestionario">Cuestionario</cf_translate>:&nbsp;</td>
+				<td><input type="text" name="PCnombre" size="60" maxlength="60" onFocus="restaurar_color(this); this.select(); " value="<cfif modo neq 'ALTA'>#trim(pcdata.PCnombre)#</cfif>"></td>
+			</tr>
+			
+			<tr>
+				<td align="right" width="1%" ><cfoutput>#LB_DESCRIPCION#</cfoutput>:&nbsp;</td>
+				<td><input type="text" name="PCdescripcion" size="60" maxlength="255" onFocus="restaurar_color(this); this.select();" value="<cfif modo neq 'ALTA'>#trim(pcdata.PCdescripcion)#</cfif>">
+				<td align="right" width="1%" ><cf_translate key="LB_Tipo">Tipo</cf_translate>:&nbsp;</td>
+				<td>
+					<select name="PCtipo" class="flat">
+						<option value="0" <cfif modo neq 'ALTA' and pcdata.PCtipo eq 0 >selected</cfif> ><cf_translate key="CMB_Cuestionario">Cuestionario</cf_translate></option>
+						<option value="10" <cfif modo neq 'ALTA' and pcdata.PCtipo eq 10 >selected</cfif>><cf_translate key="CMB_Encuesta">Encuesta</cf_translate></option>
+						<option value="20" <cfif modo neq 'ALTA' and pcdata.PCtipo eq 20 >selected</cfif>><cf_translate key="CMB_Benziger">Benziger</cf_translate></option>
+						<option value="30" <cfif modo neq 'ALTA' and pcdata.PCtipo eq 30 >selected</cfif>><cf_translate key="CMB_Test">Test</cf_translate></option>
+						<option value="40" <cfif modo neq 'ALTA' and pcdata.PCtipo eq 40 >selected</cfif>><cf_translate key="CMB_Otros">Otros</cf_translate></option>
+					</select>
+				</td>
+			</tr>
+
+			<tr><td colspan="6" align="center">
+				<cfif modo eq 'ALTA'>
+					<input type="submit" name="PCAgregar" value="<cfoutput>#BTN_Agregar#</cfoutput>" onClick="validar()">
+				<cfelse>
+					<!--- <input name="ReplicaC" type="submit" value="Replicar CC" onclick="javascript:btnSelected='ReplicaC';" /> --->
+					<input name="PCReplicar" type="submit" value="<cfoutput>#BTN_Replicar#</cfoutput>" onClick="javascript:btnSelected='Replicar';">
+					<input type="submit" name="PCModificar" value="<cfoutput>#BTN_Modificar#</cfoutput>" onClick="javascript:btnSelected='Modificar';">
+					<input type="submit" name="PCEliminar" value="<cfoutput>#BTN_Eliminar#</cfoutput>" onClick="javascript:if (confirm('<cfoutput>#MSG_DeseaEliminarElCuestionario#</cfoutput>')){ btnSelected='Eliminar'; return true;} return false;">
+					
+				</cfif>
+				<input type="button" name="PCLista" value="<cfoutput>#BTN_Lista#</cfoutput>" onClick="javascript:location.href='cuestionario-lista.cfm?pagenum_lista='+this.form.pagenum_lista.value+'&fPCcodigo='+this.form.fPCcodigo.value+'&fPCnombre='+this.form.fPCnombre.value+'&fPCdescripcion='+this.form.fPCdescripcion.value">
+			</td></tr>
+		</form>
+</table>
+</cfoutput>
+<!--- VARIABLES DE TRADUCCION --->
+<cfinvoke Key="MSG_SePresentaronLosSiguientesErrores" Default="Se presentaron los siguientes errores:" returnvariable="MSG_SePresentaronLosSiguientesErrores" component="sif.Componentes.Translate" method="Translate"/>	
+<cfinvoke Key="MSG_ElCampoCodigoEsRequerido" Default="El campo Código es requerido." returnvariable="MSG_ElCampoCodigoEsRequerido" component="sif.Componentes.Translate" method="Translate"/>	
+<cfinvoke Key="MSG_ElCampoNombreEsRequerido" Default="El campo Nombre es requerido" returnvariable="MSG_ElCampoNombreEsRequerido" component="sif.Componentes.Translate" method="Translate"/>
+<cfinvoke Key="MSG_ElCampoDescripcionEsRequerido" Default="El campo Descripción es requerido" returnvariable="MSG_ElCampoDescripcionEsRequerido" component="sif.Componentes.Translate" method="Translate"/>	
+<cfinvoke Key="MSG_ElCampoParteEsRequerido" Default="El campo Parte es requerido" returnvariable="MSG_ElCampoParteEsRequerido" component="sif.Componentes.Translate" method="Translate"/>	
+<cfinvoke Key="MSG_ElCampoDescripcionEsRequerido" Default="El campo Descripción es requerido" returnvariable="MSG_ElCampoDescripcionEsRequerido" component="sif.Componentes.Translate" method="Translate"/>	
+<cfinvoke Key="MSG_ElCampoParteEsRequerido" Default="El campo Parte es requerido" returnvariable="MSG_ElCampoParteEsRequerido" component="sif.Componentes.Translate" method="Translate"/>	
+<cfinvoke Key="MSG_ElCampoTipoEsRequerido" Default="El campo Tipo es requerido." returnvariable="MSG_ElCampoTipoEsRequerido" component="sif.Componentes.Translate" method="Translate"/>
+<!--- FIN VARIABLES DE TRADUCCION --->
+<script type="text/javascript" language="javascript">
+
+function validacion(form){
+		var mensaje = '<cfoutput>#MSG_SePresentaronLosSiguientesErrores#</cfoutput>:\n';
+		var error = false;
+		
+		if ( btnSelected != 'Eliminar' ){		
+			if ( trim(form.PCcodigo.value) == '' ){
+				mensaje = mensaje + ' - <cfoutput>#MSG_ElCampoCodigoEsRequerido#</cfoutput>\n' 
+				form.PCcodigo.style.backgroundColor = '#FFFFCC';
+				error = true;
+			}
+	
+			if ( trim(form.PCnombre.value) == '' ){
+				mensaje = mensaje + ' - <cfoutput>#MSG_ElCampoNombreEsRequerido#</cfoutput>\n' 
+				form.PCnombre.style.backgroundColor = '#FFFFCC';
+				error = true;
+			}
+	
+			if ( trim(form.PCdescripcion.value) == '' ){
+				mensaje = mensaje + ' - <cfoutput>#MSG_ElCampoDescripcionEsRequerido#</cfoutput>\n' 
+				form.PCdescripcion.style.backgroundColor = '#FFFFCC';
+				error = true;
+			}
+		}
+		if (error){
+			alert(mensaje);
+			return false;
+		}
+
+		return true;
+	
+		}
+		
+	function trim(dato) {
+		dato = dato.replace(/^\s+|\s+$/g, '');
+		return dato;
+	}
+	
+	function restaurar_color(obj){
+		obj.style.backgroundColor = '#FFFFFF';
+	}
+
+	
+</script>
+
+
+

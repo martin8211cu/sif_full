@@ -1,0 +1,79 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 447 - DBM 382: Subir DProveduriaCorporativa para MX
+
+	         PARCHE:  Parche023_495_SIF_DBModel_TablaDProveduriaCorporat
+
+GENERADO EN:
+	SERVER:  http://mxvqapp34:8300
+	DSN:     sifcim
+	FECHA:   06/01/2012 18:36:19
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* ADD_TABLE DProveduriaCorporativa: DProveduriaCorporativa */
+/* ======================================================================================== */
+
+CREATE TABLE DProveduriaCorporativa (
+	 EPCid                          numeric(18)          NOT NULL
+	,DPCecodigo                     integer              NOT NULL
+	,Ecodigo                        integer              NOT NULL
+	,BMUsucodigo                    numeric(18)          NULL
+	,ts_rversion                    timestamp           
+	)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP = (TAB NUEVA): TIP="A", SEC="1", COLS="EPCid,DPCecodigo" */
+ALTER TABLE DProveduriaCorporativa ADD CONSTRAINT DProveduriaCorporativa_AK01 UNIQUE NONCLUSTERED (EPCid,DPCecodigo)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* ADD_TABLE EProveduriaCorporativa: EProveduriaCorporativa */
+/* ======================================================================================== */
+
+CREATE TABLE EProveduriaCorporativa (
+	 EPCid                          numeric(18)          identity
+	,EPCcodigo                      char(20)             NOT NULL
+	,EPCdescripcion                 varchar(100)         NOT NULL
+	,EPCempresaAdmin                integer              NOT NULL
+	,Ecodigo                        integer              NOT NULL
+	,BMUsucodigo                    numeric(18)          NULL
+	,ts_rversion                    timestamp           
+	)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP = (TAB NUEVA): TIP="P", SEC="0", COLS="EPCid" */
+ALTER TABLE EProveduriaCorporativa ADD CONSTRAINT EProveduriaCorporativa_PK PRIMARY KEY CLUSTERED (EPCid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (TAB NUEVA): TIP="A", SEC="1", COLS="EPCcodigo,Ecodigo" */
+ALTER TABLE EProveduriaCorporativa ADD CONSTRAINT EProveduriaCorporativa_AK01 UNIQUE NONCLUSTERED (EPCcodigo,Ecodigo)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ================================================================= */
+/*            CREA FKs NUEVOS O CON CAMPOS MODIFICADOS               */
+/* ================================================================= */
+/* CHG_TABLE DProveduriaCorporativa */
+/* ADD_FK OP = (TAB NUEVA): TIP="F", SEC="1", COLS="EPCid", REF="EProveduriaCorporativa" */
+ALTER TABLE DProveduriaCorporativa ADD CONSTRAINT DProveduriaCorporativa_FK01 FOREIGN KEY (EPCid) REFERENCES EProveduriaCorporativa (EPCid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

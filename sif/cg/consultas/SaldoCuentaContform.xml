@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+
+	<Idioma id="en">
+		<LB_MesIni>Initial Month</LB_MesIni>
+		<LB_MesFin>Final Month</LB_MesFin>
+		<LB_ConsultaSaldos>Accounting Balances Consult by Account</LB_ConsultaSaldos>
+		<LB_ConsultaRangoCuentas>Accounting Balances Consult by Range</LB_ConsultaRangoCuentas>
+		<LB_ConsultaListaCuentas>Accounting Balances Consult  by List</LB_ConsultaListaCuentas>
+	<Msg_CmpCtaContReq>Define an account. \n</Msg_CmpCtaContReq><Msg_CmpFinReq>Define a final month.  \n</Msg_CmpFinReq><Msg_CmpIniReq>Define an initial month..  \n</Msg_CmpIniReq><Msg_CtaAgregada>To execute the report you need to have at least one account defined.  \n</Msg_CtaAgregada><Msg_CtaIniyFin>To execute the report you need to have an initial and final accounts defined.  \n</Msg_CtaIniyFin><Msg_SigErrores>The following errors occurred  \n</Msg_SigErrores></Idioma>
+</Etiquetas>

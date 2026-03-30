@@ -1,0 +1,1966 @@
+<html xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:x="urn:schemas-microsoft-com:office:excel"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta name="Excel Workbook Frameset">
+<meta http-equiv=Content-Type content="text/html; charset=windows-1252">
+<meta name=ProgId content=Excel.Sheet>
+<meta name=Generator content="Microsoft Excel 11">
+<link rel=File-List href="anexoDiseno_archivos/filelist.xml">
+<link rel=Edit-Time-Data href="anexoDiseno_archivos/editdata.mso">
+<link rel=OLE-Object-Data href="anexoDiseno_archivos/oledata.mso">
+<!--[if gte mso 9]><xml>
+ <o:DocumentProperties>
+  <o:Author>Marisol Hernández Santoyo</o:Author>
+  <o:LastAuthor>mllop</o:LastAuthor>
+  <o:LastPrinted>2009-06-09T15:33:25Z</o:LastPrinted>
+  <o:Created>2007-09-07T17:06:37Z</o:Created>
+  <o:LastSaved>2009-07-01T15:33:39Z</o:LastSaved>
+  <o:Company>PMI Comercio Internacional</o:Company>
+  <o:Version>11.5606</o:Version>
+ </o:DocumentProperties>
+</xml><![endif]--><![if !supportTabStrip]>
+<link id="shLink" href="anexoDiseno_archivos/sheet001.htm">
+<link id="shLink" href="anexoDiseno_archivos/sheet002.htm">
+<link id="shLink" href="anexoDiseno_archivos/sheet003.htm">
+<link id="shLink" href="anexoDiseno_archivos/sheet004.htm">
+
+<link id="shLink">
+
+<script language="JavaScript">
+<!--
+ var c_lTabs=4;
+
+ var c_rgszSh=new Array(c_lTabs);
+ c_rgszSh[0] = "SoinXLPRM";
+ c_rgszSh[1] = "Balance General";
+ c_rgszSh[2] = "Estado de Resultados";
+ c_rgszSh[3] = "Saldos Intercompañías";
+
+
+
+ var c_rgszClr=new Array(8);
+ c_rgszClr[0]="window";
+ c_rgszClr[1]="buttonface";
+ c_rgszClr[2]="windowframe";
+ c_rgszClr[3]="windowtext";
+ c_rgszClr[4]="threedlightshadow";
+ c_rgszClr[5]="threedhighlight";
+ c_rgszClr[6]="threeddarkshadow";
+ c_rgszClr[7]="threedshadow";
+
+ var g_iShCur;
+ var g_rglTabX=new Array(c_lTabs);
+
+function fnGetIEVer()
+{
+ var ua=window.navigator.userAgent
+ var msie=ua.indexOf("MSIE")
+ if (msie>0 && window.navigator.platform=="Win32")
+  return parseInt(ua.substring(msie+5,ua.indexOf(".", msie)));
+ else
+  return 0;
+}
+
+function fnBuildFrameset()
+{
+ var szHTML="<frameset rows=\"*,18\" border=0 width=0 frameborder=no framespacing=0>"+
+  "<frame src=\""+document.all.item("shLink")[1].href+"\" name=\"frSheet\" noresize>"+
+  "<frameset cols=\"54,*\" border=0 width=0 frameborder=no framespacing=0>"+
+  "<frame src=\"\" name=\"frScroll\" marginwidth=0 marginheight=0 scrolling=no>"+
+  "<frame src=\"\" name=\"frTabs\" marginwidth=0 marginheight=0 scrolling=no>"+
+  "</frameset></frameset><plaintext>";
+
+ with (document) {
+  open("text/html","replace");
+  write(szHTML);
+  close();
+ }
+
+ fnBuildTabStrip();
+}
+
+function fnBuildTabStrip()
+{
+ var szHTML=
+  "<html><head><style>.clScroll {font:8pt Courier New;color:"+c_rgszClr[6]+";cursor:default;line-height:10pt;}"+
+  ".clScroll2 {font:10pt Arial;color:"+c_rgszClr[6]+";cursor:default;line-height:11pt;}</style></head>"+
+  "<body onclick=\"event.returnValue=false;\" ondragstart=\"event.returnValue=false;\" onselectstart=\"event.returnValue=false;\" bgcolor="+c_rgszClr[4]+" topmargin=0 leftmargin=0><table cellpadding=0 cellspacing=0 width=100%>"+
+  "<tr><td colspan=6 height=1 bgcolor="+c_rgszClr[2]+"></td></tr>"+
+  "<tr><td style=\"font:1pt\">&nbsp;<td>"+
+  "<td valign=top id=tdScroll class=\"clScroll\" onclick=\"parent.fnFastScrollTabs(0);\" onmouseover=\"parent.fnMouseOverScroll(0);\" onmouseout=\"parent.fnMouseOutScroll(0);\"><a>&#171;</a></td>"+
+  "<td valign=top id=tdScroll class=\"clScroll2\" onclick=\"parent.fnScrollTabs(0);\" ondblclick=\"parent.fnScrollTabs(0);\" onmouseover=\"parent.fnMouseOverScroll(1);\" onmouseout=\"parent.fnMouseOutScroll(1);\"><a>&lt</a></td>"+
+  "<td valign=top id=tdScroll class=\"clScroll2\" onclick=\"parent.fnScrollTabs(1);\" ondblclick=\"parent.fnScrollTabs(1);\" onmouseover=\"parent.fnMouseOverScroll(2);\" onmouseout=\"parent.fnMouseOutScroll(2);\"><a>&gt</a></td>"+
+  "<td valign=top id=tdScroll class=\"clScroll\" onclick=\"parent.fnFastScrollTabs(1);\" onmouseover=\"parent.fnMouseOverScroll(3);\" onmouseout=\"parent.fnMouseOutScroll(3);\"><a>&#187;</a></td>"+
+  "<td style=\"font:1pt\">&nbsp;<td></tr></table></body></html>";
+
+ with (frames['frScroll'].document) {
+  open("text/html","replace");
+  write(szHTML);
+  close();
+ }
+
+ szHTML =
+  "<html><head>"+
+  "<style>A:link,A:visited,A:active {text-decoration:none;"+"color:"+c_rgszClr[3]+";}"+
+  ".clTab {cursor:hand;background:"+c_rgszClr[1]+";font:9pt Arial;padding-left:3px;padding-right:3px;text-align:center;}"+
+  ".clBorder {background:"+c_rgszClr[2]+";font:1pt;}"+
+  "</style></head><body onload=\"parent.fnInit();\" onselectstart=\"event.returnValue=false;\" ondragstart=\"event.returnValue=false;\" bgcolor="+c_rgszClr[4]+
+  " topmargin=0 leftmargin=0><table id=tbTabs cellpadding=0 cellspacing=0>";
+
+ var iCellCount=(c_lTabs+1)*2;
+
+ var i;
+ for (i=0;i<iCellCount;i+=2)
+  szHTML+="<col width=1><col>";
+
+ var iRow;
+ for (iRow=0;iRow<6;iRow++) {
+
+  szHTML+="<tr>";
+
+  if (iRow==5)
+   szHTML+="<td colspan="+iCellCount+"></td>";
+  else {
+   if (iRow==0) {
+    for(i=0;i<iCellCount;i++)
+     szHTML+="<td height=1 class=\"clBorder\"></td>";
+   } else if (iRow==1) {
+    for(i=0;i<c_lTabs;i++) {
+     szHTML+="<td height=1 nowrap class=\"clBorder\">&nbsp;</td>";
+     szHTML+=
+      "<td id=tdTab height=1 nowrap class=\"clTab\" onmouseover=\"parent.fnMouseOverTab("+i+");\" onmouseout=\"parent.fnMouseOutTab("+i+");\">"+
+      "<a href=\""+document.all.item("shLink")[i].href+"\" target=\"frSheet\" id=aTab>&nbsp;"+c_rgszSh[i]+"&nbsp;</a></td>";
+    }
+    szHTML+="<td id=tdTab height=1 nowrap class=\"clBorder\"><a id=aTab>&nbsp;</a></td><td width=100%></td>";
+   } else if (iRow==2) {
+    for (i=0;i<c_lTabs;i++)
+     szHTML+="<td height=1></td><td height=1 class=\"clBorder\"></td>";
+    szHTML+="<td height=1></td><td height=1></td>";
+   } else if (iRow==3) {
+    for (i=0;i<iCellCount;i++)
+     szHTML+="<td height=1></td>";
+   } else if (iRow==4) {
+    for (i=0;i<c_lTabs;i++)
+     szHTML+="<td height=1 width=1></td><td height=1></td>";
+    szHTML+="<td height=1 width=1></td><td></td>";
+   }
+  }
+  szHTML+="</tr>";
+ }
+
+ szHTML+="</table></body></html>";
+ with (frames['frTabs'].document) {
+  open("text/html","replace");
+  charset=document.charset;
+  write(szHTML);
+  close();
+ }
+}
+
+function fnInit()
+{
+ g_rglTabX[0]=0;
+ var i;
+ for (i=1;i<=c_lTabs;i++)
+  with (frames['frTabs'].document.all.tbTabs.rows[1].cells[fnTabToCol(i-1)])
+   g_rglTabX[i]=offsetLeft+offsetWidth-6;
+}
+
+function fnTabToCol(iTab)
+{
+ return 2*iTab+1;
+}
+
+function fnNextTab(fDir)
+{
+ var iNextTab=-1;
+ var i;
+
+ with (frames['frTabs'].document.body) {
+  if (fDir==0) {
+   if (scrollLeft>0) {
+    for (i=0;i<c_lTabs&&g_rglTabX[i]<scrollLeft;i++);
+    if (i<c_lTabs)
+     iNextTab=i-1;
+   }
+  } else {
+   if (g_rglTabX[c_lTabs]+6>offsetWidth+scrollLeft) {
+    for (i=0;i<c_lTabs&&g_rglTabX[i]<=scrollLeft;i++);
+    if (i<c_lTabs)
+     iNextTab=i;
+   }
+  }
+ }
+ return iNextTab;
+}
+
+function fnScrollTabs(fDir)
+{
+ var iNextTab=fnNextTab(fDir);
+
+ if (iNextTab>=0) {
+  frames['frTabs'].scroll(g_rglTabX[iNextTab],0);
+  return true;
+ } else
+  return false;
+}
+
+function fnFastScrollTabs(fDir)
+{
+ if (c_lTabs>16)
+  frames['frTabs'].scroll(g_rglTabX[fDir?c_lTabs-1:0],0);
+ else
+  if (fnScrollTabs(fDir)>0) window.setTimeout("fnFastScrollTabs("+fDir+");",5);
+}
+
+function fnSetTabProps(iTab,fActive)
+{
+ var iCol=fnTabToCol(iTab);
+ var i;
+
+ if (iTab>=0) {
+  with (frames['frTabs'].document.all) {
+   with (tbTabs) {
+    for (i=0;i<=4;i++) {
+     with (rows[i]) {
+      if (i==0)
+       cells[iCol].style.background=c_rgszClr[fActive?0:2];
+      else if (i>0 && i<4) {
+       if (fActive) {
+        cells[iCol-1].style.background=c_rgszClr[2];
+        cells[iCol].style.background=c_rgszClr[0];
+        cells[iCol+1].style.background=c_rgszClr[2];
+       } else {
+        if (i==1) {
+         cells[iCol-1].style.background=c_rgszClr[2];
+         cells[iCol].style.background=c_rgszClr[1];
+         cells[iCol+1].style.background=c_rgszClr[2];
+        } else {
+         cells[iCol-1].style.background=c_rgszClr[4];
+         cells[iCol].style.background=c_rgszClr[(i==2)?2:4];
+         cells[iCol+1].style.background=c_rgszClr[4];
+        }
+       }
+      } else
+       cells[iCol].style.background=c_rgszClr[fActive?2:4];
+     }
+    }
+   }
+   with (aTab[iTab].style) {
+    cursor=(fActive?"default":"hand");
+    color=c_rgszClr[3];
+   }
+  }
+ }
+}
+
+function fnMouseOverScroll(iCtl)
+{
+ frames['frScroll'].document.all.tdScroll[iCtl].style.color=c_rgszClr[7];
+}
+
+function fnMouseOutScroll(iCtl)
+{
+ frames['frScroll'].document.all.tdScroll[iCtl].style.color=c_rgszClr[6];
+}
+
+function fnMouseOverTab(iTab)
+{
+ if (iTab!=g_iShCur) {
+  var iCol=fnTabToCol(iTab);
+  with (frames['frTabs'].document.all) {
+   tdTab[iTab].style.background=c_rgszClr[5];
+  }
+ }
+}
+
+function fnMouseOutTab(iTab)
+{
+ if (iTab>=0) {
+  var elFrom=frames['frTabs'].event.srcElement;
+  var elTo=frames['frTabs'].event.toElement;
+
+  if ((!elTo) ||
+   (elFrom.tagName==elTo.tagName) ||
+   (elTo.tagName=="A" && elTo.parentElement!=elFrom) ||
+   (elFrom.tagName=="A" && elFrom.parentElement!=elTo)) {
+
+   if (iTab!=g_iShCur) {
+    with (frames['frTabs'].document.all) {
+     tdTab[iTab].style.background=c_rgszClr[1];
+    }
+   }
+  }
+ }
+}
+
+function fnSetActiveSheet(iSh)
+{
+ if (iSh!=g_iShCur) {
+  fnSetTabProps(g_iShCur,false);
+  fnSetTabProps(iSh,true);
+  g_iShCur=iSh;
+ }
+}
+
+ window.g_iIEVer=fnGetIEVer();
+ if (window.g_iIEVer>=4)
+  fnBuildFrameset();
+//-->
+</script>
+<![endif]><!--[if gte mso 9]><xml>
+ <x:ExcelWorkbook>
+  <x:ExcelWorksheets>
+   <x:ExcelWorksheet>
+    <x:Name>SoinXLPRM</x:Name>
+    <x:WorksheetSource HRef="anexoDiseno_archivos/sheet001.htm"/>
+   </x:ExcelWorksheet>
+   <x:ExcelWorksheet>
+    <x:Name>Balance General</x:Name>
+    <x:WorksheetSource HRef="anexoDiseno_archivos/sheet002.htm"/>
+   </x:ExcelWorksheet>
+   <x:ExcelWorksheet>
+    <x:Name>Estado de Resultados</x:Name>
+    <x:WorksheetSource HRef="anexoDiseno_archivos/sheet003.htm"/>
+   </x:ExcelWorksheet>
+   <x:ExcelWorksheet>
+    <x:Name>Saldos Intercompañías</x:Name>
+    <x:WorksheetSource HRef="anexoDiseno_archivos/sheet004.htm"/>
+   </x:ExcelWorksheet>
+  </x:ExcelWorksheets>
+  <x:Stylesheet HRef="anexoDiseno_archivos/stylesheet.css"/>
+  <x:WindowHeight>2685</x:WindowHeight>
+  <x:WindowWidth>19170</x:WindowWidth>
+  <x:WindowTopX>-15</x:WindowTopX>
+  <x:WindowTopY>5355</x:WindowTopY>
+  <x:ActiveSheet>1</x:ActiveSheet>
+  <x:FirstVisibleSheet>1</x:FirstVisibleSheet>
+  <x:ProtectStructure>False</x:ProtectStructure>
+  <x:ProtectWindows>False</x:ProtectWindows>
+ </x:ExcelWorkbook>
+ <x:SupBook>
+  <x:Path>\Documents and Settings\hhernandez\Local Settings\Temporary Internet Files\OLK2AC\Layout de Compañias Subsidiarias.xls</x:Path>
+  <x:SheetName>Layout</x:SheetName>
+  <x:SheetName>Listados</x:SheetName>
+  <x:Xct>
+   <x:Count>0</x:Count>
+   <x:SheetIndex>0</x:SheetIndex>
+  </x:Xct>
+  <x:Xct>
+   <x:Count>11</x:Count>
+   <x:SheetIndex>1</x:SheetIndex>
+   <x:Crn>
+    <x:Row>6</x:Row>
+    <x:ColFirst>5</x:ColFirst>
+    <x:ColLast>5</x:ColLast>
+    <x:Text>CIM</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>7</x:Row>
+    <x:ColFirst>5</x:ColFirst>
+    <x:ColLast>5</x:ColLast>
+    <x:Text>HBV</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>8</x:Row>
+    <x:ColFirst>5</x:ColFirst>
+    <x:ColLast>5</x:ColLast>
+    <x:Text>HNA</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>9</x:Row>
+    <x:ColFirst>5</x:ColFirst>
+    <x:ColLast>5</x:ColLast>
+    <x:Text>HNV</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>10</x:Row>
+    <x:ColFirst>5</x:ColFirst>
+    <x:ColLast>5</x:ColLast>
+    <x:Text>MRNE</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>11</x:Row>
+    <x:ColFirst>5</x:ColFirst>
+    <x:ColLast>5</x:ColLast>
+    <x:Text>NASA</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>12</x:Row>
+    <x:ColFirst>5</x:ColFirst>
+    <x:ColLast>5</x:ColLast>
+    <x:Text>SES</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>13</x:Row>
+    <x:ColFirst>5</x:ColFirst>
+    <x:ColLast>5</x:ColLast>
+    <x:Text>SHO</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>14</x:Row>
+    <x:ColFirst>5</x:ColFirst>
+    <x:ColLast>5</x:ColLast>
+    <x:Text>SUK</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>15</x:Row>
+    <x:ColFirst>5</x:ColFirst>
+    <x:ColLast>5</x:ColLast>
+    <x:Text>SUS</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>16</x:Row>
+    <x:ColFirst>5</x:ColFirst>
+    <x:ColLast>5</x:ColLast>
+    <x:Text>TRD</x:Text>
+   </x:Crn>
+  </x:Xct>
+ </x:SupBook>
+ <x:SupBook>
+  <x:Path>\Documents and Settings\jfortanelly\Local Settings\Temporary Internet Files\OLK4\Layout de Compañias Subsidiarias.xls</x:Path>
+  <x:SheetName>Layout</x:SheetName>
+  <x:SheetName>Listados</x:SheetName>
+  <x:Xct>
+   <x:Count>0</x:Count>
+   <x:SheetIndex>0</x:SheetIndex>
+  </x:Xct>
+  <x:Xct>
+   <x:Count>216</x:Count>
+   <x:SheetIndex>1</x:SheetIndex>
+   <x:Crn>
+    <x:Row>6</x:Row>
+    <x:ColFirst>1</x:ColFirst>
+    <x:ColLast>4</x:ColLast>
+    <x:Number>100</x:Number>
+    <x:Text>CIM</x:Text>
+    <x:Text>K4</x:Text>
+    <x:Text>IN</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>6</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>ADP</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>7</x:Row>
+    <x:ColFirst>2</x:ColFirst>
+    <x:ColLast>2</x:ColLast>
+    <x:Text>HBV</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>7</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>AED</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>8</x:Row>
+    <x:ColFirst>2</x:ColFirst>
+    <x:ColLast>2</x:ColLast>
+    <x:Text>HNA</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>8</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>AFA</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>9</x:Row>
+    <x:ColFirst>2</x:ColFirst>
+    <x:ColLast>2</x:ColLast>
+    <x:Text>HNV</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>9</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>ALL</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>10</x:Row>
+    <x:ColFirst>2</x:ColFirst>
+    <x:ColLast>2</x:ColLast>
+    <x:Text>MRNE</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>10</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>AMD</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>11</x:Row>
+    <x:ColFirst>2</x:ColFirst>
+    <x:ColLast>2</x:ColLast>
+    <x:Text>NASA</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>11</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>ANG</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>12</x:Row>
+    <x:ColFirst>2</x:ColFirst>
+    <x:ColLast>2</x:ColLast>
+    <x:Text>SES</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>12</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>AOK</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>13</x:Row>
+    <x:ColFirst>2</x:ColFirst>
+    <x:ColLast>2</x:ColLast>
+    <x:Text>SHO</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>13</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>AON</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>14</x:Row>
+    <x:ColFirst>2</x:ColFirst>
+    <x:ColLast>2</x:ColLast>
+    <x:Text>SUK</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>14</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>AOR</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>15</x:Row>
+    <x:ColFirst>2</x:ColFirst>
+    <x:ColLast>2</x:ColLast>
+    <x:Text>SUS</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>15</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>ARA</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>16</x:Row>
+    <x:ColFirst>2</x:ColFirst>
+    <x:ColLast>2</x:ColLast>
+    <x:Text>TRD</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>16</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>ARS</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>17</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>ATS</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>18</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>AUD</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>19</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>AWG</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>20</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>AZM</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>21</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>BAD</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>22</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>BAM</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>23</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>BBD</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>24</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>BDT</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>25</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>BEF</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>26</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>BGL</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>27</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>BGN</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>28</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>BHD</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>29</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>BIF</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>30</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>BMD</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>31</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>BND</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>32</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>BOB</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>33</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>BRC</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>34</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>BRL</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>35</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>BSD</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>36</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>BTN</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>37</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>BWP</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>38</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>BYB</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>39</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>BYR</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>40</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>BZD</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>41</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>CAD</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>42</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>CFP</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>43</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>CLP</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>44</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>CNY</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>45</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>COP</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>46</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>CRC</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>47</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>CUP</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>48</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>CVE</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>49</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>CYP</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>50</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>CZK</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>51</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>CHF</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>52</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>DEM</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>53</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>DEM3</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>54</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>DJF</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>55</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>DKK</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>56</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>DOP</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>57</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>DZD</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>58</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>ECS</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>59</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>EEK</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>60</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>EGP</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>61</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>ERN</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>62</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>ESP</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>63</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>ETB</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>64</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>EUR</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>65</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>FIM</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>66</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>FJD</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>67</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>FKP</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>68</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>FRF</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>69</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>GBP</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>70</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>GEK</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>71</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>GEL</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>72</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>GHC</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>73</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>GIP</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>74</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>GMD</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>75</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>GNF</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>76</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>GRD</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>77</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>GTQ</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>78</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>GWP</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>79</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>GYD</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>80</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>HKD</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>81</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>HNL</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>82</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>HRD</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>83</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>HRK</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>84</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>HTG</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>85</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>HUF</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>86</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>IDR</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>87</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>IEP</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>88</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>ILS</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>89</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>INR</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>90</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>IQD</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>91</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>IRR</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>92</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>ISK</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>93</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>ITL</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>94</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>JMD</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>95</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>JOD</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>96</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>JPY</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>97</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>KES</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>98</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>KGS</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>99</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>KHR</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>100</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>KIS</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>101</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>KMF</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>102</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>KPW</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>103</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>KRW</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>104</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>KWD</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>105</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>KYD</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>106</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>KZT</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>107</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>LAK</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>108</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>LBP</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>109</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>LKR</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>110</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>LRD</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>111</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>LSL</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>112</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>LTL</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>113</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>LUF</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>114</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>LVL</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>115</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>LYD</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>116</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>MAD</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>117</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>MDL</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>118</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>MGF</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>119</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>MKD</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>120</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>MMK</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>121</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>MNT</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>122</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>MOP</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>123</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>MRO</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>124</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>MTL</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>125</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>MUR</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>126</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>MVR</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>127</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>MWK</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>128</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>MXN</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>129</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>MXP</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>130</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>MYR</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>131</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>MZM</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>132</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>NAD</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>133</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>NGN</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>134</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>NIC</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>135</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>NIO</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>136</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>NLG</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>137</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>NOK</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>138</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>NPR</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>139</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>NZD</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>140</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>OMR</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>141</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>PAB</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>142</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>PEI</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>143</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>PEN</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>144</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>PGK</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>145</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>PHP</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>146</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>PKR</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>147</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>PLN</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>148</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>PLZ</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>149</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>PTE</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>150</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>PYG</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>151</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>QAR</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>152</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>RMB</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>153</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>ROL</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>154</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>RUB</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>155</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>RWF</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>156</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>SAR</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>157</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>SBD</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>158</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>SCR</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>159</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>SDP</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>160</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>SEK</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>161</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>SGD</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>162</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>SHP</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>163</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>SIT</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>164</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>SKK</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>165</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>SLL</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>166</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>SOS</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>167</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>SRG</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>168</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>STD</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>169</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>SUR</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>170</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>SVC</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>171</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>SYP</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>172</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>SZL</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>173</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>THB</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>174</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>TJR</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>175</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>TMM</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>176</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>TND</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>177</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>TOP</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>178</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>TPE</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>179</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>TRL</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>180</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>TTD</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>181</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>TWD</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>182</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>TZS</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>183</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>UAH</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>184</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>UAK</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>185</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>UGS</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>186</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>UGX</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>187</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>USD</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>188</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>USDN</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>189</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>USM</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>190</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>UYP</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>191</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>UYU</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>192</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>UZS</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>193</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>VEB</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>194</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>VND</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>195</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>VUV</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>196</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>WST</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>197</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>XAF</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>198</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>XCD</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>199</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>XCU</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>200</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>XDS</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>201</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>XEU</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>202</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>XOF</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>203</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>XPF</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>204</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>YER</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>205</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>YUM</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>206</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>ZAR</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>207</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>ZMK</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>208</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>ZRN</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>209</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>ZRZ</x:Text>
+   </x:Crn>
+   <x:Crn>
+    <x:Row>210</x:Row>
+    <x:ColFirst>6</x:ColFirst>
+    <x:ColLast>6</x:ColLast>
+    <x:Text>ZWD</x:Text>
+   </x:Crn>
+  </x:Xct>
+ </x:SupBook>
+ <x:ExcelName>
+  <x:Name>Print_Area</x:Name>
+  <x:SheetIndex>4</x:SheetIndex>
+  <x:Formula>='Saldos Intercompañías'!$A$1:$F$15</x:Formula>
+ </x:ExcelName>
+ <x:ExcelName>
+  <x:Name>asociada</x:Name>
+  <x:Formula>='\Documents and Settings\hhernandez\Local Settings\Temporary Internet Files\OLK2AC\[Layout de Compañias Subsidiarias.xls]Listados'!$F$7:$F$18</x:Formula>
+ </x:ExcelName>
+ <x:ExcelName>
+  <x:Name>compañias</x:Name>
+  <x:Formula>='\Documents and Settings\jfortanelly\Local Settings\Temporary Internet Files\OLK4\[Layout de Compañias Subsidiarias.xls]Listados'!$C$7:$C$17</x:Formula>
+ </x:ExcelName>
+ <x:ExcelName>
+  <x:Name>CTA1101_1102</x:Name>
+  <x:Formula>='Balance General'!$D$10</x:Formula>
+ </x:ExcelName>
+ <x:ExcelName>
+  <x:Name>CTA1101_1102P</x:Name>
+  <x:Formula>='Balance General'!$E$10</x:Formula>
+ </x:ExcelName>
+ <x:ExcelName>
+  <x:Name>CTA1103_1113</x:Name>
+  <x:Formula>='Balance General'!$D$11</x:Formula>
+ </x:ExcelName>
+ <x:ExcelName>
+  <x:Name>CTA1103_1113P</x:Name>
+  <x:Formula>='Balance General'!$E$11</x:Formula>
+ </x:ExcelName>
+ <x:ExcelName>
+  <x:Name>CTA2102_2107</x:Name>
+  <x:Formula>='Balance General'!$D$14</x:Formula>
+ </x:ExcelName>
+ <x:ExcelName>
+  <x:Name>CTA2102_2107P</x:Name>
+  <x:Formula>='Balance General'!$E$14</x:Formula>
+ </x:ExcelName>
+ <x:ExcelName>
+  <x:Name>CTA3100</x:Name>
+  <x:Formula>='Balance General'!$D$19</x:Formula>
+ </x:ExcelName>
+ <x:ExcelName>
+  <x:Name>CTA3100P</x:Name>
+  <x:Formula>='Balance General'!$E$19</x:Formula>
+ </x:ExcelName>
+ <x:ExcelName>
+  <x:Name>CTA3300</x:Name>
+  <x:Formula>='Balance General'!$D$20</x:Formula>
+ </x:ExcelName>
+ <x:ExcelName>
+  <x:Name>CTA3300P</x:Name>
+  <x:Formula>='Balance General'!$E$20</x:Formula>
+ </x:ExcelName>
+ <x:ExcelName>
+  <x:Name>CTA4600A</x:Name>
+  <x:Formula>='Estado de Resultados'!#REF!</x:Formula>
+ </x:ExcelName>
+ <x:ExcelName>
+  <x:Name>CTA4600AP</x:Name>
+  <x:Formula>='Estado de Resultados'!#REF!</x:Formula>
+ </x:ExcelName>
+ <x:ExcelName>
+  <x:Name>CTA4600M</x:Name>
+  <x:Formula>='Estado de Resultados'!#REF!</x:Formula>
+ </x:ExcelName>
+ <x:ExcelName>
+  <x:Name>CTA4600MP</x:Name>
+  <x:Formula>='Estado de Resultados'!#REF!</x:Formula>
+ </x:ExcelName>
+ <x:ExcelName>
+  <x:Name>CTA6001</x:Name>
+  <x:Formula>='Estado de Resultados'!$E$9</x:Formula>
+ </x:ExcelName>
+ <x:ExcelName>
+  <x:Name>CTA6001M</x:Name>
+  <x:Formula>='Estado de Resultados'!$D$9</x:Formula>
+ </x:ExcelName>
+ <x:ExcelName>
+  <x:Name>CTA6001MP</x:Name>
+  <x:Formula>='Estado de Resultados'!$F$9</x:Formula>
+ </x:ExcelName>
+ <x:ExcelName>
+  <x:Name>CTA6001P</x:Name>
+  <x:Formula>='Estado de Resultados'!$G$9</x:Formula>
+ </x:ExcelName>
+ <x:ExcelName>
+  <x:Name>CTA6003</x:Name>
+  <x:Formula>='Estado de Resultados'!$E$16</x:Formula>
+ </x:ExcelName>
+ <x:ExcelName>
+  <x:Name>CTA6003M</x:Name>
+  <x:Formula>='Estado de Resultados'!$D$16</x:Formula>
+ </x:ExcelName>
+ <x:ExcelName>
+  <x:Name>CTA6003MP</x:Name>
+  <x:Formula>='Estado de Resultados'!$F$16</x:Formula>
+ </x:ExcelName>
+ <x:ExcelName>
+  <x:Name>CTA6003P</x:Name>
+  <x:Formula>='Estado de Resultados'!$G$16</x:Formula>
+ </x:ExcelName>
+ <x:ExcelName>
+  <x:Name>CTA7101A</x:Name>
+  <x:Formula>='Estado de Resultados'!$E$14</x:Formula>
+ </x:ExcelName>
+ <x:ExcelName>
+  <x:Name>CTA7101AP</x:Name>
+  <x:Formula>='Estado de Resultados'!$G$14</x:Formula>
+ </x:ExcelName>
+ <x:ExcelName>
+  <x:Name>CTA7101M</x:Name>
+  <x:Formula>='Estado de Resultados'!$D$14</x:Formula>
+ </x:ExcelName>
+ <x:ExcelName>
+  <x:Name>CTA7101MP</x:Name>
+  <x:Formula>='Estado de Resultados'!$F$14</x:Formula>
+ </x:ExcelName>
+ <x:ExcelName>
+  <x:Name>CTA7104</x:Name>
+  <x:Formula>='Estado de Resultados'!$E$20</x:Formula>
+ </x:ExcelName>
+ <x:ExcelName>
+  <x:Name>CTA7104M</x:Name>
+  <x:Formula>='Estado de Resultados'!$D$20</x:Formula>
+ </x:ExcelName>
+ <x:ExcelName>
+  <x:Name>CTA7104MP</x:Name>
+  <x:Formula>='Estado de Resultados'!$F$20</x:Formula>
+ </x:ExcelName>
+ <x:ExcelName>
+  <x:Name>CTA7104P</x:Name>
+  <x:Formula>='Estado de Resultados'!$G$20</x:Formula>
+ </x:ExcelName>
+ <x:ExcelName>
+  <x:Name>CTA7201</x:Name>
+  <x:Formula>='Estado de Resultados'!$E$15</x:Formula>
+ </x:ExcelName>
+ <x:ExcelName>
+  <x:Name>CTA7201M</x:Name>
+  <x:Formula>='Estado de Resultados'!$D$15</x:Formula>
+ </x:ExcelName>
+ <x:ExcelName>
+  <x:Name>CTA7201MP</x:Name>
+  <x:Formula>='Estado de Resultados'!$F$15</x:Formula>
+ </x:ExcelName>
+ <x:ExcelName>
+  <x:Name>CTA7201P</x:Name>
+  <x:Formula>='Estado de Resultados'!$G$15</x:Formula>
+ </x:ExcelName>
+ <x:ExcelName>
+  <x:Name>FECHA</x:Name>
+  <x:Formula>='Saldos Intercompañías'!$A$3</x:Formula>
+ </x:ExcelName>
+ <x:ExcelName>
+  <x:Name>MES</x:Name>
+  <x:Formula>='Balance General'!$D$3</x:Formula>
+ </x:ExcelName>
+ <x:ExcelName>
+  <x:Name>MES_ANT</x:Name>
+  <x:Formula>='Estado de Resultados'!$F$7</x:Formula>
+ </x:ExcelName>
+ <x:ExcelName>
+  <x:Name>monedas</x:Name>
+  <x:Formula>='\Documents and Settings\jfortanelly\Local Settings\Temporary Internet Files\OLK4\[Layout de Compañias Subsidiarias.xls]Listados'!$G$7:$G$211</x:Formula>
+ </x:ExcelName>
+ <x:ExcelName>
+  <x:Name>PER_ACTUAL</x:Name>
+  <x:Formula>='Balance General'!$D$6</x:Formula>
+ </x:ExcelName>
+ <x:ExcelName>
+  <x:Name>PER_ANTERIOR</x:Name>
+  <x:Formula>='Balance General'!$E$6</x:Formula>
+ </x:ExcelName>
+ <x:ExcelName>
+  <x:Name>plan</x:Name>
+  <x:Formula>='\Documents and Settings\jfortanelly\Local Settings\Temporary Internet Files\OLK4\[Layout de Compañias Subsidiarias.xls]Listados'!$E$7</x:Formula>
+ </x:ExcelName>
+ <x:ExcelName>
+  <x:Name>SoinXL_ANEXO</x:Name>
+  <x:SheetIndex>1</x:SheetIndex>
+  <x:Formula>=SoinXLPRM!$A$4</x:Formula>
+ </x:ExcelName>
+ <x:ExcelName>
+  <x:Name>SoinXL_FECHA</x:Name>
+  <x:SheetIndex>1</x:SheetIndex>
+  <x:Formula>=SoinXLPRM!$E$16</x:Formula>
+ </x:ExcelName>
+ <x:ExcelName>
+  <x:Name>SoinXL_MES</x:Name>
+  <x:SheetIndex>1</x:SheetIndex>
+  <x:Formula>=SoinXLPRM!$E$12</x:Formula>
+ </x:ExcelName>
+ <x:ExcelName>
+  <x:Name>SoinXL_MONEDA</x:Name>
+  <x:SheetIndex>1</x:SheetIndex>
+  <x:Formula>=SoinXLPRM!$E$15</x:Formula>
+ </x:ExcelName>
+ <x:ExcelName>
+  <x:Name>SoinXL_ORIGEN</x:Name>
+  <x:SheetIndex>1</x:SheetIndex>
+  <x:Formula>=SoinXLPRM!$E$13</x:Formula>
+ </x:ExcelName>
+ <x:ExcelName>
+  <x:Name>SoinXL_PERIODO</x:Name>
+  <x:SheetIndex>1</x:SheetIndex>
+  <x:Formula>=SoinXLPRM!$E$11</x:Formula>
+ </x:ExcelName>
+ <x:ExcelName>
+  <x:Name>SoinXL_UNIDAD</x:Name>
+  <x:SheetIndex>1</x:SheetIndex>
+  <x:Formula>=SoinXLPRM!$E$14</x:Formula>
+ </x:ExcelName>
+ <x:ExcelName>
+  <x:Name>variante</x:Name>
+  <x:Formula>='\Documents and Settings\jfortanelly\Local Settings\Temporary Internet Files\OLK4\[Layout de Compañias Subsidiarias.xls]Listados'!$D$7</x:Formula>
+ </x:ExcelName>
+ <x:ExcelName>
+  <x:Name>version</x:Name>
+  <x:Formula>='\Documents and Settings\jfortanelly\Local Settings\Temporary Internet Files\OLK4\[Layout de Compañias Subsidiarias.xls]Listados'!$B$7</x:Formula>
+ </x:ExcelName>
+</xml><![endif]-->
+</head>
+
+<frameset rows="*,39" border=0 width=0 frameborder=no framespacing=0>
+ <frame src="anexoDiseno_archivos/sheet002.htm" name="frSheet">
+ <frame src="anexoDiseno_archivos/tabstrip.htm" name="frTabs" marginwidth=0 marginheight=0>
+ <noframes>
+  <body>
+   <p>Esta página utiliza marcos que su explorador no admite.</p>
+  </body>
+ </noframes>
+</frameset>
+</html>

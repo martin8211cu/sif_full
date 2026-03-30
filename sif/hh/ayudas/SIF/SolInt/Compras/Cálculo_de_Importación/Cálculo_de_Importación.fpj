@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<rhpml majorversion="1" minorversion="0">
+	<folders/>
+	<topics>
+		<topic>
+			<name>1_-_Registro_de_Transacciones.htm</name>
+			<comments></comments>
+			<frameset>0</frameset>
+		</topic>
+		<topic>
+			<name>2_-_Anulación_de_Transacciones.htm</name>
+			<comments></comments>
+			<frameset>0</frameset>
+		</topic>
+		<topic>
+			<name>3_-_Pólizas_de_Desalmacenaje.htm</name>
+			<comments></comments>
+			<frameset>0</frameset>
+		</topic>
+		<topic>
+			<name>4_-_Administración_de_Embarques.htm</name>
+			<comments></comments>
+			<frameset>0</frameset>
+		</topic>
+		<topic>
+			<name>5_-_Seguimiento_de_Embarques.htm</name>
+			<comments></comments>
+			<frameset>0</frameset>
+		</topic>
+	</topics>
+</rhpml>

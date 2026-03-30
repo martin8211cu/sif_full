@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_ClasificacionesLocales>Local Classifications</LB_ClasificacionesLocales>
+		<LB_ClasificacionesCorporativas>Corporate Classifications</LB_ClasificacionesCorporativas>
+		<LB_Ninguno>None</LB_Ninguno>
+		<LB_DebeEscogerUno>Select a Record</LB_DebeEscogerUno>
+		<LB_NoHayClasificacionesDefinidas>No classifications defined</LB_NoHayClasificacionesDefinidas>
+		<LB_HagaClicAquiParaDefinirlas>Click here to define</LB_HagaClicAquiParaDefinirlas>
+	</Idioma>
+</Etiquetas>

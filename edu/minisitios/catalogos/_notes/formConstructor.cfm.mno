@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+<info>
+	<infoitem key="UD_rscontArea" value="name:MSCcontenido;datatype:,name:MSCtitulo;datatype:" />
+	<infoitem key="UD_rsMSPcodigo" value="name:MSPcodigo;datatype:" />
+	<infoitem key="UD_rsDatos" value="name:MSPcodigo;datatype:,name:MSCcategoria;datatype:,name:MSPplantilla;datatype:,name:MSPtitulo;datatype:" />
+	<infoitem key="UD_rs" value="name:MSCcontenido;datatype:,name:MSPAnombre;datatype:" />
+	<infoitem key="UD_rsDatosPlantilla" value="name:MSPtexto;datatype:,name:MSPareas;datatype:,name:MSPnombre;datatype:" />
+	<infoitem key="UD_rsTitulo" value="name:MSCcontenido;datatype:,name:MSCtitulo;datatype:" />
+</info>

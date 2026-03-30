@@ -1,0 +1,30 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 518 - DBM 458: Agregar consecutivo al encabezado de los 
+
+	         PARCHE:  Parche023_678_SIF_CatalogoContratosConsecutivo_Cat
+
+GENERADO EN:
+	SERVER:  http://mxvqapp34:8300
+	DSN:     minisiftrd
+	FECHA:   26/01/2012 11:29:00
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* CHG_TABLE EContratosCM: Encabezado de Contratos */
+/* ======================================================================================== */
+/* ADD_COLUMN OP = (NUEVO): Consecutivo - Consecutivo */
+ALTER TABLE EContratosCM ADD Consecutivo numeric(18) DEFAULT 0 NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

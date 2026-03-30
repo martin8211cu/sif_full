@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_Titulo>Users Employee Expense Requests</LB_Titulo>
+		<LB_AgregarUsuarios>Add Users to the Treasury</LB_AgregarUsuarios>
+		<LB_Usuario>User</LB_Usuario>
+		<LB_Tesoreria>Treasury</LB_Tesoreria>
+		<LB_CentroFuncional>Funtional Center</LB_CentroFuncional>
+		<LB_Solicitante>Applicant</LB_Solicitante>
+		<LB_Aprobador>Approver</LB_Aprobador>
+		<LB_MontoMaximo>Maximum Amount to Approve</LB_MontoMaximo>
+		<LB_aAprobar>to Approve</LB_aAprobar>
+		<LB_PuedeCambiar>can change</LB_PuedeCambiar>
+		<LB_Tesoreria>Treasury</LB_Tesoreria>
+		<LB_Codigo>Code</LB_Codigo>
+		<LB_Limite>Blank has no limit approval</LB_Limite>
+		<LB_CambiarTesoreria>Treasury can change the Payment</LB_CambiarTesoreria>
+		<LB_SolicitanteU>Is Applicant Advances and Settlements</LB_SolicitanteU>
+		<LB_AprobadorU>Overstock is Approver</LB_AprobadorU>
+	<LB_Lista_de_Centros_Funcionales>Functional Centers List</LB_Lista_de_Centros_Funcionales><LB_EnBlancoNoLimiteAprob>Empty: No approval limit</LB_EnBlancoNoLimiteAprob></Idioma>
+</Etiquetas>

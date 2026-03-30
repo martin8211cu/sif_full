@@ -1,0 +1,109 @@
+﻿.progress-outer
+{
+	border-top:solid 1px #000;
+	border-bottom:solid 1px #000;	
+}
+
+.progress-inner
+{
+	position:relative;
+	border-left:solid 1px #000;
+	border-right:solid 1px #000;
+	margin:0pt -1px;
+	height:10px;
+	overflow:hidden;
+	background:url(/cfmx/jquery/jquery-ui/img/progress_bg.gif) repeat-x;
+}
+
+.progress-indicator
+{
+	width:0px;
+	height:10px;
+	background:url(/cfmx/jquery/jquery-ui/img/progress.gif) repeat-x;
+}
+
+.green .progress-indicator
+{
+    background-image:url(/cfmx/jquery/jquery-ui/img/progress_green.gif);
+}  
+.yellow .progress-indicator
+{
+    background-image:url(/cfmx/jquery/jquery-ui/img/progress_yellow.gif);
+} 
+.orange .progress-indicator
+{
+    background-image:url(/cfmx/jquery/jquery-ui/img/progress_orange.gif);
+} 
+.red .progress-indicator
+{
+    background-image:url(/cfmx/jquery/jquery-ui/img/progress_red.gif);
+}    
+.solidblue .progress-indicator
+{
+    background-image:url(/cfmx/jquery/jquery-ui/img/progress_solidblue.gif);
+} 
+.solidblue .progress-inner
+{
+    border-color:#626562;
+}  
+.solidblue .progress-outer
+{
+    border-color:#626562;
+}        
+.lightblue .progress-indicator
+{
+    background-image:url(/cfmx/jquery/jquery-ui/img/progress_lightblue.gif);
+    height:9px;
+}     
+.lightblue .progress-inner
+{
+    background-image:url(/cfmx/jquery/jquery-ui/img/progress_bg_lightblue.gif);
+	height:9px;
+} 
+.xp .progress-indicator
+{
+    background-image:url(/cfmx/jquery/jquery-ui/img/xp.gif);
+    height:9px;
+}     
+.xp .progress-inner
+{
+	height:9px;
+} 
+.vista .progress-indicator
+{
+    background-image:url(/cfmx/jquery/jquery-ui/img/vista.gif);
+}    
+.vista .progress-outer
+{
+	border-top-color:#B2B2B2;
+	border-bottom-color:#B2B2B2;	
+}
+.vista .progress-inner
+{
+	border-left-color:#B2B2B2;
+	border-right-color:#B2B2B2;
+	background-image:url(../img/vista_bg.gif);
+} 
+.safari .progress-indicator
+{
+    background-image:url(../img/safari.gif);
+	height:12px;
+}    
+.safari .progress-outer
+{
+	border-top-color:#696969;
+	border-bottom-color:#696969;	
+}
+.safari .progress-inner
+{
+	border-left-color:#696969;
+	border-right-color:#696969;
+	background-image:url(../img/safari_bg.gif);
+	height:12px;
+} 
+
+
+
+
+
+

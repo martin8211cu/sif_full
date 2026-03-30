@@ -1,0 +1,473 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html>
+<head>
+<title>DatePicker API (WebFX)</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<!-- WebFX Layout Include -->
+<script type="text/javascript" src="local/webfxlayout.js"></script>
+<script type="text/javascript" src="local/webfxapi.js"></script>
+<!-- end WebFX Layout Includes -->
+</head>
+<body>
+<!-- WebFX Layout Include -->
+<script type="text/javascript">
+
+var articleMenu= new WebFXMenu;
+articleMenu.left  = 384;
+articleMenu.top   = 86;
+articleMenu.width = 140;
+articleMenu.add(new WebFXMenuItem("Date Picker", "datepicker.html"));
+articleMenu.add(new WebFXMenuItem("API", "api.html"));
+articleMenu.add(new WebFXMenuItem("Demo", "demo.html"));
+articleMenu.add(new WebFXMenuSeparator);
+articleMenu.add(new WebFXMenuItem("Download", "datepicker.zip"));
+webfxMenuBar.add(new WebFXMenuButton("Article Menu", null, null, articleMenu));
+
+webfxLayout.writeTitle("DatePicker");
+webfxLayout.writeMenu();
+webfxLayout.writeDesignedByEdger();
+
+</script>
+<div class="webfx-main-body">
+<!-- end WebFX Layout Includes -->
+
+<!-- Generated using api.xsl version 20020213 -->
+
+<h2>DatePicker</h2>
+<p>
+		This is the constructor used to instansiate date pickers. See the usage page for typical usage
+		and examples.
+	</p>
+<h3>Syntax</h3>
+<p><code>
+
+	new DatePicker([<span class="methodArgument">oDate</span>])</code></p>
+<h3>Parameters</h3>
+<table>
+<thead>
+<tr>
+<td>Name</td>
+<td>Type</td>
+<td>Descripton</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>oDate</code></td>
+<td><code>Date</code></td>
+<td>
+<span clas="optional">Optional.</span>
+				This represents the date to be selected when the date picker is created.
+			<span class="defaultSentence">
+					The default value is <code>new Date()</code>.
+				</span>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Static Methods</h3>
+<table>
+<thead>
+<tr>
+<td>Name</td>
+<td>Descripton</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td colspan="2">No methods.</td>
+</tr>
+</tbody>
+</table>
+<h3>Static Fields</h3>
+<table>
+<thead>
+<tr>
+<td>Name</td>
+<td>Type</td>
+<td>Descripton</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>days</code></td>
+<td><code>String[]</code></td>
+<td>
+					This should be an array containing the letters describing the seven days of the week starting with Monday.
+				</td>
+</tr>
+<tr>
+<td><code>months</code></td>
+<td><code>String[]</code></td>
+<td>
+					This should be an array containing the names of the twelwe months starting with January.
+				</td>
+</tr>
+</tbody>
+</table>
+<h3>Methods</h3>
+<table>
+<thead>
+<tr>
+<td>Name</td>
+<td>Descripton</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a class="helpLink" href="javascript://" onclick="toggleMethodArguments( event, this ); return false;">create</a><span class="methodContainer">
+<div class="methodInfo">
+<h4>Syntax</h4>
+<p><code><span class="object">object</span>.create([<span class="methodArgument">oDocument</span>])</code></p>
+<h4>Arguments</h4>
+<table>
+<thead>
+<tr>
+<td>Name</td>
+<td>Type</td>
+<td>Descripton</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>oDocument</code></td>
+<td><code>Document</code></td>
+<td>
+<span clas="optional">Optional.</span>The document that the date picker should be created in.<span class="defaultSentence">
+					The default value is <code>document</code>.
+				</span>
+</td>
+</tr>
+</tbody>
+</table>
+<h4>Return Type</h4>
+<p><code>HTMLElement</code></p>
+</div></span>
+</td>
+<td>This creates the HTMLElement object that represents the date picker. This element is returned.</td>
+</tr>
+<tr>
+<td>
+<a class="helpLink" href="javascript://" onclick="toggleMethodArguments( event, this ); return false;">getDate</a><span class="methodContainer">
+<div class="methodInfo">
+<h4>Syntax</h4>
+<p><code><span class="object">object</span>.getDate()</code></p>
+<h4>Arguments</h4>
+<p>No Arguments.</p>
+<h4>Return Type</h4>
+<p><code>Date</code></p>
+</div></span>
+</td>
+<td>Returns a date object representing the selected date. If no date is selected this returns null.</td>
+</tr>
+<tr>
+<td>
+<a class="helpLink" href="javascript://" onclick="toggleMethodArguments( event, this ); return false;">getFirstWeekDay</a><span class="methodContainer">
+<div class="methodInfo">
+<h4>Syntax</h4>
+<p><code><span class="object">object</span>.getFirstWeekDay()</code></p>
+<h4>Arguments</h4>
+<p>No Arguments.</p>
+<h4>Return Type</h4>
+<p><code>Number</code></p>
+</div></span>
+</td>
+<td>Returns the first day of the week</td>
+</tr>
+<tr>
+<td>
+<a class="helpLink" href="javascript://" onclick="toggleMethodArguments( event, this ); return false;">getRedWeekDay</a><span class="methodContainer">
+<div class="methodInfo">
+<h4>Syntax</h4>
+<p><code><span class="object">object</span>.getRedWeekDay()</code></p>
+<h4>Arguments</h4>
+<p>No Arguments.</p>
+<h4>Return Type</h4>
+<p><code>Number</code></p>
+</div></span>
+</td>
+<td>Returns the red day of the week</td>
+</tr>
+<tr>
+<td>
+<a class="helpLink" href="javascript://" onclick="toggleMethodArguments( event, this ); return false;">getShowNone</a><span class="methodContainer">
+<div class="methodInfo">
+<h4>Syntax</h4>
+<p><code><span class="object">object</span>.getShowNone()</code></p>
+<h4>Arguments</h4>
+<p>No Arguments.</p>
+<h4>Return Type</h4>
+<p><code>Boolean</code></p>
+</div></span>
+</td>
+<td>Returns whether the none button is visible or not.</td>
+</tr>
+<tr>
+<td>
+<a class="helpLink" href="javascript://" onclick="toggleMethodArguments( event, this ); return false;">getShowToday</a><span class="methodContainer">
+<div class="methodInfo">
+<h4>Syntax</h4>
+<p><code><span class="object">object</span>.getShowToday()</code></p>
+<h4>Arguments</h4>
+<p>No Arguments.</p>
+<h4>Return Type</h4>
+<p><code>Boolean</code></p>
+</div></span>
+</td>
+<td>Returns whether the today button is visible or not.</td>
+</tr>
+<tr>
+<td>
+<a class="helpLink" href="javascript://" onclick="toggleMethodArguments( event, this ); return false;">goToNextMonth</a><span class="methodContainer">
+<div class="methodInfo">
+<h4>Syntax</h4>
+<p><code><span class="object">object</span>.goToNextMonth()</code></p>
+<h4>Arguments</h4>
+<p>No Arguments.</p>
+<h4>Return Type</h4>
+<p><code>void</code></p>
+</div></span>
+</td>
+<td>Goes to the next month.</td>
+</tr>
+<tr>
+<td>
+<a class="helpLink" href="javascript://" onclick="toggleMethodArguments( event, this ); return false;">goToPreviousMonth</a><span class="methodContainer">
+<div class="methodInfo">
+<h4>Syntax</h4>
+<p><code><span class="object">object</span>.goToPreviousMonth()</code></p>
+<h4>Arguments</h4>
+<p>No Arguments.</p>
+<h4>Return Type</h4>
+<p><code>void</code></p>
+</div></span>
+</td>
+<td>Goes to the previous month.</td>
+</tr>
+<tr>
+<td>
+<a class="helpLink" href="javascript://" onclick="toggleMethodArguments( event, this ); return false;">goToToday</a><span class="methodContainer">
+<div class="methodInfo">
+<h4>Syntax</h4>
+<p><code><span class="object">object</span>.goToToday()</code></p>
+<h4>Arguments</h4>
+<p>No Arguments.</p>
+<h4>Return Type</h4>
+<p><code>void</code></p>
+</div></span>
+</td>
+<td>Selects todays date and shows that month in the date picker.</td>
+</tr>
+<tr>
+<td>
+<a class="helpLink" href="javascript://" onclick="toggleMethodArguments( event, this ); return false;">onchange</a><span class="methodContainer">
+<div class="methodInfo">
+<h4>Syntax</h4>
+<p><code><span class="object">object</span>.onchange()</code></p>
+<h4>Arguments</h4>
+<p>No Arguments.</p>
+<h4>Return Type</h4>
+<p><code>void</code></p>
+</div></span>
+</td>
+<td>
+				This is the method that is called when the selected date is changed. Overload this method
+				to receive notifications about the change.
+			</td>
+</tr>
+<tr>
+<td>
+<a class="helpLink" href="javascript://" onclick="toggleMethodArguments( event, this ); return false;">setDate</a><span class="methodContainer">
+<div class="methodInfo">
+<h4>Syntax</h4>
+<p><code><span class="object">object</span>.setDate(<span class="methodArgument">oDate</span>)</code></p>
+<h4>Arguments</h4>
+<table>
+<thead>
+<tr>
+<td>Name</td>
+<td>Type</td>
+<td>Descripton</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>oDate</code></td>
+<td><code>Date</code></td>
+<td>The date object describing the selected date</td>
+</tr>
+</tbody>
+</table>
+<h4>Return Type</h4>
+<p><code>void</code></p>
+</div></span>
+</td>
+<td>
+				Sets the selected date to the same date represented by the date object passed as argument.
+				If you set the date to null then no date is selected.
+			</td>
+</tr>
+<tr>
+<td>
+<a class="helpLink" href="javascript://" onclick="toggleMethodArguments( event, this ); return false;">setFirstWeekDay</a><span class="methodContainer">
+<div class="methodInfo">
+<h4>Syntax</h4>
+<p><code><span class="object">object</span>.setFirstWeekDay(<span class="methodArgument">nFirstWeekDay</span>)</code></p>
+<h4>Arguments</h4>
+<table>
+<thead>
+<tr>
+<td>Name</td>
+<td>Type</td>
+<td>Descripton</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>nFirstWeekDay</code></td>
+<td><code>Number</code></td>
+<td>The first day of the week.</td>
+</tr>
+</tbody>
+</table>
+<h4>Return Type</h4>
+<p><code>void</code></p>
+</div></span>
+</td>
+<td>
+				Sets which day to show first in each week. The default value is 0 and that represents Monday
+				according to the ISO standard.
+			</td>
+</tr>
+<tr>
+<td>
+<a class="helpLink" href="javascript://" onclick="toggleMethodArguments( event, this ); return false;">setRedWeekDay</a><span class="methodContainer">
+<div class="methodInfo">
+<h4>Syntax</h4>
+<p><code><span class="object">object</span>.setRedWeekDay(<span class="methodArgument">nRedWeekDat</span>)</code></p>
+<h4>Arguments</h4>
+<table>
+<thead>
+<tr>
+<td>Name</td>
+<td>Type</td>
+<td>Descripton</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>nRedWeekDat</code></td>
+<td><code>Number</code></td>
+<td>The red day of the week</td>
+</tr>
+</tbody>
+</table>
+<h4>Return Type</h4>
+<p><code>void</code></p>
+</div></span>
+</td>
+<td>
+				Sets which day of the week to be considered a red day. Default is 6 and that represents
+				Sunday according to the ISO standard.
+			</td>
+</tr>
+<tr>
+<td>
+<a class="helpLink" href="javascript://" onclick="toggleMethodArguments( event, this ); return false;">setShowNone</a><span class="methodContainer">
+<div class="methodInfo">
+<h4>Syntax</h4>
+<p><code><span class="object">object</span>.setShowNone(<span class="methodArgument">bShowNone</span>)</code></p>
+<h4>Arguments</h4>
+<table>
+<thead>
+<tr>
+<td>Name</td>
+<td>Type</td>
+<td>Descripton</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>bShowNone</code></td>
+<td><code>Boolean</code></td>
+<td>Whether to show the none button or not.</td>
+</tr>
+</tbody>
+</table>
+<h4>Return Type</h4>
+<p><code>void</code></p>
+</div></span>
+</td>
+<td>Sets whether the none button should be shown or not.</td>
+</tr>
+<tr>
+<td>
+<a class="helpLink" href="javascript://" onclick="toggleMethodArguments( event, this ); return false;">setShowToday</a><span class="methodContainer">
+<div class="methodInfo">
+<h4>Syntax</h4>
+<p><code><span class="object">object</span>.setShowToday(<span class="methodArgument">bShowToday</span>)</code></p>
+<h4>Arguments</h4>
+<table>
+<thead>
+<tr>
+<td>Name</td>
+<td>Type</td>
+<td>Descripton</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>bShowToday</code></td>
+<td><code>Boolean</code></td>
+<td>Whether to show the today button or not.</td>
+</tr>
+</tbody>
+</table>
+<h4>Return Type</h4>
+<p><code>void</code></p>
+</div></span>
+</td>
+<td>Sets whether the today button should be visible on the date picker.</td>
+</tr>
+</tbody>
+</table>
+<h3>Fields</h3>
+<table>
+<thead>
+<tr>
+<td>Name</td>
+<td>Type</td>
+<td>Descripton</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td colspan="3">No fields.</td>
+</tr>
+</tbody>
+</table>
+<h3>Remarks</h3>
+<p>
+		The fields leftArrowSrc and rightArrowSrc does not change the images
+		of the button aftert the html element is created. You will have to recreate the html element to see
+		the changes.
+	</p>
+
+
+<p>
+<a href="datepicker.html">Date Picker</a><br />
+<a href="api.html">API</a><br />
+<a href="demo.html">Demo</a><br />
+<a href="datepicker.zip">Download</a>
+</p>
+
+<p class="author">Author: Erik Arvidsson</p>
+
+<!-- end webfx-main-body -->
+</div>
+
+</body>
+</html>

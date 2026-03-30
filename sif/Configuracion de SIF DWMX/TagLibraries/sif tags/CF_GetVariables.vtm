@@ -1,0 +1,166 @@
+<TAG NAME="CF_GetVariables">
+	<tagformat nlbeforetag="0" nlaftertag="0" />
+	<EDITORLAYOUT HEIGHT="330" WIDTH="530">
+		<CONTAINER  NAME="MainTabDialog" TYPE="TabDialog" MAXWIDTHPADDING=0 MAXHEIGHTPADDING=0 
+						WIDTH=MAXIMUM
+						HEIGHT=MAXIMUM
+						VERTRESIZE="BODY"
+						HORIZRESIZE="BODY">
+
+			<CONTAINER NAME="TabPage1" TYPE="TabPage" CAPTION="CF_GetVariables Custom Tag">
+
+				<CONTAINER NAME="Panel" TYPE="Panel"
+						DOWN=5 RIGHT=10 WIDTH="MAXIMUM"
+						MAXWIDTHPADDING=10 HORIZRESIZE="BODY" HEIGHT=85>
+
+					<CONTROL NAME="lblScopes" TYPE="Label" CAPTION="Get Variables From Scope(s):" DOWN=17 RIGHT=10 WIDTH=140>
+					<CONTROL NAME="dropScopes" TYPE="DropDown" EDITABLE="Yes" ANCHOR="lblScopes"
+								CORNER="NE" WIDTH=110>
+						<ITEM VALUE="" CAPTION="" SELECTED>
+						<ITEM VALUE="Form" CAPTION="Form">
+						<ITEM VALUE="URL" CAPTION="URL">
+						<ITEM VALUE="Cookie" CAPTION="Cookie">
+            <ITEM VALUE="Client" CAPTION="Client">
+            <ITEM VALUE="All" CAPTION="All">
+						<ITEM VALUE="Form,URL" CAPTION="Form,URL">
+						<ITEM VALUE="Form,URL,Cookie" CAPTION="Form,URL,Cookie">
+					</CONTROL>	
+
+          <CONTROL TYPE=Label NAME="lblVariable" WIDTH="140" ANCHOR="lblScopes" CORNER="SW" DOWN="10" CAPTION="Put Names Into Variable:" AUTOSIZE="false" TRANSPARENT="false">
+          <CONTROL TYPE=TextBox NAME="txtVariable" WIDTH="110" ANCHOR="lblVariable" CORNER="NE" EDITABLE="Yes">
+
+          <CONTROL TYPE=CheckBox NAME="cbPrefixWithScope" WIDTH="MAXIMUM" ANCHOR="txtVariable" CORNER="SW" DOWN="2" CAPTION="Prefix Each Variable Name With Its Full Scope Name" CHECKED="Yes">
+
+          <CONTROL TYPE=Label NAME="lblExcept" WIDTH="60" ANCHOR="lblScopes" CORNER="NE" RIGHT="120" CAPTION="Except For:" AUTOSIZE="false" TRANSPARENT="false">
+          <CONTROL TYPE=TextBox NAME="txtExcept" WIDTH="MAXIMUM" ANCHOR="lblExcept" CORNER="NE" EDITABLE="Yes">
+
+          <CONTROL TYPE=Label NAME="lblAdditional" WIDTH="60" ANCHOR="lblExcept" CORNER="SW" DOWN="10" CAPTION="Addtional:" AUTOSIZE="false" TRANSPARENT="false">
+          <CONTROL TYPE=TextBox NAME="txtAdditional" WIDTH="MAXIMUM" ANCHOR="lblAdditional" CORNER="NE" EDITABLE="Yes">
+
+				</CONTAINER>	
+
+
+				<CONTAINER TYPE="Panel" NAME="Panel4" HEIGHT="45" WIDTH="MAXIMUM" HORIZRESIZE="BODY" MAXWIDTHPADDING="10" DOWN="90" RIGHT="10">
+
+          <CONTROL TYPE=CheckBox NAME="cbDump" WIDTH="250" ANCHOR="Panel4" CORNER="NE" DOWN="15" RIGHT="10" CAPTION="Display Table of Variables and Values On Page">
+
+          <CONTROL TYPE=Label NAME="lblDumpTitle" WIDTH="60" ANCHOR="cbDump" CORNER="NE" RIGHT="10" CAPTION="Table Title:" AUTOSIZE="false" TRANSPARENT="false">
+          <CONTROL TYPE=TextBox NAME="txtDumpTitle" WIDTH="MAXIMUM" ANCHOR="lblDumpTitle" CORNER="NE" EDITABLE="Yes">
+
+				</CONTAINER>	
+
+
+
+				<CONTAINER TYPE="Panel" NAME="Panel2" HEIGHT="160" WIDTH="MAXIMUM" HORIZRESIZE="BODY" MAXWIDTHPADDING="10" DOWN="135" RIGHT="10">
+
+					<CONTROL TYPE=Label NAME="lblPassToScope" WIDTH="140" DOWN="17" RIGHT="10" CAPTION="Pass All Variables to Scope:" AUTOSIZE="false" TRANSPARENT="false">
+					<CONTROL NAME="dropPassToScope" TYPE="DropDown" EDITABLE="Yes" ANCHOR="lblPassToScope"
+								CORNER="NE" WIDTH=110>
+						<ITEM VALUE="" CAPTION="" SELECTED>
+						<ITEM VALUE="Form" CAPTION="Form">
+						<ITEM VALUE="URL" CAPTION="URL">
+						<ITEM VALUE="Cookie" CAPTION="Cookie">
+            <ITEM VALUE="Client" CAPTION="Client">
+            <ITEM VALUE="Normal Variables" CAPTION="Variables">
+            <ITEM VALUE="Session" CAPTION="Session">
+            <ITEM VALUE="Server" CAPTION="Server">
+            <ITEM VALUE="Application" CAPTION="Application">
+            <ITEM VALUE="EMail" CAPTION="EMail">
+					</CONTROL>
+
+
+
+
+          <CONTROL TYPE=Label NAME="lblTo" WIDTH="60" ANCHOR="lblPassToScope" CORNER="NE" RIGHT="120" CAPTION="If EMail, To:" AUTOSIZE="false" TRANSPARENT="false">
+          <CONTROL TYPE=TextBox NAME="txtTo" WIDTH="MAXIMUM" ANCHOR="lblTo" CORNER="NE" EDITABLE="Yes">
+          
+          <CONTROL TYPE=Label NAME="lblFrom" WIDTH="60" ANCHOR="lblTo" CORNER="SW" DOWN="10" CAPTION="From:" AUTOSIZE="false" TRANSPARENT="false">
+          <CONTROL TYPE=TextBox NAME="txtFrom" WIDTH="MAXIMUM" ANCHOR="lblFrom" CORNER="NE" EDITABLE="Yes">
+          
+          <CONTROL TYPE=Label NAME="lblSubject" WIDTH="60" ANCHOR="lblFrom" CORNER="SW" DOWN="10" CAPTION="Subject:" AUTOSIZE="false" TRANSPARENT="false">
+          <CONTROL TYPE=TextBox NAME="txtSubject" WIDTH="MAXIMUM" ANCHOR="lblSubject" CORNER="NE" EDITABLE="Yes">
+          
+          <CONTROL TYPE=Label NAME="lblCC" WIDTH="60" ANCHOR="lblSubject" CORNER="SW" DOWN="10" CAPTION="CC:" AUTOSIZE="false" TRANSPARENT="false">
+          <CONTROL TYPE=TextBox NAME="txtCC" WIDTH="MAXIMUM" ANCHOR="lblCC" CORNER="NE" EDITABLE="Yes">
+          
+          <CONTROL TYPE=Label NAME="lblMessage" WIDTH="60" ANCHOR="lblCC" CORNER="SW" DOWN="10" CAPTION="Message:" AUTOSIZE="false" TRANSPARENT="false">
+          <CONTROL TYPE=TextBox NAME="txtMessage" WIDTH="MAXIMUM" ANCHOR="lblMessage" CORNER="NE" EDITABLE="Yes">
+          
+          <CONTROL TYPE=Label NAME="lblType" WIDTH="60" ANCHOR="lblMessage" CORNER="SW" DOWN="10" CAPTION="Send As:" AUTOSIZE="false" TRANSPARENT="false">
+          <CONTROL TYPE=DropDown NAME="dropType" WIDTH="MAXIMUM" ANCHOR="lblType" CORNER="NE">
+					  <ITEM VALUE="Text" CAPTION="Plain Text" SELECTED="Yes">
+					  <ITEM VALUE="HTML" CAPTION="HTML">
+					</CONTROL>
+
+				</CONTAINER>
+
+  		</CONTAINER>		
+
+		</CONTAINER>
+
+	</EDITORLAYOUT>
+
+	<ATTRIBUTES>
+		<ATTRIB NAME="SCOPES"		CONTROL="dropScopes">
+		<ATTRIB NAME="VARIABLE"		CONTROL="txtVariable">
+		<ATTRIB NAME="EXCEPT"		CONTROL="txtExcept">
+		<ATTRIB NAME="ADDITIONAL"		CONTROL="txtAdditional">
+		<ATTRIB NAME="PREFIXWITHSCOPE" 		CONTROL="cbPrefixWithScope">
+		<ATTRIB NAME="PASSTOSCOPE" 		CONTROL="dropPassToScope">
+		<ATTRIB NAME="DUMP" 		CONTROL="cbDump">
+		<ATTRIB NAME="DUMPTITLE" 	CONTROL="txtDumpTitle">
+		<ATTRIB NAME="TO" 	CONTROL="txtTo">
+		<ATTRIB NAME="FROM" 	CONTROL="txtFrom">
+		<ATTRIB NAME="SUBJECT" 	CONTROL="txtSubject">
+		<ATTRIB NAME="CC" 	CONTROL="txtCC">
+		<ATTRIB NAME="MESSAGE" 	CONTROL="txtMessage">
+		<ATTRIB NAME="TYPE" 	CONTROL="dropType">
+	</ATTRIBUTES>
+	
+	<TAGLAYOUT>
+		<WIZIF OPTIONLowerCaseTags EQ 'true'>
+			<WIZSET CFGETVARIABLES		= 'CF_GetVariables'>
+			<WIZSET SCOPES	= 'scopes'>
+			<WIZSET VARIABLE		= 'variable'>
+			<WIZSET EXCEPT		= 'except'>
+			<WIZSET ADDITIONAL		= 'additional'>
+			<WIZSET PREFIXWITHSCOPE		= 'prefixwithscope'>
+			<WIZSET PASSTOSCOPE	= 'passtoscope'>
+			<WIZSET DUMP	= 'dump'>
+			<WIZSET DUMPTITLE = 'dumptitle'>
+			<WIZSET TO = 'to'>
+			<WIZSET FROM = 'from'>
+			<WIZSET SUBJECT = 'subject'>
+			<WIZSET CC = 'cc'>
+			<WIZSET MESSAGE = 'message'>
+			<WIZSET TYPE = 'type'>
+		<WIZELSE>
+			<WIZSET CFGETVARIABLES		= 'CF_GetVariables'>
+			<WIZSET SCOPES	= 'SCOPES'>
+			<WIZSET VARIABLE		= 'VARIABLE'>
+			<WIZSET EXCEPT		= 'EXCEPT'>
+			<WIZSET ADDITIONAL		= 'ADDITIONAL'>
+			<WIZSET PREFIXWITHSCOPE		= 'PREFIXWITHSCOPE'>
+			<WIZSET PASSTOSCOPE	= 'PASSTOSCOPE'>
+			<WIZSET DUMP	= 'DUMP'>
+			<WIZSET DUMPTITLE = 'DUMPTITLE'>
+			<WIZSET TO = 'TO'>
+			<WIZSET FROM = 'FROM'>
+			<WIZSET SUBJECT = 'SUBJECT'>
+			<WIZSET CC = 'CC'>
+			<WIZSET MESSAGE = 'MESSAGE'>
+			<WIZSET TYPE = 'TYPE'>
+		</WIZIF>
+		
+    <WIZIF OPTIONLinearLayout EQ 'true'>
+			<WIZSET SpacingGap =  ' ' >
+		<WIZELSE>
+			<WIZSET SpacingGap =  Chr(13) & Chr(10) '        '' >
+		</WIZIF>
+
+<$${CFGETVARIABLES}<WIZIF dropScopes NEQ ''>$${SpacingGap}$${SCOPES}="$${dropScopes}"</WIZIF><WIZIF txtVariable NEQ ''>$${SpacingGap}$${VARIABLE}="$${txtVariable}"</WIZIF><WIZIF cbPrefixWithScope EQ 'false'>$${SpacingGap}$${PREFIXWITHSCOPE}="No"</WIZIF><WIZIF txtExcept NEQ ''>$${SpacingGap}$${EXCEPT}="$${txtExcept}"</WIZIF><WIZIF txtAdditional NEQ ''>$${SpacingGap}$${ADDITIONAL}="$${txtAdditional}"</WIZIF><WIZIF dropPassToScope NEQ ''>$${SpacingGap}$${PASSTOSCOPE}="$${dropPassToScope}"</WIZIF><WIZIF cbDump EQ 'true'>$${SpacingGap}$${DUMP}="Yes"</WIZIF><WIZIF txtDumpTitle NEQ ''>$${SpacingGap}$${DUMPTITLE}="$${txtDumpTitle}"</WIZIF><WIZIF txtTo NEQ ''>$${SpacingGap}$${TO}="$${txtTo}"</WIZIF><WIZIF txtFrom NEQ ''>$${SpacingGap}$${FROM}="$${txtFrom}"</WIZIF><WIZIF txtSubject NEQ ''>$${SpacingGap}$${SUBJECT}="$${txtSubject}"</WIZIF><WIZIF txtCC NEQ ''>$${SpacingGap}$${CC}="$${txtCC}"</WIZIF><WIZIF txtMessage NEQ ''>$${SpacingGap}$${MESSAGE}="$${txtMessage}"</WIZIF><WIZIF dropType EQ 'HTML'>$${SpacingGap}$${TYPE}="HTML"</WIZIF><WIZIF TAGDATAUnknownAttributes NEQ ''>$${SpacingGap}$${TAGDATAUnknownAttributes}</WIZIF>> 
+	</TAGLAYOUT>
+
+  <TAGDESCRIPTION HELPFILE="CF_GetVariablesHelp.html">	
+	
+</TAG>

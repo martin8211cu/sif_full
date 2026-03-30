@@ -1,0 +1,110 @@
+<cfquery datasource="asp" name="estado">
+	select fila,columna
+	from SPortletPreferencias
+	where id_pagina  = <cfqueryparam cfsqltype="cf_sql_numeric" value="#url.id_pagina#">
+	  and id_portlet = <cfqueryparam cfsqltype="cf_sql_numeric" value="#url.id_portlet#">
+	  and Usucodigo = <cfqueryparam cfsqltype="cf_sql_numeric" value="#session.Usucodigo#">
+</cfquery>
+<cfif estado.RecordCount>
+	<cfif direction is 'up' and estado.fila GT 1>
+		<cftransaction>
+			<cfquery datasource="asp">
+				update SPortletPreferencias
+				set fila = <cfqueryparam cfsqltype="cf_sql_numeric" value="#estado.fila#">
+				where id_pagina  = <cfqueryparam cfsqltype="cf_sql_numeric" value="#url.id_pagina#">
+				  and fila = <cfqueryparam cfsqltype="cf_sql_numeric" value="#estado.fila-1#">
+				  and columna = <cfqueryparam cfsqltype="cf_sql_numeric" value="#estado.columna#">
+				  and Usucodigo = <cfqueryparam cfsqltype="cf_sql_numeric" value="#session.Usucodigo#">
+			</cfquery>
+			<cfquery datasource="asp">
+				update SPortletPreferencias
+				set fila = <cfqueryparam cfsqltype="cf_sql_numeric" value="#estado.fila-1#">
+				where id_pagina  = <cfqueryparam cfsqltype="cf_sql_numeric" value="#url.id_pagina#">
+				  and id_portlet = <cfqueryparam cfsqltype="cf_sql_numeric" value="#url.id_portlet#">
+				  and Usucodigo = <cfqueryparam cfsqltype="cf_sql_numeric" value="#session.Usucodigo#">
+			</cfquery>
+		</cftransaction>
+	<cfelseif direction is 'left'>
+		<cftransaction>
+			<cfquery datasource="asp">
+				update SPortletPreferencias
+				set columna = <cfqueryparam cfsqltype="cf_sql_numeric" value="#estado.columna#">
+				where id_pagina  = <cfqueryparam cfsqltype="cf_sql_numeric" value="#url.id_pagina#">
+				  and columna = <cfqueryparam cfsqltype="cf_sql_numeric" value="#estado.columna-1#">
+				  and fila = <cfqueryparam cfsqltype="cf_sql_numeric" value="#estado.fila#">
+				  and Usucodigo = <cfqueryparam cfsqltype="cf_sql_numeric" value="#session.Usucodigo#">
+			</cfquery>
+			<cfquery datasource="asp">
+				update SPortletPreferencias
+				set columna = <cfqueryparam cfsqltype="cf_sql_numeric" value="#estado.columna-1#">
+				where id_pagina  = <cfqueryparam cfsqltype="cf_sql_numeric" value="#url.id_pagina#">
+				  and id_portlet = <cfqueryparam cfsqltype="cf_sql_numeric" value="#url.id_portlet#">
+				  and Usucodigo = <cfqueryparam cfsqltype="cf_sql_numeric" value="#session.Usucodigo#">
+			</cfquery>
+		</cftransaction>
+	<cfelseif direction is 'down'>
+		<cfquery datasource="asp" name="maxfila">
+			select max(fila) as maxfila
+			from SPortletPreferencias
+			where id_pagina  = <cfqueryparam cfsqltype="cf_sql_numeric" value="#url.id_pagina#">
+			  and columna = <cfqueryparam cfsqltype="cf_sql_numeric" value="#estado.columna#">
+			  and Usucodigo = <cfqueryparam cfsqltype="cf_sql_numeric" value="#session.Usucodigo#">
+		</cfquery>
+		<cfif estado.fila LT maxfila.maxfila>
+			<cftransaction>
+				<cfquery datasource="asp">
+					update SPortletPreferencias
+					set fila = <cfqueryparam cfsqltype="cf_sql_numeric" value="#estado.fila#">
+					where id_pagina  = <cfqueryparam cfsqltype="cf_sql_numeric" value="#url.id_pagina#">
+					  and fila = <cfqueryparam cfsqltype="cf_sql_numeric" value="#estado.fila+1#">
+					  and columna = <cfqueryparam cfsqltype="cf_sql_numeric" value="#estado.columna#">
+					  and Usucodigo = <cfqueryparam cfsqltype="cf_sql_numeric" value="#session.Usucodigo#">
+				</cfquery>
+				<cfquery datasource="asp">
+					update SPortletPreferencias
+					set fila = <cfqueryparam cfsqltype="cf_sql_numeric" value="#estado.fila+1#">
+					where id_pagina  = <cfqueryparam cfsqltype="cf_sql_numeric" value="#url.id_pagina#">
+					  and id_portlet = <cfqueryparam cfsqltype="cf_sql_numeric" value="#url.id_portlet#">
+					  and Usucodigo = <cfqueryparam cfsqltype="cf_sql_numeric" value="#session.Usucodigo#">
+				</cfquery>
+			</cftransaction>
+		</cfif>
+	<cfelseif direction is 'right'>
+		<cfquery datasource="asp" name="maxcolumna">
+			select max(columna) as maxcolumna
+			from SPortletPreferencias
+			where id_pagina  = <cfqueryparam cfsqltype="cf_sql_numeric" value="#url.id_pagina#">
+			  and columna = <cfqueryparam cfsqltype="cf_sql_numeric" value="#estado.columna#">
+			  and Usucodigo = <cfqueryparam cfsqltype="cf_sql_numeric" value="#session.Usucodigo#">
+		</cfquery>
+		<cfif estado.columna LT maxcolumna.maxcolumna>
+			<cftransaction>
+				<cfquery datasource="asp">
+					update SPortletPreferencias
+					set columna = <cfqueryparam cfsqltype="cf_sql_numeric" value="#estado.columna#">
+					where id_pagina  = <cfqueryparam cfsqltype="cf_sql_numeric" value="#url.id_pagina#">
+					  and columna = <cfqueryparam cfsqltype="cf_sql_numeric" value="#estado.columna+1#">
+					  and fila = <cfqueryparam cfsqltype="cf_sql_numeric" value="#estado.fila#">
+					  and Usucodigo = <cfqueryparam cfsqltype="cf_sql_numeric" value="#session.Usucodigo#">
+				</cfquery>
+				<cfquery datasource="asp">
+					update SPortletPreferencias
+					set columna = <cfqueryparam cfsqltype="cf_sql_numeric" value="#estado.columna+1#">
+					where id_pagina  = <cfqueryparam cfsqltype="cf_sql_numeric" value="#url.id_pagina#">
+					  and id_portlet = <cfqueryparam cfsqltype="cf_sql_numeric" value="#url.id_portlet#">
+					  and Usucodigo = <cfqueryparam cfsqltype="cf_sql_numeric" value="#session.Usucodigo#">
+				</cfquery>
+			</cftransaction>
+		</cfif>
+	<cfelseif direction is 'close'>
+		<cfquery datasource="asp">
+			delete SPortletPreferencias
+			where id_pagina  = <cfqueryparam cfsqltype="cf_sql_numeric" value="#url.id_pagina#">
+			  and id_portlet = <cfqueryparam cfsqltype="cf_sql_numeric" value="#url.id_portlet#">
+			  and Usucodigo = <cfqueryparam cfsqltype="cf_sql_numeric" value="#session.Usucodigo#">
+		</cfquery>
+	<cfelse>
+		<cfthrow message="Direccion invalida: #direction#">
+	</cfif>
+</cfif>
+<cflocation url="/cfmx/home/menu/portal.cfm">

@@ -1,0 +1,11 @@
+<tag name="cf_sifportlet" casesensitive="yes">
+<tagformat nlbeforetag="1" nlaftertag="1" indentcontents="yes" />
+<attributes>
+  <attrib name="titulo"/>
+  <attrib name="include" TYPE="relativepath"/>
+  <attrib name="border" type="enumerated">
+    <attriboption value="true" />
+    <attriboption value="false" />
+  </attrib>
+</attributes>
+</tag>

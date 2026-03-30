@@ -1,0 +1,28 @@
+<tag name="cf_sifayuda" endtag="no">
+    <tagformat nlbeforetag="1" nlaftertag="1" /> 
+    
+  <attributes> 
+    <attrib name="name"/>
+    <attrib name="Acodigo" casesensitive="yes"/>
+    <attrib name="Iid" casesensitive="yes"/>
+    <attrib name="width"/>
+    <attrib name="height"/>
+    <attrib name="left"/>
+    <attrib name="top"/>
+    <attrib name="url" TYPE="relativepath"/>
+    <attrib name="Imagen" type="enumerated" casesensitive="yes">
+      <attriboption value="0" />
+      <attriboption value="1" />
+      <attriboption value="2" />
+    </attrib>
+    <attrib name="TitleBGColor" TYPE="color" casesensitive="yes"/>
+    <attrib name="TitleTextColor" casesensitive="yes" TYPE="color"/>
+    <attrib name="BGColor" casesensitive="yes" TYPE="color"/>
+    <attrib name="TextColor" casesensitive="yes" TYPE="color"/>
+    <attrib name="CaptionText" casesensitive="yes"/>
+    <attrib name="Tip" TYPE="enumerated" casesensitive="yes">
+      <attriboption VALUE="true" />
+      <attriboption VALUE="false" />
+    </attrib>
+  </attributes>
+  </tag>

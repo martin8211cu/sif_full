@@ -1,0 +1,63 @@
+BODY {
+	FONT-SIZE: 12px; COLOR: #333333; FONT-FAMILY: gothic
+}
+TD {
+	FONT-SIZE: 12px; COLOR: #333333; FONT-FAMILY: gothic
+}
+.white {
+	FONT-SIZE: 12px; COLOR: #ffffff; FONT-FAMILY: gothic
+}
+.smwhite {
+	FONT-SIZE: 11px; COLOR: #ffffff; FONT-FAMILY: gothic
+}
+.small {
+	FONT-SIZE: 11px; COLOR: #333333; FONT-FAMILY: gothic
+}
+.heading {
+	FONT-SIZE: 12px; COLOR: #00558e; FONT-FAMILY: gothic
+}
+INPUT.textbox {
+	FONT-SIZE: 12px; COLOR: #333333; FONT-FAMILY: gothic; HEIGHT: 17px
+}
+INPUT.button {
+	FONT-SIZE: 11px; COLOR: #333333; FONT-FAMILY: gothic; HEIGHT: 17px
+}
+SELECT {
+	FONT-SIZE: 12px; COLOR: #333333; FONT-FAMILY: gothic
+}
+A {
+	COLOR: #00558e; TEXT-DECORATION: none
+}
+A:link {
+	COLOR: #00558e; TEXT-DECORATION: none
+}
+A:visited {
+	COLOR: #00558e
+}
+A:hover {
+	COLOR: #ffa500
+}
+A.white {
+	COLOR: #ffffff; TEXT-DECORATION: none
+}
+A.white:link {
+	COLOR: #ffffff; TEXT-DECORATION: none
+}
+A.white:visited {
+	COLOR: #ffffff
+}
+A.white:hover {
+	COLOR: #ffa500
+}
+A.navig {
+	COLOR: #ffffff; TEXT-DECORATION: none
+}
+A.navig:link {
+	COLOR: #ffffff; TEXT-DECORATION: none
+}
+A.navig:visited {
+	COLOR: #ffffff
+}
+A.navig:hover {
+	COLOR: #ffa500
+}

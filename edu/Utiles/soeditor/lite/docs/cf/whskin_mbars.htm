@@ -1,0 +1,56 @@
+<html>
+<head>
+<META HTTP-EQUIV="content-type" CONTENT="text/html; charset=iso-8859-1">
+</head>
+<style>
+<!--
+body {margin:0;}
+-->
+</style>
+<script language="javascript" src="whver.js"></script>
+<script language="javascript1.2" src="whutils.js"></script>
+<script language="javascript1.2" src="whmsg.js"></script>
+<script language="javascript1.2" src="whproxy.js"></script>
+<script language="javascript1.2" src="whmozemu.js"></script>
+<script language="javascript1.2" src="whtbar.js"></script>
+<body marginheight="0"  marginwidth="0"  bgcolor="#980e06"     scroll="no">
+<script language="javascript1.2">
+<!--
+if (window.gbWhTBar)
+{
+	setButtonFont("avprev","Arial","8pt","White","Normal","Normal","none");
+setButtonFont("avnext","Arial","8pt","White","Normal","Normal","none");
+setButtonFont("synctoc","Arial","8pt","White","Normal","Normal","none");
+setButtonFont("hide2","Arial","8pt","White","Normal","Normal","none");
+
+	gsIPrev = "wht_prev.gif";
+	gsIPrevD = "wht_prev_g.gif";
+	gsINext = "wht_next.gif";
+	gsINextD = "wht_next_g.gif";
+	gsISync = "wht_sync.gif";
+	gsIHide = "wht_hide.gif";
+	setBackgroundcolor("#980e06");
+	
+	
+	addButton("avprev",BTN_TEXT|BTN_IMG,"","","","","",0,0,"previousbutton.gif","","","previousbutton.gif","","");
+addButton("avnext",BTN_TEXT|BTN_IMG,"","","","","",0,0,"nextbutton.gif","","","nextbutton.gif","","");
+addButton("synctoc",BTN_TEXT|BTN_IMG,"","","","","",0,0,"syncbutton.gif","","","syncbutton.gif","","");
+addButton("hide2",BTN_TEXT|BTN_IMG,"","","","","",0,0,"hidebutton.gif","","","hidebutton.gif","","");
+
+	addButton("blankblock");
+	writeStyle(true);
+	ReSortMinibarButtons();
+	writeToolBar();
+}
+else
+	document.location.reload();
+
+if (window.gbNav6)
+{
+	var oMsg=new whMessage(WH_MSG_RELOADNS6,this, 1,null);
+	SendMessage(oMsg);
+}
+//-->
+</script>
+</body>
+</html>

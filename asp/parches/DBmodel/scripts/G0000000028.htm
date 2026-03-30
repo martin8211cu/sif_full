@@ -1,0 +1,335 @@
+<strong>INDICE:</strong><BR>- <A href='#COLs_CHG'>Columnas a modificarse</A><BR>- <A href='#TABs_DEL'>Tablas a eliminarse</A><BR>- <A href='#KEYs_ADD'>Llaves nuevas o a regenerarse</A><BR><BR><BR>
+			<BR><strong><A name='COLs_CHG'>COLUMNAS QUE VAN A SER ALTERADAS EN LA BASE DE DATOS PORQUE TIENEN CARACTERISTICAS MODIFICADAS EN EL MODELO DBM</A></strong><BR>
+			<table>
+			<tr><td><strong>TABLA</strong></td><td><strong>COLUMNA</strong></td><td><strong>&nbsp;</strong></td><td><strong>TIPO</strong></td><td><strong>LON</strong></td><td><strong>DEC</strong></td><td><strong>obl</strong></td><td><strong>ide</strong></td><td><strong>dfl</strong></td><td><strong>rul</strong></td></tr>
+			
+				<tr>
+					<td>FPDEstimacion</td><td>DPDEmontoMinimo</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td>MONEY</td>
+					<td>18</td>
+					<td>4</td>
+					<td>0</td>
+					
+						<td>0</td>
+					
+					<td><strong>0</strong></td>
+					<td></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>MONEY</td>
+					<td>18</td>
+					<td>4</td>
+					<td>0</td>
+					
+						<td>0</td>
+					
+					
+						<td></td>
+					
+					
+						<td><font color="#FF0000"></font></td>
+					
+				</tr>
+			
+				<tr>
+					<td>FPDEstimacion</td><td>DPDEmontoAjuste</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td>MONEY</td>
+					<td>18</td>
+					<td>4</td>
+					<td>0</td>
+					
+						<td>0</td>
+					
+					<td><strong>0</strong></td>
+					<td></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>MONEY</td>
+					<td>18</td>
+					<td>4</td>
+					<td>0</td>
+					
+						<td>0</td>
+					
+					
+						<td></td>
+					
+					
+						<td><font color="#FF0000"></font></td>
+					
+				</tr>
+			
+			</table>
+		
+			<BR><strong><A name='TABs_DEL'>TABLAS QUE VAN A SER ELIMINADAS EN LA BASE DE DATOS PORQUE YA NO SE REQUIEREN EN EL MODELO DBM</A></strong><BR>
+			<table>
+			<tr><td><strong>TABLA</strong></td></tr>
+			
+				<tr><td>TESreintegroCB</td></tr>
+			
+			</table>
+		
+			<BR><strong><A name='COLs_ADD'>LLAVES QUE SE VAN A CREAR.</font></A></strong><BR>
+			<table>
+			<tr><td><strong>TABLA</strong></td><td><strong>TIPO</strong></td><td><strong>SEC.</strong></td><td><strong>COLUMNAS</strong></td><td><strong>TABLA REFERENCIADA</strong></td><td><strong>COLUMNAS REFERENCIADAS</strong></td><td><strong>RAZON</strong></td></tr>
+			
+				
+					<tr><td>FPDEstimacion</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>Aid</td><td>Articulos</td><td>Aid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>FPDEstimacion</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							02
+						</td>
+					
+					<td>Cid</td><td>Conceptos</td><td>Cid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>FPDEstimacion</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							03
+						</td>
+					
+					<td>OBOid</td><td>OBobra</td><td>OBOid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>FPDEstimacion</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							04
+						</td>
+					
+					<td>FPCid</td><td>FPConcepto</td><td>FPCid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>FPDEstimacion</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							05
+						</td>
+					
+					<td>Mcodigo</td><td>Monedas</td><td>Mcodigo</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>FPDEstimacion</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							06
+						</td>
+					
+					<td>FPAEid</td><td>FPActividadE</td><td>FPAEid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>FPDEstimacion</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							07
+						</td>
+					
+					<td>FPEPid</td><td>FPEPlantilla</td><td>FPEPid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>FPDEstimacion</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							08
+						</td>
+					
+					<td>FPCCid</td><td>FPCatConcepto</td><td>FPCCid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>FPDEstimacion</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							09
+						</td>
+					
+					<td>FPEEid</td><td>FPEEstimacion</td><td>FPEEid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>FPDEstimacion</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							10
+						</td>
+					
+					<td>PCGDid</td><td>PCGDplanCompras</td><td>PCGDid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>FPDEstimacion</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							11
+						</td>
+					
+					<td>PCGcuenta</td><td>PCGcuentas</td><td>PCGcuenta</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>FPDEstimacion</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							12
+						</td>
+					
+					<td>Ucodigo,Ecodigo</td><td>Unidades</td><td>Ucodigo,Ecodigo</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+			</table>
+		

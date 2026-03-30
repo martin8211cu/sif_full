@@ -1,0 +1,36 @@
+/**************************************************
+ ERRORES EN LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ **************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 1 - Version 100: Actualizar hasta 27/01/2011
+
+	         PARCHE:  BASE CERO: SIF Sistemas
+
+GENERADO EN:
+	SERVER:  http://mxvqapp34:8300
+	DSN:     minisifext
+	FECHA:   13/03/2012 09:38:24
+*/
+
+/* INI_SCRIPT */
+/* CHG_TABLE PCDCatalogo: Detalle de Valores por Catálog */
+/* ADD_KEY OP = (NUEVO): TIP="U", SEC="1", COLS="PCEcatid,PCDvalor,Ecodigo" */
+CREATE UNIQUE NONCLUSTERED INDEX PCDCatalogo_UI01 ON PCDCatalogo (PCEcatid,PCDvalor,Ecodigo)
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]The CREATE UNIQUE INDEX statement terminated because a duplicate key was found for the object name 'dbo.PCDCatalogo' and the index name 'PCDCatalogo_UI01'. The duplicate key value is (53, 001, <NULL>).
+
+/* CHG_TABLE CContables */
+/* ADD_FK OP = (NUEVO): TIP="F", SEC="1", COLS="Cpadre", REF="CContables" */
+ALTER TABLE CContables ADD CONSTRAINT CContables_FK01 FOREIGN KEY (Cpadre) REFERENCES CContables (Ccuenta)
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]The ALTER TABLE statement conflicted with the FOREIGN KEY SAME TABLE constraint "CContables_FK01". The conflict occurred in database "sifextsyb2", table "dbo.CContables", column 'Ccuenta'.
+
+/* CHG_TABLE CFinanciera */
+/* ADD_FK OP = (NUEVO): TIP="F", SEC="3", COLS="CFpadre", REF="CFinanciera" */
+ALTER TABLE CFinanciera ADD CONSTRAINT CFinanciera_FK03 FOREIGN KEY (CFpadre) REFERENCES CFinanciera (CFcuenta)
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]The ALTER TABLE statement conflicted with the FOREIGN KEY SAME TABLE constraint "CFinanciera_FK03". The conflict occurred in database "sifextsyb2", table "dbo.CFinanciera", column 'CFcuenta'.
+
+/* END_SCRIPT */
+

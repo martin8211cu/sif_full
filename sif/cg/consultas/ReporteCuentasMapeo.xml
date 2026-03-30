@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+
+	<Idioma id="en">
+		<LB_Titulo>Mapping Accounts Report</LB_Titulo>
+		<LB_MapeoCuentas>Mapping Accounts</LB_MapeoCuentas>
+		<LB_DetalleCuentas>Mapped Accounts Detail</LB_DetalleCuentas>
+		<LB_CuentasSinMapear>Unmapped Accounts</LB_CuentasSinMapear>
+		<LB_SalidaDinammica>Dynamic Output</LB_SalidaDinammica>
+		<LB_Mapeo>Mapping</LB_Mapeo>
+		<LB_ListaMapeoCuentas>Mapping Accounts List</LB_ListaMapeoCuentas>
+		<LB_Codigo>Code</LB_Codigo>
+		<LB_Nombre>Name</LB_Nombre>
+		<LB_Periodo>Period</LB_Periodo>
+		<LB_Mes>Month</LB_Mes>
+		<LB_Selecciona1>Select one</LB_Selecciona1>
+		<LB_IncluirUtilidad>Include Utility</LB_IncluirUtilidad>
+		<LB_InformacionSaldoCero>Zero Balance Information</LB_InformacionSaldoCero>
+	</Idioma>
+</Etiquetas>

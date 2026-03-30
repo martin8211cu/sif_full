@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<snippet name="PopUpWindows" description="Abre una ventana Nueva del Browser" preview="code" type="wrap">
+<insertText location="beforeSelection">
+<![CDATA[var popUpWin=0;
+function popUpWindow(URLStr, left, top, width, height)
+{
+  if(popUpWin)
+  {
+    if(!popUpWin.closed) popUpWin.close();
+  }
+	if (document.all)
+			var xMax = screen.width, yMax = screen.height;
+		else
+			if (document.layers)
+				var xMax = window.outerWidth, yMax = window.outerHeight;
+			else
+				var xMax = 640, yMax=480;
+	
+		var xOffset = (xMax - width)/2, yOffset = (yMax - height)/2;
+  
+  popUpWin = open(URLStr, 'popUpWin', 'toolbar=no,location=no,directories=no,status=yes,menub ar=no,scrollbar=no,resizable=yes,copyhistory=yes,width='+width+',height='+height+',left='+left+', top='+top+',screenX='+xOffset+',screenY='+yOffset+'');
+}
+]]>
+</insertText>
+<insertText location="afterSelection"><![CDATA[]]>
+</insertText>
+</snippet>

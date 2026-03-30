@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_NumDoc>Document Number</LB_NumDoc>
+		<LB_ListaDocumentosLiquidacion>List of documents related to the settlement</LB_ListaDocumentosLiquidacion>
+		<LB_Documento>Document</LB_Documento>
+		<LB_Identificacion>Identification</LB_Identificacion>
+		<LB_Proveedor>Supplier</LB_Proveedor>
+		<LB_FechaFactura>Invoice Date</LB_FechaFactura>
+		<LB_SocioNegocio>Partner</LB_SocioNegocio>
+		<LB_Beneficiario>Beneficiary</LB_Beneficiario>
+		<LB_Referencia>Reference</LB_Referencia>
+		<LB_TipoGasto>Expenses Type</LB_TipoGasto>
+		<LB_PlanCompras>Purchase Plan</LB_PlanCompras>
+		<LB_Anticipos>Advances</LB_Anticipos>
+		<LB_ImpuestoCreditoFiscal>Tax Credit</LB_ImpuestoCreditoFiscal>
+		<LB_ConceptoGasto>Expenses Concept</LB_ConceptoGasto>
+		<LB_Descripcion>Description</LB_Descripcion>
+		<LB_MonedaDoc>Document Currency</LB_MonedaDoc>
+		<LB_TipoCambio>Exchange Rate</LB_TipoCambio>
+		<LB_FactorConversion>Conversion Factor</LB_FactorConversion>
+		<LB_MontoDoc>Document Amount</LB_MontoDoc>
+		<LB_ImpuestoNoCF>No Tax Credit</LB_ImpuestoNoCF>
+		<LB_TotalDoc>Total Document</LB_TotalDoc>
+		<LB_Autorizado>Authorized</LB_Autorizado>
+		<LB_AutorizadoLiq>Settlement Authorized</LB_AutorizadoLiq>
+		<LB_SinRetencion>No Withholding</LB_SinRetencion>
+		<LB_RetencionLiq>Settlement Withholding</LB_RetencionLiq>
+		<LB_NoAutorizado>Not Authorized</LB_NoAutorizado>
+		<LB_Retencion>Withholding</LB_Retencion>
+		<LB_PagoTCE>BCC Payment</LB_PagoTCE>
+		<LB_TotalFactura>Total Invoice</LB_TotalFactura>
+		<LB_MaximoPago>Maximum Payment</LB_MaximoPago>
+		<LB_Voucher>Voucher</LB_Voucher>
+		<LB_MontoPago>Payment Amount</LB_MontoPago>
+		<LB_MontoLiq>Settlement Amount</LB_MontoLiq>
+		<LB_MontoTCE>BCC Amount</LB_MontoTCE>
+		<LB_RevisaDatos>Please review the following data</LB_RevisaDatos>
+		<LB_CampoDocumento>The document number can not be blank</LB_CampoDocumento>
+		<LB_CampoProveedor>The Service Provider can not be blank</LB_CampoProveedor>
+		<LB_CamposConceptoTipo>The concept and type of expenses can not be blank</LB_CamposConceptoTipo>
+		<LB_CampoDescripcion>The description can not be blank</LB_CampoDescripcion>
+		<LB_CampoMontoDoc>The Document Amount can not be blank</LB_CampoMontoDoc>
+	</Idioma>
+</Etiquetas>

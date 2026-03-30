@@ -1,0 +1,28 @@
+﻿<cfparam name="modo" default="ALTA">
+<cfparam name="modoD" default="ALTA">
+
+<cfinvoke component="sif.Componentes.Translate" method="Translate" Key="LB_Codigo" Default="C&oacute;digo" XmlFile="/rh/generales.xml" returnvariable="LB_Codigo"/>
+<cfinvoke component="sif.Componentes.Translate" method="Translate" Key="LB_Descripcion" Default="Descripci&oacute;n" XmlFile="/rh/generales.xml" returnvariable="LB_Descripcion"/>  
+<cfinvoke component="sif.Componentes.Translate" method="Translate" Key="LB_Fecha" Default="Fecha" XmlFile="/rh/generales.xml" returnvariable="LB_Fecha"/>
+<cfinvoke component="sif.Componentes.Translate" method="Translate" Key="LB_Corporativo" Default="Es Corporativo" XmlFile="/rh/generales.xml" returnvariable="LB_Corporativo"/>
+
+<cfset CurrentPage=GetFileFromPath(GetTemplatePath())>
+<cfsavecontent variable="pNavegacion">
+	<cfinclude template="../../../sif/portlets/pNavegacion.cfm">
+</cfsavecontent>
+
+<cf_templateheader title="#nav__SPdescripcion#">
+	<cfoutput>#pNavegacion#</cfoutput>
+    <cf_web_portlet_start border="true" titulo="Configuración Becas" skin="#Session.Preferences.Skin#">
+    	<table width="100%" border="0" cellpadding="0" cellspacing="0">
+        	<tr>
+                <td valign="top">
+                  <cfinclude template="configCert-lista.cfm">
+                </td>
+                <td>
+                  <cfinclude template="configCert-form.cfm">
+                </td>
+        	</tr>
+		</table>
+    <cf_web_portlet_end>
+<cf_templatefooter>

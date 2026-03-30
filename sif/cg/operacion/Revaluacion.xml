@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_Titulo>Ledger Accounts Revaluation</LB_Titulo>
+		<LB_MesIni>Initial Month</LB_MesIni>
+		<LB_PeriodoIni>Initial Period</LB_PeriodoIni>
+		<LB_MesFin>Final Month</LB_MesFin>
+		<LB_PeriodoFin>Final Period</LB_PeriodoFin>
+		<LB_Aplicar>Automatically Apply</LB_Aplicar>
+		
+	</Idioma>
+</Etiquetas>

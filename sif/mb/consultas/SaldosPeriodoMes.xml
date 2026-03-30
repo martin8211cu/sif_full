@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="es">
+		<inicio>Inicio</inicio>
+		<favoritos>Favoritos</favoritos>
+		<compania>Compa&amp;ntilde;&amp;iacute;a</compania>
+	</Idioma>
+	<Idioma id="en">
+		<LB_TituloHeader>Movements Report</LB_TituloHeader>
+		<LB_TituloReporte>Bank Account Movements</LB_TituloReporte>
+		<LB_Cuenta>Accounts</LB_Cuenta>
+		<LB_Periodo>Period</LB_Periodo>
+		<LB_Mes>Month</LB_Mes>
+		<LB_Formato>Format</LB_Formato>
+		<LB_Todas>All</LB_Todas>
+		<BTN_Generar>Generate</BTN_Generar>
+	<compania>Enterprise</compania><favoritos>Favourite</favoritos><inicio>Start</inicio></Idioma>
+	
+</Etiquetas>

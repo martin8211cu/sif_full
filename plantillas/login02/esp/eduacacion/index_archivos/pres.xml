@@ -1,0 +1,71 @@
+<xml xmlns:v="urn:schemas-microsoft-com:vml"
+ xmlns:o="urn:schemas-microsoft-com:office:office"
+ xmlns:p="urn:schemas-microsoft-com:office:powerpoint">
+ <p:presentation notessizey="5743" advisor="1024">
+  <p:master id="4" type="main" href="master04.htm" xmlhref="master04.xml"
+   template="EP+2_0_Business_Presentation" layout="title_body"
+   slots="title,body,dateTime,footer,slideNumber">
+   <p:schemes>
+    <p:colorscheme
+     colors="#FFFFFF,#000000,#808080,#000000,#00CC99,#3333CC,#CCCCFF,#B2B2B2"/>
+    <p:colorscheme
+     colors="#0000FF,#FFFFFF,#000000,#FFFF00,#FF9900,#00FFFF,#FF0000,#969696"/>
+    <p:colorscheme
+     colors="#FFFFCC,#000000,#666633,#808000,#339933,#800000,#0033CC,#FFCC66"/>
+    <p:colorscheme
+     colors="#FFFFFF,#000000,#333333,#000000,#DDDDDD,#808080,#4D4D4D,#EAEAEA"/>
+    <p:colorscheme
+     colors="#FFFFFF,#000000,#808080,#000000,#FFCC66,#0000FF,#CC00CC,#C0C0C0"/>
+    <p:colorscheme
+     colors="#FFFFFF,#000000,#808080,#000000,#C0C0C0,#0066FF,#FF0000,#009900"/>
+    <p:colorscheme
+     colors="#FFFFFF,#000000,#808080,#000000,#3399FF,#99FFCC,#CC00CC,#B2B2B2"/>
+   </p:schemes>
+  </p:master>
+  <p:master id="5" type="title" href="master05.htm" xmlhref="master05.xml"
+   layout="title_subtitle"
+   slots="centerTitle,subTitle,dateTime,footer,slideNumber"/>
+  <p:master id="1" type="notes" href="master01.htm" layout="notes"
+   slots="header,dateTime,slideImage,body,footer,slideNumber">
+   <p:tag name="___PPT10" type="binary" datasize="16" dataoffset="0"/>
+  </p:master>
+  <p:master id="2" type="handout" href="master02.htm" layout="handout"
+   slots="header,dateTime,footer,slideNumber">
+   <p:tag name="___PPT10" type="binary" datasize="16" dataoffset="1"/>
+  </p:master>
+  <p:slide id="145" href="slide0145.htm">
+   <p:tag name="___PPT10" type="binary" datasize="89" dataoffset="2"/>
+  </p:slide>
+  <p:slide id="146" href="slide0146.htm">
+   <p:tag name="___PPT10" type="binary" datasize="89" dataoffset="3"/>
+  </p:slide>
+  <p:slide id="147" href="slide0147.htm">
+   <p:tag name="___PPT10" type="binary" datasize="89" dataoffset="4"/>
+  </p:slide>
+  <p:slide id="148" href="slide0148.htm">
+   <p:tag name="___PPT10" type="binary" datasize="89" dataoffset="5"/>
+  </p:slide>
+  <p:slide id="149" href="slide0149.htm">
+   <p:tag name="___PPT10" type="binary" datasize="89" dataoffset="6"/>
+  </p:slide>
+  <p:slide id="150" href="slide0150.htm">
+   <p:tag name="___PPT10" type="binary" datasize="89" dataoffset="7"/>
+  </p:slide>
+  <p:viewstate type="outline" slidehref="slide0150.htm" sorterscale="100"/>
+  <p:tag name="___PPT10" type="binary" datasize="16" dataoffset="8"/>
+  <p:kinsoku language="Japanese" level="levelOne"/>
+  <p:font name="Times New Roman" charset="0" type="4"/>
+  <p:font name="Arial Black" charset="0" type="6" family="34"/>
+  <p:font name="Tahoma" charset="0" type="4" family="34"/>
+  <p:font name="Wingdings" charset="2" type="6" family="2"/>
+  <p:headersfooters noheader="t"/>
+  <p:headersfooters notes="t" slidenumber="t"/>
+  <p:pptdocumentsettings framecolors="WhiteTextOnBlack" hideslideanimation="t"/>
+ </p:presentation>
+ <o:shapedefaults v:ext="edit" spidmax="280578" style='mso-wrap-style:none;
+  v-text-anchor:middle' fillcolor="#081053" stroke="f">
+  <v:fill color="#081053"/>
+  <v:stroke on="f"/>
+  <o:colormru v:ext="edit" colors="#f60,maroon,#006,#c60,red,#ff7c80,#f39,green"/>
+  <o:colormenu v:ext="edit" fillcolor="none [7]" shadowcolor="none"/>
+ </o:shapedefaults></xml>

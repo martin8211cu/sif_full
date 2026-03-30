@@ -1,0 +1,400 @@
+<taglibraries>
+  <taglibrary name="HTML Tags" DOCTYPES="HTML,ASP-JS,ASP-VB,ASP.NET_CSharp,ASP.NET_VB,ColdFusion,JSP,PHP_MySQL,DWTemplate,LibraryItem,DWTemplate_ASPVB,DWTemplate_ASPJS,DWTemplate_CF,DWTemplate_JSP,DWTemplate_AXCS,DWTemplate_AXVB,DWTemplate_PHP" tagchooser="html/TagChooser.xml" id="DWTagLibrary_html">
+    <tagref name="a" file="html/a.vtm"/>
+    <tagref name="abbr" file="html/abbr.vtm"/>
+    <tagref name="acronym" file="html/acronym.vtm"/>
+    <tagref name="address" file="html/address.vtm"/>
+    <tagref name="applet" file="html/applet.vtm"/>
+    <tagref name="area" file="html/area.vtm"/>
+    <tagref name="b" file="html/b.vtm"/>
+    <tagref name="base" file="html/base.vtm"/>
+    <tagref name="basefont" file="html/basefont.vtm"/>
+    <tagref name="bdo" file="html/bdo.vtm"/>
+    <tagref name="bgsound" file="html/bgsound.vtm"/>
+    <tagref name="big" file="html/big.vtm"/>
+    <tagref name="blockquote" file="html/blockquote.vtm"/>
+    <tagref name="body" file="html/body.vtm"/>
+    <tagref name="br" file="html/br.vtm"/>
+    <tagref name="button" file="html/button.vtm"/>
+    <tagref name="caption" file="html/caption.vtm"/>
+    <tagref name="center" file="html/center.vtm"/>
+    <tagref name="cite" file="html/cite.vtm"/>
+    <tagref name="code" file="html/code.vtm"/>
+    <tagref name="col" file="html/col.vtm"/>
+    <tagref name="colgroup" file="html/colgroup.vtm"/>
+    <tagref name="dd" file="html/dd.vtm"/>
+    <tagref name="del" file="html/del.vtm"/>
+    <tagref name="dfn" file="html/dfn.vtm"/>
+    <tagref name="directive" file="html/directive.vtm" prefix="&lt;!"/>
+    <tagref name="div" file="html/div.vtm"/>
+    <tagref name="dl" file="html/dl.vtm"/>
+    <tagref name="dt" file="html/dt.vtm"/>
+    <tagref name="em" file="html/em.vtm"/>
+    <tagref name="embed" file="html/embed.vtm"/>
+    <tagref name="fieldset" file="html/fieldset.vtm"/>
+    <tagref name="font" file="html/font.vtm"/>
+    <tagref name="form" file="html/form.vtm"/>
+    <tagref name="frame" file="html/frame.vtm"/>
+    <tagref name="frameset" file="html/frameset.vtm"/>
+    <tagref name="h1" file="html/h1.vtm"/>
+    <tagref name="h2" file="html/h2.vtm"/>
+    <tagref name="h3" file="html/h3.vtm"/>
+    <tagref name="h4" file="html/h4.vtm"/>
+    <tagref name="h5" file="html/h5.vtm"/>
+    <tagref name="h6" file="html/h6.vtm"/>
+    <tagref name="head" file="html/head.vtm"/>
+    <tagref name="hr" file="html/hr.vtm"/>
+    <tagref name="html" file="html/html.vtm"/>
+    <tagref name="i" file="html/i.vtm"/>
+    <tagref name="iframe" file="html/iframe.vtm"/>
+    <tagref name="ilayer" file="html/ilayer.vtm"/>
+    <tagref name="img" file="html/img.vtm"/>
+    <tagref name="input" file="html/input.vtm"/>
+    <tagref name="ins" file="html/ins.vtm"/>
+    <tagref name="kbd" file="html/kbd.vtm"/>
+    <tagref name="label" file="html/label.vtm"/>
+    <tagref name="layer" file="html/layer.vtm"/>
+    <tagref name="legend" file="html/legend.vtm"/>
+    <tagref name="li" file="html/li.vtm"/>
+    <tagref name="link" file="html/link.vtm"/>
+    <tagref name="map" file="html/map.vtm"/>
+    <tagref name="marquee" file="html/marquee.vtm"/>
+    <tagref name="meta" file="html/meta.vtm"/>
+    <tagref name="multicol" file="html/multicol.vtm"/>
+    <tagref name="noframes" file="html/noframes.vtm"/>
+    <tagref name="noscript" file="html/noscript.vtm"/>
+    <tagref name="object" file="html/object.vtm"/>
+    <tagref name="ol" file="html/ol.vtm"/>
+    <tagref name="option" file="html/option.vtm"/>
+    <tagref name="optgroup" file="html/optgroup.vtm"/>
+    <tagref name="p" file="html/p.vtm"/>
+    <tagref name="param" file="html/param.vtm"/>
+    <tagref name="pre" file="html/pre.vtm"/>
+    <tagref name="q" file="html/q.vtm"/>
+    <tagref name="samp" file="html/samp.vtm"/>
+    <tagref name="script" file="html/script.vtm"/>
+    <tagref name="select" file="html/select.vtm"/>
+    <tagref name="small" file="html/small.vtm"/>
+    <tagref name="sound" file="html/sound.vtm"/>
+    <tagref name="spacer" file="html/spacer.vtm"/>
+    <tagref name="span" file="html/span.vtm"/>
+    <tagref name="strong" file="html/strong.vtm"/>
+    <tagref name="style" file="html/style.vtm"/>
+    <tagref name="sub" file="html/sub.vtm"/>
+    <tagref name="sup" file="html/sup.vtm"/>
+    <tagref name="table" file="html/table.vtm"/>
+    <tagref name="tbody" file="html/tbody.vtm"/>
+    <tagref name="td" file="html/td.vtm"/>
+    <tagref name="textarea" file="html/textarea.vtm"/>
+    <tagref name="tfoot" file="html/tfoot.vtm"/>
+    <tagref name="th" file="html/th.vtm"/>
+    <tagref name="thead" file="html/thead.vtm"/>
+    <tagref name="title" file="html/title.vtm"/>
+    <tagref name="tr" file="html/tr.vtm"/>
+    <tagref name="tt" file="html/tt.vtm"/>
+    <tagref name="ul" file="html/ul.vtm"/>
+    <tagref name="var" file="html/var.vtm"/>
+    <tagref name="xml" file="html/directive.processing.vtm" prefix="&lt;?xml"/>
+  </taglibrary>
+  <taglibrary name="CFML Tags" DOCTYPES="ColdFusion,CFC,DWTemplate_CF" serverModel="Cold Fusion" tagchooser="cfml/TagChooser.xml" id="DWTagLibrary_cfml">
+    <tagref name="cfabort" file="cfml/cfabort.vtm"/>
+    <tagref name="cfapplet" file="cfml/cfapplet.vtm"/>
+    <tagref name="cfapplication" file="cfml/cfapplication.vtm"/>
+    <tagref name="cfassociate" file="cfml/cfassociate.vtm"/>
+    <tagref name="cfauthenticate" file="cfml/cfauthenticate.vtm"/>
+    <tagref name="cfbreak" file="cfml/cfbreak.vtm"/>
+    <tagref name="cfcache" file="cfml/cfcache.vtm"/>
+    <tagref name="cfcase" file="cfml/cfcase.vtm"/>
+    <tagref name="cfcatch" file="cfml/cfcatch.vtm"/>
+    <tagref name="cfcol" file="cfml/cfcol.vtm"/>
+    <tagref name="cfcollection" file="cfml/cfcollection.vtm"/>
+    <tagref name="cfcontent" file="cfml/cfcontent.vtm"/>
+    <tagref name="cfcookie" file="cfml/cfcookie.vtm"/>
+    <tagref name="cfdefaultcase" file="cfml/cfdefaultcase.vtm"/>
+    <tagref name="cfdirectory" file="cfml/cfdirectory.vtm"/>
+    <tagref name="cfdump" file="cfml/cfdump.vtm"/>
+    <tagref name="cfelse" file="cfml/cfelse.vtm"/>
+    <tagref name="cfelseif" file="cfml/cfelseif.vtm"/>
+    <tagref name="cferror" file="cfml/cferror.vtm"/>
+    <tagref name="cfexecute" file="cfml/cfexecute.vtm"/>
+    <tagref name="cfexit" file="cfml/cfexit.vtm"/>
+    <tagref name="cffile" file="cfml/cffile.vtm"/>
+    <tagref name="cfflush" file="cfml/cfflush.vtm"/>
+    <tagref name="cfform" file="cfml/cfform.vtm"/>
+    <tagref name="cfftp" file="cfml/cfftp.vtm"/>
+    <tagref name="cfgrid" file="cfml/cfgrid.vtm"/>
+    <tagref name="cfgridcolumn" file="cfml/cfgridcolumn.vtm"/>
+    <tagref name="cfgridrow" file="cfml/cfgridrow.vtm"/>
+    <tagref name="cfgridupdate" file="cfml/cfgridupdate.vtm"/>
+    <tagref name="cfheader" file="cfml/cfheader.vtm"/>
+    <tagref name="cfhtmlhead" file="cfml/cfhtmlhead.vtm"/>
+    <tagref name="cfhttp" file="cfml/cfhttp.vtm"/>
+    <tagref name="cfhttpparam" file="cfml/cfhttpparam.vtm"/>
+    <tagref name="cfif" file="cfml/cfif.vtm"/>
+    <tagref name="cfimpersonate" file="cfml/cfimpersonate.vtm"/>
+    <tagref name="cfinclude" file="cfml/cfinclude.vtm"/>
+    <tagref name="cfindex" file="cfml/cfindex.vtm"/>
+    <tagref name="cfinput" file="cfml/cfinput.vtm"/>
+    <tagref name="cfinsert" file="cfml/cfinsert.vtm"/>
+    <tagref name="cfldap" file="cfml/cfldap.vtm"/>
+    <tagref name="cflocation" file="cfml/cflocation.vtm"/>
+    <tagref name="cflock" file="cfml/cflock.vtm"/>
+    <tagref name="cflog" file="cfml/cflog.vtm"/>
+    <tagref name="cfloop" file="cfml/cfloop.vtm"/>
+    <tagref name="cfmail" file="cfml/cfmail.vtm"/>
+    <tagref name="cfmailparam" file="cfml/cfmailparam.vtm"/>
+    <tagref name="cfmodule" file="cfml/cfmodule.vtm"/>
+    <tagref name="cfobject" file="cfml/cfobject.vtm"/>
+    <tagref name="cfoutput" file="cfml/cfoutput.vtm"/>
+    <tagref name="cfparam" file="cfml/cfparam.vtm"/>
+    <tagref name="cfpop" file="cfml/cfpop.vtm"/>
+    <tagref name="cfprocessingdirective" file="cfml/cfprocessingdirective.vtm"/>
+    <tagref name="cfprocparam" file="cfml/cfprocparam.vtm"/>
+    <tagref name="cfprocresult" file="cfml/cfprocresult.vtm"/>
+    <tagref name="cfquery" file="cfml/cfquery.vtm"/>
+    <tagref name="cfqueryparam" file="cfml/cfqueryparam.vtm"/>
+    <tagref name="cfregistry" file="cfml/cfregistry.vtm"/>
+    <tagref name="cfreport" file="cfml/cfreport.vtm"/>
+    <tagref name="cfrethrow" file="cfml/cfrethrow.vtm"/>
+    <tagref name="cfsavecontent" file="cfml/cfsavecontent.vtm"/>
+    <tagref name="cfschedule" file="cfml/cfschedule.vtm"/>
+    <tagref name="cfscript" file="cfml/cfscript.vtm"/>
+    <tagref name="cfsearch" file="cfml/cfsearch.vtm"/>
+    <tagref name="cfselect" file="cfml/cfselect.vtm"/>
+    <tagref name="cfservlet" file="cfml/cfservlet.vtm"/>
+    <tagref name="cfservletparam" file="cfml/cfservletparam.vtm"/>
+    <tagref name="cfset" file="cfml/cfset.vtm"/>
+    <tagref name="cfsetting" file="cfml/cfsetting.vtm"/>
+    <tagref name="cfsilent" file="cfml/cfsilent.vtm"/>
+    <tagref name="cfslider" file="cfml/cfslider.vtm"/>
+    <tagref name="cfstoredproc" file="cfml/cfstoredproc.vtm"/>
+    <tagref name="cfswitch" file="cfml/cfswitch.vtm"/>
+    <tagref name="cftable" file="cfml/cftable.vtm"/>
+    <tagref name="cftextinput" file="cfml/cftextinput.vtm"/>
+    <tagref name="cfthrow" file="cfml/cfthrow.vtm"/>
+    <tagref name="cftransaction" file="cfml/cftransaction.vtm"/>
+    <tagref name="cftree" file="cfml/cftree.vtm"/>
+    <tagref name="cftreeitem" file="cfml/cftreeitem.vtm"/>
+    <tagref name="cftry" file="cfml/cftry.vtm"/>
+    <tagref name="cfupdate" file="cfml/cfupdate.vtm"/>
+    <tagref name="cfwddx" file="cfml/cfwddx.vtm"/>
+    <tagref name="cfx_cybercash" file="cfml/cfx_cybercash.vtm"/>
+    <tagref name="cfx_icv" file="cfml/cfx_icv.vtm"/>
+    <tagref name="cfargument" file="cfml/cfargument.vtm" />
+    <tagref name="cfcomponent" file="cfml/cfcomponent.vtm" />
+    <tagref name="cffunction" file="cfml/cffunction.vtm" />
+    <tagref name="cfinvoke" file="cfml/cfinvoke.vtm" />
+    <tagref name="cfinvokeargument" file="cfml/cfinvokeargument.vtm" />
+    <tagref name="cfproperty" file="cfml/cfproperty.vtm" />
+    <tagref name="cfreturn" file="cfml/cfreturn.vtm" />
+    <tagref name="cfchart" file="cfml/cfchart.vtm" />
+    <tagref name="cfchartdata" file="cfml/cfchartdata.vtm" />
+    <tagref name="cfchartseries" file="cfml/cfchartseries.vtm" />
+    <tagref name="cffinally" file="cfml/cffinally.vtm" />
+    <tagref name="cfimport" file="cfml/cfimport.vtm" />
+    <tagref name="cflogin" file="cfml/cflogin.vtm" />
+    <tagref name="cfloginuser" file="cfml/cfloginuser.vtm" />
+    <tagref name="cflogout" file="cfml/cflogout.vtm" />
+    <tagref name="cfobjectcache" file="cfml/cfobjectcache.vtm" />
+    <tagref name="cftrace" file="cfml/cftrace.vtm" />
+    <tagref name="cfxml" file="cfml/cfxml.vtm" />
+  </taglibrary>
+  <taglibrary name="ASP.NET Tags" DOCTYPES="ASP.NET_CSharp,ASP.NET_VB,DWTemplate_AXCS,DWTemplate_AXVB" serverModel="ASPNet" prefix="&lt;asp:" tagchooser="ASPNet/TagChooser.xml" id="DWTagLibrary_aspnet">
+    <tagref name="expression" file="aspnet/expression.vtm" prefix="&lt;%#"/>
+    <tagref name="adrotator" file="aspnet/adrotator.vtm"/>
+    <tagref name="boundcolumn" file="aspnet/boundcolumn.vtm"/>
+    <tagref name="button" file="aspnet/button.vtm"/>
+    <tagref name="buttoncolumn" file="aspnet/buttoncolumn.vtm"/>
+    <tagref name="calendar" file="aspnet/calendar.vtm"/>
+    <tagref name="checkbox" file="aspnet/checkbox.vtm"/>
+    <tagref name="checkboxlist" file="aspnet/checkboxlist.vtm"/>
+    <tagref name="comparevalidator" file="aspnet/comparevalidator.vtm"/>
+    <tagref name="customvalidator" file="aspnet/customvalidator.vtm"/>
+    <tagref name="dropdownlist" file="aspnet/dropdownlist.vtm"/>
+    <tagref name="datagrid" file="aspnet/datagrid.vtm"/>
+    <tagref name="datalist" file="aspnet/datalist.vtm"/>
+    <tagref name="editcommandcolumn" file="aspnet/editcommandcolumn.vtm"/>
+    <tagref name="hyperlink" file="aspnet/hyperlink.vtm"/>
+    <tagref name="hyperlinkcolumn" file="aspnet/hyperlinkcolumn.vtm"/>
+    <tagref name="image" file="aspnet/image.vtm"/>
+    <tagref name="imagebutton" file="aspnet/imagebutton.vtm"/>
+    <tagref name="label" file="aspnet/label.vtm"/>
+    <tagref name="linkbutton" file="aspnet/linkbutton.vtm"/>
+    <tagref name="listbox" file="aspnet/listbox.vtm"/>
+    <tagref name="listitem" file="aspnet/listitem.vtm"/>
+    <tagref name="literal" file="aspnet/literal.vtm"/>
+    <tagref name="panel" file="aspnet/panel.vtm"/>
+    <tagref name="placeholder" file="aspnet/placeholder.vtm"/>
+    <tagref name="radiobutton" file="aspnet/radiobutton.vtm"/>
+    <tagref name="radiobuttonlist" file="aspnet/radiobuttonlist.vtm"/>
+    <tagref name="rangevalidator" file="aspnet/rangevalidator.vtm"/>
+    <tagref name="regularexpressionvalidator" file="aspnet/regularexpressionvalidator.vtm"/>
+    <tagref name="repeater" file="aspnet/repeater.vtm"/>
+    <tagref name="requiredfieldvalidator" file="aspnet/requiredfieldvalidator.vtm"/>
+    <tagref name="table" file="aspnet/table.vtm"/>
+    <tagref name="tablecell" file="aspnet/tablecell.vtm"/>
+    <tagref name="tableheadercell" file="aspnet/tableheadercell.vtm"/>
+    <tagref name="tablerow" file="aspnet/tablerow.vtm"/>
+    <tagref name="textbox" file="aspnet/textbox.vtm"/>
+    <tagref name="templatecolumn" file="aspnet/templatecolumn.vtm"/>
+    <tagref name="validationsummary" file="aspnet/validationsummary.vtm"/>
+    <tagref name="xml" file="aspnet/xml.vtm"/>
+    <tagref name="dataset" file="aspnet/dataset.vtm" prefix="&lt;mm:dataset"/>
+    <tagref name="delete" file="aspnet/delete.vtm" prefix="&lt;mm:delete"/>
+    <tagref name="if" file="aspnet/if.vtm" prefix="&lt;mm:if"/>
+    <tagref name="insert" file="aspnet/insert.vtm" prefix="&lt;mm:insert"/>
+    <tagref name="pagebind" file="aspnet/pagebind.vtm" prefix="&lt;mm:pagebind"/>
+    <tagref name="parameter" file="aspnet/parameter.vtm" prefix="&lt;parameter"/>
+    <tagref name="parameters" file="aspnet/parameters.vtm" prefix="&lt;parameters"/>
+    <tagref name="update" file="aspnet/update.vtm" prefix="&lt;mm:update"/>
+    <tagref name="alternatingitemstyle" file="aspnet/alternatingitemstyle.vtm" prefix="&lt;alternatingitemstyle" />
+    <tagref name="edititemstyle" file="aspnet/edititemstyle.vtm" prefix="&lt;edititemstyle"/>
+    <tagref name="footerstyle" file="aspnet/footerstyle.vtm" prefix="&lt;footerstyle"/>
+    <tagref name="headerstyle" file="aspnet/headerstyle.vtm" prefix="&lt;headerstyle"/>
+    <tagref name="itemstyle" file="aspnet/itemstyle.vtm" prefix="&lt;itemstyle"/>
+    <tagref name="pagerstyle" file="aspnet/pagerstyle.vtm" prefix="&lt;pagerstyle"/>
+    <tagref name="selecteditemstyle" file="aspnet/selecteditemstyle.vtm" prefix="&lt;selecteditemstyle"/>
+    <tagref name="tablestyle" file="aspnet/tablestyle.vtm" prefix="&lt;tablestyle"/>
+    <tagref name="tableitemstyle" file="aspnet/tableitemstyle.vtm" prefix="&lt;tableitemstyle"/>
+    <tagref name="alternatingitemtemplate" file="aspnet/alternatingitemtemplate.vtm" prefix="&lt;alternatingitemtemplate"/>
+    <tagref name="columns" file="aspnet/columns.vtm" prefix="&lt;columns"/>
+    <tagref name="contentstemplate" file="aspnet/contentstemplate.vtm" prefix="&lt;contentstemplate"/>
+    <tagref name="edititemtemplate" file="aspnet/edititemtemplate.vtm" prefix="&lt;edititemtemplate"/>
+    <tagref name="failuretemplate" file="aspnet/failuretemplate.vtm" prefix="&lt;failuretemplate"/>
+    <tagref name="footertemplate" file="aspnet/footertemplate.vtm" prefix="&lt;footertemplate"/>
+    <tagref name="headertemplate" file="aspnet/headertemplate.vtm" prefix="&lt;headertemplate"/>
+    <tagref name="itemtemplate" file="aspnet/itemtemplate.vtm" prefix="&lt;itemtemplate"/>
+    <tagref name="selecteditemtemplate" file="aspnet/selecteditemtemplate.vtm" prefix="&lt;selecteditemtemplate"/>
+    <tagref name="separatortemplate" file="aspnet/separatortemplate.vtm" prefix="&lt;separatortemplate"/>
+    <tagref name="successtemplate" file="aspnet/successtemplate.vtm" prefix="&lt;successtemplate"/>
+  </taglibrary>
+  <taglibrary name="JSP Tags" DOCTYPES="JSP,DWTemplate_JSP" serverModel="JSP" prefix="&lt;jsp:" tagchooser="jsp/TagChooser.xml" id="DWTagLibrary_jsp">
+    <tagref name="declaration" file="jsp/declaration.vtm" prefix="&lt;%!"/>
+    <tagref name="include directive" file="jsp/directive.include.vtm" prefix="&lt;%@ include"/>
+    <tagref name="page directive" file="jsp/directive.page.vtm" prefix="&lt;%@ page"/>
+    <tagref name="taglib directive" file="jsp/directive.taglib.vtm" prefix="&lt;%@ taglib"/>
+    <tagref name="expression" file="jsp/expression.vtm" prefix="&lt;%="/>
+    <tagref name="fallback" file="jsp/fallback.vtm"/>
+    <tagref name="forward" file="jsp/forward.vtm"/>
+    <tagref name="getProperty" file="jsp/getproperty.vtm"/>
+    <tagref name="include" file="jsp/include.vtm"/>
+    <tagref name="param" file="jsp/param.vtm"/>
+    <tagref name="params" file="jsp/params.vtm"/>
+    <tagref name="plugin" file="jsp/plugin.vtm"/>
+    <tagref name="scriptlet" file="jsp/scriptlet.vtm" prefix="&lt;%"/>
+    <tagref name="setProperty" file="jsp/setproperty.vtm"/>
+    <tagref name="useBean" file="jsp/usebean.vtm"/>
+  </taglibrary>
+  <taglibrary name="JRun Custom Library" DOCTYPES="JSP,DWTemplate_JSP" serverModel="JSP" prefix="&lt;jrun:" tagchooser="jrun/TagChooser.xml" id="DWTagLibrary_jrun">
+    <tagref name="case" file="jrun/case.vtm"/>
+    <tagref name="foreach" file="jrun/foreach.vtm"/>
+    <tagref name="form" file="jrun/form.vtm"/>
+    <tagref name="getmail" file="jrun/getmail.vtm"/>
+    <tagref name="getmsg" file="jrun/getmsg.vtm"/>
+    <tagref name="if" file="jrun/if.vtm"/>
+    <tagref name="input" file="jrun/input.vtm"/>
+    <tagref name="jndi" file="jrun/jndi.vtm"/>
+    <tagref name="mailparam" file="jrun/mailparam.vtm"/>
+    <tagref name="msgparam" file="jrun/msgparam.vtm"/>
+    <tagref name="param" file="jrun/param.vtm"/>
+    <tagref name="query2xml" file="jrun/query2xml.vtm"/>
+    <tagref name="select" file="jrun/select.vtm"/>
+    <tagref name="sendmail" file="jrun/sendmail.vtm"/>
+    <tagref name="sendmsg" file="jrun/sendmsg.vtm"/>
+    <tagref name="servlet" file="jrun/servlet.vtm"/>
+    <tagref name="servletparam" file="jrun/servletparam.vtm"/>
+    <tagref name="sql" file="jrun/sql.vtm"/>
+    <tagref name="sqlparam" file="jrun/sqlparam.vtm"/>
+    <tagref name="switch" file="jrun/switch.vtm"/>
+    <tagref name="transaction" file="jrun/transaction.vtm"/>
+    <tagref name="xslt" file="jrun/xslt.vtm"/>
+  </taglibrary>
+  <taglibrary name="ASP Tags" DOCTYPES="ASP-JS,ASP-VB,DWTemplate_ASPJS,DWTemplate_ASPVB" serverModel="ASP" tagchooser="asp/TagChooser.xml" id="DWTagLibrary_asp">
+    <tagref name="expression" file="asp/expression.vtm" prefix="&lt;%="/>
+    <tagref name="scriptlet" file="asp/scriptlet.vtm" prefix="&lt;%"/>
+  </taglibrary>
+  <taglibrary name="PHP Tags" DOCTYPES="PHP_MySQL,DWTemplate_PHP" serverModel="PHP_MySQL" tagchooser="php_mysql/TagChooser.xml" id="DWTagLibrary_php">
+    <tagref name="processing instruction" file="PHP_MySQL/directive.processing.vtm" prefix="&lt;?"/>
+    <tagref name="php echo" file="PHP_MySQL/directive.phpEcho.vtm" prefix="&lt;?php echo"/>
+    <tagref name="echo" file="PHP_MySQL/directive.echo.vtm" prefix="&lt;?echo"/>
+    <tagref name="space echo" file="PHP_MySQL/directive.spaceEcho.vtm" prefix="&lt;? echo"/>
+    <tagref name="php print" file="PHP_MySQL/directive.phpPrint.vtm" prefix="&lt;?php print"/>
+    <tagref name="print" file="PHP_MySQL/directive.print.vtm" prefix="&lt;?print"/>
+    <tagref name="space print" file="PHP_MySQL/directive.spacePrint.vtm" prefix="&lt;? print"/>
+  </taglibrary>
+  <taglibrary name="Template Tags" DOCTYPES="HTML,DWTemplate,DWTemplate_ASPVB,DWTemplate_ASPJS,DWTemplate_CF,DWTemplate_JSP,DWTemplate_AXCS,DWTemplate_AXVB,DWTemplate_PHP" tagchooser="(none)" id="DWTagLibrary_templates">
+    <tagref name="atExpr" file="templates/atExpr.vtm" prefix="@@("/>
+    <tagref name="passthroughAtExpr" file="templates/passthroughAtExpr.vtm" prefix="@@@("/>
+  </taglibrary>
+  <taglibrary name="WML Tags" DOCTYPES="WML" tagchooser="wml/TagChooser.xml" id="DWTagLibrary_wml">
+    <tagref name="a" file="wml/a.vtm"/>
+    <tagref name="access" file="wml/access.vtm"/>
+    <tagref name="anchor" file="wml/anchor.vtm"/>
+    <tagref name="async" file="wml/async.vtm"/>
+    <tagref name="b" file="wml/b.vtm"/>
+    <tagref name="big" file="wml/big.vtm"/>
+    <tagref name="br" file="wml/br.vtm"/>
+    <tagref name="card" file="wml/card.vtm"/>
+    <tagref name="catch" file="wml/catch.vtm"/>
+    <tagref name="do" file="wml/do.vtm"/>
+    <tagref name="em" file="wml/em.vtm"/>
+    <tagref name="exit" file="wml/exit.vtm"/>
+    <tagref name="fieldset" file="wml/fieldset.vtm"/>
+    <tagref name="go" file="wml/go.vtm"/>
+    <tagref name="head" file="wml/head.vtm"/>
+    <tagref name="i" file="wml/i.vtm"/>
+    <tagref name="img" file="wml/img.vtm"/>
+    <tagref name="input" file="wml/input.vtm"/>
+    <tagref name="link" file="wml/link.vtm"/>
+    <tagref name="meta" file="wml/meta.vtm"/>
+    <tagref name="noop" file="wml/noop.vtm"/>
+    <tagref name="onevent" file="wml/onevent.vtm"/>
+    <tagref name="optgroup" file="wml/optgroup.vtm"/>
+    <tagref name="option" file="wml/option.vtm"/>
+    <tagref name="p" file="wml/p.vtm"/>
+    <tagref name="postfield" file="wml/postfield.vtm"/>
+    <tagref name="prev" file="wml/prev.vtm"/>
+    <tagref name="receive" file="wml/receive.vtm"/>
+    <tagref name="refresh" file="wml/refresh.vtm"/>
+    <tagref name="reset" file="wml/reset.vtm"/>
+    <tagref name="select" file="wml/select.vtm"/>
+    <tagref name="send" file="wml/send.vtm"/>
+    <tagref name="setvar" file="wml/setvar.vtm"/>
+    <tagref name="small" file="wml/small.vtm"/>
+    <tagref name="spawn" file="wml/spawn.vtm"/>
+    <tagref name="strong" file="wml/strong.vtm"/>
+    <tagref name="table" file="wml/table.vtm"/>
+    <tagref name="td" file="wml/td.vtm"/>
+    <tagref name="template" file="wml/template.vtm"/>
+    <tagref name="throw" file="wml/throw.vtm"/>
+    <tagref name="timer" file="wml/timer.vtm"/>
+    <tagref name="tr" file="wml/tr.vtm"/>
+    <tagref name="u" file="wml/u.vtm"/>
+    <tagref name="wml" file="wml/wml.vtm"/>
+  </taglibrary>
+  <taglibrary name="Sitespring Project Site Tags" DOCTYPES="JSP,DWTemplate_JSP" serverModel="JSP" prefix="&lt;client:" tagchooser="Sitespring/TagChooser.xml" ID="Sitespring">
+    <tagref name="projectstatusmodule" file="Sitespring/projectstatusmodule.vtm"/>
+    <tagref name="clienttaskmodule" file="Sitespring/clienttaskmodule.vtm"/>
+    <tagref name="teamtaskmodule" file="Sitespring/teamtaskmodule.vtm"/>
+    <tagref name="documentlistmodule" file="Sitespring/documentlistmodule.vtm"/>
+    <tagref name="uploadmodule" file="Sitespring/uploadmodule.vtm"/>
+    <tagref name="threadmodule" file="Sitespring/threadmodule.vtm"/>
+    <tagref name="threadtopicmodule" file="Sitespring/threadtopicmodule.vtm"/>
+    <tagref name="createthreadmodule" file="Sitespring/createthreadmodule.vtm"/>
+    <tagref name="clienttaskupdatemodule" file="Sitespring/clienttaskupdatemodule.vtm"/>
+    <tagref name="docitemapprovalmodule" file="Sitespring/docitemapprovalmodule.vtm"/>
+    <tagref name="threadpostmodule" file="Sitespring/threadpostmodule.vtm"/>
+    <tagref name="errors" file="Sitespring/errors.vtm"/>
+    <tagref name="contactmodule" file="Sitespring/contactmodule.vtm"/>
+  </taglibrary>
+  <taglibrary name="SIF tags" DOCTYPES="ColdFusion,HTML" id="DWTagLibrary_SIF_tags">
+    <tagref name="cf_web_portlet" file="sif tags/cf_web_portlet.vtm"/>
+    <tagref name="cf_cuentas" file="sif tags/cf_cuentas.vtm"/>
+    <tagref name="cf_popUp" file="sif tags/cf_popUp.vtm"/>
+    <tagref name="cf_Portlet" file="sif tags/cf_Portlet.vtm"/>
+    <tagref name="cf_sifayuda" file="sif tags/cf_sifayuda.vtm"/>
+    <tagref name="cf_sifHTML2Word" file="sif tags/cf_sifHTML2Word.vtm"/>
+    <tagref name="cf_sifleerimagen" file="sif tags/cf_sifleerimagen.vtm"/>
+    <tagref name="cf_sifportlet" file="sif tags/cf_sifportlet.vtm"/>
+  </taglibrary>
+</taglibraries>

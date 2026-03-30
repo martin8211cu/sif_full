@@ -1,0 +1,112 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 180 - DBM 297: Observaciones Liquidación
+
+	         PARCHE:  Parche023_293_SIF_ViaticosComision
+
+GENERADO EN:
+	SERVER:  http://mxpapp36:8300
+	DSN:     sifcim
+	FECHA:   08/10/2011 07:42:51
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* CHG_TABLE GEcomision: Comision de Viaticos */
+/* ======================================================================================== */
+/* DEL_COLUMN OP=(OBSOLETO): CBid_TCE - CBid_TCE */
+ALTER TABLE GEcomision DROP COLUMN CBid_TCE
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* DEL_COLUMN OP=(OBSOLETO): GEChorafinReal - Hora fin comision real */
+ALTER TABLE GEcomision DROP COLUMN GEChorafinReal
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* DEL_COLUMN OP=(OBSOLETO): GEChorainiReal - Hora inicio comision real */
+ALTER TABLE GEcomision DROP COLUMN GEChorainiReal
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* CHG_COLUMN OP=(CAMBIO): GECobservacionesArrend - Observaciones Arrendamiento */
+EXEC sp_rename 'GEcomision.GECobservaciones2', 'GECobservacionesArrend', 'COLUMN'
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_COLUMN OP=(CAMBIO): GECdesdeReal - Fecha inicio real Menor GELdesde */
+EXEC sp_rename 'GEcomision.GECfechainiReal', 'GECdesdeReal', 'COLUMN'
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_COLUMN OP=(CAMBIO): GEChastaReal - Fecha fin real Mayor GELhasta */
+EXEC sp_rename 'GEcomision.GECfechafinReal', 'GEChastaReal', 'COLUMN'
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): GECobservacionesLiq - Observaciones Liquidacion */
+ALTER TABLE GEcomision ADD GECobservacionesLiq varchar(255) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): GECobservacionesResultado - Resultados Liquidacion */
+ALTER TABLE GEcomision ADD GECobservacionesResultado varchar(255) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): GECobservacionesExceso - Motivo Exceso */
+ALTER TABLE GEcomision ADD GECobservacionesExceso varchar(255) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): GECdesdePlan - Fecha inicio planeada Menor GEAdesde */
+ALTER TABLE GEcomision ADD GECdesdePlan datetime NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): GEChastaPlan - Fecha fin planeada Mayor GEAhasta */
+ALTER TABLE GEcomision ADD GEChastaPlan datetime NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE GEliquidacion: GEliquidacion */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): GELdesde - Fecha inicio real */
+ALTER TABLE GEliquidacion ADD GELdesde datetime NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): GELhasta - Fecha fin real */
+ALTER TABLE GEliquidacion ADD GELhasta datetime NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ================================================================= */
+/*            CREA FKs NUEVOS O CON CAMPOS MODIFICADOS               */
+/* ================================================================= */
+/* CHG_TABLE GEcomision */
+/* ADD_FK OP=(NUEVO): TIP="F", SEC="2", COLS="CBid", REF="CuentasBancos" */
+ALTER TABLE GEcomision ADD CONSTRAINT GEcomision_FK02 FOREIGN KEY (CBid) REFERENCES CuentasBancos (CBid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

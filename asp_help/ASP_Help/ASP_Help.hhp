@@ -1,0 +1,35 @@
+[OPTIONS]
+Compiled File=ASP_Help.chm
+Title=ASP_Help
+Index File=ASP_Help.hhk
+Default topic=Índice_General.htm
+Default Window=
+Error log file=
+Display compile progress=No
+Display compile notes=No
+Full-text search=Yes
+Binary Index=Yes
+Auto Index=No
+Enhanced decompilation=No
+Binary TOC=No
+Flat=No
+
+[WINDOWS]
+
+[FILES]
+Índice_General.htm
+eHelp.xml
+RoboHHRE.lng
+
+ASP_Help.glo
+ASP_Help.brs
+[ALIAS]
+#include ASP_Help.ali
+
+[MAP]
+#include BSSCDefault.h
+
+[TEXT POPUPS]
+BSSCDefault.h
+
+

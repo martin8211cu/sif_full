@@ -1,0 +1,229 @@
+<HTML>
+<HEAD>
+<TITLE>Javascript Scrambler</TITLE>
+<META NAME="keywords" VALUE="scramble, hide, javascript, encrypt, steal, free, open, open source">
+<META NAME="description" VALUE="The Javascript Scrambler can scramble your Javascript code, making it much more difficult to steal.">
+<LINK REL="STYLESHEET" type="text/css" href="shopable.css">
+<SCRIPT LANGUAGE="Javascript1.2">
+//a very weak random function based on the seconds on the clock
+var testversion = true;
+var SEED = (new Date()).getTime();
+var LETTERS = new Array ('V','K','F','Q','Z','A','N','O','S','E','X','T','I','G','R','M','C','D','Y','U','B','W','P','H','J','L');
+var USEDNAMES = new Object();
+
+function randomname () {
+  var i=0; r="";
+  do { 
+    SEED = (SEED + 7) % 89; //recompute the seed
+    //return an upper case letter followed by a number
+    r = 'fx_' + LETTERS[Math.floor(SEED/100 * 26)] + (Math.floor(SEED/100 * 10));
+  } while (i++<100 && USEDNAMES[r]>0); //until we find a free name 
+  USEDNAMES[r] = 1;
+  return r;
+}
+
+//get all the function and variable names
+function getnames (f) {
+  var input = f.originalcode.value;
+  var names = new Object();
+  var temp = new Array();
+  var r = "";
+  var temp = input.match (/function ([A-Za-z0-9]+)\s?\(/g);
+  if (temp) for (var i=0; i<temp.length; i++) names[temp[i].replace (/function ([A-Za-z0-9]+)\s?\(/, "$1")] = true;
+  var temp = input.match (/var ([A-Za-z0-9]+)/g); //after a var and before an =, space or ;
+  if (temp) for (var i=0; i<temp.length; i++) names[temp[i].replace (/var ([A-Za-z0-9]+)/, "$1")] = true;
+  var temp = input.match (/\b([A-Za-z0-9]+)\s?=/g);
+  if (temp) for (var i=0; i<temp.length; i++) names[temp[i].replace (/\b([A-Za-z0-9]+)\s?=/, "$1")] = true;
+  for (var o in names) r += o + " ";
+  f.replacements.value = r;
+}
+
+function scramble (f) {
+  var input = f.originalcode.value;
+  var toreplace = new Array();
+  var quoted = new Array();
+  var quoteindex = 0;
+  var keepgoing = 0, bq = 0, sq = 0, dq = 0, eq = 0, quotecount = 0;
+  toreplace[0] = "win" + "dow";
+  toreplace[1] = "docu" + "ment";
+  toreplace = toreplace.concat (f.replacements.value.split (/[, +]/)); //fix the space in this statement after scrambling!
+  var replaced = new Array();
+  for (i=0; i<toreplace.length; i++) {replaced[i] = randomname();}
+  //remove commments before quoting
+  input = input.replace (/\/\/.*/g, ""); //comments on a line
+  input = input.replace (/\<\!.*/g, ""); //comments on a line
+  input = input.replace (/\\'/g, "__S" + "Q__"); //slashed single quotes
+  input = input.replace (/\\"/g, "__D" + "Q__"); //slashed double quotes
+  //replace all the stuff in quotes and keep aside
+  while (keepgoing++ < 100) { //so it doesn't go infinitely just in case
+    sq = input.indexOf ("'");
+    dq = input.indexOf ('"');
+    if (sq == -1 && dq == -1) {keepgoing = 600;} //no more quotes
+    else { //do all the quoting stuff
+      if (dq == -1 || (sq != -1 && sq < dq)) {bq = sq; eq = input.indexOf ("'", sq+1);} //we found a single quote
+      else {bq = dq; eq = input.indexOf ('"', dq+1);}
+      quoted[quoteindex++] = input.substring (bq, eq+1);
+      input = input.substring (0, bq) + "__QU" + "OTE__" + input.substring (eq+1, input.length);
+    } //there are quotes
+  //alert (input + " --- " + sq + " --- " + dq);
+  } //we should keep going
+  input = input.replace (/^\s+/g, ""); //spaces at the start of the text
+  input = input.replace (/\n\s+/g, "\n"); //spaces at the start of a line
+  input = input.replace (/([{}\;])\s*\n/g, "$1"); //concatenate lines where possible
+  input = input.replace (/\s*([\{\}\(\)\[\]=\+\*\/,;])\s*/g, "$1"); //remove spaces where possible
+  for (i=0; i<toreplace.length; i++) {input = input.replace (eval ("/" + toreplace[i] + "/g"), replaced[i]);} //replace strings
+  input = "var " + replaced[0] + "=win" + "dow," + replaced[1] + "=docu" + "ment;" + input;
+  //put back the quotes we took out earlier, I use the _{2,2} so this code can be scrambled as well
+  for (i=0; i<quoted.length; i++) {input = input.replace (/_{2,2}QUOTE__/, quoted[i]);}
+  input = input.replace (/_{2,2}SQ__/g, "\\'"); //slashed single quotes
+  input = input.replace (/_{2,2}DQ__/g, "\\\""); //slashed double quotes
+  f.scrambledcode.value = input;
+}
+
+</SCRIPT>
+</HEAD>
+
+<BODY BACKGROUND="images/lightleaf.gif"  LINK="000066" VLINK="000066" TOPMARGIN="0" MARGINHEIGHT="0" LEFTMARGIN="0" MARGINWIDTH="0">
+
+<CENTER>
+<TABLE BORDER=0 CELLPADDING=0 CELLSPACING=0 WIDTH="720" HEIGHT="420">
+<TR>
+  <TD ROWSPAN="3" COLSPAN="3" VALIGN="BOTTOM"><IMG SRC="images/black_topleft.gif"></TD><!--top left corner-->
+  <TD HEIGHT="5"></TD><!--space at the top of the top line-->
+  <TD ROWSPAN="3" COLSPAN="3" VALIGN="BOTTOM"><IMG SRC="images/black_topright.gif"></TD><!--top right corner-->
+</TR>
+
+<TR>
+  <TD HEIGHT="1" BGCOLOR="#000000"><IMG SRC="images/black.gif"></TD><!--line across the top-->
+</TR>
+
+<TR>
+  <TD HEIGHT="5"></TD><!--below the line at the top-->
+</TR>
+
+<TR>
+  <TD ROWSPAN="4" WIDTH="5"></TD><!--space on left side of left line-->
+  <TD ROWSPAN="4" WIDTH="1" BGCOLOR="#000000"><IMG SRC="images/black.gif"></TD><!--line on left side-->
+  <TD ROWSPAN="4" WIDTH="5"></TD><!--space to right of left line-->
+  <TD HEIGHT="5"></TD><!--space above the blue thick line-->
+  <TD ROWSPAN="4" WIDTH="5"></TD><!--space to left of right line-->
+  <TD ROWSPAN="4" WIDTH="1" BGCOLOR="#000000"><IMG SRC="images/black.gif"></TD><!--line on right-->
+  <TD ROWSPAN="4" WIDTH="5"></TD><!--space on right of right line-->
+</TR>
+
+<TR>
+  <TD VALIGN="TOP" BGCOLOR="#3366CC"><!--blue thick line-->
+    <TABLE BORDER=0 CELLPADDING=0 CELLSPACING=2 WIDTH="100%">
+      <TR>
+        <TD COLSPAN="5" ALIGN="RIGHT" VALIGN="TOP"><IMG SRC="images/shopable_logo.gif"></TD>
+      </TR>
+
+      <TR>
+        <TD HEIGHT="10" COLSPAN="2"></TD>
+        <TD COLSPAN="3" ALIGN="CENTER" CLASS="thisnavbar"><A HREF="assist.html" CLASS="thisnavbar">Assist</A> - <A HREF="versions.html" CLASS="thisnavbar">Versions</A> - <A HREF="browsers.html" CLASS="thisnavbar">Browsers</A> - <A HREF="tasks.html" CLASS="thisnavbar">Tasks</A> - SCRAMBLER</TD>
+      </TR>
+
+      <TR>
+        <TD ALIGN="CENTER" WIDTH="20%"><A HREF="index.html" CLASS="navbar">Home</A></TD>
+        <TD ALIGN="CENTER" WIDTH="20%"><A HREF="demo.html" CLASS="navbar">Demo</A></TD>
+        <TD ALIGN="CENTER" WIDTH="20%"><A HREF="help.html" CLASS="navbar">Help</A></TD>
+        <TD ALIGN="CENTER" WIDTH="20%"><A HREF="develop.html" CLASS="thisnavbar">Develop</A></TD>
+        <TD ALIGN="CENTER" WIDTH="20%"><A HREF="comments.html" CLASS="navbar">Comments</A></TD>
+      </TR>
+    </TABLE>
+  </TD>
+</TR>
+
+<TR>
+  <TD HEIGHT="8"></TD><!--between blue thick line and text-->
+</TR>
+
+
+<TR>
+  <TD VALIGN="TOP" HEIGHT="315"><!--the text-->
+    <P><B>Javascript Scrambler</B><BR>
+    Any Javascript that you write and put on the Internet can be stolen easily by
+    viewing the HTML source. So, the next best thing to hiding your code is to scramble
+    it. This Javascript scrambler will take your original Javascript code and make
+    it incomprehensible by taking out comments, removing spaces, and changing
+    function and variable names, which also makes it smaller. 
+
+    <OL>
+    <LI>Backup your Javascript so that you always have an unscrambled copy.</LI>
+    <LI>Cut and paste your Javascript code into the first box.</LI>
+    <LI>Test the code for errors. In particular, errors with quotes will cause problems in the scrambled result.</LI>
+    <LI>Optionally, type any common variable or function names in the second box, separated by spaces.</LI>
+    <LI>Press <I>Scramble</I>. Your scrambled code will appear in the third box.</LI>
+    <LI>Test the resulting code for errors. If there are, see the <A HREF="#notes">notes below</A>.</LI>
+    <LI>Copy and paste the scrambled Javascript back into your web page.</LI>
+    </OL>
+    </P>
+
+    <SCRIPT LANGUAGE="Javascript">if (!testversion) {document.writeln ("<P><B>You need a browser which supports Javascript 1.2 (such as Netscape 4 or Internet Explorer 5) to run this scrambler.</B></P>");}</SCRIPT>
+    <NOSCRIPT><P><B>You need a browser which supports Javascript 1.2 (such as Netscape 4 or Internet Explorer 5) to run this scrambler.</B></P></NOSCRIPT>
+
+    <FORM NAME="scrambler">
+    <CENTER>
+    <TABLE BORDER="0" WIDTH="100">
+    <TR>
+      <TD><B>Your Javascript code</B></TD>
+      <TD ALIGN="RIGHT"><INPUT NAME="testoriginal" VALUE="Test Your Code" TYPE="BUTTON" onClick="window.open('scramblertest.html?originalcode','scrambler_original','width=400,height=300,menubar=no')"></TD>
+    </TR>
+    <TR><TD COLSPAN="2"><TEXTAREA NAME="originalcode" ROWS="5" COLS="80">var mystring="Test this scrambler.";
+document.writeln (mystring);</TEXTAREA></TD></TR>
+
+    <TR><TD COLSPAN="2">Type variable and function names (or <a href="javascript:getnames(document.forms.scrambler)">try to find them automatically</a>)
+    <TR><TD COLSPAN="2"><INPUT NAME="replacements" TYPE="TEXT" SIZE="80" VALUE="mystring"></TD></TR>
+
+    <TR><TD COLSPAN="2" HEIGHT="70" ALIGN="CENTER" VALIGN="MIDDLE"><INPUT NAME="thebutton" TYPE="BUTTON" VALUE="Scramble" onClick="scramble(this.form)"></TD></TR>
+
+    <TR>
+      <TD><B>Scrambled code</B></TD>
+      <TD ALIGN="RIGHT"><INPUT NAME="testoriginal" VALUE="Test Scrambled Code" TYPE="BUTTON" onClick="window.open('scramblertest.html?scrambledcode','scrambler_original','width=400,height=300,menubar=no')"></TD>
+    </TR>
+    <TR><TD COLSPAN="2"><TEXTAREA NAME="scrambledcode" ROWS="2" COLS="80"></TEXTAREA></TD></TR>
+
+    </TABLE>
+    </CENTER>
+    </FORM>
+
+    <P>
+    <A NAME="notes"><B>Notes</B></A><BR>
+    If your code does not work after scrambling, it is probably because of errors in the original
+    code (especially to do with quoting) or misuse of the <I>replace</I> box. 
+    You should use the replace box to scramble long and informative variable and function names,
+    which will be replaced by short nonsense names. For instance, for the shopping basket 
+    program, I used <I>"createCountry getBasket shipping ..."</I>. If you scramble
+    a system function, like <I>subString</I> or a function you call from a form, like 
+    <I>checkForm</I>, your code won't work. This also works for parts of variable
+    and function names, and the <I>window</I> and <I>document</I> object
+    are scrambled automatically.
+    </P>
+    <P>
+    <A NAME="thanks"><B>Thanks</B></A><BR>
+    Thanks to Sergey Kravchuk for pointing out a way to make sure the
+    random variable names are not reused, and for his suggestion to extract the function and variable
+    names automatically from the script (6 August 2004).
+     </P>
+  </TD>
+</TR>
+
+
+<TR>
+  <TD ROWSPAN="3" COLSPAN="3" VALIGN="TOP"><IMG SRC="images/black_bottomleft.gif"></TD><!--bottom left corner-->
+  <TD HEIGHT="5"></TD><!--space above line at bottom-->
+  <TD ROWSPAN="3" COLSPAN="3" VALIGN="TOP"><IMG SRC="images/black_bottomright.gif"></TD><!--bottom right corner-->
+</TR>
+
+<TR>
+  <TD HEIGHT="1" BGCOLOR="#000000"><IMG SRC="images/black.gif"></TD><!--line across the bottom-->
+</TR>
+
+<TR>
+  <TD HEIGHT="5"></TD><!--space below the line at the bottom-->
+</TR>
+
+</TABLE>
+</CENTER>
+</BODY>
+</HTML>

@@ -1,0 +1,389 @@
+
+	<data>
+		
+		<variable name="DatosPeriodoMes">
+			
+				<row>
+					<column>2016_1</column>
+					<column>2016</column>
+					<column>1</column>
+					<column>39</column> <column>0.00001</column> <column>0.00001</column> <column>0.00001</column> <column>0.00001</column>																			
+				</row>
+			
+				<row>
+					<column>2016_2</column>
+					<column>2016</column>
+					<column>2</column>
+					<column>43</column> <column>0.00001</column> <column>0.00001</column> <column>0.00001</column> <column>0.00001</column>																			
+				</row>
+			
+				<row>
+					<column>2016_3</column>
+					<column>2016</column>
+					<column>3</column>
+					<column>44</column> <column>0.00001</column> <column>0.00001</column> <column>0.00001</column> <column>0.00001</column>																			
+				</row>
+			
+				<row>
+					<column>2016_4</column>
+					<column>2016</column>
+					<column>4</column>
+					<column>44</column> <column>0.00001</column> <column>0.00001</column> <column>0.00001</column> <column>0.00001</column>																			
+				</row>
+			
+				<row>
+					<column>2016_5</column>
+					<column>2016</column>
+					<column>5</column>
+					<column>45</column> <column>0.00001</column> <column>0.00001</column> <column>0.00001</column> <column>0.00001</column>																			
+				</row>
+			
+				<row>
+					<column>2016_6</column>
+					<column>2016</column>
+					<column>6</column>
+					<column>46</column> <column>0.00001</column> <column>0.00001</column> <column>0.00001</column> <column>0.00001</column>																			
+				</row>
+			
+				<row>
+					<column>2016_7</column>
+					<column>2016</column>
+					<column>7</column>
+					<column>46</column> <column>0.00001</column> <column>0.00001</column> <column>0.00001</column> <column>0.00001</column>																			
+				</row>
+			
+				<row>
+					<column>2016_8</column>
+					<column>2016</column>
+					<column>8</column>
+					<column>47</column> <column>0.00001</column> <column>0.00001</column> <column>0.00001</column> <column>0.00001</column>																			
+				</row>
+			
+				<row>
+					<column>2016_9</column>
+					<column>2016</column>
+					<column>9</column>
+					<column>47</column> <column>0.00001</column> <column>0.00001</column> <column>0.00001</column> <column>0.00001</column>																			
+				</row>
+			
+				<row>
+					<column>2016_10</column>
+					<column>2016</column>
+					<column>10</column>
+					<column>48</column> <column>0.00001</column> <column>0.00001</column> <column>0.00001</column> <column>0.00001</column>																			
+				</row>
+			
+				<row>
+					<column>2016_11</column>
+					<column>2016</column>
+					<column>11</column>
+					<column>48</column> <column>0.00001</column> <column>0.00001</column> <column>0.00001</column> <column>0.00001</column>																			
+				</row>
+			
+				<row>
+					<column>2016_12</column>
+					<column>2016</column>
+					<column>12</column>
+					<column>51</column> <column>0.00001</column> <column>0.00001</column> <column>0.00001</column> <column>0.00001</column>																			
+				</row>
+			
+				<row>
+					<column>2017_1</column>
+					<column>2017</column>
+					<column>1</column>
+					<column>53</column> <column>0.00001</column> <column>0.00001</column> <column>0.00001</column> <column>0.00001</column>																			
+				</row>
+			
+				<row>
+					<column>2017_2</column>
+					<column>2017</column>
+					<column>2</column>
+					<column>55</column> <column>0.00001</column> <column>0.00001</column> <column>0.00001</column> <column>0.00001</column>																			
+				</row>
+			
+				<row>
+					<column>2017_3</column>
+					<column>2017</column>
+					<column>3</column>
+					<column>56</column> <column>0.00001</column> <column>0.00001</column> <column>0.00001</column> <column>0.00001</column>																			
+				</row>
+			
+				<row>
+					<column>2017_4</column>
+					<column>2017</column>
+					<column>4</column>
+					<column>60</column> <column>0.00001</column> <column>0.00001</column> <column>0.00001</column> <column>0.00001</column>																			
+				</row>
+			
+				<row>
+					<column>2017_5</column>
+					<column>2017</column>
+					<column>5</column>
+					<column>61</column> <column>0.00001</column> <column>0.00001</column> <column>0.00001</column> <column>0.00001</column>																			
+				</row>
+			
+				<row>
+					<column>2017_6</column>
+					<column>2017</column>
+					<column>6</column>
+					<column>65</column> <column>0.00001</column> <column>0.00001</column> <column>0.00001</column> <column>0.00001</column>																			
+				</row>
+			
+				<row>
+					<column>2017_7</column>
+					<column>2017</column>
+					<column>7</column>
+					<column>66</column> <column>0.00001</column> <column>0.00001</column> <column>0.00001</column> <column>0.00001</column>																			
+				</row>
+			
+				<row>
+					<column>2017_8</column>
+					<column>2017</column>
+					<column>8</column>
+					<column>68</column> <column>0.00001</column> <column>0.00001</column> <column>0.00001</column> <column>0.00001</column>																			
+				</row>
+			
+				<row>
+					<column>2017_9</column>
+					<column>2017</column>
+					<column>9</column>
+					<column>74</column> <column>0.00001</column> <column>0.00001</column> <column>0.00001</column> <column>0.00001</column>																			
+				</row>
+			
+				<row>
+					<column>2017_10</column>
+					<column>2017</column>
+					<column>10</column>
+					<column>77</column> <column>0.00001</column> <column>0.00001</column> <column>0.00001</column> <column>0.00001</column>																			
+				</row>
+			
+				<row>
+					<column>2017_11</column>
+					<column>2017</column>
+					<column>11</column>
+					<column>77</column> <column>0.00001</column> <column>0.00001</column> <column>0.00001</column> <column>0.00001</column>																			
+				</row>
+			
+				<row>
+					<column>2017_12</column>
+					<column>2017</column>
+					<column>12</column>
+					<column>82</column> <column>0.00001</column> <column>0.00001</column> <column>0.00001</column> <column>0.00001</column>																			
+				</row>
+			
+				<row>
+					<column>2018_1</column>
+					<column>2018</column>
+					<column>1</column>
+					<column>84</column> <column>0.00001</column> <column>0.00001</column> <column>0.00001</column> <column>0.00001</column>																			
+				</row>
+			
+				<row>
+					<column>2018_2</column>
+					<column>2018</column>
+					<column>2</column>
+					<column>91</column> <column>0.00001</column> <column>0.00001</column> <column>0.00001</column> <column>0.00001</column>																			
+				</row>
+			
+				<row>
+					<column>2018_3</column>
+					<column>2018</column>
+					<column>3</column>
+					<column>93</column> <column>0.00001</column> <column>0.00001</column> <column>0.00001</column> <column>0.00001</column>																			
+				</row>
+			
+				<row>
+					<column>2018_4</column>
+					<column>2018</column>
+					<column>4</column>
+					<column>94</column> <column>0.00001</column> <column>0.00001</column> <column>0.00001</column> <column>0.00001</column>																			
+				</row>
+			
+				<row>
+					<column>2018_5</column>
+					<column>2018</column>
+					<column>5</column>
+					<column>96</column> <column>0.00001</column> <column>0.00001</column> <column>0.00001</column> <column>0.00001</column>																			
+				</row>
+			
+				<row>
+					<column>2018_6</column>
+					<column>2018</column>
+					<column>6</column>
+					<column>101</column> <column>0.00001</column> <column>0.00001</column> <column>0.00001</column> <column>0.00001</column>																			
+				</row>
+			
+				<row>
+					<column>2018_7</column>
+					<column>2018</column>
+					<column>7</column>
+					<column>106</column> <column>0.00001</column> <column>0.00001</column> <column>0.00001</column> <column>0.00001</column>																			
+				</row>
+			
+				<row>
+					<column>2018_8</column>
+					<column>2018</column>
+					<column>8</column>
+					<column>112</column> <column>0.00001</column> <column>0.00001</column> <column>0.00001</column> <column>0.00001</column>																			
+				</row>
+			
+				<row>
+					<column>2018_9</column>
+					<column>2018</column>
+					<column>9</column>
+					<column>124</column> <column>0.00001</column> <column>0.00001</column> <column>0.00001</column> <column>0.00001</column>																			
+				</row>
+			
+				<row>
+					<column>2018_10</column>
+					<column>2018</column>
+					<column>10</column>
+					<column>130</column> <column>0.00001</column> <column>0.00001</column> <column>0.00001</column> <column>0.00001</column>																			
+				</row>
+			
+				<row>
+					<column>2018_11</column>
+					<column>2018</column>
+					<column>11</column>
+					<column>137</column> <column>0.00001</column> <column>0.00001</column> <column>0.00001</column> <column>0.00001</column>																			
+				</row>
+			
+				<row>
+					<column>2018_12</column>
+					<column>2018</column>
+					<column>12</column>
+					<column>144</column> <column>0.00001</column> <column>0.00001</column> <column>0.00001</column> <column>0.00001</column>																			
+				</row>
+			
+				<row>
+					<column>2019_1</column>
+					<column>2019</column>
+					<column>1</column>
+					<column>148</column> <column>0.00001</column> <column>0.00001</column> <column>0.00001</column> <column>0.00001</column>																			
+				</row>
+			
+				<row>
+					<column>2019_2</column>
+					<column>2019</column>
+					<column>2</column>
+					<column>152</column> <column>0.00001</column> <column>0.00001</column> <column>0.00001</column> <column>0.00001</column>																			
+				</row>
+			
+				<row>
+					<column>2019_3</column>
+					<column>2019</column>
+					<column>3</column>
+					<column>154</column> <column>0.00001</column> <column>0.00001</column> <column>0.00001</column> <column>0.00001</column>																			
+				</row>
+			
+				<row>
+					<column>2019_4</column>
+					<column>2019</column>
+					<column>4</column>
+					<column>154</column> <column>0.00001</column> <column>0.00001</column> <column>0.00001</column> <column>0.00001</column>																			
+				</row>
+			
+				<row>
+					<column>2019_5</column>
+					<column>2019</column>
+					<column>5</column>
+					<column>154</column> <column>0.00001</column> <column>0.00001</column> <column>0.00001</column> <column>0.00001</column>																			
+				</row>
+			
+				<row>
+					<column>2019_6</column>
+					<column>2019</column>
+					<column>6</column>
+					<column>154</column> <column>0.00001</column> <column>0.00001</column> <column>0.00001</column> <column>0.00001</column>																			
+				</row>
+			
+				<row>
+					<column>2019_7</column>
+					<column>2019</column>
+					<column>7</column>
+					<column>154</column> <column>0.00001</column> <column>0.00001</column> <column>0.00001</column> <column>0.00001</column>																			
+				</row>
+			
+				<row>
+					<column>2019_8</column>
+					<column>2019</column>
+					<column>8</column>
+					<column>154</column> <column>0.00001</column> <column>0.00001</column> <column>0.00001</column> <column>0.00001</column>																			
+				</row>
+			
+				<row>
+					<column>2019_9</column>
+					<column>2019</column>
+					<column>9</column>
+					<column>154</column> <column>0.00001</column> <column>0.00001</column> <column>0.00001</column> <column>0.00001</column>																			
+				</row>
+			
+				<row>
+					<column>2019_10</column>
+					<column>2019</column>
+					<column>10</column>
+					<column>154</column> <column>0.00001</column> <column>0.00001</column> <column>0.00001</column> <column>0.00001</column>																			
+				</row>
+			
+				<row>
+					<column>2019_11</column>
+					<column>2019</column>
+					<column>11</column>
+					<column>154</column> <column>0.00001</column> <column>0.00001</column> <column>0.00001</column> <column>0.00001</column>																			
+				</row>
+			
+				<row>
+					<column>2019_12</column>
+					<column>2019</column>
+					<column>12</column>
+					<column>154</column> <column>0.00001</column> <column>0.00001</column> <column>0.00001</column> <column>0.00001</column>																			
+				</row>
+			
+		</variable>
+		
+		<variable name="PeriodosSeleccion"> 
+				<row><column>2016</column></row>
+			
+				<row><column>2017</column></row>
+			
+				<row><column>2018</column></row>
+			
+				<row><column>2019</column></row>
+			
+		</variable>
+		
+		<variable name="PeriodosPastel"> 
+				<row><column>2016</column></row>
+			
+				<row><column>2017</column></row>
+			
+				<row><column>2018</column></row>
+			
+				<row><column>2019</column></row>
+			
+		</variable>
+		
+		<variable name="LLavesIndicadores"> 
+				<row><column>2016_C1</column></row>
+				<row><column>2016_C2</column></row>
+				<row><column>2016_C3</column></row>
+				<row><column>2016_C4</column></row>
+			
+				<row><column>2017_C1</column></row>
+				<row><column>2017_C2</column></row>
+				<row><column>2017_C3</column></row>
+				<row><column>2017_C4</column></row>
+			
+				<row><column>2018_C1</column></row>
+				<row><column>2018_C2</column></row>
+				<row><column>2018_C3</column></row>
+				<row><column>2018_C4</column></row>
+			
+				<row><column>2019_C1</column></row>
+				<row><column>2019_C2</column></row>
+				<row><column>2019_C3</column></row>
+				<row><column>2019_C4</column></row>
+			
+		</variable>		
+	</data>
+

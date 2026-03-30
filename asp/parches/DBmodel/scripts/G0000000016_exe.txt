@@ -1,0 +1,334 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  sifInterfaces
+	MODELO:  SIF Interfaces.pdm
+	VERSION: 10 - DBM 121: BASE CERO MOTOR INTERFACES
+
+	         PARCHE:  ParcheParche023_001_SIF_BASE0
+
+GENERADO EN:
+	SERVER:  http://localhost:8099
+	DSN:     sifinterfaces
+	FECHA:   22/02/2011 12:55:07
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* ADD_TABLE EmpresaExterna: EmpresaExterna */
+/* ======================================================================================== */
+
+CREATE TABLE EmpresaExterna (
+	 CEcodigo                       numeric(18)          NOT NULL
+	,SistemaExterno                 varchar(20)          NOT NULL
+	,EcodigoExterno                 varchar(20)          NOT NULL
+	,EcodigoSDC                     numeric(18)          NOT NULL
+	,Ecodigo                        numeric(18)          NOT NULL
+	,BMUsucodigo                    numeric(18)          NULL
+	,ts_rversion                    timestamp           
+	)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ======================================================================================== */
+/* ADD_TABLE IdProceso: Control de los IDs de Proceso */
+/* ======================================================================================== */
+
+CREATE TABLE IdProceso (
+	 IdProceso                      numeric(18)          identity
+	,Consecutivo                    numeric(18)          NULL
+	,BMUsucodigo                    numeric(18)          NULL
+	,ts_rversion                    timestamp           
+	)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="P", SEC="0", COLS="IdProceso" */
+ALTER TABLE IdProceso ADD CONSTRAINT IdProceso_PK PRIMARY KEY NONCLUSTERED (IdProceso)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* ADD_TABLE Interfaz: Definición de Parámetros de ca */
+/* ======================================================================================== */
+
+CREATE TABLE Interfaz (
+	 NumeroInterfaz                 integer              NOT NULL
+	,Descripcion                    varchar(80)          NOT NULL
+	,OrigenInterfaz                 char(1)              NOT NULL
+	 CONSTRAINT Interfaz_CK03 CHECK ([OrigenInterfaz]='S' OR [OrigenInterfaz]='E')
+	,TipoProcesamiento              char(1)              NOT NULL
+	 CONSTRAINT Interfaz_CK04 CHECK ([TipoProcesamiento]='D' OR [TipoProcesamiento]='S' OR [TipoProcesamiento]='A')
+	,ManejoDatos                    char(1)              DEFAULT 'T' NOT NULL
+	 CONSTRAINT Interfaz_CK05 CHECK ([ManejoDatos]='V' OR [ManejoDatos]='T')
+	,Componente                     varchar(80)          NOT NULL
+	,Activa                         bit                  NOT NULL
+	,TipoRetardo                    char(1)              DEFAULT 'M' NOT NULL
+	 CONSTRAINT Interfaz_CK08 CHECK ([TipoRetardo]='H' OR [TipoRetardo]='M')
+	,MinutosRetardo                 integer              NULL
+	,spFinalTipo                    char(1)              DEFAULT 'N' NOT NULL
+	 CONSTRAINT Interfaz_CK10 CHECK ([spFinalTipo]='C' OR [spFinalTipo]='S' OR [spFinalTipo]='D' OR [spFinalTipo]='N')
+	,spFinal                        varchar(255)         NULL
+	,FechaActivacion                datetime             NULL
+	,FechaActividad                 datetime             NULL
+	,Ejecutando                     bit                  DEFAULT 0 NOT NULL
+	,MinutosAborto                  integer              NULL
+	,NumeroEjecuciones              integer              NULL
+	,eMailErrores                   varchar(255)         NULL
+	,ProcesosPorRequest             integer              DEFAULT 0 NOT NULL
+	,BMUsucodigo                    numeric(18)          NULL
+	,ts_rversion                    timestamp           
+	)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="P", SEC="0", COLS="NumeroInterfaz" */
+ALTER TABLE Interfaz ADD CONSTRAINT Interfaz_PK PRIMARY KEY NONCLUSTERED (NumeroInterfaz)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* ADD_TABLE InterfazBitacoraProcesos: Bitácora de Procesos de Interf */
+/* ======================================================================================== */
+
+CREATE TABLE InterfazBitacoraProcesos (
+	 IdBitacora                     numeric(18)          identity
+	,CEcodigo                       numeric(18)          NOT NULL
+	,NumeroInterfaz                 integer              NOT NULL
+	,IdProceso                      numeric(18)          NOT NULL
+	,SecReproceso                   integer              DEFAULT 0 NOT NULL
+	,EcodigoSDC                     numeric(18)          NOT NULL
+	,OrigenInterfaz                 char(1)              NOT NULL
+	 CONSTRAINT InterfazBitacoraProcesos_CK07 CHECK ([OrigenInterfaz]='S' OR [OrigenInterfaz]='E')
+	,TipoProcesamiento              char(1)              NOT NULL
+	 CONSTRAINT InterfazBitacoraProcesos_CK08 CHECK ([TipoProcesamiento]='D' OR [TipoProcesamiento]='0' OR [TipoProcesamiento]='S' OR [TipoProcesamiento]='A')
+	,StatusProceso                  integer              NOT NULL
+	 CONSTRAINT InterfazBitacoraProcesos_CK09 CHECK ([StatusProceso]=(5) OR [StatusProceso]=(12) OR [StatusProceso]=(11) OR [StatusProceso]=(10) OR [StatusProceso]=(4) OR [StatusProceso]=(3) OR [StatusProceso]=(2) OR [StatusProceso]=(1))
+	,FechaInclusion                 datetime             NOT NULL
+	,UsucodigoInclusion             numeric(18)          NULL
+	,UsuarioBdInclusion             varchar(32)          NULL
+	,FechaInicioProceso             datetime             NULL
+	,FechaFinalProceso              datetime             NULL
+	,MsgError                       varchar(255)         NULL
+	,MsgErrorCompleto               text                 NULL
+	,MsgErrorStack                  text                 NULL
+	,ParametrosSOIN                 varchar(255)         NULL
+	,TipoMovimientoSOIN             varchar(20)          NULL
+	,UsucodigoCancela               numeric(18)          NULL
+	,FechaCancelacion               datetime             NULL
+	,MsgCancelacion                 varchar(255)         NULL
+	,BMUsucodigo                    numeric(18)          NULL
+	,ts_rversion                    timestamp           
+	)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="P", SEC="0", COLS="IdBitacora" */
+ALTER TABLE InterfazBitacoraProcesos ADD CONSTRAINT InterfazBitacoraProcesos_PK PRIMARY KEY NONCLUSTERED (IdBitacora)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="I", SEC="1", COLS="IdProceso" */
+CREATE NONCLUSTERED INDEX InterfazBitacoraProcesos_ID01 ON InterfazBitacoraProcesos (IdProceso)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="I", SEC="2", COLS="CEcodigo,EcodigoSDC" */
+CREATE NONCLUSTERED INDEX InterfazBitacoraProcesos_ID02 ON InterfazBitacoraProcesos (CEcodigo,EcodigoSDC)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="I", SEC="3", COLS="CEcodigo,NumeroInterfaz,IdProceso,SecReproceso" */
+CREATE NONCLUSTERED INDEX InterfazBitacoraProcesos_ID03 ON InterfazBitacoraProcesos (CEcodigo,NumeroInterfaz,IdProceso,SecReproceso)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* ADD_TABLE InterfazColaProcesos: Cola de Procesos para Interfac */
+/* ======================================================================================== */
+
+CREATE TABLE InterfazColaProcesos (
+	 CEcodigo                       numeric(18)          NOT NULL
+	,NumeroInterfaz                 integer              NOT NULL
+	,IdProceso                      numeric(18)          NOT NULL
+	,SecReproceso                   integer              DEFAULT 0 NOT NULL
+	,EcodigoSDC                     numeric(18)          NOT NULL
+	,OrigenInterfaz                 char(1)              NOT NULL
+	 CONSTRAINT InterfazColaProcesos_CK06 CHECK ([OrigenInterfaz]='S' OR [OrigenInterfaz]='E')
+	,TipoProcesamiento              char(1)              NOT NULL
+	 CONSTRAINT InterfazColaProcesos_CK07 CHECK ([TipoProcesamiento]='D' OR [TipoProcesamiento]='S' OR [TipoProcesamiento]='A')
+	,StatusProceso                  integer              NOT NULL
+	 CONSTRAINT InterfazColaProcesos_CK08 CHECK ([StatusProceso]=(5) OR [StatusProceso]=(11) OR [StatusProceso]=(10) OR [StatusProceso]=(4) OR [StatusProceso]=(3) OR [StatusProceso]=(2) OR [StatusProceso]=(1))
+	,FechaInclusion                 datetime             DEFAULT getdate() NOT NULL
+	,UsucodigoInclusion             numeric(18)          NULL
+	,UsuarioBdInclusion             varchar(32)          NULL
+	,FechaInicioProceso             datetime             NULL
+	,FechaFinalProceso              datetime             NULL
+	,MsgError                       varchar(255)         NULL
+	,MsgErrorCompleto               text                 NULL
+	,MsgErrorStack                  text                 NULL
+	,ParametrosSOIN                 varchar(255)         NULL
+	,TipoMovimientoSOIN             varchar(20)          NULL
+	,FechaActivacion                datetime             NULL
+	,FechaActividad                 datetime             NULL
+	,Cancelar                       bit                  DEFAULT 0 NOT NULL
+	,UsucodigoCancela               numeric(18)          NULL
+	,FechaCancelacion               datetime             NULL
+	,MsgCancelacion                 varchar(255)         NULL
+	,BMUsucodigo                    numeric(18)          NULL
+	,ts_rversion                    timestamp           
+	)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="P", SEC="0", COLS="CEcodigo,NumeroInterfaz,IdProceso,SecReproceso" */
+ALTER TABLE InterfazColaProcesos ADD CONSTRAINT InterfazColaProcesos_PK PRIMARY KEY NONCLUSTERED (CEcodigo,NumeroInterfaz,IdProceso,SecReproceso)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="F", SEC="1", COLS="NumeroInterfaz", REF="Interfaz" */
+CREATE INDEX InterfazColaProcesos_FI01 ON InterfazColaProcesos (NumeroInterfaz)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="I", SEC="1", COLS="IdProceso" */
+CREATE NONCLUSTERED INDEX InterfazColaProcesos_ID01 ON InterfazColaProcesos (IdProceso)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="I", SEC="2", COLS="NumeroInterfaz,EcodigoSDC" */
+CREATE NONCLUSTERED INDEX InterfazColaProcesos_ID02 ON InterfazColaProcesos (NumeroInterfaz,EcodigoSDC)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="I", SEC="3", COLS="CEcodigo,NumeroInterfaz,StatusProceso" */
+CREATE NONCLUSTERED INDEX InterfazColaProcesos_ID03 ON InterfazColaProcesos (CEcodigo,NumeroInterfaz,StatusProceso)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* ADD_TABLE InterfazColaProcesosCancelar: Cancelacion de la Cola de Proc */
+/* ======================================================================================== */
+
+CREATE TABLE InterfazColaProcesosCancelar (
+	 CEcodigo                       numeric(18)          NOT NULL
+	,NumeroInterfaz                 integer              NOT NULL
+	,IdProceso                      numeric(18)          NOT NULL
+	,SecReproceso                   integer              DEFAULT 0 NOT NULL
+	,UsucodigoCancela               numeric(18)          NULL
+	,FechaCancelacion               datetime             NULL
+	,MsgCancelacion                 varchar(255)         NULL
+	,BMUsucodigo                    numeric(18)          NULL
+	,ts_rversion                    timestamp           
+	)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="P", SEC="0", COLS="CEcodigo,NumeroInterfaz,IdProceso,SecReproceso" */
+ALTER TABLE InterfazColaProcesosCancelar ADD CONSTRAINT InterfazColaProcesosCan01_PK PRIMARY KEY NONCLUSTERED (CEcodigo,NumeroInterfaz,IdProceso,SecReproceso)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="I", SEC="1", COLS="NumeroInterfaz" */
+CREATE NONCLUSTERED INDEX InterfazColaProcesosCan01_ID01 ON InterfazColaProcesosCancelar (NumeroInterfaz)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* ADD_TABLE InterfazDatosXML: Datos XML para manejo de datos */
+/* ======================================================================================== */
+
+CREATE TABLE InterfazDatosXML (
+	 CEcodigo                       numeric(18)          NOT NULL
+	,NumeroInterfaz                 integer              NOT NULL
+	,IdProceso                      numeric(18)          NOT NULL
+	,TipoIO                         char(1)              NOT NULL
+	 CONSTRAINT InterfazDatosXML_CK04 CHECK ([TipoIO]='O' OR [TipoIO]='I')
+	,XML_E                          image                NULL
+	,XML_D                          image                NULL
+	,XML_S                          image                NULL
+	,BMUsucodigo                    numeric(18)          NULL
+	,ts_rversion                    timestamp           
+	)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="P", SEC="0", COLS="CEcodigo,NumeroInterfaz,IdProceso,TipoIO" */
+ALTER TABLE InterfazDatosXML ADD CONSTRAINT InterfazDatosXML_PK PRIMARY KEY NONCLUSTERED (CEcodigo,NumeroInterfaz,IdProceso,TipoIO)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* ADD_TABLE InterfazMotor: Definición de Parámetros del M */
+/* ======================================================================================== */
+
+CREATE TABLE InterfazMotor (
+	 CEcodigo                       numeric(18)          NOT NULL
+	,Activo                         bit                  DEFAULT 0 NOT NULL
+	,urlServidorMotor               varchar(255)         NULL
+	,spFinalTipo                    char(1)              DEFAULT 'S' NOT NULL
+	 CONSTRAINT InterfazMotor_CK04 CHECK ([spFinalTipo]='C' OR [spFinalTipo]='S')
+	,spFinal                        varchar(255)         NULL
+	,MsgError                       varchar(255)         NULL
+	,FechaActivacion                datetime             DEFAULT getdate() NOT NULL
+	,FechaActividad                 datetime             NULL
+	,Bitacora_A_AT                  bit                  DEFAULT 1 NOT NULL
+	,Bitacora_A_AI                  bit                  DEFAULT 1 NOT NULL
+	,Bitacora_A_IP                  bit                  DEFAULT 1 NOT NULL
+	,Bitacora_A_AP                  bit                  DEFAULT 1 NOT NULL
+	,Bitacora_A_FP                  bit                  DEFAULT 0 NOT NULL
+	,Bitacora_A_DE                  bit                  DEFAULT 0 NOT NULL
+	,Bitacora_S_AP                  bit                  DEFAULT 1 NOT NULL
+	,Bitacora_S_FP                  bit                  DEFAULT 0 NOT NULL
+	,Bitacora_S_DE                  bit                  DEFAULT 0 NOT NULL
+	,Bitacora_D_AP                  bit                  DEFAULT 1 NOT NULL
+	,Bitacora_D_FP                  bit                  DEFAULT 0 NOT NULL
+	,Bitacora_D_DE                  bit                  DEFAULT 0 NOT NULL
+	,BMUsucodigo                    numeric(18)          NULL
+	,ts_rversion                    timestamp           
+	)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="P", SEC="0", COLS="CEcodigo" */
+ALTER TABLE InterfazMotor ADD CONSTRAINT InterfazMotor_PK PRIMARY KEY NONCLUSTERED (CEcodigo)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ================================================================= */
+/*            CREA FKs NUEVOS O CON CAMPOS MODIFICADOS               */
+/* ================================================================= */
+/* CHG_TABLE InterfazColaProcesos */
+/* ADD_FK OP=(TAB NUEVA): TIP="F", SEC="1", COLS="NumeroInterfaz", REF="Interfaz" */
+ALTER TABLE InterfazColaProcesos ADD CONSTRAINT InterfazColaProcesos_FK01 FOREIGN KEY (NumeroInterfaz) REFERENCES Interfaz (NumeroInterfaz)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_TABLE InterfazColaProcesosCancelar */
+/* ADD_FK OP=(TAB NUEVA): TIP="F", SEC="1", COLS="CEcodigo,NumeroInterfaz,IdProceso,SecReproceso", REF="InterfazColaProcesos" */
+ALTER TABLE InterfazColaProcesosCancelar ADD CONSTRAINT InterfazColaProcesosCan01_FK01 FOREIGN KEY (CEcodigo,NumeroInterfaz,IdProceso,SecReproceso) REFERENCES InterfazColaProcesos (CEcodigo,NumeroInterfaz,IdProceso,SecReproceso)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

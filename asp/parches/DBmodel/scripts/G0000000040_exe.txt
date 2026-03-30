@@ -1,0 +1,301 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 84 - DBM 203: Modificacion proceso de registro de histo
+
+	         PARCHE:  Parche023_119_RH _RH_Varios
+
+GENERADO EN:
+	SERVER:  http://mxpapp36:8300
+	DSN:     sifcim
+	FECHA:   14/07/2011 15:17:07
+*/
+
+/* INI_SCRIPT */
+
+/* ================================================================= */
+/*    ELIMINA FKs QUE YA NO SE UTILIZAN O CON CAMPOS MODIFICADOS     */
+/* ================================================================= */
+/* CHG_TABLE DLaboralesEmpleado */
+/* CHG_FK OP=(CAMBIO): TIP="F", COLS="RHTid", REF="RHTipoAccion" */
+ALTER TABLE DLaboralesEmpleado DROP CONSTRAINT DLaboralesEmpleado_FK04 /* REFERENCES RHTipoAccion (RHTid) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* ADD_TABLE DDLaboralesEmpleadoRec: Detalle de Datos Laborales Rec */
+/* ======================================================================================== */
+
+CREATE TABLE DDLaboralesEmpleadoRec (
+	 DLlinea                        numeric(18)          NOT NULL
+	,DEid                           numeric(18)          NOT NULL
+	,RHPid                          numeric(18)          NOT NULL
+	,CSid                           numeric(18)          NOT NULL
+	,DDLtabla                       char(10)             NULL
+	,DDLunidad                      float                NOT NULL
+	,DDLunidadant                   float                NULL
+	,DDLmontobase                   money                NOT NULL
+	,DDLmontobaseant                money                NULL
+	,DDLmontores                    money                NOT NULL
+	,DDLmontoresant                 money                NULL
+	,CIid                           numeric(18)          NULL
+	,DLporcplazacomponente          numeric(18)          NULL
+	,DDLmetodoC                     char(1)              NULL
+	,DDLmetodoCant                  char(1)              NULL
+	,Usucodigo                      numeric(18)          NULL
+	,Ulocalizacion                  char(2)              NULL
+	,BMUsucodigo                    numeric(18)          NULL
+	,ts_rversion                    timestamp           
+	)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="P", SEC="0", COLS="DLlinea,DEid,RHPid,CSid" */
+ALTER TABLE DDLaboralesEmpleadoRec ADD CONSTRAINT DDLaboralesEmpleadoRec_PK PRIMARY KEY NONCLUSTERED (DLlinea,DEid,RHPid,CSid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="F", SEC="1", COLS="DLlinea,DEid,RHPid", REF="DLaboralesEmpleadoRec" */
+CREATE INDEX DDLaboralesEmpleadoRec_FI01 ON DDLaboralesEmpleadoRec (DLlinea,DEid,RHPid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="I", SEC="1", COLS="CSid" */
+CREATE NONCLUSTERED INDEX DDLaboralesEmpleadoRec_ID01 ON DDLaboralesEmpleadoRec (CSid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="I", SEC="2", COLS="DLlinea" */
+CREATE NONCLUSTERED INDEX DDLaboralesEmpleadoRec_ID02 ON DDLaboralesEmpleadoRec (DLlinea)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE DLaboralesEmpleado: Datos Laborales Empleado */
+/* ======================================================================================== */
+/* CHG_KEY OP=(CAMBIO): TIP="F", COLS="RHTid", REF="RHTipoAccion" */
+DROP INDEX DLaboralesEmpleado.DLaboralesEmpleado_FI04 /* REFERENCES INDEX (RHTid) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_COLUMN OP=(CAMBIO): RHTid - ID de Accion */
+ALTER TABLE DLaboralesEmpleado ALTER COLUMN RHTid numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): DLreplicacion - Indicador de accion con replicacion a plazas recar */
+ALTER TABLE DLaboralesEmpleado ADD DLreplicacion bit NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+UPDATE DLaboralesEmpleado SET DLreplicacion = 0
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE DLaboralesEmpleado ALTER COLUMN DLreplicacion bit NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_KEY OP=(CAMBIO): TIP="F", SEC="4", COLS="RHTid", REF="RHTipoAccion" */
+CREATE INDEX DLaboralesEmpleado_FI04 ON DLaboralesEmpleado (RHTid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* ADD_TABLE DLaboralesEmpleadoRec: Datos Laborales Empleado Recar */
+/* ======================================================================================== */
+
+CREATE TABLE DLaboralesEmpleadoRec (
+	 DLlinea                        numeric(18)          NOT NULL
+	,DEid                           numeric(18)          NOT NULL
+	,DLconsecutivo                  integer              NOT NULL
+	,RHPid                          numeric(18)          NOT NULL
+	,RHTid                          numeric(18)          NOT NULL
+	,Ecodigo                        integer              NOT NULL
+	,RHPcodigo                      char(10)             NOT NULL
+	,Tcodigo                        char(5)              NULL
+	,RVid                           numeric(18)          NOT NULL
+	,Dcodigo                        integer              NULL
+	,Ocodigo                        integer              NULL
+	,RHJid                          numeric(18)          NOT NULL
+	,RHCconcurso                    numeric(18)          NULL
+	,RHCPlinea                      numeric(18)          NULL
+	,DLfvigencia                    datetime             NOT NULL
+	,DLffin                         datetime             NULL
+	,DLsalario                      money                NOT NULL
+	,DLobs                          varchar(255)         NULL
+	,DLfechaaplic                   datetime             NOT NULL
+	,DLporcsal                      float                DEFAULT 100.00 NOT NULL
+	 CONSTRAINT DLaboralesEmpleadoRec_CK20 CHECK ([DLporcsal]>=(-1.00) AND [DLporcsal]<=(100.00))
+	,DLporcplaza                    float                NULL
+	,Mcodigo                        numeric(18)          NULL
+	,Ecodigoant                     integer              NULL
+	,Dcodigoant                     integer              NULL
+	,Ocodigoant                     integer              NULL
+	,RHPidant                       numeric(18)          NULL
+	,RHPcodigoant                   char(10)             NULL
+	,Tcodigoant                     char(5)              NULL
+	,DLsalarioant                   money                NULL
+	,DLporcplazaant                 float                NULL
+	,DLporcsalant                   float                NULL
+	,DLsalarioSDIant                money                NULL
+	,RVidant                        numeric(18)          NULL
+	,RHJidant                       numeric(18)          NULL
+	,Mcodigoant                     numeric(18)          NULL
+	,DLestado                       integer              DEFAULT 0 NOT NULL
+	 CONSTRAINT DLaboralesEmpleadoRec_CK36 CHECK ([DLestado]=(2) OR [DLestado]=(1) OR [DLestado]=(0))
+	,DLidtramite                    numeric(18)          NULL
+	,DLvdisf                        float                DEFAULT 0.00 NOT NULL
+	,DLvcomp                        float                DEFAULT 0.00 NOT NULL
+	,IEid                           numeric(18)          NULL
+	,TEid                           numeric(18)          NULL
+	,DLreferencia                   numeric(18)          NULL
+	,DEfanuales                     datetime             NULL
+	,DEfvacaciones                  datetime             NULL
+	,Indicador_de_Negociado         integer              NULL
+	,RHTtiponomb                    integer              NULL
+	 CONSTRAINT DLaboralesEmpleadoRec_CK46 CHECK ([RHTtiponomb] IS NULL OR ([RHTtiponomb]=(3) OR [RHTtiponomb]=(2) OR [RHTtiponomb]=(1) OR [RHTtiponomb]=(0)))
+	,RHAid                          numeric(18)          NULL
+	,RHAtipo                        integer              DEFAULT 1 NULL
+	 CONSTRAINT DLaboralesEmpleadoRec_CK48 CHECK ([RHAtipo] IS NULL OR ([RHAtipo]=(2) OR [RHAtipo]=(1)))
+	,RHAdescripcion                 varchar(255)         NULL
+	,EVfantig                       datetime             NULL
+	,DLalertagen                    integer              NULL
+	,RHIconsecuencia                integer              NULL
+	,RHItiporiesgo                  integer              NULL
+	,RHIcontrolincapacidad          integer              NULL
+	,RHfolio                        varchar(8)           NULL
+	,RHporcimss                     float                DEFAULT 0.0 NULL
+	,DLporcplazacomponente          numeric(18)          NULL
+	,LTsalrec                       money                NULL
+	,DLsalarioSDI                   money                NULL
+	,RHCPlineaAlt                   numeric(18)          DEFAULT 0 NULL
+	,RHPcodigoAlt                   char(10)             NULL
+	,Usucodigo                      numeric(18)          NULL
+	,Ulocalizacion                  char(2)              NULL
+	,BMUsucodigo                    numeric(18)          NULL
+	,ts_rversion                    timestamp           
+	)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="P", SEC="0", COLS="DLlinea,DEid,RHPid" */
+ALTER TABLE DLaboralesEmpleadoRec ADD CONSTRAINT DLaboralesEmpleadoRec_PK PRIMARY KEY NONCLUSTERED (DLlinea,DEid,RHPid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="F", SEC="1", COLS="DLlinea", REF="DLaboralesEmpleado" */
+CREATE INDEX DLaboralesEmpleadoRec_FI01 ON DLaboralesEmpleadoRec (DLlinea)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="I", SEC="1", COLS="RVid" */
+CREATE NONCLUSTERED INDEX DLaboralesEmpleadoRec_ID01 ON DLaboralesEmpleadoRec (RVid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="I", SEC="2", COLS="RHJid" */
+CREATE NONCLUSTERED INDEX DLaboralesEmpleadoRec_ID02 ON DLaboralesEmpleadoRec (RHJid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="I", SEC="3", COLS="RHPid" */
+CREATE NONCLUSTERED INDEX DLaboralesEmpleadoRec_ID03 ON DLaboralesEmpleadoRec (RHPid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="I", SEC="4", COLS="RHTid" */
+CREATE NONCLUSTERED INDEX DLaboralesEmpleadoRec_ID04 ON DLaboralesEmpleadoRec (RHTid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="I", SEC="5", COLS="DEid,Ecodigo" */
+CREATE NONCLUSTERED INDEX DLaboralesEmpleadoRec_ID05 ON DLaboralesEmpleadoRec (DEid,Ecodigo)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="I", SEC="6", COLS="Ecodigo,Dcodigo" */
+CREATE NONCLUSTERED INDEX DLaboralesEmpleadoRec_ID06 ON DLaboralesEmpleadoRec (Ecodigo,Dcodigo)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="I", SEC="7", COLS="Ecodigo,Ocodigo" */
+CREATE NONCLUSTERED INDEX DLaboralesEmpleadoRec_ID07 ON DLaboralesEmpleadoRec (Ecodigo,Ocodigo)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="I", SEC="8", COLS="Ecodigo,Tcodigo" */
+CREATE NONCLUSTERED INDEX DLaboralesEmpleadoRec_ID08 ON DLaboralesEmpleadoRec (Ecodigo,Tcodigo)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="I", SEC="9", COLS="RHPcodigo,Ecodigo" */
+CREATE NONCLUSTERED INDEX DLaboralesEmpleadoRec_ID09 ON DLaboralesEmpleadoRec (RHPcodigo,Ecodigo)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE RHTipoAccion: Tipos de Acciones de RH */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): RHTAplicaVaca - RHTAplicaVaca */
+ALTER TABLE RHTipoAccion ADD RHTAplicaVaca bit DEFAULT 0 NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): BMfechamodif - BMfechamodif */
+ALTER TABLE RHTipoAccion ADD BMfechamodif datetime NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ================================================================= */
+/*            CREA FKs NUEVOS O CON CAMPOS MODIFICADOS               */
+/* ================================================================= */
+/* CHG_TABLE DDLaboralesEmpleadoRec */
+/* ADD_FK OP=(TAB NUEVA): TIP="F", SEC="1", COLS="DLlinea,DEid,RHPid", REF="DLaboralesEmpleadoRec" */
+ALTER TABLE DDLaboralesEmpleadoRec ADD CONSTRAINT DDLaboralesEmpleadoRec_FK01 FOREIGN KEY (DLlinea,DEid,RHPid) REFERENCES DLaboralesEmpleadoRec (DLlinea,DEid,RHPid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_TABLE DLaboralesEmpleado */
+/* CHG_FK OP=(CAMBIO): TIP="F", SEC="4", COLS="RHTid", REF="RHTipoAccion" */
+ALTER TABLE DLaboralesEmpleado ADD CONSTRAINT DLaboralesEmpleado_FK04 FOREIGN KEY (RHTid) REFERENCES RHTipoAccion (RHTid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_TABLE DLaboralesEmpleadoRec */
+/* ADD_FK OP=(TAB NUEVA): TIP="F", SEC="1", COLS="DLlinea", REF="DLaboralesEmpleado" */
+ALTER TABLE DLaboralesEmpleadoRec ADD CONSTRAINT DLaboralesEmpleadoRec_FK01 FOREIGN KEY (DLlinea) REFERENCES DLaboralesEmpleado (DLlinea)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

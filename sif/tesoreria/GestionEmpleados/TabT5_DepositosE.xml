@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_TituloListaComprobantesRecepcionCajaEjectivoEntregados>List of cash reception documents by Cash</LB_TituloListaComprobantesRecepcionCajaEjectivoEntregados>
+		<LB_Caja>Petty Cash</LB_Caja>
+		<LB_Comprobante>Receipt</LB_Comprobante>
+		<LB_Fecha>Date</LB_Fecha>
+		<LB_MonedaDeposito>Currency of Deposit</LB_MonedaDeposito>
+		<LB_MontoDeposito>Deposit Amount</LB_MontoDeposito>
+		<LB_MontoLiq>Settlement Amount</LB_MontoLiq>
+	<BTN_Agregar>Add</BTN_Agregar><LB_DevolucionCajaChica>Petty Cash Repayment</LB_DevolucionCajaChica></Idioma>
+</Etiquetas>

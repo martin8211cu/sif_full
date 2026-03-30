@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_Monto>Amount</LB_Monto>
+		<LB_Venc >Expired</LB_Venc>
+		<LB_Corriente >Current</LB_Corriente>
+		<LB_SinVenc >Unexpired</LB_SinVenc>
+		<LB_Masde >More than</LB_Masde>
+		<LB_AnVenc >Expired analysis</LB_AnVenc>
+		<LB_VencDias >Expired by day</LB_VencDias>
+		<LB_MontoVenc >overdue amount</LB_MontoVenc>
+		<MSG_SinDatos >There is not data for show graphics</MSG_SinDatos>
+		<LB_Documento>Document</LB_Documento>
+		<LB_Socio>Partner</LB_Socio>
+		<LB_Contacto>Contact</LB_Contacto>
+		<MSG_Vencim>Expired balance of last 30 days (Analysis by)</MSG_Vencim>
+		<LB_Total >Total</LB_Total>
+		<LB_Saldo >Balance</LB_Saldo>
+		<LB_VerDet>See Details</LB_VerDet>
+		<LB_CerrarDet >Close Details</LB_CerrarDet>
+		<LB_VerDoc >See Documents</LB_VerDoc>
+		<LB_CerrarDoc >Close Documents</LB_CerrarDoc>
+		<MSG_Oficina >Office filter is the only one that affect the graphics and list, other filters just affect the list.</MSG_Oficina>
+		<TIT_Cons >Accounts receivable</TIT_Cons>
+		<LB_AnMoros >Loans analysis</LB_AnMoros>
+		<MSG_MontoML >The amounts of graphics are expressed on local currency </MSG_MontoML>
+		<LB_Morosidad >Loan</LB_Morosidad>
+	</Idioma>
+</Etiquetas>
+

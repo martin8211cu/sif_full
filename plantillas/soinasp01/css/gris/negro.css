@@ -1,0 +1,147 @@
+﻿
+
+
+
+
+
+
+
+/* CSS Document */
+
+/* colores en: styles.css */
+
+/*menutitulo plantillaMenutitulo{ color:#00FF66;}*/
+.NEGRO { color:#FFFFFF; background-color:#212121; color:#B0AD42; color:#638C3C;}
+/*======= Para las listas =======*/
+.listaNon { background-color:#4B4B4B;}
+.listaPar { background-color:#5D5D5D;}
+.listaParSel, .listaNonSel { background-color:#717171;} /*====== Cuando se pasa el mouse por el registro ======*/
+.listaCorte {background-color: #A0BAD3; color:#000000;} /*====== Corte de la lista ======*/
+/**/
+.tituloListas {/*====== Titulo de la lista ======*/  /*B8CCE4(Celeste)  EEA03C(Naranja)*/
+	background-color:#B8CCE4;
+	color:#000000;
+}
+.tituloAlterno {
+	background-color:#AAc5c5;	/*#EEA03C c8a674*/
+	color:#000000;
+}
+/*====== Barra de navegacion ======*/
+table.navbar, table.navbar a {
+	background-color:#212121;
+	color:#FFFFFF;
+}
+/*====== Link de la opcion de menu actual del porlet ======*/
+table.navbar .navbig, table.navbar .navbig a {
+	color:#D46B20;  /*E0812F*/
+}
+table.navbar .navlast, table.navbar .navlast a {
+	color:black;
+}
+.errormsg {
+	color:#993300;
+}
+/*======= Se sobreescribe la definicion de estas clases que estan en css/base/styles.css =======*/
+.fbox:link{text-decoration:none; color:#999999; font-size:11px;}
+.fbox:visited{text-decoration:none; color:#999999; font-size:11px;}
+.fbox:hover{text-decoration:underline; color:#999999; font-size:11px;}
+/*======= FONDO DE PAGINA (Completo) =======*/
+body {background-color:#212121;}
+/*======= INPUTS,COMBOS, TEXT AREA =======*/
+input[type="button"] { background-color:#A9A889; color:#000000;}
+input[type="submit"] {background-color:#A9A889; color:#000000;}
+input[type="reset"] {background-color:#A9A889; color:#000000;}
+/*====== Sobreescribe css/base/button.css para esos estilos de boton ======*/
+.btnGuardar, .btnEliminar, .btnNuevo, .btnFiltrar, .btnLimpiar,
+.btnAplicar, .btnEmail, .btnPublicar, .btnImprimir, .btnRefresh,
+.btnDetalle, .btnAnterior, .btnSiguiente { 
+	background-color:#A9A889;color:#000000;
+}
+/*background-color:#BDBCA4  color:#C1C1C1*/
+input{background-color:#4B4B4B; color:#D6D6D6; border:1px solid #5D5D5D;} /*[type="text"]*/
+input[type="checkbox"] {background-color:#4B4B4B; color:#D6D6D6; border:1px solid #5D5D5D;}
+input[type="radio"] {background-color:#4B4B4B; color:#D6D6D6; border:1px solid #5D5D5D;}
+input[type="file"]{background-color:#4B4B4B; color:#D6D6D6; border:1px solid #5D5D5D;} 
+select{background-color:#4B4B4B; color:#D6D6D6; border:1px solid #5D5D5D;}
+textarea{background-color:#4B4B4B; color:#D6D6D6; border:1px solid #5D5D5D;}
+/*====== Sobreescribe la clase de ayuda definida en css/base/deprecated.css ======*/
+.ayuda {background-color:#4B4B4B;border: thin solid #5D5D5D;}
+/*======= Clase Area Filtro (Ej. de Uso En Reportes de RH)======*/
+.areaFiltro{ background-color:#4B4B4B; color:#999999;}
+/*======= COLOR DE LOS LINKS (A HREF) =======*/
+a{ color:#999999;}
+a:hover {text-decoration:underline;color:#999999; }
+/*======= TABS =======*/
+/* colores en tabs.css*/
+/**
+ * Funcionalidad de los tabs
+ */
+.tab_contents { background-color:#212121;}
+/*====== Esquinas del tab ======*/
+.tab_div { background-image:url(/cfmx/plantillas/soinasp01/css/negro/tabs/div.gif);}/*background-image:url(/cfmx/sif/imagenes/tabs/div.gif);height:21px*/
+/*====== Tab seleccionado ======*/
+.tab_sel_l { background-image:url(/cfmx/plantillas/soinasp01/css/negro/tabs/nor_l.gif);height:21px} /*ORILLA*/
+.tab_sel_m { background-image:url(/cfmx/plantillas/soinasp01/css/negro/tabs/nor_sel_m.gif);height:21px;cursor:pointer; color:#212121;} /*RELLENO(CENTRO)*/
+.tab_sel_r { background-image:url(/cfmx/plantillas/soinasp01/css/negro/tabs/nor_r.gif);height:21px} /*ORILLA*/
+/*====== Tab NO Seleccionado ======*/
+.tab_nor_l { background-image:url(/cfmx/plantillas/soinasp01/css/negro/tabs/sel_l.gif);height:21px}	/*ORILLA*/
+.tab_nor_m { background-image:url(/cfmx/plantillas/soinasp01/css/negro/tabs/sel_m.gif);height:21px;cursor:pointer; color:#212121;} /*RELLENO(CENTRO)*/
+.tab_nor_r { background-image:url(/cfmx/plantillas/soinasp01/css/negro/tabs/sel_r.gif);height:21px} /*ORILLA*/
+
+/* colores en template.css */
+/*====== Fondo del template (Encabezado de las paginas) ======*/
+.iconoTop {
+	background:url(/cfmx/plantillas/soinasp01/css/negro/images/02-01b.jpg); 
+	background-repeat: repeat-x;
+}
+/*====== Imagen de "Mi gestion" ======*/
+.logoTop  {
+	background:url(/cfmx/plantillas/soinasp01/css/negro/images/logo2.gif); 
+	background-repeat: no-repeat;
+}
+/*====== Definicion de letra, tamaño y color de todas las paginas, siempre y cuando estas NO tengan un estilo especifico definido ======*/
+* { font-family: Verdana, Arial, Tahoma, "Trebuchet MS", Sans-Serif, Georgia, Courier, "Times New Roman", Serif;
+	font-size:12px;
+	color:#999999;
+}
+
+/* colores en mlm_menu.css */
+.mlm_layer {
+	background-color:#333333;
+}
+.mlm_topbar {
+	background-color:#373737;
+}
+.mlm_topsel  {
+	background-color:#212121;
+}
+.mlm_item, .mlm_item * {
+	color:black;
+}
+.mlm_sel, .mlm_sel * {
+	background-color:#373737;
+	color:white;
+}
+/* colores en leftmenu.css */
+.cfmenu_titulo {
+	background-color: #afafaf; 
+}
+.cfmenu_titulo a {
+	color: #ffffff; 
+}
+cfmenu_menu, .cfmenu_submenu {
+	background-color: #212121;
+}
+.cfmenu_menu a, .cfmenu_submenu a {
+	color: #454545;
+}
+.cfmenu_bottom {
+	background-image:url(/cfmx/plantillas/soinasp01/css/negro/images/menubottom.gif);
+	background-position:right;
+	background-repeat:no-repeat;
+	background-color:#212121;
+}
+/* hacer que los campos de fecha sean un poquito más anchos */
+input[title="dd/mm/yyyy"] {
+width:80px;
+}

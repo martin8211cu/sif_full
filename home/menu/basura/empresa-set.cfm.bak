@@ -1,0 +1,21 @@
+<cfif IsDefined("url.e") and Len(url.e) NEQ 0>
+	<cfquery name="rsContents" datasource="asp" >
+		select up.Ecodigo, c.Ccache, coalesce ( e.Ereferencia, 0 ) as Ereferencia, e.Enombre
+		from UsuarioProceso up, Empresa e, Caches c
+		where up.Usucodigo = <cfqueryparam cfsqltype="cf_sql_numeric" value="#Session.Usucodigo#">
+		  and up.Ecodigo   = <cfqueryparam cfsqltype="cf_sql_numeric" value="#url.e#">
+		  and e.Ecodigo = up.Ecodigo
+		  and c.Cid = e.Cid
+	</cfquery>
+	<cfif rsContents.RecordCount EQ 0>
+		<cfset session.Ecodigo = 0>
+		<cfset session.EcodigoSDC = 0>
+		<cfset session.DSN = "">
+		<cfset session.Enombre = "">
+	<cfelse>
+		<cfset session.EcodigoSDC = rsContents.Ecodigo>
+		<cfset session.Ecodigo = rsContents.Ereferencia>
+		<cfset session.DSN = rsContents.Ccache>
+		<cfset session.Enombre = rsContents.Enombre>
+	</cfif>
+</cfif>

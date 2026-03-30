@@ -1,0 +1,3 @@
+﻿<cfoutput>
+	* #Session.DSN# *
+</cfoutput>

@@ -1,0 +1,31 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  sifInterfaces
+	MODELO:  SIF Interfaces.pdm
+	VERSION: 541 - DBM 498: Cancelacion de Documentos PMI
+
+	         PARCHE:  Parche024_133_INT_Interfaz40PMI
+
+GENERADO EN:
+	SERVER:  http://mxvqapp34:8300
+	DSN:     sifinterfaces
+	FECHA:   13/03/2012 09:57:44
+*/
+
+/* INI_SCRIPT */
+
+/* ================================================================= */
+/*            CREA FKs NUEVOS O CON CAMPOS MODIFICADOS               */
+/* ================================================================= */
+/* CHG_TABLE ID40 */
+/* ADD_FK OP = (NUEVO): TIP="F", SEC="1", COLS="ID", REF="IE40" */
+ALTER TABLE ID40 ADD CONSTRAINT ID40_FK01 FOREIGN KEY (ID) REFERENCES IE40 (ID)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

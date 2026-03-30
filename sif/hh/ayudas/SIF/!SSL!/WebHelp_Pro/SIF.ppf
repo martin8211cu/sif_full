@@ -1,0 +1,100 @@
+<?xml version="1.0" ?>
+<!DOCTYPE polprojfile>
+<ppfml version="2.00" project="SIF">
+ <windowlist>
+  <window name="ASP_HELP" x="5%" y="5%" width="90%" height="90%" viewtype="doublepane" workspacestyle="DEFAULT" caption="ASP_HELP" toolbar="off" locationbar="off" menu="off" resizable="yes" statusbar="off" usecurrentwindowsettings="yes" skin="WebHelp_Skin_Files\Default\Default.skn">
+   <elements><element name="BrowseSequence" Present="no" /><element name="SearchInput" Present="no" /><element name="SkinInstruction" value="whskin_ep_ins.xml" />
+   </elements>
+   <agents defaultagent="toc">
+    <agent>toc
+    </agent>
+    <agent>ndx
+    </agent>
+    <agent>nls
+    </agent>
+   </agents>
+  </window>
+ </windowlist>
+ <contextmap>
+ </contextmap>
+ <topiclist defaulttopic="Sistema_Financiero_Integrado.htm">
+  <topic>Concepto_contable.htm
+  </topic>
+  <topic>Saldos_movimientos.htm
+  </topic>
+  <topic>Balance_comprobacion.htm
+  </topic>
+  <topic>Monedas.htm
+  </topic>
+  <topic>Catalogo_cuentas.htm
+  </topic>
+  <topic>Historico_tipo_cambio.htm
+  </topic>
+  <topic>Sistema_Financiero_Integrado.htm
+  </topic>
+  <topic>Subcuentas.htm
+  </topic>
+  <topic>Cuentas_Mayor.htm
+  </topic>
+  <topic>Cierre_auxiliar.htm
+  </topic>
+  <topic>Cierre_mes_contable.htm
+  </topic>
+  <topic>Reversar_documentos_contables.htm
+  </topic>
+  <topic>Registro_Documentos_Contables.htm
+  </topic>
+  <topic>Introduccion.htm
+  </topic>
+  <topic>Mascaras_cuentas.htm
+  </topic>
+  <topic>Cuentas_financieras.htm
+  </topic>
+  <topic>Balance_general.htm
+  </topic>
+  <topic>Poliza_contable.htm
+  </topic>
+  <topic>Cuentas_contables.htm
+  </topic>
+ </topiclist>
+ <projectincludes>
+ </projectincludes>
+ <filenamemap>
+  <filenameentry moniker="wh_languagetype">
+   <filename>Español
+   </filename>
+  </filenameentry>
+  <filenameentry moniker="toc">
+   <filename>SIF.hhc
+   </filename>
+  </filenameentry>
+  <filenameentry moniker="ndx">
+   <filename>SIF.hhk
+   </filename>
+  </filenameentry>
+  <filenameentry moniker="nls">
+   <filename>SIF.nla
+   </filename>
+  </filenameentry>
+  <filenameentry moniker="gls">
+   <filename>SIF.glo
+   </filename>
+  </filenameentry>
+  <filenameentry moniker="wh_websearch">
+   <filename>SIF.ews
+   </filename>
+  </filenameentry>
+  <filenameentry moniker="wh_lngfile">
+   <filename>SIF.lng
+   </filename>
+  </filenameentry>
+  <filenameentry moniker="wh_stoplist">
+   <filename>SIF.stp
+   </filename>
+  </filenameentry>
+  <filenameentry moniker="sym">
+   <filename>SIF.syn
+   </filename>
+  </filenameentry>
+ </filenamemap>
+</ppfml>

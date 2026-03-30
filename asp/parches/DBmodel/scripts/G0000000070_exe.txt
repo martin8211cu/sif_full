@@ -1,0 +1,30 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 168 - DBM 270: Se incluye la  referencia  del duplicado 
+
+	         PARCHE:  Parche023_238_SIF_ TCEPagosCancelados_Duplica
+
+GENERADO EN:
+	SERVER:  http://mxpapp36:8300
+	DSN:     sifcim
+	FECHA:   27/08/2011 14:56:26
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* CHG_TABLE CBEPagoTCE: CBEPagoTCE */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): CBPTCidOri - Origen Pago Duplicado */
+ALTER TABLE CBEPagoTCE ADD CBPTCidOri numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

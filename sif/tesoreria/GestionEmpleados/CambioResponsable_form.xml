@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_Codigo>Code</LB_Codigo>
+		<LB_Descripcion>Description</LB_Descripcion>
+		<LB_CentroFuncional>Functional Center</LB_CentroFuncional>
+		<LB_ResponsableActual>Current Person in Charge</LB_ResponsableActual>
+		<LB_NuevoResponsable>New Person in Charge</LB_NuevoResponsable>
+		<LB_FechaCambio>Change Date</LB_FechaCambio>
+		<BTN_Modificar>Modify</BTN_Modificar>
+		<BTN_Regresar>Return</BTN_Regresar>
+		<BTN_Bitacora>Logbook</BTN_Bitacora>
+		<BTN_Limpiar>Clean</BTN_Limpiar>
+	</Idioma>
+</Etiquetas>

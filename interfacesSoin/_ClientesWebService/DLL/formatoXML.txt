@@ -1,0 +1,47 @@
+<recordset>
+    <row>
+        <S_BINARY>blob(1), Formato: Codificado en Base64</S_BINARY>
+        <S_BINARY_8>blob(8), Formato: Codificado en Base64</S_BINARY_8>
+        <S_BIT>bit, Valores: de 0 ó 1</S_BIT>
+        <S_CHAR>varchar(1), Formato: Cualquier caracter</S_CHAR>
+        <S_CHAR_30>varchar(30), Formato: Cualquier caracter</S_CHAR_30>
+        <S_DATETIME>DateTime, Formato: YYYY-MM-DD HH:MM:SS</S_DATETIME>
+        <S_DEC>numeric(18), Formato: [-]123456789012345678</S_DEC>
+        <S_DEC_8>numeric(8), Formato: [-]12345678</S_DEC_8>
+        <S_DEC_8_2>numeric(8,2), Formato: [-]123456.78</S_DEC_8_2>
+        <S_DECIMAL>numeric(18), Formato: [-]123456789012345678</S_DECIMAL>
+        <S_DECIMAL_8>numeric(8), Formato: [-]12345678</S_DECIMAL_8>
+        <S_DECIMAL_8_2>numeric(8,2), Formato: [-]123456.78</S_DECIMAL_8_2>
+        <S_DOUBLE_PRECISION>float(16), Formato: [-]0.1234567890123456</S_DOUBLE_PRECISION>
+        <S_FLOAT>float(16), Formato: [-]0.1234567890123456</S_FLOAT>
+        <S_FLOAT_8>float(5), Formato: [-]0.12345</S_FLOAT_8>
+        <S_IMAGE>blob(2000000000), Formato: Codificado en Base64</S_IMAGE>
+        <S_INT>integer(9), Formato: [-]123456789</S_INT>
+        <S_INTEGER>integer(9), Formato: [-]123456789</S_INTEGER>
+        <S_MONEY>money(18,4), Formato: [-]12345678901234.5678</S_MONEY>
+        <S_NCHAR_30>varchar(30), Formato: Cualquier caracter</S_NCHAR_30>
+        <S_NUMERIC>numeric(18), Formato: [-]123456789012345678</S_NUMERIC>
+        <S_NUMERIC_8>numeric(8), Formato: [-]12345678</S_NUMERIC_8>
+        <S_NUMERIC_8_2>numeric(8,2), Formato: [-]123456.78</S_NUMERIC_8_2>
+        <S_NVARCHAR_30>varchar(30), Formato: Cualquier caracter</S_NVARCHAR_30>
+        <S_REAL>float(5), Formato: [-]0.12345</S_REAL>
+        <S_SMALLDATETIME>DateTime, Formato: YYYY-MM-DD HH:MM:SS</S_SMALLDATETIME>
+        <S_SMALLINT>integer(4), Formato: [-]1234</S_SMALLINT>
+        <S_SMALLMONEY>money(9,4), Formato: [-]12345.6789</S_SMALLMONEY>
+        <S_SYSNAME>varchar(30), Formato: Cualquier caracter</S_SYSNAME>
+        <S_TEXT>longvarchar(2000000000), Formato: Cualquier caracter</S_TEXT>
+        <S_TINYINT>tinyint, Valores: de 0 a 255</S_TINYINT>
+        <S_VARBINARY_30>blob(30), Formato: Codificado en Base64</S_VARBINARY_30>
+        <S_VARCHAR>varchar(1), Formato: Cualquier caracter</S_VARCHAR>
+        <S_VARCHAR_30>varchar(30), Formato: Cualquier caracter</S_VARCHAR_30>
+        <O_PK>numeric(18), Formato: [-]123456789012345678</O_PK>
+        <S_IDENTITY>numeric(18), Formato: [-]123456789012345678</S_IDENTITY>
+        <S_MANDATORY>numeric(18), Formato: [-]123456789012345678</S_MANDATORY>
+        <C_COMBO>numeric(18), Formato: [-]123456789012345678</C_COMBO>
+        <C_DEFAULT>numeric(18), Formato: [-]123456789012345678</C_DEFAULT>
+        <ts_rversion>blob(8), Formato: Codificado en Base64</ts_rversion>
+    </row>
+    <row>
+        ...
+    </row>
+</recordset>

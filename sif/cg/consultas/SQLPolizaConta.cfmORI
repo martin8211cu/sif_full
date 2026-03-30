@@ -1,0 +1,170 @@
+﻿<!--- 
+	Modificado por Gustavo Fonseca. 
+		Fecha: 18-1-2006.
+		Motivo: se corrige el mensaje de página expirada al utilizar el link de REGRESAR, pues usaba la 
+		función "backREG". se usa un "formsql" con el action hacia la página de inicio del proceso.
+
+	Modificado por Gustavo Fonseca. 
+		Fecha: 25-2-2006.
+		Motivo: Se le da tratamiento para que interactue en la consulta de saldos y movimientos y le 
+		devuelva todos los parámetros que le llegaron.
+
+--->
+
+<cfsetting enablecfoutputonly="yes">
+<cfif isdefined("Url.IDcontable") and not isdefined("Form.IDcontable")>
+	<cfparam name="Form.IDcontable" default="#Url.IDcontable#">
+</cfif>
+<cfif isdefined("url.Oficina") and len(trim(url.Oficina))>
+	<cfset form.Oficina = url.Oficina>
+</cfif>
+<cfif isdefined("url.CConcepto") and len(trim(url.CConcepto))>
+	<cfset form.CConcepto = url.CConcepto>
+</cfif>
+
+<cfif isdefined("url.Edocumento") and len(trim(url.Edocumento))>
+	<cfset form.Edocumento = url.Edocumento>
+</cfif>
+
+<cfif isdefined("url.Tabla") and len(trim(url.Tabla))>
+	<cfset Form.Tabla = url.Tabla>
+<cfelse> 
+	<cfset Form.Tabla = "HDContables">
+</cfif>
+
+<cfif (not isdefined("form.Cconcepto") or not isdefined("form.Edocumento")) and isdefined("form.IDcontable")>
+	<cfquery name="rsIDcontable" datasource="#session.dsn#">
+    	select Cconcepto, Edocumento
+        from HEContables
+        where IDcontable = <cfqueryparam cfsqltype="cf_sql_numeric" value="#form.IDcontable#">
+    </cfquery>
+    <cfset form.Cconcepto = rsIDcontable.Cconcepto>
+    <cfset form.Edocumento = rsIDcontable.Edocumento>
+</cfif>
+<cfset LvarAction = "">
+<cfif isdefined("url.Saldoymov") and len(trim(url.Saldoymov))>
+	<cfif #Form.Tabla# EQ 'HDContables1'>
+		<cfset LvarAction = "saldosymov02.cfm">
+   	<cfelse>
+    	<cfset LvarAction = "SaldosMovimientosB1.cfm">
+   	</cfif>
+<cfelseif isdefined("url.LvarAsientoRecursivo") and len(trim(url.LvarAsientoRecursivo))>
+	<cfset LvarAction = "AsientosRecursivos.cfm">
+<cfelse>
+	<cfset LvarAction = "PolizaContable.cfm">
+</cfif>
+<cfsetting enablecfoutputonly="no">
+<style type="text/css">
+	#printerIframe {
+		position: absolute;
+		width: 0px; height: 0px;
+		border-style: none;
+		/* visibility: hidden; */
+	}
+</style>
+<script type="text/javascript">
+	function printURL (url) {
+		if (window.print && window.frames && window.frames.printerIframe) {
+			var html = '';
+			html += '<html>';
+			html += '<body onload="parent.printFrame(window.frames.urlToPrint);">';
+			html += '<iframe name="urlToPrint" src="' + url + '"><\/iframe>';
+			html += '<\/body><\/html>';
+			var ifd = window.frames.printerIframe.document;
+			ifd.open();
+			ifd.write(html);
+			ifd.close();
+		}
+		else {
+			if (confirm('To print a page with this browser ' +
+			'we need to open a window with the page. Do you want to continue?')) {
+				var win = window.open('', 'printerWindow', 'width=600,height=300,resizable,scrollbars,toolbar,menubar');
+				var html = '';
+				html += '<html>';
+				html += '<frameset rows="100%, *" ' 
+				+  'onload="opener.printFrame(window.urlToPrint);">';
+				html += '<frame name="urlToPrint" src="' + url + '" \/>';
+				html += '<frame src="about:blank" \/>';
+				html += '<\/frameset><\/html>';
+				win.document.open();
+				win.document.write(html);
+				win.document.close();
+			}
+		}
+	}
+	function printFrame (frame) {
+		if (frame.print) {
+			frame.focus();
+			frame.print();
+			frame.src = "about:blank"
+		}
+	}
+</script>
+<cfif not isdefined('url.export')>
+	<cf_templatecss>
+</cfif>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+        <td>
+            <form action="<cfoutput>#LvarAction#</cfoutput>" name="formsql" method="get">
+                <cfif isdefined("url.Saldoymov") and len(trim(url.Saldoymov))>
+                    <cfoutput>
+                        <input type="hidden" name="Periodo" value="<cfif isdefined("form.Periodo")>#form.Periodo#</cfif>">
+                        <input type="hidden" name="PeriodoLista" value="<cfif isdefined("form.PeriodoLista")>#form.PeriodoLista#</cfif>">
+                        <input type="hidden" name="Oficina" value="<cfif isdefined("form.Oficina")>#Form.Oficina#</cfif>">
+                        <input type="hidden" name="MesCierre" value="<cfif isdefined("form.MesCierre")>#Form.MesCierre#</cfif>">
+                        <input type="hidden" name="Mes" value="<cfif isdefined("url.Mes")>#url.Mes#</cfif>">
+                        <input type="hidden" name="Ccuenta" value="<cfif isdefined("form.Ccuenta")>#Form.Ccuenta#</cfif>">
+                        <input type="hidden" name="Ccuenta1" value="<cfif isdefined("form.Ccuenta1")>#Form.Ccuenta1#</cfif>">
+                        <input type="hidden" name="Ccuenta2" value="<cfif isdefined("form.Ccuenta2")>#Form.Ccuenta2#</cfif>">
+                        <input name="Cdescripcion1" value="<cfif isdefined("form.Cdescripcion1")>#Form.Cdescripcion1#</cfif>" type="hidden">
+                        <input name="Cdescripcion2" value="<cfif isdefined("form.Cdescripcion2")>#Form.Cdescripcion2#</cfif>" type="hidden">  
+                        <input name="Cformato1" value="<cfif isdefined("form.Cformato1")>#Form.Cformato1#</cfif>" type="hidden">   
+                        <input name="Cformato2" value="<cfif isdefined("form.Cformato2")>#Form.Cformato2#</cfif>" type="hidden">     
+                        <input name="Cmayor1" value="<cfif isdefined("form.Cmayor1")>#Form.Cmayor1#</cfif>" type="hidden">   
+                        <input name="Cmayor2" value="<cfif isdefined("form.Cmayor2")>#Form.Cmayor2#</cfif>" type="hidden">                                                                           
+                        <input type="hidden" name="Tabla" value="<cfif isdefined("form.Tabla")>#Form.Tabla#</cfif>">
+                        <input name="Mcodigo" value="<cfif isdefined("form.Mcodigo")>#form.Mcodigo#</cfif>" type="hidden">
+                        <input name="McodigoOpt" value="<cfif isdefined("form.McodigoOpt")>#form.McodigoOpt#</cfif>" type="hidden">                       
+                    </cfoutput>
+                </cfif>
+                <cfif not isdefined('url.export')>
+                    <table width="100%" border="0" cellpadding="4" cellspacing="0" bgcolor="#DFDFDF">
+                        <tr>
+                            <td><!--- <cfinclude template="../../portlets/pNavegacion.cfm"> --->&nbsp;</td>
+                            <cfoutput>
+                                <td align="right" width="25%"> 
+									<cfparam name="url.cboNivs" default="-1">
+									<select name="cboNivs" onchange="location.href='SQLPolizaConta.cfm?cboNivs='+this.value+'&IDcontable=#Form.IDcontable#&Cconcepto=#form.Cconcepto#&Edocumento=#form.Edocumento#&Tabla=#Form.Tabla#';">
+										<option></option>
+										<option value="0">mayor</option>
+										<option value="1">1</option>
+										<option value="2">2</option>
+										<option value="3">3</option>
+										<option value="4">4</option>
+										<option value="5">5</option>
+										<option value="6">6</option>
+										<option value="7">7</option>
+										<option value="8">8</option>
+									</select>
+                                    <a href="SQLPolizaConta.cfm?export=true&IDcontable=#Form.IDcontable#&Cconcepto=#form.Cconcepto#&Edocumento=#form.Edocumento#&cboNivs=#url.cboNivs#&Tabla=#Form.Tabla#">  
+                                    Exportar</a>
+                                    &nbsp;|
+                                    &nbsp;<a href="javascript:printURL('PolizaContaImpr.cfm?IDcontable=#Form.IDcontable#&Cconcepto=#form.Cconcepto#&Edocumento=#form.Edocumento#&cboNivs=#url.cboNivs#&Tabla=#Form.Tabla#');">  
+                                    Imprimir
+                                    </a>
+                                    &nbsp;|&nbsp; <a href="javascript:document.formsql.submit();">  
+                                    Regresar
+                                    </a>
+                                </td>	
+                            </cfoutput>
+                        </tr>										
+                    </table>
+                </cfif>	
+            </form>
+        </td>
+    </tr>
+    <tr>
+        <td><cfinclude template="formPolizaConta.cfm">&nbsp;</td>
+    </tr>
+</table>

@@ -1,0 +1,294 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+      <Idioma id="en">
+        <Salarios>Salary</Salarios>
+        <Pagos>Payments</Pagos>
+        <Imprimir>Print</Imprimir>
+        <Capacitacion>Training</Capacitacion>
+        <SeleccionarEmpleado>Select an Employee</SeleccionarEmpleado>
+        <Expediente>File</Expediente>
+        <NombreExp>Name</NombreExp>
+        <CedulaExp>ID #</CedulaExp>
+        <SexExp>Gender</SexExp>
+        <FecNacExp>Birthdate</FecNacExp>
+        <NDependietesExp>Dependants</NDependietesExp>
+        <CuentaCExp>Bank account</CuentaCExp>
+        <ListaFamiliares>Relatives List</ListaFamiliares>
+        <ApldeducExp>Applies Rent Deduction</ApldeducExp>
+        <CobraAsigExp>Charges family assignment</CobraAsigExp>
+        <ParentescoExp>Relationship</ParentescoExp>
+        <DesdeExp>Start Date</DesdeExp>
+        <HastaExp>End Date</HastaExp>
+        <SituacionActual>Present situation</SituacionActual>
+        <TpoNominaExp>Type of Payroll</TpoNominaExp>
+        <RegimenVacExp>Vacation Plan</RegimenVacExp>
+        <CentroFuncExp>Functional Center</CentroFuncExp>
+        <PuestoExp>Position</PuestoExp>
+        <PorcPlazaExp>Vacancy %</PorcPlazaExp>
+        <PorcSalarioExp>Fixed Salary Percentage</PorcSalarioExp>
+        <ComponentesActuales>Present Components</ComponentesActuales>
+        <SalTotalExp>Total Salary</SalTotalExp>
+        <Monto>Amount</Monto>
+        <ComponentesIncidente>Components Incident</ComponentesIncidente>
+        <Vacaciones>Vacations</Vacaciones>
+        <FecAntiguaExp>Entry Date</FecAntiguaExp>
+        <DiasDispExp>Available Days</DiasDispExp>
+        <DiasEnferExp>Sickness Days</DiasEnferExp>
+        <FecIngresoExp>Entry Date</FecIngresoExp>
+        <FecAnualExp>Anuality date</FecAnualExp>
+        <FecVacaExp>Vacations Date</FecVacaExp>
+        <Cargas>Charges</Cargas>
+        <FEcDesdeExp>Start Date</FEcDesdeExp>
+        <FEcHastaExp>End Date</FEcHastaExp>
+        <Deducciones>Deductions</Deducciones>
+        <ValorExp>Value</ValorExp>
+        <FEcIniExp>Start Date</FEcIniExp>
+        <FEcFinExp>End Date</FEcFinExp>
+        <Beneficios>Benefits</Beneficios>
+        <OtrosExpedientes>Other Files</OtrosExpedientes>
+        <VerExpedientes>View More</VerExpedientes>
+        <Anotaciones>Notes</Anotaciones>
+        <NumExp>Number</NumExp>
+        <FecAnotacionExp>Annotation date</FecAnotacionExp>
+        <TpoAnotacionExp>Type of Annotation</TpoAnotacionExp>
+        <AnotacionExp>Annotation</AnotacionExp>
+        <DatosPersonales>Personal Data</DatosPersonales>
+        <DatosFamiliares>Relatives Data</DatosFamiliares>
+        <DatosLaborales>Labor Data</DatosLaborales>
+        <PerfilBenziger>Benziger Profile</PerfilBenziger>
+        <ComparativoBenziger>Benziger contrast</ComparativoBenziger>
+        <DatosGenerales>General Data</DatosGenerales>
+        <JerarquiaPlaza>Vacancy Hierarchy</JerarquiaPlaza>
+        <LB_RHAutogestion>HR   Self Management</LB_RHAutogestion>
+        <LB_Inicio>Start</LB_Inicio>
+        <LB_DebeSeleccionarUnEmpleado>Select an Employee</LB_DebeSeleccionarUnEmpleado>
+        <LB_Identificacion>Identification</LB_Identificacion>
+        <LB_Nombre>Name</LB_Nombre>
+        <LB_NombreCompleto>Full Name</LB_NombreCompleto>
+        <LB_Masculino>Male</LB_Masculino>
+        <LB_Femenino>Female</LB_Femenino>
+        <LB_Soltero>Single</LB_Soltero>
+        <LB_Casado>Married</LB_Casado>
+        <LB_Divorciado>Divorced</LB_Divorciado>
+        <LB_Viudo>Widow</LB_Viudo>
+        <LB_UnionLibre>Free Union</LB_UnionLibre>
+        <LB_Separado>Separated</LB_Separado>
+        <LB_Ninguno>None</LB_Ninguno>
+        <LB_Salarios>Wages</LB_Salarios>
+        <LB_Pagos>Payments</LB_Pagos>
+        <LB_Imprimir>Print</LB_Imprimir>
+        <LB_ExpDeCapacitacion>Training file</LB_ExpDeCapacitacion>
+        <LB_SeleccionarEmpleado>Select an Employee</LB_SeleccionarEmpleado>
+        <Sexo>Gender</Sexo>
+        <EstadoCivil>Marital Status</EstadoCivil>
+        <FecNacimiento>Birthdate</FecNacimiento>
+        <Direccion>Address</Direccion>
+        <NoDeDependietes>Dependants Number</NoDeDependietes>
+        <Banco>Bank</Banco>
+        <CuentaCliente>Account client</CuentaCliente>
+        <ListaDeFamiliares>Relatives List</ListaDeFamiliares>
+        <Masculino>Male</Masculino>
+        <Femenino>Female</Femenino>
+        <MSG_ElEmpleadoNoTieneFamiliaresAsociadosAactualmente>The Employee does not have associated relatives at present</MSG_ElEmpleadoNoTieneFamiliaresAsociadosAactualmente>
+        <MSG_EsteEmpleadoNoSeEncuentaNombradoEnEsteMomento>This employee not itself named at this time</MSG_EsteEmpleadoNoSeEncuentaNombradoEnEsteMomento>
+        <SaldoProyectado>Projected Balance</SaldoProyectado>
+        <DiasEnfermedad>Sickness Days</DiasEnfermedad>
+        <FechaIngreso>Ingress Date</FechaIngreso>
+        <FechadeAnualidad>Annual Payment Date</FechadeAnualidad>
+        <NoDefinida>Not Definite</NoDefinida>
+        <FechadeVacaciones>Date of Vacations</FechadeVacaciones>
+        <Carga>Charge</Carga>
+        <FechaDesde>Date Since</FechaDesde>
+        <FechaHasta>Date To</FechaHasta>
+        <Porcentaje>Percentage</Porcentaje>
+        <Valor>Value</Valor>
+        <MSG_ElEmpleadoNoTieneDeduccionesAsociadasActualmente>The Employee does not have associated deductions at present</MSG_ElEmpleadoNoTieneDeduccionesAsociadasActualmente>
+        <Codigo>Code</Codigo>
+        <Descripcion>Description</Descripcion>
+        <Moneda>Currency</Moneda>
+        <MontoEmpleado>Amount Used</MontoEmpleado>
+        <PctEmpleado>% Used</PctEmpleado>
+        <Socio>Associate</Socio>
+        <MSG_ElEmpleadoNoTieneBeneficiosAsociadosActualmente>The Employed does not have associated benefits at present</MSG_ElEmpleadoNoTieneBeneficiosAsociadosActualmente>
+        <Positiva>Positive</Positiva>
+        <Negativa>Negative</Negativa>
+        <MSG_ElEmpleadoNoTieneAnotacionesAsociadasActualmente>The Employee does not have associated annotations at present</MSG_ElEmpleadoNoTieneAnotacionesAsociadasActualmente>
+        <JerarquiaDeLaPlaza>Vacancy Hierarchy</JerarquiaDeLaPlaza>
+        <Identificacion>Identification</Identificacion>
+        <AplicaDeduccionRenta>Applies Rent Deduction</AplicaDeduccionRenta>
+        <Discapacitado>Handicapped</Discapacitado>
+        <CobraAsignacionFamiliar>Charges family assignment</CobraAsignacionFamiliar>
+        <Estudia>Studies</Estudia>
+        <Parentesco>Relationship</Parentesco>
+        <FechaDeNacimiento>Birthdate</FechaDeNacimiento>
+        <ConceptoRenta>Concept rents</ConceptoRenta>
+        <TipoNomina>Type of Payroll</TipoNomina>
+        <RegimenDeVacaciones>Vacation Plan</RegimenDeVacaciones>
+        <Departamento>Department</Departamento>
+        <CentroFuncional>Functional Center</CentroFuncional>
+        <Puesto>Position</Puesto>
+        <Plaza>Vacancy</Plaza>
+        <PorcentajeDePlaza>Vacancy Percentage</PorcentajeDePlaza>
+        <PorcentajeDeSalarioFijo>Fixed Salary Percentage</PorcentajeDeSalarioFijo>
+        <Jornada>Workday</Jornada>
+        <SalarioTotal>Total Salary</SalarioTotal>
+        <Componente>Component</Componente>
+        <MSG_LosComponentesQueAparecenEnColorRojoSePaganEnFormaIncidente>The components that appear in red color are paid in form incident.</MSG_LosComponentesQueAparecenEnColorRojoSePaganEnFormaIncidente>
+        <Deduccion>Deduction</Deduccion>
+        <Metodo>Method</Metodo>
+        <Referencia>Reference</Referencia>
+        <FechaInicial>Initial date</FechaInicial>
+        <FechaFinal>Final date</FechaFinal>
+        <LB_Datos_Generales>General Data</LB_Datos_Generales>
+        <LB_Nombre_Completo>Full Name</LB_Nombre_Completo>
+        <MSG_Elempleadonotienecargasasociadasactualmente>The employee does not have social charges at present</MSG_Elempleadonotienecargasasociadasactualmente>
+        <Acciones>ACTIONS</Acciones>
+        <FechaAplicacion>Application Date</FechaAplicacion>
+        <Comportamiento>Behavior</Comportamiento>
+        <Vigencia>Present</Vigencia>
+        <FechaVigencia>Effective date</FechaVigencia>
+        <TipoDeAccion>Type of Action</TipoDeAccion>
+        <FechaVencimiento>Expiration date</FechaVencimiento>
+        <indefinido>INDEFINITE</indefinido>
+        <Observaciones>Observations</Observaciones>
+        <SituacionAnterior>Previous situation</SituacionAnterior>
+        <LB_TipoDeTabla>Chart type</LB_TipoDeTabla>
+        <LB_Puesto>Position</LB_Puesto>
+        <LB_Categoria>Category</LB_Categoria>
+        <Puesto_RH>HR Position</Puesto_RH>
+        <TipoDeNomina>Type of Payroll</TipoDeNomina>
+        <ComponentesAnteriores>Previous Components</ComponentesAnteriores>
+        <SalarioTotalAnterior>Previous Total Salary</SalarioTotalAnterior>
+        <Unidad>Units</Unidad>
+        <MontoBase>Base Amount</MontoBase>
+        <ListaBeneficios>LIST OF BENEFITS</ListaBeneficios>
+        <MSG_ElEmpleadoSeleccionadoNoTieneUnUsuarioCorrespondiente>The employee selected does not have a corresponding user</MSG_ElEmpleadoSeleccionadoNoTieneUnUsuarioCorrespondiente>
+        <FechaAnotacionExp>Annotation Date</FechaAnotacionExp>
+        <TipoAnotacionExp>Annotation type</TipoAnotacionExp>
+        <Anotacion>Annotation</Anotacion>
+        <DetalleVacaciones>VACATIONS DETAILS</DetalleVacaciones>
+        <InicioDeVacaciones>Start vacations</InicioDeVacaciones>
+        <DiasDisfrutados>Enjoyed Days</DiasDisfrutados>
+        <DiasCompensados>Compensated Days</DiasCompensados>
+        <SaldoAsignado>Balance Assigned</SaldoAsignado>
+        <DETALLEDEDIASDEENFERMEDAD>SICKNESS DAYS DETAILS</DETALLEDEDIASDEENFERMEDAD>
+        <SaldoDeDiasDeEnfermedad>Sickness Balance Days</SaldoDeDiasDeEnfermedad>
+      <LB_ConsultaDeExpedienteLaboral>Consults of Labor File</LB_ConsultaDeExpedienteLaboral><LB_VerPerfilDelPuesto>See Position's Profile</LB_VerPerfilDelPuesto><PlazaExp>Vacancy</PlazaExp><Desde>Since</Desde><INDEFINIDO>INDEFINIDO</INDEFINIDO></Idioma>
+      <Idioma id="es_CR">
+		<Anotaciones/>
+        <ApldeducExp/>
+        <AplicaDeduccionRenta/>
+        <Beneficios/>
+        <Capacitacion/>
+        <Cargas/>
+        <CedulaExp/>
+        <CentroFuncExp/>
+        <CentroFuncional/>
+        <CobraAsigExp/>
+        <CobraAsignacionFamiliar/>
+        <Codigo/>
+        <ComparativoBenziger/>
+        <ComponentesActuales/>
+        <ComponentesIncidente/>
+        <ConceptoRenta/>
+        <CuentaCExp/>
+        <CuentaCliente/>
+        <DatosFamiliares/>
+        <DatosGenerales/>
+        <DatosLaborales/>
+        <DatosPersonales/>
+        <Deducciones/>
+        <Descripcion/>
+        <DesdeExp/>
+        <DiasDispExp/>
+        <DiasEnferExp/>
+        <DiasEnfermedad/>
+        <Expediente/>
+        <FEcDesdeExp/>
+        <FEcFinExp/>
+        <FEcHastaExp/>
+        <FEcIniExp/>
+        <FecAnotacionExp/>
+        <FecAntiguaExp/>
+        <FecAnualExp/>
+        <FecIngresoExp/>
+        <FecNacExp/>
+        <FecNacimiento/>
+        <FecVacaExp/>
+        <FechaDeNacimiento/>
+        <FechaDesde/>
+        <FechaFinal/>
+        <FechaHasta/>
+        <FechaIngreso/>
+        <FechaInicial/>
+        <FechadeAnualidad/>
+        <FechadeVacaciones/>
+        <HastaExp/>
+        <Imprimir/>
+        <JerarquiaDeLaPlaza/>
+        <JerarquiaPlaza/>
+        <LB_Casado/>
+        <LB_DebeSeleccionarUnEmpleado/>
+        <LB_Divorciado/>
+        <LB_ExpDeCapacitacion/>
+        <LB_Femenino/>
+        <LB_Identificacion/>
+        <LB_Imprimir/>
+        <LB_Inicio/>
+        <LB_Masculino/>
+        <LB_Ninguno/>
+        <LB_Nombre/>
+        <LB_Pagos/>
+        <LB_RHAutogestion/>
+        <LB_Salarios/>
+        <LB_SeleccionarEmpleado/>
+        <LB_Separado/>
+        <LB_Soltero/>
+        <LB_UnionLibre/>
+        <LB_Viudo/>
+        <ListaDeFamiliares/>
+        <ListaFamiliares/>
+        <MSG_ElEmpleadoNoTieneAnotacionesAsociadasActualmente/>
+        <MSG_ElEmpleadoNoTieneBeneficiosAsociadosActualmente/>
+        <MSG_ElEmpleadoNoTieneDeduccionesAsociadasActualmente/>
+        <MSG_ElEmpleadoNoTieneFamiliaresAsociadosAactualmente/>
+        <MSG_EsteEmpleadoNoSeEncuentaNombradoEnEsteMomento/>
+        <MSG_LosComponentesQueAparecenEnColorRojoSePaganEnFormaIncidente/>
+        <Moneda/>
+        <Monto/>
+        <MontoEmpleado/>
+        <NDependietesExp/>
+        <Negativa/>
+        <NoDeDependietes/>
+        <NoDefinida/>
+        <NombreExp/>
+        <NumExp/>
+        <OtrosExpedientes/>
+        <Pagos/>
+        <ParentescoExp/>
+        <PctEmpleado/>
+        <PerfilBenziger/>
+        <PorcPlazaExp/>
+        <PorcSalarioExp/>
+        <Porcentaje/>
+        <PorcentajeDePlaza/>
+        <PorcentajeDeSalarioFijo/>
+        <Positiva/>
+        <RegimenDeVacaciones/>
+        <RegimenVacExp/>
+        <SalTotalExp/>
+        <SalarioTotal/>
+        <Salarios/>
+        <SaldoProyectado/>
+        <SeleccionarEmpleado/>
+        <SexExp/>
+        <Sexo/>
+        <SituacionActual/>
+        <Socio/>
+        <TipoNomina/>
+        <TpoAnotacionExp/>
+        <TpoNominaExp/>
+        <Vacaciones/>
+        <VerExpedientes/>
+      </Idioma>
+    <Idioma id="es"><LB_ConsultaDeExpedienteLaboral>Consulta de Expediente Laboral</LB_ConsultaDeExpedienteLaboral><LB_RHAutogestion>RH - Autogesti&amp;oacute;n</LB_RHAutogestion><LB_Inicio>Inicio</LB_Inicio><LB_DebeSeleccionarUnEmpleado>Debe seleccionar un empleado</LB_DebeSeleccionarUnEmpleado><LB_Identificacion>Identificaci&amp;oacute;n</LB_Identificacion><LB_Nombre>Nombre</LB_Nombre><LB_NombreCompleto>Nombre Completo</LB_NombreCompleto><MSG_ElEmpleadoSeleccionadoNoTieneUnUsuarioCorrespondiente>El empleado seleccionado no tiene un usuario correspondiente</MSG_ElEmpleadoSeleccionadoNoTieneUnUsuarioCorrespondiente></Idioma></Etiquetas>

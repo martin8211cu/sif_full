@@ -1,0 +1,637 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<catalogo>
+	<tabla id='1' lista="true" nivel="1" >
+		<Sistema>RH</Sistema>
+		<Grupo>Catalogos</Grupo>
+		<subGrupo>Oficinas</subGrupo>
+		<NombreProceso>01-Oficinas</NombreProceso>
+		<NombreTabla>Oficinas</NombreTabla>
+		<Llave>Ocodigo</Llave>
+		<Fuente>001-ClonarOficinas.cfm</Fuente>
+		<Padre>nulo</Padre>
+		<Hijo>nulo</Hijo>
+	</tabla>
+
+	<tabla id='2' lista="true" nivel="1">
+		<Sistema>RH</Sistema>
+		<Grupo>Catalogos</Grupo>
+		<subGrupo>Departamentos</subGrupo>
+		<NombreProceso>02-Departamentos</NombreProceso>
+		<NombreTabla>Departamentos</NombreTabla>
+		<Llave>Dcodigo</Llave>
+		<Fuente>002-ClonarDepartamentos.cfm</Fuente>
+		<Padre>nulo</Padre>
+		<Hijo>nulo</Hijo>
+	</tabla>
+	
+	
+	<tabla id='3' lista="true" nivel="1">
+		<Sistema>RH</Sistema>
+		<Grupo>Catalogos</Grupo>
+		<subGrupo>Catalogos SIF</subGrupo>
+		<NombreProceso>03-SIF - Catalogo de Cuentas de Mayor</NombreProceso>
+		<NombreTabla>CtasMayor</NombreTabla>
+		<Llave>Cmayor</Llave>
+		<Fuente>003-ClonarCtasMayor.cfm</Fuente>
+		<Padre>nulo</Padre>
+		<Hijo>nulo</Hijo>
+	</tabla>
+	
+	<tabla id='4' lista="true" nivel="1">
+		<Sistema>RH</Sistema>
+		<Grupo>Catalogos</Grupo>
+		<subGrupo>Catalogos SIF</subGrupo>
+		<NombreProceso>04-SIF - Catalogo de Cuentas VIgencia</NombreProceso>
+		<NombreTabla>CPVigencia</NombreTabla>
+		<Llave>Cmayor</Llave>
+		<Fuente>004-ClonarCPVigencia.cfm</Fuente>
+		<Padre>nulo</Padre>
+		<Hijo>nulo</Hijo>
+	</tabla>	
+
+
+	<tabla id='5' lista="true" nivel="1">
+		<Sistema>RH</Sistema>
+		<Grupo>Catalogos</Grupo>
+		<subGrupo>Catalogos SIF</subGrupo>
+		<NombreProceso>05-SIF - Catalogo Contable</NombreProceso>
+		<NombreTabla>CContables</NombreTabla>
+		<Llave>Cmayor</Llave>
+		<Fuente>005-ClonarCContables.cfm</Fuente>
+		<Padre>nulo</Padre>
+		<Hijo>nulo</Hijo>
+	</tabla>
+		
+
+	<tabla id='6' lista="true" nivel="1">
+		<Sistema>RH</Sistema>
+		<Grupo>Catalogos</Grupo>
+		<subGrupo>Catalogos SIF</subGrupo>
+		<NombreProceso>06-SIF - Catalogo CFinanciera</NombreProceso>
+		<NombreTabla>CFinanciera</NombreTabla>
+		<Llave>Cmayor</Llave>
+		<Fuente>006-ClonarCFinanciera.cfm</Fuente>
+		<Padre>nulo</Padre>
+		<Hijo>nulo</Hijo>
+	</tabla>
+	
+	<tabla id='7' lista="true" nivel="1">
+		<Sistema>RH</Sistema>
+		<Grupo>Catalogos</Grupo>
+		<subGrupo>Catalogos SIF</subGrupo>
+		<NombreProceso>07-SIF - Conceptos Contables Encabezado</NombreProceso>
+		<NombreTabla>ConceptoContableE</NombreTabla>
+		<Llave>Cconcepto</Llave>
+		<Fuente>007-ClonarConceptoContableE.cfm</Fuente>
+		<Padre>nulo</Padre>
+		<Hijo>nulo</Hijo>
+	</tabla>
+	
+	<tabla id='8' lista="true" nivel="1">
+		<Sistema>RH</Sistema>
+		<Grupo>Catalogos</Grupo>
+		<subGrupo>Catalogos SIF</subGrupo>
+		<NombreProceso>08-SIF - Conceptos Contables Detalles</NombreProceso>
+		<NombreTabla>ConceptoContable</NombreTabla>
+		<Llave>Oorigen</Llave>
+		<Fuente>008-ClonarConceptoContable.cfm</Fuente>
+		<Padre>nulo</Padre>
+		<Hijo>nulo</Hijo>
+	</tabla>
+	
+	<tabla id='9' lista="true" nivel="1">
+		<Sistema>RH</Sistema>
+		<Grupo>Catalogos</Grupo>
+		<subGrupo>Catalogos SIF</subGrupo>
+		<NombreProceso>09-SIF - Estado Socio de Negocios</NombreProceso>
+		<NombreTabla>EstadoSNegocios</NombreTabla>
+		<Llave>ESNcodigo</Llave>
+		<Fuente>009-ClonarEstadoSNegocios.cfm</Fuente>
+		<Padre>nulo</Padre>
+		<Hijo>nulo</Hijo>
+	</tabla>
+	
+	<tabla id='10' lista="true" nivel="1">
+		<Sistema>RH</Sistema>
+		<Grupo>Catalogos</Grupo>
+		<subGrupo>Catalogos SIF</subGrupo>
+		<NombreProceso>22-SIF - Socio de Negocios</NombreProceso>
+		<NombreTabla>SNegocios</NombreTabla>
+		<Llave>ESNcodigo</Llave>
+		<Fuente>010-ClonarSNegocios.cfm</Fuente>
+		<Padre>EstadoSNegocios</Padre>
+		<Hijo>nulo</Hijo>
+	</tabla>
+
+	<tabla id='11' lista="true" nivel="1">
+		<Sistema>RH</Sistema>
+		<Grupo>Catalogos</Grupo>
+		<subGrupo>Regimen Vacaciones</subGrupo>
+		<NombreProceso>Regimen Vacaciones</NombreProceso>
+		<NombreTabla>RegimenVacaciones</NombreTabla>
+		<Llave>RVcodigo</Llave>
+		<Fuente>011-ClonarRegimenVacaciones.cfm</Fuente>
+		<Padre>nulo</Padre>
+		<Hijo>DRegimenVacaciones</Hijo>
+	</tabla>
+	
+	<tabla id='12' lista="true" nivel="2">
+		<Sistema>RH</Sistema>
+		<Grupo>Catalogos</Grupo>
+		<subGrupo>Regimen Vacaciones</subGrupo>
+		<NombreProceso>11-Detalle Regimen Vacaciones</NombreProceso>
+		<NombreTabla>DRegimenVacaciones</NombreTabla>
+		<Fuente>012-ClonarDRegimenVacaciones.cfm</Fuente>
+		<Llave>RVid</Llave>
+		<Padre>RegimenVacaciones</Padre>
+		<Hijo>nulo</Hijo>
+	</tabla>
+	
+	<tabla id='13' lista="true" nivel="1">
+		<Sistema>RH</Sistema>
+		<Grupo>Catalogos</Grupo>
+		<subGrupo>Grupos Componentes Salariales</subGrupo>
+		<NombreProceso>12-Grupos Componentes Salariales</NombreProceso>
+		<NombreTabla>RHComponentesAgrupados</NombreTabla>
+		<Llave>RHCAcodigo</Llave>
+		<Fuente>013-ClonarRHComponentesAgrupados.cfm</Fuente>
+		<Padre>nulo</Padre>
+		<Hijo>ComponentesSalariales</Hijo>
+	</tabla>
+	
+	<tabla id='14' lista="true" nivel="2">
+		<Sistema>RH</Sistema>
+		<Grupo>Catalogos</Grupo>
+		<subGrupo>Grupos Componentes Salariales</subGrupo>
+		<NombreProceso>13-Componentes Salariales</NombreProceso>
+		<NombreTabla>ComponentesSalariales</NombreTabla>
+		<Llave>CScodigo</Llave>
+		<Fuente>014-ClonarComponentesSalariales.cfm</Fuente>
+		<Padre>RHComponentesAgrupados</Padre>
+		<Hijo>nulo</Hijo>
+	</tabla>
+
+	<tabla id='15' lista="true" nivel="1">
+		<Sistema>RH</Sistema>
+		<Grupo>Catalogos</Grupo>
+		<subGrupo>Tipos de Deduccion</subGrupo>
+		<NombreProceso>14-Tipos de Deduccion</NombreProceso>
+		<NombreTabla>TDeduccion</NombreTabla>
+		<Llave>TDcodigo</Llave>
+		<Fuente>015-ClonarTDeduccion.cfm</Fuente>
+		<Padre>nulo</Padre>
+		<Hijo>FDeduccion</Hijo>
+	</tabla>	
+
+	<tabla id='16' lista="true" nivel="2">
+		<Sistema>RH</Sistema>
+		<Grupo>Catalogos</Grupo>
+		<subGrupo>Tipos de Deduccion</subGrupo>
+		<NombreProceso>15-Formulas por Tipos de Deduccion</NombreProceso>
+		<NombreTabla>FDeduccion</NombreTabla>
+		<Llave>TDid</Llave>		
+		<Fuente>016-ClonarFDeduccion.cfm</Fuente>
+		<Padre>TDeduccion</Padre>
+		<Hijo>nulo</Hijo>
+	</tabla>	
+
+	<tabla id='17' lista="true" nivel="1">
+		<Sistema>RH</Sistema>
+		<Grupo>Catalogos</Grupo>
+		<subGrupo>Etiquetas Empresa</subGrupo>
+		<NombreProceso>16-Etiquetas por Empresa</NombreProceso>
+		<NombreTabla>RHEtiquetasEmpresa</NombreTabla>
+		<Llave>RHEcol</Llave>		
+		<Fuente>017-ClonarRHEtiquetasEmpresa.cfm</Fuente>
+		<Padre>nulo</Padre>
+		<Hijo>nulo</Hijo>
+	</tabla>	
+
+	<tabla id='18' lista="true" nivel="1">
+		<Sistema>RH</Sistema>
+		<Grupo>Catalogos</Grupo>
+		<subGrupo>Incidencias</subGrupo>
+		<NombreProceso>Conceptos de pago ó Incidencias</NombreProceso>
+		<NombreTabla>CIncidentes</NombreTabla>
+		<Llave>CIcodigo</Llave>
+		<Fuente>018-ClonarCIncidentes.cfm</Fuente>
+		<Padre>nulo</Padre>
+		<Hijo>CIncidentesD</Hijo>
+	</tabla>	
+	
+	<tabla id='19' lista="true" nivel="2">
+		<Sistema>RH</Sistema>
+		<Grupo>Catalogos</Grupo>
+		<subGrupo>Incidencias</subGrupo>
+		<NombreProceso>18-Detalle de Incidencias</NombreProceso>
+		<NombreTabla>CIncidentesD</NombreTabla>
+		<Llave>CIid</Llave>
+		<Fuente>019-ClonarCIncidentesD.cfm</Fuente>
+		<Padre>CIncidentes</Padre>
+		<Hijo>nulo</Hijo>
+	</tabla>
+
+
+	<tabla id='20' lista="true" nivel="1">
+		<Sistema>RH</Sistema>
+		<Grupo>Catalogos</Grupo>
+		<subGrupo>Feriados</subGrupo>
+		<NombreProceso>19-Dias Feriados</NombreProceso>
+		<NombreTabla>RHFeriados</NombreTabla>
+		<Llave>Ecodigo</Llave>
+		<Fuente>020-ClonarRHFeriados.cfm</Fuente>
+		<Padre>nulo</Padre>
+		<Hijo>nulo</Hijo>
+	</tabla>
+
+	<tabla id='21' lista="true" nivel="1">
+		<Sistema>RH</Sistema>
+		<Grupo>Catalogos</Grupo>
+		<subGrupo>Tipos de Acciones</subGrupo>
+		<NombreProceso>20-Tipos de Acciones</NombreProceso>
+		<NombreTabla>RHTipoAccion</NombreTabla>
+		<Llave>RHTcodigo</Llave>
+		<Fuente>021-ClonarRHTipoAccion.cfm</Fuente>
+		<Padre>nulo</Padre>
+		<Hijo>ConceptosTipoAccion</Hijo>
+	</tabla>
+
+	<tabla id='22' lista="true" nivel="2">
+		<Sistema>RH</Sistema>
+		<Grupo>Catalogos</Grupo>
+		<subGrupo>Tipos de Acciones</subGrupo>
+		<NombreProceso>21-Conceptos Calculo por Tipo de Accion</NombreProceso>
+		<NombreTabla>ConceptosTipoAccion</NombreTabla>
+		<Llave>CIid, RHTid</Llave>
+		<Fuente>022-ClonarConceptosTipoAccion.cfm</Fuente>
+		<Padre>RHTipoAccion</Padre>
+		<Hijo>nulo</Hijo>
+	</tabla>	
+	
+	<tabla id='23' lista="true" nivel="1">
+		<Sistema>RH</Sistema>
+		<Grupo>Catalogos</Grupo>
+		<subGrupo>Puestos Externos</subGrupo>
+		<NombreProceso>23-Puestos Externos</NombreProceso>
+		<NombreTabla>RHPuestosExternos</NombreTabla>
+		<Llave>RHPEcodigo</Llave>
+		<Fuente>023-ClonarRHPuestosExternos.cfm</Fuente>
+		<Padre>nulo</Padre>
+		<Hijo>nulo</Hijo>
+	</tabla>
+	
+	<tabla id='24' lista="true" nivel="1">
+		<Sistema>RH</Sistema>
+		<Grupo>Catalogos</Grupo>
+		<subGrupo>Tipos de Puesto</subGrupo>
+		<NombreProceso>24-Tipos de Puesto</NombreProceso>
+		<NombreTabla>RHTPuestos</NombreTabla>
+		<Llave>RHTPcodigo</Llave>
+		<Fuente>024-ClonarRHTPuestos.cfm</Fuente>
+		<Padre>nulo</Padre>
+		<Hijo>nulo</Hijo>
+	</tabla>
+
+	<tabla id='25' lista="true" nivel="1">
+		<Sistema>RH</Sistema>
+		<Grupo>Catalogos</Grupo>
+		<subGrupo>Puestos Presupuestarios</subGrupo>
+		<NombreProceso>25-Puestos Presupuestarios</NombreProceso>
+		<NombreTabla>RHMaestroPuestoP</NombreTabla>
+		<Llave>RHMPPcodigo</Llave>
+		<Fuente>025-ClonarRHMaestroPuestoP.cfm</Fuente>
+		<Padre>nulo</Padre>
+		<Hijo>nulo</Hijo>
+	</tabla>
+
+	<tabla id='26' lista="true" nivel="1">
+		<Sistema>RH</Sistema>
+		<Grupo>Catalogos</Grupo>
+		<subGrupo>Jornadas</subGrupo>
+		<NombreProceso>26-Jornadas</NombreProceso>
+		<NombreTabla>RHJornadas</NombreTabla>
+		<Llave>RHJcodigo</Llave>
+		<Fuente>026-ClonarRHJornadas.cfm</Fuente>
+		<Padre>nulo</Padre>
+		<Hijo>RHDJornadas</Hijo>
+	</tabla>
+
+	<tabla id='27' lista="true" nivel="2">
+		<Sistema>RH</Sistema>
+		<Grupo>Catalogos</Grupo>
+		<subGrupo>Jornadas</subGrupo>
+		<NombreProceso>27-Detalle de Jornadas</NombreProceso>
+		<NombreTabla>RHDJornadas</NombreTabla>
+		<Fuente>027-ClonarRHDJornadas.cfm</Fuente>
+		<Llave>RHJcodigo</Llave>
+		<Padre>RHJornadas</Padre>
+		<Hijo>nulo</Hijo>
+	</tabla>		
+	
+	<tabla id='28' lista="true" nivel="3">
+		<Sistema>RH</Sistema>
+		<Grupo>Catalogos</Grupo>
+		<subGrupo>Jornadas</subGrupo>
+		<NombreProceso>28-Comportamiento de Jornadas</NombreProceso>
+		<NombreTabla>RHComportamientoJornada</NombreTabla>
+		<Llave>RHCJid</Llave>
+		<Fuente>028-ClonarRHComportamientoJornada.cfm</Fuente>
+		<Padre>RHJornadas</Padre>
+		<Hijo>nulo</Hijo>
+	</tabla>	
+
+
+	<tabla id='29' lista="true" nivel="1">
+		<Sistema>RH</Sistema>
+		<Grupo>Catalogos</Grupo>
+		<subGrupo>Centros Funcionales</subGrupo>
+		<NombreProceso>29-Centros Funcionales</NombreProceso>
+		<NombreTabla>CFuncional</NombreTabla>
+		<Llave>CFcodigo</Llave>
+		<Fuente>029-ClonarCFuncional.cfm</Fuente>
+		<Padre>nulo</Padre>
+		<Hijo>nulo</Hijo>
+	</tabla>	
+	
+	
+	<tabla id='30' lista="true" nivel="1">
+		<Sistema>RH</Sistema>
+		<Grupo>Catalogos</Grupo>
+		<subGrupo>Puestos</subGrupo>
+		<NombreProceso>30-Puestos</NombreProceso>
+		<NombreTabla>RHPuestos</NombreTabla>
+		<Llave>RHPcodigo</Llave>
+		<Fuente>030-ClonarRHPuestos.cfm</Fuente>
+		<Padre>nulo</Padre>
+		<Hijo>nulo</Hijo>
+	</tabla>
+	
+	<tabla id='31' lista="true" nivel="1">
+		<Sistema>RH</Sistema>
+		<Grupo>Catalogos</Grupo>
+		<subGrupo>Bancos</subGrupo>
+		<NombreProceso>31-Bancos</NombreProceso>
+		<NombreTabla>Bancos</NombreTabla>
+		<Llave>Ecodigo</Llave>
+		<Fuente>031-ClonarBancos.cfm</Fuente>
+		<Padre>nulo</Padre>
+		<Hijo>CuentasBancos</Hijo>
+	</tabla>	
+
+	<tabla id='32' lista="true" nivel="2">
+		<Sistema>RH</Sistema>
+		<Grupo>Catalogos</Grupo>
+		<subGrupo>Bancos</subGrupo>
+		<NombreProceso>32-Cuentas Bancarias</NombreProceso>
+		<NombreTabla>CuentasBancos</NombreTabla>
+		<Llave>Bid</Llave>
+		<Fuente>032-ClonarCuentasBancos.cfm</Fuente>
+		<Padre>Bancos</Padre>
+		<Hijo>nulo</Hijo>
+	</tabla>
+	
+	<tabla id='33' lista="true" nivel="1">
+		<Sistema>RH</Sistema>
+		<Grupo>Catalogos</Grupo>
+		<subGrupo>Cargas Patronales</subGrupo>
+		<NombreProceso>33-Cargas Patronales</NombreProceso>
+		<NombreTabla>ECargas</NombreTabla>
+		<Llave>ECcodigo</Llave>
+		<Fuente>033-ClonarECargas.cfm</Fuente>
+		<Padre>nulo</Padre>
+		<Hijo>DCargas</Hijo>
+	</tabla>		
+	
+	<tabla id='34' lista="true" nivel="2">
+		<Sistema>RH</Sistema>
+		<Grupo>Catalogos</Grupo>
+		<subGrupo>Cargas Patronales</subGrupo>
+		<NombreProceso>34-Detalle Cargas Patronales</NombreProceso>
+		<NombreTabla>DCargas</NombreTabla>
+		<Llave>DCcodigo</Llave>
+		<Fuente>034-ClonarDCargas.cfm</Fuente>
+		<Padre>ECargas</Padre>
+		<Hijo>nulo</Hijo>
+	</tabla>	
+
+	<tabla id='35' lista="true" nivel="1">
+		<Sistema>RH</Sistema>
+		<Grupo>Catalogos</Grupo>
+		<subGrupo>Tipos de Nomina</subGrupo>
+		<NombreProceso>35-Tipos de Nomina</NombreProceso>
+		<NombreTabla>TiposNomina</NombreTabla>
+		<Llave>Tcodigo</Llave>
+		<Fuente>035-ClonarTiposNomina.cfm</Fuente>
+		<Padre>nulo</Padre>
+		<Hijo>nulo</Hijo>
+	</tabla>
+			
+	<tabla id='36' lista="true" nivel="2">
+		<Sistema>RH</Sistema>
+		<Grupo>Catalogos</Grupo>
+		<subGrupo>Tipos de Nomina</subGrupo>
+		<NombreProceso>36-Calendario Pagos</NombreProceso>
+		<NombreTabla>CalendarioPagos</NombreTabla>
+		<Llave>CPcodigo</Llave>
+		<Fuente>036-ClonarCalendarioPagos.cfm</Fuente>
+		<Padre>nulo</Padre>
+		<Hijo>TDCalendario</Hijo>
+	</tabla>
+	
+	
+	<tabla id='37' lista="true" nivel="3">
+		<Sistema>RH</Sistema>
+		<Grupo>Catalogos</Grupo>
+		<subGrupo>Tipos de Nomina</subGrupo>
+		<NombreProceso>37-Deducciones por Calendario</NombreProceso>
+		<NombreTabla>TDCalendario</NombreTabla>
+		<Llave>nulo</Llave>
+		<Fuente>037-ClonarTDCalendario.cfm</Fuente>
+		<Padre>CalendarioPagos</Padre>
+		<Hijo>CCalendario</Hijo>
+	</tabla>
+	
+
+	<tabla id='38' lista="true" nivel="4">
+		<Sistema>RH</Sistema>
+		<Grupo>Catalogos</Grupo>
+		<subGrupo>Tipos de Nomina</subGrupo>
+		<NombreProceso>38-Conceptos Pago por Calendario</NombreProceso>
+		<NombreTabla>CCalendario</NombreTabla>
+		<Llave>nulo</Llave>
+		<Fuente>038-ClonarCCalendario.cfm</Fuente>
+		<Padre>CalendarioPagos</Padre>
+		<Hijo>RHExcluirDeduccion</Hijo>
+	</tabla>
+
+	<tabla id='39' lista="true" nivel="5">
+		<Sistema>RH</Sistema>
+		<Grupo>Catalogos</Grupo>
+		<subGrupo>Tipos de Nomina</subGrupo>
+		<NombreProceso>39-Deducciones Excluir por Calendario</NombreProceso>
+		<NombreTabla>RHExcluirDeduccion</NombreTabla>
+		<Llave>nulo</Llave>
+		<Fuente>039-ClonarRHExcluirDeduccion.cfm</Fuente>
+		<Padre>CalendarioPagos</Padre>
+		<Hijo>DiasTiposNomina</Hijo>
+	</tabla>
+	
+	<tabla id='40' lista="true" nivel="6">
+		<Sistema>RH</Sistema>
+		<Grupo>Catalogos</Grupo>
+		<subGrupo>Tipos de Nomina</subGrupo>
+		<NombreProceso>40-Dias de No Pago</NombreProceso>
+		<NombreTabla>DiasTiposNomina</NombreTabla>
+		<Llave>nulo</Llave>
+		<Fuente>040-ClonarDiasTiposNomina.cfm</Fuente>
+		<Padre>nulo</Padre>
+		<Hijo>nulo</Hijo>
+	</tabla>	
+	
+	<tabla id='41' lista="true" nivel="1">
+		<Sistema>RH</Sistema>
+		<Grupo>Catalogos</Grupo>
+		<subGrupo>Datos Empleado</subGrupo>
+		<NombreProceso>Datos Empleado</NombreProceso>
+		<NombreTabla>DatosEmpleado</NombreTabla>
+		<Llave>DEid</Llave>
+		<Fuente>041-ClonarDatosEmpleado.cfm</Fuente>
+		<Padre>nulo</Padre>
+		<Hijo>nulo</Hijo>
+	</tabla>	
+	
+	<tabla id='42' lista="true" nivel="1">
+		<Sistema>RH</Sistema>
+		<Grupo>Catalogos</Grupo>
+		<subGrupo>Datos Empleado</subGrupo>
+		<NombreProceso>Imagenes Datos Empleado</NombreProceso>
+		<NombreTabla>RHImagenEmpleado</NombreTabla>
+		<Llave>DEid</Llave>
+		<Fuente>042-ClonarImagenesDatosEmpleado.cfm</Fuente>
+		<Padre>DatosEmpleado</Padre>
+		<Hijo>nulo</Hijo>
+	</tabla>	
+	
+	<tabla id='43' lista="true" nivel="1">
+		<Sistema>RH</Sistema>
+		<Grupo>Catalogos</Grupo>
+		<subGrupo>Datos Empleado</subGrupo>
+		<NombreProceso>Anotaciones de Empleado</NombreProceso>
+		<NombreTabla>RHAnotaciones</NombreTabla>
+		<Llave>DEid</Llave>
+		<Fuente>043-ClonarRHAnotaciones.cfm</Fuente>
+		<Padre>DatosEmpleado</Padre>
+		<Hijo>nulo</Hijo>
+	</tabla>	
+
+	<tabla id='44' lista="true" nivel="1">
+		<Sistema>RH</Sistema>
+		<Grupo>Catalogos</Grupo>
+		<subGrupo>Datos Empleado</subGrupo>
+		<NombreProceso>Familiares de Empleado</NombreProceso>
+		<NombreTabla>FEmpleado</NombreTabla>
+		<Llave>DEid</Llave>
+		<Fuente>044-ClonarFEmpleado.cfm</Fuente>
+		<Padre>DatosEmpleado</Padre>
+		<Hijo>nulo</Hijo>
+	</tabla>
+	
+
+	<tabla id='45' lista="true" nivel="1">
+		<Sistema>RH</Sistema>
+		<Grupo>Catalogos</Grupo>
+		<subGrupo>Datos Empleado</subGrupo>
+		<NombreProceso>Vacaciones de Empleado</NombreProceso>
+		<NombreTabla>EVacacionesEmpleado</NombreTabla>
+		<Llave>DEid</Llave>
+		<Fuente>045-ClonarEVacacionesEmpleado.cfm</Fuente>
+		<Padre>DatosEmpleado</Padre>
+		<Hijo>nulo</Hijo>
+	</tabla>
+	
+	<tabla id='46' lista="true" nivel="1">
+		<Sistema>RH</Sistema>
+		<Grupo>Catalogos</Grupo>
+		<subGrupo>Datos Empleado</subGrupo>
+		<NombreProceso>Detalle Vacaciones de Empleado</NombreProceso>
+		<NombreTabla>DVacacionesEmpleado</NombreTabla>
+		<Llave>DEid</Llave>
+		<Fuente>046-ClonarDVacacionesEmpleado.cfm</Fuente>
+		<Padre>DatosEmpleado</Padre>
+		<Hijo>nulo</Hijo>
+	</tabla>	
+	
+	<tabla id='47' lista="true" nivel="1">
+		<Sistema>RH</Sistema>
+		<Grupo>Catalogos</Grupo>
+		<subGrupo>Datos Empleado</subGrupo>
+		<NombreProceso>Cargas de Empleado</NombreProceso>
+		<NombreTabla>CargasEmpleado</NombreTabla>
+		<Llave>DEid</Llave>
+		<Fuente>047-ClonarCargasEmpleado.cfm</Fuente>
+		<Padre>DatosEmpleado</Padre>
+		<Hijo>nulo</Hijo>
+	</tabla>
+
+	<tabla id='48' lista="true" nivel="1">
+		<Sistema>RH</Sistema>
+		<Grupo>Catalogos</Grupo>
+		<subGrupo>Datos Empleado</subGrupo>
+		<NombreProceso>Deducciones de Empleado</NombreProceso>
+		<NombreTabla>DeduccionesEmpleado</NombreTabla>
+		<Llave>DEid</Llave>
+		<Fuente>048-ClonarDeduccionesEmpleado.cfm</Fuente>
+		<Padre>DatosEmpleado</Padre>
+		<Hijo>nulo</Hijo>
+	</tabla>
+
+	<tabla id='49' lista="true" nivel="1">
+		<Sistema>RH</Sistema>
+		<Grupo>Catalogos</Grupo>
+		<subGrupo>Datos Empleado</subGrupo>
+		<NombreProceso>Plazas de Empleado</NombreProceso>
+		<NombreTabla>RHPlazas</NombreTabla>
+		<Llave>DEid</Llave>
+		<Fuente>049-ClonarRHPlazas.cfm</Fuente>
+		<Padre>DatosEmpleado</Padre>
+		<Hijo>nulo</Hijo>
+	</tabla>
+	
+	<tabla id='50' lista="true" nivel="1">
+		<Sistema>RH</Sistema>
+		<Grupo>Catalogos</Grupo>
+		<subGrupo>Datos Empleado</subGrupo>
+		<NombreProceso>Plazas de Empleado</NombreProceso>
+		<NombreTabla>RHTipoMovimiento</NombreTabla>
+		<Llave>DEid</Llave>
+		<Fuente>050-ClonarRHTipoMovimiento.cfm</Fuente>
+		<Padre>DatosEmpleado</Padre>
+		<Hijo>nulo</Hijo>
+	</tabla>	
+
+	<tabla id='51' lista="true" nivel="1">
+		<Sistema>RH</Sistema>
+		<Grupo>Catalogos</Grupo>
+		<subGrupo>Datos Empleado</subGrupo>
+		<NombreProceso>Plazas de Empleado</NombreProceso>
+		<NombreTabla>RHPlazaPresupuestaria</NombreTabla>
+		<Llave>DEid</Llave>
+		<Fuente>051-ClonarRHPlazaPresupuestaria.cfm</Fuente>
+		<Padre>RHPlazas</Padre>
+		<Hijo>nulo</Hijo>
+	</tabla>	
+
+	<tabla id='52' lista="true" nivel="1">
+		<Sistema>RH</Sistema>
+		<Grupo>Catalogos</Grupo>
+		<subGrupo>Datos Empleado</subGrupo>
+		<NombreProceso>Movimiento de Plazas</NombreProceso>
+		<NombreTabla>RHMovPlaza</NombreTabla>
+		<Llave>DEid</Llave>
+		<Fuente>052-ClonarRHMovPlaza.cfm</Fuente>
+		<Padre>RHPlazas</Padre>
+		<Hijo>nulo</Hijo>
+	</tabla>
+
+	
+</catalogo>

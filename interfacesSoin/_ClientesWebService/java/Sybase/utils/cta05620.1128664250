@@ -1,0 +1,19 @@
+
+create function interfazToSoinSQL
+	(
+		urlSoin varchar(255), 
+		CESoin varchar(255), 
+		ESoin varchar(255), 
+		uidSoin varchar(255), 
+		pwdSoin varchar(255), 
+		interfaz varchar(255), 
+		sql_ie varchar(16384),
+		sql_id varchar(16384),
+		sql_is varchar(16384),
+                xml_output bit
+	)
+	returns varchar(16384)
+	not deterministic
+	language java
+	parameter style java
+	external name 'com.soin.interfaces.interfazToSoinSybase.sendToSoinSQL(java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,boolean)'

@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_Transaccion>Transaction</LB_Transaccion>
+		<LB_Usuario>User</LB_Usuario>
+		<LB_TipoTransaccion>Transaction Type</LB_TipoTransaccion>
+		<LB_Fecha>Date</LB_Fecha>
+	</Idioma>
+</Etiquetas>

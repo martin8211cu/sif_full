@@ -1,0 +1,223 @@
+<!doctype HTML public "-//W3C//DTD HTML 4.0 Frameset//EN">
+
+<html>
+
+<!--(==============================================================)-->
+<!--(Document created with RoboEditor. )============================-->
+<!--(==============================================================)-->
+
+<head>
+
+<title>Using soEditor</title>
+
+<!--(Meta)==========================================================-->
+
+<meta http-equiv=content-type content="text/html; charset=windows-1252">
+<meta name=generator content="RoboHELP by eHelp Corporation - www.ehelp.com">
+<meta name=generator-major-version content=0.1>
+<meta name=generator-minor-version content=1>
+<meta name=filetype content=kadov>
+<meta name=filetype-version content=1>
+<meta name=page-count content=1>
+<meta name=layout-height content=884>
+<meta name=layout-width content=751>
+
+
+<!--(Links)=========================================================-->
+
+ <link rel='stylesheet' href='../default_ns.css'>
+<script type="text/javascript" language="JavaScript" title="WebHelpSplitCss">
+<!--
+if (navigator.appName !="Netscape")
+{   document.write("<link rel='stylesheet' href='../default.css'>");}
+//-->
+</script>
+<style type="text/css">
+<!--
+div.whs1 {width: 100%; }
+p.whs2 {font-weight: bold;}
+ul.whs3 {list-style: square;}
+p.whs4 {font-weight: bold; x-condition: LITE;}
+ol.whs5 {list-style: decimal;}
+p.whs6 {x-condition: LITE;}
+p.whs7 {font-weight: normal; font-family: 'Courier New', monospace;}
+p.whs8 {text-align: center; font-size: 10pt;}
+-->
+</style>
+<script type="text/javascript" language="JavaScript" title="WebHelpInlineScript">
+<!--
+function reDo() {
+  if (innerWidth != origWidth || innerHeight != origHeight)
+     location.reload();
+}
+if ((parseInt(navigator.appVersion) == 4) && (navigator.appName == "Netscape")) {
+	origWidth = innerWidth;
+	origHeight = innerHeight;
+	onresize = reDo;
+}
+onerror = null; 
+//-->
+</script>
+<style type="text/css">
+<!--
+  div.WebHelpPopupMenu {position:absolute; left:0px; top:0px; z-index:4; visibility:hidden;}
+-->
+</style>
+<script type="text/javascript" language="javascript1.2" src="../whmsg.js"></script>
+<script type="text/javascript" language="javascript" src="../whver.js"></script>
+<script type="text/javascript" language="javascript1.2" src="../whproxy.js"></script>
+<script type="text/javascript" language="javascript1.2" src="../whutils.js"></script>
+<script type="text/javascript" language="javascript1.2" src="../whtopic.js"></script>
+</head>
+
+<!--(Body)==========================================================-->
+
+
+<body>
+
+<script type="text/javascript" language="javascript1.2">
+<!--
+if (window.gbWhTopic)
+{
+	if (window.addTocInfo)
+	{
+	addTocInfo("Getting Started\nUsing soEditor");
+addButton("show",BTN_TEXT,"Show","","","","",0,0,"","","");
+
+	}
+	if (window.writeBtnStyle)
+		writeBtnStyle();
+
+	if (window.writeIntopicBar)
+		writeIntopicBar(1);
+
+	if (window.setRelStartPage)
+	{
+	setRelStartPage("../index.html");
+
+		autoSync(1);
+		sendSyncInfo();
+		sendAveInfoOut();
+	}
+}
+else
+	if (window.gbIE4)
+		document.location.reload();
+//-->
+</script>
+<div placeholder id="header" class="whs1">
+ <h3>Using soEditor 
+ <span style="x-condition: LITE;">Lite</span> 
+ 2.5</h3>
+</div>
+<p class="whs2"><span><B><span style="font-weight: bold;"><B>Example 
+ applications</B></span></B></span></p>
+
+<p>To learn how to use soEditor in your applications, we recommend studying 
+ the example applications that are included in the soEditor installation 
+ file. &nbsp;These 
+ applications contain simple real-world examples of using soEditor in your 
+ applications. &nbsp;In 
+ order to provide a solid understanding of how to use soEditor, we have 
+ also included the ability to view source code within each example. &nbsp;To 
+ view the examples, browse to:</p>
+
+<p>&nbsp;</p>
+
+<p>http://{www.yoursite.com}/siteobjects/soeditor/<span style="x-condition: LITE;">lite</span>/examples/<span style="x-condition: CF;">index.cfm</span></p>
+
+<p>&nbsp;</p>
+
+<p>(you may have to change this url if soEditor was not installed in the 
+ default directory)</p>
+
+<ul type="square" class="whs3">
+	
+	</ul>
+
+<p>&nbsp;</p>
+
+<p class="whs4">Spellchecking support<br>
+<span style="font-weight: normal;">soEditor Lite currently supports spellchecking 
+ by integrating the Spellchecker.net service into the tag. This is not 
+ a free service, you must have an account with Spellchecker.net before 
+ using it. &nbsp;The 
+ following describes the steps needed in order to enable spellchecking 
+ in soEditor:</span></p>
+
+<p class="whs4">&nbsp;</p>
+
+<ol type="1" class="whs5">
+	
+	<li style="x-condition: LITE; /*begin!kadov{{*/ x-condition: LITE; /*}}end!kadov*/ "
+		class=kadov-p><p class="whs6">Visit <a href="http://www.spellchecker.net/"
+															target=_blank
+															style="x-condition: LITE;">Spellchecker.net</a> 
+ and sign up for an account.</p></li>
+	
+	<li style="x-condition: LITE;"
+		class=kadov-p><p>Edit line #12 in spch.js from the soEditor installation 
+ with the correct customerid you received from Spellchecker.net:<br>
+	e.g. var customerid = &quot;1:Kfej8-BIuD71-ueCJY-eZUg03-TaquP3-ojrti4-8zSkI2-gbBru1-Xm2AR1-rRRCk1&quot;;</p></li>
+	
+	<li style="x-condition: LITE;"
+		class=kadov-p><p>Enable spellchecking in soEditor by setting the 
+ spellCheck <span style="x-condition: CF, LITE;">attribute</span> to &quot;true&quot;</p></li>
+</ol>
+
+<p></p>
+
+<p>&nbsp;</p>
+
+<p class="whs2">Extending soEditor<span style="font-weight: normal;"><br>
+soEditor also provides features to allow developers to extend the functionality 
+ to include insertion of specific html blocks through the insertText method 
+ of the soEditor control. &nbsp;By 
+ calling method with JavaScript one can insert specific text or HTML into 
+ the document being created or edited. &nbsp;This 
+ feature can be used to create new functionality based on the soEditor 
+ control. With source versions of soEditor, custom buttons and toolbars 
+ can be created using this functionality.</span></p>
+
+<p class="whs2">&nbsp;</p>
+
+<p class="whs7">soEditor<span 
+ style="font-weight: bold;"><B>FieldName</B></span>.insertText(sStart, sEnd, asHTML, 
+ bAllowEmpty);</p>
+
+<p class="whs7">sStart 
+ &nbsp;String 
+ to be inserted before the start of the current selection.</p>
+
+<p class="whs7">sEnd 
+ &nbsp;String 
+ to be inserted after the end of the current selection.</p>
+
+<p class="whs7">asHTML 
+ &nbsp;Boolean 
+ variable indicating if the text should be inserted as rendered HTML or 
+ as Plain text.</p>
+
+<p class="whs7">bAllowEmpty 
+ &nbsp;Boolean 
+ variable indicating if the text can be inserted without a selection being 
+ made.</p>
+
+<p class="whs7">&nbsp;</p>
+
+<p class="whs7">* 
+ <span style="font-weight: bold;"><B>FieldName</B></span> is the name of the field 
+ attribute specified when calling soEditor</p>
+
+<div placeholder id="footer" class="whs1">
+ <p align="center" class="whs8">&nbsp;</p>
+</div>
+<script type="text/javascript" language="javascript1.2">
+<!--
+if (window.writeIntopicBar)
+	writeIntopicBar(0);
+//-->
+</script>
+</body>
+
+</html>

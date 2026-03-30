@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<info>
+	<infoitem key="UD_data" value="name:errorid;datatype:,name:componente;datatype:,name:titulo;datatype:,name:cuando;datatype:,name:ip;datatype:,name:url;datatype:,name:login;datatype:,name:detalle;datatype:,name:detalle_extra;datatype:,name:leido;datatype:,name:resuelto;datatype:,name:eliminar;datatype:,name:leido_por;datatype:,name:resuelto_por;datatype:,name:eliminado_por;datatype:,name:leido_fecha;datatype:,name:resuelto_fecha;datatype:,name:eliminado_fecha;datatype:,name:solucion;datatype:" />
+	<infoitem key="UD_back" value="name:SPhomeuri;datatype:,name:SMhomeuri;datatype:,name:SShomeuri;datatype:" />
+</info>

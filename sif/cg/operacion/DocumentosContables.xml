@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="es_CR">
+		<oficina>Oficina</oficina>
+		<concepto>Concepto</concepto>
+		<periodo>Periodo</periodo>
+		<mes>Mes</mes>
+		<poliza>Asiento</poliza>
+		<descripcion>Descripci&amp;oacute;n</descripcion>
+		<fecha>Fecha</fecha>
+		<referencia>Referencia</referencia>
+		<documento>Documento</documento>
+	<Balance_de_Poliza_en_Moneda_Local/><Balance_de_Poliza_en_Moneda_Origen/><credito/><cuenta_contable/><debito/><documento_auxiliar/><monto/><movimiento/><titulodoc/></Idioma>
+	<Idioma id="en">
+		<LB_Titulo>Accounting Document Register</LB_Titulo>
+		<Diferencia>Difference</Diferencia>
+		<Recurrente>Recurrent</Recurrente>
+		<CuentaFinanciera>Financial Account</CuentaFinanciera>
+		<Moneda>Currency</Moneda>
+		<concepto>Concept</concepto>
+		<periodo>Period</periodo>
+		<mes>Month</mes>
+		<poliza>Doc. Nbr.</poliza>
+		<PolizaE>Voucher</PolizaE>
+		<descripcion>Description</descripcion>
+		<fecha>Date</fecha>
+		<referencia>Reference</referencia>
+		<documento>Document</documento>
+		<oficina>Office</oficina>
+		<monto>Amount</monto>
+		<debito>Debit</debito>
+		<credito>Credit</credito>
+		<titulodoc>General Ledger Document</titulodoc>
+		<descripcion>Description</descripcion>
+		<linea>Line</linea>
+		<todas>All</todas>
+		<Balance_de_Poliza_en_Moneda_Origen>Origin Currency Balance</Balance_de_Poliza_en_Moneda_Origen>
+		<Balance_de_Poliza_en_Moneda_Local>Local Currency Balance</Balance_de_Poliza_en_Moneda_Local>
+		<documento_auxiliar>Document Generated from an Auxiliary System. It is not possible to be modified.</documento_auxiliar>
+		<cuenta_contable>Financial Account</cuenta_contable>
+		<movimiento>Type</movimiento>
+		<PolizaE>P&amp;oacute;liza</PolizaE>
+		<PolizaBalOri>Origin Currency Balance</PolizaBalOri>
+		<PolizaBalLoc>Local Currency Balance</PolizaBalLoc>
+		<PolizaMsg1>Generate necessary entries to balance document?</PolizaMsg1>
+		<PolizaAplicar>Not authorized to apply document</PolizaAplicar>
+		<reversible>Reversible</reversible><Borrar>Delete</Borrar><CFuncional>Functional Center</CFuncional><LB_CrearNueva>Create New</LB_CrearNueva><LB_Lista_de_Centros_Funcionales>Functional Centers List</LB_Lista_de_Centros_Funcionales><PolizaMsg2></PolizaMsg2><cuenta_doc>Doc. Account</cuenta_doc><cuenta_ref>Ref. Account</cuenta_ref><CTR_CtaMayConMascSinNivPre>Control Format: Ledger Account has a structure that no contains budget levels</CTR_CtaMayConMascSinNivPre><CTR_CtaMayMascNoPNivCont>Control Format: Ledger Account has a structure that no contains accounting levels</CTR_CtaMayMascNoPNivCont><CTR_CtaMaySinMasc>Control Format: Ledger Account has no a structure</CTR_CtaMaySinMasc><CTR_LongCtaNoCorrMascAsocCM>Control Format: The account length does not match the structure associated with the ledger account</CTR_LongCtaNoCorrMascAsocCM><CTR_LongCtaNoCorrMascPre>Control Format: The account length does not match the budget structure associated with the ledger account</CTR_LongCtaNoCorrMascPre><LB_CtaVerForPr>The account is budget formulation version</LB_CtaVerForPr><LB_CtaesdePlCmpr>The account is purchasing plan</LB_CtaesdePlCmpr><LB_CtaesdePr>Budget Account</LB_CtaesdePr><LB_ErrEjec>EXECUTION ERROR</LB_ErrEjec><LB_VerifCta>VERIFY ACCOUNT</LB_VerifCta><Lbl_DeseaBorrar>Delete selected document?</Lbl_DeseaBorrar><Lbl_FinRec>End of Recurrence</Lbl_FinRec><Lbl_LinDet>Line Detail</Lbl_LinDet><Lbl_MontoLocal>Local Amount</Lbl_MontoLocal><Lbl_MontoOrig>Origin Amount</Lbl_MontoOrig><Lbl_TpoCambio>Exchange Rate</Lbl_TpoCambio><MSG_DebeDigDesc>Define a description</MSG_DebeDigDesc><MSG_DebeSelCta>You have to select an account</MSG_DebeSelCta><MSG_DelAsCont>of accounting entry</MSG_DelAsCont><MSG_DeseaAplDoc>Apply selected document</MSG_DeseaAplDoc><MSG_DeseaElimLinea>Delete selected line</MSG_DeseaElimLinea><MSG_ElimLinMarc>Delete selected lines</MSG_ElimLinMarc><MSG_EnlaOfic>Office</MSG_EnlaOfic><MSG_NoLinMarc>No selected lines</MSG_NoLinMarc><MSG_PolizaNoBal>Voucher not balanced</MSG_PolizaNoBal><MSG_VerRepRes>View summarized report</MSG_VerRepRes><Msg_MontoOrdebeSerCero>Origin amount have to be greater than zero</Msg_MontoOrdebeSerCero><Msg_TCdebeSerMayorCero>Exchange rate have to be greater than zero</Msg_TCdebeSerMayorCero></Idioma>
+	<Idioma id="es">
+		<Balance_de_Poliza_en_Moneda_Origen>Balance de P&amp;oacute;liza en Moneda Origen</Balance_de_Poliza_en_Moneda_Origen>
+		<monto>Mon</monto>
+		<debito>D&amp;eacute;bitos</debito>
+		<credito>Cr&amp;eacute;ditos</credito>
+		<Balance_de_Poliza_en_Moneda_Local>Balance de P&amp;oacute;liza en Moneda Local</Balance_de_Poliza_en_Moneda_Local>
+		<titulodoc>Documento Contable</titulodoc>
+		<cuenta_contable>Cuenta Financiera</cuenta_contable>
+		<movimiento>Movimiento</movimiento>
+		<documento_auxiliar>Documento Generado desde un Sistema Auxiliar. No se puede modificar.</documento_auxiliar>
+		<oficina>Oficina</oficina>
+		<concepto>Concepto</concepto>
+		<periodo>Per&amp;iacute;odo</periodo>
+		<mes>Mes</mes>
+		<poliza>P&amp;oacute;liza</poliza>
+		<descripcion>Descripci&amp;oacute;n</descripcion>
+		<fecha>Fecha</fecha>
+		<referencia>Referencia</referencia>
+		<documento>Documento</documento>
+		<reversible>Reversible</reversible>
+		<PolizaE>P&amp;oacute;liza</PolizaE>
+		<PolizaBalOri>Balance de P&amp;oacute;liza en Moneda Origen</PolizaBalOri>
+		<PolizaBalLoc>Balance de P&amp;oacute;liza en Moneda Local</PolizaBalLoc>
+		<PolizaMsg1>Desea generar las lneas de asiento necesarias para balancear esta p&amp;oacute;liza?</PolizaMsg1>
+		<PolizaMsg2>La  p&amp;oacute;liza no estï¿½ balanceada para la Moneda?</PolizaMsg2>
+		<PolizaAplicar>No tiene permisos para aplicar la p&amp;oacute;liza</PolizaAplicar>
+		
+	</Idioma>
+</Etiquetas>

@@ -1,0 +1,42 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 528 - DBM 481: RHConfigReportePuestos, RHOcupaciones, Ca
+
+	         PARCHE:  Parche024_061_RH _RH_Recluctamiento y Seleccion
+
+GENERADO EN:
+	SERVER:  http://mxvqapp34:8300
+	DSN:     minisiftrd
+	FECHA:   17/02/2012 15:28:32
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* CHG_TABLE RHConfigReportePuestos: RH Configuracion del Reporte d */
+/* ======================================================================================== */
+/* ADD_COLUMN OP = (NUEVO): CRPiPuntajes - CRPiPuntajes */
+ALTER TABLE RHConfigReportePuestos ADD CRPiPuntajes integer NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP = (NUEVO): CRPePuntajes - CRPePuntajes */
+ALTER TABLE RHConfigReportePuestos ADD CRPePuntajes varchar(255) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP = (NUEVO): CRPoPuntajes - CRPoPuntajes */
+ALTER TABLE RHConfigReportePuestos ADD CRPoPuntajes integer NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

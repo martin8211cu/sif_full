@@ -1,0 +1,35 @@
+[OPTIONS]
+Compiled File=SIF.chm
+Title=SIF
+Index File=SIF.hhk
+Default topic=Sistema_Financiero_Integrado.htm
+Default Window=
+Error log file=
+Display compile progress=No
+Display compile notes=No
+Full-text search=Yes
+Binary Index=Yes
+Auto Index=No
+Enhanced decompilation=No
+Binary TOC=No
+Flat=No
+
+[WINDOWS]
+
+[FILES]
+Sistema_Financiero_Integrado.htm
+eHelp.xml
+RoboHHRE.lng
+
+SIF.glo
+SIF.brs
+[ALIAS]
+#include SIF.ali
+
+[MAP]
+#include BSSCDefault.h
+
+[TEXT POPUPS]
+BSSCDefault.h
+
+

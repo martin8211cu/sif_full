@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_Documento>Document</LB_Documento>
+		<LB_Factura>Invoice</LB_Factura>
+		<LB_NotaCredito>Credit Note</LB_NotaCredito>
+		<LB_NotaDebito>Debit Note</LB_NotaDebito>
+		<LB_DiasVigenciaFechaEmision>Validity days from the issuance date</LB_DiasVigenciaFechaEmision>
+		<LB_Detalle>Detail</LB_Detalle>
+		<LB_SubTotal>Subtotal</LB_SubTotal>
+		<LB_Impuesto> </LB_Impuesto>
+		<LB_Descuento>Discount</LB_Descuento>
+		<LB_Total>Total</LB_Total>
+		<LB_TotalLetra>Total in Words</LB_TotalLetra>
+		<LB_Observaciones>Comment</LB_Observaciones>
+		<LB_Cuenta>Bank Account</LB_Cuenta>
+	</Idioma>
+</Etiquetas>

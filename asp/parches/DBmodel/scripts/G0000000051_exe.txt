@@ -1,0 +1,378 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 119 - DBM 226: Comision de Viaticos
+
+	         PARCHE:  Parche023_162_SIF_ViaticosComision
+
+GENERADO EN:
+	SERVER:  http://mxpapp36:8300
+	DSN:     sifcim
+	FECHA:   29/07/2011 17:59:27
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* CHG_TABLE BTransacciones: Tipo de Transacciones Bancaria */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): BTbcos - Para Bancos */
+ALTER TABLE BTransacciones ADD BTbcos bit DEFAULT 1 NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): BTtce - Para TCE */
+ALTER TABLE BTransacciones ADD BTtce bit DEFAULT 0 NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE CBTMarcas: Tabla de Marcas */
+/* ======================================================================================== */
+/* DEL_COLUMN OP=(OBSOLETO): Ecodigo - Codigo de la Empresa */
+ALTER TABLE CBTMarcas DROP COLUMN Ecodigo
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* CHG_COLUMN OP=(CAMBIO): CBTMarca - Marca de la Tarjeta */
+ALTER TABLE CBTMarcas ALTER COLUMN CBTMarca varchar(15) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+UPDATE CBTMarcas SET CBTMarca = RTRIM(CBTMarca)
+go
+EJECUCION EN BASE DE DATOS OK
+
+UPDATE CBTMarcas SET CBTMarca = ' ' WHERE convert(varchar,CBTMarca) IS NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE CBTMarcas ALTER COLUMN CBTMarca varchar(15) NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_COLUMN OP=(CAMBIO): CBTMascara - Mascara de la Tarjeta */
+UPDATE CBTMarcas SET CBTMascara = ' ' WHERE convert(varchar,CBTMascara) IS NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE CBTMarcas ALTER COLUMN CBTMascara varchar(30) NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE CCHica: CAJA CHICA */
+/* ======================================================================================== */
+/* CHG_COLUMN OP=(CAMBIO): CCHestado - Estado de la caja chica */
+ALTER TABLE CCHica DROP CONSTRAINT CCHica_CK08 /* CHECK ([CCHestado]='CERRADA' OR [CCHestado]='INACTIVA' OR [CCHestado]='ACTIVA' OR [CCHestado]='EN PROCESO') */
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE CCHica ADD CONSTRAINT CCHica_CK08 CHECK ([CCHestado]='SUSPENDIDA' OR [CCHestado]='CERRADA' OR [CCHestado]='INACTIVA' OR [CCHestado]='ACTIVA' OR [CCHestado]='EN PROCESO')
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): CCHtipo - Tipo de Caja */
+ALTER TABLE CCHica ADD CCHtipo numeric(1) DEFAULT 1 NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE CCHica ADD CONSTRAINT CCHica_CK16 CHECK ([CCHtipo]=(2) OR [CCHtipo]=(1))
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): CFcuentaSinLiquidar - ID Cuenta Financiera CxC Empleado sin liquidar */
+ALTER TABLE CCHica ADD CFcuentaSinLiquidar numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(NUEVO): TIP="F", SEC="6", COLS="CFcuentaSinLiquidar", REF="CFinanciera" */
+CREATE INDEX CCHica_FI06 ON CCHica (CFcuentaSinLiquidar)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE CCHImportes: Importes por Caja */
+/* ======================================================================================== */
+/* CHG_COLUMN OP=(CAMBIO): CCHImontoasignado - Monto Asignado Fondo Fijo */
+ALTER TABLE CCHImportes ADD CONSTRAINT CCHImportes_DF04 DEFAULT 0 FOR CCHImontoasignado
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_COLUMN OP=(CAMBIO): CCHIanticipos - Monto Anticipos Autorizados */
+ALTER TABLE CCHImportes ADD CONSTRAINT CCHImportes_DF05 DEFAULT 0 FOR CCHIanticipos
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_COLUMN OP=(CAMBIO): CCHIgastos - Monto Gastos Autorizados */
+ALTER TABLE CCHImportes ADD CONSTRAINT CCHImportes_DF06 DEFAULT 0 FOR CCHIgastos
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_COLUMN OP=(CAMBIO): CCHIreintegroEnProceso - Monto Reintegros Proceso */
+ALTER TABLE CCHImportes ADD CONSTRAINT CCHImportes_DF07 DEFAULT 0 FOR CCHIreintegroEnProceso
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_COLUMN OP=(CAMBIO): CCHIdeposito - Monto Deposito Autorizado */
+UPDATE CCHImportes SET CCHIdeposito = 0 WHERE convert(varchar,CCHIdeposito) IS NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE CCHImportes ALTER COLUMN CCHIdeposito money NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE CCHImportes ADD CONSTRAINT CCHImportes_DF08 DEFAULT 0 FOR CCHIdeposito
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): CCHImontoexceso - Monto Asignado en Exceso */
+ALTER TABLE CCHImportes ADD CCHImontoexceso money DEFAULT 0 NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): CCHIefectivoRecibido - Monto Efectivo Recibido */
+ALTER TABLE CCHImportes ADD CCHIefectivoRecibido money DEFAULT 0 NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): CCHIdepositosRecibidos - Monto Depositos Recibidos */
+ALTER TABLE CCHImportes ADD CCHIdepositosRecibidos money DEFAULT 0 NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE CFinanciera: Cuentas Financieras o de Ultim */
+/* ======================================================================================== */
+/* DEL_CHECK OP=(OBSOLETO): chk=(Ccuenta IS NOT NULL AND CFmovimiento='S' OR CFmovimiento<>'S') */
+ALTER TABLE CFinanciera DROP CONSTRAINT CFinanciera_CK
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_CHECK: chk=(Ccuenta is not null and CFmovimiento = 'S' or CFmovimiento <> 'S') */
+ALTER TABLE CFinanciera ADD CONSTRAINT CFinanciera_CK CHECK (Ccuenta is not null and CFmovimiento = 'S' or CFmovimiento <> 'S')
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ======================================================================================== */
+/* CHG_TABLE CPtipoMov: Movimientos de Presupuesto */
+/* ======================================================================================== */
+/* DEL_KEY OP=(OBSOLETO): TIP="P", COLS="CPTMtipoMov" */
+ALTER TABLE CPtipoMov DROP CONSTRAINT CPtipoMov_PK /* PRIMARY KEY (CPTMtipoMov) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_COLUMN OP=(CAMBIO): CPTMdescripcion - CPTMdescripcion */
+UPDATE CPtipoMov SET CPTMdescripcion = ' ' WHERE convert(varchar,CPTMdescripcion) IS NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE CPtipoMov ALTER COLUMN CPTMdescripcion varchar(50) NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(NUEVO): TIP="P", SEC="0", COLS="CPTMtipoMov" */
+ALTER TABLE CPtipoMov ADD CONSTRAINT CPtipoMov_PK PRIMARY KEY NONCLUSTERED (CPTMtipoMov)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE GEanticipo: GEanticipo */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): GECid - ID comision */
+ALTER TABLE GEanticipo ADD GECid numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(NUEVO): TIP="F", SEC="9", COLS="GECid", REF="GEcomision" */
+CREATE INDEX GEanticipo_FI09 ON GEanticipo (GECid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* ADD_TABLE GEcomision: Comision de Viaticos */
+/* ======================================================================================== */
+
+CREATE TABLE GEcomision (
+	 GECid                          numeric(18)          identity
+	,TESBid                         numeric(18)          NOT NULL
+	,CFid                           numeric(18)          NOT NULL
+	,Ecodigo                        integer              NOT NULL
+	,GECnumero                      integer              NOT NULL
+	,GECdescripcion                 varchar(50)          NULL
+	,GECfechaini                    datetime             NULL
+	,GEChoraini                     numeric(18)          NULL
+	,GECfechafin                    datetime             NULL
+	,GEChorafin                     numeric(18)          NULL
+	,GECautomovil                   bit                  DEFAULT 0 NOT NULL
+	,GEChotel                       bit                  DEFAULT 0 NOT NULL
+	,GECavion                       bit                  DEFAULT 0 NOT NULL
+	,GECdatosViaje                  text                 NULL
+	,CBid                           numeric(18)          NULL
+	,GECfechainiReal                datetime             NULL
+	,GEChorainiReal                 numeric(18)          NULL
+	,GECfechafinReal                datetime             NULL
+	,GEChorafinReal                 numeric(18)          NULL
+	,TESid                          numeric(18)          NOT NULL
+	,GECestado                      tinyint              DEFAULT 0 NOT NULL
+	 CONSTRAINT GEcomision_CK21 CHECK ([GECestado]=(4) OR [GECestado]=(3) OR [GECestado]=(1) OR [GECestado]=(0))
+	,GECfechaSolicitud              datetime             DEFAULT getdate() NULL
+	,GECfechaPagar                  datetime             NULL
+	,GECdesde                       datetime             NULL
+	,GEChasta                       datetime             NULL
+	,CBid_TCE                       numeric(18)          NULL
+	,BMUsucodigo                    numeric(18)          NULL
+	,ts_rversion                    timestamp           
+	)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="P", SEC="0", COLS="GECid" */
+ALTER TABLE GEcomision ADD CONSTRAINT GEcomision_PK PRIMARY KEY CLUSTERED (GECid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="F", SEC="1", COLS="CFid", REF="CFuncional" */
+CREATE INDEX GEcomision_FI01 ON GEcomision (CFid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="F", SEC="2", COLS="CBid", REF="CuentasBancos" */
+CREATE INDEX GEcomision_FI02 ON GEcomision (CBid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="F", SEC="3", COLS="TESBid", REF="TESbeneficiario" */
+CREATE INDEX GEcomision_FI03 ON GEcomision (TESBid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="F", SEC="4", COLS="TESid", REF="Tesoreria" */
+CREATE INDEX GEcomision_FI04 ON GEcomision (TESid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="F", SEC="5", COLS="CBid_TCE", REF="CuentasBancos" */
+CREATE INDEX GEcomision_FI05 ON GEcomision (CBid_TCE)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE GEliquidacion: GEliquidacion */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): GECid - ID comision */
+ALTER TABLE GEliquidacion ADD GECid numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(NUEVO): TIP="F", SEC="9", COLS="GECid", REF="GEcomision" */
+CREATE INDEX GEliquidacion_FI09 ON GEliquidacion (GECid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE TransaccionesBanco: TransaccionesBanco */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): BTEbcos - Para Bancos */
+ALTER TABLE TransaccionesBanco ADD BTEbcos bit DEFAULT 1 NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): BTEtce - Para TCE */
+ALTER TABLE TransaccionesBanco ADD BTEtce bit DEFAULT 0 NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ================================================================= */
+/*            CREA FKs NUEVOS O CON CAMPOS MODIFICADOS               */
+/* ================================================================= */
+/* CHG_TABLE CCHica */
+/* ADD_FK OP=(NUEVO): TIP="F", SEC="6", COLS="CFcuentaSinLiquidar", REF="CFinanciera" */
+ALTER TABLE CCHica ADD CONSTRAINT CCHica_FK06 FOREIGN KEY (CFcuentaSinLiquidar) REFERENCES CFinanciera (CFcuenta)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_TABLE GEanticipo */
+/* ADD_FK OP=(NUEVO): TIP="F", SEC="9", COLS="GECid", REF="GEcomision" */
+ALTER TABLE GEanticipo ADD CONSTRAINT GEanticipo_FK09 FOREIGN KEY (GECid) REFERENCES GEcomision (GECid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_TABLE GEcomision */
+/* ADD_FK OP=(TAB NUEVA): TIP="F", SEC="1", COLS="CFid", REF="CFuncional" */
+ALTER TABLE GEcomision ADD CONSTRAINT GEcomision_FK01 FOREIGN KEY (CFid) REFERENCES CFuncional (CFid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_FK OP=(TAB NUEVA): TIP="F", SEC="2", COLS="CBid", REF="CuentasBancos" */
+ALTER TABLE GEcomision ADD CONSTRAINT GEcomision_FK02 FOREIGN KEY (CBid) REFERENCES CuentasBancos (CBid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_FK OP=(TAB NUEVA): TIP="F", SEC="3", COLS="TESBid", REF="TESbeneficiario" */
+ALTER TABLE GEcomision ADD CONSTRAINT GEcomision_FK03 FOREIGN KEY (TESBid) REFERENCES TESbeneficiario (TESBid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_FK OP=(TAB NUEVA): TIP="F", SEC="4", COLS="TESid", REF="Tesoreria" */
+ALTER TABLE GEcomision ADD CONSTRAINT GEcomision_FK04 FOREIGN KEY (TESid) REFERENCES Tesoreria (TESid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_FK OP=(TAB NUEVA): TIP="F", SEC="5", COLS="CBid_TCE", REF="CuentasBancos" */
+ALTER TABLE GEcomision ADD CONSTRAINT GEcomision_FK05 FOREIGN KEY (CBid_TCE) REFERENCES CuentasBancos (CBid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_TABLE GEliquidacion */
+/* ADD_FK OP=(NUEVO): TIP="F", SEC="9", COLS="GECid", REF="GEcomision" */
+ALTER TABLE GEliquidacion ADD CONSTRAINT GEliquidacion_FK09 FOREIGN KEY (GECid) REFERENCES GEcomision (GECid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

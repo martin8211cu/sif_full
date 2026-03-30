@@ -1,0 +1,285 @@
+<strong>INDICE:</strong><BR>- <A href='#COLs_CHG'>Columnas a modificarse</A><BR>- <A href='#COLs_ADD'>Columnas nuevas</A><BR>- <A href='#RENAMES'>Objetos a Renombrase</A><BR><BR><BR>
+			<BR><strong><A name='COLs_CHG'>COLUMNAS QUE VAN A SER ALTERADAS EN LA BASE DE DATOS PORQUE TIENEN CARACTERISTICAS MODIFICADAS EN EL MODELO DBM</A></strong><BR>
+			<table>
+			<tr><td><strong>TABLA</strong></td><td><strong>COLUMNA</strong></td><td><strong>&nbsp;</strong></td><td><strong>TIPO</strong></td><td><strong>LON</strong></td><td><strong>DEC</strong></td><td><strong>obl</strong></td><td><strong>ide</strong></td><td><strong>dfl</strong></td><td><strong>rul</strong></td></tr>
+			
+				<tr>
+					<td>AccesoDenegado</td><td>tipo_uri</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td>CHAR</td>
+					<td>1</td>
+					<td>0</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					<td>J</td>
+					<td><strong>([tipo_uri]='O' OR [tipo_uri]='D' OR [tipo_uri]='C' OR [tipo_uri]='J')</strong></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>CHAR</td>
+					<td>1</td>
+					<td>0</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					
+						<td>J</td>
+					
+					
+						<td></td>
+					
+				</tr>
+			
+				<tr>
+					<td>KillSession</td><td>motivo_cierre</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td>CHAR</td>
+					<td>1</td>
+					<td>0</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					<td></td>
+					<td><strong>([motivo_cierre]='Y' OR [motivo_cierre]='R' OR [motivo_cierre]='K' OR [motivo_cierre]='T' OR [motivo_cierre]='L')</strong></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>CHAR</td>
+					<td>1</td>
+					<td>0</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					
+						<td><font color="#FF0000"></font></td>
+					
+					
+						<td></td>
+					
+				</tr>
+			
+				<tr>
+					<td>MonBitacora</td><td>oper</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td>CHAR</td>
+					<td>1</td>
+					<td>0</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					<td></td>
+					<td><strong>([oper]='D' OR [oper]='U' OR [oper]='I')</strong></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>CHAR</td>
+					<td>1</td>
+					<td>0</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					
+						<td><font color="#FF0000"></font></td>
+					
+					
+						<td></td>
+					
+				</tr>
+			
+				<tr>
+					<td>MonProcesos</td><td>motivo_cierre</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td>CHAR</td>
+					<td>1</td>
+					<td>0</td>
+					<td>0</td>
+					
+						<td>0</td>
+					
+					<td></td>
+					<td><strong>([motivo_cierre] IS NULL OR ([motivo_cierre]='Y' OR [motivo_cierre]='R' OR [motivo_cierre]='K' OR [motivo_cierre]='T' OR [motivo_cierre]='L'))</strong></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>CHAR</td>
+					<td>1</td>
+					<td>0</td>
+					<td>0</td>
+					
+						<td>0</td>
+					
+					
+						<td><font color="#FF0000"></font></td>
+					
+					
+						<td></td>
+					
+				</tr>
+			
+			</table>
+		
+			<BR><strong><A name='COLs_ADD'>COLUMNAS NUEVAS EN EL MODELO DBM QUE SE VAN A CREAR EN LA BASE DE DATOS</A></strong><BR>
+			<table>
+			<tr><td><strong>TABLA</strong></td><td><strong>COLUMNA</strong></td><td><strong>TIPO</strong></td><td><strong>LON</strong></td><td><strong>DEC</strong></td><td><strong>obl</strong></td><td><strong>ide</strong></td><td><strong>dfl</strong></td><td><strong>rul</strong></td></tr>
+			
+				<tr><td>AccesoDenegado&nbsp;&nbsp;</td><td>BMUsucodigo&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>18</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>KillSession&nbsp;&nbsp;</td><td>BMUsucodigo&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>18</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>LoginIncorrecto&nbsp;&nbsp;</td><td>BMUsucodigo&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>18</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>MonBitacora&nbsp;&nbsp;</td><td>BMUsucodigo&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>18</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>MonDatabaseStats&nbsp;&nbsp;</td><td>BMUsucodigo&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>18</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>MonDebugIException&nbsp;&nbsp;</td><td>BMUsucodigo&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>18</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>MonDebugIRequest&nbsp;&nbsp;</td><td>BMUsucodigo&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>18</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>MonDebugIScopeVars&nbsp;&nbsp;</td><td>BMUsucodigo&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>18</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>MonDebugISQL&nbsp;&nbsp;</td><td>BMUsucodigo&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>18</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>MonDebugISummary&nbsp;&nbsp;</td><td>BMUsucodigo&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>18</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>MonDebugITemplate&nbsp;&nbsp;</td><td>BMUsucodigo&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>18</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>MonDebugQException&nbsp;&nbsp;</td><td>BMUsucodigo&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>18</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>MonDebugQRequest&nbsp;&nbsp;</td><td>BMUsucodigo&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>18</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>MonDebugQScopeVars&nbsp;&nbsp;</td><td>BMUsucodigo&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>18</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>MonDebugQSQL&nbsp;&nbsp;</td><td>BMUsucodigo&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>18</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>MonDebugQSummary&nbsp;&nbsp;</td><td>BMUsucodigo&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>18</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>MonDebugQTemplate&nbsp;&nbsp;</td><td>BMUsucodigo&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>18</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>MonEmpresaStats&nbsp;&nbsp;</td><td>BMUsucodigo&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>18</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>MonErrores&nbsp;&nbsp;</td><td>BMUsucodigo&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>18</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>MonHistoria&nbsp;&nbsp;</td><td>BMUsucodigo&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>18</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>MonProcesos&nbsp;&nbsp;</td><td>BMUsucodigo&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>18</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>MonRequest&nbsp;&nbsp;</td><td>BMUsucodigo&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>18</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>MonRequestTemplate&nbsp;&nbsp;</td><td>BMUsucodigo&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>18</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>MonServerProcess&nbsp;&nbsp;</td><td>BMUsucodigo&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>18</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>MonServerStats&nbsp;&nbsp;</td><td>BMUsucodigo&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>18</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>UsuarioBloqueo&nbsp;&nbsp;</td><td>BMUsucodigo&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>18</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+			</table>
+		
+			<BR><strong><A name='RENAMES'>OBJETOS QUE SE VAN A RENOMBRAR EN LA BASE DE DATOS PORQUE SU NOMENCLATURA NO SIGUE LOS STANDARES DBM</A></strong><BR>
+			<table>
+			<tr><td><strong>TABLA</strong></td><td><strong>TIPO</strong></td><td><strong>NOMBRE ACTUAL</strong></td><td><strong>NUEVO NOMBRE</strong></td><td><strong>COLS</strong></td></tr>
+			
+				<tr><td>AccesoDenegado&nbsp;&nbsp;</td><td>KEY_PK&nbsp;&nbsp;</td><td>PK_ACCESODENEGADO&nbsp;&nbsp;</td><td>AccesoDenegado_PK&nbsp;&nbsp;</td><td>id</td></tr>
+			
+				<tr><td>KillSession&nbsp;&nbsp;</td><td>KEY_PK&nbsp;&nbsp;</td><td>PK_KILLSESSION&nbsp;&nbsp;</td><td>KillSession_PK&nbsp;&nbsp;</td><td>sessionid,srvprocid</td></tr>
+			
+				<tr><td>LoginIncorrecto&nbsp;&nbsp;</td><td>KEY_PK&nbsp;&nbsp;</td><td>PK_LOGININCORRECTO&nbsp;&nbsp;</td><td>LoginIncorrecto_PK&nbsp;&nbsp;</td><td>LIid</td></tr>
+			
+				<tr><td>MonBitacora&nbsp;&nbsp;</td><td>KEY_PK&nbsp;&nbsp;</td><td>PK_MONBITACORA&nbsp;&nbsp;</td><td>MonBitacora_PK&nbsp;&nbsp;</td><td>bitacoraid</td></tr>
+			
+				<tr><td>MonDatabaseStats&nbsp;&nbsp;</td><td>KEY_PK&nbsp;&nbsp;</td><td>PK_MONDATABASESTATS&nbsp;&nbsp;</td><td>MonDatabaseStats_PK&nbsp;&nbsp;</td><td>fecha,srvprocid,datasource</td></tr>
+			
+				<tr><td>MonDebugIException&nbsp;&nbsp;</td><td>KEY_PK&nbsp;&nbsp;</td><td>PK_MONDEBUGIEXCEPTION&nbsp;&nbsp;</td><td>MonDebugIException_PK&nbsp;&nbsp;</td><td>debugid,debugline</td></tr>
+			
+				<tr><td>MonDebugIRequest&nbsp;&nbsp;</td><td>KEY_PK&nbsp;&nbsp;</td><td>PK_MONDEBUGIREQUEST&nbsp;&nbsp;</td><td>MonDebugIRequest_PK&nbsp;&nbsp;</td><td>debugid</td></tr>
+			
+				<tr><td>MonDebugIScopeVars&nbsp;&nbsp;</td><td>KEY_PK&nbsp;&nbsp;</td><td>PK_MONDEBUGISCOPEVARS&nbsp;&nbsp;</td><td>MonDebugIScopeVars_PK&nbsp;&nbsp;</td><td>debugid,scope,name</td></tr>
+			
+				<tr><td>MonDebugISQL&nbsp;&nbsp;</td><td>KEY_PK&nbsp;&nbsp;</td><td>PK_MONDEBUGISQL&nbsp;&nbsp;</td><td>MonDebugISQL_PK&nbsp;&nbsp;</td><td>debugid,debugline</td></tr>
+			
+				<tr><td>MonDebugISummary&nbsp;&nbsp;</td><td>KEY_PK&nbsp;&nbsp;</td><td>PK_MONDEBUGISUMMARY&nbsp;&nbsp;</td><td>MonDebugISummary_PK&nbsp;&nbsp;</td><td>debugid,debugline</td></tr>
+			
+				<tr><td>MonDebugITemplate&nbsp;&nbsp;</td><td>KEY_PK&nbsp;&nbsp;</td><td>PK_MONDEBUGITEMPLATE&nbsp;&nbsp;</td><td>MonDebugITemplate_PK&nbsp;&nbsp;</td><td>debugid,debugline</td></tr>
+			
+				<tr><td>MonDebugQException&nbsp;&nbsp;</td><td>KEY_PK&nbsp;&nbsp;</td><td>PK_MONDEBUGQEXCEPTION&nbsp;&nbsp;</td><td>MonDebugQException_PK&nbsp;&nbsp;</td><td>debugid,debugline</td></tr>
+			
+				<tr><td>MonDebugQException&nbsp;&nbsp;</td><td>KEY_INDEX&nbsp;&nbsp;</td><td>q_fecha&nbsp;&nbsp;</td><td>MonDebugQException_ID01&nbsp;&nbsp;</td><td>fecha</td></tr>
+			
+				<tr><td>MonDebugQException&nbsp;&nbsp;</td><td>KEY_INDEX&nbsp;&nbsp;</td><td>q_message&nbsp;&nbsp;</td><td>MonDebugQException_ID02&nbsp;&nbsp;</td><td>message</td></tr>
+			
+				<tr><td>MonDebugQException&nbsp;&nbsp;</td><td>KEY_INDEX&nbsp;&nbsp;</td><td>q_template&nbsp;&nbsp;</td><td>MonDebugQException_ID03&nbsp;&nbsp;</td><td>template</td></tr>
+			
+				<tr><td>MonDebugQException&nbsp;&nbsp;</td><td>KEY_INDEX&nbsp;&nbsp;</td><td>q_exceptionType&nbsp;&nbsp;</td><td>MonDebugQException_ID04&nbsp;&nbsp;</td><td>exceptionType</td></tr>
+			
+				<tr><td>MonDebugQRequest&nbsp;&nbsp;</td><td>KEY_PK&nbsp;&nbsp;</td><td>PK_MONDEBUGQREQUEST&nbsp;&nbsp;</td><td>MonDebugQRequest_PK&nbsp;&nbsp;</td><td>debugid</td></tr>
+			
+				<tr><td>MonDebugQRequest&nbsp;&nbsp;</td><td>KEY_INDEX&nbsp;&nbsp;</td><td>q_uri&nbsp;&nbsp;</td><td>MonDebugQRequest_ID01&nbsp;&nbsp;</td><td>uri</td></tr>
+			
+				<tr><td>MonDebugQRequest&nbsp;&nbsp;</td><td>KEY_INDEX&nbsp;&nbsp;</td><td>q_requested&nbsp;&nbsp;</td><td>MonDebugQRequest_ID02&nbsp;&nbsp;</td><td>requested</td></tr>
+			
+				<tr><td>MonDebugQRequest&nbsp;&nbsp;</td><td>KEY_INDEX&nbsp;&nbsp;</td><td>q_memoryDelta&nbsp;&nbsp;</td><td>MonDebugQRequest_ID03&nbsp;&nbsp;</td><td>memoryDelta</td></tr>
+			
+				<tr><td>MonDebugQRequest&nbsp;&nbsp;</td><td>KEY_INDEX&nbsp;&nbsp;</td><td>q_executionTime&nbsp;&nbsp;</td><td>MonDebugQRequest_ID04&nbsp;&nbsp;</td><td>executionTime</td></tr>
+			
+				<tr><td>MonDebugQScopeVars&nbsp;&nbsp;</td><td>KEY_PK&nbsp;&nbsp;</td><td>PK_MONDEBUGQSCOPEVARS&nbsp;&nbsp;</td><td>MonDebugQScopeVars_PK&nbsp;&nbsp;</td><td>debugid,scope,name</td></tr>
+			
+				<tr><td>MonDebugQSQL&nbsp;&nbsp;</td><td>KEY_PK&nbsp;&nbsp;</td><td>PK_MONDEBUGQSQL&nbsp;&nbsp;</td><td>MonDebugQSQL_PK&nbsp;&nbsp;</td><td>debugid,debugline</td></tr>
+			
+				<tr><td>MonDebugQSQL&nbsp;&nbsp;</td><td>KEY_INDEX&nbsp;&nbsp;</td><td>q_template&nbsp;&nbsp;</td><td>MonDebugQSQL_ID01&nbsp;&nbsp;</td><td>template</td></tr>
+			
+				<tr><td>MonDebugQSQL&nbsp;&nbsp;</td><td>KEY_INDEX&nbsp;&nbsp;</td><td>q_queryName&nbsp;&nbsp;</td><td>MonDebugQSQL_ID02&nbsp;&nbsp;</td><td>queryParams</td></tr>
+			
+				<tr><td>MonDebugQSQL&nbsp;&nbsp;</td><td>KEY_INDEX&nbsp;&nbsp;</td><td>q_executionTime&nbsp;&nbsp;</td><td>MonDebugQSQL_ID03&nbsp;&nbsp;</td><td>executionTime</td></tr>
+			
+				<tr><td>MonDebugQSummary&nbsp;&nbsp;</td><td>KEY_PK&nbsp;&nbsp;</td><td>PK_MONDEBUGQSUMMARY&nbsp;&nbsp;</td><td>MonDebugQSummary_PK&nbsp;&nbsp;</td><td>debugid,debugline</td></tr>
+			
+				<tr><td>MonDebugQSummary&nbsp;&nbsp;</td><td>KEY_INDEX&nbsp;&nbsp;</td><td>q_template&nbsp;&nbsp;</td><td>MonDebugQSummary_ID01&nbsp;&nbsp;</td><td>template</td></tr>
+			
+				<tr><td>MonDebugQSummary&nbsp;&nbsp;</td><td>KEY_INDEX&nbsp;&nbsp;</td><td>q_instanceCount&nbsp;&nbsp;</td><td>MonDebugQSummary_ID02&nbsp;&nbsp;</td><td>instanceCount</td></tr>
+			
+				<tr><td>MonDebugQSummary&nbsp;&nbsp;</td><td>KEY_INDEX&nbsp;&nbsp;</td><td>q_avgExecutionTime&nbsp;&nbsp;</td><td>MonDebugQSummary_ID03&nbsp;&nbsp;</td><td>avgExecutionTime</td></tr>
+			
+				<tr><td>MonDebugQSummary&nbsp;&nbsp;</td><td>KEY_INDEX&nbsp;&nbsp;</td><td>q_totalExecutionTime&nbsp;&nbsp;</td><td>MonDebugQSummary_ID04&nbsp;&nbsp;</td><td>totalExecutionTime</td></tr>
+			
+				<tr><td>MonDebugQTemplate&nbsp;&nbsp;</td><td>KEY_PK&nbsp;&nbsp;</td><td>PK_MONDEBUGQTEMPLATE&nbsp;&nbsp;</td><td>MonDebugQTemplate_PK&nbsp;&nbsp;</td><td>debugid,debugline</td></tr>
+			
+				<tr><td>MonEmpresaStats&nbsp;&nbsp;</td><td>KEY_PK&nbsp;&nbsp;</td><td>PK_MONEMPRESASTATS&nbsp;&nbsp;</td><td>MonEmpresaStats_PK&nbsp;&nbsp;</td><td>Ecodigo,fecha,indicador</td></tr>
+			
+				<tr><td>MonErrores&nbsp;&nbsp;</td><td>KEY_PK&nbsp;&nbsp;</td><td>PK_MONERRORES&nbsp;&nbsp;</td><td>MonErrores_PK&nbsp;&nbsp;</td><td>errorid</td></tr>
+			
+				<tr><td>MonHistoria&nbsp;&nbsp;</td><td>KEY_PK&nbsp;&nbsp;</td><td>PK_MONHISTORIA2&nbsp;&nbsp;</td><td>MonHistoria_PK&nbsp;&nbsp;</td><td>historiaid</td></tr>
+			
+				<tr><td>MonHistoria&nbsp;&nbsp;</td><td>KEY_INDEX&nbsp;&nbsp;</td><td>DESDE&nbsp;&nbsp;</td><td>MonHistoria_ID01&nbsp;&nbsp;</td><td>desde</td></tr>
+			
+				<tr><td>MonHistoria&nbsp;&nbsp;</td><td>KEY_INDEX&nbsp;&nbsp;</td><td>USUARIO&nbsp;&nbsp;</td><td>MonHistoria_ID02&nbsp;&nbsp;</td><td>Usucodigo</td></tr>
+			
+				<tr><td>MonHistoria&nbsp;&nbsp;</td><td>KEY_INDEX&nbsp;&nbsp;</td><td>SESSION&nbsp;&nbsp;</td><td>MonHistoria_ID03&nbsp;&nbsp;</td><td>sessionid</td></tr>
+			
+				<tr><td>MonProcesos&nbsp;&nbsp;</td><td>KEY_PK&nbsp;&nbsp;</td><td>PK_MONPROCESOS&nbsp;&nbsp;</td><td>MonProcesos_PK&nbsp;&nbsp;</td><td>sessionid</td></tr>
+			
+				<tr><td>MonRequest&nbsp;&nbsp;</td><td>KEY_PK&nbsp;&nbsp;</td><td>PK_MONHISTORIA&nbsp;&nbsp;</td><td>MonRequest_PK&nbsp;&nbsp;</td><td>requestid</td></tr>
+			
+				<tr><td>MonRequest&nbsp;&nbsp;</td><td>KEY_INDEX&nbsp;&nbsp;</td><td>SESSION&nbsp;&nbsp;</td><td>MonRequest_ID01&nbsp;&nbsp;</td><td>sessionid</td></tr>
+			
+				<tr><td>MonRequestTemplate&nbsp;&nbsp;</td><td>KEY_PK&nbsp;&nbsp;</td><td>PK_MONREQUESTTEMPLATE&nbsp;&nbsp;</td><td>MonRequestTemplate_PK&nbsp;&nbsp;</td><td>logid</td></tr>
+			
+				<tr><td>MonServerProcess&nbsp;&nbsp;</td><td>KEY_PK&nbsp;&nbsp;</td><td>PK_MONSERVERPROCESS&nbsp;&nbsp;</td><td>MonServerProcess_PK&nbsp;&nbsp;</td><td>srvprocid</td></tr>
+			
+				<tr><td>MonServerStats&nbsp;&nbsp;</td><td>KEY_PK&nbsp;&nbsp;</td><td>PK_MONSERVERSTATS&nbsp;&nbsp;</td><td>MonServerStats_PK&nbsp;&nbsp;</td><td>srvprocid,fecha</td></tr>
+			
+				<tr><td>UsuarioBloqueo&nbsp;&nbsp;</td><td>KEY_PK&nbsp;&nbsp;</td><td>PK_USUARIOBLOQUEO&nbsp;&nbsp;</td><td>UsuarioBloqueo_PK&nbsp;&nbsp;</td><td>Usucodigo,bloqueo,CEcodigo</td></tr>
+			
+			</table>
+		

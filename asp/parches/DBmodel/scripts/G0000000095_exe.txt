@@ -1,0 +1,21 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  asp
+	MODELO:  ASP Framework.pdm
+	VERSION: 211 - DBM 146: Diagram: DataBaseModel
+
+	         PARCHE:  Parche023_015_ASP_DBM
+
+GENERADO EN:
+	SERVER:  http://mxvqapp34:8300
+	DSN:     asp
+	FECHA:   06/01/2012 10:00:33
+*/
+
+/* INI_SCRIPT */
+
+/* END_SCRIPT */

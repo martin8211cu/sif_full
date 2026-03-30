@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+
+	<Idioma id="en">
+		<BTN_ExportarE>Export to Excel</BTN_ExportarE>
+		<LB_Reporte>Report</LB_Reporte>
+		
+		<LB_Cuentas>Accounts</LB_Cuentas>
+		<LB_MesIni>Initial Month</LB_MesIni>
+		<LB_MesFin>Final Month</LB_MesFin>
+	</Idioma>
+</Etiquetas>

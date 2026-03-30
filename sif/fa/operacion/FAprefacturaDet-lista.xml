@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiqueta>
+	<Idioma id="en">
+		<LB_Tipo>Type</LB_Tipo>
+		<LB_Descripcion>Description</LB_Descripcion>
+		<LB_DescripcionAlterna>Secondary Description</LB_DescripcionAlterna>
+		<LB_PrecioUnitario>Unit Price</LB_PrecioUnitario>
+		<LB_Descuento>Discount</LB_Descuento>
+		<LB_Total>Total</LB_Total>
+	</Idioma>
+</Etiqueta>

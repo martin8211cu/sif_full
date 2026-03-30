@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<MSG_Atributos></MSG_Atributos>
+		<MSG_NoExiste></MSG_NoExiste>
+		<MSG_ElValor>The value</MSG_ElValor>
+		<MSG_Requerido>is required to complete this action</MSG_Requerido>
+		<MSG_PopupBlock></MSG_PopupBlock>
+	</Idioma>
+</Etiquetas>

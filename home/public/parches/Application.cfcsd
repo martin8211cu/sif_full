@@ -1,0 +1,9 @@
+<cfcomponent displayname="Application" output="true" hint="Handle the application.">
+	<!--- Set up the application. --->	
+	<cfset THIS.Name               = "SIF_ASP" />
+	<cfset THIS.SessionManagement  = true />
+	<cfset THIS.ClientManagement   = False/>
+	<cfset THIS.ApplicationTimeout = CreateTimeSpan( 0, 10, 0, 0 ) />	
+	<cfset THIS.SetClientCookies   = True />
+
+</cfcomponent>

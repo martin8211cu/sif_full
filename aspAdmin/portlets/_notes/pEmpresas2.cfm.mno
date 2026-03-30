@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+<info>
+	<infoitem key="UD_rsEmpresas2" value="name:Ecodigo;datatype:,name:Mcodigo;datatype:,name:Edescripcion;datatype:,name:Elocalizacion;datatype:,name:Ecache;datatype:,name:Usucodigo;datatype:,name:Ulocalizacion;datatype:,name:timestamp;datatype:" />
+	<infoitem key="UD_rsDefEmpresas2" value="name:minimo;datatype:" />
+	<infoitem key="MM_css_include" value="../css/sif.css" />
+	<infoitem key="MM_css_exclude" value="" />
+</info>

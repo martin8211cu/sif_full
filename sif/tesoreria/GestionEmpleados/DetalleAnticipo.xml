@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_Titulo>Payment Details</LB_Titulo>
+		<LB_SolicitudAnticipo>Advance Application Number</LB_SolicitudAnticipo>
+		<LB_LiquidacionAsociada>Liquidation Number Associated</LB_LiquidacionAsociada>
+		<LB_Empleado>Employee</LB_Empleado>
+		<LB_Moneda>Currency</LB_Moneda>
+		<LB_CentroFuncional>Funtional Center</LB_CentroFuncional>
+		<LB_TotalPago>Total Payment</LB_TotalPago>
+		<LB_FechaPago>Payment Date</LB_FechaPago>
+		<LB_Cuenta>Account</LB_Cuenta>
+		<LB_Descripcion>Description</LB_Descripcion>
+		<LB_PagadoPor>Payment by</LB_PagadoPor>
+		<LB_TipoGasto>Expense Type</LB_TipoGasto>
+		<LB_ConceptoGasto>Expense Concept</LB_ConceptoGasto>
+		<LB_MontoSolicitado>Amount Request</LB_MontoSolicitado>
+	</Idioma>
+</Etiquetas>

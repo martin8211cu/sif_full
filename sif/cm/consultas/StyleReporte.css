@@ -1,0 +1,31 @@
+.encabReporte {
+	background-color: #006699;
+	font-weight: bold;
+	color: #FFFFFF;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+.topline {
+	border-top-width: 1px;
+	border-top-style: solid;
+	border-right-style: none;
+	border-bottom-style: none;
+	border-left-style: none;
+	border-top-color: #CCCCCC;
+}
+.bottomline {
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-right-style: none;
+	border-top-style: none;
+	border-left-style: none;
+	border-bottom-color: #CCCCCC;
+}
+.subTituloRep {
+	font-weight: bold; 
+	font-size: x-small; 
+	background-color: #F5F5F5;
+}
+.pageEnd {
+	page-break-before:always;
+}

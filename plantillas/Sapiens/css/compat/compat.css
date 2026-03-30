@@ -1,0 +1,91 @@
+﻿/* CSS Document */
+
+/* colores en: styles.css */
+
+.listaNon { background-color:#FFFFFF; }
+.listaPar { background-color:#FAFAFA; }
+.listaParSel, .listaNonSel { background-color:#E4E8F3; }
+.listaCorte { background-color: #f5f5f5; }
+
+.tituloListas {
+	background-color: #F5F5F5;
+}
+.tituloAlterno {
+	background-color: #F5F5F5;
+}
+table.navbar, table.navbar a {
+	background-color:#ECECFF;
+	color:#009966;
+}
+table.navbar .navbig, table.navbar .navbig a {
+	color:#006699;
+}
+table.navbar .navlast, table.navbar .navlast a {
+	color:black;
+}
+.errormsg {
+	color:#993300;
+}
+
+
+/* colores en tabs.css*/
+/**
+ * Funcionalidad de los tabs
+ */
+.tab_sel_l { background-image:url(/cfmx/plantillas/Sapiens/css/compat/tabs/sel_l.gif);height:21px}
+.tab_sel_m { background-image:url(/cfmx/plantillas/Sapiens/css/compat/tabs/sel_m.gif);height:21px;cursor:pointer;}
+.tab_sel_r { background-image:url(/cfmx/plantillas/Sapiens/css/compat/tabs/sel_r.gif);height:21px}
+
+/* colores en template.css */
+/*
+.iconoTop {
+	background:url(/cfmx/plantillas/soinasp01/css/verde/02-01b.jpg);
+	background-repeat: repeat-x;
+}
+.logoTop  {
+	background:url(/cfmx/plantillas/soinasp01/css/verde/logo2.gif);
+	background-repeat: no-repeat;
+}
+*/
+.tab_contents { background-color:white;}
+* {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size:12px;
+}
+
+/* colores en mlm_menu.css */
+.mlm_layer {
+	background-color:#CCE3F8;
+}
+.mlm_topbar {
+	background-color:#152b5d;
+}
+.mlm_topsel  {
+	background-color:#CCE3F8;
+}
+.mlm_item, .mlm_item * {
+	color:black;
+}
+.mlm_sel, .mlm_sel * {
+	background-color:white;
+	color:black;
+}
+/* colores en leftmenu.css */
+.cfmenu_titulo {
+	background-color: #98B1C4; 
+}
+.cfmenu_titulo a {
+	color: #ffffff; 
+}
+.cfmenu_menu, .cfmenu_submenu {
+	background-color: #C8D7E3;
+}
+.cfmenu_menu a, .cfmenu_submenu a {
+	color: #293D6B;
+}
+.cfmenu_bottom {
+	background-image:url(/cfmx/plantillas/Sapiens/css/compat/menubottom.gif);
+	background-position:right;
+	background-repeat:no-repeat;
+	background-color:#C8D7E3;
+}

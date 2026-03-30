@@ -1,0 +1,18 @@
+.listaNonOcean {  background-color: #FAFAFA; padding-left: 10px; vertical-align: middle}
+.listaParOcean {  background-color: #DBE6FB; vertical-align: middle; padding-left: 10px}
+.listaCorteOcean {  font-weight: bold; background-color: #F5F5F5; vertical-align: middle; padding-top: 1px; padding-bottom: 1px}
+.tituloListasOcean {
+	font-weight: bolder;
+	vertical-align: middle;
+	padding: 2px;
+	background-color: #A4B9E4;
+	font-color: #FFFFFF
+}
+
+.tituloCorteOcean {
+	font-weight: bolder;
+	vertical-align: middle;
+	padding: 2px;
+	background-color: buttonface;
+	color: buttontext;
+}

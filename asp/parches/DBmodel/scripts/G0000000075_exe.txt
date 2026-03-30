@@ -1,0 +1,30 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 173 - DBM 320: Numero de vuelo caracter
+
+	         PARCHE:  Parche023_333_SIF_NumeroVuelo
+
+GENERADO EN:
+	SERVER:  http://mxpapp36:8300
+	DSN:     sifcim
+	FECHA:   08/10/2011 07:27:27
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* CHG_TABLE GEcomision: Comision de Viaticos */
+/* ======================================================================================== */
+/* ADD_KEY OP=(OP=-1): TIP="F", SEC="2", COLS="CBid", REF="CuentasBancos" */
+CREATE INDEX GEcomision_FI02 ON GEcomision (CBid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

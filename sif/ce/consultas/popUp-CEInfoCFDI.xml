@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Etiquetas>
+	<Idioma id = "en">
+		<LB_Tipo></LB_Tipo>
+		<LB_UUID></LB_Banco>
+		<LB_RazonSocial></LB_RazonSocial>
+		<LB_RFC></LB_RFC>
+		<LB_Direccion></LB_Direccion>
+		<LB_Cantidad></LB_Cantidad>
+		<LB_Concepto></LB_Concepto>
+		<LB_Monto></LB_Monto>
+		<LB_Total></LB_Total>
+		<LB_Impuesto></LB_Impuesto>
+	</Idioma>
+</Etiquetas>

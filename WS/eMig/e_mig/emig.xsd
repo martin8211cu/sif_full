@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<schema targetNamespace="http://xmlns.soin.com/emig" 
+		xmlns="http://www.w3.org/2001/XMLSchema"
+		xmlns:emig="http://xmlns.soin.com/emig" 
+		elementFormDefault="qualified"
+		>
+  <element name="CEDULA" type="emig:P_Cedula"/>
+  <complexType name="P_Cedula">
+    <sequence>
+      <element name="numeroCedula" nillable="true" />
+      <element name="tipoCedula" nillable="true" />
+    </sequence>
+  </complexType>
+</schema>

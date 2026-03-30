@@ -1,0 +1,20 @@
+﻿<cf_dbfunction name="OP_concat" returnvariable="_Cat">
+
+<cfinvoke component="sif.Componentes.pListas" method="pLista"
+	tabla="OBproyecto p inner join OBtipoProyecto tp on tp.OBTPid=p.OBTPid"
+	columnas="'TIPO: ' #_Cat# tp.OBTPcodigo #_Cat# ' ' #_Cat# tp.OBTPdescripcion as TIPO, p.Ecodigo,p.OBPid,p.OBPcodigo,p.OBPdescripcion"
+	filtro="p.Ecodigo=#session.Ecodigo# order by tp.OBTPcodigo, p.OBPcodigo"
+	cortes="TIPO"
+	desplegar="OBPcodigo,OBPdescripcion"
+	etiquetas="Codigo,Descripcion del Proyecto"
+	formatos="S,S"
+	align="left,left"
+	ira="OBproyecto.cfm"
+	form_method="post"
+	keys="Ecodigo,OBPid"
+	mostrar_filtro="yes"
+	filtrar_automatico="yes"
+	botones="Nuevo"
+	formName="listaOBP"
+	navegacion="_"
+/>

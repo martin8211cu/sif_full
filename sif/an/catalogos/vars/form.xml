@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		
+		<LB_Codigo>Code</LB_Codigo>
+		<LB_Nombre>Name</LB_Nombre>
+		<LB_Descripcion>Description</LB_Descripcion>
+		<LB_TipoDato>Data Type</LB_TipoDato>
+		<LB_Mensaje>This description will be displayed on capture variables screen</LB_Mensaje>
+		<LB_Moneda>Currency</LB_Moneda>
+		<LB_Caracter>Character</LB_Caracter>
+		<LB_Flotante>Float</LB_Flotante>
+		<CHK_RegistraValorOficina>Define different value for each office</CHK_RegistraValorOficina>
+		<CHK_RegistraValorAnio>Define single value per year</CHK_RegistraValorAnio>
+		<CHK_UltimoValor>Use last previous value</CHK_UltimoValor>
+	</Idioma> 
+</Etiquetas>

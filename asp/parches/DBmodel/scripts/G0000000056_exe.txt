@@ -1,0 +1,58 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 140 - DBM 242: Excepciones Contabilidad Presupuestaria
+
+	         PARCHE:  Parche023_205_SIF_ExcepContaPres
+
+GENERADO EN:
+	SERVER:  http://mxpapp36:8300
+	DSN:     sifcim
+	FECHA:   12/08/2011 14:08:47
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* CHG_TABLE CDBancos: Conciliacion Detalle Bancos */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): CDBinconformidad - Con Inconformidad */
+ALTER TABLE CDBancos ADD CDBinconformidad bit DEFAULT 0 NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): CDBjustificacion - Justificacion de la inconformidad */
+ALTER TABLE CDBancos ADD CDBjustificacion varchar(100) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE CPtipoCtas: Tipos de Cuentas de Presupuest */
+/* ======================================================================================== */
+/* CHG_COLUMN OP=(CAMBIO): CPTCtipo - CPTCtipo */
+ALTER TABLE CPtipoCtas DROP CONSTRAINT CPtipoCtas_CK03 /* CHECK ([CPTCtipo]='C' OR [CPTCtipo]='E' OR [CPTCtipo]='I') */
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE CPtipoCtas ADD CONSTRAINT CPtipoCtas_CK03 CHECK ([CPTCtipo]='X' OR [CPTCtipo]='C' OR [CPTCtipo]='E' OR [CPTCtipo]='I')
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE ECuentaBancaria: Encabezado de Estado de Cuenta */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): ECStatus - Status */
+ALTER TABLE ECuentaBancaria ADD ECStatus bit DEFAULT 0 NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

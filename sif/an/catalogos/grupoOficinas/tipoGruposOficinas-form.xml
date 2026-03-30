@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_Nombre>Name</LB_Nombre>
+		<LB_DatosGenerales>General Information</LB_DatosGenerales>
+		<LB_Codigo>Code</LB_Codigo>
+		<LB_Titulo>Office Groups Types</LB_Titulo>	
+		<BTN_Salir>Exit</BTN_Salir>	
+	</Idioma> 
+</Etiquetas>

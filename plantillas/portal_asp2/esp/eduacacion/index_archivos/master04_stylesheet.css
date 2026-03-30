@@ -1,0 +1,161 @@
+body
+	{width:534px;
+	height:400px;}
+.T
+	{text-align:left;
+	font-family:"Arial Black";
+	color:white;
+	mso-color-index:0;
+	font-size:142%;}
+.B
+	{text-align:left;
+	font-family:"Times New Roman";
+	color:black;
+	mso-color-index:1;
+	font-size:123%;}
+.B1
+	{text-align:left;
+	font-family:"Times New Roman";
+	color:black;
+	mso-color-index:1;
+	font-size:123%;}
+.B2B
+	{mso-special-format:bullet–;}
+.B2
+	{text-align:left;
+	font-family:"Times New Roman";
+	color:black;
+	mso-color-index:1;
+	font-size:123%;}
+.B3
+	{text-align:left;
+	font-family:"Times New Roman";
+	color:black;
+	mso-color-index:1;
+	font-size:123%;}
+.B4
+	{color:white;
+	mso-color-index:0;}
+.N
+	{text-align:left;
+	font-family:"Times New Roman";
+	color:black;
+	mso-color-index:1;
+	font-size:57%;}
+.N1
+	{text-align:left;
+	font-family:"Times New Roman";
+	color:black;
+	mso-color-index:1;
+	font-size:57%;}
+.N2
+	{text-align:left;
+	font-family:"Times New Roman";
+	color:black;
+	mso-color-index:1;
+	font-size:57%;}
+.N3
+	{text-align:left;
+	font-family:"Times New Roman";
+	color:black;
+	mso-color-index:1;
+	font-size:57%;}
+.N4
+	{text-align:left;
+	font-family:"Times New Roman";
+	color:black;
+	mso-color-index:1;
+	font-size:57%;}
+.O
+	{text-align:left;
+	font-family:"Times New Roman";
+	color:black;
+	mso-color-index:1;
+	font-size:114%;}
+.CB
+	{font-size:123%;}
+.CB1
+	{font-size:123%;}
+.CB2B
+	{mso-special-format:nobullet–;}
+.CB2
+	{font-size:123%;}
+.CB3
+	{font-size:123%;}
+.CB4
+	{color:white;
+	mso-color-index:0;}
+.CT
+	{text-align:center;
+	font-family:"Arial Black";
+	color:white;
+	mso-color-index:0;
+	font-size:123%;}
+.HB
+	{font-size:104%;}
+.HB1
+	{font-size:104%;}
+.HB2B
+	{mso-special-format:bullet–;}
+.HB2
+	{font-size:114%;}
+.HB3
+	{font-size:104%;}
+.HB4
+	{color:white;
+	mso-color-index:0;}
+.QB
+	{font-size:95%;}
+.QB2B
+	{mso-special-format:bullet–;}
+.QB2
+	{font-size:95%;}
+.QB3
+	{font-size:95%;}
+.QB4
+	{color:white;
+	mso-color-index:0;}
+.Tbl
+	{font-size:104%;}
+.Tbl1
+	{font-size:104%;}
+.Tbl2B
+	{mso-special-format:nobullet–;}
+.Tbl2
+	{font-size:104%;}
+.Tbl3
+	{font-size:104%;}
+.Tbl4
+	{color:white;
+	mso-color-index:0;}
+.defaultB
+	{mso-special-format:nobullet•;}
+.default
+	{text-align:center;
+	font-family:Tahoma;
+	font-weight:normal;
+	font-style:normal;
+	text-decoration:none;
+	text-shadow:none;
+	text-effect:none;
+	mso-fareast-hint:no;
+	layout-flow:horizontal;
+	color:black;
+	mso-color-index:1;
+	font-size:123%;
+	mso-text-raise:0%;
+	mso-line-spacing:"100 20 0";
+	mso-margin-left-alt:0;
+	mso-text-indent-alt:0;
+	mso-char-wrap:0;
+	mso-kinsoku-overflow:0;
+	direction:ltr;
+	mso-word-wrap:1;
+	mso-vertical-align-special:baseline;
+	mso-ansi-language:EN-US;}
+a:link
+	{color:#CCCCFF !important;}
+a:active
+	{color:#3333CC !important;}
+a:visited
+	{color:#B2B2B2 !important;}

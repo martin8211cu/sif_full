@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_ListaEmpleados>Employees List</LB_ListaEmpleados>
+		<LB_Identificacion>Identification</LB_Identificacion>
+		<LB_Nombre>Name</LB_Nombre>
+		<LB_ApellidoPaterno>Second Surname</LB_ApellidoPaterno>
+		<LB_ApellidoMaterno>First name</LB_ApellidoMaterno>
+		<LB_ListaCentroFuncional>Functional Centers List</LB_ListaCentroFuncional>
+		<LB_Codigo>Code</LB_Codigo>
+		<LB_Descripcion>Description</LB_Descripcion>
+		<BTN_Itinerario>Itinerary</BTN_Itinerario>
+		<LB_RevisaDatos>Please review the following data</LB_RevisaDatos>
+		<LB_DescEmpleado>The description of the employee can not be blank.</LB_DescEmpleado>
+		<LB_CampoDescripcion>The description can not be blank</LB_CampoDescripcion>
+		<LB_CampoCentroFuncional>The functional center can not be blank</LB_CampoCentroFuncional>
+		<LB_CampoMontoSolicitado>The amount requested must be greater than zero</LB_CampoMontoSolicitado>
+		<LB_CampoDestino>Destiny can not be blank</LB_CampoDestino>
+	</Idioma>
+</Etiquetas>

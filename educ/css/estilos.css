@@ -1,0 +1,14 @@
+.cajasinborde {
+	border: 0px none;
+}
+.cajasinbordeb {
+	border: 0px none;
+	background-color: #FFFFFF;
+}
+.cajasinbordebn {
+	border: 0px none;
+	background-color: #FFFFFF;
+	font-weight: bold;
+	color: #000000;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+}

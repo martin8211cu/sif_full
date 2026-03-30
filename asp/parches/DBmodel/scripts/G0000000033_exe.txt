@@ -1,0 +1,723 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 59 - DBM 200: Compras: Suficiencias, Distribucion, Form
+
+	         PARCHE:  Parche023_118_SIF_PMI
+
+GENERADO EN:
+	SERVER:  http://mxpapp36:8300
+	DSN:     sifcim
+	FECHA:   11/07/2011 10:25:15
+*/
+
+/* INI_SCRIPT */
+
+/* ================================================================= */
+/*    ELIMINA FKs QUE YA NO SE UTILIZAN O CON CAMPOS MODIFICADOS     */
+/* ================================================================= */
+/* CHG_TABLE TESREPconcepto */
+/* DEL_FK OP=(NO DEFINIDO): TIP="F", COLS="TESid", REF="Tesoreria" */
+ALTER TABLE TESREPconcepto DROP CONSTRAINT TESREPconcepto_FK01 /* REFERENCES Tesoreria (TESid) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_TABLE TESREPconceptoCuentas */
+/* DEL_FK OP=(NO DEFINIDO): TIP="F", COLS="TESid,TESREPCcodigo", REF="TESREPconcepto" */
+ALTER TABLE TESREPconceptoCuentas DROP CONSTRAINT TESREPconceptoCuentas_FK01 /* REFERENCES TESREPconcepto (TESid,TESREPCcodigo) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE CFinanciera: Cuentas Financieras o de Ultim */
+/* ======================================================================================== */
+/* ADD_CHECK: chk=(Ccuenta is not null and CFmovimiento = 'S' or CFmovimiento <> 'S') */
+ALTER TABLE CFinanciera ADD CONSTRAINT CFinanciera_CK CHECK (Ccuenta is not null and CFmovimiento = 'S' or CFmovimiento <> 'S')
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP=(NUEVO): TIP="U", SEC="1", COLS="CFformato,Ecodigo,Cmayor,CPVid" */
+CREATE UNIQUE NONCLUSTERED INDEX CFinanciera_UI01 ON CFinanciera (CFformato,Ecodigo,Cmayor,CPVid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE CMTiposSolicitud: CM Tipos de Solicitud */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): CMTSempleado - Campo Registrar Empleado */
+ALTER TABLE CMTiposSolicitud ADD CMTSempleado bit DEFAULT 0 NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE CPDocumentoD: Detalle Documentos de Transacc */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): CPDDtipoItem - Tipo item 0=Cuenta */
+ALTER TABLE CPDocumentoD ADD CPDDtipoItem char(1) DEFAULT '0' NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE CPDocumentoD ADD CONSTRAINT CPDocumentoD_CK18 CHECK ([CPDDtipoItem]='<Val2>' OR [CPDDtipoItem]='S' OR [CPDDtipoItem]='0')
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): Cid - ID Concepto */
+ALTER TABLE CPDocumentoD ADD Cid numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): CFid - CFid */
+ALTER TABLE CPDocumentoD ADD CFid numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): CPDCid - ID Distribucion */
+ALTER TABLE CPDocumentoD ADD CPDCid numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): CPDClinea - Linea Distribucion */
+ALTER TABLE CPDocumentoD ADD CPDClinea numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(NUEVO): TIP="F", SEC="6", COLS="Cid", REF="Conceptos" */
+CREATE INDEX CPDocumentoD_FI06 ON CPDocumentoD (Cid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(NUEVO): TIP="F", SEC="7", COLS="CFid", REF="CFuncional" */
+CREATE INDEX CPDocumentoD_FI07 ON CPDocumentoD (CFid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(NUEVO): TIP="F", SEC="8", COLS="CPDCid", REF="CPDistribucionCostos" */
+CREATE INDEX CPDocumentoD_FI08 ON CPDocumentoD (CPDCid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE CPDocumentoE: Encabezado Documentos de Trans */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): CPDEsuficiencia - EsSuficiencia para Compras */
+ALTER TABLE CPDocumentoE ADD CPDEsuficiencia bit DEFAULT 0 NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE CPresupuesto: Cuentas de Presupuesto */
+/* ======================================================================================== */
+/* ADD_KEY OP=(NUEVO): TIP="U", SEC="4", COLS="Ecodigo,Cmayor,CPVid,CPformato" */
+CREATE UNIQUE NONCLUSTERED INDEX CPresupuesto_UI04 ON CPresupuesto (Ecodigo,Cmayor,CPVid,CPformato)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* ADD_TABLE CPresupuestoEjercido: CPresupuestoEjercido */
+/* ======================================================================================== */
+
+CREATE TABLE CPresupuestoEjercido (
+	 Ecodigo                        integer              NOT NULL
+	,CPPid                          numeric(18)          NOT NULL
+	,CPCano                         integer              NOT NULL
+	,CPCmes                         integer              NOT NULL
+	,CPcuenta                       numeric(18)          NOT NULL
+	,Ocodigo                        integer              NOT NULL
+	,CPCejercido                    money                NULL
+	,BMUsucodigo                    numeric(18)          NULL
+	,ts_rversion                    timestamp           
+	)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="P", SEC="0", COLS="Ecodigo,CPPid,CPCano,CPCmes,CPcuenta,Ocodigo" */
+ALTER TABLE CPresupuestoEjercido ADD CONSTRAINT CPresupuestoEjercido_PK PRIMARY KEY CLUSTERED (Ecodigo,CPPid,CPCano,CPCmes,CPcuenta,Ocodigo)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* ADD_TABLE CPtipoCtas: Tipos de Cuentas de Presupuest */
+/* ======================================================================================== */
+
+CREATE TABLE CPtipoCtas (
+	 CPTCid                         numeric(18)          identity
+	,CPPid                          numeric(18)          NOT NULL
+	,CPTCtipo                       char(1)              NOT NULL
+	 CONSTRAINT CPtipoCtas_CK03 CHECK ([CPTCtipo]='C' OR [CPTCtipo]='E' OR [CPTCtipo]='I')
+	,Ecodigo                        integer              NOT NULL
+	,Cmayor                         char(4)              NOT NULL
+	,CPTCmascara                    varchar(100)         NOT NULL
+	,CPTCdescripcion                varchar(40)          NOT NULL
+	,BMUsucodigo                    numeric(18)          NULL
+	,ts_rversion                    timestamp           
+	)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="P", SEC="0", COLS="CPTCid" */
+ALTER TABLE CPtipoCtas ADD CONSTRAINT CPtipoCtas_PK PRIMARY KEY CLUSTERED (CPTCid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="I", SEC="1", COLS="CPPid,Ecodigo,Cmayor,CPTCmascara" */
+CREATE NONCLUSTERED INDEX CPtipoCtas_ID01 ON CPtipoCtas (CPPid,Ecodigo,Cmayor,CPTCmascara)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE CuentasBancos: Cuentas Bancarias */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): CBesTCE - Campo es TCE */
+ALTER TABLE CuentasBancos ADD CBesTCE bit DEFAULT 0 NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): DEid - Referencia a DatosEmpleados */
+ALTER TABLE CuentasBancos ADD DEid numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE DOrdenCM: Detalle de Orden de Compra */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): CPDDid - ID Detalle Documento */
+ALTER TABLE DOrdenCM ADD CPDDid numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(NUEVO): TIP="F", SEC="17", COLS="CPDDid", REF="CPDocumentoD" */
+CREATE INDEX DOrdenCM_FI17 ON DOrdenCM (CPDDid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE DSolicitudCompraCM: Detalle de Solicitud de Compra */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): CPDClinea - Linea de Distribucion */
+ALTER TABLE DSolicitudCompraCM ADD CPDClinea numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): CPDCid - Id de la distribucion */
+ALTER TABLE DSolicitudCompraCM ADD CPDCid numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(NUEVO): TIP="F", SEC="15", COLS="CPDCid", REF="CPDistribucionCostos" */
+CREATE INDEX DSolicitudCompraCM_FI15 ON DSolicitudCompraCM (CPDCid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE EListaPrecios: Encabezado de Lista de Precios */
+/* ======================================================================================== */
+/* ADD_KEY OP=(OP=-1): TIP="F", SEC="1", COLS="Ecodigo", REF="Empresas" */
+CREATE INDEX EListaPrecios_FI01 ON EListaPrecios (Ecodigo)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE ESolicitudCompraCM: Encabezado de Solicitud de Com */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): DEid - Referencia a DatosEmpleado */
+ALTER TABLE ESolicitudCompraCM ADD DEid numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* ADD_TABLE GEliquidacionProvs: Provisiones a Liquidar */
+/* ======================================================================================== */
+
+CREATE TABLE GEliquidacionProvs (
+	 GELid                          numeric(18)          NOT NULL
+	,CPDDid                         numeric(18)          NOT NULL
+	,GELPtotal                      money                NOT NULL
+	,Linea                          numeric(18)          DEFAULT 0 NOT NULL
+	,BMUsucodigo                    numeric(18)          NULL
+	,ts_rversion                    timestamp           
+	)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="P", SEC="0", COLS="GELid,CPDDid" */
+ALTER TABLE GEliquidacionProvs ADD CONSTRAINT GEliquidacionProvs_PK PRIMARY KEY CLUSTERED (GELid,CPDDid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="F", SEC="1", COLS="GELid", REF="GEliquidacion" */
+CREATE INDEX GEliquidacionProvs_FI01 ON GEliquidacionProvs (GELid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="F", SEC="2", COLS="CPDDid", REF="CPDocumentoD" */
+CREATE INDEX GEliquidacionProvs_FI02 ON GEliquidacionProvs (CPDDid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE TESdetallePago: TESdetallePago */
+/* ======================================================================================== */
+/* CHG_KEY OP=(CAMBIO): TIP="I", COLS="TESDPidDocumento,EcodigoOri,TESDPestado" */
+DROP INDEX TESdetallePago.TESdetallePago_ID01 /* INDEX (TESDPidDocumento,EcodigoOri,TESDPestado) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_COLUMN OP=(CAMBIO): TESDPestado - Estado Detalle Pago */
+ALTER TABLE TESdetallePago DROP CONSTRAINT TESdetallePago_CK02 /* CHECK ([TESDPestado]=(13) OR [TESDPestado]=(12) OR [TESDPestado]=(11) OR [TESDPestado]=(103) OR [TESDPestado]=(101) OR [TESDPestado]=(10) OR [TESDPestado]=(23) OR [TESDPestado]=(3) OR [TESDPestado]=(212) OR [TESDPestado]=(202) OR [TESDPestado]=(2) OR [TESDPestado]=(1) OR [TESDPestado]=(0)) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE TESdetallePago ADD CONSTRAINT TESdetallePago_CK02 CHECK ([TESDPestado]=(13) OR [TESDPestado]=(12) OR [TESDPestado]=(110) OR [TESDPestado]=(11) OR [TESDPestado]=(103) OR [TESDPestado]=(101) OR [TESDPestado]=(10) OR [TESDPestado]=(23) OR [TESDPestado]=(3) OR [TESDPestado]=(212) OR [TESDPestado]=(202) OR [TESDPestado]=(2) OR [TESDPestado]=(1) OR [TESDPestado]=(0))
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): CPDDid - ID Detalle Documento */
+ALTER TABLE TESdetallePago ADD CPDDid numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): Cid - ID Concepto */
+ALTER TABLE TESdetallePago ADD Cid numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): CPDCid - ID */
+ALTER TABLE TESdetallePago ADD CPDCid numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): TESDPespecificacuenta - Digitar Manualmente Cuentas */
+ALTER TABLE TESdetallePago ADD TESDPespecificacuenta bit DEFAULT 1 NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): CPDClinea - Linea de distribucion */
+ALTER TABLE TESdetallePago ADD CPDClinea numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(NUEVO): TIP="F", SEC="13", COLS="CPDDid", REF="CPDocumentoD" */
+CREATE INDEX TESdetallePago_FI13 ON TESdetallePago (CPDDid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(NUEVO): TIP="F", SEC="14", COLS="Cid", REF="Conceptos" */
+CREATE INDEX TESdetallePago_FI14 ON TESdetallePago (Cid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(NUEVO): TIP="F", SEC="15", COLS="CPDCid", REF="CPDistribucionCostos" */
+CREATE INDEX TESdetallePago_FI15 ON TESdetallePago (CPDCid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_KEY OP=(CAMBIO): TIP="I", SEC="1", COLS="TESDPidDocumento,EcodigoOri,TESDPestado" */
+CREATE NONCLUSTERED INDEX TESdetallePago_ID01 ON TESdetallePago (TESDPidDocumento,EcodigoOri,TESDPestado)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* ADD_TABLE TESgastosPago: Tesoreria gastos Pago */
+/* ======================================================================================== */
+
+CREATE TABLE TESgastosPago (
+	 TESGPid                        numeric(18)          identity
+	,TESSPid                        numeric(18)          NOT NULL
+	,TESDPid                        numeric(18)          NULL
+	,EcodigoOri                     integer              NOT NULL
+	,OcodigoOri                     integer              NOT NULL
+	,TESGPdescripcion               varchar(100)         NULL
+	,TESGPmovimiento                char(1)              NOT NULL
+	 CONSTRAINT TESgastosPago_CK07 CHECK ([TESGPmovimiento]='C' OR [TESGPmovimiento]='D')
+	,CFcuenta                       numeric(18)          NOT NULL
+	,Miso4217Ori                    char(3)              NOT NULL
+	,TESGPmontoOri                  money                NOT NULL
+	,TESGPtipoCambio                float                NOT NULL
+	,TESGPmonto                     money                NOT NULL
+	,BMUsucodigo                    numeric(18)          NULL
+	,ts_rversion                    timestamp           
+	)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="P", SEC="0", COLS="TESGPid" */
+ALTER TABLE TESgastosPago ADD CONSTRAINT TESgastosPago_PK PRIMARY KEY CLUSTERED (TESGPid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="F", SEC="1", COLS="CFcuenta", REF="CFinanciera" */
+CREATE INDEX TESgastosPago_FI01 ON TESgastosPago (CFcuenta)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="F", SEC="2", COLS="TESDPid", REF="TESdetallePago" */
+CREATE INDEX TESgastosPago_FI02 ON TESgastosPago (TESDPid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="F", SEC="3", COLS="TESSPid", REF="TESsolicitudPago" */
+CREATE INDEX TESgastosPago_FI03 ON TESgastosPago (TESSPid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="F", SEC="4", COLS="EcodigoOri,OcodigoOri", REF="Oficinas" */
+CREATE INDEX TESgastosPago_FI04 ON TESgastosPago (EcodigoOri,OcodigoOri)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="F", SEC="5", COLS="Miso4217Ori,EcodigoOri", REF="Monedas" */
+CREATE INDEX TESgastosPago_FI05 ON TESgastosPago (Miso4217Ori,EcodigoOri)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* ADD_TABLE TESOPformaPago: TESOPformaPago */
+/* ======================================================================================== */
+
+CREATE TABLE TESOPformaPago (
+	 TESOPFPtipoId                  numeric(2)           NOT NULL
+	 CONSTRAINT TESOPformaPago_CK01 CHECK ([TESOPFPtipoId]=(5) OR [TESOPFPtipoId]=(4) OR [TESOPFPtipoId]=(3) OR [TESOPFPtipoId]=(2) OR [TESOPFPtipoId]=(1))
+	,TESOPFPid                      numeric(18)          NOT NULL
+	,TESOPFPtipo                    numeric(2)           NOT NULL
+	 CONSTRAINT TESOPformaPago_CK03 CHECK ([TESOPFPtipo]=(3) OR [TESOPFPtipo]=(2) OR [TESOPFPtipo]=(1) OR [TESOPFPtipo]=(0) OR [TESOPFPtipo]=(-1))
+	,TESOPFPcta                     numeric(18)          NULL
+	,BMUsucodigo                    numeric(18)          NULL
+	,ts_rversion                    timestamp           
+	)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="P", SEC="0", COLS="TESOPFPtipoId,TESOPFPid" */
+ALTER TABLE TESOPformaPago ADD CONSTRAINT TESOPformaPago_PK PRIMARY KEY CLUSTERED (TESOPFPtipoId,TESOPFPid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE TESordenPago: TESordenPago */
+/* ======================================================================================== */
+/* CHG_COLUMN OP=(CAMBIO): TESOPestado - Estado de la Orden */
+ALTER TABLE TESordenPago DROP CONSTRAINT TESordenPago_CK04 /* CHECK ([TESOPestado]=(13) OR [TESOPestado]=(12) OR [TESOPestado]=(11) OR [TESOPestado]=(103) OR [TESOPestado]=(101) OR [TESOPestado]=(10)) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE TESordenPago ADD CONSTRAINT TESordenPago_CK04 CHECK ([TESOPestado]=(13) OR [TESOPestado]=(12) OR [TESOPestado]=(110) OR [TESOPestado]=(11) OR [TESOPestado]=(103) OR [TESOPestado]=(101) OR [TESOPestado]=(10))
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* DEL_TABLE TESREPconcepto: Reporte especial de Pagos a Te */
+/* ======================================================================================== */
+DROP TABLE TESREPconcepto
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ======================================================================================== */
+/* DEL_TABLE TESREPconceptoCuentas: Reporte especial de Pagos a Te */
+/* ======================================================================================== */
+DROP TABLE TESREPconceptoCuentas
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ======================================================================================== */
+/* ADD_TABLE TESRPTcontables: Almacena los conceptos de pago */
+/* ======================================================================================== */
+
+CREATE TABLE TESRPTcontables (
+	 TESRPTDid                      numeric(18)          identity
+	,EMid                           numeric(18)          NULL
+	,IDcontable                     numeric(18)          NULL
+	,Dlinea                         numeric(18)          NOT NULL
+	,TESRPTCid                      numeric(18)          NOT NULL
+	,SNid                           numeric(18)          NULL
+	,TESBid                         numeric(18)          NULL
+	,CDCcodigo                      numeric(18)          NULL
+	,BMUsucodigo                    numeric(18)          NULL
+	,ts_rversion                    timestamp           
+	)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="P", SEC="0", COLS="TESRPTDid" */
+ALTER TABLE TESRPTcontables ADD CONSTRAINT TESRPTcontables_PK PRIMARY KEY NONCLUSTERED (TESRPTDid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(NO GENERAR): TIP="F", SEC="1", COLS="EMid", REF="EMovimientos" */
+CREATE INDEX TESRPTcontables_FI01 ON TESRPTcontables (EMid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(NO GENERAR): TIP="F", SEC="2", COLS="IDcontable", REF="EContables" */
+CREATE INDEX TESRPTcontables_FI02 ON TESRPTcontables (IDcontable)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="F", SEC="3", COLS="SNid", REF="SNegocios" */
+CREATE INDEX TESRPTcontables_FI03 ON TESRPTcontables (SNid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="F", SEC="4", COLS="TESBid", REF="TESbeneficiario" */
+CREATE INDEX TESRPTcontables_FI04 ON TESRPTcontables (TESBid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="F", SEC="5", COLS="TESRPTCid", REF="TESRPTconcepto" */
+CREATE INDEX TESRPTcontables_FI05 ON TESRPTcontables (TESRPTCid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="F", SEC="6", COLS="CDCcodigo", REF="ClientesDetallistasCorp" */
+CREATE INDEX TESRPTcontables_FI06 ON TESRPTcontables (CDCcodigo)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="I", SEC="1", COLS="EMid,Dlinea" */
+CREATE NONCLUSTERED INDEX TESRPTcontables_ID01 ON TESRPTcontables (EMid,Dlinea)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="I", SEC="2", COLS="IDcontable,Dlinea" */
+CREATE NONCLUSTERED INDEX TESRPTcontables_ID02 ON TESRPTcontables (IDcontable,Dlinea)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* ADD_TABLE TESRPTcuentas: Configura las cuentas que requ */
+/* ======================================================================================== */
+
+CREATE TABLE TESRPTcuentas (
+	 Ecodigo                        integer              NOT NULL
+	,CFmascara                      varchar(100)         NOT NULL
+	,TESRPTCdescripcion             varchar(30)          NOT NULL
+	,BMUsucodigo                    numeric(18)          NULL
+	,ts_rversion                    timestamp           
+	)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="P", SEC="0", COLS="Ecodigo,CFmascara" */
+ALTER TABLE TESRPTcuentas ADD CONSTRAINT TESRPTcuentas_PK PRIMARY KEY NONCLUSTERED (Ecodigo,CFmascara)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE TESsolicitudPago: TESsolicitudPago */
+/* ======================================================================================== */
+/* CHG_KEY OP=(CAMBIO): TIP="I", COLS="EcodigoOri,TESSPestado,TESSPfechaPagar" */
+DROP INDEX TESsolicitudPago.TESsolicitudPago_ID02 /* INDEX (EcodigoOri,TESSPestado,TESSPfechaPagar) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_COLUMN OP=(CAMBIO): TESSPestado - Estado de la Solicitud */
+ALTER TABLE TESsolicitudPago DROP CONSTRAINT TESsolicitudPago_CK06 /* CHECK ([TESSPestado]=(13) OR [TESSPestado]=(12) OR [TESSPestado]=(11) OR [TESSPestado]=(103) OR [TESSPestado]=(101) OR [TESSPestado]=(10) OR [TESSPestado]=(23) OR [TESSPestado]=(3) OR [TESSPestado]=(212) OR [TESSPestado]=(202) OR [TESSPestado]=(2) OR [TESSPestado]=(1) OR [TESSPestado]=(0)) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE TESsolicitudPago ADD CONSTRAINT TESsolicitudPago_CK06 CHECK ([TESSPestado]=(13) OR [TESSPestado]=(12) OR [TESSPestado]=(110) OR [TESSPestado]=(11) OR [TESSPestado]=(103) OR [TESSPestado]=(101) OR [TESSPestado]=(10) OR [TESSPestado]=(23) OR [TESSPestado]=(3) OR [TESSPestado]=(212) OR [TESSPestado]=(202) OR [TESSPestado]=(2) OR [TESSPestado]=(1) OR [TESSPestado]=(0))
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_KEY OP=(CAMBIO): TIP="I", SEC="2", COLS="EcodigoOri,TESSPestado,TESSPfechaPagar" */
+CREATE NONCLUSTERED INDEX TESsolicitudPago_ID02 ON TESsolicitudPago (EcodigoOri,TESSPestado,TESSPfechaPagar)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ================================================================= */
+/*            CREA FKs NUEVOS O CON CAMPOS MODIFICADOS               */
+/* ================================================================= */
+/* CHG_TABLE CPDocumentoD */
+/* ADD_FK OP=(NUEVO): TIP="F", SEC="6", COLS="Cid", REF="Conceptos" */
+ALTER TABLE CPDocumentoD ADD CONSTRAINT CPDocumentoD_FK06 FOREIGN KEY (Cid) REFERENCES Conceptos (Cid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_FK OP=(NUEVO): TIP="F", SEC="7", COLS="CFid", REF="CFuncional" */
+ALTER TABLE CPDocumentoD ADD CONSTRAINT CPDocumentoD_FK07 FOREIGN KEY (CFid) REFERENCES CFuncional (CFid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_FK OP=(NUEVO): TIP="F", SEC="8", COLS="CPDCid", REF="CPDistribucionCostos" */
+ALTER TABLE CPDocumentoD ADD CONSTRAINT CPDocumentoD_FK08 FOREIGN KEY (CPDCid) REFERENCES CPDistribucionCostos (CPDCid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_TABLE CPresupuestoEjercido */
+/* ADD_FK OP=(TAB NUEVA): TIP="F", SEC="1", COLS="Ecodigo,CPPid,CPCano,CPCmes,CPcuenta,Ocodigo", REF="CPresupuestoControl" */
+ALTER TABLE CPresupuestoEjercido ADD CONSTRAINT CPresupuestoEjercido_FK01 FOREIGN KEY (Ecodigo,CPPid,CPCano,CPCmes,CPcuenta,Ocodigo) REFERENCES CPresupuestoControl (Ecodigo,CPPid,CPCano,CPCmes,CPcuenta,Ocodigo)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_TABLE DOrdenCM */
+/* ADD_FK OP=(NUEVO): TIP="F", SEC="17", COLS="CPDDid", REF="CPDocumentoD" */
+ALTER TABLE DOrdenCM ADD CONSTRAINT DOrdenCM_FK17 FOREIGN KEY (CPDDid) REFERENCES CPDocumentoD (CPDDid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_TABLE DSolicitudCompraCM */
+/* ADD_FK OP=(NUEVO): TIP="F", SEC="15", COLS="CPDCid", REF="CPDistribucionCostos" */
+ALTER TABLE DSolicitudCompraCM ADD CONSTRAINT DSolicitudCompraCM_FK15 FOREIGN KEY (CPDCid) REFERENCES CPDistribucionCostos (CPDCid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_TABLE GEliquidacionProvs */
+/* ADD_FK OP=(TAB NUEVA): TIP="F", SEC="1", COLS="GELid", REF="GEliquidacion" */
+ALTER TABLE GEliquidacionProvs ADD CONSTRAINT GEliquidacionProvs_FK01 FOREIGN KEY (GELid) REFERENCES GEliquidacion (GELid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_FK OP=(TAB NUEVA): TIP="F", SEC="2", COLS="CPDDid", REF="CPDocumentoD" */
+ALTER TABLE GEliquidacionProvs ADD CONSTRAINT GEliquidacionProvs_FK02 FOREIGN KEY (CPDDid) REFERENCES CPDocumentoD (CPDDid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_TABLE TESdetallePago */
+/* ADD_FK OP=(NUEVO): TIP="F", SEC="13", COLS="CPDDid", REF="CPDocumentoD" */
+ALTER TABLE TESdetallePago ADD CONSTRAINT TESdetallePago_FK13 FOREIGN KEY (CPDDid) REFERENCES CPDocumentoD (CPDDid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_FK OP=(NUEVO): TIP="F", SEC="14", COLS="Cid", REF="Conceptos" */
+ALTER TABLE TESdetallePago ADD CONSTRAINT TESdetallePago_FK14 FOREIGN KEY (Cid) REFERENCES Conceptos (Cid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_FK OP=(NUEVO): TIP="F", SEC="15", COLS="CPDCid", REF="CPDistribucionCostos" */
+ALTER TABLE TESdetallePago ADD CONSTRAINT TESdetallePago_FK15 FOREIGN KEY (CPDCid) REFERENCES CPDistribucionCostos (CPDCid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_TABLE TESgastosPago */
+/* ADD_FK OP=(TAB NUEVA): TIP="F", SEC="1", COLS="CFcuenta", REF="CFinanciera" */
+ALTER TABLE TESgastosPago ADD CONSTRAINT TESgastosPago_FK01 FOREIGN KEY (CFcuenta) REFERENCES CFinanciera (CFcuenta)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_FK OP=(TAB NUEVA): TIP="F", SEC="2", COLS="TESDPid", REF="TESdetallePago" */
+ALTER TABLE TESgastosPago ADD CONSTRAINT TESgastosPago_FK02 FOREIGN KEY (TESDPid) REFERENCES TESdetallePago (TESDPid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_FK OP=(TAB NUEVA): TIP="F", SEC="3", COLS="TESSPid", REF="TESsolicitudPago" */
+ALTER TABLE TESgastosPago ADD CONSTRAINT TESgastosPago_FK03 FOREIGN KEY (TESSPid) REFERENCES TESsolicitudPago (TESSPid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_FK OP=(TAB NUEVA): TIP="F", SEC="4", COLS="EcodigoOri,OcodigoOri", REF="Oficinas" */
+ALTER TABLE TESgastosPago ADD CONSTRAINT TESgastosPago_FK04 FOREIGN KEY (EcodigoOri,OcodigoOri) REFERENCES Oficinas (Ecodigo,Ocodigo)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_FK OP=(TAB NUEVA): TIP="F", SEC="5", COLS="Miso4217Ori,EcodigoOri", REF="Monedas" */
+ALTER TABLE TESgastosPago ADD CONSTRAINT TESgastosPago_FK05 FOREIGN KEY (Miso4217Ori,EcodigoOri) REFERENCES Monedas (Miso4217,Ecodigo)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_TABLE TESRPTcontables */
+/* ADD_FK OP=(TAB NUEVA): TIP="F", SEC="3", COLS="SNid", REF="SNegocios" */
+ALTER TABLE TESRPTcontables ADD CONSTRAINT TESRPTcontables_FK03 FOREIGN KEY (SNid) REFERENCES SNegocios (SNid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_FK OP=(TAB NUEVA): TIP="F", SEC="4", COLS="TESBid", REF="TESbeneficiario" */
+ALTER TABLE TESRPTcontables ADD CONSTRAINT TESRPTcontables_FK04 FOREIGN KEY (TESBid) REFERENCES TESbeneficiario (TESBid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_FK OP=(TAB NUEVA): TIP="F", SEC="5", COLS="TESRPTCid", REF="TESRPTconcepto" */
+ALTER TABLE TESRPTcontables ADD CONSTRAINT TESRPTcontables_FK05 FOREIGN KEY (TESRPTCid) REFERENCES TESRPTconcepto (TESRPTCid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_FK OP=(TAB NUEVA): TIP="F", SEC="6", COLS="CDCcodigo", REF="ClientesDetallistasCorp" */
+ALTER TABLE TESRPTcontables ADD CONSTRAINT TESRPTcontables_FK06 FOREIGN KEY (CDCcodigo) REFERENCES ClientesDetallistasCorp (CDCcodigo)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

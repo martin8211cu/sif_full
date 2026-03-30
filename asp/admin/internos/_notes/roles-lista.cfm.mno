@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<info>
+	<infoitem key="UD_roles" value="name:SScodigo;datatype:,name:SRcodigo;datatype:,name:SRdescripcion;datatype:" />
+	<infoitem key="UD_datos" value="name:Usulogin;datatype:,name:SRcodigo;datatype:,name:SRdescripcion;datatype:,name:nombre;datatype:,name:Enombre;datatype:" />
+</info>

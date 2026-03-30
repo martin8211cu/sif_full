@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	
+	<Idioma id="en">
+		<LB_NombreAnexo>Financial Report Name</LB_NombreAnexo>
+		<LB_Grupo>Group</LB_Grupo>
+		<LB_Secuencia>Calculation Sequence</LB_Secuencia>
+		<LB_OpcionesCalculo>Financial Reports Calculation Options</LB_OpcionesCalculo>
+		<CHK_OcultaFilas>Hide Rows</CHK_OcultaFilas>
+		<CHK_OcultaColumnas>Hide Columns</CHK_OcultaColumnas>
+		<LB_CopiarAnexo>Copy Financial Report</LB_CopiarAnexo>
+		<BTN_Guardar>Save</BTN_Guardar>
+		<compania></compania>
+		<favoritos></favoritos>
+		<inicio></inicio>
+	</Idioma>
+</Etiquetas>

@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<!--
+
+Simple Demo for testing the ScrollButton class
+
+-->
+
+<html>
+<head>
+<title>ScrollButton Demo (WebFX)</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style type="text/css">
+
+body {
+	font:	small Verdana;
+}
+
+.button {
+	background:	ButtonFace;
+	border:	1px solid ButtonShadow;
+	border-left:	0;
+	border-right:	0;
+}
+
+.scrollButton {
+	font-family:	Webdings;
+	text-align:		center;
+}
+
+#scrollContainer {
+	height:		200px;
+	overflow:	hidden;
+	padding:	3px;
+}
+
+.border {
+	border-left:	1px solid ButtonShadow;
+	border-right:	1px solid ButtonShadow;
+	width:			200px;
+}
+
+</style>
+<script type="text/javascript" src="js/scrollbutton.js"></script>
+</head>
+<body>
+
+<div class="border">
+
+<div class="button scrollButton" id="upScrollButton">5</div>
+<div id="scrollContainer">
+
+<p>This is some text inside a paragraph. This is some text inside a paragraph. 
+This is some text inside a paragraph. This is some text inside a paragraph. 
+This is some text inside a paragraph. This is some text inside a paragraph.</p>
+
+<p>This is some text inside a paragraph. This is some text inside a paragraph. 
+This is some text inside a paragraph. This is some text inside a paragraph. 
+This is some text inside a paragraph. This is some text inside a paragraph.</p>
+
+<p>This is some text inside a paragraph. This is some text inside a paragraph. 
+This is some text inside a paragraph. This is some text inside a paragraph. 
+This is some text inside a paragraph. This is some text inside a paragraph.</p>
+
+<p>This is some text inside a paragraph. This is some text inside a paragraph. 
+This is some text inside a paragraph. This is some text inside a paragraph. 
+This is some text inside a paragraph. This is some text inside a paragraph.</p>
+
+</div>
+<div class="button scrollButton" id="downScrollButton">6</div>
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+
+ScrollButton.scrollIntervalPause = 50;
+ScrollButton.scrollAmount = 5;
+
+var upScrollButton = document.getElementById( "upScrollButton" );
+var downScrollButton = document.getElementById( "downScrollButton" );
+var scrollContainer = document.getElementById( "scrollContainer" );
+
+new ScrollButton( upScrollButton, scrollContainer, 8 );
+new ScrollButton( downScrollButton, scrollContainer, 2 );
+
+//]]>
+</script>
+
+</body>
+</html>

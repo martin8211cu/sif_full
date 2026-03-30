@@ -1,0 +1,121 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  sifControl
+	MODELO:  SIF Control.pdm
+	VERSION: 58 - DBM 199: Actualizacion parche de MX con script
+
+	         PARCHE:  Parche023_117_SIF_Aph importador multitablas
+
+GENERADO EN:
+	SERVER:  http://mxpapp36:8300
+	DSN:     sifcontrol
+	FECHA:   14/07/2011 15:16:21
+*/
+
+/* INI_SCRIPT */
+
+/* ================================================================= */
+/*    ELIMINA FKs QUE YA NO SE UTILIZAN O CON CAMPOS MODIFICADOS     */
+/* ================================================================= */
+/* CHG_TABLE DCFGParametros */
+/* CHG_FK OP=(CAMBIO): TIP="F", COLS="EIid,DInumero,DItiporeg", REF="DImportador" */
+ALTER TABLE DCFGParametros DROP CONSTRAINT DCFGParametros_FK03 /* REFERENCES DImportador (EIid,DInumero,DItiporeg) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_TABLE DCPGrupo */
+/* CHG_FK OP=(CAMBIO): TIP="F", COLS="EIid,DInumero,DItiporeg", REF="DImportador" */
+ALTER TABLE DCPGrupo DROP CONSTRAINT DCPGrupo_FK03 /* REFERENCES DImportador (EIid,DInumero,DItiporeg) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE DCFGParametros: Parametros por Formato Grupo */
+/* ======================================================================================== */
+/* CHG_KEY OP=(CAMBIO): TIP="P", COLS="DCFGid,EIid,DInumero,DItiporeg" */
+ALTER TABLE DCFGParametros DROP CONSTRAINT DCFGParametros_PK /* PRIMARY KEY (DCFGid,EIid,DInumero,DItiporeg) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_KEY OP=(CAMBIO): TIP="F", COLS="EIid,DInumero,DItiporeg", REF="DImportador" */
+DROP INDEX DCFGParametros.DCFGParametros_FI03 /* REFERENCES INDEX (EIid,DInumero,DItiporeg) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_COLUMN OP=(CAMBIO): DItiporeg - Tipo de registro */
+ALTER TABLE DCFGParametros DROP CONSTRAINT DCFGParametros_CK05 /* CHECK ([DItiporeg]='datetime' OR [DItiporeg]='money' OR [DItiporeg]='float' OR [DItiporeg]='int' OR [DItiporeg]='numeric' OR [DItiporeg]='varchar') */
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_KEY OP=(CAMBIO): TIP="P", SEC="0", COLS="DCFGid,EIid,DInumero,DItiporeg" */
+ALTER TABLE DCFGParametros ADD CONSTRAINT DCFGParametros_PK PRIMARY KEY NONCLUSTERED (DCFGid,EIid,DInumero,DItiporeg)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_KEY OP=(CAMBIO): TIP="F", SEC="3", COLS="EIid,DInumero,DItiporeg", REF="DImportador" */
+CREATE INDEX DCFGParametros_FI03 ON DCFGParametros (EIid,DInumero,DItiporeg)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE DCPGrupo: Parametros del Grupo */
+/* ======================================================================================== */
+/* CHG_KEY OP=(CAMBIO): TIP="P", COLS="DInumero,DItiporeg,EIid" */
+ALTER TABLE DCPGrupo DROP CONSTRAINT DCPGrupo_PK /* PRIMARY KEY (DInumero,DItiporeg,EIid) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_KEY OP=(CAMBIO): TIP="F", COLS="EIid,DInumero,DItiporeg", REF="DImportador" */
+DROP INDEX DCPGrupo.DCPGrupo_FI03 /* REFERENCES INDEX (EIid,DInumero,DItiporeg) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_COLUMN OP=(CAMBIO): DItiporeg - Tipo de registro */
+ALTER TABLE DCPGrupo DROP CONSTRAINT DCPGrupo_CK04 /* CHECK ([DItiporeg]='datetime' OR [DItiporeg]='money' OR [DItiporeg]='float' OR [DItiporeg]='int' OR [DItiporeg]='numeric' OR [DItiporeg]='varchar') */
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_KEY OP=(CAMBIO): TIP="P", SEC="0", COLS="DInumero,DItiporeg,EIid" */
+ALTER TABLE DCPGrupo ADD CONSTRAINT DCPGrupo_PK PRIMARY KEY NONCLUSTERED (DInumero,DItiporeg,EIid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_KEY OP=(CAMBIO): TIP="F", SEC="3", COLS="EIid,DInumero,DItiporeg", REF="DImportador" */
+CREATE INDEX DCPGrupo_FI03 ON DCPGrupo (EIid,DInumero,DItiporeg)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ================================================================= */
+/*            CREA FKs NUEVOS O CON CAMPOS MODIFICADOS               */
+/* ================================================================= */
+/* CHG_TABLE DCFGParametros */
+/* CHG_FK OP=(CAMBIO): TIP="F", SEC="3", COLS="EIid,DInumero,DItiporeg", REF="DImportador" */
+ALTER TABLE DCFGParametros ADD CONSTRAINT DCFGParametros_FK03 FOREIGN KEY (EIid,DInumero,DItiporeg) REFERENCES DImportador (EIid,DInumero,DItiporeg)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_TABLE DCPGrupo */
+/* CHG_FK OP=(CAMBIO): TIP="F", SEC="3", COLS="EIid,DInumero,DItiporeg", REF="DImportador" */
+ALTER TABLE DCPGrupo ADD CONSTRAINT DCPGrupo_FK03 FOREIGN KEY (EIid,DInumero,DItiporeg) REFERENCES DImportador (EIid,DInumero,DItiporeg)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

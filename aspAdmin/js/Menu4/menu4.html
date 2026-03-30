@@ -1,0 +1,239 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html>
+<head>
+<title>DHTML Menu 4 (WebFX)</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script type="text/javascript" src="local/webfxlayout.js"></script>
+</head>
+<body>
+<!-- WebFX Layout Include -->
+<script type="text/javascript">
+
+var articleMenu= new WebFXMenu;
+articleMenu.left  = 384;
+articleMenu.top   = 86;
+articleMenu.width = 140;
+articleMenu.add(new WebFXMenuItem("Introduction", "menu4.html"));
+articleMenu.add(new WebFXMenuItem("Menu Creation", "menucreation.html"));
+articleMenu.add(new WebFXMenuItem("Menu Bar Creation", "menubarcreation.html"));
+articleMenu.add(new WebFXMenuItem("Usage", "usage.html"));
+articleMenu.add(new WebFXMenuItem("API", "api.html"));
+articleMenu.add(new WebFXMenuItem("Customizing look &amp; feel", "looknfeel.html"));
+articleMenu.add(new WebFXMenuItem("Demos", "demos.html"));
+articleMenu.add(new WebFXMenuSeparator);
+articleMenu.add(new WebFXMenuItem("Download", "menu4.zip"));
+webfxMenuBar.add(new WebFXMenuButton("Article Menu", null, null, articleMenu));
+
+webfxLayout.writeTitle("DHTML Menu 4");
+webfxLayout.writeMenu();
+webfxLayout.writeDesignedByEdger();
+
+</script>
+<div class="webfx-main-body">
+<!-- end WebFX Layout Includes -->
+
+<p>
+<span class="date">2002-05-31</span>: First public version released.<br />
+<span class="date">2002-06-10</span>: Updated rather a lot of code to fix flickering in IE55. Also some general optimization done.
+</p>
+
+<h2>Introduction</h2>
+
+<p>This is the next evolution in the DHTML Menu series. Where version 3 allowed
+menus to cover windowed controls version 4 can be displayed outside the
+physical boundaries of the browser window. Another major difference from
+previous version is that menus in version 4 are not defined using HTML markup.
+In DHTML Menu 4, menus are defined using JavaScript only. The menu system is
+totally object oriented and it takes the best parts from
+<a href="/dhtml/xmenu/xmenu.html">XMenu</a> and earlier versions of the DHTML
+Menu.</p>
+
+<h2>Goals</h2>
+
+<p>Before the work started to develop version 4 a few goals were defined:</p>
+
+<ul>
+	<li>Targeted for Internet Explorer 5.5 or greater for Win32.</li>
+	<li>Targeted for rich web applications, HTAs and Win32
+		based DHTML applications.</li>
+	<li>Should be on par with Windows native menus when it comes to look
+		and behavior.</li>
+	<li>Should not be limited by the size of the browser window. It should
+		be able to show the menu outside the boundaries of the browser.</li>
+	<li>Should cover windowed controls such as plugins and select boxes.</li>
+	<li>Should support keyboard navigation. Both arrow keys as well
+		as mnemonics.</li>
+	<li>Support scrollable menus. Both scroll arrows and mouse scroll wheel
+		where available (IE6+).</li>
+	<li>Should be skinnable using different CSS files.</li>
+	<li>Smart position. Menus should be placed on the default side if there
+		is enough space. If there isn't then they should be placed on the
+		other side. The positioning should work just like for normal Windows
+		menus.</li>
+	<li>The system should be object oriented to allow easier specialized items
+		without the need to edit the existing code.</li>
+	<li>Should support both URIs and JS functions to be assosciated with a menu
+		item. In case of an URI a target property should also be available to
+		make it easier to open up pages in new windows and frames.</li>
+</ul>
+
+<h2>Implementation</h2>
+
+<p>There is quite a lot of code for DHTML Menu 4. In this section we will only
+touch the more interesting parts.</p>
+
+<h3>Popups</h3>
+
+<p>To be able to display a menu outside the browser window a so called popup
+object is used. Popups were introduced in IE55 and it is basically a window
+without any chrome around it. Even though popups allows you to display a
+document outside the browser its interface is very limited. It only has
+two methods and two properties.</p>
+
+<table>
+	<thead>
+		<tr>
+			<td>Method/Property Name</td>
+			<td>Description</td>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td><code>show(x, y, w, h)</code></td>
+			<td>Shows the popup at x,y using the size w,h. The position and
+				size is modified so that it is never placed outside the
+				screen.</td>
+		</tr>
+		<tr>
+			<td><code>hide()</code></td>
+			<td>Hides the popup.</td>
+		</tr>
+		<tr>
+			<td><code>document</code></td>
+			<td>Gives the document used inside the popup.</td>
+		</tr>
+		<tr>
+			<td><code>isShown</code></td>
+			<td>Tells whether the popup is shown or not.</td>
+		</tr>
+	</tbody>
+</table>
+
+<p>As you can see this is far from sufficient to do anything beyond the basics.
+But, there is one thing that the documentation at
+<a href="http://msdn.microsoft.com/library/default.asp?url=/workshop/author/dhtml/reference/objects/popup.asp">MSDN</a>
+does not make clear and that is that the popup also contains a window object.
+To get the window object we can use <code>oPopup.document.parentWindow</code>.
+Now that we have the window object we can get the position of a popup. Besides
+from this there is another more important feature that the window object
+provides.</p>
+
+<p>The most serious limitation of popups is that you can only have one popup
+visible at the same time. If you open up a new popup then the first one is
+closed. At least this is the first thing that strikes a lot of people when
+they are trying to use popups. To create a popup we have to use the method
+<code>createPopup</code> on the <code>window</code> object.</p>
+
+<pre>
+var p = window.createPopup();
+</pre>
+
+<p>The secret here is that you can only open one popup per window object and
+since we now know how to get the window used for the popup we can let the
+popup open up another popup.</p>
+
+<pre>
+var popup1  = window.createPopup();
+var window2 = popup1.document.parentWindow;
+var popup2  = window2.createPopup();
+</pre>
+
+<h3>Menu Rendering</h3>
+
+<p>A menu is built up of a table where each row is a menu item. Each row
+constists of 4 cells; one for the icon, one for the text, one to show
+the keyboard shortcut and finally one to show an arrow indicating a sub
+menu.</p>
+
+<p>The menu item has several methods that are used to create the HTML
+for the table row.</p>
+
+<pre>
+MenuItem.prototype.toHtml = function () {
+   var cssClass = this.getCssClass();
+   var toolTip = this.getToolTip();
+
+   return "&lt;tr" +
+          (cssClass != "" ? " class=\"" + cssClass + "\"" : "") +
+          (toolTip != "" ? " title=\"" + toolTip + "\"" : "") +
+          (!this.visible ? " style=\"display: none\"" : "") +
+          "&gt;" +
+          this.getIconCellHtml() +
+          this.getTextCellHtml() +
+          this.getShortcutCellHtml() +
+          this.getSubMenuArrowCellHtml() +
+          "&lt;/tr&gt;";
+};
+</pre>
+
+<p>As you can see, this method calls a lot of other methods that assembly the
+different parts of the HTML code. The reason for this is that it makes it
+easier to create subclasses because one only has to override a more specific
+method.</p>
+
+<p>You can see a static version of the <a href="menulayout.html">resulting
+HTML page here</a>. This page might differ slightly from the current generated
+version but it should be exact enough for you to get a feel for what the HTML
+looks like.</p>
+
+<h3>ScrollButtons</h3>
+
+<p>To support scrolling a simple scroll button class was created. This class
+allows any element, when hovered, to scroll an element. This script can be
+used without the DHTML Menu 4 but it was designed with DHTML Menu 4 in mind.</p>
+
+<p>When the mouse enters the button an interval is started. Every time this
+interval triggers the handler, the scrollable container is scrolled by updating
+the <code>scrollLeft</code> or <code>scrollTop</code> property.</p>
+
+<p>There exists a <a href="scrollbuttondemo.html">scroll button demo</a> that
+shows how these are used.</p>
+
+<h3>Positioning</h3>
+
+<p>The most common task in DHTML is once again needed. This time it was much
+easier than usual because only support for IE was needed. A minor new feature
+was needed for this and that was the ability to find the location of an element
+relative to the screen. To achieve this the location relative to the window
+viewport is first calculated and then the location of the window is added
+using <code>window.screenLeft</code>.</p>
+
+<pre>
+getScreenLeft:	function ( el ) {
+   return el.document.parentWindow.screenLeft + this.getLeft( el ) +
+      (this.getIeBox(el) ? 0 : this.getClientLeft(  el.document.documentElement ) -
+      el.document.documentElement.scrollLeft );
+},
+</pre>
+
+
+<p>
+<a href="menu4.html">Introduction</a><br />
+<a href="menucreation.html">Menu Creation</a><br />
+<a href="menubarcreation.html">Menu Bar Creation</a><br />
+<a href="usage.html">Usage</a><br />
+<a href="api.html">API</a><br />
+<a href="looknfeel.html">Customizing look &amp; feel<br />
+<a href="demos.html">Demos</a><br />
+<a href="menu4.zip">Download</a>
+</p>
+
+<p class="author">Author: Erik Arvidsson</p>
+
+<!-- end webfx-main-body -->
+</div>
+
+</body>
+</html>

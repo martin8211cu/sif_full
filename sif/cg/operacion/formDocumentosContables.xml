@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	
+	<Idioma id="en">
+		<BTN_ConsultaEvento>Consult Event</BTN_ConsultaEvento>
+		<BTN_BalancearDoc>Balance Doc</BTN_BalancearDoc>
+		<BTN_CambiarDoc>Change Doc</BTN_CambiarDoc>
+		<BTN_EliminarDoc>Delete Doc</BTN_EliminarDoc>
+		<BTN_NuevoDoc>New Doc</BTN_NuevoDoc>
+		<BTN_DocsSoporte>Support Docs</BTN_DocsSoporte>
+		<BTN_IraLista>Return</BTN_IraLista>
+		<BTN_ExportarDoc>Export Doc</BTN_ExportarDoc>
+		<BTN_Balancear>Balance by Office</BTN_Balancear>
+		<BTN_Abrir>Open</BTN_Abrir>
+		<BTN_AsientoLiquidacion>Entry Liquidation</BTN_AsientoLiquidacion>
+		<BTN_AsientoLimpieza>Entry Cleaning</BTN_AsientoLimpieza>
+		<todas>All</todas>
+	<BTN_Cambiar>Change</BTN_Cambiar><BTN_Nuevo>New</BTN_Nuevo></Idioma>
+</Etiquetas>

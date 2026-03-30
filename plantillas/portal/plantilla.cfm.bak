@@ -1,0 +1,182 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<cfinclude template="portal_control.cfm">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Company Name</title>
+<style type="text/css">
+<!--
+.toprightitems {
+	font-family: Tahoma, Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+}
+.tabs, .tabs *{
+	font-family: Tahoma, Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-weight:bold;
+	background-color:#f0f0f0;
+}
+.tabsel, .tabsel * {
+	background-color:#333399;
+	color:white;
+	font-weight:bold;
+	text-align:center;
+}
+.tabnor, .tabnor * {
+	background-color:#ccc;
+	color:black;
+}
+.menutable {
+	border-bottom:1px solid black;
+	background-color:#F0F0F0;
+	}
+div.menutable {
+	width:101px;
+	overflow:hidden; white-space:nowrap;
+	}
+.menutable * {
+	font-family: Tahoma, Verdana, Arial, Helvetica, sans-serif;
+	font-size:12px;
+	color:navy;
+	}
+.menutablesel * {
+	background-color:navy;
+	color:white;
+	font-weight:bold;
+	}
+body{margin:0}
+.titulo_sistema_actual {
+	font-family: Georgia, "Times New Roman", Times, serif;
+	font-size: 18px;
+	font-weight: bold;
+}
+-->
+</style>
+</head>
+
+<body>
+<table width="1010" border="0" cellpadding="0" cellspacing="0">
+  <!--DWLayoutTable-->
+  <tr>
+    <td colspan="2" rowspan="2" valign="top"><img src="logo.jpg" width="159" height="56"></td>
+    <td width="400" rowspan="2" align="center"><span class="titulo_sistema_actual"> 
+		<cfoutput>#HTMLEditFormat(ubicacionSM.SMdescripcion)#</cfoutput></span></td>
+    <td width="382" height="36" align="right" valign="bottom"><span class="toprightitems">  <a href="index.cfm">Inicio</a> | <a href="../../home/menu/micuenta/buzon.cfm">Mensajes</a> | <a href="../../home/menu/micuenta/index.cfm">Preferencias</a> | <a href="observaciones.cfm">Obs</a> | <a href="javascript:void(0)">?</a> | <a href="../../home/public/logout.cfm">Salir</a> </span></td>
+    <td width="69" align="right" valign="bottom"><!--DWLayoutEmptyCell-->&nbsp;</td>
+  </tr>
+  <tr>
+    <td height="27" align="right"><span class="toprightitems">
+	<cfif session.Usucodigo><cfoutput>#session.Usulogin#, #session.CEnombre#</cfoutput></cfif></span></td>
+    <td height="27" align="right">&nbsp;</td>
+  </tr>
+  <tr>
+    <td width="105" height="25" valign="top"><table width="100%"  border="0" cellpadding="2" cellspacing="0" class="tabs">
+        <!--DWLayoutTable-->
+        <tr>
+          <td width="84" height="20" valign="top" class="tabnor"><!--DWLayoutEmptyCell-->&nbsp;</td>
+        </tr>
+        <tr>
+          <td height="8" valign="top" class="tabsel"><img src="spacer.gif" width="83" height="1"></td>
+        </tr>
+                </table></td>
+    <td colspan="3"><table width="850"  border="0" cellpadding="2" cellspacing="0" class="tabs">
+        <!--DWLayoutTable-->
+        <tr>
+          <td width="1" height="19" valign="top"><!--DWLayoutEmptyCell-->&nbsp; </td>
+          <td width="97" align="center" valign="top" class="tabnor"><a href="index.cfm">Inicio</a></td>
+		  
+		  <cfoutput query="rsSistemas">
+          <td width="3" align="center" valign="top"><!--DWLayoutEmptyCell-->&nbsp;</td>
+          <td align="center" valign="top" class="<cfif rsSistemas.SScodigo is session.menues.SScodigo>tabsel<cfelse>tabnor</cfif>">
+		  	<a href="index.cfm?_nav=1&s=#URLEncodedFormat(Trim(rsSistemas.SScodigo))#">
+				#HTMLEditFormat(rsSistemas.SSdescripcion)#</a></td>
+		  </cfoutput>
+          <td width="1" valign="top"><!--DWLayoutEmptyCell-->&nbsp;</td>
+          <td valign="top"><!--DWLayoutEmptyCell-->&nbsp;</td>
+          <td width="154" rowspan="2" align="right">
+		  <cfif session.Usucodigo>
+			  <cfif rsEmpresas.RecordCount>
+				  <form name="form_empresas" style="margin:0" action="" method="get">
+				  <input type="hidden" name="_nav" value="1">
+				  <select name="seleccionar_EcodigoSDC" style="width:100%" onChange="this.form.submit();">
+				  <cfoutput query="rsEmpresas">
+				  <option value="#rsEmpresas.Ecodigo#" <cfif rsEmpresas.Ecodigo is session.EcodigoSDC>selected</cfif> >#HTMLEditFormat(rsEmpresas.Enombre)#</option>
+				  </cfoutput>
+				  </select>
+				  </form>
+			  </cfif>
+		  <cfelse>
+		  	<a href="../../home/public/login.cfm">Ingresar al sistema</a>
+		  </cfif>
+		  
+		  </td>
+        </tr>
+        <tr>
+          <td height="8" colspan="10" valign="top" class="tabsel"><img src="spacer.gif" width="1" height="1"></td>
+        </tr>
+                    </table></td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td height="173" valign="top" class="menutable"><div class="menutable"><table width="100%" border="0" cellpadding="2" cellspacing="0">
+      <!--DWLayoutTable-->
+        <tr>
+          <td width="4" valign="top"><img src="spacer.gif"></td>
+          <td width="4" valign="top"><img src="spacer.gif"></td>
+          <td valign="top">&nbsp;</td>
+          <td width="4"></td>
+        </tr>
+        <tr>
+          <td valign="top"></td>
+          <td colspan="2" valign="top">Inicio</td>
+          <td></td>
+        </tr>
+		<cfoutput query="rsModulos" group="SMcodigo">
+		<cfset seleccionado = rsModulos.SScodigo is session.menues.SScodigo and
+		      rsModulos.SMcodigo is session.menues.SMcodigo>
+        <tr <cfif seleccionado and Not Len(session.menues.SPcodigo)>class="menutablesel"</cfif>>
+          <td></td>
+          <td colspan="2" valign="top"><div>
+		  	<a href="index.cfm?_nav=1&s=#URLEncodedFormat(Trim(rsModulos.SScodigo))#&m=#URLEncodedFormat(Trim(rsModulos.SMcodigo))#" >
+			  <strong>#HTMLEditFormat(ListFirst(rsModulos.SMdescripcion,' '))#</strong></a></div></td>
+          <td></td>
+        </tr>
+		<cfif seleccionado>
+		
+		<cfoutput>
+		<cfset seleccionado2 = seleccionado and rsModulos.SPcodigo is session.menues.SPcodigo>
+        <tr <cfif seleccionado2 >class="menutablesel"</cfif>>
+          <td></td>
+          <td></td>
+          <td  valign="top"><div>
+		  	<a href="index.cfm?_nav=1&s=#URLEncodedFormat(Trim(rsModulos.SScodigo))#&m=#URLEncodedFormat(Trim(rsModulos.SMcodigo))#&p=#URLEncodedFormat(Trim(rsModulos.SPcodigo))#" >
+				#HTMLEditFormat(ListFirst(rsModulos.SPdescripcion,' '))#</a></div></td>
+          <td></td>
+        </tr>
+
+		</cfoutput>
+		</cfif>
+		</cfoutput>
+        <tr>
+          <td height="20"></td>
+          <td>&nbsp;</td>
+          <td></td>
+          <td></td>
+        </tr>
+        </table></div></td>
+    <td colspan="4" rowspan="2" valign="top">
+	$$BODY$$
+	</td>
+  </tr>
+  <tr>
+    <td height="96" valign="top" class="menutable"><p>&nbsp;</p>      <p>&nbsp;</p>      <p>&nbsp;</p></td>
+  </tr>
+  <tr>
+    <td height="1"></td>
+    <td width="68"></td>
+    <td></td>
+    <td colspan="2"></td>
+  </tr>
+</table>
+</body>
+</html>

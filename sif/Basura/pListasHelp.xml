@@ -1,0 +1,219 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<pListasAyuda>
+	<parametro>
+		<nombre>
+			columnas
+		</nombre>
+		<resumen>
+			lista de las columnas
+		</resumen>
+		<descripcion>
+			seccion del select de la consulta
+		</descripcion>
+		<ejemplo>
+			a.ECid, a.Bid, b.Bdescripcion, a.ECfecha, c.CBdescripcion, a.ECdescripcion, b.Bdescripcion, a.EChasta
+		</ejemplo>
+	</parametro>
+	<parametro>
+		<nombre>
+			tabla
+		</nombre>
+		<resumen>
+			nombre de la tabla
+		</resumen>
+		<descripcion>
+			seccion del from de la consulta
+		</descripcion>
+		<ejemplo>
+			ECuentaBancaria a, Bancos b, CuentasBancos c
+		</ejemplo>
+		<ejemplo>
+			ECuentaBancaria a
+				inner join Bancos b
+					on b.Bid = a.Bid
+				inner join CuentasBancos c
+					on c.CBid = a.CBid
+		</ejemplo>
+	</parametro>
+	<parametro>
+		<nombre>
+			filtro
+		</nombre>
+		<resumen>
+			condiciones para el filtrar la consulta
+		</resumen>
+		<descripcion>
+			seccion del where de la consulta
+		</descripcion>
+		<ejemplo>
+			b.Ecodigo = #Session.Ecodigo#
+			and a.Bid = b.Bid 
+			and a.CBid = c.CBid 
+			and a.EChistorico = 'N'
+		</ejemplo>
+	</parametro>
+	<parametro>
+		<nombre>
+			desplegar
+		</nombre>
+		<resumen>
+			lista de las columnas a desplegar en la lista
+		</resumen>
+		<descripcion>
+			lista de las columnas a desplegar en la lista
+		</descripcion>
+		<ejemplo>
+			Bdescripcion, CBdescripcion, ECfecha
+		</ejemplo>
+	</parametro>
+	<parametro>
+		<nombre>
+			etiquetas
+		</nombre>
+		<resumen>
+			lista de las etiquetas de las columnas a desplegar en la lista
+		</resumen>
+		<descripcion>
+			lista de las etiquetas de las columnas a desplegar en la lista
+		</descripcion>
+		<ejemplo>
+			Banco, Cuenta Bancaria, Fecha
+		</ejemplo>
+	</parametro>
+	<parametro>
+		<nombre>
+			formatos
+		</nombre>
+		<resumen>
+			formatos de las columnas a desplegar en la lista
+		</resumen>
+		<descripcion>
+			Fechas:D,DI
+			Números 0 decimales:I
+			Números 2 decimales:M,P,R
+			Números 4 decimales:N,F
+			Formatos para no mostrar filtro: G,U
+		</descripcion>
+		<ejemplo>
+			S,S,D
+		</ejemplo>
+	</parametro>
+	<parametro>
+		<nombre>
+			align
+		</nombre>
+		<resumen>
+			tipo de Justiticación (left, center, right, justify)
+		</resumen>
+		<descripcion>
+			tipo de Justiticación (left, center, right, justify)
+		</descripcion>
+		<ejemplo>
+			S,S,D
+		</ejemplo>
+	</parametro>
+	<parametro>
+		<nombre>
+			ajustar
+		</nombre>
+		<resumen>
+			ajustar los valores de las columnas (N,S)
+		</resumen>
+		<descripcion>
+			N = con nowrap 
+			S = sin nowrap
+		</descripcion>
+		<ejemplo>
+			N
+		</ejemplo>
+	</parametro>
+	<parametro>
+		<nombre>
+			irA
+		</nombre>
+		<resumen>
+			Action del Form
+		</resumen>
+		<descripcion>
+			Action del Form
+		</descripcion>
+		<ejemplo>
+			ConciliacionAutomatica.cfm
+		</ejemplo>
+	</parametro>
+	<parametro>
+		<nombre>
+			mostrar_filtro
+		</nombre>
+		<resumen>
+			mostrar filtros para la lista
+		</resumen>
+		<descripcion>
+			Muestra filtros para cada una de las columnas a desplegar en la lista.
+			Toma en cuenta los tipos de datos definidos para cada columna, pinta cajas de texto por defecto, cajas con validación para números para las columnas numericas, cajas de fecha para las fechas, combos con valores definidos por un query (ver parámetro rs[Columna]), puede omitirse un filtro para una columna con el tipo de dato 'G' o 'U'.
+		</descripcion>
+		<ejemplo>
+			true
+		</ejemplo>
+	</parametro>
+	<parametro>
+		<nombre>
+			rs[Columna]
+		</nombre>
+		<resumen>
+			consulta para llenar un combo para pintar en el filtro de una columna.
+		</resumen>
+		<descripcion>
+			debe ser de tipo query y debe contener al menos 2 columnas que deben llamarse value para el valor de la opción del combo y description para la descripción del combo. combinado correctamente con el parámetro filtrar_por puede desplegarse descripciones y filtrar por las llaves.
+		</descripcion>
+		<ejemplo>
+			b.Bid, c.CBid, a.ECfecha
+		</ejemplo>
+	</parametro>
+	<parametro>
+		<nombre>
+			filtrar_automatico
+		</nombre>
+		<resumen>
+			filtra automáticamente la consulta
+		</resumen>
+		<descripcion>
+			Filtra automáticamente la consulta de acuerdo con los filtros pintados por el Componente de Listas.
+			Requiere el mostrar_filtro prendido, filtra tomando en cuenta el tipo de dato definido. 
+			Valida el que el valor concuerde con el tipo de dato definido a traves del cfqueryparam.
+			Los Filtros se mantienes durante la Navegación de la lista automáticamente.
+		</descripcion>
+		<ejemplo>
+			true
+		</ejemplo>
+	</parametro>
+	<parametro>
+		<nombre>
+			filtrar_por
+		</nombre>
+		<resumen>
+			columnas para filtrar automáticamente
+		</resumen>
+		<descripcion>
+			Columnas de la consulta sobre las que se realizará el query.
+			Si se omite se tomarán las del parámetro desplegar.
+		</descripcion>
+		<ejemplo>
+			b.Bid, c.CBid, a.ECfecha
+		</ejemplo>
+	</parametro>
+	<parametro>
+		<nombre>
+			etc...
+		</nombre>
+		<resumen>
+			etc...
+		</resumen>
+		<descripcion>
+			etc...
+		</descripcion>
+		<ejemplo>
+			etc...
+		</ejemplo>
+	</parametro>
+</pListasAyuda>

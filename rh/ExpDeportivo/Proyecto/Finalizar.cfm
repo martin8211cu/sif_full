@@ -1,0 +1,1 @@
+﻿<cfset StructDelete(Session, "Progreso")>

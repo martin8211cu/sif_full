@@ -1,0 +1,36 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 497 - DBM 439: Agregar las fechas CMPfechaAprob, CMPfech
+
+	         PARCHE:  Parche023_608_SIF_Reportes_Estadisticos_Detallados
+
+GENERADO EN:
+	SERVER:  http://mxvqapp34:8300
+	DSN:     sifcim
+	FECHA:   09/01/2012 13:04:42
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* CHG_TABLE CMProcesoCompra: CM Proceso de Compra */
+/* ======================================================================================== */
+/* ADD_COLUMN OP = (NUEVO): CMPfechaAprob - Fecha Aprobacion Cotización */
+ALTER TABLE CMProcesoCompra ADD CMPfechaAprob datetime NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP = (NUEVO): CMPfechaEnvAprob - Fecha Envio Aprobación Solicitante */
+ALTER TABLE CMProcesoCompra ADD CMPfechaEnvAprob datetime NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

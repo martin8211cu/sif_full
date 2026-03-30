@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+		<Idioma id="EN">
+			<Opcion>
+				Please choose an option:
+			</Opcion>
+		</Idioma>
+		<Idioma id="ES_CR">
+			<Opcion>
+				Seleccione una opción:
+			</Opcion>
+		</Idioma>
+<Idioma id="en"><Opcion>Option</Opcion></Idioma><Idioma id="es"><Opcion/></Idioma></Etiquetas>

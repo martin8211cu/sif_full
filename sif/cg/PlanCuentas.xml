@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+		<Idioma id="EN">
+			<TituloPortlet>
+				Accounts Plan
+			</TituloPortlet>
+			<Mascaras>
+				Accounts Masks
+			</Mascaras>
+			<Reglas>
+				Mask Rules
+			</Reglas>
+			<Catalogos>
+				Catalogues 
+			</Catalogos>
+			<Niveles>
+				Mask Levels
+			</Niveles>	
+			<Clasificacion>
+				Classification
+			</Clasificacion>
+								
+		</Idioma>
+		<Idioma id="ES_CR">
+			<TituloPortlet>
+				Plan de Cuentas Contables
+			</TituloPortlet>
+			<Mascaras>
+				Máscaras de Cuentas
+			</Mascaras>
+			<Reglas>
+				Reglas de Máscaras
+			</Reglas>
+			<Catalogos>
+				Catálogos
+			</Catalogos>
+			<Niveles>
+				Niveles de Máscaras
+			</Niveles>
+			<Clasificacion>
+				Clasificación
+			</Clasificacion>
+		</Idioma>
+<Idioma id="en"><Catalogos>Catalogs</Catalogos><Clasificacion>Classification</Clasificacion><Mascaras>Account Structure</Mascaras><Niveles>Levels</Niveles><Reglas>Rules</Reglas><TituloPortlet>Chart of Accounts</TituloPortlet></Idioma></Etiquetas>

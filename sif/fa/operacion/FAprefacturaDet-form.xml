@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiqueta>
+	<Idioma id="en">
+		<LB_Almacen>Warehouse</LB_Almacen>
+		<LB_Tipo>Type</LB_Tipo>
+		<LB_Descripcion>Description</LB_Descripcion>
+		<LB_Cuenta>Account</LB_Cuenta>
+		<LB_Impuesto>Tax</LB_Impuesto>
+		<LB_CentroFuncional>Functional Center</LB_CentroFuncional>
+		<LB_Articulo>Product</LB_Articulo>
+		<LB_Servicio>Service</LB_Servicio>
+		<LB_DescripcionAlterna>Secondary Description</LB_DescripcionAlterna>
+		<LB_Cantidad>Quantity</LB_Cantidad>
+		<LB_PrecioUnitario>Unit Price</LB_PrecioUnitario>
+		<LB_Descuento>Discount</LB_Descuento>
+		<LB_Total>Total</LB_Total>
+		<MSG_DeseaEliminarEstaLineaDeDetalleDeCotizacion>Do you want to delete this line?</MSG_DeseaEliminarEstaLineaDeDetalleDeCotizacion>
+		<MSG_ElCampoNoPuedeSerMayorACienNiMenorQueCero>The field can not be greater than 100 and less than zero</MSG_ElCampoNoPuedeSerMayorACienNiMenorQueCero>
+		<MSG_NoPuedeHaberCantidadPrecioUnitarioTotalDeLineaEnCero>Amount, unit price and line total can not be zero</MSG_NoPuedeHaberCantidadPrecioUnitarioTotalDeLineaEnCero>
+		
+	<LB_Tax>Tax</LB_Tax></Idioma>
+</Etiqueta>

@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_Titulo>Rejection of Payment Requests</LB_Titulo>		
+		<LB_TrabajarConTesoreria>Work with Treasury</LB_TrabajarConTesoreria>
+		<LB_Titulo>Rejection of Payment Requests</LB_Titulo>
+		<LB_EmpresaOrigen>Enterprise Origin</LB_EmpresaOrigen>
+		<LB_CentroFuncional>Funtional Center</LB_CentroFuncional>
+		<LB_Solicitante>Requester</LB_Solicitante>
+		<LB_BeneficiarioContado>Cash Beneficiary</LB_BeneficiarioContado>
+		<LB_ClienteDetallista>Retail Customer</LB_ClienteDetallista>	
+		<LB_SocioNegocio>Partner</LB_SocioNegocio>
+		<LB_FechaDesde>Date from</LB_FechaDesde>
+		<LB_Hasta>To</LB_Hasta>
+		<LB_Beneficiario>Beneficiary</LB_Beneficiario>
+		<LB_Todos>All</LB_Todos>
+		<LB_NumSolicitud>Request Number</LB_NumSolicitud>
+		<LB_Moneda>Currency</LB_Moneda>
+		<LB_Estado>Status</LB_Estado>
+		<LB_Tipo>Type</LB_Tipo>
+		<LB_OfiCentroFuncional>Funtional Center</LB_OfiCentroFuncional>
+		<LB_FechaPagoSolicitada>Payment Date Requested</LB_FechaPagoSolicitada>
+		<LB_TotalPagoSolicitado>Total Amount Requested</LB_TotalPagoSolicitado>
+		<LB_MotivoCancelacion>Cancellation Reason</LB_MotivoCancelacion>
+		<LB_MotivoRechazo>Reject Reason</LB_MotivoRechazo>
+		<LB_MotivoRechazoAnterior>Previously Rejected Reason</LB_MotivoRechazoAnterior>
+		<LB_SolicitudesCanceladas>List Requests Cancelled</LB_SolicitudesCanceladas>
+	<LB_SolManuales>Manual Request</LB_SolManuales><MSG_AprobarSolSeleccionadas>Approve Selected Records</MSG_AprobarSolSeleccionadas><LB_AplicadSinOP>Applied Without Payment Order</LB_AplicadSinOP><LB_AprobConCesiones>Approve with Assignments</LB_AprobConCesiones><LB_AprobOP>Approve Payment Order</LB_AprobOP><LB_Aprobadas>Approved</LB_Aprobadas><LB_DevAntCxC>Advance Repayment (Receivable)</LB_DevAntCxC><LB_DevAntPos>Advance Repayment (POS)</LB_DevAntPos><LB_EmisionOP>Payment Order Issuance</LB_EmisionOP><LB_EnAprobacion>In Approval</LB_EnAprobacion><LB_EnPreparacion>In Preparation</LB_EnPreparacion><LB_EnvTes>Send to Treasury</LB_EnvTes><LB_FonCajaChica>Petty Cach Found</LB_FonCajaChica><LB_LiqGtosEmpleado>Employee Expenses Settlement</LB_LiqGtosEmpleado><LB_OPAnulada>Payment Order Cancelled</LB_OPAnulada><LB_OPSinEntregar>Payment Order not Delivered</LB_OPSinEntregar><LB_OrdenEmitida>Order Issued</LB_OrdenEmitida><LB_PagAntCxP>Payable-Advance Payment</LB_PagAntCxP><LB_PagAntGtosEmpleado>Employee-Expenses Advance Payment</LB_PagAntGtosEmpleado><LB_PagDocCxP>Payable Documents</LB_PagDocCxP><LB_PreparacionOP>Payment Order Preparation</LB_PreparacionOP><LB_RechOP>Payment Order Rejection</LB_RechOP><LB_Rechazadas>Rejected</LB_Rechazadas><LB_RechazadasTes>Treasury Rejected</LB_RechazadasTes><LB_ReintCCH>Petty Cash Reimbursement</LB_ReintCCH><LB_SolDuplicadas>Duplicate Requests</LB_SolDuplicadas><LB_SolManualesCF>Manual Request by Functional Center</LB_SolManualesCF><LB_TransCtasBancarias>Bank Transfer</LB_TransCtasBancarias></Idioma>
+</Etiquetas>

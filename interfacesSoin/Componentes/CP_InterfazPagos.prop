@@ -1,0 +1,627 @@
+<cfcomponent>
+	<!--- 1 Métodos para inicializar y cambiar el contexto del componente --->
+	<!--- 1.1 Init: define los valores de las variables globales del componente. --->
+	<cffunction name="init" access="public" returntype="boolean">
+		<cfargument name="EcodigoSDC" required="no" type="numeric" default="0">
+		<cfargument name="Conexion" required="no" type="string" default="#Session.Dsn#">
+		<cfargument name="Ecodigo" required="no" type="numeric" default="#Session.Ecodigo#">
+		<cfargument name="Usucodigo" required="no" type="string" default="#Session.Usucodigo#">
+		<cfargument name="Usuario" required="no" type="string" default="#Session.Usuario#">
+
+		<cfif Arguments.EcodigoSDC GT 0>
+			<cfquery name="rsEcodigo" datasource="#Arguments.Conexion#">
+				select Ereferencia
+				from Empresa
+				where Ecodigo = <cfqueryparam cfsqltype="cf_sql_numeric" value="#Arguments.EcodigoSDC#">
+				  and Ereferencia = <cfqueryparam cfsqltype="cf_sql_integer" value="#Session.Ecodigo#">
+			</cfquery>
+			<!---- Si existe el Ecodigo en minisif ----->
+			<cfif rsEcodigo.recordcount NEQ 0 and rsEcodigo.Ereferencia NEQ ''>
+				<cfset Arguments.Ecodigo = rsEcodigo.Ereferencia>
+			<cfelse>
+				<cfthrow message="CM_InterfazDocumentos: El valor del par&aacute;metro EcodigoSDC es incorrecto o no corresponde con el Código de Empresa de la Sesion. Proceso Cancelado!">
+			</cfif>
+		</cfif>
+
+		<cfif not isdefined("Request.CP_InterfazPagos.Initialized")>
+			<cfset Request.CP_InterfazPagos.Initialized  = true>
+			<cfset Request.CP_InterfazPagos.GvarConexion  = Arguments.Conexion>
+			<cfset Request.CP_InterfazPagos.GvarEcodigo   = Arguments.Ecodigo>	
+			<cfset Request.CP_InterfazPagos.GvarUsuario   = Arguments.Usuario>
+			<cfset Request.CP_InterfazPagos.GvarUsucodigo = Arguments.Usucodigo>
+		</cfif>
+		<cfreturn true>
+	</cffunction>
+	
+	<cffunction name="Alta_Pagos" access="public" returntype="query">
+		<cfargument name="EcodigoSDC" type="string" required="true">
+		<cfargument name="TipoCobroPago" type="string" required="true">
+		<cfargument name="CodigoBanco" type="string" required="true">
+		<cfargument name="CuentaBancaria" type="string" required="true">
+		<cfargument name="FechaTransaccion" type="date" required="true">
+		<cfargument name="TipoPago" type="string" required="true">
+		<cfargument name="NumeroDocumento" type="string" required="true">
+		<cfargument name="NumeroSocio" type="string" required="false">
+		<cfargument name="NumeroSocioDocumento" type="string" required="false">
+		<cfargument name="CodigoTransaccion" type="string" required="false">
+		<cfargument name="Documento" type="string" required="false">
+		<cfargument name="MontoPago" type="string" required="false">
+		<cfargument name="MontoPagoDocumento" type="string" default="~" required="false">
+		<cfargument name="TipoCambio" type="string" default="~" required="false">		
+		<cfargument name="CodigoMonedaPago" type="string" default="~" required="false">		
+		<cfargument name="CodigoMonedaDoc" type="string" default="~" required="false">
+		<cfargument name="TransaccionOrigen" type="string" default="~" required="false">	
+		<cfargument name="BMUsucodigo" type="string" default="~" required="false">	
+
+		<!--- Obtiene Ids --->
+		<cfset var LTipoCP = getTipoCP(Arguments.TipoCobroPago,'getTipoCP')>
+		<cfset var LBid = getBid(Arguments.CodigoBanco,'getBid')>
+		<!--- Valida Campos --->
+		<cfset var LcuentaFinan = getCBcc_vIntegridad(Arguments.CuentaBancaria,LBid,'getCBcc_vIntegridad')>
+		<cfset var LFecha = getFecha_vIntegridad(Arguments.FechaTransaccion,'getFecha_vIntegridad')>
+		<cfset var LTipoPago = getTipPago_vIntegridad(Arguments.TipoPago,'getTipPago_vIntegridad')>
+		<cfset var LMcodigo = getMcodigobyMiso(Arguments.CodigoMonedaPago,'getMcodigobyMiso')>
+		<cfset var LSNcodigo = getSNcodigo(Arguments.NumeroSocio,'getSNcodigo')>
+		<cfset var LSNcodigoDoc = getSNcodigo(Arguments.NumeroSocioDocumento,'getSNcodigo')>
+		<cfset var LTran = getCodTran(Arguments.CodigoTransaccion, LTipoCP, 'getCodTran')>
+		
+		<cfset var LDocumento = getDoc(Arguments.Documento, Arguments.TipoCobroPago,LTran.Cod,'getDoc')>
+		<cfset var LMontoPago = getMontoDoc(Arguments.MontoPago, LDocumento.Doc, Arguments.TipoCobroPago, LTran.Cod,'getMontoDoc')>
+		<cfset var LExisteDoc = getExisteDoc(Arguments.Documento,Arguments.TipoCobroPago, LTran.Cod,'getExisteDoc')>
+		
+		<cfif isdefined("LExisteDoc") and LExisteDoc EQ 1>
+			<cfset existPago = true>
+		<cfelse>
+			<cfset existPago = false>
+		</cfif>
+
+		<cfif existPago >		
+			<cfif isdefined("LTipoCP") and LTipoCP EQ 'C'>
+				
+				<cfquery name="insertE" datasource="#Request.CP_InterfazPagos.GvarConexion#">
+					insert into Pagos 
+					(Ecodigo
+					, CCTcodigo
+					, Pcodigo
+					, Mcodigo
+					, Ptipocambio
+					, Seleccionado
+					, Ccuenta
+					, Ptotal
+					, Pfecha
+					, Preferencia
+					, Pobservaciones
+					, Ocodigo
+					, SNcodigo
+					, Pusuario)
+               		values (
+					<cfqueryparam cfsqltype="cf_sql_integer" value="#Request.CP_InterfazPagos.GvarEcodigo#">
+					, <cfqueryparam cfsqltype="cf_sql_char"    value="RE"> 
+					, <cfqueryparam cfsqltype="cf_sql_char"    value="#trim(Arguments.NumeroDocumento)#">  
+					, <cfqueryparam cfsqltype="cf_sql_numeric" value="#LMcodigo#">
+					, 1
+					, 0
+					, <cfqueryparam cfsqltype="cf_sql_numeric" value="#LcuentaFinan.Ccuenta#">
+					, 0
+					, <cfqueryparam cfsqltype="cf_sql_date"    value="#LFecha#"> 
+					, <cfqueryparam cfsqltype="cf_sql_varchar"    value="#trim(Arguments.TransaccionOrigen)#"> 
+					, 'Documento Generado por la Interfaz de Pago de SOIN, Doc. Num: ' || <cfqueryparam cfsqltype="cf_sql_char"    value="#trim(Arguments.NumeroDocumento)#">  
+					,  <cfqueryparam cfsqltype="cf_sql_integer" value="#LcuentaFinan.Ocodigo#">
+					, <cfqueryparam cfsqltype="cf_sql_numeric" value="#LSNcodigo#">
+					, <cfqueryparam cfsqltype="cf_sql_varchar" value="#Session.Usuario#">
+					)
+					
+				</cfquery>
+							
+				<!--- Insertar detalle---> 
+				<cfquery name="insertD"  datasource="#Request.CP_InterfazPagos.GvarConexion#">
+						insert into DPagos
+							(Ecodigo
+							, Pcodigo
+							, CCTcodigo
+							, Doc_CCTcodigo
+							, Ddocumento
+							, Mcodigo
+							, Ccuenta
+							, DPmonto
+							, DPmontodoc
+							, DPtipocambio
+							, DPtotal
+							, DPmontoretdoc
+							, PPnumero
+							, BMUsucodigo)
+						values (
+						  <cfqueryparam cfsqltype="cf_sql_integer" value="#Request.CP_InterfazPagos.GvarEcodigo#">
+						, <cfqueryparam cfsqltype="cf_sql_char"    value="#trim(Arguments.NumeroDocumento)#"> 
+						, <cfqueryparam cfsqltype="cf_sql_char"    value="RE"> 
+						, <cfqueryparam cfsqltype="cf_sql_char"    value="#LTran.Cod#"> 
+						, <cfqueryparam cfsqltype="cf_sql_char"    value="#LDocumento.Doc#">  
+						
+						, <cfqueryparam cfsqltype="cf_sql_numeric" value="#LMcodigo#">
+						, <cfqueryparam cfsqltype="cf_sql_numeric" value="#LDocumento.Cuenta#"> 
+						, <cfqueryparam cfsqltype="cf_sql_money" value="#Arguments.MontoPago#">  
+						, <cfqueryparam cfsqltype="cf_sql_money" value="#Arguments.MontoPago#">  
+						, 1
+						, <cfqueryparam cfsqltype="cf_sql_money" value="#Arguments.MontoPagoDocumento#">  
+						, 0
+						, 1 				
+						,  <cfqueryparam cfsqltype="cf_sql_numeric" value="#Session.Usucodigo#">
+						)
+				</cfquery>
+				<!--- Actualizar Ptotal--->
+				<cfquery  name="Pagos" datasource="#Request.CP_InterfazPagos.GvarConexion#">
+						update Pagos
+						set Ptotal = <cfqueryparam value="#getMontoTotal(0,LTran.Cod,trim(Arguments.NumeroDocumento),Arguments.TipoCobroPago)#" cfsqltype="cf_sql_money">
+						where Ecodigo = <cfqueryparam value="#Request.CP_InterfazPagos.GvarEcodigo#" cfsqltype="cf_sql_integer">
+						  and CCTcodigo = <cfqueryparam cfsqltype="cf_sql_char" value="#LTran.Cod#"> 
+						  and Pcodigo =  <cfqueryparam cfsqltype="cf_sql_char"    value="#trim(Arguments.NumeroDocumento)#">  
+				</cfquery>
+				
+				<cfquery  name="rsPagos" datasource="#Request.CP_InterfazPagos.GvarConexion#">
+					select 0 as IDpago,Ecodigo, CCTcodigo, Pcodigo, '#LTipoCP#' as TipoCP
+					from Pagos
+					where Ecodigo = <cfqueryparam value="#Request.CP_InterfazPagos.GvarEcodigo#" cfsqltype="cf_sql_integer">
+					  and CCTcodigo = <cfqueryparam cfsqltype="cf_sql_char" value="#LTran.Cod#"> 
+					  and Pcodigo =  <cfqueryparam cfsqltype="cf_sql_char"    value="#trim(Arguments.NumeroDocumento)#">  
+				</cfquery>	
+			
+			<cfelseif isdefined("LTipoCP") and LTipoCP EQ 'P'>
+				<cfthrow message="
+						Ecodigo=#Request.CP_InterfazPagos.GvarEcodigo#, 
+						Ocodigo=#LcuentaFinan.Ocodigo#, 
+						Mcodigo=#LMcodigo#, 
+						SNcodigo=#LSNcodigo#, 
+						Ccuenta=#LcuentaFinan.Ccuenta#, 
+						CBid=#LcuentaFinan.CBid#, 
+						BTid=#LTran.BTid#">
+				<cfquery name="insertE" datasource="#Request.CP_InterfazPagos.GvarConexion#">
+					insert into EPagosCxP 
+						(Ecodigo
+					, Ocodigo
+					, Mcodigo
+					, SNcodigo
+					, Ccuenta
+					, CPTcodigo
+					, CBid
+					, BTid
+					, EPbeneficiario
+					, EPdocumento
+					, EPtipocambio
+					, EPtotal
+					, EPtipopago
+					, EPfecha
+					, EPusuario
+					, EPselect)
+					values (
+					  <cfqueryparam cfsqltype="cf_sql_integer" value="#Request.CP_InterfazPagos.GvarEcodigo#">
+					, <cfqueryparam cfsqltype="cf_sql_integer" value="#LcuentaFinan.Ocodigo#">
+					, <cfqueryparam cfsqltype="cf_sql_numeric" value="#LMcodigo#">
+					, <cfqueryparam cfsqltype="cf_sql_numeric" value="#LSNcodigo#">
+					, <cfqueryparam cfsqltype="cf_sql_numeric" value="#LcuentaFinan.Ccuenta#">
+					, <cfqueryparam cfsqltype="cf_sql_char"    value="RE"> 
+					, <cfqueryparam cfsqltype="cf_sql_numeric" value="#LcuentaFinan.CBid#"> 
+					, <cfqueryparam cfsqltype="cf_sql_numeric" value="#LTran.BTid#">
+					, 'Documento Generado por la Interfaz de Pago de SOIN, Doc. Num: ' || <cfqueryparam cfsqltype="cf_sql_char"    value="#trim(Arguments.NumeroDocumento)#">  
+					, <cfqueryparam cfsqltype="cf_sql_varchar" value="#Arguments.NumeroDocumento#">
+					, 1
+					, <cfqueryparam cfsqltype="cf_sql_money"   value="#Arguments.MontoPago#">  
+					, <cfqueryparam cfsqltype="cf_sql_char"    value="#LTipoPago#"> 
+					, <cfqueryparam cfsqltype="cf_sql_date"    value="#LFecha#"> 
+					, <cfqueryparam cfsqltype="cf_sql_varchar" value="#Session.Usuario#">
+					, 0)
+					<cf_dbidentity1 datasource="#Request.CP_InterfazPagos.GvarConexion#" verificar_transaccion="false">
+				</cfquery>
+				
+				<cf_dbidentity2 name="insertE" datasource="#Request.CP_InterfazPagos.GvarConexion#" verificar_transaccion="false">
+			
+				<!--- Insertar detalle---> 
+				<cfquery name="insertD"  datasource="#Request.CP_InterfazPagos.GvarConexion#">
+						insert into DPagosCxP
+							(IDpago
+							, IDdocumento
+							, Ccuenta
+							, Ecodigo
+							, Dcodigo
+							, DPmonto
+							, DPtotal
+							, DPmontodoc
+							, DPtipocambio
+							, DPmontoretdoc
+							, BMUsucodigo
+							)
+						values (<cfqueryparam cfsqltype="cf_sql_numeric" value="#insertE.identity#">
+						, <cfqueryparam cfsqltype="cf_sql_varchar" value="#LDocumento.doc#"> 
+						, <cfqueryparam cfsqltype="cf_sql_numeric" value="#LDocumento.Cuenta#"> 
+						, <cfqueryparam cfsqltype="cf_sql_integer" value="#Request.CP_InterfazPagos.GvarEcodigo#">
+						, null
+						, <cfqueryparam cfsqltype="cf_sql_money" value="#Arguments.MontoPago#">  
+						, <cfqueryparam cfsqltype="cf_sql_money" value="#Arguments.MontoPago#">  
+						, <cfqueryparam cfsqltype="cf_sql_money" value="#Arguments.MontoPagoDocumento#">  
+						, 1
+						, 0
+						,  <cfqueryparam cfsqltype="cf_sql_numeric" value="#Request.CP_InterfazPagos.GvarUsucodigo#">
+						)
+				</cfquery>	
+				
+				<!--- Actualizar EPtotal--->
+				<cfquery  name="Pagos" datasource="#Request.CP_InterfazPagos.GvarConexion#">
+						update EPagosCxP
+						set EPtotal = <cfqueryparam value="#getMontoTotal(insertE.identity,LTran.Cod,trim(Arguments.NumeroDocumento),Arguments.TipoCobroPago)#" cfsqltype="cf_sql_money">
+						where IDpago = <cfqueryparam cfsqltype="cf_sql_numeric" value="#insertE.identity#">
+						  and Ecodigo = <cfqueryparam value="#Request.CP_InterfazPagos.GvarEcodigo#" cfsqltype="cf_sql_integer">
+				</cfquery>
+				<cfquery  name="rsPagos" datasource="#Request.CP_InterfazPagos.GvarConexion#">
+					select IDpago, Ecodigo, CPTcodigo as CCTcodigo, '' as Pcodigo, '#LTipoCP#' as TipoCP
+					from EPagosCxP
+					where IDpago = <cfqueryparam cfsqltype="cf_sql_numeric" value="#insertE.identity#">
+						  and Ecodigo = <cfqueryparam value="#Request.CP_InterfazPagos.GvarEcodigo#" cfsqltype="cf_sql_integer">
+				</cfquery>
+			</cfif>
+			<cfreturn rsPagos>
+		<cfelse>
+			<cfthrow message="El documento de #Arguments.InvokerName# no fue insertado. Proceso Cancelado!">
+		</cfif>
+		
+	</cffunction>
+
+	<!--- 6 Validaciones de integridad de las tablas referenciadas por el pago. --->
+	<cffunction access="private" name="getFecha_vIntegridad" output="false" returntype="date">
+		<cfargument name="fecha" required="yes" type="string">
+		<cfargument name="InvokerName" required="no" type="string" default=""><!--- Nombre del método que lo invoca --->
+	
+		<cfif isdefined("Arguments.fecha") and not isdate(Arguments.fecha)>
+			<cfthrow message="La fecha de la función #Arguments.InvokerName# no es del formato correcto. Proceso Cancelado!">
+		<cfelseif  isdefined("Arguments.fecha")>
+			<cfreturn Arguments.fecha>
+		</cfif>	
+	</cffunction>	
+	<cffunction access="private" name="getTipoCP" output="false" returntype="string">
+		<cfargument name="TipoCobroPago" required="yes" type="string">
+		<cfargument name="InvokerName" required="no" type="string" default=""><!--- Nombre del método que lo invoca --->
+	
+		<cfif isdefined("Arguments.TipoCobroPago") and Arguments.TipoCobroPago EQ 'C'>
+			<cfreturn Arguments.TipoCobroPago>
+		<cfelseif isdefined("Arguments.TipoCobroPago") and Arguments.TipoCobroPago EQ 'P'>	
+			<cfreturn Arguments.TipoCobroPago>
+		<cfelseif  isdefined("Arguments.TipoCobroPago")>
+			<cfthrow message="El tipo de pago: #Arguments.TipoCobroPago# de la función #Arguments.InvokerName# no es el correcto. Proceso Cancelado!">
+		<cfelse>
+				<cfthrow message="El tipo de pago: #Arguments.TipoCobroPago# de la función #Arguments.InvokerName# no es el correcto. Proceso Cancelado!">		
+		</cfif>	
+	</cffunction>	
+	
+	<cffunction access="private" name="getBid" output="false" returntype="numeric">
+		<cfargument name="CodigoBanco" required="yes" type="string">
+		<cfargument name="InvokerName" required="no" type="string" default=""><!--- Nombre del método que lo invoca --->
+		<cfquery name="rsBancos" datasource="#Request.CP_InterfazPagos.GvarConexion#">
+			select Bid
+			from Bancos
+			where Iaba = <cfqueryparam cfsqltype="cf_sql_char" value="#trim(Arguments.CodigoBanco)#">
+			  and Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#Request.CP_InterfazPagos.GvarEcodigo#">
+		</cfquery>
+		<cfif rsBancos.RECORDCOUNT EQ 0>
+			<cfthrow message="#Arguments.InvokerName#: El valor del Banco no existe en la Base de Datos. Proceso Cancelado!">
+		</cfif>
+		<cfreturn rsBancos.Bid>		
+	</cffunction>
+	
+	<cffunction access="private" name="getCBcc_vIntegridad" output="false" returntype="query">
+		<cfargument name="Cuenta" required="no" type="string">
+		<cfargument name="Banco" required="yes" type="numeric">		
+		<cfargument name="InvokerName" required="no" type="string" default=""><!--- Nombre del método que lo invoca --->
+	
+		<cfif isdefined('Arguments.Cuenta') and Arguments.Cuenta NEQ ''>				
+			<cfquery name="rsCuentasBancos" datasource="#Request.CP_InterfazPagos.GvarConexion#">
+				Select CBcc, Ocodigo, Ccuenta, CBid
+				from CuentasBancos
+				where Ecodigo    = <cfqueryparam cfsqltype="cf_sql_integer" value="#Request.CP_InterfazPagos.GvarEcodigo#">
+					and Bid      = <cfqueryparam cfsqltype="cf_sql_numeric" value="#Arguments.Banco#">	
+					and rtrim(CBcodigo) = <cfqueryparam cfsqltype="cf_sql_varchar" value="#Arguments.Cuenta#">	
+			</cfquery>
+		</cfif>
+		<cfif isdefined("rsCuentasBancos") and rsCuentasBancos.recordCount EQ 0>
+				<cfthrow message="El valor de la cuenta #Cuenta#  pasado a la función #Arguments.InvokerName# no existe para el Banco #Banco#. Proceso Cancelado!">
+		</cfif>			
+		<cfreturn rsCuentasBancos>
+	</cffunction>	
+
+	
+	<cffunction access="private" name="getTipPago_vIntegridad" output="false" returntype="string">
+		<cfargument name="TipPago" required="yes" type="string">
+		<cfargument name="InvokerName" required="no" type="string" default=""><!--- Nombre del método que lo invoca --->
+	
+		
+		<cfif isdefined("Arguments.TipPago") and Arguments.TipPago EQ 'C'>
+			<cfreturn Arguments.TipPago>
+		<cfelseif isdefined("Arguments.TipPago") and Arguments.TipPago EQ 'T'>	
+			<cfreturn Arguments.TipPago>
+		<cfelseif  isdefined("Arguments.TipPago")>
+			<cfthrow message="El tipo de pago: #Arguments.TipPago# de la función #Arguments.InvokerName# no es el correcto. Proceso Cancelado!">
+		</cfif>	
+		
+	</cffunction>	
+	
+	<cffunction access="private" name="getSNcodigo" output="false" returntype="numeric">
+		<cfargument name="SNnumero" required="yes" type="string">
+		<cfargument name="InvokerName" required="no" type="string" default=""><!--- Nombre del método que lo invoca --->
+		<cfquery name="rs" datasource="#Request.CP_InterfazPagos.GvarConexion#">
+			select SNcodigo
+			from SNegocios a
+			where SNcodigoext = <cfqueryparam cfsqltype="cf_sql_char" value="#Arguments.SNnumero#">
+			  and Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#Request.CP_InterfazPagos.GvarEcodigo#">
+		</cfquery>
+		<cfif rs.RECORDCOUNT EQ 0>
+			<cfthrow message="#Arguments.InvokerName#: El valor del parámetro CodigoProveedor no existe en la Base de Datos. Proceso Cancelado!">
+		</cfif>
+		<cfreturn rs.SNcodigo>
+	</cffunction>
+	
+	<cffunction access="private" name="getMcodigobyMiso" output="false" returntype="string">
+		<cfargument name="Miso" required="yes" type="string">
+		<cfargument name="InvokerName" required="no" type="string" default=""><!--- Nombre del método que lo invoca --->
+		<cfquery name="rs" datasource="#Request.CP_InterfazPagos.GvarConexion#">
+			select Mcodigo
+			from Monedas
+			where Miso4217 = <cfqueryparam cfsqltype="cf_sql_char" value="#trim(Arguments.Miso)#">
+			  and Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#Request.CP_InterfazPagos.GvarEcodigo#">
+		</cfquery>
+		<cfif rs.RECORDCOUNT EQ 0>
+			<cfthrow message="#Arguments.InvokerName#: El valor del parámetro CodigoMoneda no existe en la Base de Datos. Proceso Cancelado!">
+		</cfif>
+		<cfreturn rs.Mcodigo>
+	</cffunction>
+	
+	<cffunction access="private" name="getCodTran" output="false" returntype="query">
+		<cfargument name="CodigoTran" required="yes" type="string">
+		<cfargument name="TipoMovCP" required="yes" type="string">
+		<cfargument name="InvokerName" required="no" type="string" default=""><!--- Nombre del método que lo invoca --->
+		
+		<cfif isdefined("Arguments.TipoMovCP") and Arguments.TipoMovCP EQ 'C'>
+			<cfquery name="rs" datasource="#Request.CP_InterfazPagos.GvarConexion#">
+				select CCTcodigo as Cod, BTid
+				from CCTransacciones
+				where CCTcodigoext = <cfqueryparam cfsqltype="cf_sql_char" value="#trim(Arguments.CodigoTran)#">
+				  and Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#Request.CP_InterfazPagos.GvarEcodigo#">
+			</cfquery>
+		<cfelseif isdefined("Arguments.TipoMovCP") and Arguments.TipoMovCP EQ 'P'>
+			<cfquery name="rs" datasource="#Request.CP_InterfazPagos.GvarConexion#">
+				select CPTcodigo as Cod, BTid
+				from CPTransacciones
+				where CPTcodigoext = <cfqueryparam cfsqltype="cf_sql_char" value="#trim(Arguments.CodigoTran)#">
+				  and Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#Request.CP_InterfazPagos.GvarEcodigo#">
+			</cfquery>
+		</cfif>			
+		
+		<cfif rs.RECORDCOUNT EQ 0>
+			<cfthrow message="#Arguments.InvokerName#: El valor de la transacción #Arguments.CodigoTran# no existe en la Base de Datos. Proceso Cancelado!">
+		</cfif>
+		<cfif len(trim(rs.BTid)) eq 0>
+			<cfthrow message="#Arguments.InvokerName#: El BTid de la Transacción  #Arguments.CodigoTran# no está definido. Proceso Cancelado!">
+		</cfif>
+		<cfreturn rs>		
+	</cffunction>
+	
+	<cffunction access="private" name="getDoc" output="false" returntype="query">
+		<cfargument name="NumDoc" required="yes" type="string">
+		<cfargument name="TipoMovCP" required="yes" type="string">
+		<cfargument name="CodTran" required="yes" type="string">
+		<cfargument name="InvokerName" required="no" type="string" default=""><!--- Nombre del método que lo invoca --->
+			<cfif isdefined("Arguments.TipoMovCP") and Arguments.TipoMovCP EQ 'C'>
+				<cfquery name="rsDocumentos" datasource="#Request.CP_InterfazPagos.GvarConexion#">
+					select Ddocumento as Doc, Ccuenta as Cuenta
+					from Documentos
+					where Ddocumento = <cfqueryparam cfsqltype="cf_sql_char" value="#trim(Arguments.NumDoc)#">
+					  and Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#Request.CP_InterfazPagos.GvarEcodigo#">
+					  and CCTcodigo = <cfqueryparam cfsqltype="cf_sql_char" value="#Arguments.CodTran#"> 
+				</cfquery>
+			<cfelseif isdefined("Arguments.TipoMovCP") and Arguments.TipoMovCP EQ 'P'>			
+				<cfquery name="rsDocumentos" datasource="#Request.CP_InterfazPagos.GvarConexion#">
+					select IDdocumento as Doc, Ccuenta as Cuenta
+					from EDocumentosCP
+					where Ddocumento = <cfqueryparam cfsqltype="cf_sql_char" value="#trim(Arguments.NumDoc)#">
+					  and Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#Request.CP_InterfazPagos.GvarEcodigo#">
+					  and CPTcodigo = <cfqueryparam cfsqltype="cf_sql_char" value="#Arguments.CodTran#"> 
+				</cfquery>
+			<cfelse>
+				<cfthrow message="#Arguments.InvokerName#:  Proceso Cancelado!">
+			</cfif>
+		<cfif rsDocumentos.RECORDCOUNT EQ 0>
+			<cfthrow message="#Arguments.InvokerName#: El Documento #trim(Arguments.NumDoc)# #Arguments.CodTran# no existe en la Base de Datos. Proceso Cancelado!">
+		</cfif>
+		<cfreturn rsDocumentos>		
+	</cffunction>
+	
+	<cffunction access="private" name="getExisteDoc" output="false" returntype="numeric">
+		<cfargument name="NumDoc" required="yes" type="string">
+		<cfargument name="TipoMovCP" required="yes" type="string">
+		<cfargument name="CodTran" required="yes" type="string">
+		<cfargument name="InvokerName" required="no" type="string" default=""><!--- Nombre del método que lo invoca --->
+			<cfif isdefined("Arguments.TipoMovCP") and Arguments.TipoMovCP EQ 'C'>
+				<cfquery name="rsBMovimientos" datasource="#Request.CP_InterfazPagos.GvarConexion#">
+					select 1 as doc 
+					from BMovimientos 
+					   where Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#Request.CP_InterfazPagos.GvarEcodigo#">
+					   and CCTcodigo = <cfqueryparam cfsqltype="cf_sql_char" value="#Arguments.CodTran#"> 
+					   and Ddocumento =  <cfqueryparam cfsqltype="cf_sql_char" value="#trim(Arguments.NumDoc)#">
+				</cfquery>
+			<cfelseif isdefined("Arguments.TipoMovCP") and Arguments.TipoMovCP EQ 'P'>
+				<cfquery name="rsBMovimientos" datasource="#Request.CP_InterfazPagos.GvarConexion#">
+					select 1 as doc 
+					from BMovimientosCxP 
+					   where Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#Request.CP_InterfazPagos.GvarEcodigo#">
+					   and CPTcodigo = <cfqueryparam cfsqltype="cf_sql_char" value="#Arguments.CodTran#"> 
+					   and Ddocumento = <cfqueryparam cfsqltype="cf_sql_char" value="#trim(Arguments.NumDoc)#">
+				</cfquery>
+			</cfif>
+		<cfif rsBMovimientos.RECORDCOUNT EQ 0>
+			<cfthrow message="#Arguments.InvokerName#: #LTran.Cod# #trim(Arguments.NumDoc)# El Documento no existe en la Base de Datos. Proceso Cancelado!">
+		</cfif>
+		<cfreturn rsBMovimientos.doc>		
+	</cffunction>
+	
+	<!--- Comprueba que el monto no del doc no sea mayor que el saldo --->
+	<cffunction access="private" name="getMontoDoc" output="false" returntype="numeric">
+		<cfargument name="montoDoc" required="yes" type="numeric">
+		<cfargument name="NumDoc" required="yes" type="string">
+		<cfargument name="TipoMovCP" required="yes" type="string">
+		<cfargument name="CodTran" required="yes" type="string">
+		
+		<cfargument name="InvokerName" required="no" type="string" default=""><!--- Nombre del método que lo invoca --->
+			<cfif isdefined("Arguments.TipoMovCP") and Arguments.TipoMovCP EQ 'C'>
+				<cfquery name="rsEdocumentos" datasource="#Request.CP_InterfazPagos.GvarConexion#">
+					select  coalesce(Dsaldo,0) as saldo
+					from Documentos
+					where Ddocumento = <cfqueryparam cfsqltype="cf_sql_varchar" value="#Arguments.NumDoc#">
+					  and Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#Request.CP_InterfazPagos.GvarEcodigo#">
+					  and CCTcodigo =  <cfqueryparam cfsqltype="cf_sql_char" value="#Arguments.CodTran#"> 
+				</cfquery>
+			<cfelseif isdefined("Arguments.TipoMovCP") and Arguments.TipoMovCP EQ 'P'>			
+				<cfquery name="rsEdocumentos" datasource="#Request.CP_InterfazPagos.GvarConexion#">
+					select coalesce(EDsaldo,0) as saldo
+					from EDocumentosCP
+					where IDdocumento = <cfqueryparam cfsqltype="cf_sql_numeric" value="#Arguments.NumDoc#">
+					  and Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#Request.CP_InterfazPagos.GvarEcodigo#">
+					  and CPTcodigo =  <cfqueryparam cfsqltype="cf_sql_char" value="#Arguments.CodTran#"> 
+				</cfquery>
+			<cfelse>
+				<cfthrow message="#Arguments.InvokerName#: #Arguments.CodTran# #Arguments.NumDoc#. Proceso Cancelado!">	
+			</cfif>
+			<cfif rsEdocumentos.RECORDCOUNT EQ 0>
+				<cfthrow message="#Arguments.InvokerName#: El Documento no existe en la Base de Datos. Proceso Cancelado!">
+			<cfelseif isdefined("rsEdocumentos") and rsEdocumentos.saldo LT Arguments.montoDoc>
+				<cfthrow message="#Arguments.InvokerName#: El Documento #Arguments.CodTran# #trim(Arguments.NumDoc)# no tiene saldo disponible. Proceso Cancelado!">
+			</cfif>
+	
+		<cfreturn rsEdocumentos.saldo>		
+	</cffunction>
+	
+	<!--- 5.2 Obtiene el monto total del pago  --->
+	<cffunction access="private" name="getMontoTotal" output="false" returntype="numeric">
+		<cfargument name="IDpago" type="numeric" required="yes">
+		<cfargument name="CodTran" type="string" required="yes">
+		<cfargument name="NumDoc" type="string" required="yes">
+		<cfargument name="TipoMovCP" required="yes" type="string">
+		<cfset var result = 0.00>
+		<cfif isdefined("Arguments.TipoMovCP") and Arguments.TipoMovCP EQ 'C'>
+			<cfquery name="rs" datasource="#Request.CP_InterfazPagos.GvarConexion#">
+				select coalesce(sum(DPtotal),0) as total  
+				from DPagos 
+			 	where Ecodigo = <cfqueryparam value="#Request.CP_InterfazPagos.GvarEcodigo#" cfsqltype="cf_sql_integer">
+				  and CCTcodigo = <cfqueryparam cfsqltype="cf_sql_char" value="#Arguments.CodTran#"> 
+				  and Pcodigo =  <cfqueryparam cfsqltype="cf_sql_char"    value="#trim(Arguments.NumDoc)#"> 
+			</cfquery>	
+		<cfelseif isdefined("Arguments.TipoMovCP") and Arguments.TipoMovCP EQ 'P'>			
+			<cfquery name="rs" datasource="#Request.CP_InterfazPagos.GvarConexion#">
+					select coalesce(sum(DPmonto),0) as total
+					from EPagosCxP a
+					
+					inner join DPagosCxP b
+					on a.Ecodigo=b.Ecodigo
+					   and a.IDpago=b.IDpago
+					where a.IDpago= <cfqueryparam cfsqltype="cf_sql_numeric" value="#Arguments.IDpago#" >
+					  and a.Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#Request.CP_InterfazPagos.GvarEcodigo#">
+			</cfquery>
+		</cfif>
+	
+		<cfif rs.recordcount GT 0 and rs.total GT 0.00>
+			<cfset result = rs.total>
+			<cfreturn result>
+		<cfelse>
+			<cfthrow message="El documento genero los siguientes errores CodTran: #Arguments.CodTran# NumDoc:#trim(Arguments.NumDoc)#, IDpago : #Arguments.IDpago# . Proceso Cancelado!">	
+		</cfif>
+		
+	</cffunction>
+	
+	<cffunction name="Aplica_Mov" access="public" returntype="any">
+			<cfargument name="IDpago" type="numeric" required="true">
+			<cfargument name="Ecodigo" type="string" required="true">
+			<cfargument name="TipoCP" type="string" required="true">
+			<cfargument name="CCTcodigo" type="string" required="true">
+			<cfargument name="Pcodigo" type="string" required="true">
+	
+			<cfif isdefined("Arguments.TipoCP") and Arguments.TipoCP EQ 'C'>
+				<cfquery name="PosteoPagosCxC" datasource="#Session.DSN#">
+					set nocount on
+					
+					create table ##INTARC (
+						INTLIN  numeric identity not null,
+						INTORI  char(4) not null,
+						INTREL  int not null,
+						INTDOC  char(20) not null,
+						INTREF  varchar(25) not null,
+						INTMON  money not null,
+						INTTIP  char(1) not null,
+						INTDES  varchar(80) not null,
+						INTFEC  varchar(8) not null,
+						INTCAM  float not null,
+						Periodo int not null,
+						Mes     int not null,
+						Ccuenta numeric not null,
+						Mcodigo numeric not null,
+						Ocodigo int not null,
+						INTMOE  money not null
+					)
+					
+					create table ##asiento (
+						IDcontable numeric,
+						Cconcepto int,
+						Edocumento int,
+						Eperiodo int,
+						Emes int
+					)
+					exec CC_PosteoPagosCxC	@Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#Request.CP_InterfazPagos.GvarEcodigo#">,
+											@CCTcodigo = <cfqueryparam cfsqltype="cf_sql_char"  value="#Arguments.CCTcodigo#" >,
+											@Pcodigo = <cfqueryparam cfsqltype="cf_sql_char" value="#Arguments.Pcodigo#"> ,
+											@usuario = <cfqueryparam cfsqltype="cf_sql_varchar"  value="#Session.Usuario#" >,
+											@debug = <cfqueryparam cfsqltype="cf_sql_char"  value="N" >
+					drop table ##INTARC, ##asiento
+					set nocount off
+				</cfquery>
+			<cfelseif isdefined("Arguments.TipoCP") and Arguments.TipoCP EQ 'P'>
+				<cfif Arguments.IDpago EQ 0>
+						<cfthrow message="El Id del Documento es cero. Proceso Cancelado!">
+				</cfif>
+				<!--- <cfthrow message="Estos son los valores: Ecodigo #Request.CP_InterfazPagos.GvarEcodigo#, IDpago: #Arguments.IDpago#
+				Usuario = #Session.Usuario#. Proceso Cancelado!"> --->
+				<cfquery name="PosteoPagosCxP" datasource="#Session.DSN#">
+					set nocount on
+						create table ##INTARC (
+						INTLIN  numeric identity not null,
+						INTORI  char(4) not null,
+						INTREL  int not null,
+						INTDOC  char(20) not null,
+						INTREF  varchar(25) not null,
+						INTMON  money not null,
+						INTTIP  char(1) not null,
+						INTDES  varchar(80) not null,
+						INTFEC  varchar(8) not null,
+						INTCAM  float not null,
+						Periodo int not null,
+						Mes     int not null,
+						Ccuenta numeric not null,
+						Mcodigo numeric not null,
+						Ocodigo int not null,
+						INTMOE  money not null
+					)
+					
+					create table ##asiento (
+						IDcontable numeric,
+						Cconcepto int,
+						Edocumento int,
+						Eperiodo int,
+						Emes int
+					)
+					
+					exec CP_PosteoPagosCxP	@Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#Request.CP_InterfazPagos.GvarEcodigo#">,
+											@IDpago = <cfqueryparam cfsqltype="cf_sql_numeric" value="#Arguments.IDpago#"> ,
+											@usuario = <cfqueryparam cfsqltype="cf_sql_varchar"  value="#Session.Usuario#" >,
+											@debug = <cfqueryparam cfsqltype="cf_sql_char"  value="N" >
+					
+					drop table ##INTARC, ##asiento
+					set nocount off
+				</cfquery>
+			
+			</cfif>
+		<cfreturn true>
+	</cffunction>
+</cfcomponent>

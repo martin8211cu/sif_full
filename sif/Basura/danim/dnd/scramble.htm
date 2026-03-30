@@ -1,0 +1,327 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Untitled Document</title>
+<style type="text/css">
+<!--
+.style1 {
+	color: #FFFFFF;
+	font-weight: bold;
+}
+-->
+</style>
+</head>
+
+<body>
+<script type="text/javascript" src="wz_dragdrop.js"></script>
+
+     <table width="549" border="0" cellpadding="4" cellspacing="4">
+       <tr>
+         <td width="186" valign="top"><div id="name1" style="position:relative;width:200px">
+	   <table width="200" border="1" cellpadding="4" cellspacing="0" bordercolor="#000000">
+  <tr>
+    <td bgcolor="#0000FF"><span class="style1">Titulo 1 </span></td>
+  </tr>
+  <tr>
+    <td><div id="contents1">Content 1 goes here </div>
+	</td>
+  </tr>
+</table></div>
+
+
+	 <div id="name2" style="position:relative;width:400px">
+	   <table width="400" border="1" cellpadding="4" cellspacing="0" bordercolor="#000000">
+  <tr>
+    <td bgcolor="#0000FF"><span class="style1">Titulo 2</span></td>
+  </tr>
+  <tr>
+    <td><div id="contents2">Content 2 goes here </div>
+	</td>
+  </tr>
+</table></div>
+
+<div id="extra1" style="position:relative;width:100px;border:1px solid orange">
+  <p>xt</p>
+</div>
+</td>
+         <td width="201" valign="top"><div id="name3" style="position:relative;">
+             <table width="200" border="1" cellpadding="4" cellspacing="0" bordercolor="#000000">
+               <tr>
+                 <td bgcolor="#0000FF"><span class="style1">Titulo 3 </span></td>
+               </tr>
+               <tr>
+                 <td><div id="contents3">
+                   <p>Entonces para mejor ir comer salud frijoles chicharrones adi&oacute;s un d&iacute;a como hoy pero que sea m&aacute;s de lo que aquello adolesce para cuentos de una chifrijo mejor me voy a comer tengo hambre ya s&iacute; se&ntilde;orito. oqui doqui </p>
+                   </div></td>
+               </tr>
+             </table>
+           </div>
+             <div id="name4" style="position:relative;">
+               <table width="200" border="1" cellpadding="4" cellspacing="0" bordercolor="#000000">
+                 <tr>
+                   <td bgcolor="#0000FF"><span class="style1">Titulo 4 </span></td>
+                 </tr>
+                 <tr>
+                   <td><div id="contents4">Content 4 goes here for example an indicator or the pending approvals portlet could be here example chicken de pollo </div></td>
+                 </tr>
+               </table>
+           </div>
+		   <div id="extra2" style="position:relative;width:100px;border:1px solid orange">
+		     xt</div></td>
+         <td width="122" valign="top"><div id="name5" style="position:relative;">
+             <table width="200" border="1" cellpadding="4" cellspacing="0" bordercolor="#000000">
+               <tr>
+                 <td bgcolor="#0000FF"><span class="style1">Titulo 5 </span></td>
+               </tr>
+               <tr>
+                 <td><div id="contents5">Content 5 goes here bubaluba not a buba </div></td>
+               </tr>
+             </table>
+           </div>
+             <div id="name6" style="position:relative;width:50px;">
+               <table width="50" border="1" cellpadding="4" cellspacing="0" bordercolor="#000000">
+                 <tr>
+                   <td bgcolor="#0000FF"><span class="style1">Titulo 6 </span></td>
+                 </tr>
+                 <tr>
+                   <td><div id="contents6">Content 6 goes here </div></td>
+                 </tr>
+               </table>
+           </div>
+		   <div id="extra3" style="position:relative;width:100px;border:1px solid orange">
+             xt
+		   </div></td>
+         <td width="122" valign="top"><p><a href="javascript:pm_reposition_portlets()">reposition</a></p>
+		 <div  id="separator" style="position:relative;width:44px;background-color:#999999">
+		 <img src="transparentpixel.gif" width="1" height="1"></div>
+		   
+		   <form name="form1" method="post" action="">
+       <select name="select1" size="10" id="select1">
+       </select>
+     </form></td>
+       </tr>
+     </table>
+     <p>       
+<script type="text/javascript">
+<!--
+SET_DHTML(CURSOR_MOVE,
+	"name1"+TRANSPARENT,"contents1"+NO_DRAG,
+	"name2"+TRANSPARENT,"contents2"+NO_DRAG,
+	"name3"+TRANSPARENT,"contents3"+NO_DRAG,
+	"name4"+TRANSPARENT,"contents4"+NO_DRAG,
+	"name5"+TRANSPARENT,"contents5"+NO_DRAG,
+	"name6"+TRANSPARENT,"contents6"+NO_DRAG,
+	"extra1"+NO_DRAG,
+	"extra2"+NO_DRAG,
+	"extra3"+NO_DRAG,
+	"separator");
+	
+/*
+** Funciones para mover los portlets
+** El prefijo para las funciones y variables globales es pm de "portlet move"
+*/
+window.pm_animationIntervalObject = 0;
+pm_current_target = null;
+pm_portlet_array = new Array(
+	{name:"name1",col:1,row:1,extra:false},{name:"name2",col:1,row:2,extra:false},
+	{name:"name3",col:2,row:1,extra:false},{name:"name4",col:2,row:2,extra:false},
+	{name:"name5",col:3,row:1,extra:false},{name:"name6",col:3,row:2,extra:false},
+	{name:"extra1",col:1,row:3,extra:true},
+	{name:"extra2",col:2,row:3,extra:true},
+	{name:"extra3",col:3,row:3,extra:true} );
+pm_column_array = 0;
+pm_animation_steps = 0;
+
+function pm_trace(s){
+	var newopt = document.createElement("option");
+	newopt.text = s;
+	document.form1.select1.add(newopt, (dd.ie ? 0 : document.firstopt?document.firstopt:null));
+	document.firstopt=newopt;
+}
+
+function pm_reposition_portlets(useAnimation){
+	var margins = 20; // 20 pixeles de margen al acomodar
+	var mincolwidth = 100;
+	var i,j;
+	var rows = 0, cols = 0;
+	for(i=0;i<pm_portlet_array.length;i++){
+		cols=Math.max(pm_portlet_array[i].col , cols);
+		rows=Math.max(pm_portlet_array[i].row , rows);
+	}
+	pm_column_array=new Array(cols+1);
+	for(i=0;i<=cols;i++) pm_column_array[i]={x:0,w:(i?mincolwidth:0)};
+	for(i=0;i<pm_portlet_array.length;i++){
+		var el = dd.elements[pm_portlet_array[i].name];
+		var col = pm_portlet_array[i].col;
+		if (!pm_portlet_array[i].extra) {
+			pm_column_array[col].w=Math.max(pm_column_array[col].w , el.w);
+		} 
+	}
+	for(i=0;i<cols;i++) pm_column_array[i+1].x=pm_column_array[i].x+pm_column_array[i].w + margins;
+	// poner cada uno en su lugar por orden
+	var animcount = 0;
+	if (useAnimation) {
+		for(k=0;k<pm_portlet_array.length;k++){
+			pm_portlet_array[k].animate_portlet = false;
+		}
+	}
+	for(i=0;i<=cols;i++) {
+		var y=margins;		
+		for(j=0;j<=rows;j++) {
+			for(k=0;k<pm_portlet_array.length;k++){
+				var el = dd.elements[pm_portlet_array[k].name];
+				if (pm_portlet_array[k].col == i && pm_portlet_array[k].row == j) {
+					if (useAnimation) {
+						if (el.x != pm_column_array[i].x || el.y != y) {
+							animcount++;
+							pm_portlet_array[k].animate_portlet = true;
+							pm_portlet_array[k].destx = pm_column_array[i].x;
+							pm_portlet_array[k].desty = y;
+							pm_portlet_array[k].el = el;
+						}
+					} else {
+						el.moveTo(pm_column_array[i].x,y);
+					}
+					//el.write(" rc <b>"+el.name+"</b>,row="+j+", col="+i);
+					y+=el.h+margins;
+					break;
+				}
+			}
+		}
+	}
+	if (useAnimation && (animcount > 0)) {
+		pm_trace ( 'start animation' );
+		pm_animation_steps = 5;
+		if (!window.pm_animationIntervalObject)
+			window.pm_animationIntervalObject = window.setInterval('pm_do_animation()', 30);
+	}
+}
+
+function pm_do_animation(){
+	pm_trace ('steps left: ' + pm_animation_steps);
+	if (pm_animation_steps <= 0) { // por si acaso
+		window.clearInterval(window.pm_animationIntervalObject);
+		window.pm_animationIntervalObject = 0;
+		return;
+	}
+	for(k=0;k<pm_portlet_array.length;k++) with (pm_portlet_array[k]) {
+		if (animate_portlet) {
+			var 
+			newx = el.x + (destx - el.x) / pm_animation_steps,
+			newy = el.y + (desty - el.y) / pm_animation_steps;
+			el.moveTo(newx,newy);
+		}
+	}
+	pm_animation_steps--;
+}
+
+function pm_set_target (new_target, portlet_info) {
+	if(new_target != pm_current_target){
+		pm_trace ( '  pm_set_target(' + (new_target?new_target.name:null) + ')');
+		if(pm_current_target)pm_current_target.setBgColor("white");
+		pm_current_target = new_target;
+		if(pm_current_target) {
+			if (!portlet_info.extra) {
+				pm_current_target.setBgColor("gray");
+			}
+			dd.elements.separator.show();
+			dd.elements.separator.moveTo(pm_current_target.x, pm_current_target.y - 15);
+			dd.elements.separator.resizeTo(pm_column_array[portlet_info.col].w, 10);
+			//dd.elements.separator.resizeTo(new_target.w, 10);
+		} else {
+			dd.elements.separator.hide();
+		}
+	}
+}
+
+function pm_select_target(){
+	for (var i=0;i<pm_portlet_array.length;i++) {
+		if (pm_portlet_array[i].name != dd.obj.name) {
+			var el = dd.elements[pm_portlet_array[i].name];
+			var w = el.w;
+			w = Math.max(el.w,pm_column_array[pm_portlet_array[i].col].w);
+			if ((dd.e.x >= el.x) && (dd.e.x <= el.x + w) &&
+				(dd.e.y >= el.y) && (pm_portlet_array[i].extra || dd.e.y <= el.y + el.h)) {
+				pm_set_target( el , pm_portlet_array[i] );
+				return;
+			}
+		}
+	}
+	pm_set_target( null, null );
+}
+
+function pm_move_dropped_portlet(){
+	if (pm_current_target) {
+		var target_row = -1, target_col = -1, target_i = -1;
+		var source_row = -1, source_col = -1, source_i = -1;
+		for (var i=0;i<pm_portlet_array.length;i++) {
+			if (target_i == -1 && pm_portlet_array[i].name == pm_current_target.name) {
+				target_i   = i;
+				target_row = pm_portlet_array[i].row;
+				target_col = pm_portlet_array[i].col;
+				if (source_i != -1) break;
+			} else if (source_i == - 1 && pm_portlet_array[i].name == dd.obj.name) {
+				source_i   = i;
+				source_row = pm_portlet_array[i].row;
+				source_col = pm_portlet_array[i].col;
+				if (target_i != -1) break;
+			}
+		}
+		if (target_i == -1 || source_i == -1) {
+			pm_trace ( 'assertion failed: invalid (target,source)=('+target_i+','+source_i+')' );
+			return;
+		}
+		pm_trace('src rc='+source_row+','+source_col+'; tgt rc='+target_row+','+target_col);
+		for (var i=0;i<pm_portlet_array.length;i++) with (pm_portlet_array[i]){
+			if (i == source_i) {
+				row = target_row - ((target_col == source_col) && (source_row < target_row) ? 1 : 0);
+				col = target_col;
+			} else if (source_col == target_col) {
+				// move in the same column
+				if (col == source_col) {
+					if (source_row < row && row < target_row) {
+						row--;
+					} else if (source_row > row && row >= target_row) {
+						row++;
+					}
+				}
+			} else {
+				// adjust source columns
+				if (col == source_col && row > source_row) {
+					row--;
+				}
+				// adjust target columns
+				if (col == target_col && row >= target_row) {
+					row++;
+				}
+			}
+		}
+	}
+	pm_set_target ( null , null );
+}
+
+function my_DragFunc(){
+	//pm_trace ( 'drag ' + dd.obj.name + ' to (' + dd.obj.x + ',' + dd.obj.y + ')' );
+	pm_select_target();
+}
+
+function my_DropFunc(){
+	pm_trace (  'drop ' + dd.obj.name );
+	var useAnimation = true || pm_current_target != null;
+	pm_move_dropped_portlet();
+	pm_reposition_portlets(useAnimation);
+}
+function my_PickFunc(){
+	pm_trace ( 'pick ' + dd.obj.name );
+	pm_reposition_portlets(true);
+}
+
+pm_reposition_portlets();
+
+//-->
+       </script>
+  
+        </p>
+</body>
+</html>

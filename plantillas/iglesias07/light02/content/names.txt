@@ -1,0 +1,9 @@
+&company=Soluciones Integrales, S.A.
+&slogan=Lideres en Innovacion Tecnologica
+&search=Search your domain1
+&bb1=Nosotros
+&bb2=Productos
+&bb3=Soporte
+&bb4=Capacitacion
+&bb5=Contacto
+&bbhome=Inicio

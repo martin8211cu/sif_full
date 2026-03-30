@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_ListaSociosNegocios>Partner List</LB_ListaSociosNegocios>
+		<LB_ListaProveedores>List of Suppliers</LB_ListaProveedores>
+		<LB_ListaClientes>Customer List</LB_ListaClientes>
+		<LB_Numero>Number</LB_Numero>
+		<LB_Codigo>Code</LB_Codigo>
+		<LB_Descripcion>Description</LB_Descripcion>
+		<BTN_Filtrar>Filter</BTN_Filtrar>
+	</Idioma>
+</Etiquetas>

@@ -1,0 +1,1 @@
+﻿<cfinclude template="/rh/capacitacion/operacion/AperturaCV.cfm">

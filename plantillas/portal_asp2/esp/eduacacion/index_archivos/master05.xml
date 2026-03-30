@@ -1,0 +1,112 @@
+<xml xmlns:v="urn:schemas-microsoft-com:vml"
+ xmlns:o="urn:schemas-microsoft-com:office:office"
+ xmlns:p="urn:schemas-microsoft-com:office:powerpoint">
+ <p:slidetransition advancetime="0" effect="cover" direction="left" flag="1"/>
+ <o:shapelayout v:ext="edit">
+  <o:idmap v:ext="edit" data="9"/>
+ </o:shapelayout><p:colorscheme
+  colors="#FFFFFF,#FFFFFF,#808080,#000000,#00CC99,#3333CC,#CCCCFF,#B2B2B2"/>
+ <v:background id="_x0000_s9217" o:bwmode="white" fillcolor="#0c9 [4]"/>
+ <p:shaperange id="_x0000_s9218">
+  <v:rect id="_x0000_s9218" style='position:absolute;left:0;top:0;width:719.75pt;
+   height:539.875pt;mso-wrap-style:none;v-text-anchor:middle' o:bwmode="white"
+   fillcolor="#006" stroked="f" strokecolor="white [1]">
+   <v:shadow color="gray [2]"/>
+  </v:rect></p:shaperange>
+ <p:shaperange id="_x0000_s9219">
+  <v:shapetype id="_x0000_s9219" style='position:absolute;left:0;top:279.25pt;
+   width:10in;height:60pt;v-text-anchor:middle' coordsize="21600,21600"
+   o:master="" o:spt="1" path="m0,0l0,21600,21600,21600,21600,0xe" filled="f"
+   fillcolor="#0c9 [4]" stroked="f" strokecolor="white [1]">
+   <v:fill color2="white [0]" o:detectmouseclick="t"/>
+   <v:stroke joinstyle="miter" o:forcedash="t"/>
+   <v:shadow color="gray [2]"/>
+   <v:path gradientshapeok="t" o:connecttype="rect"/>
+   <o:lock v:ext="edit" grouping="t"/>
+   <p:placeholder type="centerTitle"/>
+  </v:shapetype></p:shaperange>
+ <p:shaperange id="_x0000_s9220">
+  <v:rect id="_x0000_s9220" style='position:absolute;left:681.625pt;top:97.125pt;
+   width:38.375pt;height:28.875pt;mso-wrap-style:none;v-text-anchor:middle'
+   fillcolor="#603" stroked="f" strokecolor="#0c9 [4]">
+   <v:shadow color="gray [2]"/>
+  </v:rect></p:shaperange>
+ <p:shaperange id="_x0000_s9221">
+  <v:line id="_x0000_s9221" style='position:absolute;mso-wrap-style:none;
+   v-text-anchor:middle' from="0,450pt" to="10in,450pt" o:bwmode="black"
+   strokecolor="white [0]" strokeweight="1pt">
+   <v:shadow color="gray [2]"/>
+  </v:line></p:shaperange>
+ <p:shaperange id="_x0000_s9222">
+  <v:line id="_x0000_s9222" style='position:absolute;mso-wrap-style:none;
+   v-text-anchor:middle' from="662.875pt,0" to="662.875pt,540pt" o:bwmode="black"
+   strokecolor="white [0]" strokeweight="1pt">
+   <v:shadow color="gray [2]"/>
+  </v:line></p:shaperange>
+ <p:shaperange id="_x0000_s9223">
+  <v:line id="_x0000_s9223" style='position:absolute;mso-wrap-style:none;
+   v-text-anchor:middle' from="681.625pt,0" to="681.625pt,540pt" o:bwmode="black"
+   strokecolor="white [0]" strokeweight="1pt">
+   <v:shadow color="gray [2]"/>
+  </v:line></p:shaperange>
+ <p:shaperange id="_x0000_s9224">
+  <v:line id="_x0000_s9224" style='position:absolute;mso-wrap-style:none;
+   v-text-anchor:middle' from="662.875pt,97.125pt" to="10in,97.125pt" o:bwmode="black"
+   strokecolor="white [0]" strokeweight="1pt">
+   <v:shadow color="gray [2]"/>
+  </v:line></p:shaperange>
+ <p:shaperange id="_x0000_s9225">
+  <v:line id="_x0000_s9225" style='position:absolute;mso-wrap-style:none;
+   v-text-anchor:middle' from="662.875pt,126pt" to="719.75pt,126pt" o:bwmode="black"
+   strokecolor="white [0]" strokeweight="1pt">
+   <v:shadow color="gray [2]"/>
+  </v:line></p:shaperange>
+ <p:shaperange id="_x0000_s9226">
+  <v:line id="_x0000_s9226" style='position:absolute;mso-wrap-style:none;
+   v-text-anchor:middle' from="662.875pt,296.5pt" to="10in,296.5pt" o:bwmode="black"
+   strokecolor="white [0]" strokeweight="1pt">
+   <v:shadow color="gray [2]"/>
+  </v:line></p:shaperange>
+ <p:shaperange id="_x0000_s9227">
+  <v:line id="_x0000_s9227" style='position:absolute;mso-wrap-style:none;
+   v-text-anchor:middle' from="662.875pt,319.5pt" to="681.625pt,319.5pt"
+   o:bwmode="black" strokecolor="white [0]" strokeweight="1pt">
+   <v:shadow color="gray [2]"/>
+  </v:line></p:shaperange>
+ <p:shaperange id="_x0000_s9228">
+  <v:line id="_x0000_s9228" style='position:absolute;mso-wrap-style:none;
+   v-text-anchor:middle' from="0,461.25pt" to="10in,461.25pt" o:bwmode="black"
+   strokecolor="white [0]" strokeweight="1pt">
+   <v:shadow color="gray [2]"/>
+  </v:line></p:shaperange>
+ <p:shaperange id="_x0000_s9229">
+  <v:line id="_x0000_s9229" style='position:absolute;mso-wrap-style:none;
+   v-text-anchor:middle' from="169.125pt,461.25pt" to="169.125pt,539.75pt"
+   o:bwmode="black" strokecolor="white [0]" strokeweight="1pt">
+   <v:shadow color="gray [2]"/>
+  </v:line></p:shaperange>
+ <p:shaperange id="_x0000_s9230">
+  <v:shapetype id="_x0000_t75" coordsize="21600,21600" o:spt="75"
+   o:preferrelative="t" path="m@4@5l@4@11@9@11@9@5xe" filled="f" stroked="f">
+   <v:stroke joinstyle="miter"/>
+   <v:formulas>
+    <v:f eqn="if lineDrawn pixelLineWidth 0"/>
+    <v:f eqn="sum @0 1 0"/>
+    <v:f eqn="sum 0 0 @1"/>
+    <v:f eqn="prod @2 1 2"/>
+    <v:f eqn="prod @3 21600 pixelWidth"/>
+    <v:f eqn="prod @3 21600 pixelHeight"/>
+    <v:f eqn="sum @0 0 1"/>
+    <v:f eqn="prod @6 1 2"/>
+    <v:f eqn="prod @7 21600 pixelWidth"/>
+    <v:f eqn="sum @8 21600 0"/>
+    <v:f eqn="prod @7 21600 pixelHeight"/>
+    <v:f eqn="sum @10 21600 0"/>
+   </v:formulas>
+   <v:path o:extrusionok="f" gradientshapeok="t" o:connecttype="rect"/>
+   <o:lock v:ext="edit" aspectratio="t"/>
+  </v:shapetype><v:shape id="_x0000_s9230" type="#_x0000_t75" style='position:absolute;
+   left:95.625pt;top:113.625pt;width:490.125pt;height:156pt' o:bwmode="black">
+   <v:imagedata src="master05_image001.jpg" o:title="lrglogo1" chromakey="#006"/>
+  </v:shape></p:shaperange>
+</xml>

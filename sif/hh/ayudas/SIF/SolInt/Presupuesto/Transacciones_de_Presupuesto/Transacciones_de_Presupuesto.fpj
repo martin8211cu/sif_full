@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<rhpml majorversion="1" minorversion="0">
+	<folders/>
+	<topics>
+		<topic>
+			<name>1_-_Reserva_de_Presupuesto.htm</name>
+			<comments></comments>
+			<frameset>0</frameset>
+		</topic>
+		<topic>
+			<name>Liberación_de_Reserva_de_Presupuesto.htm</name>
+			<comments></comments>
+			<frameset>0</frameset>
+		</topic>
+		<topic>
+			<name>3_-_Registro_de_Traslados_de_Presupuesto.htm</name>
+			<comments></comments>
+			<frameset>0</frameset>
+		</topic>
+		<topic>
+			<name>Aprobación_de_Traslados_de_Presupuesto.htm</name>
+			<comments></comments>
+			<frameset>0</frameset>
+		</topic>
+		<topic>
+			<name>Aprobación_de_Rechazos_Presupuestarios_(NRPs).htm</name>
+			<comments></comments>
+			<frameset>0</frameset>
+		</topic>
+		<topic>
+			<name>6_-_Cancelación_de_NRPs_Aprobados_sin_Aplicar.htm</name>
+			<comments></comments>
+			<frameset>0</frameset>
+		</topic>
+		<topic>
+			<name>7_-_Apertura_de_Control_por_Módulos_Origen.htm</name>
+			<comments></comments>
+			<frameset>0</frameset>
+		</topic>
+	</topics>
+</rhpml>

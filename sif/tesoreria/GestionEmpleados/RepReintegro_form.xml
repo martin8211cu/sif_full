@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_ImpresionReintegro>Print Reimbursement</LB_ImpresionReintegro>
+		<LB_Reintegro>Reimbursement</LB_Reintegro>
+		<LB_Fecha>Date</LB_Fecha>
+		<LB_CajaChica>Petty Cash</LB_CajaChica>
+		<LB_Custodio>Custodian</LB_Custodio>
+		<LB_SolicitudPago>Payment Request</LB_SolicitudPago>
+		<LB_OrdenPago>Payment Order</LB_OrdenPago>
+		<LB_DetalleReintegro>Reimbursement Detail</LB_DetalleReintegro>
+		<LB_Liquidacion>Settlement</LB_Liquidacion>
+		<LB_Documento>Document</LB_Documento>
+		<LB_MontoOriginal>Original Amount</LB_MontoOriginal>
+		<LB_Moneda>Currency</LB_Moneda>
+		<LB_TipoCambio>Exchange Rate</LB_TipoCambio>
+		<LB_MontoTotal>Total Amount</LB_MontoTotal>
+		<LB_Total>Total</LB_Total>
+		<LB_NoSeHaEmitido>Not Issued</LB_NoSeHaEmitido>
+	<LB_DetallesReintegro>Reimbursement Detail</LB_DetallesReintegro></Idioma>
+</Etiquetas>

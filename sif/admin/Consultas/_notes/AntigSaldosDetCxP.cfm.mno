@@ -1,0 +1,4 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<info>
+	<infoitem key="UD_TESTVALUES_AD_AntigSaldosDetCxP" value="name:@Ecodigo;testValue:null,name:@SNcodigo;testValue:#Url.SNcodigo#,name:@Ocodigo;testValue:#Url.Ocodigo#,name:@venc1;testValue:null,name:@venc2;testValue:null,name:@venc3;testValue:null,name:@venc4;testValue:null,name:@vencSel;testValue:1" />
+</info>

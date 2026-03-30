@@ -1,0 +1,48 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 66 - DBM 191: Agrega campo Ifechacontrol mexico-salvado
+
+	         PARCHE:  Parche023_110_RH _Varios
+
+GENERADO EN:
+	SERVER:  http://mxpapp36:8300
+	DSN:     sifcim
+	FECHA:   11/07/2011 11:37:41
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* CHG_TABLE HIncidenciasCalculo: Histórico de Incidencias para  */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): Ifechacontrol - Fecha Generado Incidencia */
+ALTER TABLE HIncidenciasCalculo ADD Ifechacontrol datetime NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE Incidencias: Incidencias */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): Ifechacontrol - Fecha Generado Inidencia */
+ALTER TABLE Incidencias ADD Ifechacontrol datetime NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE IncidenciasCalculo: Incidencias para el Calculo */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): Ifechacontrol - Fecha Generado Incidencia */
+ALTER TABLE IncidenciasCalculo ADD Ifechacontrol datetime NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

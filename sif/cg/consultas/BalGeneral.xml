@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_Titulo>Balance Sheet</LB_Titulo>
+		<MSG_GrupoOficinas>Office Groups</MSG_GrupoOficinas>
+		<MSG_Periodo>Period</MSG_Periodo>
+		<MSG_Convertida>Converted</MSG_Convertida>
+		<MSG_Informe_B15>B15 report</MSG_Informe_B15>
+		<MSG_Local>Local</MSG_Local>
+		<MSG_Origen>Origin</MSG_Origen>
+		<LB_ConCodigo>Code</LB_ConCodigo>
+		<MSG_NivelSeleccionado>Display only selected level</MSG_NivelSeleccionado>
+	<MSG_Reporte>Report</MSG_Reporte></Idioma>
+</Etiquetas>

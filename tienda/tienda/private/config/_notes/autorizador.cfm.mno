@@ -1,0 +1,4 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<info>
+	<infoitem key="UD_cantidad" value="name:moneda;datatype:,name:nombre_autorizador;datatype:,name:prioridad;datatype:" />
+</info>

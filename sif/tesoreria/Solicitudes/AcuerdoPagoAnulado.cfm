@@ -1,0 +1,9 @@
+﻿<cfset Tipo = 2>
+<cfset MSGTipo = "Anulo">
+<cfset TituloTipo = "Anulado">
+<cfset BotonesI = "Anular,Generar,Regresar">
+<cfset BotonesLabel="Anular,Generar Reporte,Regresar">
+<cfset BotonesLista = "">
+<cfset IrA = "AcuerdoPagoAnulado.cfm">
+<cfset SoloLectura = true>
+<cfinclude template="AcuerdoPago.cfm">

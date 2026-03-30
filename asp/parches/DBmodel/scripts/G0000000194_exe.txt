@@ -1,0 +1,75 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 521 - DBM 472: Se agregan campos en CBDusuarioTCE
+
+	         PARCHE:  Parche024_012_SIF_TCECambios
+
+GENERADO EN:
+	SERVER:  http://mxvqapp34:8300
+	DSN:     minisiftrd
+	FECHA:   02/02/2012 18:35:33
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* CHG_TABLE CBDusuarioTCE: CBDusuarioTCE */
+/* ======================================================================================== */
+/* ADD_COLUMN OP = (NUEVO): Conciliador - Puede Conciliar? */
+ALTER TABLE CBDusuarioTCE ADD Conciliador bit DEFAULT 1 NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP = (NUEVO): CBDUmovimientos - Puede Consultar Movimientos? */
+ALTER TABLE CBDusuarioTCE ADD CBDUmovimientos bit DEFAULT 0 NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE CBUsuariosTCE: CBUsuariosTCE */
+/* ======================================================================================== */
+/* DEL_COLUMN OP = (OBSOLETO): CBUimportador - Prevista para Importador */
+ALTER TABLE CBUsuariosTCE DROP CONSTRAINT "DF__CBUsuario__CBUim__0B2A07C5"
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE CBUsuariosTCE DROP COLUMN CBUimportador
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* DEL_COLUMN OP = (OBSOLETO): CBUmovimientos - Prevista para movimientos */
+ALTER TABLE CBUsuariosTCE DROP CONSTRAINT "DF__CBUsuario__CBUmo__0941BF53"
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE CBUsuariosTCE DROP COLUMN CBUmovimientos
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* DEL_COLUMN OP = (OBSOLETO): CBUpagador - Prevista para Pagos */
+ALTER TABLE CBUsuariosTCE DROP CONSTRAINT "DF__CBUsuario__CBUpa__0A35E38C"
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE CBUsuariosTCE DROP COLUMN CBUpagador
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* DEL_COLUMN OP = (OBSOLETO): Conciliador - Conciliador */
+ALTER TABLE CBUsuariosTCE DROP CONSTRAINT "DF__CBUsuario__Conci__084D9B1A"
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE CBUsuariosTCE DROP COLUMN Conciliador
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* END_SCRIPT */

@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_PeriodoContable>Accounting Period</LB_PeriodoContable>
+		<LB_MesContable>Accounting Month</LB_MesContable>
+		<LB_Periodo>Period</LB_Periodo>
+		<LB_Lote>Batch</LB_Lote>
+		<LB_Poliza>Voucher</LB_Poliza>
+		<LB_Descripcion>Description</LB_Descripcion>
+		<LB_Fecha>Date</LB_Fecha>
+		<LB_Monto>Amount</LB_Monto>
+		<LB_Asientos>Recursive Entries to Generate</LB_Asientos>
+		<LB_CierreEmpresa>Month end Closing will be executed for</LB_CierreEmpresa>
+		<LB_EstaSeguro>Are you sure to execute Month end closing</LB_EstaSeguro>
+		<LB_CierreExitoso>Process executed successfully</LB_CierreExitoso>
+		<BTN_Procesar>Execute</BTN_Procesar>
+	</Idioma>
+</Etiquetas>

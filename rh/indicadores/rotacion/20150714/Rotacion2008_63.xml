@@ -1,0 +1,411 @@
+
+	<data>
+		<variable name="EmpleadosInicial">
+		<row><column>1</column></row>
+		</variable>
+
+		<variable name="DatosPeriodoMes"> 
+		<row>
+			<column>2012</column>
+			<column>1</column>
+			<column>0</column>
+			<column>0</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2012</column>
+			<column>2</column>
+			<column>0</column>
+			<column>0</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2012</column>
+			<column>3</column>
+			<column>0</column>
+			<column>0</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2012</column>
+			<column>4</column>
+			<column>0</column>
+			<column>0</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2012</column>
+			<column>5</column>
+			<column>0</column>
+			<column>0</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2012</column>
+			<column>6</column>
+			<column>0</column>
+			<column>0</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2012</column>
+			<column>7</column>
+			<column>0</column>
+			<column>0</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2012</column>
+			<column>8</column>
+			<column>0</column>
+			<column>0</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2012</column>
+			<column>9</column>
+			<column>0</column>
+			<column>0</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2012</column>
+			<column>10</column>
+			<column>0</column>
+			<column>0</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2012</column>
+			<column>11</column>
+			<column>0</column>
+			<column>0</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2012</column>
+			<column>12</column>
+			<column>0</column>
+			<column>0</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2013</column>
+			<column>1</column>
+			<column>0</column>
+			<column>0</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2013</column>
+			<column>2</column>
+			<column>0</column>
+			<column>0</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2013</column>
+			<column>3</column>
+			<column>0</column>
+			<column>0</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2013</column>
+			<column>4</column>
+			<column>0</column>
+			<column>0</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2013</column>
+			<column>5</column>
+			<column>0</column>
+			<column>0</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2013</column>
+			<column>6</column>
+			<column>0</column>
+			<column>0</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2013</column>
+			<column>7</column>
+			<column>0</column>
+			<column>0</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2013</column>
+			<column>8</column>
+			<column>0</column>
+			<column>0</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2013</column>
+			<column>9</column>
+			<column>0</column>
+			<column>0</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2013</column>
+			<column>10</column>
+			<column>0</column>
+			<column>0</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2013</column>
+			<column>11</column>
+			<column>0</column>
+			<column>0</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2013</column>
+			<column>12</column>
+			<column>0</column>
+			<column>0</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2014</column>
+			<column>1</column>
+			<column>0</column>
+			<column>0</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2014</column>
+			<column>2</column>
+			<column>0</column>
+			<column>0</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2014</column>
+			<column>3</column>
+			<column>0</column>
+			<column>0</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2014</column>
+			<column>4</column>
+			<column>0</column>
+			<column>0</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2014</column>
+			<column>5</column>
+			<column>0</column>
+			<column>0</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2014</column>
+			<column>6</column>
+			<column>0</column>
+			<column>0</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2014</column>
+			<column>7</column>
+			<column>0</column>
+			<column>0</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2014</column>
+			<column>8</column>
+			<column>0</column>
+			<column>0</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2014</column>
+			<column>9</column>
+			<column>0</column>
+			<column>0</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2014</column>
+			<column>10</column>
+			<column>0</column>
+			<column>0</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2014</column>
+			<column>11</column>
+			<column>0</column>
+			<column>0</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2014</column>
+			<column>12</column>
+			<column>0</column>
+			<column>0</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2015</column>
+			<column>1</column>
+			<column>0</column>
+			<column>0</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2015</column>
+			<column>2</column>
+			<column>0</column>
+			<column>0</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2015</column>
+			<column>3</column>
+			<column>0</column>
+			<column>0</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2015</column>
+			<column>4</column>
+			<column>0</column>
+			<column>0</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2015</column>
+			<column>5</column>
+			<column>0</column>
+			<column>0</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2015</column>
+			<column>6</column>
+			<column>0</column>
+			<column>0</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2015</column>
+			<column>7</column>
+			<column>0</column>
+			<column>0</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2015</column>
+			<column>8</column>
+			<column>0</column>
+			<column>0</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2015</column>
+			<column>9</column>
+			<column>0</column>
+			<column>0</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2015</column>
+			<column>10</column>
+			<column>0</column>
+			<column>0</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2015</column>
+			<column>11</column>
+			<column>0</column>
+			<column>0</column>
+			<column>0</column>
+		</row>
+		
+		<row>
+			<column>2015</column>
+			<column>12</column>
+			<column>0</column>
+			<column>0</column>
+			<column>0</column>
+		</row>
+		
+		</variable>
+
+		<variable name="DatosPeriodo"> 
+		<row><column>2012</column></row>
+		
+		<row><column>2013</column></row>
+		
+		<row><column>2014</column></row>
+		
+		<row><column>2015</column></row>
+		
+		</variable>
+		
+		<variable name="DatosCFuncional"> 
+			<row><column>Centro Funcional: RAIZ-Centro Funcional Raiz</column></row>
+			
+			</variable>
+		
+	</data>
+

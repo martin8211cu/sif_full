@@ -1,0 +1,408 @@
+﻿<cfcomponent>
+	<cffunction name='Cons_CostosIngresos' access='public' output='true' returntype="string">
+		<cfargument name='Ecodigo' 			type="numeric" 	required='false'    default="#Session.Ecodigo#">		
+		<cfargument name='conexion' 		type='string' 	required='false' 	default="#Session.DSN#">
+		<cfargument name='SNid' 	        type='numeric' 	required='true' 	default="-1">
+        <cfargument name='incos' 	        type='string' 	required='true' 	>
+        <cfargument name='TIPO' 	        type='string' 	required='true' 	>
+        <cfargument name='CCTcodigo' 	    type='string' 	required='true' 	>        
+        <cfargument name='Pcodigo' 	        type='string' 	required='true' 	>   
+        <cfargument name='ETtc' 	        type='string' 	required='true' 	>    
+        <cfargument name='Monloc' 	        type='string' 	required='true' 	>   
+        <cfargument name='INTARC' 	        type='string' 	required='true' 	> 
+        <cfargument name='PagoconDocumento' type='boolean' 	required='false' default="false"> 
+        <cf_dbfunction name="OP_concat"	returnvariable="_Cat">
+        <cfif isdefined('arguments.INTARC') and len(trim(arguments.INTARC)) gt 0>
+ 	       <cfset INTARC = arguments.INTARC>
+     	</cfif>  
+        
+		<cfif arguments.SNid eq -1>
+			<cfthrow message="Se debe indicar un Socio de Negocio correcto">
+		</cfif>	
+                
+        <cfquery name="rsPeriodo" datasource="#session.dsn#">
+            select  <cf_dbfunction name="to_char"	args="Pvalor"> as Periodo
+            from Parametros
+            where Ecodigo = <cfqueryparam cfsqltype="cf_sql_numeric" value="#Arguments.Ecodigo#"> 
+              and Mcodigo = 'GN'
+              and Pcodigo = 50
+        </cfquery>  
+    
+   		<cfset LvarPeriodo =  rsPeriodo.Periodo>
+
+        <cfquery name="rsMes" datasource="#session.dsn#">
+        select <cf_dbfunction name="to_char"	args="Pvalor"> as Mes
+        from Parametros
+        where Ecodigo = <cfqueryparam cfsqltype="cf_sql_numeric" value="#Arguments.Ecodigo#"> 
+          and Mcodigo = 'GN'
+          and Pcodigo = 60
+        </cfquery>      
+   		 <cfset LvarMes = rsMes.Mes>        
+        <cfif PagoconDocumento EQ "false">             
+	        <cfquery name="rsDocumentos" datasource="#session.dsn#">
+	         select  Doc_CCTcodigo, dp.CCTcodigo ,dp.Ddocumento from Pagos p
+					inner join DPagos dp
+						on dp.Ecodigo = p.Ecodigo
+							and dp.CCTcodigo = p.CCTcodigo
+							and dp.Pcodigo  = p.Pcodigo  
+				where p.Ecodigo = #Session.Ecodigo#
+					and p.CCTcodigo =  <cfqueryparam cfsqltype="cf_sql_char"  value="#arguments.CCTcodigo#" >
+					and p.Pcodigo = <cfqueryparam cfsqltype="cf_sql_char"  value="#arguments.Pcodigo#" >
+	        </cfquery>   
+	     <cfelse>
+	     	<cfquery name="rsDocumentos" datasource="#session.dsn#">
+		         select  CCTRcodigo as Doc_CCTcodigo, DRdocumento as Ddocumento 
+		         	from EFavor p
+						inner join DFavor dp
+							on dp.Ecodigo = p.Ecodigo
+								and dp.CCTcodigo = p.CCTcodigo
+								and dp.Ddocumento  = p.Ddocumento
+					where p.Ecodigo = #Session.Ecodigo#
+						and p.CCTcodigo =  <cfqueryparam cfsqltype="cf_sql_char"  value="#arguments.CCTcodigo#" >
+						and p.Ddocumento = <cfqueryparam cfsqltype="cf_sql_char"  value="#arguments.Pcodigo#" >
+	        </cfquery>   
+	     </cfif>
+	     <cfloop query="rsDocumentos">                                
+		<cfif PagoconDocumento EQ "false">           
+		        <cfquery name="rsDPtotal" datasource="#session.dsn#">
+		         select  sum(dp.DPtotal)  as totalpago from Pagos p
+						inner join DPagos dp
+							on dp.Ecodigo = p.Ecodigo
+								and dp.CCTcodigo = p.CCTcodigo
+								and dp.Pcodigo  = p.Pcodigo  
+					where p.Ecodigo = #Session.Ecodigo#
+						and p.CCTcodigo =  <cfqueryparam cfsqltype="cf_sql_char"  value="#arguments.CCTcodigo#" >
+						and p.Pcodigo = <cfqueryparam cfsqltype="cf_sql_char"  value="#arguments.Pcodigo#" >
+		                and Doc_CCTcodigo      = <cfqueryparam cfsqltype="cf_sql_varchar" value="#rsDocumentos.Doc_CCTcodigo#"> 
+		                and Ddocumento   = <cfqueryparam cfsqltype="cf_sql_varchar" value="#rsDocumentos.Ddocumento#"> 
+		        </cfquery> 
+				<!---- Aqui se toma el total del documento para despues poder calcular según el peso de cada linea del 
+						total de la factura y así poder prorratera---->
+		       <cfquery name="rsDTotal" datasource="#session.dsn#">
+		          	select sum(Dtotal) as totaldoc
+		            from Documentos
+		            where Ecodigo = <cfqueryparam cfsqltype="cf_sql_numeric" value="#arguments.Ecodigo#"> 
+		            and CCTcodigo      = <cfqueryparam cfsqltype="cf_sql_varchar" value="#rsDocumentos.Doc_CCTcodigo#"> 
+		            and Ddocumento   = <cfqueryparam cfsqltype="cf_sql_varchar" value="#rsDocumentos.Ddocumento#"> 
+		       </cfquery>
+		<cfelse>
+			<cfquery name="rsDPtotal" datasource="#session.dsn#">
+		         select  sum(dp.DFmonto)  as totalpago 
+		         		from EFavor p
+						inner join DFavor dp
+							on dp.Ecodigo = p.Ecodigo
+								and dp.CCTcodigo = p.CCTcodigo
+								and dp.Ddocumento  = p.Ddocumento  
+					where p.Ecodigo = #Session.Ecodigo#
+						and p.CCTcodigo =  <cfqueryparam cfsqltype="cf_sql_char"  value="#arguments.CCTcodigo#" >
+						and p.Ddocumento = <cfqueryparam cfsqltype="cf_sql_char"  value="#arguments.Pcodigo#" >
+		                and CCTRcodigo      = <cfqueryparam cfsqltype="cf_sql_varchar" value="#rsDocumentos.Doc_CCTcodigo#"> 
+		                and DRdocumento   = <cfqueryparam cfsqltype="cf_sql_varchar" value="#rsDocumentos.Ddocumento#"> 
+		        </cfquery> 
+		       <cfquery name="rsDTotal" datasource="#session.dsn#">
+		          	select sum(Dtotal) as totaldoc
+		            from Documentos
+		            where Ecodigo = <cfqueryparam cfsqltype="cf_sql_numeric" value="#arguments.Ecodigo#"> 
+		            and CCTcodigo      = <cfqueryparam cfsqltype="cf_sql_varchar" value="#rsDocumentos.Doc_CCTcodigo#"> 
+		            and Ddocumento   = <cfqueryparam cfsqltype="cf_sql_varchar" value="#rsDocumentos.Ddocumento#"> 
+		       </cfquery>
+		</cfif>
+    <!--- Consultar las lineas de detalle de la transaccion para obtener los Centros Funcionales
+		  asociados y con ellos obtener los Costos e ingresos --->
+		<cfquery name="rstipotransaccion" datasource="#arguments.conexion#"> 
+			select b.CCTtipo
+              from Documentos a
+              		inner join CCTransacciones b
+              		on a.CCTcodigo = b.CCTcodigo
+                       and a.Ecodigo = b.Ecodigo
+              where a.Ecodigo = <cfqueryparam cfsqltype="cf_sql_numeric" value="#arguments.Ecodigo#"> 
+		            and a.CCTcodigo      = <cfqueryparam cfsqltype="cf_sql_varchar" value="#rsDocumentos.Doc_CCTcodigo#"> 
+		            and a.Ddocumento   = <cfqueryparam cfsqltype="cf_sql_varchar" value="#rsDocumentos.Ddocumento#">           
+		</cfquery>  
+		<cfquery name="rsTransacciones" datasource="#arguments.conexion#">
+			select a.CFid, coalesce(a.Ocodigo,0) as Ocodigo,b.ETnumero,b.FCid,  round((#rsDPtotal.totalpago#*(sum(a.DDtotal)/ #rsDTotal.totaldoc#)),2) as total
+              from DDocumentos a
+                inner join Documentos b
+                   on a.CCTcodigo = b.CCTcodigo
+                    and a.Ddocumento = b.Ddocumento
+                inner join Conceptos c
+                   on a.DDcodartcon = c.Cid
+                   and a.Ecodigo = c.Ecodigo 
+              where a.Ecodigo = <cfqueryparam cfsqltype="cf_sql_numeric" value="#arguments.Ecodigo#"> 
+		            and a.CCTcodigo      = <cfqueryparam cfsqltype="cf_sql_varchar" value="#rsDocumentos.Doc_CCTcodigo#"> 
+		            and a.Ddocumento   = <cfqueryparam cfsqltype="cf_sql_varchar" value="#rsDocumentos.Ddocumento#">           
+		            and a.DDtipo = 'S'
+        		    and c.CexcostosAuto = 0             
+            group by a.CFid, a.Ocodigo,b.ETnumero,b.FCid
+		</cfquery>  
+         
+       <!--- <cfset incos = CreaCostos()>--->
+        
+        <cfif isdefined('rsTransacciones') and  rsTransacciones.recordcount gt 0>
+        	<cfoutput query="rsTransacciones">
+			<!--- Identificar los costos asociados al centro funcional, y aplicar el porcentaje segun el monto del detalle de la Transaccion --->
+                <cfquery name="rsInCostos" datasource="#arguments.conexion#">
+                	insert into #incos# 
+                    (CFCid,	 Cid, Ccodigo, Ocodigo, Porcentaje, MontoT,
+					MontoA, CFid, Ecodigo, Tipo, Cdescripcion, Cformato, cuentac)
+                    select cfc.CFCid, cfc.Cid, c.Ccodigo,#rsTransacciones.Ocodigo#, c.Cporc,
+					#rsTransacciones.total#, round((#rsTransacciones.total# * (coalesce(c.Cporc,0) / 100)),2), cfc.CFid, cfc.Ecodigo,
+					c.Ctipo, c.Cdescripcion, coalesce(c.Cformato,'-1') as Cformato, c.cuentac
+                    from CfuncionalConc cfc
+                    inner join Conceptos c
+                    on c.Cid = cfc.Cid
+                    and c.Ecodigo = cfc.Ecodigo
+                    where cfc.Ecodigo = <cfqueryparam cfsqltype="cf_sql_numeric" value="#arguments.Ecodigo#"> 
+                    and cfc.CFid = <cfqueryparam cfsqltype="cf_sql_numeric" value="#rsTransacciones.CFid#"> 
+                    and c.Ctipo = 'G'
+                </cfquery> 
+
+                <!--- Identificar los Ingresos asociados al centro funcional y verificar el tipo (total o parcial) --->
+                <cfquery name="rsIngresos" datasource="#arguments.conexion#">
+                    select top 1 cfc.Cid, coalesce(cfc.CFCtipo,-1) as CFCtipo
+                    from CfuncionalConc cfc
+                    inner join Conceptos c
+                    on c.Cid = cfc.Cid
+                    and c.Ecodigo = cfc.Ecodigo
+                    where cfc.Ecodigo = <cfqueryparam cfsqltype="cf_sql_numeric" value="#arguments.Ecodigo#"> 
+                    and cfc.CFid = <cfqueryparam cfsqltype="cf_sql_numeric" value="#rsTransacciones.CFid#"> 
+                    and c.Ctipo = 'I'
+                </cfquery>
+                
+				<cfif rsIngresos.CFCtipo eq 1>
+                    <cfquery name="rsTCostos" datasource="#arguments.conexion#">
+                        select CFid, sum(MontoA) as tcostos
+                        from #incos# 
+                        where Ecodigo = <cfqueryparam cfsqltype="cf_sql_numeric" value="#arguments.Ecodigo#"> 
+                        and CFid = <cfqueryparam cfsqltype="cf_sql_numeric" value="#rsTransacciones.CFid#"> 
+                        and Tipo = 'G'
+                        group by CFid
+                    </cfquery>
+                    
+                    <cfquery name="rsInsIngresos" datasource="#arguments.conexion#">
+                        insert into #incos# 
+                        (CFCid,	 Cid, Ccodigo, Ocodigo, Porcentaje, MontoT,
+                        MontoA, CFid, Ecodigo, Tipo, Cdescripcion, Cformato, cuentac, CFidD)
+                        select cfc.CFCid, cfc.Cid,c.Ccodigo, b.Ocodigo, cfc.CFCporc,
+                        #rsTCostos.tcostos#, round((#rsTCostos.tcostos# * (coalesce(cfc.CFCporc,0) / 100)),2), cfc.CFidD, cfc.Ecodigo,
+                        c.Ctipo, c.Cdescripcion, coalesce(c.Cformato,'-1') as Cformato, c.cuentac, cfc.CFidD
+                        from CfuncionalConc cfc 
+                        inner join CFuncional b
+                            on cfc.CFidD = b.CFid
+                            and cfc.Ecodigo = b.Ecodigo
+                        inner join Conceptos c
+                        on c.Cid = cfc.Cid
+                        and c.Ecodigo = cfc.Ecodigo
+                        where cfc.Ecodigo = <cfqueryparam cfsqltype="cf_sql_numeric" value="#arguments.Ecodigo#"> 
+                        and cfc.CFid = <cfqueryparam cfsqltype="cf_sql_numeric" value="#rsTransacciones.CFid#">                         
+                        and c.Ctipo = 'I'
+                    </cfquery>
+                    
+                <cfelseif rsIngresos.CFCtipo eq 0>
+                    <cfquery name="rsInsIngresos" datasource="#arguments.conexion#">
+                        insert into #incos# 
+                        (CFCid,	 Cid,Ccodigo, Ocodigo, Porcentaje, MontoT,
+                        MontoA, CFid, Ecodigo, Tipo, Cdescripcion, Cformato, cuentac, CFidD)
+                        select cfc.CFCid, cfc.Cid, c.Ccodigo, b.Ocodigo, cfc.CFCporc,
+                        co.MontoA, round((co.MontoA * (coalesce(cfc.CFCporc,0) / 100)),2), cfc.CFidD, cfc.Ecodigo,
+                        c.Ctipo, c.Cdescripcion, coalesce(c.Cformato,'-1') as Cformato, c.cuentac, cfc.CFidD
+                        from CFuncionalConc cfc
+                            inner join Cfuncional b
+                            on cfc.CFidD = b.CFid
+                            and cfc.Ecodigo = b.Ecodigo
+	                    inner join #incos# co
+                        on co.CFCid = cfc.CFCid_Costo
+                        and co.CFid = cfc.CFid
+                        and co.Ecodigo = cfc.Ecodigo
+                        inner join Conceptos c
+                        on c.Cid = cfc.Cid
+                        and c.Ecodigo = cfc.Ecodigo
+                        where cfc.Ecodigo = <cfqueryparam cfsqltype="cf_sql_numeric" value="#arguments.Ecodigo#"> 
+                        and cfc.CFid = <cfqueryparam cfsqltype="cf_sql_numeric" value="#rsTransacciones.CFid#"> 
+                        and c.Ctipo = 'I'
+                        and cfc.CFidD = b.CFid
+                        and cfc.Ecodigo = b.Ecodigo
+                    </cfquery>	
+                </cfif>
+			</cfoutput>
+           </cfif>            
+   </cfloop><!---Fin del rsPagosTot--->      
+   
+ 
+            <cfquery name="rsTempCosto" datasource="#arguments.conexion#">
+            	select * from #incos#
+            </cfquery>
+      
+            <cfoutput query="rsTempCosto">
+				<!---Ver la cuenta asociada al servicio o generar la cuenta segun el complemento--->
+                <cfset LvarCFformato = rsTempCosto.Cformato>
+				
+				<cfif LvarCFformato eq '-1'>
+                    <cfif len(trim(rsTempCosto.cuentac)) gt 0>
+                        <cfobject component="sif.Componentes.AplicarMascara" name="mascara">
+                        <cfset LvarCFformato = mascara.fnComplementoItem(arguments.Ecodigo, rsTempCosto.CFid, arguments.SNid, "S", "", rsTempCosto.Cid, "", "", "", "", "", #session.Ecodigo#, -1)>
+                        <cfinvoke component="sif.Componentes.PC_GeneraCuentaFinanciera" method="fnGeneraCuentaFinanciera" returnvariable="LvarError">
+                                <cfinvokeargument name="Lprm_CFformato" 		value="#LvarCFformato#"/>
+                                <cfinvokeargument name="Lprm_fecha" 			value="#now()#"/>                               
+                                <cfinvokeargument name="Lprm_Ecodigo" 			value="#Arguments.Ecodigo#"/>
+                                <cfinvokeargument name="Lprm_TransaccionActiva" value="true"/>
+                        </cfinvoke>
+                        <cfif LvarError NEQ "OLD" AND LvarError NEQ "NEW">
+                            <cfthrow message="#LvarERROR#. Proceso Cancelado!">
+                        </cfif>
+                    <cfelse>
+                    	<cfthrow message="Se debe definir un complemento o una Cuenta de Gasto para el concepto #rsTempCosto.Cdescripcion#. Proceso Cancelado!">
+                    </cfif>
+                </cfif>
+
+                <cfquery name="rsCFinanciera" datasource="#arguments.conexion#">
+                    select Ccuenta, coalesce(CFcuenta,0) as CFcuenta, CFformato
+                    from CFinanciera 
+                    where Ecodigo    = <cfqueryparam cfsqltype="cf_sql_integer" value="#Arguments.Ecodigo#">
+                       and CFformato = '#LvarCFformato#'
+                </cfquery>
+                
+                <cfif rsCFinanciera.recordcount gt 0>
+                    <cfquery name="rsCuenta" datasource="#arguments.conexion#">
+                        update #incos# 
+                        set CFcuenta = #rsCFinanciera.CFcuenta#, Cformato = '#rsCFinanciera.CFformato#', cuentac = coalesce(cuentac,-1)
+                        where ID = #rsTempCosto.ID#
+                    </cfquery>
+                <cfelse>
+                	<cfthrow message="No se pudo obtener la Cuenta Financiera con el formato '#LvarCFformato#' del concepto #rsTempCosto.Cdescripcion#. Proceso Cancelado!">    
+                </cfif>
+            </cfoutput>    	
+                <cfquery name="rsDatos" datasource="#session.dsn#">
+                   select * from #incos#     
+                </cfquery>        
+                <cfloop query="rsDatos">
+                <!--- Inserta en la tabla ETransaccionesCalculo --->
+                   <cfquery name="rsInsert" datasource="#session.dsn#">
+                    insert ETransaccionesCalculo 
+                    (
+                      FCid,
+                      ETnumero,
+                      CFCid,
+                      Ccodigo,
+                      Ocodigo,
+                      Cid,
+                      Porcentaje,
+                      MontoT,
+                      MontoA,
+                      CFid,
+                      Periodo,
+                      Mes,
+                      Ecodigo,
+                      Tipo,
+                      Cdescripcion,
+                      Cformato,
+                      cuentac,
+                      CFcuenta,
+                      CFidD,
+                      BMUsucodigo,
+                      CCTcodigo,
+                      Pcodigo                      
+                      )
+                      values
+                      (          
+                      <cfqueryparam cfsqltype="cf_sql_numeric" value="#rsTransacciones.FCid#">, 
+                      <cfqueryparam cfsqltype="cf_sql_numeric" value="#rsTransacciones.ETnumero#">,
+                      #rsDatos.CFCid#,
+                      '#rsDatos.Ccodigo#',
+                      #rsDatos.Ocodigo#,
+                      #rsDatos.Cid#,
+                      #rsDatos.Porcentaje#,
+                      #rsDatos.MontoT#,
+                      #rsDatos.MontoA#,
+                      #rsDatos.CFid#,
+                      #LvarPeriodo#,
+                      #LvarMes#,
+                      <cfqueryparam cfsqltype="cf_sql_numeric" value="#Arguments.Ecodigo#">,
+                      '#rsDatos.Tipo#',
+                      '#rsDatos.Cdescripcion#',
+                      '#rsDatos.Cformato#',
+                      #rsDatos.cuentac#,
+                      #rsDatos.CFcuenta#,
+                      <cfif isdefined('rsDatos.CFidD')and  len(trim(#rsDatos.CFidD#)) gt 0>
+                      #rsDatos.CFidD#,
+                      <cfelse>
+                       null,
+                      </cfif>
+                      #session.usucodigo#,
+                      <cfqueryparam cfsqltype="cf_sql_char"  value="#arguments.CCTcodigo#">,
+			          <cfqueryparam cfsqltype="cf_sql_char"  value="#arguments.Pcodigo#" >
+                      )         
+                    </cfquery>        
+                </cfloop>   
+                
+                    <!--- --Costo e Ingresos por Centro Funcional --->
+                       <cfquery name="rsInsert" datasource="#session.dsn#">
+                        insert #INTARC# (INTORI, INTREL, INTDOC, INTREF, INTMON, INTTIP, INTDES, INTFEC, INTCAM, Periodo, Mes, Mcodigo,Ccuenta,CFcuenta, Ocodigo, INTMOE)
+                        select 
+                            'CCRE',
+                            1,
+                            <!---'#arguments.ETdocumento#',--->
+                            '#rsDocumentos.Ddocumento#',
+                            Case when Tipo = 'G' then 'Costo'
+                            else  'Ingreso'
+                            end, 
+                            round( (MontoA*#arguments.ETtc#),2),
+                            case when Tipo = 'G' then '#rstipotransaccion.CCTtipo#' 
+                            else 
+                            			case when '#rstipotransaccion.CCTtipo#' = 'D' 
+                            				then 'C' 
+                            				else 'D'
+                            			end 
+                            end,
+                            Case when Tipo = 'G' then 'Costo: '
+                            else  'Ingreso: '
+                            end #_Cat# Cdescripcion,
+                            <cf_dbfunction name="to_char"	args="getdate(),112">,
+                            #arguments.ETtc#,
+                            #rsPeriodo.Periodo#,
+                            #rsMes.Mes#,            
+                            #arguments.Monloc#,
+                            0,
+                            a.CFcuenta,
+                            a.Ocodigo,
+                            round(MontoA,2)
+                            from #incos# a
+                        </cfquery>   
+                        <cfquery name = "delincos" datasource="#session.dsn#">
+                        		delete #incos#
+                        </cfquery>
+                      <!---  <cfquery name="rsFF" datasource="#session.dsn#">
+                         select * from #INTARC#
+                        </cfquery>
+                        <cf_dump var="#rsFF#"> --->                      
+        <cfreturn incos>     
+	</cffunction>
+    
+    <cffunction name="CreaCostos" access="public" output="false" returntype="string">
+		<cfargument name='Conexion' type='string' required='false' default="#Session.DSN#">
+		
+		<cf_dbtemp name="Costos" returnvariable="COSING_AUTO" datasource="#Arguments.Conexion#">
+			<cf_dbtempcol name="ID"           type="numeric"      identity="yes">
+            <cf_dbtempcol name="CFCid"        type="numeric"      mandatory="yes">
+			<cf_dbtempcol name="Ccodigo"      type="varchar(10)"  mandatory="yes">
+            <cf_dbtempcol name="Ocodigo"      type="numeric"      mandatory="no">
+			<cf_dbtempcol name="Cid"          type="numeric"      mandatory="yes">
+			<cf_dbtempcol name="Porcentaje"   type="money"        mandatory="yes">
+			<cf_dbtempcol name="MontoT"       type="money"        mandatory="yes">
+			<cf_dbtempcol name="MontoA"       type="money"        mandatory="yes">
+			<cf_dbtempcol name="CFid"         type="numeric"      mandatory="yes">         
+			<cf_dbtempcol name="Ecodigo"      type="int"          mandatory="yes">
+			<cf_dbtempcol name="Tipo"         type="varchar(1)"   mandatory="yes">
+			<cf_dbtempcol name="Cdescripcion" type="varchar(50)"  mandatory="yes">
+            <cf_dbtempcol name="Cformato"     type="char(100)"    mandatory="no">
+            <cf_dbtempcol name="cuentac"      type="varchar(100)" mandatory="no">
+            <cf_dbtempcol name="CFcuenta"     type="numeric"      mandatory="no">
+            <cf_dbtempcol name="CFidD"        type="numeric"      mandatory="no">
+                  
+			<cf_dbtempkey cols="ID">
+		</cf_dbtemp>
+		<cfset Request.incos = COSING_AUTO>
+ 		
+		<cfreturn COSING_AUTO>
+	</cffunction>
+</cfcomponent>

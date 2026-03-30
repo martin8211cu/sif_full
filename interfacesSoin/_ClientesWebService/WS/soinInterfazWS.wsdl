@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://ws.interfacessoin" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="http://ws.interfacessoin" xmlns:intf="http://ws.interfacessoin" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns1="http://rpc.xml.coldfusion" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<!--WSDL created by ColdFusion version 8,0,1,195765-->
+	<wsdl:types>
+		<schema targetNamespace="http://ws.interfacessoin" xmlns="http://www.w3.org/2001/XMLSchema">
+			<import namespace="http://rpc.xml.coldfusion"/>
+			<import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+			<complexType name="Interfaz_out_xml">
+				<sequence>
+					<element name="ID" nillable="true" type="xsd:string"/>
+					<element name="MSG" nillable="true" type="xsd:string"/>
+					<element name="XML_OD" nillable="true" type="xsd:string"/>
+					<element name="XML_OE" nillable="true" type="xsd:string"/>
+					<element name="XML_OS" nillable="true" type="xsd:string"/>
+				</sequence>
+			</complexType>
+		</schema>
+		<schema targetNamespace="http://rpc.xml.coldfusion" xmlns="http://www.w3.org/2001/XMLSchema">
+			<import namespace="http://ws.interfacessoin"/>
+			<import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+			<complexType name="CFCInvocationException">
+				<sequence/>
+			</complexType>
+		</schema>
+	</wsdl:types>
+	<wsdl:message name="sendToSoinXMLRequest">
+		<wsdl:part name="Empresa" type="xsd:string"/>
+		<wsdl:part name="EcodigoSDC" type="xsd:double"/>
+		<wsdl:part name="Num_Interfaz" type="xsd:double"/>
+		<wsdl:part name="XML_IE" type="xsd:string"/>
+		<wsdl:part name="XML_ID" type="xsd:string"/>
+		<wsdl:part name="XML_IS" type="xsd:string"/>
+		<wsdl:part name="XML_OUT" type="xsd:boolean"/>
+	</wsdl:message>
+	<wsdl:message name="sendToSoinRequest">
+		<wsdl:part name="Empresa" type="xsd:string"/>
+		<wsdl:part name="EcodigoSDC" type="xsd:double"/>
+		<wsdl:part name="Num_Interfaz" type="xsd:double"/>
+		<wsdl:part name="ID_Proceso" type="xsd:double"/>
+	</wsdl:message>
+	<wsdl:message name="CFCInvocationException">
+		<wsdl:part name="fault" type="tns1:CFCInvocationException"/>
+	</wsdl:message>
+	<wsdl:message name="sendToSoinResponse">
+		<wsdl:part name="sendToSoinReturn" type="xsd:string"/>
+	</wsdl:message>
+	<wsdl:message name="sendToSoinXMLResponse">
+		<wsdl:part name="sendToSoinXMLReturn" type="impl:Interfaz_out_xml"/>
+	</wsdl:message>
+	<wsdl:portType name="Interfaz">
+		<wsdl:operation name="sendToSoinXML" parameterOrder="Empresa EcodigoSDC Num_Interfaz XML_IE XML_ID XML_IS XML_OUT">
+			<wsdl:input message="impl:sendToSoinXMLRequest" name="sendToSoinXMLRequest"/>
+			<wsdl:output message="impl:sendToSoinXMLResponse" name="sendToSoinXMLResponse"/>
+			<wsdl:fault message="impl:CFCInvocationException" name="CFCInvocationException"/>
+		</wsdl:operation>
+		<wsdl:operation name="sendToSoin" parameterOrder="Empresa EcodigoSDC Num_Interfaz ID_Proceso">
+			<wsdl:input message="impl:sendToSoinRequest" name="sendToSoinRequest"/>
+			<wsdl:output message="impl:sendToSoinResponse" name="sendToSoinResponse"/>
+			<wsdl:fault message="impl:CFCInvocationException" name="CFCInvocationException"/>
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="interfaz.cfcSoapBinding" type="impl:Interfaz">
+		<wsdlsoap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<wsdl:operation name="sendToSoinXML">
+			<wsdlsoap:operation soapAction=""/>
+			<wsdl:input name="sendToSoinXMLRequest">
+				<wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://ws.interfacessoin" use="encoded"/>
+			</wsdl:input>
+			<wsdl:output name="sendToSoinXMLResponse">
+				<wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://ws.interfacessoin" use="encoded"/>
+			</wsdl:output>
+			<wsdl:fault name="CFCInvocationException">
+				<wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="CFCInvocationException" namespace="http://ws.interfacessoin" use="encoded"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="sendToSoin">
+			<wsdlsoap:operation soapAction=""/>
+			<wsdl:input name="sendToSoinRequest">
+				<wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://ws.interfacessoin" use="encoded"/>
+			</wsdl:input>
+			<wsdl:output name="sendToSoinResponse">
+				<wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://ws.interfacessoin" use="encoded"/>
+			</wsdl:output>
+			<wsdl:fault name="CFCInvocationException">
+				<wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="CFCInvocationException" namespace="http://ws.interfacessoin" use="encoded"/>
+			</wsdl:fault>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="InterfazService">
+		<wsdl:port binding="impl:interfaz.cfcSoapBinding" name="interfaz.cfc">
+			<wsdlsoap:address location="http://localhost:8300/cfmx/interfacesSoin/ws/interfaz.cfc"/>
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

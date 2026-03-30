@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_NumComision>Comission Number</LB_NumComision>
+		<LB_Descripcion>Description</LB_Descripcion>
+		<LB_Planeado>Planned</LB_Planeado>
+		<LB_Desde>From</LB_Desde>
+		<LB_Hasta>To</LB_Hasta>
+		<LB_DiasPlaneados>Planned Days</LB_DiasPlaneados>
+		<LB_UnDiaPlaneado>One Day Planned</LB_UnDiaPlaneado>
+		<LB_CentroFuncional>Funtional Center</LB_CentroFuncional>
+		<LB_Empleado>Employee</LB_Empleado>
+		<LB_Tipo>Type</LB_Tipo>
+		<LB_Nacional>National</LB_Nacional>
+		<LB_Exterior>International</LB_Exterior>
+		<LB_Automovil>Car</LB_Automovil>
+		<LB_Hotel>Hotel</LB_Hotel>
+		<LB_Avion>Airplane</LB_Avion>
+		<LB_Observaciones>Comments</LB_Observaciones>
+		<LB_Resultados>Explain the results or events realized during the comission</LB_Resultados>
+		<LB_JustificacionExcesos>In case to exceed authorized amounts. Please explain the reasons</LB_JustificacionExcesos>
+		<BTN_Modificar>Modify</BTN_Modificar>
+	</Idioma>
+</Etiquetas>

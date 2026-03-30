@@ -1,0 +1,4 @@
+Es muy importante que el interfazDosPinosToSoin.sql se instale en el esquema de los sistemas propios de Dos Pinos, no en las de SIF o Interfaces 
+INSISTO NO SE DEBE INSTALAR NI EN LA BASE DE DATOS DEL SIF, NI EN LA BASE DE DATOS DE INTERFACES
+
+Leer el Readme.txt para los pasos a seguir en la instalación del WebService.

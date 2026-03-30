@@ -1,0 +1,130 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 535 - DBM 487: agregan campos para la legislacion mexico
+
+	         PARCHE:  Parche024_094_RH _Mex
+
+GENERADO EN:
+	SERVER:  http://mxvqapp34:8300
+	DSN:     minisif
+	FECHA:   02/03/2012 13:23:46
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* CHG_TABLE CargasCalculo: Cargas para el Cálculo */
+/* ======================================================================================== */
+/* CHG_COLUMN OP = (CAMBIO): CCdbc - Dias base de cotizacion */
+ALTER TABLE CargasCalculo DROP CONSTRAINT DF__CargasCal__CCdbc__30BB7F27
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE CargasCalculo ALTER COLUMN CCdbc numeric(18,4) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE CargasCalculo ADD CONSTRAINT CargasCalculo_DF17 DEFAULT 0 FOR CCdbc
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* ADD_TABLE GEanticipoDetEmpleado: GEanticipoDetEmpleado */
+/* ======================================================================================== */
+
+CREATE TABLE GEanticipoDetEmpleado (
+	 GEADEid                        numeric(18)          identity
+	,GEAid                          numeric(18)          NULL
+	,GEADid                         numeric(18)          NULL
+	,GEDEnsolicitud                 integer              NULL
+	,GEDEidempreado                 integer              NULL
+	,GEDEidmoneda                   integer              NULL
+	,GEDEmontototal                 numeric(18)          NULL
+	,GEDEperiodo                    integer              NULL
+	,GEDEmes                        integer              NULL
+	,BMUsucodigo                    numeric(18)          NULL
+	,ts_rversion                    timestamp           
+	)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP = (TAB NUEVA): TIP="P", SEC="0", COLS="GEADEid" */
+ALTER TABLE GEanticipoDetEmpleado ADD CONSTRAINT GEanticipoDetEmpleado_PK PRIMARY KEY NONCLUSTERED (GEADEid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE HtiposcambioConversion: HtiposcambioConversion */
+/* ======================================================================================== */
+/* DEL_KEY OP = (OBSOLETO): TIP="P", COLS="Ecodigo,Speriodo,Smes,Mcodigo" */
+ALTER TABLE HtiposcambioConversion DROP CONSTRAINT HtiposcambioConversion_PK /* PRIMARY KEY (Ecodigo,Speriodo,Smes,Mcodigo) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP = (NUEVO): TCtipo - Tipo de cambio de conversion */
+ALTER TABLE HtiposcambioConversion ADD TCtipo numeric(1) DEFAULT 0 NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (NUEVO): TIP="P", SEC="0", COLS="Ecodigo,Speriodo,Smes,Mcodigo,TCtipo" */
+ALTER TABLE HtiposcambioConversion ADD CONSTRAINT HtiposcambioConversion_PK PRIMARY KEY NONCLUSTERED (Ecodigo,Speriodo,Smes,Mcodigo,TCtipo)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE HtiposcambioConversionD: Tipos de Cambios Historicos De */
+/* ======================================================================================== */
+/* ADD_COLUMN OP = (NUEVO): TCHtipo - Tipo de cambio de conversion */
+ALTER TABLE HtiposcambioConversionD ADD TCHtipo numeric(1) DEFAULT 0 NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE IMPIncidentes: IMPIncidentes */
+/* ======================================================================================== */
+/* ADD_COLUMN OP = (NUEVO): FinicioNomina - Fecha Inicio Nomina */
+ALTER TABLE IMPIncidentes ADD FinicioNomina datetime NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE RHHistoricoSDI: RHHistoricoSDI */
+/* ======================================================================================== */
+/* ADD_COLUMN OP = (NUEVO): Bimestrerige - Bimestre que Rige */
+ALTER TABLE RHHistoricoSDI ADD Bimestrerige integer NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE RHLiquidacionPersonal: RH Liquidaciones de Personal */
+/* ======================================================================================== */
+/* ADD_COLUMN OP = (NUEVO): RHLPfingreso - Fecha de Ingreso Empleado */
+ALTER TABLE RHLiquidacionPersonal ADD RHLPfingreso datetime NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE TiposNomina: Tipos de Nómina */
+/* ======================================================================================== */
+/* ADD_COLUMN OP = (NUEVO): FactorDiasIMSS - Factor Dias Calulo IMSS (MEX) */
+ALTER TABLE TiposNomina ADD FactorDiasIMSS numeric(6,4) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

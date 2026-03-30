@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_Anterior>Previous</LB_Anterior>
+		<LB_Descripcion>Description</LB_Descripcion>
+		<LB_SaldosR>Real Balance</LB_SaldosR>
+		
+	</Idioma>
+</Etiquetas>

@@ -1,0 +1,67 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 129 - DBM 236: Diagram: SUFICIENCIAS
+
+	         PARCHE:  Parche023_179_SIF_Suficiencias
+
+GENERADO EN:
+	SERVER:  http://mxpapp36:8300
+	DSN:     sifcim
+	FECHA:   05/08/2011 11:09:53
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* CHG_TABLE CPDocumentoD: Detalle Documentos de Transacc */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): CPDDmontoOri - Monto en Moneda Documento */
+ALTER TABLE CPDocumentoD ADD CPDDmontoOri money NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE CPDocumentoE: Encabezado Documentos de Trans */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): CPDEreferencia - Numero Referencia */
+ALTER TABLE CPDocumentoE ADD CPDEreferencia varchar(20) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): Mcodigo - Codigo Moneda */
+ALTER TABLE CPDocumentoE ADD Mcodigo numeric(8) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): CPDEtc - Tipo Cambio */
+ALTER TABLE CPDocumentoE ADD CPDEtc float NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(NUEVO): TIP="F", SEC="9", COLS="Mcodigo", REF="Monedas" */
+CREATE INDEX CPDocumentoE_FI09 ON CPDocumentoE (Mcodigo)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ================================================================= */
+/*            CREA FKs NUEVOS O CON CAMPOS MODIFICADOS               */
+/* ================================================================= */
+/* CHG_TABLE CPDocumentoE */
+/* ADD_FK OP=(NUEVO): TIP="F", SEC="9", COLS="Mcodigo", REF="Monedas" */
+ALTER TABLE CPDocumentoE ADD CONSTRAINT CPDocumentoE_FK09 FOREIGN KEY (Mcodigo) REFERENCES Monedas (Mcodigo)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

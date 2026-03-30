@@ -1,0 +1,342 @@
+<cfsetting enablecfoutputonly="yes">
+<cfparam name="form.tipo"     type="string" default="">
+<cfparam name="form.rango"    type="string" default="">
+<cfparam name="form.SScodigo" type="string" default="">
+<cfparam name="form.SMcodigo" type="string" default="">
+<cfparam name="form.dbms"     type="string" default="syb">
+
+<cfif form.rango IS 'm'>
+	<cfset form.SScodigo = ListGetAt(form.SMcodigo,1)>
+	<cfset form.SMcodigo = ListGetAt(form.SMcodigo,2)>
+</cfif>
+
+<cfset newline = Chr(13)&Chr(10)>
+<cfset indent  = "  ">
+<cfinclude template="functions.cfm">
+<cfset set_dbms(form.dbms)>
+
+<cfif (tipo EQ "xml")>
+	<cfheader name="Content-Disposition" value="attachment; filename=framework-app.xml">
+<cfoutput><?xml version="1.0" encoding="ascii" ?>
+<datos>
+  <filtro>
+    <cfif form.rango EQ 's'><sistema>#XmlFormat(form.SScodigo)#</sistema>
+    <cfelseif form.rango EQ 'm'><sistema>#XmlFormat(form.SScodigo)#</sistema><modulo>#XmlFormat(form.SMcodigo)#</modulo>
+	<cfelse><exportar_todo /></cfif>
+  </filtro>
+</cfoutput>
+<cfelseif (tipo EQ "sql")>
+	<cfcontent type="text/plain; charset=utf-8">
+	<cfheader name="Content-Disposition" value="attachment; filename=framework-#dbms_type#.sql" >
+	<cfoutput>/*# newline# Exportacion </cfoutput>
+    <cfif form.rango EQ 's'><cfoutput>del sistema # form.SScodigo #</cfoutput></sistema>
+    <cfelseif form.rango EQ 'm'><cfoutput>del modulo # form.SScodigo # # form.SMcodigo #</cfoutput></modulo>
+	<cfelse><cfoutput>completa, todos los sistemas</cfoutput></cfif>
+	<cfoutput># newline # SYBASE: isql -Usa -Ppasswd -Sserver_name -D asp -i framework-app.sql # newline # </cfoutput>
+	<cfoutput># newline # ORACLE: sqlplus user/passwd@server_name @framework-app.sql # newline # </cfoutput>
+	<cfoutput># newline # */# newline ##dbms_go## newline #</cfoutput>
+	<!--- este set nocount va a dar errores en oracle, pero no importa porque sigue --->
+	<cfoutput>#dbms_sql_init()#</cfoutput>
+</cfif>
+
+<cfset insertonly = isDefined("form.insertonly")>
+
+<cfif IsDefined("form.politica")>
+<cfquery datasource="asp" name="ret_pol">
+		select * from PLista
+	</cfquery>
+<cfset gen(ret_pol, "PLista", "parametro", form.tipo, insertonly) >
+</cfif>
+
+<cfquery datasource="asp" name="ret_sis">
+		select * from SSistemas a
+		<cfif form.rango EQ 's' >
+		where a.SScodigo = <cfqueryparam cfsqltype="cf_sql_varchar" value="#form.SScodigo#">
+		<cfelseif form.rango EQ 'm' >
+		where a.SScodigo = <cfqueryparam cfsqltype="cf_sql_varchar" value="#form.SScodigo#">
+		</cfif>
+	</cfquery>
+<cfset gen(ret_sis, "SSistemas", "SScodigo", form.tipo, insertonly) >
+
+<cfquery datasource="asp" name="ret_mod">
+		select * from SModulos a
+		<cfif form.rango EQ 's' >
+		where a.SScodigo = <cfqueryparam cfsqltype="cf_sql_varchar" value="#form.SScodigo#">
+		<cfelseif form.rango EQ 'm' >
+		where a.SScodigo = <cfqueryparam cfsqltype="cf_sql_varchar" value="#form.SScodigo#">
+		  and a.SMcodigo = <cfqueryparam cfsqltype="cf_sql_varchar" value="#form.SMcodigo#">
+		</cfif>
+	</cfquery>
+<cfset gen(ret_mod, "SModulos", "SScodigo,SMcodigo", form.tipo, insertonly) >
+
+<cfquery datasource="asp" name="ret_rol">
+		select * from SRoles a
+		<cfif form.rango EQ 's' >
+		where a.SScodigo = <cfqueryparam cfsqltype="cf_sql_varchar" value="#form.SScodigo#">
+		<cfelseif form.rango EQ 'm' >
+		where a.SScodigo = <cfqueryparam cfsqltype="cf_sql_varchar" value="#form.SScodigo#">
+		</cfif>
+	</cfquery>
+<cfset gen(ret_rol, "SRoles", "SScodigo,SRcodigo", form.tipo, insertonly) >
+
+<cfquery datasource="asp" name="ret_pro">
+		select *
+		from SProcesos a
+		<cfif form.rango EQ 's' >
+		where a.SScodigo = <cfqueryparam cfsqltype="cf_sql_varchar" value="#form.SScodigo#">
+		<cfelseif form.rango EQ 'm' >
+		where a.SScodigo = <cfqueryparam cfsqltype="cf_sql_varchar" value="#form.SScodigo#">
+		  and a.SMcodigo = <cfqueryparam cfsqltype="cf_sql_varchar" value="#form.SMcodigo#">
+		</cfif>
+	</cfquery>
+<cfset gen(ret_pro, "SProcesos", "SScodigo,SMcodigo,SPcodigo", form.tipo, insertonly) >
+
+<cfquery datasource="asp" name="ret_prorol">
+		select * from SProcesosRol a
+		<cfif form.rango EQ 's' >
+		where a.SScodigo = <cfqueryparam cfsqltype="cf_sql_varchar" value="#form.SScodigo#">
+		<cfelseif form.rango EQ 'm' >
+		where a.SScodigo = <cfqueryparam cfsqltype="cf_sql_varchar" value="#form.SScodigo#">
+		  and a.SMcodigo = <cfqueryparam cfsqltype="cf_sql_varchar" value="#form.SMcodigo#">
+		</cfif>
+	</cfquery>
+<cfset gen(ret_prorol, "SProcesosRol", "SScodigo,SMcodigo,SPcodigo,SRcodigo", form.tipo, insertonly) >
+
+<cfquery datasource="asp" name="ret_com">
+		select * from SComponentes a
+		<cfif form.rango EQ 's' >
+		where a.SScodigo = <cfqueryparam cfsqltype="cf_sql_varchar" value="#form.SScodigo#">
+		<cfelseif form.rango EQ 'm' >
+		where a.SScodigo = <cfqueryparam cfsqltype="cf_sql_varchar" value="#form.SScodigo#">
+		  and a.SMcodigo = <cfqueryparam cfsqltype="cf_sql_varchar" value="#form.SMcodigo#">
+		</cfif>
+	</cfquery>
+<cfset gen(ret_com, "SComponentes", "SScodigo,SMcodigo,SPcodigo,SCuri", form.tipo, insertonly) >
+
+<cfquery datasource="asp" name="ret_men">
+		select *  from SMenues a
+		<cfif form.rango EQ 's' >
+		where a.SScodigo = <cfqueryparam cfsqltype="cf_sql_varchar" value="#form.SScodigo#">
+		<cfelseif form.rango EQ 'm' >
+		where a.SScodigo = <cfqueryparam cfsqltype="cf_sql_varchar" value="#form.SScodigo#">
+		  and a.SMcodigo = <cfqueryparam cfsqltype="cf_sql_varchar" value="#form.SMcodigo#">
+		</cfif>
+		order by SMNpath
+	</cfquery>
+<cfset gen(ret_men, "SMenues", "SMNcodigo", form.tipo, insertonly) >
+
+<cfif (tipo EQ "xml") >
+<cfoutput></datos></cfoutput>
+<cfelseif form.tipo EQ "sql">
+<cfoutput><!--- no indentar ---><cfif not insertonly>
+/************* Eliminar componentes que no van **************/
+#dbms_print("Eliminar componentes que no van")#
+#dbms_go#
+create table TMPDATA_IMPORT (
+  SScodigo char(10) not null,
+  SMcodigo char(10) not null,
+  SPcodigo char(10) not null,
+  SCuri varchar(255) not null)
+#dbms_go#
+<cfloop query="ret_com">
+insert INTO TMPDATA_IMPORT values (#quoteSQL(ret_com.SScodigo,'varchar')#, #quoteSQL(ret_com.SMcodigo,'varchar')
+	#, #quoteSQL(ret_com.SPcodigo,'varchar')#, #quoteSQL(ret_com.SCuri,'varchar')#)
+#dbms_go#
+</cfloop>
+delete from SComponentes
+where 1=1<cfif form.rango EQ 's' >
+  and SScodigo = #quoteSQL(form.SScodigo,'varchar')#<cfelseif form.rango EQ 'm' >
+  and SScodigo = #quoteSQL(form.SScodigo,'varchar')#
+  and SMcodigo = #quoteSQL(form.SMcodigo,'varchar')#</cfif>
+  and not exists (select * from TMPDATA_IMPORT
+	where TMPDATA_IMPORT.SScodigo = SComponentes.SScodigo
+	  and TMPDATA_IMPORT.SMcodigo = SComponentes.SMcodigo
+	  and TMPDATA_IMPORT.SPcodigo = SComponentes.SPcodigo
+	  and TMPDATA_IMPORT.SCuri = SComponentes.SCuri)
+#dbms_go#
+#dbms_print("SComponentes eliminados")#
+drop table TMPDATA_IMPORT
+#dbms_go#
+
+/************* Eliminar menues que no van **************/
+#dbms_print("Eliminar menues que no van")#
+#dbms_go#
+create table TMPDATA_IMPORT (
+  SMNcodigo numeric(18) not null)
+#dbms_go#
+<cfloop query="ret_men">
+insert INTO TMPDATA_IMPORT values (#quoteSQL(ret_men.SMNcodigo,'numeric')#)
+#dbms_go#
+</cfloop>
+delete from SMenues
+where 1=1<cfif form.rango EQ 's' >
+  and SScodigo = #quoteSQL(form.SScodigo,'varchar')#<cfelseif form.rango EQ 'm' >
+  and SScodigo = #quoteSQL(form.SScodigo,'varchar')#
+  and SMcodigo = #quoteSQL(form.SMcodigo,'varchar')#</cfif>
+  and not exists (select * from TMPDATA_IMPORT
+	where TMPDATA_IMPORT.SMNcodigo = SMenues.SMNcodigo)
+#dbms_go#
+#dbms_print("SMenues eliminados")#
+drop table TMPDATA_IMPORT
+#dbms_go#
+
+/************* Eliminar procesos que no van **************/
+#dbms_print("Eliminar procesos que no van")#
+#dbms_go#
+create table TMPDATA_IMPORT (
+  SScodigo char(10) not null,
+  SMcodigo char(10) not null,
+  SPcodigo char(10) not null)
+#dbms_go#
+<cfloop query="ret_pro">
+insert INTO TMPDATA_IMPORT values (#quoteSQL(ret_pro.SScodigo,'varchar')#, #quoteSQL(ret_pro.SMcodigo,'varchar')
+	#, #quoteSQL(ret_pro.SPcodigo,'varchar')#)
+#dbms_go#
+</cfloop>
+delete from SProcesosRol
+where 1=1<cfif form.rango EQ 's' >
+  and SScodigo = #quoteSQL(form.SScodigo,'varchar')#<cfelseif form.rango EQ 'm' >
+  and SScodigo = #quoteSQL(form.SScodigo,'varchar')#
+  and SMcodigo = #quoteSQL(form.SMcodigo,'varchar')#</cfif>
+  and not exists (select * from TMPDATA_IMPORT
+	where TMPDATA_IMPORT.SScodigo = SProcesosRol.SScodigo
+	  and TMPDATA_IMPORT.SMcodigo = SProcesosRol.SMcodigo
+	  and TMPDATA_IMPORT.SPcodigo = SProcesosRol.SPcodigo)
+#dbms_go#
+#dbms_print("SProcesosRol eliminados")#
+delete from UsuarioProceso
+where 1=1<cfif form.rango EQ 's' >
+  and SScodigo = #quoteSQL(form.SScodigo,'varchar')#<cfelseif form.rango EQ 'm' >
+  and SScodigo = #quoteSQL(form.SScodigo,'varchar')#
+  and SMcodigo = #quoteSQL(form.SMcodigo,'varchar')#</cfif>
+  and not exists (select * from TMPDATA_IMPORT
+	where TMPDATA_IMPORT.SScodigo = UsuarioProceso.SScodigo
+	  and TMPDATA_IMPORT.SMcodigo = UsuarioProceso.SMcodigo
+	  and TMPDATA_IMPORT.SPcodigo = UsuarioProceso.SPcodigo)
+#dbms_go#
+#dbms_print("UsuarioProceso eliminados")#
+delete from SProcesos
+where 1=1<cfif form.rango EQ 's' >
+  and SScodigo = #quoteSQL(form.SScodigo,'varchar')#<cfelseif form.rango EQ 'm' >
+  and SScodigo = #quoteSQL(form.SScodigo,'varchar')#
+  and SMcodigo = #quoteSQL(form.SMcodigo,'varchar')#</cfif>
+  and not exists (select * from TMPDATA_IMPORT
+	where TMPDATA_IMPORT.SScodigo = SProcesos.SScodigo
+	  and TMPDATA_IMPORT.SMcodigo = SProcesos.SMcodigo
+	  and TMPDATA_IMPORT.SPcodigo = SProcesos.SPcodigo)
+#dbms_go#
+#dbms_print("SProcesos eliminados")#
+drop table TMPDATA_IMPORT
+#dbms_go#
+
+<cfif form.rango NEQ 'm' >
+/************* Eliminar modulos que no van **************/
+#dbms_print("Eliminar modulos que no van")#
+#dbms_go#
+create table TMPDATA_IMPORT (
+  SScodigo char(10) not null,
+  SMcodigo char(10) not null)
+#dbms_go#
+<cfloop query="ret_mod">
+insert INTO TMPDATA_IMPORT values (#quoteSQL(ret_mod.SScodigo,'varchar')#, #quoteSQL(ret_mod.SMcodigo,'varchar')#)
+#dbms_go#
+</cfloop>
+delete from ModulosCuentaE
+where 1=1<cfif form.rango EQ 's' >
+  and SScodigo = #quoteSQL(form.SScodigo,'varchar')#</cfif>
+  and not exists (select * from TMPDATA_IMPORT
+	where TMPDATA_IMPORT.SScodigo = ModulosCuentaE.SScodigo
+	  and TMPDATA_IMPORT.SMcodigo = ModulosCuentaE.SMcodigo)
+#dbms_go#
+#dbms_print("ModulosCuentaE eliminados")#
+delete from SMenues
+where 1=1<cfif form.rango EQ 's' >
+  and SScodigo = #quoteSQL(form.SScodigo,'varchar')#</cfif>
+  and not exists (select * from TMPDATA_IMPORT
+	where TMPDATA_IMPORT.SScodigo = SMenues.SScodigo
+	  and TMPDATA_IMPORT.SMcodigo = SMenues.SMcodigo)
+#dbms_go#
+#dbms_print("SMenues eliminados")#
+delete from SModulos
+where 1=1<cfif form.rango EQ 's' >
+  and SScodigo = #quoteSQL(form.SScodigo,'varchar')#</cfif>
+  and not exists (select * from TMPDATA_IMPORT
+	where TMPDATA_IMPORT.SScodigo = SModulos.SScodigo
+	  and TMPDATA_IMPORT.SMcodigo = SModulos.SMcodigo)
+#dbms_go#
+#dbms_print("SModulos eliminados")#
+drop table TMPDATA_IMPORT
+#dbms_go#
+</cfif></cfif>
+#dbms_print('Importacion finalizada. A continuacion la cuenta de los registros')#
+
+<cfif IsDefined("form.politica")>
+select 'Politicas   ' as tipo, count(1) as real, #ret_pol.RecordCount# as esperado
+from PLista
+#dbms_go#
+</cfif>
+
+select 'Sistemas    ' as tipo, count(1) as real, #ret_sis.RecordCount# as esperado
+from SSistemas<cfif form.rango EQ 's' >
+where SScodigo = #quoteSQL(form.SScodigo,'varchar')#
+<cfelseif form.rango EQ 'm' >
+where SScodigo = #quoteSQL(form.SScodigo,'varchar')#
+</cfif>
+#dbms_go#
+
+select 'Modulos     ' as tipo, count(1) as real, #ret_mod.RecordCount# as esperado
+from SModulos<cfif form.rango EQ 's' >
+where SScodigo = #quoteSQL(form.SScodigo,'varchar')#
+<cfelseif form.rango EQ 'm' >
+where SScodigo = #quoteSQL(form.SScodigo,'varchar')#
+and SMcodigo = #quoteSQL(form.SMcodigo,'varchar')#
+</cfif>
+#dbms_go#
+
+select 'Procesos    ' as tipo, count(1) as real, #ret_pro.RecordCount# as esperado
+from SProcesos<cfif form.rango EQ 's' >
+where SScodigo = #quoteSQL(form.SScodigo,'varchar')#
+<cfelseif form.rango EQ 'm' >
+where SScodigo = #quoteSQL(form.SScodigo,'varchar')#
+and SMcodigo = #quoteSQL(form.SMcodigo,'varchar')#
+</cfif>
+#dbms_go#
+
+select 'Componentes ' as tipo, count(1) as real, #ret_com.RecordCount# as esperado
+from SComponentes<cfif form.rango EQ 's' >
+where SScodigo = #quoteSQL(form.SScodigo,'varchar')#
+<cfelseif form.rango EQ 'm' >
+where SScodigo = #quoteSQL(form.SScodigo,'varchar')#
+and SMcodigo = #quoteSQL(form.SMcodigo,'varchar')#
+</cfif>
+#dbms_go#
+
+select 'Roles       ' as tipo, count(1) as real, #ret_rol.RecordCount# as esperado
+from SRoles<cfif form.rango EQ 's' >
+where SScodigo = #quoteSQL(form.SScodigo,'varchar')#
+<cfelseif form.rango EQ 'm' >
+where SScodigo = #quoteSQL(form.SScodigo,'varchar')#
+</cfif>
+#dbms_go#
+
+select 'ProcesosRol ' as tipo, count(1) as real, #ret_prorol.RecordCount# as esperado
+from SProcesosRol<cfif form.rango EQ 's' >
+where SScodigo = #quoteSQL(form.SScodigo,'varchar')#
+<cfelseif form.rango EQ 'm' >
+where SScodigo = #quoteSQL(form.SScodigo,'varchar')#
+and SMcodigo = #quoteSQL(form.SMcodigo,'varchar')#
+</cfif>
+#dbms_go#
+
+select 'Menues      ' as tipo, count(1) as real, #ret_men.RecordCount# as esperado
+from SMenues<cfif form.rango EQ 's' >
+where SScodigo = #quoteSQL(form.SScodigo,'varchar')#
+<cfelseif form.rango EQ 'm' >
+where SScodigo = #quoteSQL(form.SScodigo,'varchar')#
+and SMcodigo = #quoteSQL(form.SMcodigo,'varchar')#
+</cfif>
+#dbms_go#
+
+/* Fin de archivo */
+</cfoutput>
+</cfif>

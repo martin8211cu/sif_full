@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_Tipo>Transaction Type</LB_Tipo>
+		<LB_NumTransaccion>Transaction Number</LB_NumTransaccion>
+		<LB_OfiCentroFuncional>Functional Center</LB_OfiCentroFuncional>
+		<LB_NombreEmpleado>Employee Name</LB_NombreEmpleado>
+		<LB_FechaRecepcionCustodio>Payment Date</LB_FechaRecepcionCustodio>
+		<LB_Moneda>Currency</LB_Moneda>
+		<LB_Anticipos>Advances</LB_Anticipos>
+		<LB_Gastos>Expenses</LB_Gastos>
+		<LB_Devolucion>Repayment</LB_Devolucion>
+		<LB_Neto>Net</LB_Neto>
+		<LB_Aprobador>Approved</LB_Aprobador>
+		<MSG_ElUsuario>The user</MSG_ElUsuario>
+		<MSG_NoEstaRegistradoComoEmpleado>is not registered as an Employee</MSG_NoEstaRegistradoComoEmpleado>
+	</Idioma>
+</Etiquetas>

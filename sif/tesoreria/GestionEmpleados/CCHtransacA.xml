@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_TituloP>Petty Cash Transactions</LB_TituloP>
+		<LB_TituloG>Management of Petty Cash Transactions</LB_TituloG>
+		<LB_Titulo>Transactions Approval</LB_Titulo>
+		<LB_NumTransaccion>Transaction Number</LB_NumTransaccion>
+		<LB_NuevaSolicitudTransaccion>New Transaction Request</LB_NuevaSolicitudTransaccion>
+		<LB_Caja>Petty Cash</LB_Caja>
+		<LB_TipoTransaccion>Transaction Type</LB_TipoTransaccion>
+		<LB_Tipos>Types</LB_Tipos>
+		<LB_Monto>Amount</LB_Monto>
+		<LB_MontoAprobado>Approved Amount</LB_MontoAprobado>
+		<LB_Descripcion>Description</LB_Descripcion>
+		<LB_MotivoRechazo>Rejection Reason</LB_MotivoRechazo>
+		<LB_Estado>Status</LB_Estado>
+		<LB_Rechazada>Rejected</LB_Rechazada>
+		<LB_MotivoRechazo>Refused</LB_MotivoRechazo>
+		<LB_Fechas>Dates</LB_Fechas>
+		<LB_Desde>From</LB_Desde>
+		<LB_Hasta>To</LB_Hasta>
+		<LB_Moneda>Currency</LB_Moneda>
+		<LB_ListaTransaccionesRechazadas>Rejected Transactions List</LB_ListaTransaccionesRechazadas>
+		<LB_ConfirmacionDepositos>Deposits Confirmation</LB_ConfirmacionDepositos>
+		<LB_Todas>All</LB_Todas><LB_CrearNueva>Create New</LB_CrearNueva></Idioma>
+</Etiquetas>

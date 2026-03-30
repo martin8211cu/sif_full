@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+Se quita el targetNamespace http://soin.net/2006/isb/cambio_paquete/1.0 porque XmlValidate (coldfusion) no lo admite
+-->
+<xs:schema 
+   elementFormDefault="qualified"
+   xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   <xs:element name="cambioPaquete">
+      <xs:complexType>
+         <xs:sequence>
+            <xs:element name="Contratoid" maxOccurs="1" minOccurs="1"/>
+            <xs:element name="paqueteAnterior" type="infoPaquete"/>
+            <xs:element name="paqueteNuevo" maxOccurs="1" minOccurs="1" type="infoPaquete"/>
+            <xs:element name="loginPorBorrar" maxOccurs="unbounded" minOccurs="0" type="infoLogin"/>
+            <xs:element name="loginPorConservar" maxOccurs="unbounded" minOccurs="0" type="infoLogin"/>
+            <xs:element name="paqueteAdicional" maxOccurs="unbounded" minOccurs="0" type="infoPaquete"/>
+         </xs:sequence>
+      </xs:complexType>
+   </xs:element>
+   <xs:complexType name="infoLogin">
+      <xs:sequence>
+         <xs:element name="telefono" maxOccurs="1" minOccurs="0"/>
+         <xs:element name="servicio" maxOccurs="unbounded"/>
+      </xs:sequence>   
+      <xs:attribute name="login" type="xs:string">
+      </xs:attribute>
+   </xs:complexType>
+   <xs:element name="retiroServicio">
+      <xs:complexType>
+         <xs:sequence>
+            <xs:element name="Contratoid" maxOccurs="1" minOccurs="1"/>
+            <xs:element name="paquete" type="infoPaquete"/>
+            <xs:element name="motivoRetiro" type="infoMotivoRetiro"/>
+            <xs:element name="fechaSolicitadaRetiro" type="xs:date"/>
+            <xs:element name="devolucionDeposito" type="xs:boolean"/>
+         </xs:sequence>
+      </xs:complexType>
+   </xs:element>
+   <xs:element name="cambioFormaCobro">
+      <xs:complexType>
+         <xs:sequence>
+            <xs:element name="Contratoid" maxOccurs="1" minOccurs="1"/>
+            <xs:element name="datosFormaCobro">
+               <xs:complexType>
+                  <xs:attribute name="CTcobro" type="xs:string">
+                  </xs:attribute>
+                  <xs:attribute name="CTtipoCtaBco" type="xs:string">
+                  </xs:attribute>
+                  <xs:attribute name="CTbcoRef" type="xs:string">
+                  </xs:attribute>
+                  <xs:attribute name="CTmesVencimiento" type="xs:string">
+                  </xs:attribute>
+                  <xs:attribute name="CTanoVencimiento" type="xs:string">
+                  </xs:attribute>
+                  <xs:attribute name="EFid" type="xs:string">
+                  </xs:attribute>
+                  <xs:attribute name="MTid" type="xs:string">
+                  </xs:attribute>
+                  <xs:attribute name="PpaisTH" type="xs:string">
+                  </xs:attribute>
+                  <xs:attribute name="CTcedulaTH" type="xs:string">
+                  </xs:attribute>
+                  <xs:attribute name="CTnombreTH" type="xs:string">
+                  </xs:attribute>
+                  <xs:attribute name="CTapellido1TH" type="xs:string">
+                  </xs:attribute>
+                  <xs:attribute name="CTapellido2TH" type="xs:string">
+                  </xs:attribute>
+               </xs:complexType>
+            </xs:element>
+         </xs:sequence>
+      </xs:complexType>
+   </xs:element>
+   <xs:complexType name="infoPaquete">
+      <xs:sequence>
+         <xs:element name="codigoPaquete"/>
+         <xs:element name="nombrePaquete"/>
+         <xs:element name="CNsuscriptor" maxOccurs="1" minOccurs="0" type="xs:string"/>
+         <xs:element name="CNnumero" maxOccurs="1" minOccurs="0" type="xs:string"/>
+         <xs:element name="login" maxOccurs="unbounded" minOccurs="0" type="infoLogin"/>
+      </xs:sequence>   
+   </xs:complexType>
+   <xs:complexType name="infoMotivoRetiro">
+      <xs:sequence>
+         <xs:element name="codigoMotivo"/>
+         <xs:element name="nombreMotivo"/>
+      </xs:sequence>   
+   </xs:complexType>
+</xs:schema>

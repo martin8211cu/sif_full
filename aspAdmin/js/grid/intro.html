@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+		<title>Grid (WebFX)</title>
+		<script type="text/javascript" src="../../webfxlayout.js"></script>
+		<style type="text/css">
+			table { width: 500px; }
+			td { vertical-align: top; }
+		</style>
+	</head>
+	<body>
+		<!-- WebFX Layout Include -->
+		<script type="text/javascript">
+			var articleMenu= new WebFXMenu;
+			articleMenu.left  = 384;
+			articleMenu.top   = 86;
+			articleMenu.width = 140;
+			articleMenu.add(new WebFXMenuItem("History &amp; Introduction", "intro.html"));
+			articleMenu.add(new WebFXMenuItem("Usage", "usage.html"));
+			articleMenu.add(new WebFXMenuItem("API", "api.html"));
+			articleMenu.add(new WebFXMenuItem("Backend - Introduction", "backend.html"));
+			articleMenu.add(new WebFXMenuItem("Backend - Perl (cgi/mod_perl)", "perl.html"));
+			articleMenu.add(new WebFXMenuItem("Backend - C++ (cgi/isapi)", "cpp.html"));
+			articleMenu.add(new WebFXMenuItem("Backend - Java (servlet)", "java.html"));
+			articleMenu.add(new WebFXMenuItem("Demo", "javascript:window.open('demo.html','demo','scrollbars=yes,status=no,width=550,height=260,resizable=yes'); void(0);"));
+			articleMenu.add(new WebFXMenuSeparator);
+			articleMenu.add(new WebFXMenuItem("Download", "/download/grid10.zip"));
+			webfxMenuBar.add(new WebFXMenuButton("Article Menu", null, null, articleMenu));
+			webfxLayout.writeTitle("Grid");
+			webfxLayout.writeMenu();
+			webfxLayout.writeDesignedByEdger();
+			function showDemo() {
+				window.open('demo.html','demo','scrollbars=yes,status=no,width=550,height=250,resizable=yes'); void(0);
+			}
+		</script>
+		<!-- end WebFX Layout Includes -->
+		<div class="webfx-main-body">
+			<p>
+				<span class="date">2001-01-20</span> Original Grid Created.<br/>
+			  <span class="date">2002-05-30</span> Work on artical started.<br/>
+			  <span class="date">2003-01-02</span> Article posted.
+			</p>
+			<p>
+				An object based grid widget, targeted at database powered web applications, incorporating
+				features found in popular spreadsheet and database management applications.
+				Currently only internet explorer 5.5 and later are supported.
+			</p>
+			<p style="color: red;">
+				Please note that the backend portion of this article is not yet as comprehensive as desired,
+				and several examples are missing.
+			</p>
+			<h2>History</h2>
+			<p>
+				About two years ago I decided to create a web based user interface for a database I was using at
+				the time. As with most projects, it was put on hold shortly after it was started. I continued to
+				work on one of the core parts of the interface, a simple grid control, since I thought it could
+				be useful in other projects. Since then I've been speeding quite a lot of time working on the
+				grid. It's still not as good as I want it to be and although it could really use a rewrite since
+				it's pretty much a patch-work right now, it's good enough to be useful to many developers and
+				have decided to share it with the world. The actual component has been more or less ready for
+				over a year now, but it was not until now that I've taken the time to write this article. It
+				has been on my todo list for way too long.
+			</p>
+			<h2>Introduction</h2>
+			<p>
+				A grid control is basically a table where the value of the cells can be edited. Other than that,
+				it also provides useful functions for data manipulation or representation such as different data
+				types, sortable and resizable columns, etc. Of course, not all grids are the same. They have
+				different purposes and different feature sets. This grid component neither tries to reassemble
+				nor compete with spreadsheet applications such as Excel, Quattro Pro or even HalfBrain.
+				Enough about what it's not. Let's focus on what it is. As I mentioned earlier, the grid component
+				was originally created to be a part of a large scale web application with intense database
+				interaction. It contains quite a number of functions for interacting with a backend and directly
+				with a database of some kind. Since this component is pretty much useless without a backend, this
+				article will not only discuss the actual DHTML component, like most of our other articles, but
+				will also include information and sample code covering the communication between the component
+				and a backend and vice versa. Sample code for the backend implementation will be provided for a
+				large range of programming languages, platforms and technologies, including perl (cgi/mod_perl),
+				c++ (cgi/isapi) and java (servlets).
+			</p>
+			<h2>Implementation</h2>
+			<p>
+				The grid component is basically a simple html table containing the data, and two more tables
+				providing the column headers and row numbers. Those tables are all linked with a scroll
+				mechanisms synchronizing their scrolling, thus when the main table is scrolled the column header
+				or row id table is also scrolled (Please see our article about synchronized scrolling for
+				information concerning how this can be achieved). The cells are then made editable by moving a
+				single input box to the position of the cell to be edited.
+			</p>
+			<h3>Limitations</h3>
+			<p>
+			  I'm not very satisfied with the current implementation. It's a gigantic patch-work and not even
+			  remotely close to being standards-compatible. Other than that the speed (or rather lack thereof)
+			  is a big problem when working with large sets of data or on slower computers.
+			</p>
+			<p>
+			  <b>History & Introduction</b><br />
+			  <a href="usage.html">Usage</a><br />
+			  <a href="api.html">API</a><br />
+				<a href="backend.html">Backend - Introduction</a><br />
+				Backend - Perl (cgi/mod_perl)<br />
+				Backend - C++ (cgi/isapi)<br />
+				Backend - Java (servlet)<br />
+				<a href="javascript:window.open('demo.html','demo','scrollbars=yes,status=no,width=550,height=260,resizable=yes'); void(0);">Demo</a><br />
+			  <a href="/download/grid10.zip">Download</a>
+			</p>
+			<p class="author">Author: Emil A Eklund</p>
+			<!-- end webfx-main-body -->
+		</div>
+	</body>
+</html>

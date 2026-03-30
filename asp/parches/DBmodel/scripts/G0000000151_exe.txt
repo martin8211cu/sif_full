@@ -1,0 +1,74 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 487 - DBM 432: Creacion de Columna ObservacionesRechazo 
+
+	         PARCHE:  Parche023_582_RH _Nacion_GestionDePerfiles
+
+GENERADO EN:
+	SERVER:  http://mxvqapp34:8300
+	DSN:     sifcim
+	FECHA:   08/01/2012 20:15:03
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* CHG_TABLE FADCierres: Detalle del Cierre por Moneda */
+/* ======================================================================================== */
+/* ADD_COLUMN OP = (NUEVO): FADCdocumentos - Monto Documentos */
+ALTER TABLE FADCierres ADD FADCdocumentos money NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+UPDATE FADCierres SET FADCdocumentos = 0
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE FADCierres ALTER COLUMN FADCdocumentos money NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP = (NUEVO): FADCdocumentossis - Monto Documentos Sistema */
+ALTER TABLE FADCierres ADD FADCdocumentossis money NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+UPDATE FADCierres SET FADCdocumentossis = 0
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE FADCierres ALTER COLUMN FADCdocumentossis money NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE FPagos: Pagos por Transacción */
+/* ======================================================================================== */
+/* CHG_COLUMN OP = (CAMBIO): Tipo - Tipo */
+ALTER TABLE FPagos DROP CONSTRAINT FPagos_CK09 /* CHECK ([Tipo]='C' OR [Tipo]='D' OR [Tipo]='T' OR [Tipo]='E') */
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE FPagos ADD CONSTRAINT FPagos_CK09 CHECK ([Tipo]='A' OR [Tipo]='C' OR [Tipo]='D' OR [Tipo]='T' OR [Tipo]='E')
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE RHDescripPuestoP: RHDescripPuestoP */
+/* ======================================================================================== */
+/* ADD_COLUMN OP = (NUEVO): ObservacionesRechazo - ObservacionesRechazo */
+ALTER TABLE RHDescripPuestoP ADD ObservacionesRechazo varchar(1024) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

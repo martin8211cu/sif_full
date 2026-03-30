@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_TituloListaDepositosBancariosEntregados>Bank Deposits Delivered</LB_TituloListaDepositosBancariosEntregados>
+		<LB_Cuenta>Account</LB_Cuenta>
+		<LB_NumDeposito>Deposit Number</LB_NumDeposito>
+		<LB_Fecha>Date</LB_Fecha>
+		<LB_MonedaDeposito>Currency of Deposit</LB_MonedaDeposito>
+		<LB_MontoDeposito>Deposit Amount</LB_MontoDeposito>
+		<LB_MontoLiq>Settlement Amount</LB_MontoLiq>
+	</Idioma>
+</Etiquetas>

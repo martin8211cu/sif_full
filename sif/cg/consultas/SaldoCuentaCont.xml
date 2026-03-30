@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_Titulo>Balances by Accounting Account -  General Ledger</LB_Titulo>
+		<LB_TipoReporte>Report Type</LB_TipoReporte>
+		<LB_UnaCuenta>One Accounting Account</LB_UnaCuenta>
+		<LB_RangoCuenta>Accounting Accounts Range</LB_RangoCuenta>
+		<LB_ListaCuenta>Accounting Account List</LB_ListaCuenta>
+		<LB_HoraEjecucion>Execution Time</LB_HoraEjecucion>
+		<LB_CuentaContable>Accounting Account</LB_CuentaContable>
+		<LB_CriteriosFiltro>Filter Settings</LB_CriteriosFiltro>
+		<LB_NivelDetalle>Level Detail</LB_NivelDetalle>
+		<LB_OficinaEmpresa>Office/Enterprise</LB_OficinaEmpresa>
+		<LB_NivelTotal>Total Level</LB_NivelTotal>
+		<LB_Periodo>Period</LB_Periodo>
+		<LB_TipoImpresion>Print Type</LB_TipoImpresion>
+		<LB_GrupoOficinas>Office Groups</LB_GrupoOficinas>
+		<LB_AsientoContableLista>Accounting Entry List</LB_AsientoContableLista>
+		<LB_AsientoContable>Accounting Entry</LB_AsientoContable>
+		<LB_IncluirOficina>Include Office</LB_IncluirOficina>
+		<LB_CuentasEnCero>Not include accounts with zero monthly movements</LB_CuentasEnCero>
+		<LB_AsientosCierre>Include Closing Entries</LB_AsientosCierre>
+		<LB_Resumido>Summarized</LB_Resumido>
+		<LB_DetalladoMes>Detailed by Month</LB_DetalladoMes>
+		<LB_DetalladoAsiento>Detailed by Entry</LB_DetalladoAsiento>
+		<LB_DetalladoConsecutivo>Detailed by Consecutive</LB_DetalladoConsecutivo>
+		
+	<LB_GrupoOficinaz>Office Groups</LB_GrupoOficinaz></Idioma>
+</Etiquetas>

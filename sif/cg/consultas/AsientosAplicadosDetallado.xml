@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_Titulo>Applied Entries Detail</LB_Titulo>
+		<LB_Archivo>Applied Entries Detail</LB_Archivo>
+		<LB_ConceptoIni>Initial Concept</LB_ConceptoIni>
+		<LB_ConceptoFin>Final Concept</LB_ConceptoFin>
+		<LB_PeriodoMesIni>Initial Month</LB_PeriodoMesIni>
+		<LB_PeriodoMesFin>Final Month</LB_PeriodoMesFin>
+		<LB_FechaGIni>Initial Register Date</LB_FechaGIni>
+		<LB_FechaGFin>Final Register Date</LB_FechaGFin>
+		<LB_FechaAIni>Initial Application Date</LB_FechaAIni>
+		<LB_FechaAFin>Final Application Date</LB_FechaAFin>
+		<LB_PolizaIni>Initial Voucher</LB_PolizaIni>	
+		<LB_PolizaFin>Final Voucher</LB_PolizaFin>	
+		<LB_Periodo>Period</LB_Periodo>
+		<LB_Mes>Month</LB_Mes>		
+		<LB_Concepto>Concept</LB_Concepto>		
+		<LB_Documento>Document</LB_Documento>
+		<LB_Descripcion>Description</LB_Descripcion>		
+		<LB_Debitos>Debits</LB_Debitos>
+		<LB_Creditos>Credits</LB_Creditos>		
+		<LB_FechaCreacion>Creation Date</LB_FechaCreacion>
+		<LB_FechaAplicacion>Application Date</LB_FechaAplicacion>
+		<LB_FinConsulta>End</LB_FinConsulta>
+		<LB_SinRegistros>No Results</LB_SinRegistros>
+	</Idioma>
+</Etiquetas>

@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_Fecha>Date</LB_Fecha>
+		<LB_Hora>Time</LB_Hora>
+		<LB_Usuario>User</LB_Usuario>
+	</Idioma>
+</Etiquetas>

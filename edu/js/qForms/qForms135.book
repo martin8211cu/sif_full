@@ -1,0 +1,27 @@
+#HTMLDOC 1.8.21
+-t pdf14 -f ../Temp/qForms135.pdf --webpage --no-title --linkcolor #0000ff --linkstyle underline --size Universal --left 1.00in --right 0.50in --top 0.50in --bottom 0.50in --header .t. --footer h.1 --nup 1 --tocheader .t. --tocfooter ..i --portrait --color --no-pscommands --no-xrxcomments --compression=1 --jpeg=0 --fontsize 11.0 --fontspacing 1.2 --headingfont Helvetica --bodyfont Times --headfootsize 11.0 --headfootfont Helvetica --charset 8859-1 --links --no-embedfonts --pagemode document --pagelayout single --firstpage p1 --pageeffect none --pageduration 10 --effectduration 1.0 --no-encryption --permissions all  --owner-password ""  --user-password "" --browserwidth 680
+../Downloads/qFormsAPI_135a/docs/index.htm
+../Downloads/qFormsAPI_135a/docs/acknowledgements.htm
+../Downloads/qFormsAPI_135a/docs/bonus_bits.htm
+../Downloads/qFormsAPI_135a/docs/bonus_cookies.htm
+../Downloads/qFormsAPI_135a/docs/bonus_extensions.htm
+../Downloads/qFormsAPI_135a/docs/bonus_wddx.htm
+../Downloads/qFormsAPI_135a/docs/core_extensions.htm
+../Downloads/qFormsAPI_135a/docs/core_functions.htm
+../Downloads/qFormsAPI_135a/docs/coreapi.htm
+../Downloads/qFormsAPI_135a/docs/expandingapi.htm
+../Downloads/qFormsAPI_135a/docs/extension_fields.htm
+../Downloads/qFormsAPI_135a/docs/extension_functions.htm
+../Downloads/qFormsAPI_135a/docs/extension_validation.htm
+../Downloads/qFormsAPI_135a/docs/faq.htm
+../Downloads/qFormsAPI_135a/docs/gettingstarted.htm
+../Downloads/qFormsAPI_135a/docs/introduction.htm
+../Downloads/qFormsAPI_135a/docs/objects_field.htm
+../Downloads/qFormsAPI_135a/docs/objects_qform.htm
+../Downloads/qFormsAPI_135a/docs/overview.htm
+../Downloads/qFormsAPI_135a/docs/preface.htm
+../Downloads/qFormsAPI_135a/docs/qformapi.htm
+../Downloads/qFormsAPI_135a/docs/requirements.htm
+../Downloads/qFormsAPI_135a/docs/support.htm
+../Downloads/qFormsAPI_135a/docs/using.htm
+../Downloads/qFormsAPI_135a/docs/validation.htm

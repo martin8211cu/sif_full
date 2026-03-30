@@ -1,0 +1,4 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<info>
+	<infoitem key="UD_rsCotizaciones" value="name:CPid;datatype:,name:UsucodigoP;datatype:,name:CPnumero;datatype:,name:PCPid;datatype:,name:CPfechacoti;datatype:,name:CPdescripcion;datatype:,name:CPobs;datatype:,name:CPprocesado;datatype:,name:CPsubtotal;datatype:,name:CPtotdesc;datatype:,name:CPtotimp;datatype:,name:CPtotal;datatype:,name:CPfechaaplica;datatype:,name:CPestado;datatype:" />
+</info>

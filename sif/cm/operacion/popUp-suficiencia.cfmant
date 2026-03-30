@@ -1,0 +1,255 @@
+﻿
+<cfif not isdefined("form.EOidorden") and isdefined ("url.EOidorden") and len(trim(url.EOidorden))>
+    <cfset form.LLave = url.EOidorden>
+    <cfset form.Modulo = 'EO'>   
+</cfif>
+
+<cfif not isdefined("form.TESSPid") and isdefined ("url.TESSPid") and len(trim(url.TESSPid))>
+    <cfset form.Modulo = 'SPM'>
+    <cfset form.LLave = url.TESSPid>
+	<!---Cuando sea por centro funcional cambia el modulo--->
+	<cfif  isdefined ("url.LvarTipoDocumento") and url.LvarTipoDocumento eq 5 >
+		<cfset form.Modulo = 'SPM_CF'>
+	<cfelse>
+		<cfset url.CFid = session.Tesoreria.CFid>
+	</cfif>
+</cfif>
+<cfparam name="form.MaxRows" default="25">
+<table width="99%" align="center" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+         <td>
+            <!---  Filtro  --->
+                                    
+            <cfif isdefined("url.CPDEnumeroDocumento") and len(url.CPDEnumeroDocumento) and not isdefined("form.CPDEnumeroDocumento")><cfset form.CPDEnumeroDocumento = url.CPDEnumeroDocumento></cfif>
+            <cfif isdefined("url.CPDEdescripcion") and len(url.CPDEdescripcion) and not isdefined("form.CPDEdescripcion")><cfset form.CPDEdescripcion = url.CPDEdescripcion></cfif>
+            <cfif isdefined("url.Ccodigo") and len(url.Ccodigo) and not isdefined("form.Ccodigo")><cfset form.Ccodigo = url.Ccodigo></cfif>
+            <cfif isdefined("url.CFcodigo") and len(url.CFcodigo) and not isdefined("form.CFcodigo")><cfset form.CFcodigo = url.CFcodigo></cfif>
+            
+            <script language="JavaScript1.2" src="../../js/utilesMonto.js"></script>						
+            <cfoutput>
+                <form style="margin: 0" action="popUp-suficiencia.cfm" name="fsolicitud" id="fsolicitud" method="post">
+                <input type="hidden" value="#form.LLave#" 	name="LLave">
+                <input type="hidden" value="#form.Modulo#" 	name="Modulo">
+                <table width="100%" border="0" cellspacing="0" cellpadding="2" class="areaFiltro">
+                  <tr> 
+                    <td class="fileLabel" nowrap width="8%" align="right"><label for="CPDEnumeroDocumento">Provisi&oacute;n:</label></td>
+                    <td nowrap width="31%">
+                             <input type="text" name="CPDEnumeroDocumento" size="10" maxlength="20" value="<cfif isdefined('form.CPDEnumeroDocumento')>#form.CPDEnumeroDocumento#</cfif>" style="text-transform: uppercase;" tabindex="1">
+                    </td>
+                    <td class="fileLabel" nowrap width="9%" align="right">Servicio:</td>
+                    <td nowrap width="25%">
+                        <cf_conlis
+                            Campos="Cid,Ccodigo,Cdescripcion"
+                            tabindex="6"
+                            Desplegables="N,S,S"
+                            Modificables="N,S,N"
+                            Size="0,15,35"
+                            Title="Lista Conceptos de Servicios"
+                            Tabla="Conceptos c"
+                            Columnas="Cid,Ccodigo,Cdescripcion"
+                            Filtro="Ecodigo = #Session.Ecodigo# order by Ccodigo,Cdescripcion"
+                            Desplegar="Ccodigo,Cdescripcion"
+                            Etiquetas="C&oacute;digo,Descripci&oacute;n"
+                            filtrar_por="Ccodigo,Cdescripcion"
+                            Formatos="S,S"
+                            form="fsolicitud"
+                            Align="left,left"
+                            Asignar="Cid,Ccodigo,Cdescripcion"
+                            Asignarformatos="I,S,S"
+                            />
+                    </td>
+					<td colspan="2">
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="fileLabel" nowrap width="9%" align="right">Descripci&oacute;n:</td>
+                    <td nowrap width="25%"><input type="text" name="CPDEdescripcion" size="20" maxlength="100" value="<cfif isdefined('form.CPDEdescripcion')>#form.CPDEdescripcion#</cfif>" style="text-transform: uppercase;" tabindex="1">
+                    </td>
+                    <td class="fileLabel" align="right" nowrap>Centro Funcional:</td>
+                    <td nowrap width="25%">
+                          <cf_conlis
+                            Campos="CFid,CFcodigo,CFdescripcion"
+                            tabindex="6"
+                            Desplegables="N,S,S"
+                            Modificables="N,S,N"
+                            Size="0,15,35"
+                            Title="Lista de Centros Funcionales"
+                            Tabla="CFuncional cf"
+                            Columnas="CFid,CFcodigo,CFdescripcion"
+                            Filtro="Ecodigo = #Session.Ecodigo# order by CFcodigo,CFdescripcion"
+                            Desplegar="CFcodigo,CFdescripcion"
+                            Etiquetas="C&oacute;digo,Descripci&oacute;n"
+                            filtrar_por="CFcodigo,CFdescripcion"
+                            Formatos="S,S"
+                            form="fsolicitud"
+                            Align="left,left"
+                            Asignar="CFid,CFcodigo,CFdescripcion"
+                            Asignarformatos="I,S,S"
+                            />
+                    </td>
+                    <td>&nbsp;</td>
+                    <td width="27%" rowspan="1" align="center" valign="center"><input type="submit" name="btnFiltro" value="Filtrar"></td>
+                  </tr>
+                  <tr>
+                  	<td class="fileLabel" nowrap width="9%" align="right">NAP:</td>
+                    <td width="27%" rowspan="1" align="left" valign="center">
+                        <input type="text" 
+                        onFocus="javascript:this.value=qf(this); this.select();"
+                        onKeyUp="javascript:if(snumber(this,event,0)){ if(Key(event)=='13') {this.blur();}}"
+                        name="NAP" size="10" maxlength="10" value="<cfif isdefined('form.NAP')>#form.NAP#</cfif>" style="text-transform: uppercase;" tabindex="1">
+                    </td>
+                   	<td class="fileLabel" nowrap width="9%" align="right">Monto a Utilizar:</td>
+                    <td width="27%" rowspan="1" align="left" valign="center">
+                    	<cfparam name="form.montoTotal" default="">
+                        <cf_monto name="montoTotal" id="montoTotal" tabindex="-1" value="#form.montoTotal#" decimales="2" negativos="false">
+                  	<td class="fileLabel" nowrap width="9%" align="right">N&uacute;mero de Registros:</td>
+                    <td width="27%" rowspan="1" align="left" valign="center">
+                        <input type="text" 
+                        onFocus="javascript:this.value=qf(this); this.select();"
+                        onKeyUp="javascript:if(snumber(this,event,0)){ if(Key(event)=='13') {this.blur();}}"
+                        name="MaxRows" size="10" maxlength="10" value="<cfif isdefined('form.MaxRows')>#form.MaxRows#</cfif>" style="text-transform: uppercase;" tabindex="1">
+                    </td>
+
+                  </tr>
+                </table>
+                </form>
+            </cfoutput>
+        </td>
+    </tr>
+    <tr><td>&nbsp;</td></tr>
+    <tr><td>&nbsp;</td></tr>
+</table>
+
+
+	<!---Lista de Items--->
+    <table align="center" width="99%"  border="0" cellspacing="0" cellpadding="0">
+        <tr>
+            <td class="subTitulo"><font size="2">Lista de Detalles</font></td>
+        </tr>
+    </table>
+
+    
+    <cfquery name="rsPeriodoAux" datasource="#Session.DSN#">
+        select Pvalor 
+        from Parametros
+        where Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#Session.Ecodigo#">
+        and Pcodigo = 50
+    </cfquery>
+    
+    <cfquery name="rsMesAux" datasource="#Session.DSN#">
+        select Pvalor 
+        from Parametros
+        where Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#Session.Ecodigo#">
+        and Pcodigo = 60
+    </cfquery>
+    
+    
+    <cf_dbfunction name="op_concat" returnvariable="_Cat">
+    <cfquery name="rsListaItems" datasource="#session.dsn#">
+        select 'Provision: '#_Cat# <cf_dbfunction name="to_char" args="e.CPDEnumeroDocumento"> #_Cat# ' - '#_Cat# 
+        	e.CPDEdescripcion #_Cat# ' -  NAP=' #_Cat# <cf_dbfunction name="to_char" args="e.NAP"> as corte,
+        	e.CPDEnumeroDocumento, e.CPDEdescripcion, e.NAP,
+            d.CPCano, d.CPCmes, d.Cid, c.Ccodigo,c.Cdescripcion, d.CFid, cf.CFcodigo, CPDDsaldo, CPDDid, 
+            #form.LLave# as llave, '#form.Modulo#' as modulo
+        from CPDocumentoE e 
+            inner join CPDocumentoD d 
+            	on d.CPDEid = e.CPDEid
+            inner join Conceptos c 
+            	on c.Cid=d.Cid
+            inner join CFuncional cf 
+            	on cf.CFid=d.CFid
+         where e.Ecodigo=#session.Ecodigo#
+        and e.CPDEtipoDocumento = 'R' and e.CPDEsuficiencia = 1 
+       and e.CPDEaplicado = 1
+        and d.CPDDsaldo > 0
+        and d.CPCano*100+d.CPCmes <= #rsPeriodoAux.Pvalor*100+rsMesAux.Pvalor#
+        <cf_CPSegUsu_where Reservas="true" aliasCF="d" name="CFid" soloCFs="true">
+        <cfif isdefined("url.CFid") and len(trim(url.CFid))>
+            and d.CFid = #url.CFid#	
+        </cfif>
+        <!---Valida que no este en una OC---> 
+         and (
+              select count(1)
+              	from EOrdenCM ee
+                   inner join DOrdenCM dd
+                          on dd.EOidorden = ee.EOidorden
+              where ee.Ecodigo = e.Ecodigo
+               and ee.EOestado between 0 and 9
+               and dd.CPDDid = d.CPDDid
+            ) = 0
+        <!---Valida que no este en una SP---> 
+         and (
+              select count(1)
+                from TESsolicitudPago spe
+                   inner join TESdetallePago spd
+                          on spd.TESSPid = spe.TESSPid
+              where spe.EcodigoOri = e.Ecodigo
+               and spe.TESSPestado between 0 and 1
+               and spd.CPDDid = d.CPDDid
+            ) = 0
+		<cfif isdefined("form.CPDEnumeroDocumento") and len(trim(form.CPDEnumeroDocumento))>
+            and e.CPDEnumeroDocumento = <cfqueryparam cfsqltype="cf_sql_char" value="#form.CPDEnumeroDocumento#">
+        </cfif>
+        
+        <cfif isdefined("form.CPDEdescripcion") and len(trim(form.CPDEdescripcion)) >
+            and upper(e.CPDEdescripcion) like  upper('%#form.CPDEdescripcion#%')
+        </cfif>
+        
+        <cfif isdefined("form.Cid") and len(trim(form.Cid)) >
+            and c.Cid = <cfqueryparam cfsqltype="cf_sql_numeric" value="#form.Cid#"> 
+        </cfif>
+        
+        <cfif isdefined("form.CFcodigo") and len(trim(form.CFcodigo)) >
+            and upper(cf.CFcodigo) like  upper('%#form.CFcodigo#%')
+        </cfif>
+ 
+       <cfif isdefined("form.NAP") and len(trim(form.NAP)) >
+            and e.NAP= <cfqueryparam cfsqltype="cf_sql_numeric" value="#form.NAP#">
+       </cfif>         
+        order by CPDEnumeroDocumento, CPDDid
+	</cfquery>
+    
+    <table align="center" width="99%"  border="0" cellspacing="0" cellpadding="0">
+        <tr>
+            <td>
+                <cfset navegacion = "">
+    
+                <cfinvoke component="sif.Componentes.pListas" method="pListaQuery">
+                    <cfinvokeargument name="query" value="#rsListaItems#">
+                    <cfinvokeargument name="desplegar" value="CPCano,CPCmes, Ccodigo,Cdescripcion,CFcodigo,CPDDsaldo">
+                    <cfinvokeargument name="etiquetas" value="a&ntilde;o,Mes, Servicio, Descripcion,Centro Funcional,Saldo">
+                    <cfinvokeargument name="formatos" value="V,V,V,V,V,M">
+                    <cfinvokeargument name="align" value="left,left,left,left,left,right">
+                    <cfinvokeargument name="ajustar" value="S">
+                    <cfif isdefined ("rsListaItems") and rsListaItems.recordcount GT 0>
+                        <cfinvokeargument name="botones" value="Agregar"/>
+                    </cfif>
+                    <cfinvokeargument name="showEmptyListMsg" value="true">
+                    <cfinvokeargument name="irA" value="popUp-suficiencia-SQL.cfm">
+                    <cfinvokeargument name="formName" value="form3">
+                    <cfinvokeargument name="maxrows" value="#form.MaxRows#"/>
+                    <cfinvokeargument name="keys" value="CPDDid,llave,modulo">
+                    <cfinvokeargument name="fparams" value="CPDDid">
+                    <cfinvokeargument name="checkboxes" value="S"/>
+                    <cfinvokeargument name="checkall" value="S"/>
+                    <cfinvokeargument name="navegacion" value="#navegacion#"/>
+                    <cfinvokeargument name="usaAjax" value="true"/>
+                    <cfinvokeargument name="conexion" value="#session.dsn#"/>
+                    <cfinvokeargument name="Cortes" value="corte"/>
+                </cfinvoke>
+            </td>
+        </tr>
+    </table>
+
+	<script language='javascript' type='text/JavaScript' >
+    <!--//
+		function funcAgregar(){
+			<!---var MonTot=--->
+			document.form3.action="popUp-suficiencia-SQL.cfm?montoTotal=" + qf(document.getElementById("montoTotal").value);
+			return true;
+        }
+    //-->
+    </script>
+    
+    <hr width="99%" align="center">
+

@@ -1,0 +1,91 @@
+/**************************************************
+ ERRORES EN LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ **************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 1 - Version 100: Actualizar hasta 27/01/2011
+
+	         PARCHE:  BASE CERO: SIF Sistemas
+
+GENERADO EN:
+	SERVER:  http://mxvpapp41:8300
+	DSN:     minisifext
+	FECHA:   02/04/2012 16:28:45
+*/
+
+/* INI_SCRIPT */
+/* CHG_TABLE PCDCatalogo: Detalle de Valores por Catálog */
+/* ADD_KEY OP = (NUEVO): TIP="U", SEC="1", COLS="PCEcatid,PCDvalor,Ecodigo" */
+CREATE UNIQUE NONCLUSTERED INDEX PCDCatalogo_UI01 ON PCDCatalogo (PCEcatid,PCDvalor,Ecodigo)
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]The CREATE UNIQUE INDEX statement terminated because a duplicate key was found for the object name 'dbo.PCDCatalogo' and the index name 'PCDCatalogo_UI01'. The duplicate key value is (53, 001, <NULL>).
+
+/* CHG_TABLE CContables */
+/* ADD_FK OP = (NUEVO): TIP="F", SEC="3", COLS="PCDcatid", REF="PCDCatalogo" */
+ALTER TABLE CContables ADD CONSTRAINT CContables_FK03 FOREIGN KEY (PCDcatid) REFERENCES PCDCatalogo (PCDcatid)
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]The ALTER TABLE statement conflicted with the FOREIGN KEY constraint "CContables_FK03". The conflict occurred in database "sifextsybqa", table "dbo.PCDCatalogo", column 'PCDcatid'.
+
+/* CHG_TABLE CFinanciera */
+/* ADD_FK OP = (NUEVO): TIP="F", SEC="4", COLS="PCDcatid", REF="PCDCatalogo" */
+ALTER TABLE CFinanciera ADD CONSTRAINT CFinanciera_FK04 FOREIGN KEY (PCDcatid) REFERENCES PCDCatalogo (PCDcatid)
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]The ALTER TABLE statement conflicted with the FOREIGN KEY constraint "CFinanciera_FK04". The conflict occurred in database "sifextsybqa", table "dbo.PCDCatalogo", column 'PCDcatid'.
+
+/* CHG_TABLE PCDCatalogo */
+/* ADD_FK OP = (NUEVO): TIP="F", SEC="1", COLS="Ecodigo", REF="Empresas" */
+ALTER TABLE PCDCatalogo ADD CONSTRAINT PCDCatalogo_FK01 FOREIGN KEY (Ecodigo) REFERENCES Empresas (Ecodigo)
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]The ALTER TABLE statement conflicted with the FOREIGN KEY constraint "PCDCatalogo_FK01". The conflict occurred in database "sifextsybqa", table "dbo.Empresas", column 'Ecodigo'.
+
+
+/* ADD_FK OP = (NUEVO): TIP="F", SEC="2", COLS="PCEcatid", REF="PCECatalogo" */
+ALTER TABLE PCDCatalogo ADD CONSTRAINT PCDCatalogo_FK02 FOREIGN KEY (PCEcatid) REFERENCES PCECatalogo (PCEcatid)
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]The ALTER TABLE statement conflicted with the FOREIGN KEY constraint "PCDCatalogo_FK02". The conflict occurred in database "sifextsybqa", table "dbo.PCECatalogo", column 'PCEcatid'.
+
+
+/* ADD_FK OP = (NUEVO): TIP="F", SEC="3", COLS="PCEcatidref", REF="PCECatalogo" */
+ALTER TABLE PCDCatalogo ADD CONSTRAINT PCDCatalogo_FK03 FOREIGN KEY (PCEcatidref) REFERENCES PCECatalogo (PCEcatid)
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]The ALTER TABLE statement conflicted with the FOREIGN KEY constraint "PCDCatalogo_FK03". The conflict occurred in database "sifextsybqa", table "dbo.PCECatalogo", column 'PCEcatid'.
+
+/* CHG_TABLE PCDCatalogoCuenta */
+/* ADD_FK OP = (NUEVO): TIP="F", SEC="3", COLS="PCDcatid", REF="PCDCatalogo" */
+ALTER TABLE PCDCatalogoCuenta ADD CONSTRAINT PCDCatalogoCuenta_FK03 FOREIGN KEY (PCDcatid) REFERENCES PCDCatalogo (PCDcatid)
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]The ALTER TABLE statement conflicted with the FOREIGN KEY constraint "PCDCatalogoCuenta_FK03". The conflict occurred in database "sifextsybqa", table "dbo.PCDCatalogo", column 'PCDcatid'.
+
+
+/* ADD_FK OP = (NUEVO): TIP="F", SEC="4", COLS="PCEcatid", REF="PCECatalogo" */
+ALTER TABLE PCDCatalogoCuenta ADD CONSTRAINT PCDCatalogoCuenta_FK04 FOREIGN KEY (PCEcatid) REFERENCES PCECatalogo (PCEcatid)
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]The ALTER TABLE statement conflicted with the FOREIGN KEY constraint "PCDCatalogoCuenta_FK04". The conflict occurred in database "sifextsybqa", table "dbo.PCECatalogo", column 'PCEcatid'.
+
+/* CHG_TABLE PCDCatalogoCuentaF */
+/* ADD_FK OP = (NUEVO): TIP="F", SEC="1", COLS="CFcuenta", REF="CFinanciera" */
+ALTER TABLE PCDCatalogoCuentaF ADD CONSTRAINT PCDCatalogoCuentaF_FK01 FOREIGN KEY (CFcuenta) REFERENCES CFinanciera (CFcuenta)
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]The ALTER TABLE statement conflicted with the FOREIGN KEY constraint "PCDCatalogoCuentaF_FK01". The conflict occurred in database "sifextsybqa", table "dbo.CFinanciera", column 'CFcuenta'.
+
+
+/* ADD_FK OP = (NUEVO): TIP="F", SEC="2", COLS="PCDcatid", REF="PCDCatalogo" */
+ALTER TABLE PCDCatalogoCuentaF ADD CONSTRAINT PCDCatalogoCuentaF_FK02 FOREIGN KEY (PCDcatid) REFERENCES PCDCatalogo (PCDcatid)
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]The ALTER TABLE statement conflicted with the FOREIGN KEY constraint "PCDCatalogoCuentaF_FK02". The conflict occurred in database "sifextsybqa", table "dbo.PCDCatalogo", column 'PCDcatid'.
+
+
+/* ADD_FK OP = (NUEVO): TIP="F", SEC="3", COLS="PCEcatid", REF="PCECatalogo" */
+ALTER TABLE PCDCatalogoCuentaF ADD CONSTRAINT PCDCatalogoCuentaF_FK03 FOREIGN KEY (PCEcatid) REFERENCES PCECatalogo (PCEcatid)
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]The ALTER TABLE statement conflicted with the FOREIGN KEY constraint "PCDCatalogoCuentaF_FK03". The conflict occurred in database "sifextsybqa", table "dbo.PCECatalogo", column 'PCEcatid'.
+
+
+/* ADD_FK OP = (NUEVO): TIP="F", SEC="4", COLS="CFcuentaniv", REF="CFinanciera" */
+ALTER TABLE PCDCatalogoCuentaF ADD CONSTRAINT PCDCatalogoCuentaF_FK04 FOREIGN KEY (CFcuentaniv) REFERENCES CFinanciera (CFcuenta)
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]The ALTER TABLE statement conflicted with the FOREIGN KEY constraint "PCDCatalogoCuentaF_FK04". The conflict occurred in database "sifextsybqa", table "dbo.CFinanciera", column 'CFcuenta'.
+
+/* CHG_TABLE PCNivelMascara */
+/* ADD_FK OP = (NUEVO): TIP="F", SEC="2", COLS="PCEcatid", REF="PCECatalogo" */
+ALTER TABLE PCNivelMascara ADD CONSTRAINT PCNivelMascara_FK02 FOREIGN KEY (PCEcatid) REFERENCES PCECatalogo (PCEcatid)
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]The ALTER TABLE statement conflicted with the FOREIGN KEY constraint "PCNivelMascara_FK02". The conflict occurred in database "sifextsybqa", table "dbo.PCECatalogo", column 'PCEcatid'.
+
+/* CHG_TABLE SaldosContables */
+/* ADD_FK OP = (NUEVO): TIP="F", SEC="2", COLS="Ccuenta", REF="CContables" */
+ALTER TABLE SaldosContables ADD CONSTRAINT SaldosContables_FK02 FOREIGN KEY (Ccuenta) REFERENCES CContables (Ccuenta)
+ERROR DE BASE DE DATOS: Error Executing Database Query. [Macromedia][SQLServer JDBC Driver][SQLServer]The ALTER TABLE statement conflicted with the FOREIGN KEY constraint "SaldosContables_FK02". The conflict occurred in database "sifextsybqa", table "dbo.CContables", column 'Ccuenta'.
+
+/* END_SCRIPT */
+

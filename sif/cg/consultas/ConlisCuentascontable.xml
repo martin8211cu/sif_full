@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	
+	<Idioma id="en">
+		<LB_Titulo>Accounting Account List</LB_Titulo>
+		<LB_CuentaMayor>Ledger Account</LB_CuentaMayor>
+		<LB_Formato>Format</LB_Formato>
+		<LB_Descripcion>Description</LB_Descripcion>
+		<LB_AceptaMov>Accept Movements</LB_AceptaMov>
+	</Idioma>
+</Etiquetas>

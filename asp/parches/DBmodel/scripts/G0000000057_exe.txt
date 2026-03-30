@@ -1,0 +1,65 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 143 - DBM 247: Cuenta Financiera en Impuestos
+
+	         PARCHE:  Parche023_207_SIF_Impuestos
+
+GENERADO EN:
+	SERVER:  http://mxpapp36:8300
+	DSN:     sifcim
+	FECHA:   12/08/2011 15:56:45
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* CHG_TABLE DImpuestos: Detalle de Impuestos */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): CFcuenta - Cuenta Financiera */
+ALTER TABLE DImpuestos ADD CFcuenta numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+UPDATE DImpuestos SET CFcuenta = 0
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE DImpuestos ALTER COLUMN CFcuenta numeric(18) NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE Impuestos: Impuestos */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): CFcuenta - ID Cuenta Financiera */
+ALTER TABLE Impuestos ADD CFcuenta numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): CFcuentaCxC - CFcuenta CxC */
+ALTER TABLE Impuestos ADD CFcuentaCxC numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): CFcuentaCxCAcred - CFcuenta CxCAcred */
+ALTER TABLE Impuestos ADD CFcuentaCxCAcred numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): CFcuentaCxPAcred - CFcuenta CxPAcred */
+ALTER TABLE Impuestos ADD CFcuentaCxPAcred numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

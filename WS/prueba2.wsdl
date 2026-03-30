@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<definitions xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:s0="https://www.gruponacion.biz/WSSoin/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:i0="https://www.gruponacion.biz/WSSoin/XSDRetorno.xsd" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" targetNamespace="https://www.gruponacion.biz/WSSoin/" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <import namespace="https://www.gruponacion.biz/WSSoin/XSDRetorno.xsd" location="https://www.gruponacion.biz/WssOIN/sERVICIO.ASMX?schema=XSDRetorno" />
+  <types>
+    <s:schema elementFormDefault="qualified" targetNamespace="https://www.gruponacion.biz/WSSoin/">
+      <s:import namespace="http://www.w3.org/2001/XMLSchema" />
+      <s:import namespace="https://www.gruponacion.biz/WSSoin/XSDRetorno.xsd" />
+      <s:element name="QueryDataSet">
+        <s:complexType />
+      </s:element>
+      <s:element name="QueryDataSetResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="QueryDataSetResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="QueryXSD">
+        <s:complexType />
+      </s:element>
+      <s:element name="QueryXSDResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="QueryXSDResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:any namespace="https://www.gruponacion.biz/WSSoin/XSDRetorno.xsd" />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DataSet" nillable="true">
+        <s:complexType>
+          <s:sequence>
+            <s:element ref="s:schema" />
+            <s:any />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="XSDRetorno" nillable="true">
+        <s:complexType>
+          <s:sequence>
+            <s:any namespace="https://www.gruponacion.biz/WSSoin/XSDRetorno.xsd" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </types>
+  <message name="QueryDataSetSoapIn">
+    <part name="parameters" element="s0:QueryDataSet" />
+  </message>
+  <message name="QueryDataSetSoapOut">
+    <part name="parameters" element="s0:QueryDataSetResponse" />
+  </message>
+  <message name="QueryXSDSoapIn">
+    <part name="parameters" element="s0:QueryXSD" />
+  </message>
+  <message name="QueryXSDSoapOut">
+    <part name="parameters" element="s0:QueryXSDResponse" />
+  </message>
+  <message name="QueryDataSetHttpGetIn" />
+  <message name="QueryDataSetHttpGetOut">
+    <part name="Body" element="s0:DataSet" />
+  </message>
+  <message name="QueryXSDHttpGetIn" />
+  <message name="QueryXSDHttpGetOut">
+    <part name="Body" element="s0:XSDRetorno" />
+  </message>
+  <message name="QueryDataSetHttpPostIn" />
+  <message name="QueryDataSetHttpPostOut">
+    <part name="Body" element="s0:DataSet" />
+  </message>
+  <message name="QueryXSDHttpPostIn" />
+  <message name="QueryXSDHttpPostOut">
+    <part name="Body" element="s0:XSDRetorno" />
+  </message>
+  <portType name="Web_x0020_Service_x0020_para_x0020_SOINSoap">
+    <operation name="QueryDataSet">
+      <input message="s0:QueryDataSetSoapIn" />
+      <output message="s0:QueryDataSetSoapOut" />
+    </operation>
+    <operation name="QueryXSD">
+      <input message="s0:QueryXSDSoapIn" />
+      <output message="s0:QueryXSDSoapOut" />
+    </operation>
+  </portType>
+  <portType name="Web_x0020_Service_x0020_para_x0020_SOINHttpGet">
+    <operation name="QueryDataSet">
+      <input message="s0:QueryDataSetHttpGetIn" />
+      <output message="s0:QueryDataSetHttpGetOut" />
+    </operation>
+    <operation name="QueryXSD">
+      <input message="s0:QueryXSDHttpGetIn" />
+      <output message="s0:QueryXSDHttpGetOut" />
+    </operation>
+  </portType>
+  <portType name="Web_x0020_Service_x0020_para_x0020_SOINHttpPost">
+    <operation name="QueryDataSet">
+      <input message="s0:QueryDataSetHttpPostIn" />
+      <output message="s0:QueryDataSetHttpPostOut" />
+    </operation>
+    <operation name="QueryXSD">
+      <input message="s0:QueryXSDHttpPostIn" />
+      <output message="s0:QueryXSDHttpPostOut" />
+    </operation>
+  </portType>
+  <binding name="Web_x0020_Service_x0020_para_x0020_SOINSoap" type="s0:Web_x0020_Service_x0020_para_x0020_SOINSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document" />
+    <operation name="QueryDataSet">
+      <soap:operation soapAction="https://www.gruponacion.biz/WSSoin/QueryDataSet" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="QueryXSD">
+      <soap:operation soapAction="https://www.gruponacion.biz/WSSoin/QueryXSD" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+  </binding>
+  <binding name="Web_x0020_Service_x0020_para_x0020_SOINHttpGet" type="s0:Web_x0020_Service_x0020_para_x0020_SOINHttpGet">
+    <http:binding verb="GET" />
+    <operation name="QueryDataSet">
+      <http:operation location="/QueryDataSet" />
+      <input>
+        <http:urlEncoded />
+      </input>
+      <output>
+        <mime:mimeXml part="Body" />
+      </output>
+    </operation>
+    <operation name="QueryXSD">
+      <http:operation location="/QueryXSD" />
+      <input>
+        <http:urlEncoded />
+      </input>
+      <output>
+        <mime:mimeXml part="Body" />
+      </output>
+    </operation>
+  </binding>
+  <binding name="Web_x0020_Service_x0020_para_x0020_SOINHttpPost" type="s0:Web_x0020_Service_x0020_para_x0020_SOINHttpPost">
+    <http:binding verb="POST" />
+    <operation name="QueryDataSet">
+      <http:operation location="/QueryDataSet" />
+      <input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </input>
+      <output>
+        <mime:mimeXml part="Body" />
+      </output>
+    </operation>
+    <operation name="QueryXSD">
+      <http:operation location="/QueryXSD" />
+      <input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </input>
+      <output>
+        <mime:mimeXml part="Body" />
+      </output>
+    </operation>
+  </binding>
+  <service name="Web_x0020_Service_x0020_para_x0020_SOIN">
+    <documentation>Devuelve tres tipos de datasets</documentation>
+    <port name="Web_x0020_Service_x0020_para_x0020_SOINSoap" binding="s0:Web_x0020_Service_x0020_para_x0020_SOINSoap">
+      <soap:address location="https://www.gruponacion.biz/WssOIN/sERVICIO.ASMX" />
+    </port>
+    <port name="Web_x0020_Service_x0020_para_x0020_SOINHttpGet" binding="s0:Web_x0020_Service_x0020_para_x0020_SOINHttpGet">
+      <http:address location="https://www.gruponacion.biz/WssOIN/sERVICIO.ASMX" />
+    </port>
+    <port name="Web_x0020_Service_x0020_para_x0020_SOINHttpPost" binding="s0:Web_x0020_Service_x0020_para_x0020_SOINHttpPost">
+      <http:address location="https://www.gruponacion.biz/WssOIN/sERVICIO.ASMX" />
+    </port>
+  </service>
+</definitions>

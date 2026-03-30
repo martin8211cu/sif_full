@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<BTN_ImprimirSolicitudEnviada>Print Request Sent</BTN_ImprimirSolicitudEnviada>
+		<MSG_DeseaCerrarDefinitivamenteLaComision>Close definitely the commission?</MSG_DeseaCerrarDefinitivamenteLaComision>
+		<MSG_SinLiquidarAnticiposNiGastos>Expenses and advances not settled</MSG_SinLiquidarAnticiposNiGastos>
+		<MSG_DeseaEnviarAlProcesoDeAprobacionLaLiquidacion>Send Settlement to approval process?</MSG_DeseaEnviarAlProcesoDeAprobacionLaLiquidacion>
+		<MSG_ERRORNoSePuedeAprobarUnaLiquidacionVacia>Error: You can not approve a blank settlement</MSG_ERRORNoSePuedeAprobarUnaLiquidacionVacia>
+		<MSG_ERRORFaltanGastosODepositosPorIngresar>Error: There are deposits or expenses not register</MSG_ERRORFaltanGastosODepositosPorIngresar>
+		<MSG_ERRORFaltanGastosODevolucionesPorIngresar>Error: There are repayments or expenses not register</MSG_ERRORFaltanGastosODevolucionesPorIngresar>
+		<MSG_ERRORLaLiquidacionNoEstaBalanceada>Error: Settlement not balanced</MSG_ERRORLaLiquidacionNoEstaBalanceada>
+		<MSG_ElMontoTotalDelGastoDeViaticosEsMayorAlDetalleDeFacturas>The total expense amount is greater than the amount on invoices</MSG_ElMontoTotalDelGastoDeViaticosEsMayorAlDetalleDeFacturas>
+		<MSG_TotalViaticos>Total Allowance</MSG_TotalViaticos>
+		<MSG_TotalFacturas>Total Invoices</MSG_TotalFacturas>
+	</Idioma>
+</Etiquetas>

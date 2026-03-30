@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_Tipo>Type</LB_Tipo>
+		<LB_NumTransaccion>Transaction Number</LB_NumTransaccion>
+		<LB_Comision>Commission</LB_Comision>
+		<LB_OfiCentroFuncional>Functional Center</LB_OfiCentroFuncional>
+		<LB_NombreEmpleado>Employee Name</LB_NombreEmpleado>
+		<LB_FechaPagoSolicitada>Requested Payment Date</LB_FechaPagoSolicitada>
+		<LB_Moneda>Currency</LB_Moneda>
+		<LB_TotalPagoSolicitado>Total Payment Requested</LB_TotalPagoSolicitado>
+		<LB_Estado>Status</LB_Estado>
+		<LB_Solicitante>Requester</LB_Solicitante>
+	</Idioma>
+</Etiquetas>

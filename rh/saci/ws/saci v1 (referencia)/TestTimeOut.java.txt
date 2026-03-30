@@ -1,0 +1,288 @@
+// FrontEnd Plus GUI for JAD
+// DeCompiled : TestTimeOut.class
+
+package com.soin.isp.services.AAA;
+
+import java.io.PrintStream;
+import java.sql.*;
+import java.util.Hashtable;
+import java.util.Properties;
+//import com.sybase.jdbc.*;
+import com.sybase.jdbc2.jdbc.*;
+
+public class TestTimeOut
+{
+	
+
+    private Properties _Properties;
+    private boolean _DebugMode;
+    private static String _ClassName = "TestTimeOut";
+
+    public TestTimeOut()
+    {
+        super();
+        _Properties = null;
+        _Properties = new Properties();
+    }
+
+    public TestTimeOut(Properties pProperties)
+    {
+        super();
+        _Properties = null;
+        _Properties = pProperties;
+    }
+
+    public void updateTimeOut(String pUserName, long pTimeOut)
+        throws Exception
+    {
+        try
+        {
+
+      
+            if(!_DebugMode)
+                System.out.println("Voy obtener conexion con la BD\t" + (String)_Properties.get("DSN_ODBC") + " " + (String)_Properties.get("UserName") + " " + (String)_Properties.get("Password"));
+            
+            Connection vConnection = getDBConnection((String)_Properties.get("DSN_ODBC"), (String)_Properties.get("UserName"), (String)_Properties.get("Password"));
+            Statement vStatement = vConnection.createStatement();
+            
+            if(!_DebugMode)
+                System.out.println("Ya obtuve conexion con la BD");
+            ResultSet vResultSet = null;
+            
+            if(!_DebugMode)
+                System.out.println("El TimeOut es:\t " + pTimeOut);
+            
+            System.out.println("Select profile_id From cs_user_profile Where user_name = '" + pUserName + "'");
+            vResultSet = vStatement.executeQuery("Select profile_id From cs_user_profile Where user_name = '" + pUserName + "'");
+            if(vResultSet.next())
+            {
+                long vProfileId = vResultSet.getLong("profile_id");
+                vResultSet = vStatement.executeQuery("Select blob_ordinal,blob_data From cs_profile_blob Where profile_id = " + String.valueOf(vProfileId) + " Order By blob_ordinal");
+                if(vResultSet.next())
+                {
+                    int vBlobOrdinal = vResultSet.getInt("blob_ordinal");
+                    String vBlobData = vResultSet.getString("blob_data");
+                    System.out.println("BlobData : [" + vBlobData + "]");
+                    if(existLCPProtocol(vBlobData))
+                        try
+                        {
+                            vBlobData = editLCPProtocol(vBlobData, pTimeOut);
+                            System.out.println("Edit Result : [" + vBlobData + "]");
+                            int vUpdateResult = vStatement.executeUpdate("Update cs_profile_blob Set blob_data = '" + vBlobData + "' Where profile_id = " + String.valueOf(vProfileId) + " And blob_ordinal = " + String.valueOf(vBlobOrdinal));
+                            System.out.println("Update Result : [" + String.valueOf(vUpdateResult) + "]");
+                        }
+                        catch(Exception e)
+                        {
+                            System.out.println("!!!" + _ClassName + ".updateTimeOut() failed editing LCP Protocol...");
+                            System.out.println("\tERROR : [" + e.getMessage() + "]");
+                            throw new Exception(e.getMessage());
+                        }
+                    else
+                        throw new Exception("The lcp protocol isn't defined");
+                } else
+                {
+                    System.out.println("!!!" + _ClassName + ".updateTimeOut()...");
+                    System.out.println("\tWARNING : [No exite blob_ordinal,blob_data en tabla cs_profile_blob para el prepago: '" + pUserName + "' en Cisco]");
+                }
+            } else
+            {
+                System.out.println("!!!" + _ClassName + ".updateTimeOut()...");
+                System.out.println("\tWARNING : [No exite profile_id en tabla cs_user_profile para el prepago: '" + pUserName + "' en Cisco]");
+            }
+        }
+        catch(Exception e)
+        {
+            System.out.println("!!!" + _ClassName + ".updateTimeOut() failed...");
+            System.out.println("\tERROR : [" + e.getMessage() + "]");
+            throw new Exception(e.getMessage());
+        }
+    }
+
+    private boolean existLCPProtocol(String pBlobData)
+    {
+        return pBlobData.indexOf("protocol=lcp") != -1;
+    }
+
+    private String addLCPProtocol(String pBlobData, long pTimeOut)
+        throws Exception
+    {
+        String vResult = null;
+        int vPosServicePPP = pBlobData.indexOf("service=ppp");
+        if(vPosServicePPP != -1)
+        {
+            int vPosIniProtocol = pBlobData.indexOf("{", vPosServicePPP);
+            if(vPosIniProtocol != -1)
+            {
+                String vBeforeSubString = pBlobData.substring(0, vPosIniProtocol + 1);
+                String vAfterSubString = pBlobData.substring(vPosIniProtocol + 1);
+                String vLCPProtocol = " protocol=lcp { set timeout=" + String.valueOf(pTimeOut) + " }";
+                pBlobData = vBeforeSubString + vLCPProtocol + vAfterSubString;
+                vResult = pBlobData;
+            } else
+            {
+                throw new Exception("Service ppp bad defined, not found {");
+            }
+        } else
+        {
+            throw new Exception("Service ppp not found");
+        }
+        return vResult;
+    }
+
+    private String editLCPProtocol(String pBlobData, long pTimeOut)
+        throws Exception
+    {
+        String vResult = null;
+        
+      
+        
+        int vPosLCPProtocol = pBlobData.indexOf("protocol=lcp");
+        if(!_DebugMode)
+            System.out.println("vPosLCPProtocol" + vPosLCPProtocol);
+        if(!_DebugMode)
+            System.out.println("pTimeOut editLCP" + pTimeOut);
+        if(!_DebugMode)
+            System.out.println("pBlobData Before" + pBlobData);
+        if(vPosLCPProtocol != -1)
+        {
+            int vPosIniTimeOut = pBlobData.indexOf("timeout=", vPosLCPProtocol);
+            if(!_DebugMode)
+                System.out.println("vPosIniTimeOut" + vPosIniTimeOut);
+            if(vPosIniTimeOut != -1)
+            {
+                String vBeforeSubString = pBlobData.substring(0, vPosIniTimeOut + "timeout=".length());
+                //if(!_DebugMode)
+                    System.out.println("vBeforeSubString" + vBeforeSubString);
+                int vPosFinTimeOut = pBlobData.indexOf("}", vPosIniTimeOut);
+                //if(!_DebugMode)
+                    System.out.println("vPosFinTimeOut" + vPosFinTimeOut);
+                String vAfterSubString = pBlobData.substring(vPosFinTimeOut - 1);
+                //if(!_DebugMode)
+                    System.out.println("vAfterSubString" + vAfterSubString);
+                pBlobData = vBeforeSubString + String.valueOf(pTimeOut) + vAfterSubString;
+                //if(!_DebugMode)
+                    System.out.println("pBlobData After" + pBlobData);
+                vResult = pBlobData;
+            } else
+            {
+                throw new Exception("Bad definition in protocol tag lcp, timeout not defined");
+            }
+        } else
+        {
+            throw new Exception("LCP Protocol not found");
+        }
+        return vResult;
+        
+    }
+
+    private Connection getDBConnection(String pDSN, String pUserName, String pPassword)
+    {
+        Connection vResult = null;
+                
+                
+        	 if (pDSN.equals("NEMESIS"))
+						
+				 
+			{	 
+			
+			 try
+        			{
+        		
+        		       SybDriver sybdriver = null;  
+        			
+    		    	    //System.out.println("voy ha buscar el driver SybDriver");
+				     	sybdriver = (SybDriver)Class.forName("com.sybase.jdbc2.jdbc.SybDriver").newInstance();
+		
+			        	//System.out.println("ya obtiene la conexion con la BD	4");
+			           	vResult = DriverManager.getConnection("jdbc:sybase:Tds:"+ pDSN.trim() +":2025/csdb",pUserName,pPassword);
+			           	// 196.40.31.12
+			            //System.out.println("ya obtiene la conexion con la BD	5");
+			        
+			        
+			   		}  
+			        catch(ClassNotFoundException e)        
+			        {
+			            System.out.println("!!!" + _ClassName +".getConnection() failed loading driver...");
+			            System.out.println("\tERROR : [" + e.getMessage() + "]");
+			            vResult = null;
+			        }
+			        catch(Exception e) 
+			        {
+			            System.out.println("!!!" + _ClassName +".getConnection() failed...");
+			            System.out.println("\tERROR : [" + e.getMessage() + "]");
+			            vResult = null;            
+			        }
+          
+        
+      		} /* else {
+        
+       
+		        try
+		        {
+		         
+		                    
+		          
+		          
+		            Class.forName("sun.jdbc.odbc.JdbcOdbcDriver");
+		           if(!_DebugMode)
+		                System.out.println("ya obtiene la conexion con la BD\t4");
+		            if(!_DebugMode)
+		                System.out.println("Valores:\t" + pDSN.trim() + " " + pUserName + " " + pPassword);
+		            vResult = DriverManager.getConnection("jdbc:odbc:" + pDSN.trim(), pUserName, pPassword);
+		            
+		       
+		            
+		            if(!_DebugMode)
+		                System.out.println("ya obtiene la conexion con la BD\t5");
+		        }
+		        catch(ClassNotFoundException e)
+		        {
+		            System.out.println("!!!" + _ClassName + ".getConnection() failed loading driver...");
+		            System.out.println("\tERROR : [" + e.getMessage() + "]");
+		            vResult = null;
+		        }
+		        catch(Exception e)
+		        {
+		            System.out.println("!!!" + _ClassName + ".getConnection() failed...");
+		            System.out.println("\tERROR : [" + e.getMessage() + "]");
+		            vResult = null;
+		        }
+		        
+    }*/
+        
+        return vResult;
+    }
+
+    public void setProperties(Properties pProperties)
+    {
+        _Properties = pProperties;
+    }
+
+    public void setDebugMode(boolean pDebugMode)
+    {
+        _DebugMode = pDebugMode;
+    }
+
+    public static void main(String args[])
+    {
+        try
+        {
+            TestTimeOut vTestTimeOut = new TestTimeOut();
+            Properties vProperties = new Properties();
+            vProperties.put("HostName", "osiris");
+            vProperties.put("Port", new Long(2025));
+            vProperties.put("DBName", "SACI");
+            vProperties.put("UserName", "sasistemas");
+            vProperties.put("Password", "sasistemas");
+            vTestTimeOut.setProperties(vProperties);
+            vTestTimeOut.setDebugMode(false);
+            vTestTimeOut.updateTimeOut(args[0], Long.valueOf(args[1]).longValue());
+        }
+        catch(Exception e)
+        {
+            System.out.println("!!!" + _ClassName + ".main() failed...");
+            System.out.println("\tERROR : [" + e.getMessage() + "]");
+        }
+    }
+
+}

@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_Titulo>Partner</LB_Titulo>
+		<LB_Numero>Number</LB_Numero>
+		<LB_Nombre>Name</LB_Nombre>
+		<LB_Identificacion>Identification</LB_Identificacion>
+		<LB_Tipo>Type</LB_Tipo>
+		<LB_Usuario>User</LB_Usuario>
+		<LB_Corporativo>Corporate</LB_Corporativo>
+		<LB_Requeridos>Required</LB_Requeridos>
+		<LB_Alertas>Alerts</LB_Alertas>
+		<LB_SociosNegocio>Partner</LB_SociosNegocio>
+	</Idioma>
+</Etiquetas>

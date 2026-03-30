@@ -1,0 +1,288 @@
+<strong>INDICE:</strong><BR>- <A href='#COLs_CHG'>Columnas a modificarse</A><BR>- <A href='#COLs_ADD'>Columnas nuevas</A><BR>- <A href='#KEYs_ADD'>Llaves nuevas o a regenerarse</A><BR>- <A href='#KEYs_FI'>Indices para llaves foráneas</A><BR><BR><BR>
+			<BR><strong><A name='COLs_CHG'>COLUMNAS QUE VAN A SER ALTERADAS EN LA BASE DE DATOS PORQUE TIENEN CARACTERISTICAS MODIFICADAS EN EL MODELO DBM</A></strong><BR>
+			<table>
+			<tr><td><strong>TABLA</strong></td><td><strong>COLUMNA</strong></td><td><strong>&nbsp;</strong></td><td><strong>TIPO</strong></td><td><strong>LON</strong></td><td><strong>DEC</strong></td><td><strong>obl</strong></td><td><strong>ide</strong></td><td><strong>dfl</strong></td><td><strong>rul</strong></td></tr>
+			
+				<tr>
+					<td>CCHTransaccionesProceso</td><td>CCHTtipo</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td>VARCHAR</td>
+					<td>20</td>
+					<td>0</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					<td></td>
+					<td><strong>([CCHTtipo]='COMISION' OR [CCHTtipo]='GASTO' OR [CCHTtipo]='ANTICIPO' OR [CCHTtipo]='DISMINUCION' OR [CCHTtipo]='CIERRE' OR [CCHTtipo]='AUMENTO' OR [CCHTtipo]='REINTEGRO' OR [CCHTtipo]='APERTURA')</strong></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>VARCHAR</td>
+					<td>20</td>
+					<td>0</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					
+						<td><font color="#FF0000"></font></td>
+					
+					
+						<td>([CCHTtipo]='GASTO' OR [CCHTtipo]='ANTICIPO' OR [CCHTtipo]='DISMINUCION' OR [CCHTtipo]='CIERRE' OR [CCHTtipo]='AUMENTO' OR [CCHTtipo]='REINTEGRO' OR [CCHTtipo]='APERTURA')</td>
+					
+				</tr>
+			
+				<tr>
+					<td>GEanticipo</td><td>GEAmanual</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td><strong>FLOAT</strong></td>
+					<td><strong>15</strong></td>
+					<td><strong>0</strong></td>
+					<td>0</td>
+					
+						<td>0</td>
+					
+					<td></td>
+					<td></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>MONEY</td>
+					<td>18</td>
+					<td>4</td>
+					<td>0</td>
+					
+						<td>0</td>
+					
+					
+						<td><font color="#FF0000"></font></td>
+					
+					
+						<td><font color="#FF0000"></font></td>
+					
+				</tr>
+			
+				<tr>
+					<td>GEanticipoDet</td><td>GEADtipocambio</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td><strong>FLOAT</strong></td>
+					<td><strong>15</strong></td>
+					<td><strong>0</strong></td>
+					<td>0</td>
+					
+						<td>0</td>
+					
+					<td></td>
+					<td></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>MONEY</td>
+					<td>18</td>
+					<td>4</td>
+					<td>0</td>
+					
+						<td>0</td>
+					
+					
+						<td><font color="#FF0000"></font></td>
+					
+					
+						<td><font color="#FF0000"></font></td>
+					
+				</tr>
+			
+				<tr>
+					<td>GEcomision</td><td>GECdescripcion</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td>VARCHAR</td>
+					<td>50</td>
+					<td>0</td>
+					<td><strong>1</strong></td>
+					
+						<td>0</td>
+					
+					<td></td>
+					<td></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>VARCHAR</td>
+					<td>50</td>
+					<td>0</td>
+					<td>0</td>
+					
+						<td>0</td>
+					
+					
+						<td><font color="#FF0000"></font></td>
+					
+					
+						<td><font color="#FF0000"></font></td>
+					
+				</tr>
+			
+				<tr>
+					<td>GEcomision</td><td>GECestado</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td><strong>NUMERIC</strong></td>
+					<td><strong>1</strong></td>
+					<td>0</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					<td><strong>1</strong></td>
+					<td><strong>([GECestado]=(4) OR [GECestado]=(3) OR [GECestado]=(2) OR [GECestado]=(1))</strong></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>INTEGER</td>
+					<td>3</td>
+					<td>0</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					
+						<td>0</td>
+					
+					
+						<td>([GECestado]=(4) OR [GECestado]=(3) OR [GECestado]=(1) OR [GECestado]=(0))</td>
+					
+				</tr>
+			
+				<tr>
+					<td>GEcomision</td><td>GECfechaSolicitud</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td>DATE TIME</td>
+					<td>0</td>
+					<td>0</td>
+					<td><strong>1</strong></td>
+					
+						<td>0</td>
+					
+					<td>getdate()</td>
+					<td></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>DATE TIME</td>
+					<td>0</td>
+					<td>0</td>
+					<td>0</td>
+					
+						<td>0</td>
+					
+					
+						<td>getdate()</td>
+					
+					
+						<td><font color="#FF0000"></font></td>
+					
+				</tr>
+			
+				<tr>
+					<td>STransaccionesProceso</td><td>CCHTtipo</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td>VARCHAR</td>
+					<td>20</td>
+					<td>0</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					<td></td>
+					<td><strong>([CCHTtipo]='COMISION' OR [CCHTtipo]='REINTEGRO' OR [CCHTtipo]='GASTO' OR [CCHTtipo]='DISMINUCION' OR [CCHTtipo]='CIERRE' OR [CCHTtipo]='AUMENTO' OR [CCHTtipo]='APERTURA' OR [CCHTtipo]='ANTICIPO')</strong></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>VARCHAR</td>
+					<td>20</td>
+					<td>0</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					
+						<td><font color="#FF0000"></font></td>
+					
+					
+						<td>([CCHTtipo]='REINTEGRO' OR [CCHTtipo]='GASTO' OR [CCHTtipo]='DISMINUCION' OR [CCHTtipo]='CIERRE' OR [CCHTtipo]='AUMENTO' OR [CCHTtipo]='APERTURA' OR [CCHTtipo]='ANTICIPO')</td>
+					
+				</tr>
+			
+			</table>
+		
+			<BR><strong><A name='COLs_ADD'>COLUMNAS NUEVAS EN EL MODELO DBM QUE SE VAN A CREAR EN LA BASE DE DATOS</A></strong><BR>
+			<table>
+			<tr><td><strong>TABLA</strong></td><td><strong>COLUMNA</strong></td><td><strong>TIPO</strong></td><td><strong>LON</strong></td><td><strong>DEC</strong></td><td><strong>obl</strong></td><td><strong>ide</strong></td><td><strong>dfl</strong></td><td><strong>rul</strong></td></tr>
+			
+				<tr><td>GEcomision&nbsp;&nbsp;</td><td>UsucodigoSolicitud&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>18</td><td>0</td><td>1</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>TESbeneficiario&nbsp;&nbsp;</td><td>Bid&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>18</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+			</table>
+		
+			<BR><strong><A name='COLs_ADD'>LLAVES QUE SE VAN A CREAR.</font></A></strong><BR>
+			<table>
+			<tr><td><strong>TABLA</strong></td><td><strong>TIPO</strong></td><td><strong>SEC.</strong></td><td><strong>COLUMNAS</strong></td><td><strong>TABLA REFERENCIADA</strong></td><td><strong>COLUMNAS REFERENCIADAS</strong></td><td><strong>RAZON</strong></td></tr>
+			
+				
+					<tr><td>TESbeneficiario</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							05
+						</td>
+					
+					<td>Bid</td><td>Bancos</td><td>Bid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+			</table>
+		
+			<BR><strong><A name='KEYs_FI'>INDICES QUE SE VAN A CREAR EN LA BASE DE DATOS PARA SOPORTAR LLAVES FORANEAS</A></strong><BR>
+			<table>
+			<tr><td><strong>TABLA</strong></td><td><strong>TIPO</strong></td><td><strong>SEC.</strong></td><td><strong>COLUMNAS</strong></td><td><strong>TABLA REFERENCIADA</strong></td><td><strong>COLUMNAS REFERENCIADAS</strong></td><td><strong>RAZON</strong></td></tr>
+			
+				
+					<tr><td>TESbeneficiario</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							05
+						</td>
+					
+					<td>Bid</td><td>Bancos</td><td>Bid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+			</table>
+		

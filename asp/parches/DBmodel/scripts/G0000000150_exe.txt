@@ -1,0 +1,169 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 477 - DBM 402: Agregar el campo EOfechaEnvP (fecha de en
+
+	         PARCHE:  Parche023_573_SIF_RP_EstadisticasCM_CompradorResum
+
+GENERADO EN:
+	SERVER:  http://mxvqapp34:8300
+	DSN:     sifcim
+	FECHA:   08/01/2012 20:08:05
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* CHG_TABLE CtasMayor: Cuentas de Mayor */
+/* ======================================================================================== */
+/* CHG_COLUMN OP = (CAMBIO): CTCconversion - TC en Conversión de TC en Conversión de TC en Conv */
+ALTER TABLE CtasMayor DROP CONSTRAINT CtasMayor_CK11 /* CHECK ([CTCconversion]=(3) OR [CTCconversion]=(2) OR [CTCconversion]=(1) OR [CTCconversion]=(0)) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE CtasMayor ADD CONSTRAINT CtasMayor_CK11 CHECK ([CTCconversion]=(4) OR [CTCconversion]=(3) OR [CTCconversion]=(2) OR [CTCconversion]=(1) OR [CTCconversion]=(0))
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP = (NUEVO): TCHid - Id Historico Tipo de Cambio */
+ALTER TABLE CtasMayor ADD TCHid numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE DDocumentosCxP: Detalle de Documentos sin Post */
+/* ======================================================================================== */
+/* ADD_KEY OP = (NUEVO): TIP="F", SEC="14", COLS="Ecodigo,Icodigo", REF="Impuestos" */
+CREATE INDEX DDocumentosCxP_FI14 ON DDocumentosCxP (Ecodigo,Icodigo)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE EContablesImportacion: EContablesImportacion */
+/* ======================================================================================== */
+/* ADD_COLUMN OP = (NUEVO): Oorigen - Oorigen */
+ALTER TABLE EContablesImportacion ADD Oorigen char(4) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE EOrdenCM: Encabezado de Orden De Compra */
+/* ======================================================================================== */
+/* ADD_COLUMN OP = (NUEVO): EOfechaEnvP - Fecha de envio de la orden al proveedor */
+ALTER TABLE EOrdenCM ADD EOfechaEnvP datetime NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* ADD_TABLE HtiposcambioConversionD: Tipos de Cambios Historicos De */
+/* ======================================================================================== */
+
+CREATE TABLE HtiposcambioConversionD (
+	 TCHid                          numeric(18)          NULL
+	,Ecodigo                        integer              NULL
+	,Speriodo                       integer              NULL
+	,Smes                           integer              NULL
+	,Mcodigo                        numeric(18)          NULL
+	,TCHvalor                       float                NULL
+	,BMfecha                        datetime             NULL
+	,BMUsucodigo                    numeric(18)          NULL
+	,ts_rversion                    timestamp           
+	)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP = (TAB NUEVA): TIP="I", SEC="1", COLS="TCHid,Ecodigo,Speriodo,Smes,Mcodigo" */
+CREATE NONCLUSTERED INDEX HtiposcambioConversionD_ID01 ON HtiposcambioConversionD (TCHid,Ecodigo,Speriodo,Smes,Mcodigo)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* ADD_TABLE HtiposcambioConversionE: Tipos de Cambios Historicos En */
+/* ======================================================================================== */
+
+CREATE TABLE HtiposcambioConversionE (
+	 TCHid                          numeric(18)          identity
+	,Ecodigo                        integer              NULL
+	,TCHcodigo                      varchar(4)           NULL
+	,TCHdescripcion                 varchar(30)          NULL
+	,BMUsucodigo                    numeric(18)          NULL
+	,ts_rversion                    timestamp           
+	)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP = (TAB NUEVA): TIP="P", SEC="0", COLS="TCHid" */
+ALTER TABLE HtiposcambioConversionE ADD CONSTRAINT HtiposcambioConversionE_PK PRIMARY KEY CLUSTERED (TCHid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE SaldosContablesConvertidos: SaldosContablesConvertidos */
+/* ======================================================================================== */
+/* CHG_COLUMN OP = (CAMBIO): CTCconversion - TC en Conversión de TC en Conversión de Estados Fi */
+ALTER TABLE SaldosContablesConvertidos DROP CONSTRAINT SaldosContablesConverti01_CK17 /* CHECK ([CTCconversion] IS NULL OR ([CTCconversion]=(3) OR [CTCconversion]=(2) OR [CTCconversion]=(1) OR [CTCconversion]=(0))) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE SaldosContablesConvertidos ADD CONSTRAINT SaldosContablesConverti01_CK17 CHECK ([CTCconversion] IS NULL OR ([CTCconversion]=(4) OR [CTCconversion]=(3) OR [CTCconversion]=(2) OR [CTCconversion]=(1) OR [CTCconversion]=(0)))
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP = (NUEVO): SLinicialGE - Saldo Inicial Local Corporativo */
+ALTER TABLE SaldosContablesConvertidos ADD SLinicialGE money DEFAULT 0 NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP = (NUEVO): SOinicialGE - Saldo Inicial Original Corporativo */
+ALTER TABLE SaldosContablesConvertidos ADD SOinicialGE money DEFAULT 0 NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP = (NUEVO): TCHid - ID Tipo Cambio Historico */
+ALTER TABLE SaldosContablesConvertidos ADD TCHid numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE TESmedioPago: TESmedioPago */
+/* ======================================================================================== */
+/* ADD_COLUMN OP = (NUEVO): TESenviaCorreo - Envia correo al Beneficiario */
+ALTER TABLE TESmedioPago ADD TESenviaCorreo bit DEFAULT 0 NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ================================================================= */
+/*            CREA FKs NUEVOS O CON CAMPOS MODIFICADOS               */
+/* ================================================================= */
+/* CHG_TABLE DDocumentosCxP */
+/* ADD_FK OP = (NUEVO): TIP="F", SEC="14", COLS="Ecodigo,Icodigo", REF="Impuestos" */
+ALTER TABLE DDocumentosCxP ADD CONSTRAINT DDocumentosCxP_FK14 FOREIGN KEY (Ecodigo,Icodigo) REFERENCES Impuestos (Ecodigo,Icodigo)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_TABLE HtiposcambioConversionD */
+/* ADD_FK OP = (TAB NUEVA): TIP="F", SEC="1", COLS="TCHid", REF="HtiposcambioConversionE" */
+ALTER TABLE HtiposcambioConversionD ADD CONSTRAINT HtiposcambioConversionD_FK01 FOREIGN KEY (TCHid) REFERENCES HtiposcambioConversionE (TCHid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

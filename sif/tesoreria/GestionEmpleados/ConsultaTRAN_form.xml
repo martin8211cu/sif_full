@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_ImpresionTransaccionesCajaChica>Print of Petty Cash Transactions</LB_ImpresionTransaccionesCajaChica>
+		<LB_TransaccionesCajaChica>Petty Cash Transactions</LB_TransaccionesCajaChica>
+		<LB_CajaChica>Petty Cash</LB_CajaChica>
+		<LB_TipoMovimiento>Movement Type</LB_TipoMovimiento>
+		<LB_Transaccion>Transaction</LB_Transaccion>
+		<LB_SeguimientoTransaccion>Transaction Tracking</LB_SeguimientoTransaccion>
+		<LB_Estado>Status</LB_Estado>
+		<LB_UsuarioAprobador>Approver User</LB_UsuarioAprobador>
+		<LB_Fecha>Date</LB_Fecha>
+		<LB_TransaccionRelacionada>Related Transaction</LB_TransaccionRelacionada>
+		<LB_Monto>Amount</LB_Monto>
+	</Idioma>
+</Etiquetas>

@@ -1,0 +1,151 @@
+	<cfquery name="qryFacturas" datasource="#Session.Edu.DSN#">
+						set nocount on
+							declare @maxFact numeric
+							
+							select @maxFact = (select (
+								isnull(max(EFconsecutivo),0)
+							 ) +1
+							from EFactura)
+						
+							insert EFactura 
+							(EFconsecutivo,  EFnumdoc, EFnombredoc, CEcontrato, CEcodigo, EFfechadoc,
+								 EFfechavenc, EFfechasis, EFporcdesc, EFmontodesc, EFtotal,
+							 	 EFestado, EFobservacion, Usucodigo, Ulocalizacion)
+							values (
+								@maxFact,
+								convert(varchar,@maxFact),
+								<cfqueryparam cfsqltype="cf_sql_varchar" value="#rsContratos.CEtitular#">,
+								<cfqueryparam cfsqltype="cf_sql_char" value="#rsContratos.CEcontrato#">,
+								<cfqueryparam cfsqltype="cf_sql_numeric" value="#Session.Edu.CEcodigo#">,															
+								convert( datetime, <cfqueryparam value="#form.EFfechadoc#" cfsqltype="cf_sql_varchar">, 103 ),
+								convert( datetime, <cfqueryparam value="#form.EFfechavenc#" cfsqltype="cf_sql_varchar">, 103 ),
+								getDate(),
+								0,
+								0,
+								0,
+								'T',
+								<cfqueryparam cfsqltype="cf_sql_varchar" value="#form.EFobservacion#">,
+								<cfqueryparam cfsqltype="cf_sql_numeric" value="#Session.Edu.Usucodigo#">,
+								<cfqueryparam cfsqltype="cf_sql_varchar" value="#Session.Ulocalizacion#">
+							)
+							
+							select @@identity as nFactura
+							
+						set nocount off
+					</cfquery>
+					<!--- <cfdump var="#qryFacturas#"> 
+					<cfabort> --->
+					<cfset nuevaFact = "">
+
+					<cfif isdefined('qryFacturas') and qryFacturas.recordCount GT 0>	<!--- Logro hacer el ALTA del encabezado de la factura --->
+						<cfset nuevaFact = qryFacturas.nfactura>
+						<cfquery datasource="#Session.Edu.DSN#" name="rsContratoDET"> 	<!--- Seleccion de todos los alumnos del contrato actual --->	
+							select CEcontrato, convert(varchar,a.Ecodigo) as Ecodigo, 
+							convert(varchar,fca.FCid) as FCid, 
+							FCAmontores, 
+							FCdescripcion
+							from Alumnos a,
+								FactConceptosAlumno fca,
+								FacturaConceptos fc
+							where a.CEcodigo = <cfqueryparam cfsqltype="cf_sql_numeric" value="#Session.Edu.CEcodigo#">
+								and a.Ecodigo = fca.Ecodigo
+								and a.CEcodigo = fca.CEcodigo
+								and fca.FCid = fc.FCid
+								and FCAperiodicidad in (#PreserveSingleQuotes(cadenaPeriodicidad)#)	
+								and fca.FCfechainicio <= convert( datetime, <cfqueryparam value="#form.EFfechadoc#" cfsqltype="cf_sql_varchar">, 103 )	
+								and fca.FCfechafin >= convert( datetime, <cfqueryparam value="#form.EFfechadoc#" cfsqltype="cf_sql_varchar">, 103 )	
+								and CEcontrato = <cfqueryparam cfsqltype="cf_sql_char" value="#trim(codContrato)#">
+						</cfquery>
+						<!--- <cfdump var="#rsContratoDET#"> 
+						<cfabort> --->
+						<cfif isdefined('rsContratoDET') and rsContratoDET.recordCount GT 0>	<!--- Conceptos del contrato "X" --->
+							<cfloop query="rsContratoDET">						
+								<cfquery name="qryAltaConceptos" datasource="#Session.Edu.DSN#">
+									set nocount on
+									declare @key numeric
+
+									insert DFactura 
+										(EFid, CEcodigo, Ecodigo, FCid, DFdescripcion, DFmonto, DFcantidad, DFtotal, 
+												DFdesc, Usucodigo, Ulocalizacion)
+									values (
+											<cfqueryparam cfsqltype="cf_sql_numeric" value="#nuevaFact#">,
+											<cfqueryparam cfsqltype="cf_sql_numeric" value="#Session.Edu.CEcodigo#">,
+											<cfqueryparam cfsqltype="cf_sql_numeric" value="#rsContratoDET.Ecodigo#">,
+											<cfqueryparam cfsqltype="cf_sql_numeric" value="#rsContratoDET.FCid#">,
+											<cfqueryparam cfsqltype="cf_sql_varchar" value="#rsContratoDET.FCdescripcion#">,
+											<cfqueryparam cfsqltype="cf_sql_numeric" value="#rsContratoDET.FCAmontores#">,
+											1,
+											<cfqueryparam cfsqltype="cf_sql_numeric" value="#rsContratoDET.FCAmontores#">,
+											0,
+											<cfqueryparam cfsqltype="cf_sql_numeric" value="#Session.Edu.Usucodigo#">,
+											<cfqueryparam cfsqltype="cf_sql_varchar" value="#Session.Ulocalizacion#">
+										)							
+
+									select @key = @@identity
+
+									<!--- Actualizar el monto total --->
+									update EFactura 
+									set EFtotal = (select sum(b.DFtotal) from DFactura b where b.EFid = EFactura.EFid)
+									where EFid = (select EFid from DFactura where DFlinea = @key)
+
+									set nocount off
+								</cfquery>
+								<cfset nuevoAlumno = "">									
+								<cfset nuevoAlumno = rsContratoDET.Ecodigo>	
+								<!--- Insercion de Incidencias del Estudiante --->
+								<cfquery datasource="#Session.Edu.DSN#" name="rsIncidenciasEstud"> <!--- Seleccion de todas las incidencias del alumno del encargado actual --->
+									select * from Incidencias
+									where CEcodigo = <cfqueryparam cfsqltype="cf_sql_numeric" value="#Session.Edu.CEcodigo#">
+										and convert(datetime,Ifecha,103) <= convert( datetime, <cfqueryparam value="#form.Ifecha#" cfsqltype="cf_sql_varchar">, 103 )
+										and Ecodigo = <cfqueryparam cfsqltype="cf_sql_numeric" value="#nuevoAlumno#">
+								</cfquery>
+								<!--- <cfdump var="#rsIncidenciasEstud#"> 
+								<cfabort> --->
+								<cfif isdefined('rsIncidenciasEstud') and rsIncidenciasEstud.recordCount GT 0>
+									<cfloop query="rsIncidenciasEstud">
+										
+										<cfquery name="qryAltaIncidencias" datasource="#Session.Edu.DSN#">
+											set nocount on
+											declare @key numeric
+										<!--- Error al grabar detalle de incidencias , el encabezado lo hace bien --->
+											insert DFactura 
+												(EFid, CEcodigo, Ecodigo, ITid, DFdescripcion, DFmonto, DFcantidad, DFtotal, 
+														DFdesc, Usucodigo, Ulocalizacion)
+											values (
+													<cfqueryparam cfsqltype="cf_sql_numeric" value="#nuevaFact#">,
+													<cfqueryparam cfsqltype="cf_sql_numeric" value="#Session.Edu.CEcodigo#">,
+													<cfqueryparam cfsqltype="cf_sql_numeric" value="#rsIncidenciasEstud.Ecodigo#">,
+													<cfqueryparam cfsqltype="cf_sql_numeric" value="#rsIncidenciasEstud.ITid#">,
+													<cfqueryparam cfsqltype="cf_sql_varchar" value="#rsIncidenciasEstud.Idescripcion#">,
+													<cfqueryparam cfsqltype="cf_sql_numeric" value="#rsIncidenciasEstud.Imonto#">,
+													1,
+													<cfqueryparam cfsqltype="cf_sql_numeric" value="#rsIncidenciasEstud.Imonto#">,
+													0,
+													<cfqueryparam cfsqltype="cf_sql_numeric" value="#Session.Edu.Usucodigo#">,
+													<cfqueryparam cfsqltype="cf_sql_varchar" value="#Session.Ulocalizacion#">
+												)
+											
+											select @key = @@identity
+											
+											<!--- Actualizar el monto total --->
+											update EFactura 
+											set EFtotal = (select sum(b.DFtotal) from DFactura b where b.EFid = EFactura.EFid)
+											where EFid = (select EFid from DFactura where DFlinea = @key)
+											
+											<!--- Borrado de la incidencia anteriormente insertada --->
+											
+											delete Incidencias
+											where Iid = <cfqueryparam cfsqltype="cf_sql_numeric" value="#rsIncidenciasEstud.Iid#">							
+											  and Ecodigo = <cfqueryparam cfsqltype="cf_sql_numeric" value="#nuevoAlumno#"> 
+											set nocount off
+										</cfquery>
+									</cfloop>
+								</cfif>
+							
+								
+							</cfloop>
+														
+						</cfif>
+						
+						
+					</cfif>

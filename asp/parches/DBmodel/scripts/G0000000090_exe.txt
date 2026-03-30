@@ -1,0 +1,21 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 203 - DBM 372: Se modifica el default de inconformidad a
+
+	         PARCHE:  Parche023_446_SIF_CorrecionesConciliacionTCE
+
+GENERADO EN:
+	SERVER:  http://mxvdapp12:8301
+	DSN:     sifcim
+	FECHA:   26/11/2011 13:56:08
+*/
+
+/* INI_SCRIPT */
+
+/* END_SCRIPT */

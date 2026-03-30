@@ -1,0 +1,1 @@
+select name, databasepropertyex(name,'collation') from master..sysdatabases

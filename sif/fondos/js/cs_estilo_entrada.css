@@ -1,0 +1,205 @@
+
+
+
+HR.color {
+	background-color : #006699;
+	line-height : 100%;
+	word-spacing : 0px;
+	margin-top : 0;
+	margin-bottom : 0;
+	color : #006699;
+}
+ .mensaje {
+	background-color : White;
+	border : solid White;
+	font-size : 10pt;
+	font-family : Arial, Helvetica, sans-serif;
+}
+
+.celdaprueba {
+	background-color : transparent;
+	cursor : auto;
+	font-family : Arial, Helvetica, sans-serif;
+	font-size : 11px;
+}
+
+.celdabordes {
+	border-color : #006699 #006699 #006699 #006699;
+	border-left-style : solid;
+	border-right-style : solid;
+	border-left-width : 1px;
+	border-right-width : 1px;
+}
+
+.celdabordes1 {
+	border-color : #006699 #006699 #006699 #006699;
+	border-left-style : solid;
+	border-right-style : solid;
+	border-left-width : 0px;
+	border-right-width : 1px;
+}
+
+
+
+
+.celda {
+	color :  Black;
+	font-family :  Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size : 10px;
+}
+
+.celda1 {
+	color :  Black;
+	font-family : Arial, Helvetica, sans-serif;
+	font-size : 10px;
+}
+
+.cajablanca {
+	background-color : White;
+	font-family : Arial, Helvetica, sans-serif;
+	font-size : 8pt;
+	font-weight : bold;
+	border : White;
+}
+
+
+
+TD.derechos {
+	padding-bottom : 1px;
+	padding-top : 1px;
+	padding-left : 10px;
+	padding-right : 10px;
+	border-top : 2px solid #B0C4DE;
+	border-bottom : 2px solid Black;
+	font-size : 10px;
+	color : White;
+}
+
+.barraboton {
+	background-color :  006699;
+	border-color :  006699;
+	color :  006699;
+	border-bottom-color : Black;
+	border-bottom-style : solid;
+	border-bottom-width : 2px;
+	border-top : 2px solid #B0C4DE;
+}
+A {
+	text-decoration :  none;
+	}
+
+
+A:hover {
+	TEXT-DECORATION: underline;
+	color:#FF0000;
+	}
+
+A.texto:HOVER {
+	color: #87CEFA;
+}
+
+
+A.texto {
+	color: White;
+}
+
+Body {
+	 font-family: Arial, Helvetica, sans-serif; 
+	 font-size: 11px;
+	color : Black;
+	
+	
+	 }
+
+H1 {
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+H3 {
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+
+TD { 
+	font-family: Verdana; 
+	font-size: 10pt 
+	}
+
+TD.texto {
+	font-family: Arial, Helvetica, sans-serif; 
+	font-size: 11px;
+	color : Black;
+}
+
+
+.tdtitulo {
+	font-family : Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size : 8pt;
+}
+
+.cajabusqueda {
+	 background-color: #006699;
+	 font-family: Verdana; 
+	 color: #FFCC00;
+	 font-weight: bold 
+	 }
+
+.cajalectura {
+	background :  #006699;
+	font-family :  Verdana, Geneva, Arial, Helvetica, sans-serif;
+	color :  #FFCE00;
+	font-weight :  bold;
+	text-align :  left;
+	border-style : solid;
+	border-color :  #006699;
+	cursor : default;
+}
+
+input:ckeck_l {
+	background :  #006699;
+	font-family :  Verdana, Geneva, Arial, Helvetica, sans-serif;
+	color :  #FFCE00;
+	font-weight :  bold;
+	text-align :  left;
+	border-style : solid;
+}
+
+		
+.cajabusqueda1 {
+	 background-color: #DBDBDB;
+	 font-family: Verdana; 
+	 color: Black;
+	 font-weight: bold;
+ 	}
+
+input:check_e {
+	background-color: #DBDBDB;
+	 font-family: Verdana; 
+	 color: Black;
+	 font-weight: bold;
+
+}
+
+	
+.cajabusqueda2 {
+	background-color: #DBDBDB;
+	 font-family: Verdana; 
+	 color: Black;
+	 font-weight: bold;
+	font-size : 10px;
+}
+.texto {
+	COLOR: #FFF; 
+	FONT-FAMILY: verdana,arial, helvetica, geneva, swiss, sunsans-regular; 
+	FONT-SIZE: 8pt; 
+	TEXT-DECORATION: none
+}
+
+.boton {
+	font-weight :  bold;
+	font-family :  Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size : 12px;
+	font-style : normal;
+	font-variant : normal;
+}
+

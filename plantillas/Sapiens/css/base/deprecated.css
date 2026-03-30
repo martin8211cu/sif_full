@@ -1,0 +1,33 @@
+
+/*
+ * Se mantienen por compatibilidad, no usar en apliaciones nuevas
+ *
+ * areafiltro         debe sustituirse por un portlet
+ * ayuda              debe sustituirse por un portlet
+ * etiquetaProgreso   no causa efecto visual
+ * sectionTitle       usar subTitulo o tituloAlterno
+ */
+.areaFiltro {  
+ background-color:#E8E8E8; 
+ border-style: solid; 
+ border-width: 1px; 
+ padding: 1px;
+ border-top: 1px solid buttonshadow;
+ border-left: 1px solid buttonshadow;
+ border-right: 1px solid buttonshadow;
+ border-bottom: 1px solid buttonshadow;
+ color: #000000;
+}
+.ayuda {
+	background-color: #EEEEEE;
+	border: thin solid #000000;
+}
+.etiquetaProgreso {
+	font-family: Tahoma, sans-serif;
+	font-size: 8pt;
+}
+.sectionTitle {
+	/* extraido de rh.css */
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	border: 1px solid #000000;
+}

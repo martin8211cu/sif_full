@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_Anticipo>Advance</LB_Anticipo>
+		<LB_Fecha>Date</LB_Fecha>
+		<LB_Concepto>Concept</LB_Concepto>
+		<LB_Moneda>Currency</LB_Moneda>
+		<LB_Saldo>Balance</LB_Saldo>
+		<LB_MontoLiquidar>Settle Amount</LB_MontoLiquidar>
+		<LB_Viatico>Allowance</LB_Viatico>
+	</Idioma>
+</Etiquetas>

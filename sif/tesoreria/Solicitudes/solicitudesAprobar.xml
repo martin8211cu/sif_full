@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_Titulo>Approval of Payment Requests</LB_Titulo>
+		<LB_Solicitante>Requester</LB_Solicitante>
+		<LB_Estado>Status</LB_Estado>
+		<LB_NumSolicitud>Request Number</LB_NumSolicitud>
+		<LB_Beneficiario>Beneficiary</LB_Beneficiario>
+		<LB_Moneda>Currency</LB_Moneda>
+		<LB_CentroFuncional>Funtional Center</LB_CentroFuncional>
+		<LB_BeneficiarioContado>Beneficiary Counted</LB_BeneficiarioContado>
+		<LB_ClienteDetallista>Retail Customer</LB_ClienteDetallista>	
+		<LB_SocioNegocio>Partner</LB_SocioNegocio>
+		<LB_FechaDesde>Date from</LB_FechaDesde>
+		<LB_Hasta>to</LB_Hasta>
+		<LB_Estado>Status</LB_Estado>
+		<LB_Todos>All</LB_Todos>
+		<LB_MotivoCancelacion>Cancellation reason</LB_MotivoCancelacion>
+		<LB_MotivoRechazo>Reject reason</LB_MotivoRechazo>
+		<LB_MotivoRechazoAnterior>Previously Rejected Reason</LB_MotivoRechazoAnterior>
+		<LB_IncluirSubordinados>Include Dependent</LB_IncluirSubordinados>
+	<LB_ImprimirSolicitudEnviada>Print Request Sent</LB_ImprimirSolicitudEnviada><LB_FechaPagoSolicitado>Payment Request Date</LB_FechaPagoSolicitado><LB_FechaSolicitud>Request Date</LB_FechaSolicitud><LB_InstrAlBanco>Bank Instruction</LB_InstrAlBanco><LB_MotRechazoAnt>Previously Rejected Reason</LB_MotRechazoAnt><LB_Observaciones>Comments</LB_Observaciones><LB_PagTes>Treasury Payment</LB_PagTes><LB_TituloCambioTES>Treasury Change</LB_TituloCambioTES><LB_TituloRechazo>Reject</LB_TituloRechazo><LB_TotalPagoSolicitado>Total Amount Requested</LB_TotalPagoSolicitado><LB_TituloListaDet>Payment Request Detail</LB_TituloListaDet></Idioma>	
+</Etiquetas>

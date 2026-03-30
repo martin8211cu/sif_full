@@ -1,0 +1,191 @@
+body {
+	font-size: smaller;
+	color: #000000;
+	background-color: #FFFFFF;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+.titulo {  font-weight: bolder; text-align: center; vertical-align: middle; font-size: small}
+.subTitulo {  font-weight: bold; border-color: black black #CCCCCC; border-style: inset; border-top-width: 0px; border-right-width: 0px; border-bottom-width: 1px; border-left-width: 0px}
+.etiqueta {  text-decoration: none; text-transform: capitalize}
+.texto {  background-color: #F5F5F5; border: 1px #DFDFDF inset; text-align: justify; vertical-align: middle; text-indent: 5px}
+.liga {
+	font-style: normal;
+	white-space: nowrap;
+	font-size: xx-small;
+}
+td {  font-size: xx-small; font-family: Verdana, Arial, Helvetica, sans-serif; font-weight: normal}
+a {
+	text-decoration: none;
+	color: #000000;
+}
+.listaNon {  text-indent: 10px; vertical-align: middle}
+.listaPar {  background-color: #FAFAFA; vertical-align: middle; text-indent: 10px}
+.listaCorte {  font-weight: bold; background-color: #F5F5F5; vertical-align: middle; padding-top: 1px; padding-bottom: 1px}
+.listaSimple {
+	border-color: black black #CCCCCC;
+	text-indent: 15px;
+	vertical-align: middle;
+	border-style: inset;
+	border-top-width: 0px;
+	border-right-width: 0px;
+	border-bottom-width: 1px;
+	border-left-width: 0px;
+}
+.listaCorteSimple {  font-weight: bold; border-color: black black #999999; border-style: inset; border-top-width: 0px; border-right-width: 0px; border-bottom-width: 1px; border-left-width: 0px}
+input {  background-color: #FAFAFA; font-size:  xx-small}
+select {  background-color: #FAFAFA; font-size: xx-small}
+textarea {  background-color: #FAFAFA; font-size: 11px}
+.superTitulo {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 150%;
+	font-style: normal;
+	font-weight: bold;
+	font-variant: small-caps;
+	text-transform: capitalize;
+	text-align: center;
+	vertical-align: middle;
+}
+.caja {
+	border-top-width: 3px;
+	border-right-width: 1px;
+	border-bottom-width: 1px;
+	border-left-width: 1px;
+	border-top-style: outset;
+	border-right-style: solid;
+	border-bottom-style: solid;
+	border-left-style: solid;
+	border-top-color: gray;
+	border-right-color: gray;
+	border-bottom-color: gray;
+	border-left-color: gray;
+}
+a:hover {
+	color: #FF0033;
+}
+.menuOpcion {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: xx-small;
+	font-variant: small-caps;
+	text-transform: capitalize;
+	background-color: #F5F5F5;
+	text-align: center;
+	vertical-align: middle;
+	padding: 2px;
+	margin: 4px;
+	color: #000000;
+	border-bottom: 2px inset #CCCCCC;
+	font-weight: bold;
+}
+.tituloAlterno {
+	font-weight: bolder;
+	text-align: center;
+	vertical-align: middle;
+	font-size: small;
+	padding: 2px;
+	background-color: #F5F5F5;
+}
+.tituloEncab {
+	font-weight: bolder;
+	text-align: left;
+	vertical-align: middle;
+	font-size: 14px;
+	padding: 2px;
+	background-color: #F5F5F5;
+}
+.area {  font-weight: bold; background-color: #F5F5F5; vertical-align: middle; padding-top: 1px; padding-bottom: 1px}
+.EncabLista {
+	font-size: 14px;
+	font-style: normal;
+	color: #FFFFFF;
+	background-color: #ADADCA;
+	letter-spacing: normal;
+	text-align: left;
+	word-spacing: normal;
+	vertical-align: middle;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-weight: bold;
+}
+.superSubTitulo {
+	font-size: 125%;
+	font-weight: bold;
+	font-variant: small-caps;
+	text-transform: capitalize;
+	font-family: Arial, Helvetica, sans-serif;
+	font-style: normal;
+	vertical-align: middle;
+}
+
+.columna{
+    padding-left: 5;
+}
+.tituloListas {
+
+	font-weight: bolder;
+	vertical-align: middle;
+	padding: 2px;
+	background-color: #F5F5F5;
+}
+.ayuda {
+	background-color: #EEEEEE;
+	border: thin solid #CCCCCC;
+}
+
+.areaFiltro {  
+ background-color:#E8E8E8; 
+ border-style: solid; 
+ border-width: 1px; 
+ padding: 1px;
+ border-top: 1px solid buttonshadow;
+ border-left: 1px solid buttonshadow;
+ border-right: 1px solid buttonshadow;
+ border-bottom: 1px solid buttonshadow;
+ color: #000000;
+}
+
+.tituloMantenimiento {
+	font-weight: bolder;
+	text-align: center;
+	vertical-align: middle;
+	font-size: small;
+	padding: 2px;
+	background-color: #F5F5F5;
+	border: 1px solid buttonshadow;
+}
+.tabSelected {
+	background-color: white;
+	font-weight: bolder;
+	font-size: 10pt;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-variant: small-caps;
+	border-top: 1px solid black;
+	border-right: 1px solid black;
+	border-bottom: 0px solid black;
+	border-left: 1px solid black;
+}
+
+.tabNormal {
+	background-color: #ADADCA;
+	font-size: 10pt;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-variant: small-caps;
+	border-top: 1px solid #FFFFFF;
+	border-right: 1px solid #666666;
+	border-bottom: 1px solid #666666;
+	border-left: 1px solid #FFFFFF;
+}
+
+.tabContent {
+	background-color: white;
+	border-top-width: 0px;
+	border-right-width: 1px;
+	border-bottom-width: 1px;
+	border-left-width: 1px;
+	border-top-style: solid;
+	border-right-style: solid;
+	border-bottom-style: solid;
+	border-left-style: solid;
+	border-top-color: #000000;
+	border-right-color: #000000;
+	border-bottom-color: #000000;
+	border-left-color: #000000;
+}

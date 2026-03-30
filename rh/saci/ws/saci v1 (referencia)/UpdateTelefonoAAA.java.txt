@@ -1,0 +1,350 @@
+/*
+    com-soin-isp-services-AAA-UpdateTelefonoAAA.java
+
+    NOTE: This file is a generated file.
+          Do not modify it by hand!
+*/
+
+package com.soin.isp.services.AAA;
+
+//**********
+//*  ClassName: UpdateTelefonoAAA.class
+//*  Author: Alexander Ortega B.
+//*  Description: Actualiza la variable telefono en Cisco para usuarios del paquete de accso por un telefono
+//*  Last Update: 2000/12/05
+//**********
+
+import java.sql.*;
+import java.util.*;
+import com.sybase.jdbc2.jdbc.*;
+//import com.sybase.jdbc.*;
+
+public class UpdateTelefonoAAA extends java.lang.Object
+{
+    // CONSTRUCTORS.
+
+    public UpdateTelefonoAAA()
+    {
+		super();
+		_Properties = new Properties();
+    }
+
+    public UpdateTelefonoAAA(Properties pProperties)
+    {
+		super();
+		_Properties = pProperties;
+    }
+
+
+    // CLASS METHODS.
+
+    // This method update in general form the temporal user timeout variable.
+    public String updateTelefonoAAA(String pUserName, String pListTelefonos, String pOpcion) throws Exception
+    {
+		String vResult = "-1";		// This error is method general error. 
+		String vBlobData = "";  	// Blod Data de la info de los telefonos
+		int vBlobOrdinal = 1;		// Secuenciador del Blod Data de la info de los telefonos
+		ResultSet vResultSet = null;
+
+		try
+		{
+			// obtiene la conexion con la BD 
+			//	 System.out.println("Voy obtener conexion con la BD	"+ (String)_Properties.get("DSN_ODBC") +" "+ (String)_Properties.get("UserName") +" "+ (String)_Properties.get("Password"));
+			Connection vConnection = this.getDBConnection((String)_Properties.get("DSN_ODBC"), (String)_Properties.get("UserName"), (String)_Properties.get("Password"));
+			 System.out.println("despues de this.getDBConnection");
+			
+			Statement vStatement = vConnection.createStatement();
+			//System.out.println("Ya obtuve conexion con la BD");
+
+				 System.out.println("La Lista Telefonos es:	 " + pListTelefonos);
+
+			// Obtiene el profile_id del login en Cisco
+			System.out.println("Select profile_id"+
+			                   " From cs_user_profile"+
+							   " Where user_name = '" + pUserName + "'");
+			vResultSet = vStatement.executeQuery("Select profile_id"+
+			                                     " From cs_user_profile"+
+												 " Where user_name = '" + pUserName + "'");
+
+			if (vResultSet.next())
+			{ // Existe el profile_id del prepago
+				long vProfileId = vResultSet.getLong("profile_id");
+
+				if (pOpcion.equals("B"))
+				{ // Se debe borrar el registro de la cs_profile_blob al cambiar 
+				  // a otro paquete que no tenga la estructura del telefono
+				  	System.out.println("Borro reg cs_profile_blob para el login: '" + pUserName + "' en Cisco");
+					System.out.println("exec sacictrl..sp_Mant_Telefonos_AAA" + 
+									   "  @profile_id = "+ vProfileId +
+ 									   " , @blob_ordinal = "+ vBlobOrdinal +
+									   " , @lista_telefonos = '"+ pListTelefonos +"'" +
+									   " , @opcion = 'B'");
+
+					// Ejecuta Delete de la estruc de telefono en Cisco 
+					vResultSet = vStatement.executeQuery("exec sacictrl..sp_Mant_Telefonos_AAA" + 
+														 "  @profile_id = "+ vProfileId +
+														 " , @blob_ordinal = "+ vBlobOrdinal +
+														 " , @lista_telefonos = '"+ pListTelefonos +"'" +
+														 " , @opcion = 'B'");
+
+					if (vResultSet.next())
+					{ // Obtiene el resultado del sp_Mant_Telefonos_AAA
+						int Result = vResultSet.getInt("Result");									 
+						System.out.println("Insert Result : [" + String.valueOf(Result) + "]");										 
+
+						if (Result == 1)
+						{
+							System.out.println("Insert Result : [exito]");
+							vResult = "0";
+						}
+						else
+						{
+							System.out.println("Insert Result : [fallo]");										 
+							vResult = "0";
+						}
+					}
+					else
+					{ // No pudo optener el resultado del sp_Mant_Telefonos_AAA
+						System.out.println("!!!" + _ClassName +".updateTelefonoAAA()...");	
+						System.out.println("\tERROR : [No pudo optener el resultado del sp_Mant_Telefonos_AAA para el login: '" + pUserName + "' en Cisco]");
+						vResult = "0";
+					}
+				}
+				else
+				{
+					// Obtiene el Blob_Data de el profile_id del usuario en Cisco.
+					vResultSet = vStatement.executeQuery("Select blob_ordinal,blob_data"+
+					      								 " From cs_profile_blob"+
+														 " Where profile_id = " + String.valueOf(vProfileId) + 
+														 " Order By blob_ordinal");
+
+					if (vResultSet.next())
+					{ // Exite el la informacion en la tabla cs_profile_blob para el prepago en Cisco
+						vBlobOrdinal = vResultSet.getInt("blob_ordinal");
+						vBlobData = vResultSet.getString("blob_data");
+
+						System.out.println("BlobData : [" + vBlobData + "]");
+
+						if (pOpcion.equals("M"))
+						{ // Se debe modificar el registro de la cs_profile_blob con la nueva estructura del telefono
+							System.out.println("Mofidico reg cs_profile_blob para el login: '" + pUserName + "' en Cisco");
+							System.out.println("exec sacictrl..sp_Mant_Telefonos_AAA" + 
+											   "  @profile_id = "+ vProfileId + 
+											   " , @blob_ordinal = "+ vBlobOrdinal +
+											   " , @lista_telefonos = '"+ pListTelefonos +"'" +
+											   " , @opcion = 'M'");
+
+							// Ejecuta Update de la estruc de telefono en Cisco 
+							vResultSet = vStatement.executeQuery("exec sacictrl..sp_Mant_Telefonos_AAA" + 
+																 "  @profile_id = "+ vProfileId + 
+																 " , @blob_ordinal = "+ vBlobOrdinal +
+																 " , @lista_telefonos = '"+ pListTelefonos +"'" +
+																 " , @opcion = 'M'");
+
+							if (vResultSet.next())
+							{ // Obtiene el resultado del sp_Mant_Telefonos_AAA
+								int Result = vResultSet.getInt("Result");									 
+								System.out.println("Insert Result : [" + String.valueOf(Result) + "]");										 
+
+								if (Result == 1)
+								{
+									System.out.println("Insert Result : [exito]");
+									vResult = "0";
+								}
+								else
+								{
+									System.out.println("Insert Result : [fallo]");										 
+									vResult = "-1";
+								}
+							}
+							else
+							{ // No pudo optener el resultado del sp_Mant_Telefonos_AAA
+								System.out.println("!!!" + _ClassName +".updateTelefonoAAA()...");	
+								System.out.println("\tERROR : [No pudo optener el resultado del sp_Mant_Telefonos_AAA para el login: '" + pUserName + "' en Cisco]");
+								vResult = "-1";
+							}							
+						} // if (pOpcion.equals("M"))
+					}
+					else
+					{ // No exite el la informacion en la tabla cs_profile_blob para el login en Cisco
+						System.out.println("!!!" + _ClassName +".updateTelefonoAAA()...");	
+						System.out.println("\tWARNING : [No exite blob_ordinal,blob_data en tabla cs_profile_blob para el prepago: '" + pUserName + "' en Cisco]");
+
+						System.out.println("(Inserto reg cs_profile_blob para el login: '" + pUserName + "' en Cisco");	
+						System.out.println("exec sacictrl..sp_Mant_Telefonos_AAA" + 
+										   "  @profile_id = "+ vProfileId +
+										   " , @blob_ordinal = " + vBlobOrdinal +
+										   " , @lista_telefonos = '"+ pListTelefonos +"'" +
+										   " , @opcion = 'P'");
+
+
+						// Ejecuta Insert de la estruc de telefono en Cisco 
+						vResultSet = vStatement.executeQuery("exec sacictrl..sp_Mant_Telefonos_AAA" + 
+															 "  @profile_id ="+ vProfileId + 
+															 " , @blob_ordinal =" + vBlobOrdinal +
+															 " , @lista_telefonos = '"+ pListTelefonos + "'" +
+															 " , @opcion = 'P'");
+
+						if (vResultSet.next())
+						{ // Obtiene el resultado del sp_Mant_Telefonos_AAA
+							int Result = vResultSet.getInt("Result");									 
+							System.out.println("Insert Result : [" + String.valueOf(Result) + "]");										 
+
+							if (Result == 1)
+							{
+								System.out.println("Insert Result : [exito]");
+								vResult = "0";
+							}
+							else
+							{
+								System.out.println("Insert Result : [fallo]");										 
+								vResult = "-1";
+							}
+						}
+						else
+						{ // No pudo optener el resultado del sp_Mant_Telefonos_AAA
+							System.out.println("!!!" + _ClassName +".updateTelefonoAAA()...");	
+							System.out.println("\tERROR : [No pudo optener el resultado del sp_Mant_Telefonos_AAA para el login: '" + pUserName + "' en Cisco]");
+							vResult = "-1";
+						}
+					} // if (vResultSet.next())
+				} // if (pOpcion.equals("B"))
+			}
+			else
+			{ // No existe el profile_id del login
+				System.out.println("!!!" + _ClassName +".updateTelefonoAAA() failed...");	
+				System.out.println("\tERROR : [No exite profile_id en tabla cs_user_profile para el login: '" + pUserName + "' en Cisco]");
+				vResult = "-1";
+			} // if (vResultSet.next())
+		}
+		catch(Exception e)
+		{
+			System.out.println("!!!" + _ClassName +".updateTelefonoAAA() failed...");	
+			System.out.println("\tERROR : [" + e.getMessage() + "]");
+			throw new Exception(e.getMessage());
+		}
+		vResultSet.close();
+		vResultSet = null;
+		return vResult;
+    } // updateTelefonoAAA
+
+
+    // Get a connection with the DB.
+    //private Connection getDBConnection(String pHost, long pPort, String pDataBase, String pUserName, String pPassword)
+    private Connection getDBConnection(String pDSN, String pUserName, String pPassword)
+    {
+        Connection vResult = null;
+        
+/*                          
+		  if ((!pDSN.equals("NEMESIS")))
+	
+				 
+		{	 
+			
+			try
+        	{
+					    Class.forName("sun.jdbc.odbc.JdbcOdbcDriver");
+				       	vResult = DriverManager.getConnection("jdbc:odbc:" + pDSN.trim(), pUserName, pPassword);						
+						    
+			}
+	        catch(ClassNotFoundException e)        
+	        {
+	            System.out.println("!!!" + _ClassName +".getConnection() failed loading driver...");
+	            System.out.println("\tERROR : [" + e.getMessage() + "]");
+	            vResult = null;
+	        }
+	        catch(Exception e) 
+	        {
+	            System.out.println("!!!" + _ClassName +".getConnection() failed...");
+	            System.out.println("\tERROR : [" + e.getMessage() + "]");
+	            vResult = null;            
+	        }
+                                               
+                              
+           
+    	} else {
+    		
+  */  		 try
+        		{
+        		        	
+        		       SybDriver sybdriver = null;  
+        			
+    		    	    //System.out.println("voy ha buscar el driver SybDriver");
+				     	sybdriver = (SybDriver)Class.forName("com.sybase.jdbc2.jdbc.SybDriver").newInstance();
+		
+	
+		
+			        	//System.out.println("ya obtiene la conexion con la BD	4");
+			           	vResult = DriverManager.getConnection("jdbc:sybase:Tds:"+ pDSN.trim() +":2025/csdb",pUserName,pPassword);
+			           	// 196.40.31.12
+			            //System.out.println("ya obtiene la conexion con la BD	5");
+			        
+			        
+			   }  
+			        catch(ClassNotFoundException e)        
+			        {
+			            System.out.println("!!!" + _ClassName +".getConnection() failed loading driver...");
+			            System.out.println("\tERROR : [" + e.getMessage() + "]");
+			            vResult = null;
+			        }
+			        catch(Exception e) 
+			        {
+			            System.out.println("!!!" + _ClassName +".getConnection() failed...");
+			            System.out.println("\tERROR : [" + e.getMessage() + "]");
+			            vResult = null;            
+			        }
+    		
+    		
+    		    		
+    //	  } // else
+    	
+    	    		
+       return vResult;
+    } // getDBConnection
+
+
+    // Set the class properties in run time.
+    public void setProperties(Properties pProperties)
+    {
+		_Properties = pProperties;
+    }
+
+
+    // Set the debug mode of the class.
+    public void setDebugMode(boolean pDebugMode)
+    {
+		_DebugMode = pDebugMode;
+    }
+
+
+    public static void main(String[] args)
+    {
+
+		try
+		{
+			UpdateTelefonoAAA vUpdateTelefonoAAA = new UpdateTelefonoAAA();
+			Properties vProperties = new Properties();
+			vProperties.put("HostName", "osiris");
+			vProperties.put("Port", new Long(2025));
+			vProperties.put("DBName", "SACI");
+			vProperties.put("UserName", "sasistemas");
+			vProperties.put("Password", "sasistemas");
+			vUpdateTelefonoAAA.setProperties(vProperties);
+			vUpdateTelefonoAAA.setDebugMode(false);
+															  //pUserName (login) pListTelefonos       pOpcion (P o M o B)				
+			String Result = vUpdateTelefonoAAA.updateTelefonoAAA((String)args[0], (String)args[1], (String)args[2]);
+		}
+		catch(Exception e) 
+		{
+			System.out.println("!!!" + _ClassName + ".main() failed...");
+			System.out.println("\tERROR : [" + e.getMessage() + "]");
+		}
+    } // main
+
+
+    // CLASS PROPERTIES.
+    private Properties _Properties = null;		// Contains the class properties.
+    private boolean _DebugMode = true;
+    private static String _ClassName = "UpdateTelefonoAAA";
+}
+

@@ -1,0 +1,4 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<info>
+	<infoitem key="UD_rsLineasProceso" value="name:LPCid;datatype:,name:PCPid;datatype:,name:CEcodigo;datatype:,name:Ecodigo;datatype:,name:EcodigoASP;datatype:,name:cncache;datatype:,name:DSlinea;datatype:,name:ESidsolicitud;datatype:,name:DScant;datatype:,name:Unidad;datatype:,name:DSdescripcion;datatype:,name:DSdescalterna;datatype:,name:DSobservacion;datatype:" />
+</info>

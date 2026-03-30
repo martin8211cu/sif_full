@@ -1,0 +1,7 @@
+Es muy importante que el interfazToSoin.sql se instale en 
+la base de datos de los sistemas propios EXTERNOS, no en las de SIF o Interfaces 
+
+INSISTO NO SE DEBE INSTALAR NI EN LA BASE DE DATOS DEL SIF, 
+NI EN LA BASE DE DATOS DE INTERFACES
+
+Leer el Readme.txt para los pasos a seguir en la instalación del WebService.

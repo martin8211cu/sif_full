@@ -1,0 +1,4 @@
+Ojo, asegurarse que tenga el ecodigo en 1 para SOIN y luego dejarlo en 2 para HSBC
+1. http://10.7.7.78:8300/cfmx/sif/tasks/DTS_ActualizaListaEntrada_Task.cfm
+2. http://10.7.7.78:8300/cfmx/home/public/SimulaSalidaConsutla.cfm
+3. http://10.7.7.78:8300/cfmx/sif/tasks/DTS_ActualizaListaSalida_Task.cfm

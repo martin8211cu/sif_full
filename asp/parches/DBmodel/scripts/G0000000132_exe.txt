@@ -1,0 +1,63 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 432 - DBM 368: Nueva tabla SNSaldosInicialesCPD
+
+	         PARCHE:  Parche023_434_SIF_CxPreporte
+
+GENERADO EN:
+	SERVER:  http://mxvqapp34:8300
+	DSN:     sifcim
+	FECHA:   06/01/2012 18:00:54
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* ADD_TABLE SNSaldosInicialesCPD: SNSaldosInicialesCPD */
+/* ======================================================================================== */
+
+CREATE TABLE SNSaldosInicialesCPD (
+	 SNSaldosDid                    numeric(18)          identity
+	,Ecodigo                        integer              NOT NULL
+	,Speriodo                       integer              NOT NULL
+	,Smes                           integer              NOT NULL
+	,SNid                           numeric(18)          NOT NULL
+	,HDid                           numeric(18)          NOT NULL
+	,SNcodigo                       integer              NOT NULL
+	,CPTcodigo                      char(2)              NOT NULL
+	,Ddocumento                     char(20)             NOT NULL
+	,id_direccion                   numeric(18)          NOT NULL
+	,Mcodigo                        numeric(18)          NOT NULL
+	,Dsaldo                         money                NOT NULL
+	,Dantiguedad                    integer              NOT NULL
+	,BMUsucodigo                    numeric(18)          NULL
+	,ts_rversion                    timestamp           
+	)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="P", SEC="0", COLS="SNSaldosDid" */
+ALTER TABLE SNSaldosInicialesCPD ADD CONSTRAINT SNSaldosInicialesCPD_PK PRIMARY KEY CLUSTERED (SNSaldosDid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="I", SEC="1", COLS="HDid" */
+CREATE NONCLUSTERED INDEX SNSaldosInicialesCPD_ID01 ON SNSaldosInicialesCPD (HDid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="I", SEC="2", COLS="Ecodigo,Speriodo,Smes" */
+CREATE NONCLUSTERED INDEX SNSaldosInicialesCPD_ID02 ON SNSaldosInicialesCPD (Ecodigo,Speriodo,Smes)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

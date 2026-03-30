@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<rhpml majorversion="1" minorversion="0">
+	<folders/>
+	<topics>
+		<topic>
+			<name>CuentasMayor.htm</name>
+			<comments></comments>
+			<frameset>0</frameset>
+		</topic>
+		<topic>
+			<name>CuentasContables.htm</name>
+			<comments></comments>
+			<frameset>0</frameset>
+		</topic>
+		<topic>
+			<name>ConceptoContableE.htm</name>
+			<comments></comments>
+			<frameset>0</frameset>
+		</topic>
+		<topic>
+			<name>Htipocambio.htm</name>
+			<comments></comments>
+			<frameset>0</frameset>
+		</topic>
+		<topic>
+			<name>MascarasCuentas.htm</name>
+			<comments></comments>
+			<frameset>0</frameset>
+		</topic>
+		<topic>
+			<name>Catalogos.htm</name>
+			<comments></comments>
+			<frameset>0</frameset>
+		</topic>
+		<topic>
+			<name>Monedas.htm</name>
+			<comments></comments>
+			<frameset>0</frameset>
+		</topic>
+	</topics>
+</rhpml>

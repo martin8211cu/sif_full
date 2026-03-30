@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_Titulo>Balances and Movements</LB_Titulo>
+		<LB_TituloP>Balances and Movements Accounting</LB_TituloP>
+		<LB_Cuenta>Account</LB_Cuenta>
+		<LB_Periodo>Period</LB_Periodo>
+		<LB_Oficina>Office</LB_Oficina>
+		<LB_Mes>Month</LB_Mes>
+		<LB_Nivel>This Level does not accept movements</LB_Nivel>
+		<LB_Cierre>Closing</LB_Cierre>
+		<LB_Exportar>Export</LB_Exportar>
+	</Idioma>
+</Etiquetas>

@@ -1,0 +1,2140 @@
+//**********
+//*     Component: CPackagesImpl.class
+//*     Created by: Alexander Ortega B.
+//*     Modified by: Jeffrey Bermudez P.
+//*     Last Modified by: Alexander Ortega B.
+//*		Description: Paquete  
+//*     Last Update: 21/05/2002
+//*     Por Gaston Alfaro
+//**********
+package com.soin.isp;
+import com.sybase.jaguar.beans.enterprise.*;
+import java.sql.*;
+import java.util.*;
+import com.soin.isp.services.Commands;
+import com.soin.core.*;
+
+public class CPackagesImpl extends SOINJaguarBaseComponent implements ServerBean
+{
+
+    public CPackagesImpl()
+    {
+		
+		super();
+		System.out.println("*************ESTOY DESPUES DEL CONSTRUCTOR*********");
+		_ConfigFile = new ConfigFile("Components.cfg");
+		_SACIDBName = _ConfigFile.getParameter("CPackages", "SACIDBName");
+		_SACISIICDBName = _ConfigFile.getParameter("CPackages", "SACISIICDBName");
+    }
+
+    public void activate(InstanceContext ctx, String instanceKey)
+    {
+		_InstanceContext = ctx;
+    }
+
+    public void deactivate()
+    {
+		;
+    }
+
+    public boolean canReuse()
+    {
+		return true;
+    }
+
+    public void destroy()
+    {
+		;
+    }
+
+
+    //*******************
+    //*   ADD : Agrega un paquete en SACI
+    //*******************
+    public long add(String pListParameters) throws soinisp.ISPException
+    {
+		long vResult = -1;
+		long S01CON = -1;
+		Connection vConnection_SACI = null;
+		Connection vConnection_SACISIIC = null;
+		_Statement1_SACI = null;
+		_Statement1_SACISIIC = null;
+		
+		try
+		{
+			vConnection_SACI = getConnection(_SACIDBName);
+			vConnection_SACISIIC = getConnection(_SACISIICDBName);
+			
+			if((vConnection_SACI != null) && (vConnection_SACISIIC != null))
+			{
+				_Statement1_SACI = vConnection_SACI.createStatement();
+				_Statement1_SACISIIC = vConnection_SACISIIC.createStatement();
+		
+				String pCodPaque = ""; 
+				String pNomPaque = getParameter(pListParameters,"SAI03NOM");
+				String pDesPaque = getParameter(pListParameters,"SAI03DEC");
+				String pFechInic = getParameter(pListParameters,"SAI03FIN");
+				String pFechTerm = getParameter(pListParameters,"SAI03FEX");
+				String pTipo = getParameter(pListParameters,"SAI03TIP");
+				String pTranuc = getParameter(pListParameters,"SAI03TRA");
+				String pEstado = getParameter(pListParameters,"SAI03ACT");
+				String pAproCamb = getParameter(pListParameters,"SAI03APR");
+				String pCtaMini = getParameter(pListParameters,"SAI03PCM");
+			
+				// se instancia al componente CTareasSACI
+				soinisp.CTareasSACI vobjTareasSACI = com.soin.isp.tools.Instances.getInstance_CTareasSACI();
+			
+				byte vEstadoDBSACI = 0;
+				byte vEstadoDBSIIC = 0;
+			
+				System.out.println("Inic addPackage()");
+			
+				// Se Envia la tarea de Sincronizacion de la tabla SSXCIN al SIIC
+				if (_DebugMode) 
+					System.out.println("Envia la tarea SincroSIIC con SSXCIN");
+					
+				S01CON = vobjTareasSACI.SincroSIIC("TABLA=SSXCIN");
+				
+				if (_DebugMode) 
+					System.out.println("El resultado de SincroSIIC con SSXCIN es:   " + S01CON);
+		
+				if (S01CON > 0) 
+				{ // El envio de la tarea al SIIC fue exitoso
+					
+					if (_DebugMode) 
+						System.out.println("El envio de la tarea al SIIC fue exitoso");	
+		
+					try
+					{
+						if (_DebugMode) 
+							System.out.println("Ejecuta el sp_Alta_SAI003..........");
+						
+						ResultSet rsSACI = doQuerySACI("exec sp_Alta_SAI003 @SAI03NOM='" + pNomPaque + 
+						"',@SAI03DEC='" + pDesPaque + "', @SAI03FIN='" + pFechInic + "', @SAI03FEX='" + pFechTerm + 
+						"',@SAI03TRA='" + pTranuc + "',@SAI03TIP=" + pTipo + ", @SAI03ACT=" + pEstado + ", @SAI03APR=" + pAproCamb + ", @SAI03PCM=" + pCtaMini + "");
+			
+						if(rsSACI.next())
+						{
+							vResult = rsSACI.getLong(1);
+							vEstadoDBSACI = 1;
+							pCodPaque = String.valueOf(vResult);
+							
+							if (_DebugMode) 
+								System.out.println("El paquete es es..... : " + pCodPaque);
+						}
+						else
+						{
+							vResult = -3;
+							vEstadoDBSACI = 0;
+						}
+						rsSACI.close();
+						rsSACI = null;
+					} catch(Exception e) {
+						System.out.println("sp_Alta_SAI003 fallo..... : " + e.getMessage()); 
+						vEstadoDBSACI = 0; 
+						
+						if (_DebugMode) 
+							System.out.println("El vEstadoDBSACI es..... : " + vEstadoDBSACI);
+						vResult = -3;
+						
+						if (_DebugMode) 
+							System.out.println("El vResult es..... : " + vResult);
+					}
+		
+					if (vEstadoDBSACI == 1)
+					{// Si el Alta a SAI003 tuvo exito
+						try
+						{
+							if (_DebugMode) 
+							{
+								System.out.println("Ejecuta el sp_Alta_SSXCIN..........");
+								System.out.println("El Alta es exec sp_Alta_SSXCIN @CINCAT=" + pCodPaque +
+												   ", @SEVCOD='09', @CINDES='" + pNomPaque + "'");
+							}
+							
+							ResultSet rsSIIC = doQuerySIIC("exec sp_Alta_SSXCIN @CINCAT=" + pCodPaque +
+							", @SEVCOD='09', @CINDES='" + pNomPaque + "', @TRANUC='" + pTranuc + "', @CINTIP=" + pTipo);
+			
+							if(rsSIIC.next())
+							{
+								vResult = rsSIIC.getLong(1);
+								vEstadoDBSIIC = 1;
+							}
+							else
+							{
+								vResult = -3;
+								vEstadoDBSIIC = 0;
+							}
+							rsSIIC.close();
+							rsSIIC=null;
+						} catch(Exception e) {
+							System.out.println("El sp_Alta_SSXCIN fallo..... : " + e.getMessage()); 
+							vEstadoDBSIIC = 0; 
+							
+							if (_DebugMode) 
+								System.out.println("El vEstadoDBSIIC es..... : " + vEstadoDBSIIC);
+							vResult = -3;
+							
+							if (_DebugMode) 
+								System.out.println("El vResult es..... : " + vResult);
+						}
+					} // end if vEstadoBDSACI	
+				} // end if (S01CON > 0)
+				
+			
+				//*********************
+				//*   ROLLBACK
+				//*********************
+				if(/*vEstadoServers == 0 || */vEstadoDBSACI == 0 || vEstadoDBSIIC == 0 || S01CON < 0)
+				// Si el server fallo o fallo el sp_Alta_SAI003 o fallo el sp_Alta_SSXCIN  o fallo el enviar la tarea al SIIC
+				{
+					if (_DebugMode) 
+						System.out.println("Inicia el ROLLBACK DEL ADD");
+			
+					/*// Elimina el paquete en AAA.
+					System.out.println("Inicia la eliminación del paquete del AAA");
+					int EstadoAAA = Commands.deleteAccountAAA(pNomPaque);
+					System.out.println("El resultado del Cliente del AAA es : " + String.valueOf(EstadoAAA));*/
+			
+					if (S01CON > 0) {  // si se realizo el Baja hace rollback
+						// si hubo rollback se debe eliminar la tarea que se envio al SIIC
+						S01CON = vobjTareasSACI.DeleteTaskSIIC("S01CON= " + S01CON);
+						
+						if (_DebugMode) 
+							System.out.println("El resultado del DeleteTaskSIIC es :" + S01CON);
+					}
+			
+					if (vEstadoDBSACI == 1) {  // si se realizo el Alta hace rollback
+						if (_DebugMode) 
+						{
+							System.out.println("Inicia el baja en la SAI003");
+							System.out.println("El baja es: exec sp_Baja_SAI003 @SAI03COD=" + pCodPaque +"");
+						}
+						int rsSACI = execUpdateSACI("exec sp_Baja_SAI003 @SAI03COD=" + pCodPaque +"");
+						
+						if (_DebugMode) 
+							System.out.println("El resultado del baja en la SAI003 : " + String.valueOf(rsSACI));
+					}	
+				} // if ROLLBACK.
+				else 
+					vResult = 0;        // Todo resulto bien...
+		
+			}   
+			else
+			{
+				System.out.println("CPackagesImpl.add() failed.....");
+				System.out.println("\tERROR : [Couldn't get a Connection Cache]");
+				if(_Statement1_SACI != null) {try {_Statement1_SACI.close(); _Statement1_SACI = null;} catch(Exception e) {;}}
+				if(_Statement1_SACISIIC != null) {try {_Statement1_SACISIIC.close(); _Statement1_SACISIIC = null;} catch(Exception e) {;}}
+				if(vConnection_SACI != null) {releaseConnection(_SACIDBName, vConnection_SACI);}
+				if(vConnection_SACISIIC != null) {releaseConnection(_SACISIICDBName, vConnection_SACISIIC);}
+				throw new soinisp.ISPException("Couldn't get a Connection Cache.....");
+			}  // if((vConnection_SACI != null) && (vConnection_SACISIIC != null)).
+		}
+		catch(Exception e)
+		{
+			System.out.println("CPackagesImpl.add() failed.....");
+			System.out.println("\tERROR : [" + e.getMessage() + "]");
+			if(_Statement1_SACI != null) {try {_Statement1_SACI.close(); _Statement1_SACI = null;} catch(Exception e1) {;}}
+			if(_Statement1_SACISIIC != null) {try {_Statement1_SACISIIC.close(); _Statement1_SACISIIC = null;} catch(Exception e1) {;}}
+			if(vConnection_SACI != null) {releaseConnection(_SACIDBName, vConnection_SACI);}
+			if(vConnection_SACISIIC != null) {releaseConnection(_SACISIICDBName, vConnection_SACISIIC);}
+			throw new soinisp.ISPException(e.getMessage());
+		}
+		finally
+		{
+			if(_Statement1_SACI != null) {try {_Statement1_SACI.close(); _Statement1_SACI = null;} catch(Exception e) {;}}
+			if(_Statement1_SACISIIC != null) {try {_Statement1_SACISIIC.close(); _Statement1_SACISIIC = null;} catch(Exception e) {;}}
+			if(vConnection_SACI != null) {releaseConnection(_SACIDBName, vConnection_SACI);}
+			if(vConnection_SACISIIC != null) {releaseConnection(_SACISIICDBName, vConnection_SACISIIC);}
+		}
+		return vResult;
+    } // end add
+
+
+
+
+    /********************
+    *   DELETE
+    *********************/
+    public long delete(String pListParameters) throws soinisp.ISPException
+    {
+		long vResult = -1,S01CON = -1;
+		Connection vConnection_SACI = null;
+		Connection vConnection_SACISIIC = null;
+		_Statement1_SACI = null;
+		_Statement1_SACISIIC = null;
+		
+		try
+		{
+			vConnection_SACI = getConnection(_SACIDBName);
+			vConnection_SACISIIC = getConnection(_SACISIICDBName);
+			if((vConnection_SACI != null) && (vConnection_SACISIIC != null))
+			{
+			_Statement1_SACI = vConnection_SACI.createStatement();
+			_Statement1_SACISIIC = vConnection_SACISIIC.createStatement();
+	
+			String pCodPaque = getParameter(pListParameters,"SAI03COD");
+		
+			// se instancia al componente CTareasSACI
+			soinisp.CTareasSACI vobjTareasSACI = com.soin.isp.tools.Instances.getInstance_CTareasSACI();
+		
+			byte vEstadoDBSACI = 0;
+			byte vEstadoDBSIIC = 0;
+			//byte vEstadoServers = 1;
+		
+			System.out.println("Inic deletePackage()");
+		
+			// Verifica si el paquete a eliminar exista en la Tabla de Paquetes de SACI.
+			ResultSet rsSAI003 = doQuerySACI("Select SAI03NOM,CONVERT(varchar,SAI03FIN,101) SAI03FIN," + 
+							 " CONVERT(varchar,SAI03FEX,101) SAI03FEX, SAI03ACT, SAI03APR," +
+							 " SAI03PCM From SAI003 Where SAI03COD =" + pCodPaque + "");
+		
+			if (rsSAI003.next())
+			{// el paquete a eliminar existe en la Tabla de Paquetes de SACI.
+		
+				// Obtiene la informacion del paquete en SACI para Rollback
+				String pNomPaque = rsSAI003.getString("SAI03NOM");
+				String pFechInic = rsSAI003.getString("SAI03FIN");
+				String pFechTerm = rsSAI003.getString("SAI03FEX");
+				String pEstado = rsSAI003.getString("SAI03ACT");
+				String pAproCamb = rsSAI003.getString("SAI03APR");
+				String pCtaMini = rsSAI003.getString("SAI03PCM");
+				rsSAI003.close();
+				rsSAI003 = null;
+		
+				// Verifica que el paquete no este asociado a una cuenta.
+				ResultSet rsSAI007 = doQuerySACI("Select SAI03COD From SAI007 Where SAI03COD =" + pCodPaque + " and SAI07BOR = 0");	
+		
+				if (!rsSAI007.next())
+				{ // El paquete no esta asociado a una cuenta.
+					rsSAI007.close();
+					rsSAI007 = null;
+			
+					// Verifica si el paquete a eliminar exista en la Tabla de Paquetes de SACISIIC.
+					ResultSet rsSSXCIN = doQuerySIIC("Select SEVCOD, TRANUC, CINCMI, CINCAH, CINHCM," + 
+									 " CINECM From SSXCIN Where CINCAT =" + pCodPaque + "");
+			
+					if (rsSSXCIN.next())
+					{// el paquete a eliminar existe en la Tabla de Paquetes de SACISIIC.
+			
+						// Obtiene la informacion del paquete en SACISIIC para Rollback
+						String pSevcod = rsSSXCIN.getString("SEVCOD");
+						String pTranuc = rsSSXCIN.getString("TRANUC");
+						String pCincmi = rsSSXCIN.getString("CINCMI");
+						String pCincah = rsSSXCIN.getString("CINCAH");
+						String pCinhcm = rsSSXCIN.getString("CINHCM");
+						String pCinecm = rsSSXCIN.getString("CINECM");
+						rsSSXCIN.close();
+						rsSSXCIN = null;
+			
+			
+						// Se Envia la tarea de Sincronizacion de la tabla SSXCIN al SIIC
+						System.out.println("Envia la tarea SincroSIIC con SSXCIN");
+						S01CON = vobjTareasSACI.SincroSIIC("TABLA=SSXCIN");
+						System.out.println("El resultado de SincroSIIC con SSXCIN es:   " + S01CON);
+			
+						if (S01CON > 0) { // El envio de la tarea al SIIC fue exitoso
+							System.out.println("El envio de la tarea al SIIC fue exitoso");	
+			
+							try
+							{
+								System.out.println("Ejecuta el sp_Baja_SAI003.........." + pCodPaque);
+								System.out.println("el sp_Baja_SAI003..exec sp_Baja_SAI003 @SAI03COD=" + pCodPaque +"");
+								int rsSACI = execUpdateSACI("exec sp_Baja_SAI003 @SAI03COD=" + pCodPaque +"");
+								System.out.println("El resultado del baja en la SAI003 : " + String.valueOf(rsSACI));
+				
+								if (rsSACI >= 0)
+								{
+									vEstadoDBSACI = 1;
+									System.out.println("El paquete es es..... : " + pCodPaque);
+								}
+								else
+								{
+									vResult = -3;
+									vEstadoDBSACI = 0;
+								}
+							} catch(Exception e) {
+								System.out.println("El sp_Baja_SAI003 fallo..... : " + e.getMessage()); 
+								vEstadoDBSACI = 0; 
+								System.out.println("El vEstadoDBSACI es..... : " + vEstadoDBSACI);
+								vResult = -3;
+								System.out.println("El vResult es..... : " + vResult);
+							}
+			
+							if (vEstadoDBSACI == 1)
+							{// Si el Baja a SAI003 tuvo exito
+								try
+								{
+									System.out.println("Ejecuta el sp_Baja_SSXCIN..........");
+									System.out.println("sp_Baja_SSXCIN exec sp_Baja_SSXCIN @CINCAT=" + pCodPaque + 
+									", @SEVCOD='" + pSevcod +"'");
+									int rsSIIC = execUpdateSIIC("exec sp_Baja_SSXCIN @CINCAT=" + pCodPaque + 
+									", @SEVCOD='" + pSevcod +"', @TRANUC='" + pTranuc + "'");
+									System.out.println("El resultado del baja en la SSXCIN : " + String.valueOf(rsSIIC));
+				
+									if (rsSIIC >= 0)
+										vEstadoDBSIIC = 1;
+									else
+									{
+										vResult = -3;
+										vEstadoDBSIIC = 0;
+									}
+								} catch(Exception e) {
+									System.out.println("El sp_Baja_SSXCIN fallo..... : " + e.getMessage()); 
+									vEstadoDBSIIC = 0; 
+									System.out.println("El vEstadoDBSIIC es..... : " + vEstadoDBSIIC);
+									vResult = -3;
+									System.out.println("El vResult es..... : " + vResult);
+								}
+							} // end if vEstadoBDSIIC	
+						} // end if (S01CON > 0)
+			
+						//*********************
+						//*   ROLLBACK
+						//*********************
+						if(/*vEstadoServers == 0 || */vEstadoDBSACI == 0 || vEstadoDBSIIC == 0 || S01CON < 0)
+						// Si el server fallo o fallo el sp_Baja_SAI003 o fallo el sp_Baja_SSXCIN o fallo el enviar la tarea al SIIC
+						{
+							System.out.println("Inicia el ROLLBACK DEL DELETE");
+				
+							if (S01CON > 0) {  // si se realizo el Baja hace rollback
+								// si hubo rollback se debe eliminar la tarea que se envio al SIIC
+								S01CON = vobjTareasSACI.DeleteTaskSIIC("S01CON= " + S01CON);
+								System.out.println("El resultado del DeleteTaskSIIC es :" + S01CON);
+							}
+				
+							if (vEstadoDBSACI == 1) {  // si se realizo el Baja hace rollback
+								System.out.println("Inicia el UPDATE en la SAI003");
+								int rsSACI = execUpdateSIIC("UPDATE SAI003 SET SAI03BOR=0 WHERE SAI03COD=" + pCodPaque);
+								System.out.println("El resultado del Alta en la SAI003 : " + String.valueOf(rsSACI));							   
+							}	
+						} // if ROLLBACK.
+						else 
+							vResult = 0;        // Todo resulto bien...
+					}
+					else // Indica que el paquete no existe en Tabla de BD SACISIIC.
+						vResult = -10;     
+				}
+				else // Indica que el paquete esta asociado a alguna cuenta.
+				vResult = -11;     
+			}
+			else // Indica que el paquete no existe en Tabla de SACI. 
+				vResult = -12;       
+	
+			}   // if((vConnection_SACI != null) && (vConnection_SACISIIC != null)).
+			else
+			{
+				System.out.println("!!! CPackagesImpl.delete() failed.....");
+				System.out.println("\tERROR : [Couldn't get a Connection Cache.....]");
+				if(_Statement1_SACI != null) {try {_Statement1_SACI.close(); _Statement1_SACI = null;} catch(Exception e) {;}}
+				if(_Statement1_SACISIIC != null) {try {_Statement1_SACISIIC.close(); _Statement1_SACISIIC = null;} catch(Exception e) {;}}
+				if(vConnection_SACI != null) {releaseConnection(_SACIDBName, vConnection_SACI);}
+				if(vConnection_SACISIIC != null) {releaseConnection(_SACISIICDBName, vConnection_SACISIIC);}
+				throw new soinisp.ISPException("Couldn't get a Connection Cache.....");
+			}
+		}
+		catch(Exception e)
+		{
+			System.out.println("CPackagesImpl.delete() failed.....");
+			System.out.println("\tERROR : [" + e.getMessage() + "]");
+			if(_Statement1_SACI != null) {try {_Statement1_SACI.close(); _Statement1_SACI = null;} catch(Exception e1) {;}}
+			if(_Statement1_SACISIIC != null) {try {_Statement1_SACISIIC.close(); _Statement1_SACISIIC = null;} catch(Exception e1) {;}}
+			if(vConnection_SACI != null) {releaseConnection(_SACIDBName, vConnection_SACI);}
+			if(vConnection_SACISIIC != null) {releaseConnection(_SACISIICDBName, vConnection_SACISIIC);}
+			throw new soinisp.ISPException(e.getMessage());
+		}
+		finally
+		{
+			if(_Statement1_SACI != null) {try {_Statement1_SACI.close(); _Statement1_SACI = null;} catch(Exception e) {;}}
+			if(_Statement1_SACISIIC != null) {try {_Statement1_SACISIIC.close(); _Statement1_SACISIIC = null;} catch(Exception e) {;}}
+			if(vConnection_SACI != null) {releaseConnection(_SACIDBName, vConnection_SACI);}
+			if(vConnection_SACISIIC != null) {releaseConnection(_SACISIICDBName, vConnection_SACISIIC);}
+		}
+		return vResult;
+    } // end delete
+
+
+
+    /*********************
+    *  CHANGE
+    **********************/
+    public long change(String pListParameters) throws soinisp.ISPException
+    {
+		long vResult = -1;
+		Connection vConnection_SACI = null;
+		Connection vConnection_SACISIIC = null;
+		_Statement1_SACI = null;
+		_Statement1_SACISIIC = null;
+		
+		
+	
+		try
+		{
+			
+		
+		System.out.println("*************Inicia el Cambio de Paquete CPackagesImpl.change*********");
+			
+			vConnection_SACI = getConnection(_SACIDBName);
+			vConnection_SACISIIC = getConnection(_SACISIICDBName);
+			
+			if((vConnection_SACI != null) && (vConnection_SACISIIC != null))
+			{
+				System.out.println("Inicia el Cambio de Paquete CPackagesImpl.change");
+				_Statement1_SACI = vConnection_SACI.createStatement();
+				_Statement1_SACISIIC = vConnection_SACISIIC.createStatement();
+			
+				boolean vStateServersOk = true;
+				boolean vStateSpCambioPaqueteOk = true;
+				boolean vStateTareasSACIOk = true;
+				boolean vEjecutarCambioPaquete = false;
+				boolean vEjecutarEnvioTareas = false;
+				soinisp.CTareasSACI vTareasSACI = com.soin.isp.tools.Instances.getInstance_CTareasSACI();
+				long vConsecutivoTarea = -1;        // Contiene el Consecutivo de la Tarea que se envia a SACISIIC.        
+			
+			
+				String pCodNuevoPaquete = getParameter(pListParameters,"SAI03COD");     // Recibe el Codigo del Paquete al que se desea cambiar.
+				String pCodCuenta = getParameter(pListParameters,"SAI07COD");       	// Recibe el Codigo de la Cuenta que se desea cambiar.
+				String pTarea = getParameter(pListParameters, "TAREA");                 // Recibe la Tarea que se desea ejecutar.
+				String pOrden = getParameter(pListParameters, "S01ORT");                // Recibe la Orden.				
+				String pTelefono = getParameter(pListParameters, "SAI72TEL"); 			// Recibe la lista de telefonos (Solo para paquetes de 1 solo telefono)
+				
+				pTelefono = (pTelefono == null?"null":pTelefono);
+				String pS02VA2 = getParameter(pListParameters, "S02VA2");               //Orden para la tarea de cumplimiento
+				String pSERIDS = getParameter(pListParameters, "SERIDS");             //si el paquete es 8/9 se utiliza esta variable para escoger servicio normal o banda ancha
+				System.out.println("pTelefono......	" + pTelefono);
+				
+				// Obtiene la lista de los usuarios asociados a la cuenta que se desea cambiar.
+				Hashtable vListUsers = new Hashtable();
+				ResultSet rsListUsers = doQuerySACI("Select SAI001.SAI01COD, SAI01LOG, SAI01PAS, SAI01DES, SAI01MNS " +
+													" From SAI001, SAI011 " +
+													" Where SAI011.SAI07COD = " + pCodCuenta + 
+													" And SAI011.SAI01COD = SAI001.SAI01COD " +
+													" And SAI001.SAI01BOR = 0");
+				while(rsListUsers.next())                                                                        
+				{
+					java.lang.Object[] vUserData = new java.lang.Object[5];
+					vUserData[0] = new Long(rsListUsers.getLong("SAI01COD"));        // Obtiene el Codigo del Usuario.
+					vUserData[1] = new String(rsListUsers.getString("SAI01LOG"));    // Obtiene el Login del Usuario.
+					vUserData[2] = new String(rsListUsers.getString("SAI01PAS"));    // Obtiene el Password del Usuario.
+					vUserData[3] = new String(rsListUsers.getString("SAI01DES"));    // Obtiene la Descripcion del Usuario.
+					vUserData[4] = new String(rsListUsers.getString("SAI01MNS"));    // Obtiene la Cant de Conexiones del Usuario.
+					vListUsers.put((Long)vUserData[0], vUserData);
+				}
+			
+				// Obtiene el nombre del Paquete al cual esta asociada actualmente la Cuenta.
+				ResultSet rsCurrentPackageName = doQuerySACI("Select SAI007.SAI03COD, SAI03NOM " +
+															" From SAI007, SAI003 " +
+															" Where SAI07COD = " + pCodCuenta + 
+															" And SAI007.SAI03COD = SAI003.SAI03COD ");
+				rsCurrentPackageName.next();
+				long vCodPaqueteActual = rsCurrentPackageName.getLong("SAI03COD");      // Obtiene el Codigo del Paquete Actual.
+				String vCurrentPackageName = rsCurrentPackageName.getString("SAI03NOM");      // Obtiene el Nombre del Paquete Actual.
+			
+				// Obtiene el nombre del Nuevo Paquete y si requiere Aprobacion.
+				ResultSet rsNewPackage = doQuerySACI("Select SAI03NOM, SAI03APR, SAI03TIP " +
+				                                     " From SAI003 " +
+													 " Where SAI03COD = " + pCodNuevoPaquete);
+				rsNewPackage.next();
+				String vNewPackageName = rsNewPackage.getString("SAI03NOM");      		// Obtiene el Nombre del Nuevo Paquete.
+				long vPaqueteRequiereAprobacion = rsNewPackage.getLong("SAI03APR");     // Obtiene el estado de que si el paquete requiere Aprobacion.
+				long vTipoPaquete = rsNewPackage.getLong("SAI03TIP");     				// Obtiene el tipo del Nuevo Paquete.
+				
+				
+			
+				// Obtiene el Dominio que le fue asignado a la Cuenta.
+				ResultSet rsDomain = doQuerySACI("Select SAI07DOM " +
+				                                 " From SAI007 " +
+												 " Where SAI07COD = " + pCodCuenta);
+				rsDomain.next();
+				String vDomain = rsDomain.getString("SAI07DOM");      // Obtiene el Dominio de la Cuenta.
+
+				
+			
+				// Obtiene la relacion de usuario por servicio, para el paquete al cual esta asociada la cuenta antes del cambio.
+				Hashtable vUsersServices = new Hashtable();
+				ResultSet rsUsersServices = doQuerySACI("Select SAI011.SAI01COD, SAI010.SAI02COD, SAI29COD, SAI022.SAI21USU, SAI022.SAI21PAS, SAI02ESP, SAI01MNS " +
+														" From SAI001, SAI011, SAI007, SAI010, SAI002, SAI022 " +
+														" Where SAI011.SAI07COD = " + pCodCuenta +
+														" And SAI001.SAI01BOR = 0 " +
+														" And SAI011.SAI07COD = SAI007.SAI07COD " +
+														" And SAI007.SAI03COD = SAI010.SAI03COD " +
+														" And SAI010.SAI02COD = SAI002.SAI02COD " +
+														" And SAI011.SAI01COD = SAI022.SAI01COD " +
+														" And SAI001.SAI01COD = SAI022.SAI01COD " +
+														" And SAI010.SAI02COD = SAI022.SAI02COD");
+				while(rsUsersServices.next())
+				{
+					java.lang.Object[] vUsersServicesData = new java.lang.Object[9];
+					vUsersServicesData[0] = new Long(rsUsersServices.getLong("SAI01COD"));      // Obtiene el Codigo del Usuario.
+					vUsersServicesData[1] = new Long(rsUsersServices.getLong("SAI02COD"));      // Obtiene el Codigo del Servicio.
+					vUsersServicesData[2] = new Long(rsUsersServices.getLong("SAI29COD"));      // Obtiene el Codigo del Tipo de Servicio.
+					vUsersServicesData[3] = new String(rsUsersServices.getString("SAI21USU"));  // Obtiene el Login del Usuario para el Servicio.
+					vUsersServicesData[4] = new String(rsUsersServices.getString("SAI21PAS"));  // Obtiene el Password del Usuario para el Servicio.
+					vUsersServicesData[5] = new Long(0);										// Define el Estado (0 = No ha sido cambiado, 1 = Ha sido cambiado).
+					vUsersServicesData[6] = new String("B");                                    // Define la operacion a ejecutar. (Las operaciones son : B(Borrar), CP(Cambiar Padre), NM(No Modificar)).
+					vUsersServicesData[7] = new Long(rsUsersServices.getLong("SAI02ESP"));      // Obtiene el Espacio en Disco que ocupra el Servicio (Para el caso de Mail).
+					vUsersServicesData[8] = new Long(rsUsersServices.getLong("SAI01MNS"));      // Obtiene la Cant de Conexiones del Usuario
+					
+					// Define una llave para el registro conformada por el Codigo del Usuario y el Tipo del Servicio.
+					vUsersServices.put(new String(((Long)vUsersServicesData[0]).toString().trim() + "-" + ((Long)vUsersServicesData[2]).toString().trim()), vUsersServicesData);
+				}
+			
+			//****************************************************
+				//nuevo agregado para cambio en tamano de casilleros de correo 31/08/2006
+				Hashtable vListNewServices = new Hashtable();
+				ResultSet rsListNewServices = null;
+				
+				if (pCodNuevoPaquete.equals("8") || pCodNuevoPaquete.equals("9"))
+				{
+					String CINCAB = "N";
+					int TipServicio = 0;  //0=normal 1=Banda Ancha
+					
+					ResultSet rsCINCAB = doQuerySACI("SELECT CINCAB FROM SACISIIC..SSXSSC B,SACISIIC..SSXCIN C" +
+			                 						 " FROM SSXSSC B,SSXCIN C" +
+							 						 " WHERE B.SERIDS = '" + pSERIDS + "' AND B.CINCAT = C.CINCAT");					
+					if(rsCINCAB.next())
+						CINCAB = rsCINCAB.getString("CINCAB");
+					else
+						System.out.println ("Error al obtener CINCAB en cambio de paquete");
+					
+					if (CINCAB.equals("N"))
+						TipServicio = 0; //normal
+					else
+						TipServicio = 1; //banda ancha
+					
+					//obtengo el tipo servicio y sus atributos
+					rsListNewServices = doQuerySACI("Select SAI010.SAI02COD, SAI29COD, SAI02ESP " +
+													" From SAI010, SAI002 " +
+													" Where SAI010.SAI03COD = " + pCodNuevoPaquete + 
+													" And SAI010.SAI02COD = SAI002.SAI02COD"
+													" And SAI002.SAI02BAA = "+String.valueOf(TipServicio));					
+						
+				}
+				else
+				{
+					//obtengo el tipo servicio y sus atributos
+					rsListNewServices = doQuerySACI("Select SAI010.SAI02COD, SAI29COD, SAI02ESP " +
+													" From SAI010, SAI002 " +
+													" Where SAI010.SAI03COD = " + pCodNuevoPaquete + 
+													" And SAI010.SAI02COD = SAI002.SAI02COD");					
+					
+				}
+				
+			
+/*
+				// Obtiene la lista de los Servicios que conforman el nuevo paquete al cual se desea trasladar la cuenta.
+				Hashtable vListNewServices = new Hashtable();
+				ResultSet rsListNewServices = doQuerySACI("Select SAI010.SAI02COD, SAI29COD, SAI02ESP " +
+															" From SAI010, SAI002 " +
+															" Where SAI010.SAI03COD = " + pCodNuevoPaquete + 
+															" And SAI010.SAI02COD = SAI002.SAI02COD");
+*/															
+				while(rsListNewServices.next())
+				{
+					long vCodServicio = rsListNewServices.getLong("SAI02COD");      // Obtiene el Codigo del Servicio.
+					long vCodTipoServicio = rsListNewServices.getLong("SAI29COD");      // Obtiene el Codigo del Tipo de Servicio.
+					long vEspacio = rsListNewServices.getLong("SAI02ESP");              // Obtiene el Espacio en Disco que requiere el Servicio.
+					for(Enumeration vEnum = vListUsers.keys(); vEnum.hasMoreElements(); )
+					{
+						java.lang.Object[] vUserData = (java.lang.Object[])vListUsers.get(vEnum.nextElement());
+						java.lang.Object[] vNewServicesData = new java.lang.Object[6];
+						vNewServicesData[0] = (Long)vUserData[0];			// Define el Codigo del Usuario.
+						vNewServicesData[1] = new Long(vCodServicio);		// Define el Codigo del Servicio.
+						vNewServicesData[2] = new Long(vCodTipoServicio);	// Define el Codigo del Tipo de Servicio.
+						vNewServicesData[3] = new Long(vEspacio);           // Define el Espacio en Disco que requiere el Servicio.
+						vNewServicesData[4] = new Long(0);                  // Define el Estado.
+						vNewServicesData[5] = "NM";							// Define la operacion a ejecutar en caso de hacer RollBack (B(Borrar), NM(No Modificar)).
+						
+						// Define una llave para el registro conformada por el Codigo del Usuario y el Tipo del Servicio.
+						vListNewServices.put(new String(((Long)vNewServicesData[0]).toString().trim() + "-" + ((Long)vNewServicesData[2]).toString().trim()), vNewServicesData);
+					}
+				}
+			
+			
+	
+			
+				   try
+				   {
+					   vEjecutarEnvioTareas = !(pTarea == null);
+					   
+					   if(vEjecutarEnvioTareas)
+					   {
+							if(pTarea.equals("1"))          
+							{ // Envio de Tarea de SACI a SIIC.  
+								System.out.println("vTareasSACI.CambPaqueSIIC(SAI07COD=" + pCodCuenta + ", CINCAT="+ pCodNuevoPaquete + ", S01VA2=" + ((vPaqueteRequiereAprobacion == 1)?"A":"I") + ")");
+								vConsecutivoTarea = vTareasSACI.CambPaqueSIIC("SAI07COD=" + pCodCuenta + ", CINCAT="+ pCodNuevoPaquete + ", S01VA2=" + ((vPaqueteRequiereAprobacion == 1)?"A":"I"));
+								vEjecutarCambioPaquete = !(vPaqueteRequiereAprobacion == 1);                    
+							}
+							else    
+							{ // Envio de Cumplimiento de SACI a SIIC.
+								if (!pS02VA2.equals(""))
+								{	
+
+									String pOrden1 = pS02VA2.substring(0,1);											
+									if ((pOrden1.equals("G")) || (pOrden1.equals("O")))		    								
+
+									    vConsecutivoTarea = vTareasSACI.CumpTramSIIC("S01VA1=A, S01ORT= " + pOrden + "");}
+									else
+									{	vConsecutivoTarea = 1;}
+								}
+								else
+								{	vConsecutivoTarea = 1;}
+								
+								vEjecutarCambioPaquete = true;
+							}
+					   }    // if(vEjecutarEnvioTareas).
+					   else
+					   {
+							vConsecutivoTarea = 0;
+							vEjecutarCambioPaquete = true;
+					   }
+						
+						System.out.println("vPaqueteRequiereAprobacion : " + String.valueOf(vPaqueteRequiereAprobacion));
+						System.out.println("vEjecutarCambioPaquete : " + String.valueOf(vEjecutarCambioPaquete));
+						
+						if(vEjecutarCambioPaquete)      // Si se requiere la ejecucion inmediata del Cambio de Paquete.
+						{
+							System.out.println("El Consecutivo de la Tarea es : " + String.valueOf(vConsecutivoTarea));
+							if (vConsecutivoTarea >= 0) 
+							{
+								vStateTareasSACIOk = true;
+								try 
+								{
+									//ResultSet rsCambioPaquete = doQuerySACI("exec CambioPaquete @CUENTA = " + pCodCuenta + ", @PAQUETE = " + pCodNuevoPaquete);
+									
+									System.out.println (" CUENTA = " + pCodCuenta);
+									System.out.println (" PAQUETE TAREA = " + pCodNuevoPaquete);
+									ResultSet rsCambioPaquete = doQuerySACI("exec CambioPaquete @CUENTA = " + pCodCuenta + ", @PAQUETE = " + pCodNuevoPaquete + ", @LUGLLAMADO = 0");
+									
+									if(rsCambioPaquete.next()) 
+									{
+										long vResultCodPaquete = rsCambioPaquete.getLong(1);         // Obtiene el Codigo de Paquete que devuelve el SP en caso de que realice correctamente su tarea.
+										
+										if(String.valueOf(vResultCodPaquete).equals(pCodNuevoPaquete)) 
+											vStateSpCambioPaqueteOk = true;
+										else 
+											vStateSpCambioPaqueteOk = false;
+									}
+								} 
+								catch (Exception e) 
+								{
+									System.out.println("Error el invocar el sp CambioPaquete : " + e.getMessage());
+									vStateSpCambioPaqueteOk = false;
+									vResult =-1;
+								}
+							}       // if(vConsecutivoTarea >= 0).
+							else
+							{
+								System.out.println("No se pudo generar el consecutivo de la Tarea.......");
+								vStateSpCambioPaqueteOk = false;
+								vStateTareasSACIOk = false;
+								vResult = -1;
+							}
+						}   // if(vEjecutarCambioPaquete).
+				   }    // try.
+				   catch(Exception e)
+				   {
+					   System.out.println("Ocurrio un error en la seccion de envio de tareas.......... : " + e.getMessage());
+					   vStateTareasSACIOk = false;
+					   vResult = -1;
+				   }
+			
+			
+				if(vEjecutarCambioPaquete)      // Se se requiere la ejecucion inmediata del cambio.
+				{
+					if((vStateTareasSACIOk) && (vStateSpCambioPaqueteOk))      // Si se envio la tarea correctamente y se ejecuto el SP CambioPaquete correctamente.
+					{
+					   try
+					   {
+						   // Recorre la Lista de los Servicio que conforman el Nuevo Paquete.
+						   for(Enumeration vEnum = vListNewServices.keys(); vEnum.hasMoreElements(); )
+						   {
+								String vKeyUserService = (String)vEnum.nextElement();
+								java.lang.Object[] vNewServicesData = (java.lang.Object[])vListNewServices.get(vKeyUserService);
+								java.lang.Object[] vNewUserData = (java.lang.Object[])vUsersServices.get(vKeyUserService);
+								//java.lang.Object[] vNewServicesData = (java.lang.Object[])vListNewServices.get(vEnum.nextElement());
+								// Define una llave para el registro conformada por el Codigo del Usuario y el Tipo del Servicio en la Lista de Usuarios por Servicio para el paquete anterior.
+								//String vKeyUserService = new String(((Long)vNewServicesData[0]).toString().trim() + "-" + ((Long)vNewServicesData[2]).toString().trim());
+								switch(((Long)vNewServicesData[2]).byteValue())      // Chequea el Tipo de Servicio.
+								{
+									case 1:         // Servicio de Mail.
+									{
+										System.out.println("Inicia el acceso del cliente del MAIL");
+										java.lang.Object[] vUserData = (java.lang.Object[])vListUsers.get((Long)vNewServicesData[0]);
+										// Si el usuario no esta asociado al Tipo de Servicio Mail, se debe agregar la cuenta, con el password de la AutoAdministración..
+										if(!vUsersServices.containsKey(vKeyUserService))
+										{
+											Properties vAccountData = new Properties();
+											vAccountData.put("AccountName", (String)vUserData[3]);
+											vAccountData.put("Login", (String)vUserData[1]);
+											vAccountData.put("Password", (String)vUserData[2]); 
+											System.out.println("Password New Usuario New" + (String)vUserData[2]);
+											vAccountData.put("KBytes", ((Long)vNewServicesData[3]).toString());
+											vAccountData.put("Domain", vDomain);
+											vNewServicesData[4] = new Long(Commands.addAccountMail(vAccountData, ((Long)vNewServicesData[1]).longValue()));
+											vNewServicesData[5] = "B";
+											//vNewServiceData[4] = new Long(Commands.addAccountMail((String)vUserData[1], (String)vUserData[2], ((Long)vNewServicesData[3]).longValue(), vDomain, ((Long)vNewServicesData[1]).longValue())); 
+											//vNewServicesData[4] = new Long(1);
+										}
+										else
+										{
+											java.lang.Object[] vUsersServicesData = (java.lang.Object[])vUsersServices.get(vKeyUserService);
+											// Si el usuario esta asociado al Tipo de Servicio Mail, pero el Servicio es diferente al anterior, realiza un cambio en la cuenta de Mail.
+											if(((Long)vUsersServicesData[1]).longValue() != ((Long)vNewServicesData[1]).longValue())
+											{
+												// Define los nuevos datos de la cuenta de Mail que se desea cambiar.
+												Properties vNewAccountData = new Properties();
+												vNewAccountData.put("AccountName", (String)vUserData[3]);
+												vNewAccountData.put("Login", (String)vUserData[1]);
+												vNewAccountData.put("Password", (String)vNewUserData[4]); // vUserData[2]
+												System.out.println("Password Usuario New" + (String)vNewUserData[4]);
+												vNewAccountData.put("KBytes", ((Long)vNewServicesData[3]).toString());
+												vNewAccountData.put("Domain", vDomain);
+												// Define los datos viejos de la cuenta de Mail para poder realizar el RollBack interno.
+												Properties vOldAccountData = new Properties();
+												vOldAccountData.put("AccountName", (String)vUserData[3]);
+												vOldAccountData.put("Login", (String)vUserData[1]);
+												vOldAccountData.put("Password", (String)vNewUserData[4]); // vUserData[2]
+												System.out.println("Password Usuario Old" + (String)vNewUserData[4]);
+												vOldAccountData.put("KBytes", ((Long)vUsersServicesData[7]).toString());
+												vOldAccountData.put("Domain", vDomain);
+												
+												vNewServicesData[4] = new Long(Commands.updateAccountMail(vNewAccountData, vOldAccountData, ((Long)vUsersServicesData[1]).longValue()));
+												//vNewServicesData[4] = new Long(Commands.updateAccountMail((String)vUsersServicesData[3], (String)vUsersServicesData[4], ((Long)vNewServicesData[3]).longValue(), vDomain)); 
+												//vNewServicesData[4] = new Long(1);
+												vUsersServicesData[6] = "CP";
+											}
+											else        // Sino, no efectua ningun cambio.
+											{
+												vNewServicesData[4] = new Long(1);
+												vUsersServicesData[6] = "NM";
+											}
+											vUsersServicesData[5] = new Long(1);
+											vUsersServices.put(vKeyUserService, vUsersServicesData);
+										}
+										System.out.println("El resultado del Cliente de MAIL es : " + ((Long)vNewServicesData[4]).toString());
+										vListNewServices.put(vKeyUserService, vNewServicesData);
+										break;
+									}
+									case 2:     // Servicio de AAA.
+									{
+										System.out.println("Inicia el acceso del cliente del AAA");                                
+										// Si el usuario no esta asociado al Tipo de Servicio AAA, con el password de la AutoAdministración.
+										if(!vUsersServices.containsKey(vKeyUserService))
+										{
+											java.lang.Object[] vUserData = (java.lang.Object[])vListUsers.get((Long)vNewServicesData[0]);
+											
+											// Si el el tipo de paquete es VPN se asigna el # max de conexiones para grabar en Cisco
+											String vMaxConexAAA = "null";
+							
+											if (vTipoPaquete == 3)
+												vMaxConexAAA = (String)vUserData[4];
+											
+											vNewServicesData[4] = new Long(Commands.addUserAAA((String)vUserData[1], (String)vUserData[2], vNewPackageName, ((Long)vNewServicesData[1]).longValue(),pTelefono, vMaxConexAAA));
+											vNewServicesData[5] = "B";
+											
+											if (pCodNuevoPaquete.equals("85"))
+											{
+												//***********
+												// ADD IPASS: Agrega un usuario de Internet Para el Hogar o Consumo Conmutado Cable en Ipass (para que no pueda accesar Ipass)
+												//***********
+												System.out.println("Agregando en Ipass:......  " + (String)vUserData[1]);
+												int result = execUpdateSACI("sp_Alta_SAI079 @SAI01LOG='" + (String)vUserData[1] + "', @SAI79ACC='A'");
+//												int result = Commands.addUserIpass((String)vUserData[1]);
+												System.out.println("Resultado de agregar en Ipass:......  " + result);
+												//***********
+												// ADD IPASS: Agrega un usuario de Internet Para el Hogar o Consumo Conmutado Cable en Ipass (para que no pueda accesar Ipass)
+												//***********
+											}
+										}
+										else        // Si el usuario ya esta asociado al Tipo de Servicio AAA, se realiza un cambio de paquete para el usuario de AAA.
+										{
+											int largo = pTelefono.length();
+											System.out.println("before: Largo ListaTelefonos  es : " + largo);
+											
+											java.lang.Object[] vUsersServicesData = (java.lang.Object[])vUsersServices.get(vKeyUserService);
+											java.lang.Object[] vUserData = (java.lang.Object[])vListUsers.get((Long)vNewServicesData[0]);
+											
+											// Si el el tipo de paquete es VPN se asigna el # max de conexiones para grabar en Cisco
+											String vMaxConexAAA = "null";
+							
+											if (vTipoPaquete == 3)
+												vMaxConexAAA = (String)vUserData[4];
+											
+											if (largo >= 7)
+											{ // Se asocia el telefono al login en cisco (Paquete 1 Acceso)
+										  	    // Borra el usuario en Cisco para despues agregarlo con la nueva estructura de telefonos
+												/*vNewServicesData[4] = new Long(Commands.updateTelefonoAAA((String)vUsersServicesData[3], pTelefono, pTelefono, "P", ((Long)vUsersServicesData[1]).longValue())); 													 													
+												System.out.println("Result Inserta el telefono en Cisco  es : " + vNewServicesData[4]);*/
+												System.out.println("Inicia la eliminacion del cliente del AAA");  
+												vNewServicesData[4] = new Long(Commands.deleteUserAAA((String)vUsersServicesData[3], (String)vUsersServicesData[4], vCurrentPackageName,((Long)vUsersServicesData[1]).longValue())); 
+												System.out.println("Resul eliminacion del Cliente de AAA es : " + ((Long)vNewServicesData[4]).toString());
+											}
+											else
+											{ // No asocia el telefono al login en cisco (Paquetes normales)
+											    // Borra el telefono en SACI y Cisco	
+												System.out.println("Inicia la eliminacion del telefono en SACI");  
+												ResultSet rsMantTelefono =  doQuerySACI("exec sp_Mant_Telefonos_SACI @SAI01COD ="+ vUserData[0] + ", @opcion = 'B'");
+												rsMantTelefono.next(); 
+												long result = rsMantTelefono.getLong("Result"); 
+												System.out.println("Result eliminar el telefono en SACI es:	 " + result);  
+												
+												vNewServicesData[4] = new Long(Commands.updateTelefonoAAA((String)vUsersServicesData[3], pTelefono, pTelefono, "B", ((Long)vUsersServicesData[1]).longValue()));
+												System.out.println("Result Borra el telefono en Cisco  es : " + vNewServicesData[4]);
+											} // if (largo >= 7)
+											
+											if(((Long)vNewServicesData[4]).longValue() > 0)
+											{ // Actualiza el telefono en Cisco exito
+												
+												if (largo >= 7)
+												{ // Agregar el usuario con la nueva estructura de telefonos en SACI y Cisco
+													System.out.println("Inicia la inclucion del telefono en SACI");  
+													ResultSet rsMantTelefono = doQuerySACI("exec sp_Mant_Telefonos_SACI @SAI01COD ="+ vUserData[0] + ", @SAI72CON = null, @SAI72TEL = '"+ pTelefono +"', @opcion = 'P'");
+													rsMantTelefono.next(); 
+													long result = rsMantTelefono.getLong("Result"); 
+													System.out.println("Result inclucion del telefono en SACI es:	 " + result);  
+													
+													if (result > 0)
+													{
+														// Obtiene el password del servicio de acceso para agregar el usuario
+														ResultSet rsPassUser = doQuerySACI("Select SAI21PAS" + 
+																						   " From SAI022 a, SAI002 b, SAI001 c" +
+																						   " Where SAI21USU = '"+ (String)vUserData[1] +"'" +
+																						   " And a.SAI01COD = c.SAI01COD" +
+																						   " And a.SAI02COD = b.SAI02COD" +
+																						   " And SAI29COD = 2" +  
+																						   " And SAI01BOR = 0");
+														if (rsPassUser.next())
+														{ 
+															String PassUserAAA = rsPassUser.getString("SAI21PAS");  // Obtiene el Password del Usuario para el Servicio.
+															
+															System.out.println("Inicia la inclucion del telefono en AAA con password	" + PassUserAAA);  
+															vNewServicesData[4] = new Long(Commands.addUserAAA((String)vUserData[1], PassUserAAA, vNewPackageName, ((Long)vNewServicesData[1]).longValue(),pTelefono, vMaxConexAAA));
+															vUsersServicesData[5] = new Long(1);
+															vUsersServicesData[6] = "CP";
+															vUsersServices.put(vKeyUserService, vUsersServicesData);
+														}
+													}
+												}
+												else
+												{
+													vNewServicesData[4] = new Long(Commands.changeParentUserAAA((String)vUsersServicesData[3], vNewPackageName, vCurrentPackageName, ((Long)vUsersServicesData[1]).longValue())); 
+													vUsersServicesData[5] = new Long(1);
+													vUsersServicesData[6] = "CP";
+													vUsersServices.put(vKeyUserService, vUsersServicesData);
+												} // if (largo >= 7)
+											}
+											
+/*											System.out.println ("***********************");
+											System.out.println ("IPASS");
+											System.out.println ("Paquete Actual: " + vCodPaqueteActual);
+											System.out.println ("Paquete Nuevo: " + pCodNuevoPaquete);
+											System.out.println ("***********************");
+*/											
+											if (pCodNuevoPaquete.equals("85"))
+											{
+												//***********
+												// ADD IPASS: Agrega un usuario de Internet Para el Hogar o Consumo Conmutado Cable en Ipass (para que no pueda accesar Ipass)
+												//***********
+												System.out.println("Agregando en Ipass:......  " + (String)vUserData[1]);
+												int result = execUpdateSACI("sp_Alta_SAI079 @SAI01LOG='" + (String)vUserData[1] + "', @SAI79ACC='A'");
+//												int result = Commands.addUserIpass((String)vUserData[1]);
+												System.out.println("Resultado de agregar en Ipass:......  " + result);
+												//***********
+												// ADD IPASS: Agrega un usuario de Internet Para el Hogar o Consumo Conmutado Cable en Ipass (para que no pueda accesar Ipass)
+												//***********
+											} else if (vCodPaqueteActual == 85)
+											{
+												//**************
+												// DELETE IPASS: Elimina un usuario Internet Para el Hogar o Consumo Conmutado Cable de IPass (para que pueda accesar Ipass)
+												//**************
+												System.out.println("Borrando de Ipass:......  " + (String)vUserData[1]);
+												int result = execUpdateSACI("sp_Alta_SAI079 @SAI01LOG='" + (String)vUserData[1] + "', @SAI79ACC='B'");
+//												int result = Commands.deleteUserIpass((String)vUserData[1]);
+												System.out.println("Resultado de borrar en Ipass:......  " + result);
+												//**************
+												// DELETE IPASS: Elimina un usuario Internet Para el Hogar o Consumo Conmutado Cable de IPass (para que pueda accesar Ipass)
+												//**************
+											}
+										}
+										
+										System.out.println("El resultado del Cliente de AAA es : " + ((Long)vNewServicesData[4]).toString());
+										vListNewServices.put(vKeyUserService, vNewServicesData);
+										break;
+									}
+								}       // switch.
+							
+								if(((Long)vNewServicesData[4]).longValue() < 0)
+								{
+									vStateServersOk = false;
+									System.out.println("Los Servers fallaron en la Primera Fase.......");
+									break;
+								}
+						   }    // for(Enumeration vEnum = vNewListUsersServices.keys(); vEnum.hasMoreElements(); ).
+					   }
+					   catch(Exception e)
+					   {
+						   System.out.println("Ocurrio un error en la seccion de cambio de paquete en los diferente Servers....... : " + e.getMessage());
+						   vStateServersOk = false;
+						   vResult = -1;
+					   }
+					   
+		
+					//**********
+					//  Eliminacion de los Datos Sobrantes
+					//**********
+					   if(vStateServersOk)
+					   {
+						   try
+						   {
+							   System.out.println("Inicia el Chequeo y la Eliminacion de los datos sobrantes.");
+							   // Recorre la Lista de los Usuarios por Servicio que conforman el Paquete Anterior para realizar la eliminacion de los datos correpondientes.
+							   for(Enumeration vEnum = vUsersServices.keys(); vEnum.hasMoreElements(); )
+							   {
+									String vKeyUserService = (String)vEnum.nextElement();
+									java.lang.Object[] vUsersServicesData = (java.lang.Object[])vUsersServices.get(vKeyUserService);
+									
+									// Si el Usuario no sufrio algun cambio en un servicio y es necesario el borrado del mismo de dicho servicio, borra el usuario del servicio.
+									if(((Long)vUsersServicesData[5]).longValue() == 0 && ((String)vUsersServicesData[6]).equals("B"))
+									{
+										switch(((Long)vUsersServicesData[2]).byteValue())      // Chequea el Tipo de Servicio.
+										{
+											case 1:         // Servicio de Mail.
+											{
+												System.out.println("Inicia el acceso del cliente del MAIL");
+												java.lang.Object[] vUserData = (java.lang.Object[])vListUsers.get((Long)vUsersServicesData[0]);
+												Properties vAccountData = new Properties();
+												vAccountData.put("AccountName", (String)vUserData[3]);
+												vAccountData.put("Login", (String)vUserData[1]);
+												vAccountData.put("Password", (String)vUserData[2]);
+												vAccountData.put("KBytes", ((Long)vUsersServicesData[7]).toString());
+												vAccountData.put("Domain", vDomain);
+												vUsersServicesData[5] = new Long(Commands.deleteAccountMail(vAccountData, ((Long)vUsersServicesData[1]).longValue()));
+												//vUsersServicesData[5] = new Long(Commands.deleteAccountMail((String)vUsersServicesData[3]));
+												//vUsersServicesData[5] = new Long(1);
+												System.out.println("El resultado del Cliente de Mail es : " + ((Long)vUsersServicesData[5]).toString());                        
+												vUsersServices.put(vKeyUserService, vUsersServicesData);
+												break;
+											}
+											case 2:     // Servicio de AAA.
+											{
+												System.out.println("Inicia la eliminacion del cliente del AAA");  
+												vUsersServicesData[5] = new Long(Commands.deleteUserAAA((String)vUsersServicesData[3], (String)vUsersServicesData[4], vCurrentPackageName,((Long)vUsersServicesData[1]).longValue())); 
+												System.out.println("El resultado del Cliente de AAA es : " + ((Long)vUsersServicesData[5]).toString());
+												vUsersServices.put(vKeyUserService, vUsersServicesData);
+												break;
+											}
+										}       // switch.
+									}       // if(((Long)vUsersServicesData[5]).longValue == 0 && ((String)vUsersServicesData[6]).equals("B")).
+							
+									if(((Long)vUsersServicesData[5]).longValue() < 0)
+									{
+										vStateServersOk = false;
+										vResult = -1;
+										System.out.println("Los Servers fallaron en la Segunda Fase.......");
+										break;
+									}
+							
+									vResult = 1;        // Todo ha salido bien.
+									//System.out.println ("ANTES DE LLAMAR A SP_ACTUAL CHANGEPACKAGE");
+									if (!pS02VA2.equals(""))				    					
+									{	
+										String pOrden1 = pS02VA2.substring(0,1);											
+										if ((pOrden1.equals("G")) || (pOrden1.equals("O")))
+										{		    										
+											ResultSet rsActualiza = doQuerySACI("exec sp_ActualizaTareaCumplimiento @S01CON=" + vConsecutivoTarea);
+											//System.out.println ("DESPUES DE LLAMAR A SP_ACTUAL CHANGEPACKAGE");
+											rsActualiza.next();
+							    			if(rsActualiza.getLong(1) == 0)
+							    			{	System.out.println ("******************************Actualizacion tuvo exito en CPackages...******************************");}
+							    			else
+							    			{	System.out.println ("******************************Actualizacion fallo en CPackages...******************************");}
+						    			}
+					     			}					    										    					
+
+									//}					    					
+									
+									
+							   }    // for(Enumeration vEnum = vUsersServices.keys(); vEnum.hasMoreElements(); ).
+						   }
+						   catch(Exception e)
+						   {
+							   System.out.println("Ocurrio un error en la seccion de la eliminacion de los datos sobrantes...... : " + e.getMessage());
+							   vStateServersOk = false;
+							   vResult = -1;
+						   }
+					   }    // if(vStateServersOk)
+					   
+					   
+					   
+					   //******************
+					   //   ROLLBACK
+					   //******************
+					   if(!vStateServersOk)
+					   {
+						   try
+						   {
+							   System.out.println("CPackagesImpl.change() Inicia el RollBack de las transacciones realizadas.....");
+							   String vKeyUserService = null;
+							   java.lang.Object[] vUsersServicesData = null;
+							   java.lang.Object[] vNewServicesData = null;
+							   
+							   // Recorre la Lista de los Usuarios por Servicio que fueron modificados, correspondientes al paquete anterior.
+							   for(Enumeration vEnumeration = vUsersServices.keys(); vEnumeration.hasMoreElements(); )
+							   {
+									vKeyUserService = (String)vEnumeration.nextElement();
+									vUsersServicesData = (java.lang.Object[])vUsersServices.get(vKeyUserService);
+									
+									// Si el Usuario se Modifico de alguna forma.
+									if(((Long)vUsersServicesData[5]).longValue() > 0)
+									{
+										switch(((Long)vUsersServicesData[2]).byteValue())      // Chequea el Tipo de Servicio.
+										{
+											case 1:         // Servicio de Mail.
+											{
+												System.out.println("Inicia el acceso del cliente del MAIL");
+												java.lang.Object[] vUserData = (java.lang.Object[])vListUsers.get((Long)vUsersServicesData[0]);
+												// Si fue borrado se debe volver a crear.
+												if(((String)vUsersServicesData[6]).equals("B"))
+												{
+													System.out.println("Inicia la inclusion del cliente de MAIL en el RollBack.....");
+													Properties vAccountData = new Properties();
+													vAccountData.put("AccountName", (String)vUserData[3]);
+													vAccountData.put("Login", (String)vUserData[1]);
+													vAccountData.put("Password", (String)vUserData[2]);
+													System.out.println("Password New Usuario New" + (String)vUserData[2]);
+													vAccountData.put("KBytes", ((Long)vUsersServicesData[7]).toString());
+													vAccountData.put("Domain", vDomain);
+													vUsersServicesData[5] = new Long(Commands.addAccountMail(vAccountData, ((Long)vUsersServicesData[1]).longValue()));
+												}
+												// Si se cambio de paquete se debe devolver al paquete original.
+												else if(((String)vUsersServicesData[6]).equals("CP"))
+												{
+													System.out.println("Inicia el cambio de padre del cliente de MAIL en el RollBack.....");
+													vNewServicesData = (java.lang.Object[])vListNewServices.get(vKeyUserService);						
+													java.lang.Object[] vNewUserData = (java.lang.Object[])vUsersServices.get(vKeyUserService);
+													// Define los nuevos datos de la cuenta de Mail que se desea cambiar.
+													Properties vNewAccountData = new Properties();
+													vNewAccountData.put("AccountName", (String)vUserData[3]);
+													vNewAccountData.put("Login", (String)vUserData[1]);
+													vNewAccountData.put("Password", (String)vNewUserData[4]); // vUserData[2]
+													System.out.println("Password Usuario New" + (String)vNewUserData[4]);
+													vNewAccountData.put("KBytes", ((Long)vUsersServicesData[7]).toString());
+													vNewAccountData.put("Domain", vDomain);
+													// Define los datos viejos de la cuenta de Mail para poder realizar el RollBack interno.
+													Properties vOldAccountData = new Properties();
+													vOldAccountData.put("AccountName", (String)vUserData[3]);
+													vOldAccountData.put("Login", (String)vUserData[1]);
+													vOldAccountData.put("Password", (String)vNewUserData[4]); // vUserData[2]
+													System.out.println("Password Usuario Old" + (String)vNewUserData[4]);
+													vOldAccountData.put("KBytes", ((Long)vNewServicesData[3]).toString());
+													vOldAccountData.put("Domain", vDomain);
+													vUsersServicesData[5] = new Long(Commands.updateAccountMail(vNewAccountData, vOldAccountData, ((Long)vNewServicesData[1]).longValue()));
+												}
+												// Si no se hizo ningun cambio
+												else
+												{
+													vUsersServicesData[5] = new Long(1);
+												}
+												System.out.println("El resultado del Cliente de Mail es : " + ((Long)vUsersServicesData[5]).toString());                        
+												vUsersServices.put(vKeyUserService, vUsersServicesData);
+												break;
+											}
+											case 2:     // Servicio de AAA.
+											{
+												if(((String)vUsersServicesData[6]).equals("B"))
+												{
+													// Si el el tipo de paquete es VPN se asigna el # max de conexiones para grabar en Cisco
+													String vMaxConexAAA = "null";
+									
+													if (vTipoPaquete == 3)
+														vMaxConexAAA = (String)vUsersServicesData[8];
+													
+													System.out.println("Inicia la inclusion del cliente de AAA en el RollBack.....");  
+													vUsersServicesData[5] = new Long(Commands.addUserAAA((String)vUsersServicesData[3], (String)vUsersServicesData[4], vCurrentPackageName, ((Long)vUsersServicesData[1]).longValue(),pTelefono, vMaxConexAAA));
+													System.out.println("El resultado de la inclusion del cliente de AAA es : " + ((Long)vUsersServicesData[5]).toString());
+													vUsersServices.put(vKeyUserService, vUsersServicesData);
+												}
+												else if(((String)vUsersServicesData[6]).equals("CP"))
+												{
+													int largo = pTelefono.length();
+													System.out.println("before: Largo ListaTelefonos  es : " + largo);
+													java.lang.Object[] vUserData = (java.lang.Object[])vListUsers.get((Long)vNewServicesData[0]);
+													
+													
+													
+													if (largo >= 7)
+													{ // Se asocia el telefono al login en cisco (Paquete 1 Acceso)
+														// Inserta el telefono en Cisco
+														/*vUsersServicesData[5] = new Long(Commands.updateTelefonoAAA((String)vUsersServicesData[3], pTelefono, pTelefono, "P", ((Long)vUsersServicesData[1]).longValue())); 													
+														System.out.println("Result Inserta el telefono en Cisco  es : " + vUsersServicesData[5]);*/
+														System.out.println("Inicia la eliminacion del cliente del AAA");  
+														vUsersServicesData[5] = new Long(Commands.deleteUserAAA((String)vUsersServicesData[3], (String)vUsersServicesData[4], vCurrentPackageName,((Long)vUsersServicesData[1]).longValue())); 
+														System.out.println("Resul eliminacion del Cliente de AAA es : " + ((Long)vUsersServicesData[5]).toString());
+													}
+													else
+													{ // No asocia el telefono al login en cisco (Paquetes normales)
+													    // Borra el telefono en Cisco	
+														System.out.println("Inicia la eliminacion del telefono en SACI");  
+														ResultSet rsMantTelefono = doQuerySACI("exec sp_Mant_Telefonos_SACI @SAI01COD ="+ vUserData[0] + ", @opcion = 'B'");
+														rsMantTelefono.next(); 
+														long result = rsMantTelefono.getLong("Result"); 
+														System.out.println("Result eliminar el telefono en SACI es:	 " + result);  
+														
+														vUsersServicesData[5] = new Long(Commands.updateTelefonoAAA((String)vUsersServicesData[3], pTelefono, pTelefono, "B", ((Long)vUsersServicesData[1]).longValue())); 													
+														System.out.println("Result Borra el telefono en Cisco  es : " + vUsersServicesData[5]);
+													} // if (largo >= 7)
+													
+													if(((Long)vNewServicesData[4]).longValue() > 0)
+													{ // Actualiza el telefono en Cisco exito
+														if (largo >= 7)
+														{ // Agregar el usuario con la nueva estructura de telefonos en SACI y Cisco
+															System.out.println("Inicia la inclucion del telefono en SACI");  
+															ResultSet rsMantTelefono = doQuerySACI("exec sp_Mant_Telefonos_SACI @SAI01COD ="+ vUserData[0] + ", @SAI72CON = null, @SAI72TEL = '"+ pTelefono +"', @opcion = 'P'");
+															rsMantTelefono.next(); 
+															long result = rsMantTelefono.getLong("Result"); 
+															System.out.println("Result inclucion del telefono en SACI es:	 " + result);  
+															
+															if (result > 0)
+															{
+																// Obtiene el password del servicio de acceso para agregar el usuario
+																ResultSet rsPassUser = doQuerySACI("Select SAI21PAS" + 
+																								   " From SAI022 a, SAI002 b, SAI001 c" +
+																								   " Where SAI21USU = '"+ (String)vUserData[1] +"'" +
+																								   " And a.SAI01COD = c.SAI01COD" +
+																								   " And a.SAI02COD = b.SAI02COD" +
+																								   " And SAI29COD = 2" +  
+																								   " And SAI01BOR = 0");
+																if (rsPassUser.next())
+																{ 
+																	String PassUserAAA = rsPassUser.getString("SAI21PAS");  // Obtiene el Password del Usuario para el Servicio.
+																	
+																	// Si el el tipo de paquete es VPN se asigna el # max de conexiones para grabar en Cisco
+																	String vMaxConexAAA = "null";
+													
+																	if (vTipoPaquete == 3)
+																		vMaxConexAAA = (String)vUserData[4];
+																
+																	System.out.println("Inicia la inclucion del telefono en AAA con password	" + PassUserAAA);  
+																	vNewServicesData[4] = new Long(Commands.addUserAAA((String)vUserData[1], PassUserAAA, vNewPackageName, ((Long)vNewServicesData[1]).longValue(),pTelefono, vMaxConexAAA));
+																	vUsersServicesData[5] = new Long(1);
+																	vUsersServicesData[6] = "CP";
+																	vUsersServices.put(vKeyUserService, vUsersServicesData);
+																}
+															}
+														}
+														else
+														{
+															System.out.println("Inicia el cambio de padre del cliente de AAA en el RollBack.....");
+															vUsersServicesData[5] = new Long(Commands.changeParentUserAAA((String)vUsersServicesData[3], vCurrentPackageName, vNewPackageName, ((Long)vUsersServicesData[1]).longValue()));
+															System.out.println("El resultado del cambio de padre del cliente de AAA es : " + ((Long)vUsersServicesData[5]).toString());
+															vUsersServices.put(vKeyUserService, vUsersServicesData);
+															
+															if (pCodNuevoPaquete.equals("85"))
+															{
+																//**************
+																// DELETE IPASS: Elimina un usuario Internet Para el Hogar o Consumo Conmutado Cable de IPass (para que pueda accesar Ipass)
+																//**************
+																System.out.println("Borrando de Ipass:......  " + (String)vUserData[1]);
+																int result = execUpdateSACI("sp_Alta_SAI079 @SAI01LOG='" + (String)vUserData[1] + "', @SAI79ACC='B'");
+//																int result = Commands.deleteUserIpass((String)vUserData[1]);
+																System.out.println("Resultado de borrar en Ipass:......  " + result);
+																//**************
+																// DELETE IPASS: Elimina un usuario Internet Para el Hogar o Consumo Conmutado Cable de IPass (para que pueda accesar Ipass)
+																//**************
+															}
+															else if (vCodPaqueteActual == 85)
+															{
+																//***********
+																// ADD IPASS: Agrega un usuario de Internet Para el Hogar o Consumo Conmutado Cable en Ipass (para que no pueda accesar Ipass)
+																//***********
+																System.out.println("Agregando en Ipass:......  " + (String)vUserData[1]);
+																int result = execUpdateSACI("sp_Alta_SAI079 @SAI01LOG='" + (String)vUserData[1] + "', @SAI79ACC='A'");
+//																int result = Commands.addUserIpass((String)vUserData[1]);
+																System.out.println("Resultado de agregar en Ipass:......  " + result);
+																//***********
+																// ADD IPASS: Agrega un usuario de Internet Para el Hogar o Consumo Conmutado Cable en Ipass (para que no pueda accesar Ipass)
+																//***********
+															}
+															
+														} // if (largo >= 7)
+													}
+												}
+												break;
+											}
+										}       // switch.
+									}       // if(((Long)vUsersServicesData[5]).longValue() > 0).
+							   }    // for(Enumeration vEnum = vUsersServices.keys(); vEnum.hasMoreElements(); ).
+							   
+							   
+			
+							//**********
+							//  Borrar los usuarios nuevos que se crearon durante el proceso
+							//**********
+							   
+							// Recorre la Lista de los Usuarios que fueron creados en los servicios del Nuevo Paquete para eliminarlos de los mismos.
+							System.out.println("Inicia el proceso de borrado de los nuevos usuario creados.");			       
+							for(Enumeration vEnumeration = vListNewServices.keys(); vEnumeration.hasMoreElements(); )
+							{
+								vKeyUserService = (String)vEnumeration.nextElement();
+								vNewServicesData = (java.lang.Object[])vListNewServices.get(vKeyUserService);
+								// Si el Usuario fue creado exitosamentese.
+								if((((Long)vNewServicesData[4]).longValue() > 0) && ((String)vNewServicesData[5]).equals("B"))
+								{
+									switch(((Long)vNewServicesData[2]).byteValue())      // Chequea el Tipo de Servicio.
+									{
+										case 1:         // Servicio de Mail.
+										{
+											System.out.println("Inicia el acceso del cliente del MAIL.");
+											java.lang.Object[] vUserData = (java.lang.Object[])vListUsers.get((Long)vNewServicesData[0]);
+											Properties vAccountData = new Properties();
+											vAccountData.put("AccountName", (String)vUserData[3]);
+											vAccountData.put("Login", (String)vUserData[1]);
+											vAccountData.put("Password", (String)vUserData[2]);
+											vAccountData.put("KBytes", ((Long)vNewServicesData[3]).toString());
+											vAccountData.put("Domain", vDomain);
+											vNewServicesData[4] = new Long(Commands.deleteAccountMail(vAccountData, ((Long)vNewServicesData[1]).longValue()));
+											System.out.println("El resultado del Cliente de Mail es : " + ((Long)vNewServicesData[4]).toString());                        
+											vListNewServices.put(vKeyUserService, vNewServicesData);
+											break;
+										}
+										case 2:     // Servicio de AAA.
+										{
+											System.out.println("Inicia el acceso al cliente de AAA.");
+											java.lang.Object[] vUserData = (java.lang.Object[])vListUsers.get((Long)vNewServicesData[0]);
+												vNewServicesData[4] = new Long(Commands.deleteUserAAA((String)vUserData[1], (String)vUserData[2], vNewPackageName, ((Long)vNewServicesData[1]).longValue()));
+											System.out.println("El resultado de la inclusion del cliente de AAA es : " + ((Long)vNewServicesData[5]).toString());
+											vListNewServices.put(vKeyUserService, vNewServicesData);
+											break;
+										}
+									}       // switch.
+								}	// if((((Long)vNewServicesData[4]).longValue() > 0) && ((String)vNewServicesData[5]).equals("B")).
+							}    // for(Enumeration vEnum = vListNewServices.keys(); vEnum.hasMoreElements(); ).			       
+							   //System.out.println("!!! CPackagesImpl.change() is OK with RollBack.....");
+						  }
+						  catch(Exception e)
+						  {
+							   System.out.println("!!! CPackagesImpl.change() failed with RollBack.....");
+							   System.out.println("\tERROR : [" + e.getMessage() + "]");
+						  }
+			
+						   //Ejecuta el RollBack a nivel de la DB
+						   try
+						   {
+								// Elimina la tarea que habia sido enviada a SACISIIC.
+								if (!pS02VA2.equals(""))
+								{	
+									String pOrden1 = pS02VA2.substring(0,1);											
+									if ((pOrden1.equals("G")) || (pOrden1.equals("O")))											    								
+									{	vTareasSACI.DeleteTaskSIIC("S01CON = " + String.valueOf(vConsecutivoTarea));}
+								}
+								
+								// Cambia la cuenta al paquete original.
+								//doQuerySACI("exec CambioPaquete @CUENTA = " + pCodCuenta + ", @PAQUETE = " + vCodPaqueteActual);
+
+								System.out.println ("**** DERBY Llamado a SP_CambioPaquete desde el primer rollback **");
+								System.out.println (" CUENTA = " + pCodCuenta);
+								System.out.println (" PAQUETE ACTUAL = " + vCodPaqueteActual);
+								
+								doQuerySACI("exec CambioPaquete @CUENTA = " + pCodCuenta + ", @PAQUETE = " + vCodPaqueteActual + ", @LUGLLAMADO = 1");
+						   }
+						   catch(Exception e)
+						   {
+							   System.out.println("!!! CPackagesImpl.change() failed with DB rollback.....");
+							   System.out.println("Error : [" + e.getMessage() + "]");
+						   }			   
+					   }	// if(!vStateServersOk).***
+					   
+					}    // if(vStateTareasSACIOk && vStateSpCambioPaqueteOk).
+					else	// Si no se envio la tarea correctamente o no se ejecuto el SP CambioPaquete correctamente.
+					{
+					   try
+					   {
+							// Elimina la tarea que habia sido enviada a SACISIIC.
+							if(vStateTareasSACIOk)
+							{
+								if(vEjecutarEnvioTareas)
+								{
+									if (!pS02VA2.equals(""))
+									{	
+										String pOrden1 = pS02VA2.substring(0,1);											
+										if ((pOrden1.equals("G")) || (pOrden1.equals("O")))		    									
+										{	vTareasSACI.DeleteTaskSIIC("S01CON = " + String.valueOf(vConsecutivoTarea));}
+									}
+								}
+							}
+							// Invierte el Sp CambioPaquete para retornar los datos al estado anterior.
+							if(vStateSpCambioPaqueteOk)
+							{
+								//ResultSet rsCambioPaquete = doQuerySACI("exec CambioPaquete @CUENTA = " + pCodCuenta + ", @PAQUETE = " + vCodPaqueteActual);
+								System.out.println ("**** DERBY Llamado a SP_CambioPaquete desde el SEGUNDO rollback **");
+								System.out.println (" CUENTA 1 = " + pCodCuenta);
+								System.out.println (" PAQUETE ACTUAL 1 = " + vCodPaqueteActual);
+								
+								doQuerySACI("exec CambioPaquete @CUENTA = " + pCodCuenta + ", @PAQUETE = " + vCodPaqueteActual + ", @LUGLLAMADO = 1");
+								
+								ResultSet rsCambioPaquete = doQuerySACI("exec CambioPaquete @CUENTA = " + pCodCuenta + ", @PAQUETE = " + vCodPaqueteActual + ", @LUGLLAMADO = 1");
+							}
+					   }
+					   catch(Exception e)
+					   {
+						   System.out.println("!!! CPackagesImpl.change() failed rollbacking the CTareasImpl processe or the Store Procedure CambioPaquete.....");
+						   System.out.println("Error : [" + e.getMessage() + "]");
+					   }
+					}
+				}   // if(vEjecutarCambioPaquete).
+			}   
+			else
+			{
+				System.out.println("!!! CPackagesImpl.change() failed.....");
+				System.out.println("\tERROR : [Problems to connect with " + _SACIDBName + " and " + _SACISIICDBName + " databases.....]");
+				if(_Statement1_SACI != null) {try {_Statement1_SACI.close(); _Statement1_SACI = null;} catch(Exception e) {;}}
+				if(_Statement1_SACISIIC != null) {try {_Statement1_SACISIIC.close(); _Statement1_SACISIIC = null;} catch(Exception e) {;}}
+				if(vConnection_SACI != null) {releaseConnection(_SACIDBName, vConnection_SACI);}
+				if(vConnection_SACISIIC != null) {releaseConnection(_SACISIICDBName, vConnection_SACISIIC);}
+				throw new soinisp.ISPException("Problems connecting with " + _SACIDBName + " and " + _SACISIICDBName + " databases.....");
+			} // if((vConnection_SACI != null) && (vConnection_SACISIIC != null)).
+		}
+		catch(Exception e)
+		{
+			System.out.println("!!! CPackagesImpl.change() failed.....");
+			System.out.println("\tERROR : [" + e.getMessage() + "]");
+			if(_Statement1_SACI != null) {try {_Statement1_SACI.close(); _Statement1_SACI = null;} catch(Exception e1) {;}}
+			if(_Statement1_SACISIIC != null) {try {_Statement1_SACISIIC.close(); _Statement1_SACISIIC = null;} catch(Exception e1) {;}}
+			if(vConnection_SACI != null) {releaseConnection(_SACIDBName, vConnection_SACI);}
+			if(vConnection_SACISIIC != null) {releaseConnection(_SACISIICDBName, vConnection_SACISIIC);}
+			throw new soinisp.ISPException(e.getMessage());
+		}
+		finally
+		{
+			if(_Statement1_SACI != null) {try {_Statement1_SACI.close(); _Statement1_SACI = null;} catch(Exception e) {;}}
+			if(_Statement1_SACISIIC != null) {try {_Statement1_SACISIIC.close(); _Statement1_SACISIIC = null;} catch(Exception e) {;}}
+			if(vConnection_SACI != null) {releaseConnection(_SACIDBName, vConnection_SACI);}
+			if(vConnection_SACISIIC != null) {releaseConnection(_SACISIICDBName, vConnection_SACISIIC);}
+		}
+		return vResult;
+    } // changePackages
+
+
+
+
+    /*******************
+    *   DISJOINSERVICE
+    ********************/
+    public long disjoinService(String pListParameters) throws soinisp.ISPException
+    {
+		long vResult = -1;
+		Connection vConnection_SACI = null;
+		Connection vConnection_SACISIIC = null;
+		_Statement1_SACI = null;
+		_Statement1_SACISIIC = null;
+		
+		try
+		{
+			vConnection_SACI = getConnection(_SACIDBName);
+			vConnection_SACISIIC = getConnection(_SACISIICDBName);
+			
+			if((vConnection_SACI != null) && (vConnection_SACISIIC != null))
+			{
+				_Statement1_SACI = vConnection_SACI.createStatement();
+				_Statement1_SACISIIC = vConnection_SACISIIC.createStatement();
+				byte vEstadoDBSACI = 0;
+				byte vEstadoServers = 1;
+			
+				String pCodPaquete = getParameter(pListParameters,"SAI03COD");
+				String pCodServicio = getParameter(pListParameters,"SAI02COD");
+				
+				int vZAPPA=-1;
+				ResultSet rsTipo = doQuerySACI("SELECT SAI29COD FROM SAI002 WHERE SAI02COD="+pCodServicio);
+				if (rsTipo.next())
+					vZAPPA= rsTipo.getInt("SAI29COD"); //OBTENGO EL TIPO DE SERVICIO (2=WEB)
+				rsTipo.close();
+				System.out.println("ZAPPA : " + vZAPPA);
+			
+			
+				// Obtiene el codigo de paquete en BD SACI.
+				ResultSet rsPaquete = doQuerySACI("Select SAI03NOM From SAI003 Where SAI03COD = " + pCodPaquete);
+				
+				if(rsPaquete.next())
+				{
+					String vNomPaquete = rsPaquete.getString("SAI03NOM");
+					System.out.println("Inicio del joinServicePackage()......");
+					System.out.println("ZAPPA : " + vZAPPA);
+					try
+					{
+						switch(vZAPPA)
+						{
+							case 1:     // SI ES SERVICIO DE MAIL.
+							{
+								vEstadoServers = 1;
+								break;
+							}
+							case 2:     // SI ES SERVICIO DE AAA.
+							{
+								System.out.println("Inicia el borrado del paquete del AAA");
+								int EstadoAAA = Commands.deleteAccountAAA(vNomPaquete,"__SOIN_DEFUALT_ENABLED_GROUPS__",new Long(pCodServicio).longValue());
+								System.out.println("El resultado del Cliente del AAA es : " + String.valueOf(EstadoAAA));
+								// Si algun server fallo, realiza un rollback y no accesa a la DB.
+								if(EstadoAAA < 0)
+								{
+									vEstadoServers = 0;
+									vResult = EstadoAAA;
+								}
+								break;
+							}
+						}
+					} catch(Exception e3) {System.out.println("El componente fallo..... : " + e3.getMessage()); 
+					  vEstadoServers = 0; 
+					  vResult = -1;
+					}
+			
+					// Si los servidores cumplieron con el objetivo.
+					if(vEstadoServers == 1)     
+					{// Si los server respondieron bien agrega el paquete en la DB SIIC.
+						try
+						{
+							System.out.println("Ejecuta el sp_Baja_SAI010..........");
+							int rsSACI = execUpdateSACI("exec sp_Baja_SAI010 @SAI03COD=" + pCodPaquete + ", @SAI02COD=" + pCodServicio);
+							
+							System.out.println("El result del sp_Baja_SAI010 es .........." + rsSACI);
+							
+							if(rsSACI >= 0)
+								vEstadoDBSACI = 1;
+							else
+							{
+								vResult = -3;
+								vEstadoDBSACI = 0;
+							}
+						} catch(Exception e) {
+							System.out.println("El sp_Baja_SAI010 fallo..... : " + e.getMessage()); 
+							vEstadoDBSACI = 0; 
+							System.out.println("El vEstadoDBSACI es..... : " + vEstadoDBSACI);
+							vResult = -3;
+							System.out.println("El vResult es..... : " + vResult);
+						}
+					} // end if vEstadoServers
+			
+					//*********************
+					//*   ROLLBACK
+					//*********************
+					if(vEstadoServers == 0 || vEstadoDBSACI == 0)
+					// Si el server fallo o fallo el sp_Alta_SAI003 o fallo el sp_Alta_SSXCIN  o fallo el enviar la tarea al SIIC
+					{
+						switch(vZAPPA)
+						{
+							case 1:     // SI ES SERVICIO DE MAIL.
+							{
+								break;
+							}
+							case 2:     // SI ES SERVICIO DE AAA.
+							{
+								System.out.println("Inicia el ROLLBACK DEL ADD");
+								
+								String vEstructGroup = "";  // Estructura solo para grupos VPNS
+						
+								// Elimina el paquete en AAA.
+								System.out.println("Inicia el acceso del paquete del AAA");
+								int EstadoAAA = Commands.addAccountAAA(vNomPaquete,vNomPaquete,"__SOIN_DEFUALT_ENABLED_GROUPS__",new Long(pCodServicio).longValue(), vEstructGroup);
+								System.out.println("El resultado del Cliente del AAA es : " + String.valueOf(EstadoAAA));
+							}
+						} // switch(vZAPPA)
+					} // if ROLLBACK.
+					else 
+						vResult = 1;        // Todo resulto bien...
+				} 
+				else 
+				{
+					vResult = -2;
+					System.out.println("No se encontro el Codigo del Paquete en la Base de Datos SACI"); 
+				} // if(rsPaquete.next())
+			}   // if((vConnection_SACI != null) && (vConnection_SACISIIC != null)).
+			else
+			{
+				System.out.println("!!! CPackagesImpl.disjoinService() failed.....");
+				System.out.println("\tERROR : [Couldn't get a Connection Cache.....]");
+				if(_Statement1_SACI != null) {try {_Statement1_SACI.close(); _Statement1_SACI = null;} catch(Exception e) {;}}
+				if(_Statement1_SACISIIC != null) {try {_Statement1_SACISIIC.close(); _Statement1_SACISIIC = null;} catch(Exception e) {;}}
+				if(vConnection_SACI != null) {releaseConnection(_SACIDBName, vConnection_SACI);}
+				if(vConnection_SACISIIC != null) {releaseConnection(_SACISIICDBName, vConnection_SACISIIC);}
+				throw new soinisp.ISPException("Couldn't get a Connection Cache.....");
+			}
+		}
+		catch(Exception e)
+		{
+				System.out.println("!!! CPackagesImpl.disjoinService() failed.....");
+				System.out.println("\tERROR : [" + e.getMessage() + "]");
+				if(_Statement1_SACI != null) {try {_Statement1_SACI.close(); _Statement1_SACI = null;} catch(Exception e1) {;}}
+				if(_Statement1_SACISIIC != null) {try {_Statement1_SACISIIC.close(); _Statement1_SACISIIC = null;} catch(Exception e1) {;}}
+				if(vConnection_SACI != null) {releaseConnection(_SACIDBName, vConnection_SACI);}
+				if(vConnection_SACISIIC != null) {releaseConnection(_SACISIICDBName, vConnection_SACISIIC);}
+				throw new soinisp.ISPException(e.getMessage());
+		}
+		finally
+		{
+			if(_Statement1_SACI != null) {try {_Statement1_SACI.close(); _Statement1_SACI = null;} catch(Exception e) {;}}
+			if(_Statement1_SACISIIC != null) {try {_Statement1_SACISIIC.close(); _Statement1_SACISIIC = null;} catch(Exception e) {;}}
+			if(vConnection_SACI != null) {releaseConnection(_SACIDBName, vConnection_SACI);}
+			if(vConnection_SACISIIC != null) {releaseConnection(_SACISIICDBName, vConnection_SACISIIC);}
+		}
+		return vResult;
+    }
+
+
+
+    /*******************
+    *   JOINSERVICE
+    ********************/
+    public long joinService(String pListParameters) throws soinisp.ISPException
+    {
+		long vResult = -1;
+		Connection vConnection_SACI = null;
+		Connection vConnection_SACISIIC = null;
+		_Statement1_SACI = null;
+		_Statement1_SACISIIC = null;
+		
+		try
+		{
+			vConnection_SACI = getConnection(_SACIDBName);
+			vConnection_SACISIIC = getConnection(_SACISIICDBName);
+			
+			if((vConnection_SACI != null) && (vConnection_SACISIIC != null))
+			{
+				_Statement1_SACI = vConnection_SACI.createStatement();
+				_Statement1_SACISIIC = vConnection_SACISIIC.createStatement();
+				byte vEstadoDBSACI = 0;
+				byte vEstadoServers = 1;
+			
+				String pCodPaquete = getParameter(pListParameters,"SAI03COD");
+				String pCodServicio = getParameter(pListParameters,"SAI02COD");
+			
+				long vZAPPA=-1;
+				ResultSet rsTipo = doQuerySACI("SELECT SAI29COD FROM SAI002 WHERE SAI02COD="+pCodServicio);
+				
+				if (rsTipo.next())
+					vZAPPA=rsTipo.getLong("SAI29COD"); //obtengo el tipo de servicio
+				rsTipo.close();
+				
+				// Obtiene el codigo de paquete en BD SACI.
+				ResultSet rsPaquete = doQuerySACI("Select SAI03NOM From  SAI003 Where SAI03COD = " + pCodPaquete);
+
+				// Si obtuvo el codigo del paquete.																			
+				if(rsPaquete.next())
+				{
+					String vNomPaquete = rsPaquete.getString("SAI03NOM");
+					System.out.println("Inicio del joinServicePackage()......");
+					try
+					{
+						int EstadoAAA=-200;
+						if (vZAPPA==2)  // SI ES SERVICIO DE WEB Inserta paquete en AAA.
+						{
+							String vEstructGroup = "";  // Estructura solo para grupos VPNS
+							
+							System.out.println("Inicia el acceso del paquete del AAA");
+							EstadoAAA = Commands.addAccountAAA(vNomPaquete,vNomPaquete,"__SOIN_DEFUALT_ENABLED_GROUPS__",new Long(pCodServicio).longValue(), vEstructGroup);
+							System.out.println("El resultado del Cliente del AAA es : " + String.valueOf(EstadoAAA));
+							
+							// Si algun server fallo, realiza un rollback y no accesa a la DB.
+							if(EstadoAAA < 0)
+							{
+								vEstadoServers = 0;
+								vResult = EstadoAAA;
+							}
+						}
+						else
+							vEstadoServers=1;
+					} catch(Exception e3) {System.out.println("El componente fallo..... : " + e3.getMessage()); 
+					  vEstadoServers = 0; 
+					  vResult = -1;
+					}
+			
+					// Si los servidores cumplieron con el objetivo.
+					if(vEstadoServers == 1)     
+					{// Si los server respondieron bien agrega el paquete en la DB SIIC.
+						try
+						{
+							System.out.println("Ejecuta el sp_Alta_SAI010..........");
+							int rsSACI = execUpdateSACI("exec sp_Alta_SAI010 @SAI03COD=" + pCodPaquete + ", @SAI02COD=" + pCodServicio);
+				
+							if(rsSACI >= 0)
+								vEstadoDBSACI = 1;
+							else
+							{
+								vResult = -3;
+								vEstadoDBSACI = 0;
+							}
+						} catch(Exception e) {
+							System.out.println("El sp_Alta_SAI010 fallo..... : " + e.getMessage()); 
+							vEstadoDBSACI = 0; 
+							System.out.println("El vEstadoDBSACI es..... : " + vEstadoDBSACI);
+							vResult = -3;
+							System.out.println("El vResult es..... : " + vResult);
+						}
+					} // end if vEstadoServers
+			
+					//*********************
+					//*   ROLLBACK
+					//*********************
+					if(vEstadoServers == 0 || vEstadoDBSACI == 0)
+					// Si el server fallo o fallo el sp_Alta_SAI003 o fallo el sp_Alta_SSXCIN  o fallo el enviar la tarea al SIIC
+					{
+						System.out.println("Inicia el ROLLBACK DEL ADD");
+						
+						if (vZAPPA==2)  // SI ES SERVICIO DE WEB Inserta paquete en AAA.
+						{
+							// Elimina el paquete en AAA.
+							System.out.println("Inicia la eliminación del paquete del AAA");
+							int EstadoAAA = Commands.deleteAccountAAA(vNomPaquete,"__SOIN_DEFUALT_ENABLED_GROUPS__",new Long(pCodServicio).longValue());
+							System.out.println("El resultado del Cliente del AAA es : " + String.valueOf(EstadoAAA));
+						}
+					} // if ROLLBACK.
+					else 
+						vResult = 1;        // Todo resulto bien...
+				} // if(rsPaquete.next())
+				else 
+				{
+					vResult = -2;
+					System.out.println("No se encontro el Codigo del Paquete en la Base de Datos SACI"); 
+				}
+			}   
+			else
+			{
+				System.out.println("!!! CPackagesImpl.joinService() failed.....");
+				System.out.println("\tERROR : [Couldn't get a Connection Cache.....]");
+				if(_Statement1_SACI != null) {try {_Statement1_SACI.close(); _Statement1_SACI = null;} catch(Exception e) {;}}
+				if(_Statement1_SACISIIC != null) {try {_Statement1_SACISIIC.close(); _Statement1_SACISIIC = null;} catch(Exception e) {;}}
+				if(vConnection_SACI != null) {releaseConnection(_SACIDBName, vConnection_SACI);}
+				if(vConnection_SACISIIC != null) {releaseConnection(_SACISIICDBName, vConnection_SACISIIC);}
+				throw new soinisp.ISPException("Couldn't get a Connection Cache.....");
+			} // if((vConnection_SACI != null) && (vConnection_SACISIIC != null)).
+		}
+		catch(Exception e)
+		{
+			System.out.println("!!! CPackagesImpl.joinService() failed.....");
+			System.out.println("\tERROR : [" + e.getMessage() + "]");
+			if(_Statement1_SACI != null) {try {_Statement1_SACI.close(); _Statement1_SACI = null;} catch(Exception e1) {;}}
+			if(_Statement1_SACISIIC != null) {try {_Statement1_SACISIIC.close(); _Statement1_SACISIIC = null;} catch(Exception e1) {;}}
+			if(vConnection_SACI != null) {releaseConnection(_SACIDBName, vConnection_SACI);}
+			if(vConnection_SACISIIC != null) {releaseConnection(_SACISIICDBName, vConnection_SACISIIC);}
+			throw new soinisp.ISPException(e.getMessage());
+		}
+		finally
+		{
+			if(_Statement1_SACI != null) {try {_Statement1_SACI.close(); _Statement1_SACI = null;} catch(Exception e) {;}}
+			if(_Statement1_SACISIIC != null) {try {_Statement1_SACISIIC.close(); _Statement1_SACISIIC = null;} catch(Exception e) {;}}
+			if(vConnection_SACI != null) {releaseConnection(_SACIDBName, vConnection_SACI);}
+			if(vConnection_SACISIIC != null) {releaseConnection(_SACISIICDBName, vConnection_SACISIIC);}
+		}
+		return vResult;
+    } // end joinService
+	
+	
+	
+	/*******************
+    *   MantPackagesVPN: Agrega (P),Borra (B) o Modifica (M) un grupo en Cisco con la estructura VPN 
+    ********************/
+    public long MantPackagesVPN(String pListParameters) throws soinisp.ISPException
+    {
+		long vResult = -1;
+		Connection vConnection_SACI = null;
+		Connection vConnection_SACISIIC = null;
+		_Statement1_SACI = null;
+		_Statement1_SACISIIC = null;
+		
+		try
+		{
+			vConnection_SACI = getConnection(_SACIDBName);
+			vConnection_SACISIIC = getConnection(_SACISIICDBName);
+			
+			if((vConnection_SACI != null) && (vConnection_SACISIIC != null))
+			{
+				_Statement1_SACI = vConnection_SACI.createStatement();
+				_Statement1_SACISIIC = vConnection_SACISIIC.createStatement();
+				byte vEstadoDBSACI = 0;   // Estado realización en BD
+				byte vEstadoServers = 1;  // Estado realización en AAA
+				long vTipoServ=-1;     	  // Tipo de Servicio (AAA es 2)	
+				long vCodServicio= -1;
+			
+				String pDominio = getParameter(pListParameters,"Dominio");
+				String pTarea = getParameter(pListParameters,"Tarea");
+				String pEstructUser = getParameter(pListParameters,"EstructUser");
+				String pEstructGroup = getParameter(pListParameters,"EstructGroup");
+				
+				// Construye el nombre del Grupo en Cisco y el Paquete en SACI (Usuarios_aduanas)
+				String dominio_Cisco = "Usuarios_" + pDominio;
+				System.out.println("Dominio_Cisco: " + dominio_Cisco);
+				
+				if (pTarea.equals("P"))
+				{ // Agregar Dominio VPN en BD y grupo en Cisco
+					
+					System.out.println("Inicio del MantPackagesVPN.add()......");
+					
+					// Invoca sp que agregar el Dominio a nivel de SACI
+					ResultSet rsAddvpn = doQuerySACI("exec sp_CreaDominioVPN @dominio = '"+ dominio_Cisco + "'");
+					
+					if (rsAddvpn.next())
+					{ 
+						vCodServicio = rsAddvpn.getLong("SAI02COD"); // Obt codigo de servicio
+						rsAddvpn.close();
+						
+						if (vCodServicio > 0)  
+						{ // Agregar el Dominio a nivel de BD SACI exito 
+							
+							// Obtiene el tipo de servicio
+							ResultSet rsTipo = doQuerySACI("SELECT SAI29COD FROM SAI002 WHERE SAI02COD="+ vCodServicio);
+							
+							if (rsTipo.next())
+								vTipoServ = rsTipo.getLong("SAI29COD"); 
+							rsTipo.close();
+					
+							int EstadoAAA = -2001;
+							try
+							{
+								if (vTipoServ == 2)  // SI ES SERVICIO DE WEB Inserta dominio VPN en AAA (en el grupo padre VPDNs).
+								{
+									System.out.println("Inicia el add del grupo para usuarios del dominio VPN en AAA (Usuarios_"+ pDominio +")");
+									EstadoAAA = Commands.addAccountAAA(dominio_Cisco, dominio_Cisco, "VPDNs", new Long(vCodServicio).longValue(), pEstructGroup);
+									System.out.println("El resultado en AAA es : " + String.valueOf(EstadoAAA));
+									
+									if(EstadoAAA < 0)
+									{ // Agregar el grupo para usuarios del dominio VPN en AAA fallo	
+										vEstadoServers = 0;
+										vResult = EstadoAAA; // Envia el error del Cliente AAA
+									}
+									else
+									{
+										EstadoAAA = -2001;
+										System.out.println("Inicia el add del dominio VPN en AAA ("+ pDominio +")");
+										EstadoAAA = Commands.addUserVPN(pDominio, pDominio, "Conf_VPDN", new Long(vCodServicio).longValue(), pEstructUser);
+										System.out.println("El resultado en AAA es : " + String.valueOf(EstadoAAA));	
+									}
+									
+									if(EstadoAAA < 0)
+									{ // Agregar el dominio VPN en AAA fallo	
+										vEstadoServers = 0;
+										vResult = EstadoAAA; // Envia el error del Cliente AAA
+										System.out.println("Rollback: borrado del paquete del AAA");
+										EstadoAAA = Commands.deleteAccountAAA(dominio_Cisco,"VPDNs",new Long(vCodServicio).longValue());
+										System.out.println("El resultado del Cliente del AAA es : " + String.valueOf(EstadoAAA));
+									}
+									else 
+										vResult = 1;         // Exito final al agregar dominio VPN...
+								}
+								else
+								{
+									vEstadoServers = 0; // Si no es servicio WEB se debe eliminar el dominio generado en BD
+									vResult = EstadoAAA;
+								} // if (vTipoServ == 2)
+							} 
+							catch(Exception e3) 
+							{
+							  	System.out.println("El componente fallo en MantPackagesVPN.add()..... : " + e3.getMessage()); 
+							  	vEstadoServers = 0; 
+							  	vResult = EstadoAAA;
+							}
+						} 
+						else
+						{ // Agregar el Dominio a nivel de BD SACI fallo 
+							vResult = vCodServicio; // Envia el error del sp_CreaDominioVPN
+						}// if (vCodServicio > 0)  
+					} 
+					else 
+					{ // Agregar el Dominio a nivel de BD SACI fallo 
+						vResult = -3; // Envia error general de BD (-3)
+					} // if (rsAddvpn.next()) 
+
+					//*********************
+					//*   ROLLBACK
+					//*********************
+					if(vEstadoServers == 0)
+					{ // Si el server fallo 
+						System.out.println("Inicia el ROLLBACK a nivel de BD SACI");
+						// Invoca sp que borra el Paquete a nivel de SACI
+						rsAddvpn = doQuerySACI("exec sp_CreaDominioVPN @dominio = '"+ dominio_Cisco + "', @tarea = 'B'");
+						rsAddvpn.next();
+						vCodServicio = rsAddvpn.getLong("SAI02COD"); //obt codigo de servicio
+						System.out.println("Result ROLLBACK a nivel de BD SACI:	" + vCodServicio);
+					} // if(vEstadoServers == 0)
+				} 
+				else if (pTarea.equals("B"))
+				{ // Borra Dominio VPN en BD y grupo en Cisco 	
+					
+					System.out.println("Inicio del MantPackagesVPN.delete()......");
+					
+					// Obtengo el Codigo y nel tipo de Servicio para el dominio
+					ResultSet rsAddvpn = doQuerySACI("Select c.SAI03COD,SAI29COD"+
+													 " From SAI002 a,SAI010 b,SAI003 c"+
+													 " Where SAI03NOM= '"+ dominio_Cisco + "'" +
+													 " And c.SAI03COD = b.SAI03COD" + 
+													 " And a.SAI02COD = b.SAI02COD" + 
+													 " And SAI29COD = 2");
+					
+					if (rsAddvpn.next())
+					{ 
+						vCodServicio = rsAddvpn.getLong("SAI03COD"); // Obt codigo de servicio
+						vTipoServ = rsAddvpn.getLong("SAI29COD"); //obtengo el tipo de servicio
+						rsAddvpn.close();
+						
+						int EstadoAAA=-2001;
+						try
+						{
+							if (vTipoServ == 2)  // SI ES SERVICIO DE WEB borra dominio VPN en AAA.
+							{
+								System.out.println("Inicia el delete del dominio VPN en AAA");
+								EstadoAAA = Commands.deleteAccountAAA(dominio_Cisco,"VPDNs",new Long(vCodServicio).longValue());
+								System.out.println("El resultado en AAA es : " + String.valueOf(EstadoAAA));
+								
+								if(EstadoAAA > 0)
+								{ 
+									EstadoAAA = -2001;
+									System.out.println("Inicia el delete del dominio VPN en AAA ("+ pDominio +")");
+									EstadoAAA = Commands.deleteUserAAA(pDominio, pDominio, "Conf_VPDN", new Long(vCodServicio).longValue());
+									System.out.println("El resultado en AAA es : " + String.valueOf(EstadoAAA));	
+								}
+								else
+								{
+									System.out.println("Borrar el grupo para usuarios del dominio VPN en AAA fallo	" + String.valueOf(EstadoAAA));	
+									vEstadoServers = 0;
+									vResult = EstadoAAA; // Envia el error del Cliente AAA
+								}
+								
+								if(EstadoAAA > 0)
+								{ 
+									vEstadoServers = 1;  // Exito al borrar dominio VPN...
+								}
+								else
+								{
+									System.out.println("Agregar el dominio VPN en AAA fallo		" + String.valueOf(EstadoAAA));	
+									vEstadoServers = 0;
+									vResult = EstadoAAA; // Envia el error del Cliente AAA
+									System.out.println("Rollback: agrega el paquete del AAA");
+									EstadoAAA = Commands.addAccountAAA(dominio_Cisco,dominio_Cisco,"VPDNs",new Long(vCodServicio).longValue(), pEstructGroup);
+									System.out.println("El resultado del Cliente del AAA es : " + String.valueOf(EstadoAAA));
+								}
+							}
+							else
+							{
+								vEstadoServers=0; // Si no es servicio WEB se debe eliminar el dominio generado en BD
+								vResult = EstadoAAA;
+							} // if (vTipoServ == 2)
+						} 
+						catch(Exception e3) 
+						{
+							System.out.println("El componente fallo en MantPackagesVPN.delete()..... : " + e3.getMessage()); 
+							vEstadoServers = 0; 
+							vResult = EstadoAAA;
+						}
+						
+						// Si los servidores cumplieron con el objetivo.
+						if(vEstadoServers == 1)     
+						{ 
+							try
+							{
+								// Invoca sp que borra el Paquete a nivel de SACI
+								System.out.println("Inicia el sp_CreaDominioVPN.delete en SACI");
+								rsAddvpn = doQuerySACI("exec sp_CreaDominioVPN @dominio = '"+ dominio_Cisco + "', @tarea = 'B'");
+								rsAddvpn.next();
+								vCodServicio = rsAddvpn.getLong("SAI02COD"); //obt codigo de servicio
+								System.out.println("Result sp_CreaDominioVPN.delete en SACI:  " + String.valueOf(vCodServicio));
+								
+								if (vCodServicio > 0)
+								{ // Borra el Dominio a nivel de BD SACI exito 
+								    vEstadoDBSACI = 1;  
+									vResult = 1;         // Exito final al borra dominio VPN...
+									System.out.println("Exito en el borrado del dominio VPN en BD SACI:	" + vResult);
+								}
+								else
+								{ // Borra el Dominio a nivel de BD SACI fallo 
+									vResult = vCodServicio; // Envia el error del sp_CreaDominioVPN	
+								}
+									
+							} catch(Exception e) {
+								System.out.println("El sp_CreaDominioVPN fallo..... : " + e.getMessage()); 
+								System.out.println("El vEstadoDBSACI es..... : " + vEstadoDBSACI);
+								vResult = -3; // Envia error general de BD (-3)
+								System.out.println("El vResult es..... : " + vResult);
+							}
+						} // end if vEstadoServers
+						
+						
+						//*********************
+						//*   ROLLBACK
+						//*********************						
+						if(vEstadoDBSACI == 0)
+						{ // Si el server fallo o fallo el sp_Alta_SAI003 o fallo el sp_Alta_SSXCIN  o fallo el enviar la tarea al SIIC
+							System.out.println("Inicia el ROLLBACK DEL DELETE");
+				
+							// Agrega el dominio VPN en AAA (en el grupo padre VPDNs)..
+							System.out.println("Inicia el add del dominio VPN en AAA");
+							EstadoAAA = Commands.addAccountAAA(dominio_Cisco,dominio_Cisco,"VPDNs",new Long(vCodServicio).longValue(), pEstructGroup);
+							System.out.println("El resultado en AAA es : " + String.valueOf(EstadoAAA));
+							
+							System.out.println("Inicia el add del dominio VPN en AAA ("+ pDominio +")");
+							EstadoAAA = Commands.addUserVPN(pDominio, pDominio, "Conf_VPDN", new Long(vCodServicio).longValue(), pEstructUser);
+							System.out.println("El resultado en AAA es : " + String.valueOf(EstadoAAA));	
+						} // if(vEstadoDBSACI == 0)
+					} 
+					else 
+					{
+						vResult = -2;
+						System.out.println("No se encontro el Codigo del Servicio en la Base de Datos SACI"); 
+					} // if (rsAddvpn.next())
+				}
+				else if (pTarea.equals("M"))
+				{ // Modifica estructura del Dominio VPN en grupo en Cisco 	
+					System.out.println("Inicio del MantPackagesVPN.modify()......");
+					
+					// Obtengo el Codigo y nel tipo de Servicio para el dominio
+					ResultSet rsAddvpn = doQuerySACI("Select c.SAI03COD,SAI29COD"+
+													 " From SAI002 a,SAI010 b,SAI003 c"+
+													 " Where SAI03NOM= '"+ dominio_Cisco + "'" +
+													 " And c.SAI03COD = b.SAI03COD" + 
+													 " And a.SAI02COD = b.SAI02COD" + 
+													 " And SAI29COD = 2");
+					
+					if (rsAddvpn.next())
+					{ 
+						vCodServicio = rsAddvpn.getLong("SAI03COD"); // Obt codigo de servicio
+						vTipoServ = rsAddvpn.getLong("SAI29COD"); //obtengo el tipo de servicio
+						rsAddvpn.close();
+						
+						int EstadoAAA=-2001;
+						try
+						{
+							if (vTipoServ == 2)  // SI ES SERVICIO DE WEB borra dominio VPN en AAA.
+							{
+								System.out.println("Inicia el delete del dominio VPN en AAA ("+ pDominio +")");
+								EstadoAAA = Commands.deleteUserAAA(pDominio, pDominio, "Conf_VPDN", new Long(vCodServicio).longValue());
+								System.out.println("El resultado en AAA es : " + String.valueOf(EstadoAAA));	
+								
+								if(EstadoAAA < 0)
+								{ // Borrar el grupo para usuarios del dominio VPN en AAA fallo	
+									vEstadoServers = 0;
+									vResult = EstadoAAA; // Envia el error del Cliente AAA
+								}
+								else
+								{
+									EstadoAAA = -2001;
+									System.out.println("Inicia el add del dominio VPN en AAA ("+ pDominio +")");
+									EstadoAAA = Commands.addUserVPN(pDominio, pDominio, "Conf_VPDN", new Long(vCodServicio).longValue(), pEstructUser);
+									System.out.println("El resultado en AAA es : " + String.valueOf(EstadoAAA));	
+								}
+								
+								if(EstadoAAA > 0)
+								{ // Modificar el dominio VPN en AAA exito	
+									vResult = 1; 
+									System.out.println("Exito en la modificacion del dominio VPN en BD SACI:	" + vResult);
+								}
+							}
+							else
+							{
+								vEstadoServers=0; // Si no es servicio WEB se debe eliminar el dominio generado en BD
+								vResult = EstadoAAA;
+							} // if (vTipoServ == 2)
+						} 
+						catch(Exception e3) 
+						{
+							System.out.println("El componente fallo en MantPackagesVPN.modidy()..... : " + e3.getMessage()); 
+							vEstadoServers = 0; 
+							vResult = EstadoAAA;
+						}
+					} 
+					else 
+					{
+						vResult = -2;
+						System.out.println("No se encontro el Codigo del Servicio en la Base de Datos SACI"); 
+					} // if (rsAddvpn.next())
+				} // else if (pTarea.equals("M"))
+			}   
+			else
+			{
+				System.out.println("!!! CPackagesImpl.MantPackagesVPN() failed.....");
+				System.out.println("\tERROR : [Couldn't get a Connection Cache.....]");
+				if(_Statement1_SACI != null) {try {_Statement1_SACI.close(); _Statement1_SACI = null;} catch(Exception e) {;}}
+				if(_Statement1_SACISIIC != null) {try {_Statement1_SACISIIC.close(); _Statement1_SACISIIC = null;} catch(Exception e) {;}}
+				if(vConnection_SACI != null) {releaseConnection(_SACIDBName, vConnection_SACI);}
+				if(vConnection_SACISIIC != null) {releaseConnection(_SACISIICDBName, vConnection_SACISIIC);}
+				throw new soinisp.ISPException("Couldn't get a Connection Cache.....");
+			} // if((vConnection_SACI != null) && (vConnection_SACISIIC != null)).
+		}
+		catch(Exception e)
+		{
+			System.out.println("!!! CPackagesImpl.MantPackagesVPN failed.....");
+			System.out.println("\tERROR : [" + e.getMessage() + "]");
+			vResult = -1; // Envia error general de BD (-3)
+			if(_Statement1_SACI != null) {try {_Statement1_SACI.close(); _Statement1_SACI = null;} catch(Exception e1) {;}}
+			if(_Statement1_SACISIIC != null) {try {_Statement1_SACISIIC.close(); _Statement1_SACISIIC = null;} catch(Exception e1) {;}}
+			if(vConnection_SACI != null) {releaseConnection(_SACIDBName, vConnection_SACI);}
+			if(vConnection_SACISIIC != null) {releaseConnection(_SACISIICDBName, vConnection_SACISIIC);}
+			throw new soinisp.ISPException(e.getMessage());
+		}
+		finally
+		{
+			if(_Statement1_SACI != null) {try {_Statement1_SACI.close(); _Statement1_SACI = null;} catch(Exception e) {;}}
+			if(_Statement1_SACISIIC != null) {try {_Statement1_SACISIIC.close(); _Statement1_SACISIIC = null;} catch(Exception e) {;}}
+			if(vConnection_SACI != null) {releaseConnection(_SACIDBName, vConnection_SACI);}
+			if(vConnection_SACISIIC != null) {releaseConnection(_SACISIICDBName, vConnection_SACISIIC);}
+		}
+		return vResult;
+    } // end MantPackagesVPN
+
+
+
+    private ResultSet doQuerySACI(String pStrSQL)
+    {
+		return executeQuery(pStrSQL, _Statement1_SACI);
+    }
+
+    private int execUpdateSACI(String pStrSQL)
+    {
+		return executeUpdate(pStrSQL, _Statement1_SACI);
+    }
+
+   	private ResultSet doQuerySIIC(String pStrSQL)
+    {
+		return executeQuery(pStrSQL, _Statement1_SACISIIC);
+    }
+
+    private int execUpdateSIIC(String pStrSQL)
+    {
+		return executeUpdate(pStrSQL, _Statement1_SACISIIC);
+    }
+
+    private ResultSet executeQuery(String pSQL, Statement pStatement)
+    {
+		ResultSet vResult = null;
+		try
+		{
+			vResult = pStatement.executeQuery(pSQL);
+		}
+		catch(Exception e)
+		{
+			System.out.println("CPackagesImpl.executeQuery failed........ : " + e.getMessage());
+		}
+		return vResult;
+    }
+
+    private int executeUpdate(String pSQL, Statement pStatement)
+    {        
+		int vResult = 0;
+		try
+		{
+			vResult = pStatement.executeUpdate(pSQL);
+		}
+		catch(Exception e)
+		{
+			System.out.println("CPackagesImpl.executeUpdate failed........ : " + e.getMessage());
+		}
+		return vResult;
+    }
+    
+    
+    private InstanceContext _InstanceContext = null;
+    private Statement _Statement1_SACI = null;
+    private Statement _Statement1_SACISIIC = null;
+    private String _SACIDBName = null;
+    private String _SACISIICDBName = null;
+    private ConfigFile _ConfigFile = null;
+	private boolean _DebugMode = false; // Variable que habilita mensajes de debuger
+}
+

@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+<Idioma id="en">
+	<LB_Titulo>Libro Diario General</LB_Titulo>
+	<LB_ConceptoContable>Concepto Contable</LB_ConceptoContable>
+	<LB_Asiento>Asiento</LB_Asiento>
+	<LB_Fecha>Fecha</LB_Fecha>
+	<LB_Documento>Documento</LB_Documento>
+	<LB_SubCuenta>SubCuenta</LB_SubCuenta>
+	<LB_Descripcion>Descripcion</LB_Descripcion>
+	<LB_Concepto>Concepto</LB_Concepto>
+	<LB_Debe>Debe</LB_Debe>
+	<LB_Haber>Haber</LB_Haber>
+	<LB_TotalAsientoContable>Total Asiento Contable</LB_TotalAsientoContable>
+</Idioma>
+</Etiquetas>

@@ -1,0 +1,14 @@
+SOINanexos.XLA Versión 2.11c
+
+Requisitos:
+	Microsoft Office/Excel XP o 2003 o superior
+	VBScript Engine
+
+Instalación:
+	Extraiga todos los archivos en un folder
+	Cierre todas las instancias de Microsoft Excel 
+		(asegurese con el TaskManager que no haya ningun proceso Excel en background ejecutandose)
+	Ejecute el 'install.vbs'
+
+Utiliza software Info-ZIP: Copyright (c) 1990-2003 Info-ZIP.  All rights reserved.
+

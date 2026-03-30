@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_Titulo>Analysis by Catalogs</LB_Titulo>
+		<LB_TipoReporte>Report Type</LB_TipoReporte>
+		<LB_PrimerCatalogo>First Catalog</LB_PrimerCatalogo>
+		<LB_CatalogoSecundario>Secondary Catalog</LB_CatalogoSecundario>
+		<LB_Periodo>Period</LB_Periodo>
+		<LB_Mes>Month</LB_Mes>
+		<LB_CuentaDesde>Initial Account</LB_CuentaDesde>
+		<LB_CuentaHasta>Final Account</LB_CuentaHasta>
+		<LB_Oficina>Office</LB_Oficina>
+		<LB_Grupos>Groups</LB_Grupos>
+		<LB_OficinaAdicional>Additional Office</LB_OficinaAdicional>
+		<LB_Porcentaje>Percentage</LB_Porcentaje>
+		<CHK_EliminarColumnasEnCero>Remove Columns in Zero</CHK_EliminarColumnasEnCero>
+		<CHK_EliminarFilasEnCero>Remove Rows in Zero</CHK_EliminarFilasEnCero>
+		<CHK_MostrarSoloMovimientosDelPeriodo>Show Only Period Moves</CHK_MostrarSoloMovimientosDelPeriodo>
+		<LB_Mensaje>The configuration has not been processed or the control structure is not completed. The report can not be executed</LB_Mensaje>
+		<LB_Botones1>Accept, Load, Return</LB_Botones1>
+		<LB_Botones2>Load, Return</LB_Botones2>
+		<LB_Botones3>Accept, Return</LB_Botones3>
+	</Idioma>
+</Etiquetas>

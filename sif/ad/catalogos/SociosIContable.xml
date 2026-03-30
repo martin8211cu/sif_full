@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_EsteSocioEsProveedorde>This Partner is Supplier of</LB_EsteSocioEsProveedorde>
+		<LB_ConceptoPagoATercerosPorOmision>Third Parties Payment Concept by Omission</LB_ConceptoPagoATercerosPorOmision>
+		<LB_CuentaPredeterminadaParaCuentasPorPagar>Payable Account Default</LB_CuentaPredeterminadaParaCuentasPorPagar>
+		<LB_EsteSocioEsClienteDe>This Partner is Client of</LB_EsteSocioEsClienteDe>
+		<LB_ConceptoCobroATercerosPorOmision>Third Parties Collection Concept by Omission</LB_ConceptoCobroATercerosPorOmision>
+		<LB_CuentaPredeterminadaParaCuentasPorCobrar>Receivable Account Default</LB_CuentaPredeterminadaParaCuentasPorCobrar>
+		<LB_ComplementoFinancieroParaComprasVentasConServicios>Financial Complement for Purchases and Sales with Services</LB_ComplementoFinancieroParaComprasVentasConServicios>
+		<LB_ComplementosFinancierosPorOrigenDeTransaccion>Financial Complement by Transaction Source</LB_ComplementosFinancierosPorOrigenDeTransaccion>
+		<MSG_PrimeroDebeIngresarLos>Define the</MSG_PrimeroDebeIngresarLos>
+		<MSG_DatosGenerales>general data</MSG_DatosGenerales>
+		<MSG_DelSocioDeNegocios>of the partners</MSG_DelSocioDeNegocios>
+	</Idioma>
+</Etiquetas>

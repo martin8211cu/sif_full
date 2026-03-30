@@ -1,0 +1,1 @@
+Colocar en este folder todos los componentes en común entre SIF y RH

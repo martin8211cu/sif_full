@@ -1,0 +1,64 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 384 - DBM 315: Añade campos para indicar dias de entrega
+
+	         PARCHE:  Parche023_330_SIF_MEJORASCOMPRAS
+
+GENERADO EN:
+	SERVER:  http://mxvqapp34:8300
+	DSN:     sifcim
+	FECHA:   06/01/2012 16:51:18
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* CHG_TABLE DContratosCM: Detalle de Contratos de Compra */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): DCdiasEntrega - Dias de Entrega */
+ALTER TABLE DContratosCM ADD DCdiasEntrega integer NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE EOrdenCM: Encabezado de Orden De Compra */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): CMPid - id de Proceso de Compra */
+ALTER TABLE EOrdenCM ADD CMPid numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(NUEVO): TIP="F", SEC="9", COLS="CMPid", REF="CMProcesoCompra" */
+CREATE INDEX EOrdenCM_FI09 ON EOrdenCM (CMPid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE SNContactos: Contactos de Socios de Negocio */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): SNCarea - Area del Contacto */
+ALTER TABLE SNContactos ADD SNCarea integer NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ================================================================= */
+/*            CREA FKs NUEVOS O CON CAMPOS MODIFICADOS               */
+/* ================================================================= */
+/* CHG_TABLE EOrdenCM */
+/* ADD_FK OP=(NUEVO): TIP="F", SEC="9", COLS="CMPid", REF="CMProcesoCompra" */
+ALTER TABLE EOrdenCM ADD CONSTRAINT EOrdenCM_FK09 FOREIGN KEY (CMPid) REFERENCES CMProcesoCompra (CMPid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

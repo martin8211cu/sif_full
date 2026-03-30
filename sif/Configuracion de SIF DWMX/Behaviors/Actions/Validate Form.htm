@@ -1,0 +1,78 @@
+<!-- SAFE-IN-TEMPLATES -->
+<HTML>
+<HEAD>
+<SCRIPT SRC="Validate Form.js"></SCRIPT>
+<SCRIPT SRC="MM_findObj.js"></SCRIPT>
+<SCRIPT SRC="../../Shared/MM/Scripts/CMN/string.js"></SCRIPT>
+<SCRIPT SRC="../../Shared/MM/Scripts/CMN/docInfo.js"></SCRIPT>
+<SCRIPT SRC="../../Shared/MM/Scripts/CMN/DOM.js"></SCRIPT>
+<SCRIPT SRC="../../Shared/MM/Scripts/CMN/menuItem.js"></SCRIPT>
+<SCRIPT SRC="../../Shared/MM/Scripts/CMN/niceName.js"></SCRIPT>
+<!-- Remove the following SCRIPT tag if you are modifying this file for your own use. -->
+<SCRIPT SRC="../../Shared/MM/Scripts/CMN/displayHelp.js"></SCRIPT>
+<!-- End removal area. -->
+<SCRIPT LANGUAGE="javascript">
+// Copyright 2000,2001 Macromedia, Inc. All rights reserved.
+
+//--------------- LOCALIZEABLE GLOBALS ---------------
+
+var MSG_FldNotFound = 'The Field "%s" that was set to %s could not be found.';
+var MSG_NoSelection = "Please select a text field first.";
+var MSG_InvalidRange = "Please enter valid numbers for range, the first smaller than the second.";
+var MSG_UnnamedField = "Can only validate *named* fields. Please click Cancel, and name your fields using the Property Inspector.";
+var MSG_NoFieldsSet = "Nothing to validate. Please mark at least one field for validation or click Cancel."
+//---------------   END LOCALIZEABLE   ---------------
+//---------------    END JAVASCRIPT    ---------------
+</SCRIPT>
+<TITLE>Validate Form</TITLE>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html">
+</HEAD>
+<BODY onLoad="initializeUI()">
+  <FORM NAME="theForm" ACTION="">
+    <DIV ALIGN="center">
+      <TABLE>
+        <TR>
+          <TD HEIGHT=5>
+          <TD NOWRAP ROWSPAN=2 COLSPAN=3>
+            <SELECT NAME="fieldMenu" SIZE=4 onChange="displaySelection()" style="width:300px">
+              <OPTION>**** no fields found *****************
+            </SELECT></TD>
+        </TR><TR>
+          <TD ALIGN="right" VALIGN="top" NOWRAP>
+            Named Fields:</TD>
+        </TR><TR>
+          <TD ALIGN="right" HEIGHT=20 NOWRAP>
+            Value:</TD>
+          <TD VALIGN="top" NOWRAP COLSPAN=3>
+            <INPUT TYPE="checkbox" NAME="isReqd" onClick="saveCheckToMenu('required')">
+            Required</TD>
+        </TR><TR>
+          <TD HEIGHT=2>
+        </TR><TR>
+          <TD ALIGN="right" HEIGHT=20 NOWRAP>
+            Accept:</TD>
+          <TD VALIGN="top" NOWRAP>
+            <INPUT TYPE="radio" NAME="theCheck" value="anything" CHECKED onClick="saveCheckToMenu('')">
+            Anything</TD>
+          <TD VALIGN="top" NOWRAP COLSPAN=2>
+            <INPUT TYPE="radio" NAME="theCheck" onClick="saveCheckToMenu('isNum')">
+            Number</TD>
+        </TR><TR>
+          <TD HEIGHT=34></TD>
+          <TD NOWRAP>
+            <INPUT TYPE="radio" NAME="theCheck" onClick="saveCheckToMenu('isEmail')">
+            Email Address</TD>
+          <TD NOWRAP>
+            <INPUT TYPE="radio" NAME="theCheck" onClick="saveRangeToMenu('inRange',true)">
+            Number from
+          <TD VALIGN="top" NOWRAP>
+            <INPUT TYPE="text" NAME="fromNum" SIZE=6 onBlur="saveRangeToMenu('inRange')">
+            &nbsp;to&nbsp;
+            <INPUT TYPE="text" NAME="toNum" SIZE=6 onBlur="saveRangeToMenu('inRange')"></TD>
+        </TR>
+      </TABLE>
+    </DIV>
+
+  </FORM>
+</BODY>
+</HTML>

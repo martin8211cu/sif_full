@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_GrupoSociosNegocios>Partner</LB_GrupoSociosNegocios>
+		<LB_Codigo>Code</LB_Codigo>
+		<LB_Descripcion>Description</LB_Descripcion>
+		<BTN_Filtrar>Filter</BTN_Filtrar>
+	</Idioma>
+</Etiquetas>

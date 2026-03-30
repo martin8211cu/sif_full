@@ -1,0 +1,1100 @@
+﻿<!--- 
+	Interfaz 40: Interfaz generación de Pago de Nomina
+	Dirección de la Inforamción: Sistema Externo - SIF
+	Elaborado por: Maria de los Angeles Blanco López 
+	Creacion: 25/05/2011
+--->
+
+<cfcomponent>
+	<!--- Variables Globales --->
+	<cfset GvarConexion  = Session.Dsn>
+	<cfset GvarEcodigo   = Session.Ecodigo>	
+	<cfset GvarUsuario   = Session.Usuario>
+	<cfset GvarUsucodigo = Session.Usucodigo>
+	<cfset GvarEcodigoSDC= Session.EcodigoSDC>
+	<cfset GvarEnombre   = Session.Enombre>
+	<cfset GvarMinFecha  = DateAdd('yyyy',-50,Now())>
+	<cfset GvarCuentaManual = true> 
+	
+	<cffunction name="process" access="public" returntype="string" output="no">
+	 	<!--- Argumentos --->
+		<cfargument name="query" required="yes" type="query">
+			
+        <!---Valida los datos--->
+		<cfoutput query="query" group="ID">
+			<!--- Variables Validadas de Documentos de Cancelación --->
+            <cfset Valid_CentroFuncional    = getValidModulo(query.Modulo)>
+            <cfset Valid_SNcodigo 			= getValidSNcodigo(query.NumeroSocio)>
+            <cfset Valid_Cuenta				= getValidCtaSocio(query.NumeroSocio, query.Modulo)>
+            <cfset Valid_Mcodigo 			= getValidMcodigo(query.CodigoMoneda)>
+            <cfset Valid_FechaDocumento  	= getValidFechaDocumento(query.FechaTransaccion)>
+            <cfset Valid_CuentaBanco        = getValid_CtaBanco(query.Banco,query.CuentaBanco)>
+            <!---Valida el Tipo de Cambio--->
+            <!--- Busca Moneda Local --->
+            <cfquery name="rsMonedaL" datasource="#GvarConexion#">
+                select m.Miso4217 
+                from Empresas e 
+                    inner join Monedas m 
+                    on e.Ecodigo = m.Ecodigo and e.Mcodigo = m.Mcodigo
+                where e.Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#GvarEcodigo#">
+            </cfquery>
+            <cfif isdefined("rsMonedaL") and rsMonedaL.Miso4217 EQ query.CodigoMoneda and query.TipoCambio GT 1>
+                <cfthrow message="Error Interfaz 40. Se ha dado un Tipo de cambio diferente de 1 para la moneda Local">
+            </cfif>
+            <cfif (query.TipoCambio EQ 0 or query.TipoCambio EQ "") and isdefined("rsMonedaL") and rsMonedaL.Miso4217 NEQ query.CodigoMoneda> 
+                <cfset Valid_TipoCambioCXC 		= getValidTipoCambio(Valid_Mcodigo.Mcodigo,Valid_FechaDocumento,'CXC')>	
+                <cfset Valid_TipoCambioCXP 		= getValidTipoCambio(Valid_Mcodigo.Mcodigo,Valid_FechaDocumento,'CXP')>
+            <cfelse>
+                <cfset Valid_TipoCambioCXC  	= query.TipoCambio>
+                <cfset Valid_TipoCambioCXP 		= query.TipoCambio>
+            </cfif>
+            <cfset Valid_Ccodigo 			= getValidCcodigo(query.ConceptoTesoreria, query.Modulo)>
+            <cfset Naturaleza				= getValidNatTran(query.Transaccion, query.Modulo)>
+            <cfset Valid_Naturaleza 		= getValid_Naturaleza(query.ID, Naturaleza.CTtipo, query.Modulo)>
+            <cfset Valid_Oficina			= getValid_Oficina(query.CuentaBanco, query.Banco)>
+            
+            <!--- La cuenta para el concepto de servicio 705 Cuenta Comision Bancaria Deducible--->	
+            <cfif (query.ConceptoTesoreria EQ "705-I" or query.ConceptoTesoreria EQ "705-G") and query.Transaccion EQ "X3">
+                <cfquery name="rsCuentaCom" datasource="#GvarConexion#">
+                    select CBcc
+                    from CuentasBancos cb 
+                        inner join Bancos b
+                        on cb.Bid = b.Bid and cb.Ecodigo = b.Ecodigo 
+                            and b.Iaba = <cfqueryparam cfsqltype="cf_sql_varchar" value="#trim(query.Banco)#">
+                            and cb.CBcodigo = <cfqueryparam cfsqltype="cf_sql_varchar" value="#trim(query.CuentaBanco)#">
+                            and cb.Ecodigo = <cfqueryparam cfsqltype="cf_sql_numeric" value="#GvarEcodigo#">
+                </cfquery>
+                <cfif isdefined("rsCuentaCom") and rsCuentaCom.recordcount EQ 1 and len(rsCuentaCom.CBcc) NEQ 0>
+                    <cfset varCuentaCom = '7201-001-' & rsCuentaCom.CBcc>
+                <cfelse>
+                    <cfthrow message="Error Interfaz 40. No se pudo obtener la cuenta para las comisiones bancarias deducibles. Proceso Cancelado!"> 
+                </cfif>
+                <cfset ValidCuenta = getValidCcuenta(varCuentaCom)>
+            </cfif>
+            
+			<!---Validaciones para los Documentos del detalle--->
+            <cfoutput>
+            	<cfset Valid_SNcodigoDet = getValidSNcodigo(query.NumeroSocioDoc)>
+				<cfset valid_DocumentoDet = getValidDocumentoDet(query.Modulo,Valid_SNcodigoDet, query.TransaccionDestino, query.DocumentoDestino, query.MontoDocumento, Valid_Mcodigo.Mcodigo)>
+			</cfoutput>
+            
+        </cfoutput>
+        
+        
+		<!--- Procesa Documento de Cancelacion --->
+		<cfif query.Estatus EQ 1>
+		<cfoutput query="query" group="ID">
+            <cf_dbtemp name="TmpIE10" returnvariable="TmpIE10" datasource="sifinterfaces">
+                <cf_dbtempcol name="ID" type="numeric">
+                <cf_dbtempcol name="EcodigoSDC" type="numeric">
+                <cf_dbtempcol name="NumeroSocio" type="varchar(10)">
+                <cf_dbtempcol name="Modulo" type="char(4)">
+                <cf_dbtempcol name="CodigoTransacion" type="varchar(5)">
+                <cf_dbtempcol name="Documento" type="varchar(20)">
+                <cf_dbtempcol name="Estado" type="varchar(2)">
+                <cf_dbtempcol name="CodigoMoneda" type="char(3)">
+                <cf_dbtempcol name="FechaDocumento" type="datetime">
+                <cf_dbtempcol name="FechaVencimiento" type="datetime">
+                <cf_dbtempcol name="Facturado" type="char(1)">
+                <cf_dbtempcol name="Origen" type="char(4)">
+                <cf_dbtempcol name="VoucherNo" type="varchar(20)">
+                <cf_dbtempcol name="CodigoConceptoServicio" type="varchar(20)">
+                <cf_dbtempcol name="CodigoRetencion" type="char(2)">
+                <cf_dbtempcol name="CodigoOficina" type="char(10)">
+                <cf_dbtempcol name="CuentaFinanciera" type="char(100)">
+                <cf_dbtempcol name="BMUsucodigo" type="numeric">
+                <cf_dbtempcol name="DiasVencimiento" type="int">
+                <cf_dbtempcol name="CodigoDireccionEnvio" type="char(10)">
+                <cf_dbtempcol name="CodigoDireccionFact" type="char(10)">
+                <cf_dbtempcol name="FechaTipoCambio" type="datetime">
+                <cf_dbtempcol name="StatusProceso" type="int">
+                <cf_dbtempcol name="DEordenCompra" type="varchar(20)">
+                <cf_dbtempcol name="DEnumReclamo" type="varchar(20)">
+                <cf_dbtempcol name="DEobservacion" type="varchar(255)">
+                <cf_dbtempcol name="Dtipocambio" type="float">
+                <cf_dbtempcol name="ConceptoCobroPago" type="char(2)">
+            </cf_dbtemp>
+            <cf_dbtemp name="TmpID10" returnvariable="TmpID10" datasource="sifinterfaces">
+                <cf_dbtempcol name="ID" type="numeric">
+                <cf_dbtempcol name="Consecutivo" type="int">
+                <cf_dbtempcol name="TipoItem" type="char(1)">
+                <cf_dbtempcol name="CodigoItem" type="varchar(20)">
+                <cf_dbtempcol name="NombreBarco" type="varchar(20)">
+                <cf_dbtempcol name="FechaHoraCarga" type="datetime">
+                <cf_dbtempcol name="FechaHoraSalida" type="datetime">
+                <cf_dbtempcol name="PrecioUnitario" type="float">
+                <cf_dbtempcol name="CodigoUnidadMedida" type="char(5)">
+                <cf_dbtempcol name="CantidadTotal" type="numeric">
+                <cf_dbtempcol name="CantidadNeta" type="numeric">
+                <cf_dbtempcol name="CodEmbarque" type="varchar(20)">
+                <cf_dbtempcol name="NumeroBOL" type="varchar(20)">
+                <cf_dbtempcol name="FechaBOL" type="datetime">
+                <cf_dbtempcol name="TripNo" type="varchar(20)">
+                <cf_dbtempcol name="ContractNo" type="varchar(20)">
+                <cf_dbtempcol name="CodigoImpuesto" type="char(5)">
+                <cf_dbtempcol name="ImporteImpuesto" type="money">
+                <cf_dbtempcol name="ImporteDescuento" type="money">
+                <cf_dbtempcol name="CodigoAlmacen" type="varchar(5)">
+                <cf_dbtempcol name="CodigoDepartamento" type="varchar(10)">
+                <cf_dbtempcol name="BMUsucodigo" type="numeric">
+                <cf_dbtempcol name="PrecioTotal" type="money">
+                <cf_dbtempcol name="CentroFuncional" type="char(100)">
+                <cf_dbtempcol name="CuentaFinancieraDet" type="char(1)">
+                <cf_dbtempcol name="OCtransporteTipo" type="varchar(20)">
+                <cf_dbtempcol name="OCtransporte" type="char(20)">
+                <cf_dbtempcol name="OCcontrato" type="char(10)">
+                <cf_dbtempcol name="OCconceptoCompra" type="varchar(10)">
+                <cf_dbtempcol name="OCconceptoIngreso" type="varchar(10)">
+                <cf_dbtempcol name="factor" type="float">
+                <cf_dbtempcol name="DDdescripcion" type="varchar(255)">
+            </cf_dbtemp>
+                
+			<cfset Maximus10 = 1>
+            
+            <!---Inserta IE10 --->
+            <cfif query.Modulo EQ "CC">
+                <!--- Variables Validadas Exclusivase de Cuentas por Cobrar --->
+                <cfset Valid_EDdocumento = getValidCCEDdocumento(query.Documento,query.Transaccion)>
+                
+                <!--- Inserta Documento en Cuentas por Cobrar --->
+                <cfquery name="rsInsert" datasource="sifinterfaces">
+                    insert into #TmpIE10#
+                    (ID, 
+                     EcodigoSDC, 
+                     NumeroSocio, 
+                     Modulo, 
+                     CodigoTransacion, 
+                     Documento, 
+                     Estado, 
+                     CodigoMoneda, 
+                     FechaDocumento, 
+                     FechaVencimiento,
+                     DiasVencimiento,
+                     Facturado, 
+                     Origen, 
+                     VoucherNo, 
+                     CodigoRetencion, 
+                     CodigoOficina, 
+                     CuentaFinanciera, 
+                     CodigoConceptoServicio, 
+                     CodigoDireccionEnvio, 
+                     CodigoDireccionFact, 
+                     FechaTipoCambio,
+                     BMUsucodigo, 
+                     ConceptoCobroPago, 
+                     Dtipocambio, 
+                     StatusProceso)
+                    values 
+                    (<cfqueryparam cfsqltype ="cf_sql_numeric" value="#Maximus10#">,
+                     <cfqueryparam cfsqltype ="cf_sql_integer" value="#query.EcodigoSDC#">, 
+                     <cfqueryparam cfsqltype="cf_sql_varchar" value="#query.NumeroSocio#">,
+                     'CC',
+                     <cfqueryparam cfsqltype="cf_sql_char" value="#query.Transaccion#">,
+                     <cfqueryparam cfsqltype="cf_sql_varchar" value="#query.Documento#">,
+                     null, 
+                     <cfqueryparam cfsqltype="cf_sql_varchar" value="#query.CodigoMoneda#">,
+                     <cfqueryparam cfsqltype="cf_sql_date" value="#dateformat(query.FechaTransaccion,'yyyy/mm/dd')#">, 
+                     <cfqueryparam cfsqltype="cf_sql_date" value="#dateformat(query.FechaTransaccion,'yyyy/mm/dd')#">, <!----???--->
+                     0, 
+                     'S', 
+                     'ICTS', <!----Origen--->
+                     '0', 
+                     null, 
+                     <cfqueryparam cfsqltype="cf_sql_varchar" value="#Valid_Oficina#">, 
+                     null, 
+                     null, 
+                     null, 
+                     null,
+                     <cfif isdefined("query.TipoCambio") and (trim(query.TipoCambio) EQ 0 OR query.TipoCambio EQ "")>
+                        <cfqueryparam cfsqltype="cf_sql_date" value="#dateformat(query.FechaTransaccion,'yyyy/mm/dd')#">, 
+                    <cfelse>
+                        null,
+                    </cfif>
+                    null, <!---usuario --->
+                    null,
+					<cfif isdefined("query.TipoCambio") and (trim(query.TipoCambio) EQ 0 OR query.TipoCambio EQ "")>
+						null,
+					<cfelse> 
+                       	<cfqueryparam cfsqltype="cf_sql_money" value="#query.TipoCambio#">, 							
+					</cfif>
+				    1)
+                    </cfquery>
+            <cfelse> 
+                <!--- Variables Validadas Exclusivase de Cuentas por Pagar --->		
+                <cfset Valid_EDdocumento = getValidCPEDdocumento(query.Documento, query.Transaccion, 
+                Valid_SNcodigo)>
+                
+                <!--- Inserta Documento en Cuentas por Pagar --->
+                    <cfquery name="rsInsert" datasource="sifinterfaces">
+                        insert into #TmpIE10# 
+                        (ID, 
+                         EcodigoSDC, 
+                         NumeroSocio, 
+                         Modulo, 
+                         CodigoTransacion, 
+                         Documento, 
+                         Estado, 
+                         CodigoMoneda, 
+                         FechaDocumento, 
+                         FechaVencimiento,
+                         DiasVencimiento,
+                         Facturado, 
+                         Origen, 
+                         VoucherNo, 
+                         CodigoRetencion, 
+                         CodigoOficina, 
+                         CuentaFinanciera, 
+                         CodigoConceptoServicio, 
+                         CodigoDireccionEnvio, 
+                         CodigoDireccionFact, 
+                         FechaTipoCambio,
+                         BMUsucodigo, 
+                         ConceptoCobroPago, 
+                         Dtipocambio, 
+                         StatusProceso)
+                        values 
+                        (<cfqueryparam cfsqltype ="cf_sql_numeric" value="#Maximus10#">,
+                         <cfqueryparam cfsqltype ="cf_sql_integer" value="#query.EcodigoSDC#">, 
+                         <cfqueryparam cfsqltype="cf_sql_varchar" value="#query.NumeroSocio#">,
+                         'CP',
+                         <cfqueryparam cfsqltype="cf_sql_varchar" value="#query.Transaccion#">,
+                         <cfqueryparam cfsqltype="cf_sql_varchar" value="#query.Documento#">,
+                         null, 
+                         <cfqueryparam cfsqltype="cf_sql_varchar" value="#query.CodigoMoneda#">,
+                         <cfqueryparam cfsqltype="cf_sql_date" value="#dateformat(query.FechaTransaccion,'yyyy/mm/dd')#">, 
+                         <cfqueryparam cfsqltype="cf_sql_date" value="#dateformat(query.FechaTransaccion,'yyyy/mm/dd')#">, <!----???--->
+                         0, 
+                         'S', 
+                         'ICTS', <!----Origen--->
+                         '0', 
+                         null, 
+                         <cfqueryparam cfsqltype="cf_sql_varchar" value="#Valid_Oficina#">, 
+                         null, 
+                         null, 
+                         null, 
+                         null,
+                         <cfif isdefined("query.TipoCambio") and (trim(query.TipoCambio) EQ 0 OR query.TipoCambio EQ "")>
+                            <cfqueryparam cfsqltype="cf_sql_date" value="#dateformat(query.FechaTransaccion,'yyyy/mm/dd')#">, 
+                        <cfelse>
+                            null,
+                        </cfif>
+                        null, <!---usuario --->
+                        null,
+						<cfif isdefined("query.TipoCambio") and (trim(query.TipoCambio) EQ 0 OR query.TipoCambio EQ "")>
+							null,
+						<cfelse> 
+                        	<cfqueryparam cfsqltype="cf_sql_money" value="#query.TipoCambio#">, 							
+						</cfif>
+                        1)
+                    </cfquery>
+            </cfif>
+                
+			<!--- Insertar Detalle ID10 --->
+            <cfquery name= "rsImpuestos" datasource="#GvarConexion#">
+                select min(Icodigo) as Impuesto from Impuestos 
+                where Ecodigo = <cfqueryparam cfsqltype ="cf_sql_integer" value="#GvarEcodigo#"> 
+                and Iporcentaje = 0
+            </cfquery>
+            
+            <cfif isdefined("rsImpuestos") and rsImpuestos.recordcount GT 0>
+                <cfset varImpuesto = rsImpuestos.Impuesto>
+            </cfif>
+            
+            <cfquery datasource="sifinterfaces">
+                insert into #TmpID10#
+                    (ID,
+                     Consecutivo, 
+                     TipoItem, 
+                     CodigoItem, 
+                     NombreBarco, 
+                     FechaHoraCarga, 
+                     FechaHoraSalida, 
+                     PrecioUnitario,
+                     CodigoUnidadMedida,
+                     CantidadTotal,
+                     CantidadNeta, 
+                     CodEmbarque, 
+                     NumeroBOL, 
+                     FechaBOL, 
+                     TripNo, 
+                     ContractNo, 
+                     CodigoImpuesto, 
+                     ImporteImpuesto, 
+                     ImporteDescuento, 
+                     CodigoAlmacen, 
+                     CodigoDepartamento, 
+                     CentroFuncional,
+                     CuentaFinancieraDet, 
+                     BMUsucodigo, 
+                     PrecioTotal,
+                     DDdescripcion)
+                values 
+                    (<cfqueryparam cfsqltype ="cf_sql_numeric" value="#Maximus10#">,
+                     1, 
+                     'S',  
+                     <cfqueryparam cfsqltype="cf_sql_varchar" value="#query.ConceptoTesoreria#">,
+                     ' ',
+                     getdate(), 
+                     getdate(), 
+                     round(#query.MontoTotal#,2),
+                     ' ', 
+                     1,
+                     1,
+                     ' ',
+                     ' ', 
+                     getdate(),  
+                     ' ', 
+                     ' ', 
+                     <cfqueryparam cfsqltype ="cf_sql_varchar" value="#varImpuesto#">,  
+                     null,
+                     null,
+                     null,						
+                     null,
+                     null,<!---'RAIZ', --->
+                     <cfif isdefined("varCuentaCom")>
+                        <cfqueryparam cfsqltype="cf_sql_varchar" value="#varCuentaCom#">,
+                     <cfelse>
+                       null,  
+                     </cfif>
+                     null, <!---usuario--->
+                     round(#query.MontoTotal#,2),
+                     null<!---'Cancelación de Documentos'--->)
+            </cfquery>
+            
+            <!--- Lee encabezado y detalles por procesar. --->
+            <cfquery name="readInterfaz10" datasource="sifinterfaces">
+                select #TmpIE10#.ID, EcodigoSDC, NumeroSocio, Modulo, CodigoTransacion, Documento, Estado, CodigoMoneda, FechaDocumento, 												            FechaVencimiento,coalesce(FechaTipoCambio,FechaDocumento) as FechaTipoCambio,
+                <cfif isdefined("LvarRicardoPerez")>
+                    case when Facturado = '0' then 'S' else 'N' end as Facturado, 
+                <cfelse>
+                    Facturado, 
+                </cfif>
+                    coalesce(CodigoDireccionEnvio,NumeroSocio) as CodigoDireccionEnvio, 
+                    coalesce(CodigoDireccionFact,NumeroSocio) as CodigoDireccionFact, 
+                    Origen, 
+                    VoucherNo, 
+                    CodigoRetencion, 
+                    CodigoOficina, 
+                    CuentaFinanciera, 
+                    CodigoConceptoServicio, 
+                    DiasVencimiento, 
+                    #TmpID10#.Consecutivo, 
+                    TipoItem, 
+                    CodigoItem, 
+                    NombreBarco, 
+                    FechaHoraCarga, 
+                    FechaHoraSalida, 
+                    PrecioUnitario, 
+                    CodigoUnidadMedida, 
+                    CantidadTotal, 
+                    CantidadNeta, 
+                    CodEmbarque, 
+                    NumeroBOL, 
+                    FechaBOL, 
+                    TripNo, 
+                    ContractNo, 
+                    CodigoImpuesto, 
+                    ImporteImpuesto,
+                    coalesce(OCtransporte,'-1') as OCtransporte, 
+                    coalesce(OCcontrato,'-1') as OCcontrato,
+                    coalesce(OCconceptoCompra,'-1') as OCconceptoCompra,
+                    coalesce(OCtransporteTipo,'-1') as OCtransporteTipo, 
+                    ImporteDescuento, 
+                    CodigoAlmacen, 
+                    CodigoDepartamento, 
+                    PrecioTotal, 
+                    CentroFuncional, 
+                    CuentaFinancieraDet, 
+                    #TmpID10#.CodEmbarque as DDembarque, 
+                    #TmpID10#.FechaBOL as DDfembarque,
+                    #TmpID10#.OCconceptoIngreso as OCconceptoIngreso,
+                    #TmpIE10#.DEordenCompra,
+                    #TmpIE10#.DEnumReclamo,
+                    #TmpIE10#.DEobservacion,
+                    #TmpID10#.DDdescripcion,
+                    #TmpIE10#.Dtipocambio,
+                    #TmpIE10#.ConceptoCobroPago
+                from #TmpIE10#, #TmpID10#
+                where #TmpIE10#.ID = #TmpID10#.ID
+                and #TmpIE10#.ID = <cfqueryparam cfsqltype="cf_sql_numeric" value="#Maximus10#">
+            </cfquery>
+            <!--- Valida que vengan datos --->
+            <cfif readInterfaz10.recordcount eq 0>
+                <cfthrow message="Error en Interfaz 40. No existen datos de Entrada para el ID='#Maximus10#' o no tiene detalles 				            definidos. Proceso Cancelado!.">
+            </cfif>			
+            
+            <cfinvoke component="interfacesSoin.Componentes.CPCC_InterfazDocumentos" method="process" returnvariable="MSG" 
+            query="#readInterfaz10#"/>
+		</cfoutput>	
+            
+		<!---Actualiza el Estatus de la Interfaz 40--->
+        <cfquery datasource="sifinterfaces">
+            update IE40
+            set Estatus = 2
+            where ID = <cfqueryparam cfsqltype="cf_sql_numeric" value="#query.ID#">
+        </cfquery>
+        </cfif>
+        
+		<cfoutput query="query" group="ID">
+            <cf_dbtemp name="TmpIE12" returnvariable="TmpIE12" datasource="sifinterfaces">
+                <cf_dbtempcol name="ID" type="int">
+                <cf_dbtempcol name="EcodigoSDC" type="int">
+                <cf_dbtempcol name="ModuloOrigen" type="varchar(4)">		
+                <cf_dbtempcol name="CodigoMonedaOrigen" type="varchar(3)">	
+                <cf_dbtempcol name="NumeroSocioDocOrigen" type="varchar(10)">
+                <cf_dbtempcol name="CodigoTransacionOrig" type="varchar(5)"> 
+                <cf_dbtempcol name="DocumentoOrigen" type="varchar(20)"> 
+                <cf_dbtempcol name="MontoOrigen" type="money"> 
+                <cf_dbtempcol name="ModuloDestino" type="varchar(4)"> 
+                <cf_dbtempcol name="CodigoMonedaDestino" type="varchar(3)">		
+                <cf_dbtempcol name="NumeroSocioDocDestino" type="varchar(10)"> 
+                <cf_dbtempcol name="CodigoTransacionDest" type="varchar(5)"> 
+                <cf_dbtempcol name="DocumentoDestino" type="varchar(20)"> 
+                <cf_dbtempcol name="MontoDestino" type="money"> 
+                <cf_dbtempcol name="TipoCambio" type="money"> 
+                <cf_dbtempcol name="FechaAplicacion" type="datetime"> 
+                <cf_dbtempcol name="TransaccionOrigen" type="varchar(20)"> 
+                <cf_dbtempcol name="BMUsucodigo" type="int"> 
+                <cf_dbtempcol name="Procesado" type="varchar(1)"> 
+        	</cf_dbtemp>
+	
+            <cf_dbtemp name="TmpID12" returnvariable="TmpID12" datasource="sifinterfaces">
+                <cf_dbtempcol name="ID" type="int">
+                <cf_dbtempcol name="NumeroSocioDoc" type="varchar(10)">
+                <cf_dbtempcol name="Modulo" type="varchar(4)">		
+                <cf_dbtempcol name="CodigoTransaccion" type="varchar(10)">	
+                <cf_dbtempcol name="Documento" type="varchar(20)">
+                <cf_dbtempcol name="Monto" type="money"> 
+            </cf_dbtemp>
+			
+			
+			<!---INSERTA IE12--->
+            <cfset Maximus12 = 1>
+        
+            <!---- Inserta Encabezado--->
+            <cfquery datasource="sifinterfaces">
+                insert into #TmpIE12#
+                (ID,
+                 EcodigoSDC,
+                 ModuloOrigen,
+                 CodigoMonedaOrigen,                                                              
+                 NumeroSocioDocOrigen,
+                 CodigoTransacionOrig,
+                 DocumentoOrigen,
+                 MontoOrigen,
+                 ModuloDestino,
+                 CodigoMonedaDestino,
+                 NumeroSocioDocDestino,
+                 CodigoTransacionDest,
+                 DocumentoDestino,
+                 MontoDestino,
+                 TipoCambio,
+                 FechaAplicacion,
+                 TransaccionOrigen,
+                 BMUsucodigo,
+                 Procesado)
+                 values
+                 (<cfqueryparam cfsqltype ="cf_sql_numeric" value="#Maximus12#">,
+                 <cfqueryparam cfsqltype ="cf_sql_numeric" value="#query.EcodigoSDC#">,
+                 <cfif query.Modulo EQ 'CC'>
+                    'CC',
+                 <cfelse>
+                    'CP',
+                 </cfif>
+                 <cfqueryparam cfsqltype="cf_sql_varchar" value="#query.CodigoMoneda#">,
+                 <cfqueryparam cfsqltype="cf_sql_varchar" value="#query.NumeroSocio#">,
+                 <cfqueryparam cfsqltype="cf_sql_char" value="#query.Transaccion#">,
+                 <cfqueryparam cfsqltype="cf_sql_varchar" value="#query.Documento#">,
+                 round(#query.MontoTotal#,2),
+                 <cfif query.Modulo EQ 'CC'>
+                    'CC',
+                 <cfelse>
+                    'CP',
+                 </cfif>
+                 <cfqueryparam cfsqltype="cf_sql_varchar" value="#query.CodigoMoneda#">,
+                 <cfqueryparam cfsqltype="cf_sql_varchar" value="#query.NumeroSocio#">,
+                 <cfqueryparam cfsqltype="cf_sql_char" value="#query.Transaccion#">,
+                 '-1',
+                 -1,
+                 <cfqueryparam cfsqltype="cf_sql_float" value="#query.TipoCambio#">,
+                 <cfqueryparam cfsqltype="cf_sql_date" value="#dateformat(query.FechaTransaccion,'yyyy/mm/dd')#">, 
+                 <cfqueryparam cfsqltype ="cf_sql_varchar" value="#query.ID#">,
+                 null,
+                 'S')
+            </cfquery>
+			
+			<!---Inserta detalle del Documento de Cancelacion--->          
+            <cfquery datasource="sifinterfaces">			 
+                 insert into #TmpID12#
+                (ID, 
+                 NumeroSocioDoc,
+                 Modulo,
+                 CodigoTransaccion,
+                 Documento,
+                 Monto)
+                 values
+                 (<cfqueryparam cfsqltype ="cf_sql_numeric" value="#Maximus12#">,
+                 <cfqueryparam cfsqltype="cf_sql_varchar" value="#query.NumeroSocio#">,
+                 <cfif query.Modulo EQ 'CC'>
+                    'CC',
+                 <cfelse>
+                    'CP',
+                 </cfif>
+                 <cfqueryparam cfsqltype="cf_sql_varchar" value="#query.Transaccion#">,
+                 <cfqueryparam cfsqltype="cf_sql_varchar" value="#query.Documento#">,
+                 round(#query.MontoTotal#,2))
+             </cfquery> 
+
+			<cfoutput>
+                <cfquery datasource="sifinterfaces">			 
+                     insert into #TmpID12#
+                    (ID, 
+                     NumeroSocioDoc,
+                     Modulo,
+                     CodigoTransaccion,
+                     Documento,
+                     Monto)
+                     values
+                     (<cfqueryparam cfsqltype ="cf_sql_numeric" value="#Maximus12#">,
+                     <cfqueryparam cfsqltype="cf_sql_varchar" value="#query.NumeroSocioDoc#">,
+                     <cfif query.Modulo EQ 'CC'>
+                        'CC',
+                     <cfelse>
+                        'CP',
+                     </cfif>
+                     <cfqueryparam cfsqltype="cf_sql_varchar" value="#query.TransaccionDestino#">,
+                     <cfqueryparam cfsqltype="cf_sql_varchar" value="#query.DocumentoDestino#">,
+                     round(#query.MontoDocumento#,2))
+                 </cfquery>								
+			</cfoutput>
+		</cfoutput>        
+
+        <cfquery name="rsInput" datasource="sifinterfaces">
+            select 
+                a.ID, 
+                a.EcodigoSDC, 
+                a.CodigoMonedaOrigen, 
+                a.NumeroSocioDocOrigen, 
+                a.FechaAplicacion, 
+                a.TipoCambio, 
+                a.TransaccionOrigen, 
+                a.BMUsucodigo, 
+                b.NumeroSocioDoc,
+                b.Modulo,
+                b.CodigoTransaccion, 
+                b.Documento, 
+                b.Monto
+            from #TmpIE12# a
+                inner join #TmpID12# b
+                on b.ID = a.ID
+                where a.ID = <cfqueryparam cfsqltype="cf_sql_numeric" value="#Maximus12#">
+        </cfquery>
+        <cfif rsInput.recordCount EQ 0>
+            <cfthrow message="No existen datos de Entrada para el ID='#Maximus12#' en la Interfaz 40=Aplicación de Documento de Cancelación">
+        </cfif>
+        <cftransaction>
+            <!--- Inicializa el componente de interfaz con solicitudes --->
+            <cfset LobjControl = createObject("component","interfacesSoin.Componentes.CM_InterfazNeteo")>
+            <cfset LobjControl.init(query.EcodigoSDC)>
+            <cfoutput query="rsInput" group="ID">
+                <!--- Insertar el Encabezado --->
+                <cfset LvarID = LobjControl.Alta_DocNeteo(rsInput.CodigoMonedaOrigen, rsInput.TransaccionOrigen, rsInput.NumeroSocioDocOrigen, rsInput.FechaAplicacion, 'Generado por Interfaz de Cancelación de Documentos')>
+                <cfoutput>
+                    <!--- Insertar los detalles --->
+                    <cfset LobjControl.Alta_DocNeteoDet(rsInput.Modulo, LvarID, rsInput.CodigoTransaccion, rsInput.NumeroSocioDoc, rsInput.Monto, rsInput.Documento, rsInput.TransaccionOrigen)>
+                </cfoutput>
+            </cfoutput>
+        </cftransaction>
+        
+        <!--- Aplicar el Documento de Neteo --->
+        <!---
+        <cfinvoke 
+        component="sif.Componentes.CC_AplicaDocumentoNeteo" 
+        method="CC_AplicaDocumentoNeteo" 
+        returnvariable="resultado"
+        idDocumentoNeteo="#LvarID#"
+        />--->
+		
+    </cffunction>
+		
+		<!---
+		Metodo: 
+			getValidEcodigoSDC
+		Resultado:
+			Devuelve el codigo asociado al codigo de Empresa del portal dado por la interfaz.
+			Si no se encuentra un registro para el codigo aborta el proceso.
+	--->
+	<cffunction name="getValidEcodigoSDC" access="private" returntype="numeric" output="no">
+		<cfargument name="EcodigoSDC" required="true" type="numeric">
+		<cfquery name="query" datasource="#GvarConexion#">
+			select Ecodigo as EcodigoSDC
+			from Empresa
+			where Ecodigo = <cfqueryparam cfsqltype="cf_sql_numeric" value="#Arguments.EcodigoSDC#">
+			  and Ereferencia = <cfqueryparam cfsqltype="cf_sql_integer" value="#GvarEcodigo#">
+		</cfquery>
+		<cfif not query.recordcount>
+			<cfthrow message="Error en Interfaz 40. EcodigoSDC es inválido, El código de Empresa SDC debe coincidir con el código de empresa SDC que invoca la interfaz. Proceso Cancelado!.">
+		</cfif>
+		<cfreturn query.EcodigoSDC>
+	</cffunction>
+	
+	<!---
+		Metodo: 
+			getValidModulo
+		Resultado:
+			Valida que el centro funcional enviado sea valido en SOIN-SIF.
+	--->
+	<cffunction name="getValidCentroFun" access="private" returntype="string" output="no">
+		<cfargument name="Modulo" required="true" type="string">
+		<!--- Ya está validado por regla en la BD --->
+        <cfif Arguments.Modulo NEQ "CC" and Arguments.Modulo NEQ "CP">
+        	<cfthrow message="Error en Interfaz 40. Modulo no valido, el modulo debe ser CC o CP. Proceso Cancelado!">
+        </cfif>
+		<cfreturn Trim(Arguments.Modulo)>
+	</cffunction>
+	
+	<!---
+		Metodo: 
+			getValidSNcodigo
+		Resultado:
+			Devuelve el id asociado al codigo de socio de negocios dado por la interfaz.
+			Si no se encuentra un registro para el codigo aborta el proceso.
+	--->
+	
+	<cffunction access="private" name="getValidSNcodigo" output="no" returntype="numeric">
+		<cfargument name="NumeroSocio" required="yes" type="string">
+		
+		<cfset var Lvar_SNid = 0>
+		<cfset var Lvar_SNcodigo = 0>
+		<cfif Lvar_SNid eq 0 and len(trim(Arguments.NumeroSocio)) gt 0>
+			<cfquery name="query3" datasource="#GvarConexion#" maxrows="1">
+				select SNid,SNcodigo, id_direccion
+				from SNegocios
+				where Ecodigo = <cfqueryparam cfsqltype="cf_sql_numeric" value="#GvarEcodigo#">
+				  and SNcodigoext = <cfqueryparam cfsqltype="cf_sql_char" value="#Arguments.NumeroSocio#">
+			</cfquery>
+			
+			<cfif query3.recordcount gt 0>
+				<cfset Lvar_SNid = query3.SNid>
+				<cfset Lvar_SNcodigo = query3.SNcodigo>
+			</cfif>
+		</cfif>
+		<!--- Valida el Proceso --->
+		<cfif Lvar_SNid lte 0 or Lvar_SNcodigo lte 0>
+			<cfthrow message="Error en Interfaz 40. NumeroSocio es inválido, El Numero de Socio no corresponden con ningún Socio de la Empresa #GvarEnombre#. Proceso Cancelado!.">
+		</cfif>
+
+		<cfreturn Lvar_SNcodigo>
+	</cffunction>
+		
+	<!---
+		Metodo: 
+			getValidCCEDdocumento
+		Resultado:
+			Devuelve documento dado por la interfaz validado.
+			Si se encuentra un registro para el documento aborta el proceso.
+	--->
+	<cffunction access="private" name="getValidCCEDdocumento" output="no" returntype="string">
+		<cfargument name="EDdocumento" required="yes" type="string">
+		<cfargument name="CCTcodigo" required="yes" type="string">
+		<cfquery name="query" datasource="#GvarConexion#">
+			select 1 
+			from EDocumentosCxC
+			where Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#GvarEcodigo#">
+			  and rtrim(ltrim(CCTcodigo)) = <cfqueryparam cfsqltype="cf_sql_char" value="#trim(Arguments.CCTcodigo)#">
+			  and rtrim(ltrim(EDdocumento)) = <cfqueryparam cfsqltype="cf_sql_char" value="#trim(Arguments.EDdocumento)#">
+			union
+			select 1 
+			from Documentos
+			where Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#GvarEcodigo#">
+			  and rtrim(ltrim(CCTcodigo)) = <cfqueryparam cfsqltype="cf_sql_char" value="#trim(Arguments.CCTcodigo)#">
+			  and rtrim(ltrim(Ddocumento)) = <cfqueryparam cfsqltype="cf_sql_char" value="#trim(Arguments.EDdocumento)#">
+			union
+			select 1 
+			from HDocumentos
+			where rtrim(ltrim(Ddocumento)) = <cfqueryparam cfsqltype="cf_sql_char" value="#trim(Arguments.EDdocumento)#">
+			  and rtrim(ltrim(CCTcodigo)) = <cfqueryparam cfsqltype="cf_sql_char" value="#trim(Arguments.CCTcodigo)#">
+			  and Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#GvarEcodigo#">
+			union
+			select 1 
+			from BMovimientos
+			where Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#GvarEcodigo#">
+			  and rtrim(ltrim(CCTcodigo)) = <cfqueryparam cfsqltype="cf_sql_char" value="#trim(Arguments.CCTcodigo)#">
+			  and rtrim(ltrim(Ddocumento)) = <cfqueryparam cfsqltype="cf_sql_char" value="#trim(Arguments.EDdocumento)#">
+		</cfquery>
+		<cfif query.recordcount GT 0>
+			<cfthrow message="Error en Interfaz 40. Documento es inválido, El Documento de Cancelación ya existe en la Empresa #GvarEnombre# en el Módulo CC. Proceso Cancelado!.">
+		</cfif>
+		<cfreturn Trim(Arguments.EDdocumento)>
+	</cffunction>
+	
+	<!---
+		Metodo: 
+			getValidCPEDdocumento
+		Resultado:
+			Devuelve documento dado por la interfaz validado.
+			Si se encuentra un registro para el documento aborta el proceso.
+	--->
+	<cffunction access="private" name="getValidCPEDdocumento" output="no" returntype="string">
+		<cfargument name="EDdocumento" required="yes" type="string">
+		<cfargument name="CPTcodigo" required="yes" type="string">
+		<cfargument name="SNcodigo" required="yes" type="string">
+		<cfquery name="query" datasource="#GvarConexion#">
+			select 1 
+			from EDocumentosCxP
+			where Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#GvarEcodigo#">
+			  and rtrim(ltrim(CPTcodigo)) = <cfqueryparam cfsqltype="cf_sql_char" value="#trim(Arguments.CPTcodigo)#">
+			  and rtrim(ltrim(EDdocumento)) = <cfqueryparam cfsqltype="cf_sql_char" value="#trim(Arguments.EDdocumento)#">
+			  and SNcodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#Arguments.SNcodigo#">
+			union
+			select 1 
+			from EDocumentosCP
+			where SNcodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#Arguments.SNcodigo#">
+			  and rtrim(ltrim(Ddocumento)) = <cfqueryparam cfsqltype="cf_sql_char" value="#trim(Arguments.EDdocumento)#">
+			  and rtrim(ltrim(CPTcodigo)) = <cfqueryparam cfsqltype="cf_sql_char" value="#trim(Arguments.CPTcodigo)#">
+			  and Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#GvarEcodigo#">
+			union
+			select 1 
+			from HEDocumentosCP
+			where SNcodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#Arguments.SNcodigo#">
+			  and rtrim(ltrim(Ddocumento)) = <cfqueryparam cfsqltype="cf_sql_char" value="#trim(Arguments.EDdocumento)#">
+			  and rtrim(ltrim(CPTcodigo)) = <cfqueryparam cfsqltype="cf_sql_char" value="#trim(Arguments.CPTcodigo)#">
+			  and Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#GvarEcodigo#">
+		</cfquery>
+		<cfif query.recordcount GT 0>
+			<cfthrow message="Error en Interfaz 40. Documento es inválido, El Documento ya existe en la Empresa #GvarEnombre# en el Módulo CP. Proceso Cancelado!.">
+		</cfif>
+		<cfreturn Trim(Arguments.EDdocumento)>
+	</cffunction>
+
+	<!---
+		Metodo: 
+			getValidMcodigo
+		Resultado:
+			Devuelve el id asociado al codigo Miso de la moneda dada por la interfaz.
+			Si no encuentra un valor, aborta el proceso.
+	--->
+	<cffunction access="private" name="getValidMcodigo" output="no" returntype="query">
+		<cfargument name="miso" required="yes" type="string">
+		
+        <cfquery name="query" datasource="#GvarConexion#">
+			select Mcodigo, Miso4217
+			from Monedas
+			where Miso4217 = <cfqueryparam cfsqltype="cf_sql_char" value="#trim(Arguments.miso)#">
+			  and Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#GvarEcodigo#">
+		</cfquery>
+		<cfif query.recordcount EQ 0 >
+			<cfthrow message="Error en Interfaz 40. CodigoMoneda es inválido, El Código de la Moneda no corresponde con ninguna moneda en la Empresa #GvarEnombre#. Proceso Cancelado!.">
+		</cfif>
+		<cfreturn query>
+	</cffunction>
+	
+	<!---
+		Metodo: 
+			getValidFechaDocumento
+		Resultado:
+			Devuelve una Fecha de Documento Valida
+	--->
+	<cffunction access="private" name="getValidFechaDocumento" output="no" returntype="date">
+		<cfargument name="Fecha" required="yes" type="date">
+		<cfif Arguments.Fecha lt GvarMinFecha or Arguments.Fecha gt DateAdd('yyyy',99,GvarMinFecha)>
+			<cfthrow message="Error en Interfaz 40. FechaDocumeno es inválido, La Fecha del Documento no es válida en la Empresa #GvarEnombre#. Proceso Cancelado!.">
+		</cfif>
+		<cfreturn Arguments.Fecha>
+	</cffunction>
+		
+	<!---
+		Metodo:
+			getTipoCambio
+		Resultado:
+			Obtiene el Tipo de cambio de la moneda indicada en la fecha indicada,
+			la moneda esperada es en codigo Miso4217
+	--->
+	<cffunction access="private" name="getValidTipoCambio" output="no" returntype="numeric"> 
+	  <cfargument name="Mcodigo" required="yes" type="numeric">
+	  <cfargument name="Fecha" required="no" type="date" default="#now()#">
+	  <cfargument name="origen" required="no" type="string" default="CXC">
+	  <cfset var retTC = 1.00>
+	  <cfquery name="rsTC" datasource="#GvarConexion#">
+		   select 
+		   		coalesce(h.TCcompra,1) as TCcompra,
+				coalesce(h.TCventa,1)  as TCventa
+		   from Htipocambio h
+		   where h.Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#GvarEcodigo#">
+		     and h.Mcodigo = <cfqueryparam cfsqltype="cf_sql_numeric" value="#Arguments.Mcodigo#">
+		     and h.Hfecha <= <cfqueryparam cfsqltype="cf_sql_date" value="#Arguments.Fecha#">
+		     and h.Hfecha = (
+		     select max(h2.Hfecha)
+		     from Htipocambio h2
+		     where h2.Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#GvarEcodigo#">
+		       and h2.Mcodigo = <cfqueryparam cfsqltype="cf_sql_numeric" value="#Arguments.Mcodigo#">
+		       and h2.Hfecha <= <cfqueryparam cfsqltype="cf_sql_date" value="#Arguments.Fecha#">)
+ 
+ 	 </cfquery>
+ 	 <cfif isdefined('rsTC') and rsTC.recordCount GT 0>
+		<cfif Arguments.origen eq 'CXC'>
+			<cfset retTC = rsTC.TCcompra>
+	 	<cfelseif Arguments.origen eq 'CXP'>
+ 		 	<cfset retTC = rsTC.TCventa>
+	 	</cfif>
+	 </cfif>
+ 	 <cfreturn retTC>
+  </cffunction>
+
+	<!---
+		Metodo: 
+			getValidCcodigo
+		Resultado:
+			Devuelve el Cconcepto Válido
+	--->
+	<cffunction access="private" name="getValidCcodigo" output="no" returntype="string">
+		<cfargument name="Ccodigo" required="yes" type="string">
+        <cfargument name="Modulo" required="yes" type="string">
+        
+		<cfset var LvarCcodigo = "">
+		<cfif len(Arguments.Ccodigo) gt 0>
+			<cfquery name="query" datasource="#GvarConexion#">
+				select Ccodigo, Ctipo
+				from Conceptos
+				where Ecodigo = <cfqueryparam cfsqltype="cf_sql_numeric" value="#GvarEcodigo#">
+				and upper(rtrim(Ccodigo)) = <cfqueryparam cfsqltype="cf_sql_char" value="#Ucase(Trim(Arguments.Ccodigo))#">
+			</cfquery>
+			<cfif query.recordcount and len(trim(query.Ccodigo))>
+				<cfset LvarCcodigo = trim(query.Ccodigo)>
+			<cfelse>
+				<cfthrow message="Error en Interfaz 40. CodigoConceptoServicio es inválido, El Código de Concepto de Servicio no corresponde con ningún Concepto de Servicio de la Empresa #GvarEnombre#. Proceso Cancelado!.">
+			</cfif>
+            <cfif Arguments.Modulo EQ "CC">
+            	<cfif query.Ctipo NEQ "I">
+                	<cfthrow message="Error en Interfaz 40. El Código de Concepto de Servicio corresponde a un concepto de tipo Gasto y no puede ser aplicado en un documento de Cuentas por Cobrar. Proceso Cancelado!.">
+                </cfif>
+            <cfelse>
+            	<cfif query.Ctipo NEQ "G">
+                	<cfthrow message="Error en Interfaz 40. El Código de Concepto de Servicio corresponde a un concepto de tipo Ingreso y no puede ser aplicado en un documento de Cuentas por Pagar. Proceso Cancelado!.">
+                </cfif>
+            </cfif>
+        <cfelse>
+        	<cfthrow message="Error en Interfaz 40. CodigoConceptoServicio es inválido. Proceso Cancelado!.">	    
+		</cfif>
+		<cfreturn LvarCcodigo>
+	</cffunction>
+	
+	<!---
+	Metodo:
+		getValidCcuenta
+	Resultado:
+		0.	Se busca la máscara asociada a la cuenta dada en CFinanciera, esta es la máscara del Socio de Negocios.
+		1.	Se toma la máscara del Socio de Negocios XXXX-XXXX-XXXX-XXX,
+		2.	Si existe asociado al documento un concepto de servicio, y el concepto de servicio tiene complemento de cuenta, continua, si no termina.
+		3.	Se sustituye el ultimo nivel con el complemento de cuenta del concepto de servicio, XXXX-XXXX-XXXX-123
+	--->
+	<cffunction access="private" name="getValidCcuenta" output="no" returntype="numeric">
+		<cfargument name="CFormato" required="yes" type="string">
+		<cfset var LvarCcuenta = 0>
+		<cfif len(trim(Arguments.CFormato)) gt 0>
+			<!--- Lo trata de Obtener validando el formato --->
+			<cfinvoke component="sif.Componentes.PC_GeneraCuentaFinanciera" method="fnGeneraCuentaFinanciera" returnvariable="LvarError">
+				<cfinvokeargument name="Lprm_Cmayor" value="#Left(Arguments.CFormato,4)#"/>							
+				<cfinvokeargument name="Lprm_Cdetalle" value="#mid(Arguments.CFormato,6,100)#"/>
+				<cfinvokeargument name="Lprm_TransaccionActiva" value="true"/>
+				<cfinvokeargument name="Conexion" value="#GvarConexion#"/>
+				<cfinvokeargument name="ecodigo" value="#GvarEcodigo#"/>
+			</cfinvoke>
+			<cfif LvarError NEQ "OLD" AND LvarError NEQ "NEW">
+				<cfthrow message="Error en Interfaz 10. Cuenta #Arguments.CFormato#: #LvarERROR#. Proceso Cancelado!">
+			</cfif>
+			<cfquery name="rsCuenta" datasource="#GvarConexion#">
+				select Ccuenta
+				from CFinanciera
+				where Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#GvarEcodigo#">
+				  and CFformato = <cfqueryparam cfsqltype="cf_sql_char" value="#Arguments.CFormato#">
+			</cfquery>
+			<cfif len(trim(rsCuenta.Ccuenta))>
+				<cfset LvarCcuenta = rsCuenta.Ccuenta>
+			<cfelse>
+				<cfthrow message="Error en Interfaz 10. Cuenta #Arguments.CFormato#: Cuenta Inválida! para la empresa #Enombre#. Proceso Cancelado!">
+			</cfif>
+		</cfif>
+		<cfreturn LvarCcuenta>
+	</cffunction>
+	
+	
+	<!---Validar Naturaleza del docto a crear vs documentos a cancelar--->
+	<cffunction access="private" name="getValid_Naturaleza" output="no" returntype="query">
+    	<cfargument name="ID" required="no" type="string">
+        <cfargument name="NatTran" required="no" type="string">
+        <cfargument name="Modulo" required="no" type="string">
+		<cfargument name="C" required="no" type="string">		
+	
+			<cfquery name="rsValidaNaturaleza" datasource="sifinterfaces">
+            	select TransaccionDestino from ID40
+				where ID = <cfqueryparam cfsqltype="cf_sql_integer" value="#Arguments.ID#"> 
+            </cfquery>
+			
+			<cfloop query="rsValidaNaturaleza">
+				<cfset NatDet = getValidNatTran(rsValidaNaturaleza.TransaccionDestino, Arguments.Modulo)>
+				<cfif Arguments.NatTran EQ NatDet.CTtipo>
+				 	<cfthrow message="Error Interfaz 40. El documento de cancelación no puede cancelar documentos de la misma naturaleza. Proceso Cancelado!">
+				</cfif>
+			</cfloop>
+			
+	 <cfreturn rsValidaNaturaleza>
+	 </cffunction>
+	
+	
+	<!---Valida Naturaleza--->
+	<cffunction access="private" name="getValidNatTran" output="no" returntype="query">
+    	<cfargument name="Tran" required="no" type="string">
+		<cfargument name="Modulo" required="no" type="string">
+ 		
+		<cfquery name="rsNaturaleza" datasource="#GvarConexion#">
+            <cfif Arguments.Modulo EQ "CP">
+              	select CPTcodigo as CTcodigo, CPTtipo as CTtipo
+                from CPTransacciones
+                where Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#GvarEcodigo#">
+                and CPTcodigo = <cfqueryparam cfsqltype="cf_sql_varchar" value="#Arguments.Tran#">
+            </cfif>
+            <cfif Arguments.Modulo EQ "CC">
+                select CCTcodigo as CTcodigo, CCTtipo as CTtipo
+                from CCTransacciones
+                where Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#GvarEcodigo#">
+                and CCTcodigo = <cfqueryparam cfsqltype="cf_sql_varchar" value="#Arguments.Tran#">
+            </cfif>
+        </cfquery> 
+		
+		<cfif isdefined("rsNaturaleza") and rsNaturaleza.recordcount EQ 1>
+			<cfreturn rsNaturaleza>
+	    <cfelse>
+    	    <cfthrow message="Error Interfaz 40. Código de Transacción #Arguments.Tran# del módulo #Arguments.Modulo# no corresponde con ninguna transaccion valida para la empresa #GvarEnombre#. Proceso Cancelado!">
+        </cfif>		
+	</cffunction>		
+	
+		
+	<!---Valida Cta CxC o CxP del Socio--->
+	<cffunction access="private" name="getValidCtaSocio" output="no" returntype="query">
+    	<cfargument name="Socio" required="no" type="string">
+		<cfargument name="Modulo" required="no" type="string">
+
+			<cfquery name="rsCliente" datasource="#GvarConexion#">
+				select SNcodigo, SNcuentacxc, SNcuentacxp
+				from SNegocios
+				where SNcodigoext like <cfqueryparam cfsqltype="cf_sql_varchar" value="#Arguments.Socio#">
+				and Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#GvarEcodigo#">
+			</cfquery>
+
+		<!---Valida las cuentas contables del socio --->
+			<cfif Arguments.Modulo EQ 'CP'>
+				<cfif not isdefined("rsCliente") or rsCliente.SNcuentacxp EQ "">
+					<cfthrow message="El Socio no tiene definida la cuenta para proveedor CxP">
+				</cfif>
+			<cfelse>
+				<cfif not isdefined("rsCliente") or rsCliente.SNcuentacxc EQ "">
+					<cfthrow message="El Socio no tiene definida la cuenta para cliente CxC">
+				</cfif>
+			</cfif>
+			
+			<cfreturn rsCliente>
+	</cffunction>			
+
+	<!---Valida Oficina--->
+	<cffunction access="private" name="getValid_Oficina" output="no" returntype="string">
+		<cfargument name="CtaBanco" required="yes" type="string">
+		<cfargument name="Banco" required="yes" type="string">
+			<cfquery name="rsOficina" datasource="#GvarConexion#">
+				select Oficodigo 
+                from CuentasBancos CB
+                inner join Bancos B
+                on CB.Bid = B.Bid 
+                	and CB.Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#GvarEcodigo#">
+                    and CB.Ecodigo = B.Ecodigo
+					and B.Iaba = <cfqueryparam cfsqltype="varchar" value="#Arguments.Banco#">
+		     		and CB.CBcodigo = <cfqueryparam cfsqltype="varchar" value="#Arguments.CtaBanco#">
+				inner join Oficinas  O 
+                on CB.Ecodigo = O.Ecodigo 
+                	and CB.Ocodigo = O.Ocodigo 
+			</cfquery>
+			
+			<cfif isdefined("rsOficina") and rsOficina.recordcount EQ 0>
+				<cfquery name="rsOficina" datasource="#GvarConexion#">
+					select min(Oficodigo) as Oficodigo from Oficinas where Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" 
+					value="#GvarEcodigo#">
+				</cfquery>
+				<cfif isdefined("rsOficina") and rsOficina.recordcount EQ 0>
+					<cfthrow message="Error Interfaz 40. No se pudo Obtener oficina Valida para el Documento de Cancelación. Compruebe que se ha registrado un banco y cuenta de banco validos. Proceso Cancelado!">
+				</cfif>
+			</cfif>
+			
+			<cfreturn rsOficina.Oficodigo>
+	</cffunction>
+
+	<!----Valida cuenta de banco--->
+	<cffunction access="private" name="getValid_CtaBanco" output="no" returntype="string">
+		<cfargument name="Banco" required="no" type="string">
+		<cfargument name="CtaBanco" required="no" type="string">
+
+			<cfquery name="rsCtaBanco" datasource="#GvarConexion#">
+				select CB.CBid 
+                from CuentasBancos CB 
+				inner join Bancos B on CB.Bid = B.Bid
+								   and CB.Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#GvarEcodigo#">
+                                   and CB.Ecodigo = B.Ecodigo
+					   			   and B.Iaba = <cfqueryparam cfsqltype="varchar" value="#Arguments.Banco#">
+		     					   and CB.CBcodigo = <cfqueryparam cfsqltype="varchar" value="#Arguments.CtaBanco#">
+			</cfquery>
+			
+			<cfif isdefined("rsCtaBanco") and rsCtaBanco.recordcount EQ 0>
+				<cfthrow message="Error Interfaz 40. No se pudo validar la cuenta Bancaria en la empresa #GvarEnombre#">
+			</cfif>
+			
+			<cfreturn rsCtaBanco.CBid>
+	</cffunction>
+
+	<!---Termina Funciion --->
+	
+    <!---Valida los documentos del detalle--->
+    <cffunction access="private" name="getValidDocumentoDet" output="no" returntype="query">
+		<cfargument name="Modulo" required="yes" type="string">
+        <cfargument name="SNcodigo" required="yes" type="numeric">
+        <cfargument name="Transaccion" required="yes" type="string">
+        <cfargument name="Documento" required="yes" type="string">
+        <cfargument name="MontoDocumento" required="yes" type="numeric">
+         <cfargument name="Moneda" required="yes" type="numeric">
+         
+        <cfif Arguments.Modulo EQ "CC">
+        	<cfquery name="rsDocumentoDet" datasource="#GvarConexion#">
+            	select * 
+                from Documentos
+                where Ecodigo = <cfqueryparam cfsqltype="cf_sql_numeric" value="#GvarEcodigo#">
+				and SNcodigo = <cfqueryparam cfsqltype="cf_sql_numeric" value="#Arguments.SNcodigo#">
+                and CCTcodigo = <cfqueryparam cfsqltype="cf_sql_char" value="#trim(Arguments.Transaccion)#">
+                and Ddocumento = <cfqueryparam cfsqltype="cf_sql_varchar" value="#trim(Arguments.Documento)#">
+            </cfquery>
+        <cfelse>
+        	<cfquery name="rsDocumentoDet" datasource="#GvarConexion#">
+            	select * 
+                from EDocumentosCP
+                where Ecodigo = <cfqueryparam cfsqltype="cf_sql_numeric" value="#GvarEcodigo#">
+                and SNcodigo = <cfqueryparam cfsqltype="cf_sql_numeric" value="#Arguments.SNcodigo#">
+                and CPTcodigo = <cfqueryparam cfsqltype="cf_sql_char" value="#trim(Arguments.Transaccion)#">
+                and Ddocumento = <cfqueryparam cfsqltype="cf_sql_varchar" value="#trim(Arguments.Documento)#">
+            </cfquery>
+        </cfif>
+        <cfif isdefined("rsDocumentoDet") and rsDocumentoDet.recordcount GT 0>
+        	<cfif Arguments.Modulo EQ "CC">
+				<cfif rsDocumentoDet.Dsaldo LT Arguments.MontoDocumento>
+                	<cfthrow message="Error Interfaz 40. El saldo del documento es menor al monto que se desea cancelar. Proceso Cancelado!">
+                </cfif>
+            <cfelse>
+            	<cfif rsDocumentoDet.EDsaldo LT Arguments.MontoDocumento>
+                	<cfthrow message="Error Interfaz 40. El saldo del documento es menor al monto que se desea cancelar #Arguments.Transaccion# - #Arguments.Documento#. Proceso Cancelado!">
+                </cfif>
+            </cfif>
+            <cfif Arguments.Moneda NEQ rsDocumentoDet.Mcodigo>
+            	<cfthrow message="Error Interfaz 40. Solo se pueden cancelar documentos de la misma moneda que el documento de Cancelación">
+            </cfif>
+        <cfelse>
+        	<cfthrow message="Error Interfaz 40. Documento no encontrado entre los documentos posteados #Arguments.Transaccion# - #Arguments.Documento# para la empresa #GvarEnombre#. Proceso Cancelado!">
+        </cfif>
+        <cfreturn rsDocumentoDet>
+	</cffunction>
+</cfcomponent>

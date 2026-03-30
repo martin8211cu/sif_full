@@ -1,0 +1,924 @@
+<html>
+<!-- Sitemap 1.0 -->
+<object type="text/site properties">
+  <param name="SiteType" value="toc">
+  <param name="Image Width" value="16">
+  <param name="Window Styles" value="0x800002">
+  <param name="ExWindow Styles" value="0x100">
+</object>
+<ul>
+  <li><object type="text/sitemap">
+    <param name="Name" value="Administración de Plazas">
+  </object>
+  <ul>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Catálogos">
+    </object>
+    <ul>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Categorías de Pago">
+        <param name="Local" value="Administración_de_Plazas\Catálogos\Categorías_de_Pago.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Maestro de Puestos Presupuestarios">
+        <param name="Local" value="Administración_de_Plazas\Catálogos\Maestro_de_Puestos_Presupuestarios.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Plazas Presupuestarias">
+        <param name="Local" value="Administración_de_Plazas\Catálogos\Plazas_Presupuestarias.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Tipos de Movimientos">
+        <param name="Local" value="Administración_de_Plazas\Catálogos\Tipos_de_Movimientos.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Tipos de Tabla Salarial">
+        <param name="Local" value="Administración_de_Plazas\Catálogos\Tipos_de_Tabla_Salarial.htm">
+      </object>
+      </ul>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Operación">
+    </object>
+    <ul>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Registro de Movimientos de Plaza">
+        <param name="Local" value="Administración_de_Plazas\Operación\Registro_de_Movimientos_de_Plaza.htm">
+      </object>
+      </ul>
+    </ul>
+  <li><object type="text/sitemap">
+    <param name="Name" value="Administración de Puestos">
+  </object>
+  <ul>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Descripción de Puestos">
+    </object>
+    <ul>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Catálogos Generales">
+        <param name="Local" value="Administración_de_Puestos\Descripción_de_Puestos\Catalogos_Generales.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Configuración del Reporte">
+        <param name="Local" value="Administración_de_Puestos\Descripción_de_Puestos\Configuración_del_Reporte.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Conocimientos">
+        <param name="Local" value="Administración_de_Puestos\Descripción_de_Puestos\Conocimientos.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Datos Variables">
+        <param name="Local" value="Administración_de_Puestos\Descripción_de_Puestos\Datos_Variables.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Habilidades">
+        <param name="Local" value="Administración_de_Puestos\Descripción_de_Puestos\Habilidades.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Niveles">
+        <param name="Local" value="Administración_de_Puestos\Descripción_de_Puestos\Niveles.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Ocupaciones">
+        <param name="Local" value="Administración_de_Puestos\Descripción_de_Puestos\Ocupaciones.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Puestos">
+        <param name="Local" value="Administración_de_Puestos\Descripción_de_Puestos\Puestos.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Puestos Externos">
+        <param name="Local" value="Administración_de_Puestos\Descripción_de_Puestos\Puestos_Externos.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Tipos de Puestos">
+        <param name="Local" value="Administración_de_Puestos\Descripción_de_Puestos\Tipos_de_Puestos.htm">
+      </object>
+      </ul>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Valoración de Puestos">
+    </object>
+    <ul>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Consulta de Valoración de Puestos">
+        <param name="Local" value="Administración_de_Puestos\Valoración_de_Puestos\Consulta_de_Valoración_de_Puestos.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Cuadro Auxiliar para Solución de Problemas">
+        <param name="Local" value="Administración_de_Puestos\Valoración_de_Puestos\Cuadro_Auxiliar_para_Solución_de_Problemas.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Cuadro de Habilidades">
+        <param name="Local" value="Administración_de_Puestos\Valoración_de_Puestos\Cuadro_de_Habilidades.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Cuadro de Perfiles HAY Característicos">
+        <param name="Local" value="Administración_de_Puestos\Valoración_de_Puestos\Cuadro_de_Perfiles_HAY_Característicos.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Cuadro de Responsabilidad">
+        <param name="Local" value="Administración_de_Puestos\Valoración_de_Puestos\Cuadro_de_Responsabilidad.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Cuadro de Solución de Problemas">
+        <param name="Local" value="Administración_de_Puestos\Valoración_de_Puestos\Cuadro_de_Solución_de_Problemas.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Gráfico Histórico Valoración de Puestos">
+        <param name="Local" value="Administración_de_Puestos\Valoración_de_Puestos\Gráfico_Histórico_Valoración_de_Puestos.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Gráfico Salario Base por Tipos de Puestos">
+        <param name="Local" value="Administración_de_Puestos\Valoración_de_Puestos\Gráfico_Salario_Base_por_Tipos_de_Puestos.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Gráfico Salario Base vs Puntos">
+        <param name="Local" value="Administración_de_Puestos\Valoración_de_Puestos\Gráfico_Salario_Base_vs_Puntos.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Registro de Relación de Valoración de Puestos">
+        <param name="Local" value="Administración_de_Puestos\Valoración_de_Puestos\Registro_de_Relación_de_Valoración_de_Puestos.htm">
+      </object>
+      </ul>
+    </ul>
+  <li><object type="text/sitemap">
+    <param name="Name" value="Autogestión">
+  </object>
+  <ul>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Autogestión">
+    </object>
+    <ul>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Aprobación de Trámites">
+        <param name="Local" value="Autogestión\Autogestión\Aprobación_de_Trámites.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Cambios Salariales">
+        <param name="Local" value="Autogestión\Autogestión\Cambios_Salariales.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Citas Médicas">
+        <param name="Local" value="Autogestión\Autogestión\Citas_Médicas.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Concursos Abiertos">
+        <param name="Local" value="Autogestión\Autogestión\Concursos_Abiertos.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Iniciar Trámite">
+        <param name="Local" value="Autogestión\Autogestión\Iniciar_Trámite.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Justificación Adelantada de Marca">
+        <param name="Local" value="Autogestión\Autogestión\Justificación_Adelantada_de_Marca.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Justificación Adelantada de Marca para Jefe">
+        <param name="Local" value="Autogestión\Autogestión\Justificación_Adelantada_de_Marca_para_Jefe.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Mi Expediente">
+        <param name="Local" value="Autogestión\Autogestión\Mi_Expediente.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Reloj Marcador">
+        <param name="Local" value="Autogestión\Autogestión\Reloj_Marcador.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Solicitud Apertura de Concursos">
+        <param name="Local" value="Autogestión\Autogestión\Solicitud_Apertura_de_Concursos.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Solicitud de Documentos">
+        <param name="Local" value="Autogestión\Autogestión\Solicitud_de_Documentos.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Solicitud de Plazas">
+        <param name="Local" value="Autogestión\Autogestión\Solicitud_de_Plazas.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Trámites Pendientes">
+        <param name="Local" value="Autogestión\Autogestión\Trámites_Pendientes.htm">
+      </object>
+      </ul>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Desarrollo">
+    </object>
+    <ul>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Autoevaluación del Desempeño">
+        <param name="Local" value="Autogestión\Desarrollo\Autoevaluación_del_Desempeño.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Automatrícula de Cursos">
+        <param name="Local" value="Autogestión\Desarrollo\Automatrícula_de_Cursos.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Evaluaciones del Desempeño Pendientes">
+        <param name="Local" value="Autogestión\Desarrollo\Evaluaciones_del_Desempeño_Pendientes.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Solicitud de Capacitación">
+        <param name="Local" value="Autogestión\Desarrollo\Solicitud_de_Capacitación.htm">
+      </object>
+      </ul>
+    </ul>
+  <li><object type="text/sitemap">
+    <param name="Name" value="Compras">
+  </object>
+  <ul>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Cálculo de Importación">
+    </object>
+    <ul>
+      <li><object type="text/sitemap">
+        <param name="Name" value="1 - Registro de Transacciones">
+        <param name="Local" value="Compras\Cálculo_de_Importación\1_-_Registro_de_Transacciones.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="2 - Anulación de Transacciones">
+        <param name="Local" value="Compras\Cálculo_de_Importación\2_-_Anulación_de_Transacciones.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="3 - Pólizas de Desalmacenaje">
+        <param name="Local" value="Compras\Cálculo_de_Importación\3_-_Pólizas_de_Desalmacenaje.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="4 - Administración de Embarques">
+        <param name="Local" value="Compras\Cálculo_de_Importación\4_-_Administración_de_Embarques.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="5 - Seguimiento de Embarques">
+        <param name="Local" value="Compras\Cálculo_de_Importación\5_-_Seguimiento_de_Embarques.htm">
+      </object>
+      </ul>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Catálogos">
+    </object>
+    <ul>
+      <li><object type="text/sitemap">
+        <param name="Name" value="1 - Configuración Tipos de Solicitud">
+        <param name="Local" value="Compras\Catálogos\Confguración_Tipos_de_Solicitud.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="10 - Términos Internacionales de Comercio">
+        <param name="Local" value="Compras\Catálogos\Términos_Internacionales_de_Comercio.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="11 - Seguros">
+        <param name="Local" value="Compras\Catálogos\Seguros.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="2 - Solicitantes">
+        <param name="Local" value="Compras\Catálogos\Solicitantes.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="3 - Compradores">
+        <param name="Local" value="Compras\Catálogos\Compradores.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="4 - Tipos de Orden de Compra">
+        <param name="Local" value="Compras\Catálogos\Tipos_de_Orden_de_Compra.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="5 - Grupos de Criterios de Comparación">
+        <param name="Local" value="Compras\Catálogos\Grupos_de_Criterios_de_Comparación.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="6 - Contratos">
+        <param name="Local" value="Compras\Catálogos\Contratos.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="7 - Tipos de Documentos">
+        <param name="Local" value="Compras\Catálogos\Tipos_de_Documentos.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="8 - Tipos de Transacción">
+        <param name="Local" value="Compras\Catálogos\Tipos_de_Transacción.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="9 - Formas de Pago">
+        <param name="Local" value="Compras\Catálogos\Formas_de_Pago.htm">
+      </object>
+      </ul>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Otras Opciones de Compra">
+    </object>
+    <ul>
+      <li><object type="text/sitemap">
+        <param name="Name" value="1 - Reimpresión de Solicitudes de Compra">
+        <param name="Local" value="Compras\Otras_Opciones_de_Compra\Reimpresión_de_Solicitudes_de_Compra.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="2 - Reimpresión de Órdenes de Compra">
+        <param name="Local" value="Compras\Otras_Opciones_de_Compra\Reimpresión_de_Órdenes_de_Compra.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="3 - Cancelación de Solicitudes de Compra">
+        <param name="Local" value="Compras\Otras_Opciones_de_Compra\Cancelación_de_Solicitudes_de_Compra.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="4 - Cancelación de Órdenes de Compra">
+        <param name="Local" value="Compras\Otras_Opciones_de_Compra\Cancelación_de_Órdenes_de_Compra.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="5 - Solicitudes de Compra Rechazadas">
+        <param name="Local" value="Compras\Otras_Opciones_de_Compra\Solicitudes_de_Compra_Rechazadas.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="6 - Órdenes de Compra Rechazadas">
+        <param name="Local" value="Compras\Otras_Opciones_de_Compra\Órdenes_de_Compra_Rechazadas.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="7 - Reasignar Cargas de Trabajo (Solicitudes de Compra)">
+        <param name="Local" value="Compras\Otras_Opciones_de_Compra\Reasignar_Cargas_de_Trabajo_(Solicitudes_de_Compra).htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="8 - Reasignar Órdenes de Compra">
+        <param name="Local" value="Compras\Otras_Opciones_de_Compra\Reasignar_Órdenes_de_Compra.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="9 - Generación de Embarques por Órdenes de Compra (OC)">
+        <param name="Local" value="Compras\Otras_Opciones_de_Compra\9_-_Generación_de_Embarques_por_Órdenes_de_Compra_(OC).htm">
+      </object>
+      </ul>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Proceso de Compra">
+    </object>
+    <ul>
+      <li><object type="text/sitemap">
+        <param name="Name" value="1 - Registro de Solicitudes de Compra">
+        <param name="Local" value="Compras\Proceso_de_Compra\Registro_de_Solicitudes_de_Compra.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="2 - Publicación de Compra">
+        <param name="Local" value="Compras\Proceso_de_Compra\Publicación_de_Compra.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="3 - Evaluación de Cotizaciones">
+        <param name="Local" value="Compras\Proceso_de_Compra\Evaluación_de_Cotizaciones.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="4 - Órdenes de Compra">
+        <param name="Local" value="Compras\Proceso_de_Compra\Ordenes_de_Compra.htm">
+      </object>
+      </ul>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Recepción y Reclamo">
+    </object>
+    <ul>
+      <li><object type="text/sitemap">
+        <param name="Name" value="1 - Registro de Documentos de Recepción">
+        <param name="Local" value="Compras\Recepción_y_Reclamo\Registro_de_Documentos_de_Recepción.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="2 - Registro de Documentos de Devolución">
+        <param name="Local" value="Compras\Recepción_y_Reclamo\Registro_de_Documentos_de_Devolución.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="3 - Trabajar con Reclamos">
+        <param name="Local" value="Compras\Recepción_y_Reclamo\Trabajar_con_Reclamos.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="4 - Liquidación de Saldos de Orden de Compra">
+        <param name="Local" value="Compras\Recepción_y_Reclamo\Liquidación_de_Saldos_de_Orden_de_Compra.htm">
+      </object>
+      </ul>
+    </ul>
+  <li><object type="text/sitemap">
+    <param name="Name" value="Contabilidad">
+  </object>
+  <ul>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Catálogos">
+    </object>
+    <ul>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Catalogos">
+        <param name="Local" value="Contabilidad\Catálogos\Catalogos.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="ConceptoContableE">
+        <param name="Local" value="Contabilidad\Catálogos\ConceptoContableE.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="CuentasContables">
+        <param name="Local" value="Contabilidad\Catálogos\CuentasContables.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="CuentasMayor">
+        <param name="Local" value="Contabilidad\Catálogos\CuentasMayor.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Htipocambio">
+        <param name="Local" value="Contabilidad\Catálogos\Htipocambio.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="MascarasCuentas">
+        <param name="Local" value="Contabilidad\Catálogos\MascarasCuentas.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Monedas">
+        <param name="Local" value="Contabilidad\Catálogos\Monedas.htm">
+      </object>
+      </ul>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Consultas">
+    </object>
+    <ul>
+      <li><object type="text/sitemap">
+        <param name="Name" value="BalCompR">
+        <param name="Local" value="Contabilidad\Consultas\BalCompR.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="BalGeneral">
+        <param name="Local" value="Contabilidad\Consultas\BalGeneral.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="PolizaContable">
+        <param name="Local" value="Contabilidad\Consultas\PolizaContable.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="RCuentas">
+        <param name="Local" value="Contabilidad\Consultas\RCuentas.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="saldosymov">
+        <param name="Local" value="Contabilidad\Consultas\saldosymov.htm">
+      </object>
+      </ul>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Procesos">
+    </object>
+    <ul>
+      <li><object type="text/sitemap">
+        <param name="Name" value="CierreAuxiliar">
+        <param name="Local" value="Contabilidad\Procesos\CierreAuxiliar.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="CierreMes">
+        <param name="Local" value="Contabilidad\Procesos\CierreMes.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="CopiaAsientos">
+        <param name="Local" value="Contabilidad\Procesos\CopiaAsientos.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="DocumentosContables">
+        <param name="Local" value="Contabilidad\Procesos\DocumentosContables.htm">
+      </object>
+      </ul>
+    </ul>
+  <li><object type="text/sitemap">
+    <param name="Name" value="Estructura Salarial">
+  </object>
+  <ul>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Catálogos">
+    </object>
+    <ul>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Componentes Salariales">
+        <param name="Local" value="Estructura_Salarial\Catálogos\Componentes_Salariales.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Creación y Mantenimiento de Escalas Salariales">
+        <param name="Local" value="Estructura_Salarial\Catálogos\Creación_y_Mantenimiento_de_Escalas_Salariales.htm">
+      </object>
+      </ul>
+    </ul>
+  <li><object type="text/sitemap">
+    <param name="Name" value="Expediente Y Nómina">
+  </object>
+  <ul>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Operación">
+    </object>
+    <ul>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Aprobación de Trámites">
+        <param name="Local" value="Expediente_Y_Nómina\Operación\Aprobación_de_Trámites.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Boleta de Liquidacion Laboral">
+        <param name="Local" value="Expediente_Y_Nómina\Operación\Boleta_de_Liquidacion_Laboral.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Cambio de Fecha Anualidad / Vacaciones">
+        <param name="Local" value="Expediente_Y_Nómina\Operación\Cambio_de_Fecha_Anualidad___Vacaciones.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Confección de Liquidación de Personal">
+        <param name="Local" value="Expediente_Y_Nómina\Operación\Confección_de_Liquidación_de_Personal.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Contabiliza Nómina desde Histórico de Nóminas">
+        <param name="Local" value="Expediente_Y_Nómina\Operación\Contabiliza_Nómina_desde_Histórico_de_Nóminas.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Mantenimiento de Empleados">
+        <param name="Local" value="Expediente_Y_Nómina\Operación\Mantenimiento_de_Empleados.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Proceso de Anulación de Acciones">
+        <param name="Local" value="Expediente_Y_Nómina\Operación\Proceso_de_Anulación_de_Acciones.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Registro de Acciones de Personal">
+        <param name="Local" value="Expediente_Y_Nómina\Operación\Registro_de_Acciones_de_Personal.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Registro de Acciones Masivas de Personal">
+        <param name="Local" value="Expediente_Y_Nómina\Operación\Registro_de_Acciones_Masivas_de_Personal.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Registro de Deducciones">
+        <param name="Local" value="Expediente_Y_Nómina\Operación\Registro_de_Deducciones.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Registro de Expedientes">
+        <param name="Local" value="Expediente_Y_Nómina\Operación\Registro_de_Expedientes.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Registro de Incidencias">
+        <param name="Local" value="Expediente_Y_Nómina\Operación\Registro_de_Incidencias.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Registro de Relaciones de Aumento">
+        <param name="Local" value="Expediente_Y_Nómina\Operación\Registro_de_Relaciones_de_Aumento.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Registro de Relaciones de Cálculo">
+        <param name="Local" value="Expediente_Y_Nómina\Operación\Registro_de_Relaciones_de_Cálculo.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Registro de Relaciones de Cálculo Especiales">
+        <param name="Local" value="Expediente_Y_Nómina\Operación\Registro_de_Relaciones_de_Cálculo_Especiales.htm">
+      </object>
+      </ul>
+    </ul>
+  <li><object type="text/sitemap">
+    <param name="Name" value="Parámetros RH">
+  </object>
+  <ul>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Administración de Nómina">
+    </object>
+    <ul>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Cargas Obrero-Patronales">
+        <param name="Local" value="Parámetros_RH\Administración_de_Nómina\Cargas_Obrero-Patronales.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Certificaciones RH">
+        <param name="Local" value="Parámetros_RH\Administración_de_Nómina\Certificaciones_RH.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Componentes Salariales">
+        <param name="Local" value="Parámetros_RH\Administración_de_Nómina\Componentes_Salariales.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Conceptos de Pago">
+        <param name="Local" value="Parámetros_RH\Administración_de_Nómina\Conceptos_de_Pago.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Etiquetas por Empresa">
+        <param name="Local" value="Parámetros_RH\Administración_de_Nómina\Etiquetas_por_Empresa.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Régimen de Antiguedad Laboral">
+        <param name="Local" value="Parámetros_RH\Administración_de_Nómina\Régimen_de_Antiguedad_Laboral.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Tipos de Acción">
+        <param name="Local" value="Parámetros_RH\Administración_de_Nómina\Tipos_de_Acción.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Tipos de Acción Masiva">
+        <param name="Local" value="Parámetros_RH\Administración_de_Nómina\Tipos_de_Acción_Masiva.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Tipos de Deducción">
+        <param name="Local" value="Parámetros_RH\Administración_de_Nómina\Tipos_de_Deducción.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Tipos de Nómina">
+        <param name="Local" value="Parámetros_RH\Administración_de_Nómina\Tipos_de_Nómina.htm">
+      </object>
+      </ul>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Estructura Organizacional">
+    </object>
+    <ul>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Bancos">
+        <param name="Local" value="Parámetros_RH\Estructura_Organizacional\Bancos.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Centros Funcionales">
+        <param name="Local" value="Parámetros_RH\Estructura_Organizacional\Centros_Funcionales.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Conceptos por Tipo de Expediente">
+        <param name="Local" value="Parámetros_RH\Estructura_Organizacional\Conceptos_por_Tipo_de_Expediente.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Definición de Trámites">
+        <param name="Local" value="Parámetros_RH\Estructura_Organizacional\Definición_de_Trámites.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Departamentos">
+        <param name="Local" value="Parámetros_RH\Estructura_Organizacional\Departamentos.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Feriados">
+        <param name="Local" value="Parámetros_RH\Estructura_Organizacional\Feriados.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Jornadas">
+        <param name="Local" value="Parámetros_RH\Estructura_Organizacional\Jornadas.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Niveles Profesionales">
+        <param name="Local" value="Parámetros_RH\Estructura_Organizacional\Niveles_Profesionales.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Oficinas">
+        <param name="Local" value="Parámetros_RH\Estructura_Organizacional\Oficinas.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Puestos">
+        <param name="Local" value="Parámetros_RH\Estructura_Organizacional\Puestos.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Tipos de Expedientes">
+        <param name="Local" value="Parámetros_RH\Estructura_Organizacional\Tipos_de_Expedientes.htm">
+      </object>
+      </ul>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Parámetros Generales">
+    </object>
+    <ul>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Cuestionarios">
+        <param name="Local" value="Parámetros_RH\Parámetros_Generales\Cuestionarios.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Parámetros Generales">
+        <param name="Local" value="Parámetros_RH\Parámetros_Generales\Parámetros_Generales.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Tipos de Empleado">
+        <param name="Local" value="Parámetros_RH\Parámetros_Generales\Tipos_de_Empleado.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Zonas Económicas">
+        <param name="Local" value="Parámetros_RH\Parámetros_Generales\Zonas_Económicas.htm">
+      </object>
+      </ul>
+    </ul>
+  <li><object type="text/sitemap">
+    <param name="Name" value="Planilla Presupuestaria">
+  </object>
+  <ul>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Catálogos">
+    </object>
+    <ul>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Categorías de PAgo">
+        <param name="Local" value="Planilla_Presupuestaria\Catálogos\Categorías_de_PAgo.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Maestro de Puestos Presupuestarios">
+        <param name="Local" value="Planilla_Presupuestaria\Catálogos\Maestro_de_Puestos_Presupuestarios.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Relación de Categorías – Puesto por Tabla.">
+        <param name="Local" value="Planilla_Presupuestaria\Catálogos\Relación_de_Categorías_–_Puesto_por_Tabla..htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Tipos de Tabla Salarial">
+        <param name="Local" value="Planilla_Presupuestaria\Catálogos\Tipos_de_Tabla_Salarial.htm">
+      </object>
+      </ul>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Operación">
+    </object>
+    <ul>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Escenarios">
+        <param name="Local" value="Planilla_Presupuestaria\Operación\Escenarios.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Solicitud de Plazas">
+        <param name="Local" value="Planilla_Presupuestaria\Operación\Solicitud_de_Plazas.htm">
+      </object>
+      </ul>
+    </ul>
+  <li><object type="text/sitemap">
+    <param name="Name" value="Presupuesto">
+  </object>
+  <ul>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Consultas">
+    </object>
+    <ul>
+      <li><object type="text/sitemap">
+        <param name="Name" value="1 - Consulta Control de Presupuesto">
+        <param name="Local" value="Presupuesto\Consultas\Consulta_Control_de_Presupuesto.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="2 - Consulta de Autorizaciones Presupuestarias (NAPs)">
+        <param name="Local" value="Presupuesto\Consultas\Consulta_de_Autorizaciones_Presupuestarias_(NAPs).htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="3 - Consulta de Rechazos Presupuestarios (NRPs)">
+        <param name="Local" value="Presupuesto\Consultas\3_-_Consulta_de_Rechazos_Presupuestarios_(NRPs).htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="4 - Consulta Proyección de Tipos de Cambio.">
+        <param name="Local" value="Presupuesto\Consultas\Consulta_Proyección_de_Tipos_de_Cambio..htm">
+      </object>
+      </ul>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Formulación de Presupuesto">
+    </object>
+    <ul>
+      <li><object type="text/sitemap">
+        <param name="Name" value="1 - Periodos Presupuestarios">
+        <param name="Local" value="Presupuesto\Formulación_de_Presupuesto\1_-_Periodos_Presupuestarios.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="10 - Exportar Formulaciones Aprobadas de un Periodo">
+        <param name="Local" value="Presupuesto\Formulación_de_Presupuesto\Exportar_Formulaciones_Aprobadas_de_un_Periodo.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="11 - Exportar Ejecuciones Reales de un Periodo">
+        <param name="Local" value="Presupuesto\Formulación_de_Presupuesto\11_-_Exportar_Ejecuciones_Reales_de_un_Periodo.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="12 - Importar Versión de Formulación">
+        <param name="Local" value="Presupuesto\Formulación_de_Presupuesto\12_-_Importar_Versión_de_Formulación.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="2 - Liquidación de Periodos Presupuestarios">
+        <param name="Local" value="Presupuesto\Formulación_de_Presupuesto\2_-_Liquidación_de_Periodos_Presupuestarios.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="3 - Cuentas Vinculadas">
+        <param name="Local" value="Presupuesto\Formulación_de_Presupuesto\3_-_Cuentas_Vinculadas.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="4 - Versiones de Formulación de Presupuesto">
+        <param name="Local" value="Presupuesto\Formulación_de_Presupuesto\4_-_Versiones_de_Formulación_de_Presupuesto.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="5 - Tipos de Cambio Proyectados por Mes">
+        <param name="Local" value="Presupuesto\Formulación_de_Presupuesto\Tipos_de_Cambio_Proyectados_por_Mes.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="6 - Formular Versión Base">
+        <param name="Local" value="Presupuesto\Formulación_de_Presupuesto\6_-_Formular_Versión_Base.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="7 - Formular Versión Usuario">
+        <param name="Local" value="Presupuesto\Formulación_de_Presupuesto\7_-_Formular_Versión_Usuario.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="8 - Formular Versión Final">
+        <param name="Local" value="Presupuesto\Formulación_de_Presupuesto\Formular_Versión_Final.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="9 - Aprobar Versión de Formulación">
+        <param name="Local" value="Presupuesto\Formulación_de_Presupuesto\Aprobar_Versión_de_Formulación.htm">
+      </object>
+      </ul>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Otras Opciones en Presupuesto">
+    </object>
+    <ul>
+      <li><object type="text/sitemap">
+        <param name="Name" value="1 - Importar Catálogos">
+        <param name="Local" value="Presupuesto\Otras_Opciones_en_Presupuesto\1_-_Importar_Catálogos.htm">
+      </object>
+      </ul>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Plan de CtasFinancieras">
+    </object>
+    <ul>
+      <li><object type="text/sitemap">
+        <param name="Name" value="1 - Plan de Cuentas Financieras">
+        <param name="Local" value="Presupuesto\Plan_de_CtasFinancieras\Plan_de_Cuentas_Financieras.htm">
+      </object>
+      </ul>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Reportes">
+    </object>
+    <ul>
+      <li><object type="text/sitemap">
+        <param name="Name" value="1 - Reportes de Saldos de Control de Presupuesto">
+        <param name="Local" value="Presupuesto\Reportes\Reportes_de_Saldos_de_Control_de_Presupuesto.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="2 - Reportes de Movimientos de Presupuesto">
+        <param name="Local" value="Presupuesto\Reportes\Reportes_de_Movimientos_de_Presupuesto.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="3 - Reportes de Documentos de Presupuesto">
+        <param name="Local" value="Presupuesto\Reportes\Reportes_de_Documentos_de_Presupuesto.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="4 - Reportes de Versiones de Formulación">
+        <param name="Local" value="Presupuesto\Reportes\Reportes_de_Versiones_de_Formulación.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="5 - Reportes de Liquidación de Periodos Presupuestarios">
+        <param name="Local" value="Presupuesto\Reportes\Reportes_de_Liquidación_de_Periodos_Presupuestarios.htm">
+      </object>
+      </ul>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Seguridad de Presupuesto">
+    </object>
+    <ul>
+      <li><object type="text/sitemap">
+        <param name="Name" value="1 - Seguridad por Centros Funcionales">
+        <param name="Local" value="Presupuesto\Seguridad_de_Presupuesto\Seguridad_por_Centros_Funcionales.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="2 - Seguridad por Usuario.">
+        <param name="Local" value="Presupuesto\Seguridad_de_Presupuesto\2_-_Seguridad_por_Usuario..htm">
+      </object>
+      </ul>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Transacciones de Presupuesto">
+    </object>
+    <ul>
+      <li><object type="text/sitemap">
+        <param name="Name" value="1 - Reserva de Presupuesto">
+        <param name="Local" value="Presupuesto\Transacciones_de_Presupuesto\1_-_Reserva_de_Presupuesto.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="2 - Liberación de Reserva de Presupuesto">
+        <param name="Local" value="Presupuesto\Transacciones_de_Presupuesto\Liberación_de_Reserva_de_Presupuesto.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="3 - Registro de Traslados de Presupuesto">
+        <param name="Local" value="Presupuesto\Transacciones_de_Presupuesto\3_-_Registro_de_Traslados_de_Presupuesto.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="4 - Aprobación de Traslados de Presupuesto">
+        <param name="Local" value="Presupuesto\Transacciones_de_Presupuesto\Aprobación_de_Traslados_de_Presupuesto.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="5 - Aprobación de Rechazos Presupuestarios (NRPs)">
+        <param name="Local" value="Presupuesto\Transacciones_de_Presupuesto\Aprobación_de_Rechazos_Presupuestarios_(NRPs).htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="6 - Cancelación de NRPs Aprobados sin Aplicar">
+        <param name="Local" value="Presupuesto\Transacciones_de_Presupuesto\6_-_Cancelación_de_NRPs_Aprobados_sin_Aplicar.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="7 - Apertura de Control por Módulos Origen">
+        <param name="Local" value="Presupuesto\Transacciones_de_Presupuesto\7_-_Apertura_de_Control_por_Módulos_Origen.htm">
+      </object>
+      </ul>
+    </ul>
+  <li><object type="text/sitemap">
+    <param name="Name" value="Recepción de Pagos">
+  </object>
+  <ul>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Catálogos">
+    </object>
+    <ul>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Formatos de Exportación">
+        <param name="Local" value="Recepción_de_Pagos\Catálogos\Formatos_de__Exportación.htm">
+      </object>
+      </ul>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Operación">
+    </object>
+    <ul>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Exportación de Archivos de Nómina">
+        <param name="Local" value="Recepción_de_Pagos\Operación\Exportación_de_Archivos_de_Nómina.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Registro de Pago de Nómina">
+        <param name="Local" value="Recepción_de_Pagos\Operación\Registro_de_Pago_de_Nómina.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Verificación de Nómina">
+        <param name="Local" value="Recepción_de_Pagos\Operación\Verificación_de_Nómina.htm">
+      </object>
+      </ul>
+    </ul>
+  <li><object type="text/sitemap">
+    <param name="Name" value="Inicio">
+    <param name="Local" value="Inicio.htm">
+  </object>
+</ul>
+</html>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<Etiquetas>
+		<Idioma id="EN">
+			<TituloPortlet>
+				Impresion Images
+			</TituloPortlet>
+		</Idioma>
+		<Idioma id="ES_CR">
+			<TituloPortlet>
+				Imágenes del Formato de Impresión
+			</TituloPortlet>
+		</Idioma>
+</Etiquetas>

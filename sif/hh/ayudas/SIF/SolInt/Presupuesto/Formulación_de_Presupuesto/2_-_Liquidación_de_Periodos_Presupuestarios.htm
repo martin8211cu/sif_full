@@ -1,0 +1,211 @@
+<!doctype HTML public "-//W3C//DTD HTML 4.0 Frameset//EN">
+
+<html>
+
+<!--(==============================================================)-->
+<!--(Document created with RoboEditor. )============================-->
+<!--(==============================================================)-->
+
+<head>
+
+<title>2 - Liquidación de Periodos Presupuestarios</title>
+
+<!--(Meta)==========================================================-->
+
+<meta http-equiv=content-type content="text/html; charset=windows-1252">
+<meta name=generator content="RoboHELP by eHelp Corporation - www.ehelp.com">
+<meta name=generator-major-version content=0.1>
+<meta name=generator-minor-version content=1>
+<meta name=filetype content=kadov>
+<meta name=filetype-version content=1>
+<meta name=page-count content=1>
+<meta name=layout-height content=1885>
+<meta name=layout-width content=777>
+
+
+<!--(Links)=========================================================-->
+
+<link rel=StyleSheet href="..\..\default.css">
+
+
+
+</head>
+
+<!--(Body)==========================================================-->
+
+
+<body>
+
+<h1 style="text-align: center; color: #000080;"
+	align=center>Liquidación de Periodos Presupuestarios</h1>
+
+<p style="font-size: 10pt; text-align: justify;"><span style="font-size: 10pt;">La 
+ liquidación de periodos presupuestarios consiste en trasladar los montos 
+ comprometidos y reservados de cuentas de un periodo anterior a cuentas 
+ de un periodo nuevo. Generalmente la liquidación se realiza al cierre 
+ de un periodo presupuestario.</span></p>
+
+<p style="font-size: 10pt; text-align: justify;">&nbsp;</p>
+
+<p style="font-size: 10pt; text-align: justify;">Ambos periodos tienen 
+ que estar abiertos, y se tiene que ejecutar el cierre anual del periodo 
+ a liquidar (o sea del periodo viejo).</p>
+
+<p style="font-size: 10pt; text-align: justify;">&nbsp;</p>
+
+<p style="font-size: 10pt; text-align: justify;">Primero se tiene que definir 
+ una serie de parámetros para realizar la liquidación. Dichos parámetros 
+ son: el Tipo de Cuenta y por cada una de ellas, el tipo de liquidación 
+ de reservas y el de compromisos.</p>
+
+<p style="font-size: 10pt; text-align: justify;">&nbsp;</p>
+
+<p style="font-size: 10pt; text-align: justify;">Para las cuentas de Activo 
+ y Gasto con el tipo de Liquidación para Reservas se tienen los siguientes 
+ valores a escoger: <!--kadov_tag{{<spaces>}}-->&nbsp;&nbsp;&nbsp;<!--kadov_tag{{</spaces>}}--></p>
+
+<p style="font-size: 10pt; text-align: justify;"><!--kadov_tag{{<spaces>}}-->&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<!--kadov_tag{{</spaces>}}-->No 
+ pasar = no se toman en cuenta para la liquidación</p>
+
+<p style="font-size: 10pt; text-align: justify;"><!--kadov_tag{{<spaces>}}-->&nbsp;&nbsp;<!--kadov_tag{{</spaces>}}-->Pasar 
+ solo reserva (sin fondos) = se pasan los montos y se rebajan del nuevo 
+ presupuesto <!--kadov_tag{{<spaces>}}-->&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<!--kadov_tag{{</spaces>}}--></p>
+
+<p style="font-size: 10pt; text-align: justify;"><!--kadov_tag{{<spaces>}}-->&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<!--kadov_tag{{</spaces>}}-->Pasar 
+ reserva y modificar presupuesto = se pasan los montos y se aumentan al 
+ nuevo <!--kadov_tag{{<spaces>}}-->&nbsp;&nbsp;<!--kadov_tag{{</spaces>}}--></p>
+
+<p style="font-size: 10pt; text-align: justify;"><!--kadov_tag{{<spaces>}}-->&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<!--kadov_tag{{</spaces>}}-->presupuesto 
+ para que a la hora de hacer el rebajo no <!--kadov_tag{{<spaces>}}-->&nbsp;&nbsp;<!--kadov_tag{{</spaces>}}--></p>
+
+<p style="font-size: 10pt; text-align: justify;"><!--kadov_tag{{<spaces>}}-->&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<!--kadov_tag{{</spaces>}}-->afecte 
+ el monto original del nuevo presupuesto. </p>
+
+<p style="font-size: 10pt; text-align: justify;">&nbsp;</p>
+
+<p style="font-size: 10pt; text-align: justify;">Para las cuentas de Activo 
+ y Gasto con el tipo de Liquidación para Compromisos se tienen los siguientes 
+ valores a escoger: <!--kadov_tag{{<spaces>}}-->&nbsp;&nbsp;<!--kadov_tag{{</spaces>}}--></p>
+
+<p style="font-size: 10pt; text-align: justify;"><!--kadov_tag{{<spaces>}}-->&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<!--kadov_tag{{</spaces>}}-->No 
+ pasar = no se toman en cuenta para la liquidación</p>
+
+<p style="font-size: 10pt; text-align: justify;"><!--kadov_tag{{<spaces>}}-->&nbsp;&nbsp;<!--kadov_tag{{</spaces>}}-->Pasar 
+ solo compromiso (sin fondos) = se pasan los montos y se rebajan del nuevo 
+ presupuesto <!--kadov_tag{{<spaces>}}-->&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<!--kadov_tag{{</spaces>}}--></p>
+
+<p style="font-size: 10pt; text-align: justify;"><!--kadov_tag{{<spaces>}}-->&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<!--kadov_tag{{</spaces>}}-->Pasar 
+ compromiso y modificar presupuesto = se pasan los montos y se aumentan 
+ al nuevo <!--kadov_tag{{<spaces>}}-->&nbsp;&nbsp;<!--kadov_tag{{</spaces>}}--></p>
+
+<p style="font-size: 10pt; text-align: justify;"><!--kadov_tag{{<spaces>}}-->&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<!--kadov_tag{{</spaces>}}-->presupuesto 
+ para que a la hora de hacer el rebajo <!--kadov_tag{{<spaces>}}-->&nbsp;&nbsp;<!--kadov_tag{{</spaces>}}--></p>
+
+<p style="font-size: 10pt; text-align: justify;"><!--kadov_tag{{<spaces>}}-->&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<!--kadov_tag{{</spaces>}}-->no 
+ afecte el monto original del nuevo presupuesto.</p>
+
+<p style="font-size: 10pt; text-align: justify;">&nbsp;</p>
+
+<p style="font-size: 10pt; text-align: justify;">Una vez parametrizada 
+ la liquidación, se presiona el botón <img src="bGenLiq.jpg"
+											x-maintain-ratio=TRUE
+											style="border: none;
+													width: 147px;
+													height: 23px;
+													float: none;"
+											width=147
+											height=23
+											border=0> para traer las cuentas 
+ que formarán la liquidación a aprobar:</p>
+
+<p style="font-size: 10pt; text-align: justify;">&nbsp;</p>
+
+<p style="font-size: 10pt; text-align: center;"
+	align=center><img src="LiqPerPresup01.jpg"
+						x-maintain-ratio=TRUE
+						style="border: none;
+								width: 632px;
+								height: 464px;
+								float: none;"
+						width=632
+						height=464
+						border=0></p>
+
+<p style="font-size: 10pt; text-align: justify;">&nbsp;</p>
+
+<p style="font-size: 10pt; text-align: justify;">Al generar la liquidación 
+ se pueden presentar dos tipos de error, los cuales se presentarían en 
+ color <span style="font-weight: bold; color: #ff0000;">ROJO</span>, los 
+ mismos pueden ser:</p>
+
+<p style="font-size: 10pt; text-align: justify;">&nbsp;</p>
+
+<p style="font-size: 10pt;
+			text-align: justify;
+			margin-left: 40px;">1. Que al traer una cuenta, me deje el 
+ Disponible en Negativo</p>
+
+<p style="font-size: 10pt;
+			text-align: justify;
+			margin-left: 40px;">2. Que una cuenta exista en el periodo 
+ a liquidar, pero no existe en el nuevo periodo.</p>
+
+<p style="font-size: 10pt; text-align: justify;">&nbsp;</p>
+
+<p style="font-size: 10pt; text-align: justify;">Aunque se presenten ambos 
+ casos, se puede Aprobar la Liquidación, lo que pasaría con esas cuentas 
+ que presentan error, es que no se liquidarían, o sea no se tomarían en 
+ cuenta. Para Aprobar la liquidación se presiona el botón <img src="bAprobLiq.jpg"
+	x-maintain-ratio=TRUE
+	style="border: none;
+			width: 145px;
+			height: 22px;
+			float: none;"
+	width=145
+	height=22
+	border=0>.</p>
+
+<p style="font-size: 10pt; text-align: justify;">&nbsp;</p>
+
+<p style="font-size: 10pt; text-align: justify;">Si se quieren ver los 
+ movimientos de las cuentas a liquidar se hace un click sobre la cuenta 
+ y se presenta la siguiente pantalla, que muestra el módulo donde se origino 
+ el movimiento, la referencia, la fecha del documento, la fecha de autorización, 
+ el tipo de control, el método de cálculo, el tipo de movimiento, el monto 
+ autorizado, el saldo a liquidar, entre otra información:</p>
+
+<p style="font-size: 10pt; text-align: justify;">&nbsp;</p>
+
+<p style="font-size: 10pt; text-align: center;"
+	align=center><img src="LiqPerPresup02.jpg"
+						x-maintain-ratio=TRUE
+						style="border: none;
+								width: 718px;
+								height: 277px;
+								float: none;"
+						width=718
+						height=277
+						border=0></p>
+
+<p style="font-size: 10pt; text-align: justify;">&nbsp;</p>
+
+<p style="font-size: 10pt; text-align: justify;">Además para ver el detalle 
+ de cada movimiento, basta con hacer click sobre el movimiento y se despliega 
+ la siguiente pantalla que muestra toda la información relacionada al movimiento:</p>
+
+<p style="font-size: 10pt; text-align: justify;">&nbsp;</p>
+
+<p style="font-size: 10pt; text-align: center;"
+	align=center><img src="LiqPerPresup03.jpg"
+						x-maintain-ratio=TRUE
+						style="border: none;
+								width: 718px;
+								height: 272px;
+								float: none;"
+						width=718
+						height=272
+						border=0></p>
+
+</body>
+
+</html>

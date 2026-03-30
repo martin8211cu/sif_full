@@ -1,0 +1,88 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 159 - DBM 255: TESdetallePago
+
+	         PARCHE:  Parche023_218_SIF_CambiosNacion
+
+GENERADO EN:
+	SERVER:  http://mxpapp36:8300
+	DSN:     sifcim
+	FECHA:   27/08/2011 14:46:19
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* CHG_TABLE DTraspasos: Detalle de Traspaso entre Cuen */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): DTdocumentodest - Documento Destino */
+ALTER TABLE DTraspasos ADD DTdocumentodest char(20) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): DTreferenciadest - Referencia Referencia */
+ALTER TABLE DTraspasos ADD DTreferenciadest varchar(25) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE TESdetallePago: TESdetallePago */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): FPAEid - Id de la Actividad Empresarial */
+ALTER TABLE TESdetallePago ADD FPAEid numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): CFComplemento - Complemento de la Actividad */
+ALTER TABLE TESdetallePago ADD CFComplemento varchar(100) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(NUEVO): TIP="F", SEC="16", COLS="FPAEid", REF="FPActividadE" */
+CREATE INDEX TESdetallePago_FI16 ON TESdetallePago (FPAEid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE TEStransfIntercomD: Detalle de Transferencias */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): TESTIDdocumentoDst - Documento Destino */
+ALTER TABLE TEStransfIntercomD ADD TESTIDdocumentoDst char(20) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): TESTIDdescripcionDst - Descripcion Destino */
+ALTER TABLE TEStransfIntercomD ADD TESTIDdescripcionDst varchar(50) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): TESTIDreferenciaDst - Referencia Destino */
+ALTER TABLE TEStransfIntercomD ADD TESTIDreferenciaDst varchar(25) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ================================================================= */
+/*            CREA FKs NUEVOS O CON CAMPOS MODIFICADOS               */
+/* ================================================================= */
+/* CHG_TABLE TESdetallePago */
+/* ADD_FK OP=(NUEVO): TIP="F", SEC="16", COLS="FPAEid", REF="FPActividadE" */
+ALTER TABLE TESdetallePago ADD CONSTRAINT TESdetallePago_FK16 FOREIGN KEY (FPAEid) REFERENCES FPActividadE (FPAEid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

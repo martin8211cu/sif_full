@@ -1,0 +1,47 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 127 - DBM 235: Anulacion Solicitudes Pagos
+
+	         PARCHE:  Parche023_172_SIF_TES_PRES
+
+GENERADO EN:
+	SERVER:  http://mxpapp36:8300
+	DSN:     sifcim
+	FECHA:   02/08/2011 20:16:15
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* CHG_TABLE CFinanciera: Cuentas Financieras o de Ultim */
+/* ======================================================================================== */
+/* DEL_CHECK OP=(OBSOLETO): chk=(Ccuenta IS NOT NULL AND CFmovimiento='S' OR CFmovimiento<>'S') */
+ALTER TABLE CFinanciera DROP CONSTRAINT CFinanciera_CK
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ======================================================================================== */
+/* CHG_TABLE TESdetallePago: TESdetallePago */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): TESOPidAntesAnular - ID Orden de Pago antes Anular */
+ALTER TABLE TESdetallePago ADD TESOPidAntesAnular numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE TESsolicitudPago: TESsolicitudPago */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): TESOPidAntesAnular - ID Orden de Pago antes Anular */
+ALTER TABLE TESsolicitudPago ADD TESOPidAntesAnular numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

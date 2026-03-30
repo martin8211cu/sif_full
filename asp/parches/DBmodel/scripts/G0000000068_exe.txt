@@ -1,0 +1,69 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 162 - DBM 266: Creacion de la Tabla CBDusuarioTCE y el F
+
+	         PARCHE:  Parche023_234_SIF_Conciliacion_Filtro_Usuarios_TCE
+
+GENERADO EN:
+	SERVER:  http://mxpapp36:8300
+	DSN:     sifcim
+	FECHA:   27/08/2011 14:50:40
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* ADD_TABLE CBDusuarioTCE: CBDusuarioTCE */
+/* ======================================================================================== */
+
+CREATE TABLE CBDusuarioTCE (
+	 CBDUid                         numeric(18)          identity
+	,CBUid                          numeric(18)          NOT NULL
+	,CBTCid                         numeric(18)          NOT NULL
+	,BMUsucodigo                    numeric(18)          NULL
+	,ts_rversion                    timestamp           
+	)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="P", SEC="0", COLS="CBDUid" */
+ALTER TABLE CBDusuarioTCE ADD CONSTRAINT CBDusuarioTCE_PK PRIMARY KEY CLUSTERED (CBDUid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="F", SEC="1", COLS="CBUid", REF="CBUsuariosTCE" */
+CREATE INDEX CBDusuarioTCE_FI01 ON CBDusuarioTCE (CBUid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="F", SEC="2", COLS="CBTCid", REF="CBTarjetaCredito" */
+CREATE INDEX CBDusuarioTCE_FI02 ON CBDusuarioTCE (CBTCid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ================================================================= */
+/*            CREA FKs NUEVOS O CON CAMPOS MODIFICADOS               */
+/* ================================================================= */
+/* CHG_TABLE CBDusuarioTCE */
+/* ADD_FK OP=(TAB NUEVA): TIP="F", SEC="1", COLS="CBUid", REF="CBUsuariosTCE" */
+ALTER TABLE CBDusuarioTCE ADD CONSTRAINT CBDusuarioTCE_FK01 FOREIGN KEY (CBUid) REFERENCES CBUsuariosTCE (CBUid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_FK OP=(TAB NUEVA): TIP="F", SEC="2", COLS="CBTCid", REF="CBTarjetaCredito" */
+ALTER TABLE CBDusuarioTCE ADD CONSTRAINT CBDusuarioTCE_FK02 FOREIGN KEY (CBTCid) REFERENCES CBTarjetaCredito (CBTCid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

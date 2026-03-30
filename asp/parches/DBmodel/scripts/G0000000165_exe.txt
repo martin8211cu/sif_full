@@ -1,0 +1,100 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 500 - DBM 443: Liquidacion Presupuesto
+
+	         PARCHE:  Parche023_631_SIF_LiquidacionPres
+
+GENERADO EN:
+	SERVER:  http://mxvqapp34:8300
+	DSN:     minisif
+	FECHA:   13/01/2012 12:57:07
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* CHG_TABLE CPLiquidacionParametros: Liquidacion Periodo Presupuest */
+/* ======================================================================================== */
+/* CHG_KEY OP = (CAMBIO): TIP="P", COLS="Ecodigo,CPPid,Ctipo,CPNAPDtipoMov" */
+ALTER TABLE CPLiquidacionParametros DROP CONSTRAINT CPLiquidacionParametros_PK /* PRIMARY KEY (Ecodigo,CPPid,Ctipo,CPNAPDtipoMov) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_COLUMN OP = (CAMBIO): Ctipo - Origen Operacion Compras SP Anticipo Interfaces */
+ALTER TABLE CPLiquidacionParametros DROP CONSTRAINT CPLiquidacionParametros_CK03 /* CHECK ([Ctipo]='G' OR [Ctipo]='I' OR [Ctipo]='A') */
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE CPLiquidacionParametros ADD CONSTRAINT CPLiquidacionParametros_CK03 CHECK ([Ctipo]='I' OR [Ctipo]='E' OR [Ctipo]='P' OR [Ctipo]='O' OR [Ctipo]='G' OR [Ctipo]='A')
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_COLUMN OP = (CAMBIO): CPLtipoLiquidacion - Forma Liquidacion con o sin fondos o no liquidar */
+ALTER TABLE CPLiquidacionParametros DROP CONSTRAINT CPLiquidacionParametros_CK05 /* CHECK ([CPLtipoLiquidacion]='S' OR [CPLtipoLiquidacion]='C' OR [CPLtipoLiquidacion]='N') */
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE CPLiquidacionParametros ADD CONSTRAINT CPLiquidacionParametros_CK05 CHECK ([CPLtipoLiquidacion]='S' OR [CPLtipoLiquidacion]='C' OR [CPLtipoLiquidacion]='N' OR [CPLtipoLiquidacion]='-')
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_KEY OP = (CAMBIO): TIP="P", SEC="0", COLS="Ecodigo,CPPid,Ctipo,CPNAPDtipoMov" */
+ALTER TABLE CPLiquidacionParametros ADD CONSTRAINT CPLiquidacionParametros_PK PRIMARY KEY NONCLUSTERED (Ecodigo,CPPid,Ctipo,CPNAPDtipoMov)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE DDocumentos: Detalle de Documentos de CxC */
+/* ======================================================================================== */
+/* ADD_COLUMN OP = (NUEVO): Ocodigo - Codigo de oficina */
+ALTER TABLE DDocumentos ADD Ocodigo integer NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP = (NUEVO): DcuentaT - DcuentaT */
+ALTER TABLE DDocumentos ADD DcuentaT numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP = (NUEVO): DesTransitoria - Es transitoria */
+ALTER TABLE DDocumentos ADD DesTransitoria bit NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+UPDATE DDocumentos SET DesTransitoria = 0
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE DDocumentos ALTER COLUMN DesTransitoria bit NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE Documentos: Documentos de CxC */
+/* ======================================================================================== */
+/* ADD_COLUMN OP = (NUEVO): FCid - Id de la caja */
+ALTER TABLE Documentos ADD FCid numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP = (NUEVO): ETnumero - Numero de la transaccion */
+ALTER TABLE Documentos ADD ETnumero numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

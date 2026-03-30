@@ -1,0 +1,903 @@
+﻿<!--- anterior --->	
+<!---<cf_dump var = "#form#">--->
+<cfinvoke component="sif.Componentes.Translate"
+	method="Translate"
+	key="BTN_Anterior"
+	Default="Anterior"
+	xmlfile="/rh/generales.xml"				
+	returnvariable="vAnterior"/>		
+
+<!--- Siguiente --->	
+<cfinvoke component="sif.Componentes.Translate"
+	method="Translate"
+	key="BTN_Siguiente"
+	Default="Siguiente"
+	xmlfile="/rh/generales.xml"				
+	returnvariable="vSiguiente"/>
+    
+<cfinvoke component="rh.Componentes.RHLiquidacionMXPrev" method="fnExisteLF" returnvariable="existeLF">
+	<cfinvokeargument name="RHPLPid" 	value="#form.RHPLPid#">
+	<cfinvokeargument name="DEid" 		value="#form.DEid#">
+	<cfinvokeargument name="Fecha" 		value="#rsDetalleRHLiquidacionPersonal.DLfechaaplic#">
+</cfinvoke>
+
+<cfinvoke component="rh.Componentes.RHLiquidacionMXPrev" method="fnGetLF" returnvariable="rsLF">
+	<cfinvokeargument name="RHPLPid" value="#form.RHPLPid#">
+	<cfinvokeargument name="DEid" value="#form.DEid#">
+</cfinvoke>
+
+
+
+<!--- Inicia: Cargas Sociales --->
+<cfset rsMontoAportesRealizados = rsMontoAportesRealizados(form.DEid)>
+<cfset MontoCargas = 0>
+<cfif rsMontoAportesRealizados.recordcount gt 0>
+	<cfset MontoCargas = rsMontoAportesRealizados.monto>
+</cfif>
+<!--- Finaliza: Cargas Sociales --->
+<cfset Modificado = false>
+<!--- Inicia: Proceso Finiquito --->
+
+<cfinvoke component="rh.Componentes.RHLiquidacionMXPrev" method="fnGetMontoEG" returnvariable="rsMontoEGF">
+	<cfinvokeargument name="RHPLPid" value="#RHPLPid#">
+	<cfinvokeargument name="Tipo" value="F">
+</cfinvoke>
+
+
+
+<cfset IRcodigoN1 = fnGetDato(30)>
+
+<cfif len(IRcodigoN1) EQ 0>
+	<cfquery name="rsCodIRcodigo" datasource="#Session.DSN#">
+		select IRcodigo
+			from TiposNomina a
+			inner join RHPreLiquidacionPersonal b
+			on a.Tcodigo = b.Tcodigo
+			and a.Ecodigo = b.Ecodigo
+			and b.RHPLPid = #form.RHPLPid#
+	</cfquery>
+	<cfset IRcodigoN1 = rsCodIRcodigo.IRcodigo>
+    <!---Parametrización de la tabla mensual para liquidación y finiquito ERBG Inicia--->
+    <!---<cfset IRcodigoMensual = 'MEX'>--->
+    <cfset IRcodigoMensual = fnGetDato(35)>
+    <cfif len(IRcodigoMensual) EQ 0>
+    	<cfthrow message="No se encontró el parametro para la tabla mensual de Liquidación y Finiquito">
+    </cfif>
+    <!---Parametrización de la tabla mensual para liquidación y finiquito ERBG Fin--->
+    
+</cfif>
+
+
+<cfinvoke component="rh.Componentes.RHLiquidacionMXPrev" method="fnCalculaISPT" returnvariable="ISPTF">
+	<cfinvokeargument name="Monto" 		value="#rsMontoEGF.Grabado#">
+    <cfinvokeargument name="IRcodigo" 	value="#IRcodigoN1#">
+</cfinvoke>
+
+
+<cfinvoke component="rh.Componentes.RH_CalculoRentaMexico" method="fnGetProyeccionImpuesto" returnvariable="LISR113F">
+	<cfinvokeargument name="Monto" 			value="#rsMontoEGF.Grabado#">
+	<cfinvokeargument name="IRcodigo" 		value="#IRcodigoN1#">
+</cfinvoke>
+
+<cfquery name="rsIRcodigoN2" datasource="#Session.DSN#">
+	select IRcodigo
+		from ImpuestoRenta 
+		where IRcodigoPadre = '#IRcodigoMensual#'
+</cfquery>
+
+
+<cfinvoke component="rh.Componentes.RH_CalculoRentaMexico" method="fnGetProyeccionImpuesto" returnvariable="LISR115F">
+	<cfinvokeargument name="Monto" 			value="#rsMontoEGF.Grabado#">
+	<cfinvokeargument name="IRcodigo" 		value="#rsIRcodigoN2.IRcodigo#">
+</cfinvoke>
+
+
+
+
+<cfinvoke component="rh.Componentes.RH_CalculoRentaMexico" method="fnCalculaSubsidio" returnvariable="SubsidioF">
+	<cfinvokeargument name="Monto" 		value="#rsMontoEGF.Grabado#">
+	<cfinvokeargument name="IRcodigo" 	value="#rsIRcodigoN2.IRcodigo#">
+</cfinvoke>
+
+<cfset Infonavit = 0>
+<cfquery name="rsConceptosSueldo" datasource="#Session.DSN#">
+    select COUNT(*)	as CompSalario			
+    from RHLiqIngresosPrev a
+        inner join CIncidentes b
+            on b.CIid = a.CIid
+        inner join ComponentesSalariales c
+            on b.CSid = c.CSid
+            and  CSsalariobase = 1
+    where RHPLPid = #form.RHPLPid#
+</cfquery>
+<cfif rsConceptosSueldo.CompSalario GT 0>
+    <cfinvoke component="rh.Componentes.RHLiquidacionMXPrev" method="fnCalculaInfonavit" returnvariable="Infonavit">
+		<cfinvokeargument name="DEid" value="#form.DEid#">
+		<cfinvokeargument name="Fecha" value="#rsDetalleRHLiquidacionPersonal.DLfechaaplic#">
+	</cfinvoke>
+</cfif>
+
+<cfinvoke component="rh.Componentes.RHLiquidacionMXPrev" method="getLiqIngresosPorDLlinea"  returnvariable="rsLiqIngresosF">
+	<cfinvokeargument name="RHPLPid" value="#RHPLPid#">
+	<cfinvokeargument name="RHLIFiniquito" value="1">
+</cfinvoke>
+
+<cfset MontoGrabadoF = rsMontoEGF.Grabado>
+<cfset MontoExentoF = rsMontoEGF.Exento>
+<cfset TotalF = MontoGrabadoF + MontoExentoF>
+<cfset TotalGeneralF = TotalF - ISPTF>
+<cfset TotalRealF = TotalGeneralF - Infonavit>
+
+<!---ISPTF:	<cfdump var="#ISPTF#"><br/>
+MontoGrabadoF: <cfdump var="#MontoGrabadoF#"><br>
+MontoExentoF : <cfdump var="#MontoExentoF#"> <br>
+TotalF: <cfdump var="#TotalF#"><br>
+TotalGeneralF: <cfdump var="#TotalGeneralF#"> <br>
+TotalRealF: <cfdump var="#TotalRealF#">--->
+
+
+<!--- Finaliza: Proceso Finiquito --->
+
+<!--- Inicia: Proceso Liquidación --->
+<cfinvoke component="rh.Componentes.RHLiquidacionMXPrev" method="fnGetMontoEG" returnvariable="rsMontoEGL">
+	<cfinvokeargument name="RHPLPid" value="#RHPLPid#">
+	<cfinvokeargument name="Tipo" value="L">
+</cfinvoke>
+<cfinvoke component="rh.Componentes.RHLiquidacionMXPrev" method="fnGetSalarioMensual" returnvariable="SalarioMensual">
+	<cfinvokeargument name="DEid" value="#form.DEid#">
+	<cfinvokeargument name="Fecha" value="#rsDetalleRHLiquidacionPersonal.DLfechaaplic#">
+</cfinvoke>
+<cfinvoke component="rh.Componentes.RHLiquidacionMXPrev" method="fnCalculaISPT" returnvariable="ISPTSL">
+	<cfinvokeargument name="Monto" value="#SalarioMensual#">
+    <cfinvokeargument name="IRcodigo" 		value="#IRcodigoMensual#">
+</cfinvoke>
+<cfinvoke component="rh.Componentes.RH_CalculoRentaMexico" method="fnGetProyeccionImpuesto" returnvariable="LISR113L">
+	<cfinvokeargument name="Monto" 			value="#SalarioMensual#">
+	<cfinvokeargument name="IRcodigo" 		value="#IRcodigoMensual#">
+</cfinvoke>
+<cfinvoke component="rh.Componentes.RH_CalculoRentaMexico" method="fnGetProyeccionImpuesto" returnvariable="LISR115L">
+	<cfinvokeargument name="Monto" 			value="#SalarioMensual#">
+	<cfinvokeargument name="IRcodigo" 		value="#rsIRcodigoN2.IRcodigo#">
+</cfinvoke>
+<cfinvoke component="rh.Componentes.RH_CalculoRentaMexico" method="fnCalculaSubsidio" returnvariable="SubsidioL">
+	<cfinvokeargument name="Monto" 		value="#SalarioMensual#">
+	<cfinvokeargument name="IRcodigo" 	value="#rsIRcodigoN2.IRcodigo#">
+</cfinvoke>
+<cfinvoke component="rh.Componentes.RHLiquidacionMXPrev" method="fnEjecutarCalculoLoco"  returnvariable="CalculoLoco">
+	<cfinvokeargument name="DEid" value="#form.DEid#">
+	<cfinvokeargument name="RHPLPid" value="#RHPLPid#">
+	<cfinvokeargument name="Fecha" value="#rsDetalleRHLiquidacionPersonal.DLfechaaplic#">
+</cfinvoke>
+<cfinvoke component="rh.Componentes.RHLiquidacionMXPrev" method="getLiqIngresosPorDLlinea"  returnvariable="rsLiqIngresosL">
+	<cfinvokeargument name="RHPLPid" value="#RHPLPid#">
+	<cfinvokeargument name="RHLIFiniquito" value="0">
+</cfinvoke>
+<cfinvoke component="rh.Componentes.RHLiquidacionMXPrev" method="getConfigvariablesDinamicas"  returnvariable="rsNivelesCL">
+	<cfinvokeargument name="RHEVDtipo" value="2">
+</cfinvoke>
+
+<cfinvoke component="rh.Componentes.RHLiquidacionMXPrev" method="fnRetencionISPT" returnvariable="ParteExenta">
+	<cfinvokeargument name="DEid" value="#form.DEid#">
+</cfinvoke>
+
+<cfset MontoGrabadoL = rsMontoEGL.Grabado>
+<cfset MontoExentoL = rsMontoEGL.Exento>
+<cfset TotalL = MontoGrabadoL + MontoExentoL>
+<cfset TotalRealL = fnFormatMoney(TotalL - ISPTSL - Infonavit)>
+
+<cfset Factor = ((SalarioMensual - LISR113L.DIRinf) * (LISR113L.DIRporcentaje / 100) + LISR113L.DIRmontofijo)/ SalarioMensual>
+<cfset ParteEx = ParteExenta>
+
+
+<cfset BaseImp = ((MontoGrabadoL - ParteEx) lt 0 ? 0 : (MontoGrabadoL - ParteEx))>
+<cfset ISPTL = BaseImp * Factor>
+<!---<cf_dump var = "#MontoGrabadoL#,#ParteEx#">--->
+<cfset TotalRealLiquidacion = #fnRedondear(BaseImp)# * #fnRedondear(Factor*100)#>
+<!---<cfset Neto = TotalRealF - ISPTF + MontoGrabadoL - ISPTL - MontoCargas>--->
+<cfif TotalL LTE 0>
+	<cfset TotalRealLiquidacion = 0>
+</cfif>
+<cfset Neto = (((TotalF - ISPTF) + TotalL) - (TotalL*Factor)) - MontoCargas>
+<cfset btnTitulo = "Calcular Datos y Guardar">
+<cfset btnName = "Calcular">
+<cfif existeLF neq 'false'>
+	<cfset btnTitulo = "Recalcular Datos y Guardar">
+	<cfset btnName = "Recalcular">
+</cfif>
+<!--- Finaliza: Proceso Liquidación --->
+
+<!--- Inicia: validacion de modificacion--->
+<cfif rsLF.recordcount gt 0>
+	<cfset fnValidaModificacion(rsLF.RHLFLtGrabadoF, MontoGrabadoF)>
+	<cfset fnValidaModificacion(rsLF.RHLFLtExentoF, MontoExentoF)>
+	<cfset fnValidaModificacion(rsLF.RHLFLisptF, ISPTF)>
+    <cfif rsConceptosSueldo.CompSalario GT 0>
+	<cfset fnValidaModificacion(rsLF.RHLFLinfonavit, Infonavit)>
+    </cfif>
+	<cfset fnValidaModificacion(rsLF.RHLFLtotalL, TotalL)>
+	<!---<cfset fnValidaModificacion(rsLF.RHLFLsalarioMensual, SalarioMensual)>--->
+	<cfset fnValidaModificacion(rsLF.RHLFLisptSalario, ISPTSL)>
+	<cfset fnValidaModificacion(rsLF.RHLFLisptL, CalculoLoco.Resultado)>
+	<cfset fnValidaModificacion(rsLF.RHLFLresultado, Neto)>
+</cfif>
+<!--- Finaliza: validacion de modificacion--->
+
+<cfoutput>
+
+	<head>
+		<link rel="stylesheet" type="text/css" href="../../../jquery/Core/tooltipster/dist/css/tooltipster.bundle.min.css" />
+		<link rel="stylesheet" type="text/css" href="../../../jquery/Core/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-noir.min.css"/>
+		<link rel="stylesheet" type="text/css" href="../../../jquery/Core/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-light.min.css"/>
+		<link rel="stylesheet" type="text/css" href="../../../jquery/Core/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-borderless.min.css"/>
+		<link rel="stylesheet" type="text/css" href="../../../jquery/Core/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-punk.min.css"/>
+		<link rel="stylesheet" type="text/css" href="../../../jquery/Core/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-shadow.min.css"/>
+		<script type="text/javascript" src="../../../jquery/Core/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
+	
+		<script>
+			$(document).ready(function()
+			{
+				$('.tooltip').tooltipster({
+					delay: 10,
+					animation: 'grow',
+					trigger: 'hover',
+					contentCloning:true,
+					multiple:true,
+					restoration: 'current',
+					theme: 'tooltipster-noir',
+					updateAnimation: 'scale',
+					contentAsHTML: true
+				});
+			});
+	
+		</script>
+	</head>
+<!--- Inicia: Pintado --->
+<style type="text/css">
+	.money{
+		text-align:right;
+		white-space:nowrap;	
+	}
+	.moneyTotal{
+		text-align:right;
+		white-space:nowrap;	
+		border-top:ridge;
+		font-weight:bold;
+	}
+</style>
+<form action="#CurrentPage#" method="post" name="form1">
+	<input type="hidden" name="paso" value="#Gpaso#">
+	<input type="hidden" name="DEid" value="#form.DEid#">
+	<cfif RHPLPid NEQ 0>
+	<input name="RHPLPid" type="hidden" value="#RHPLPid#">
+	</cfif>
+
+<table align="center" width="100%" border="0" cellspacing="0" cellpadding="3">
+	<tr>
+		<td colspan="3">
+			<cfset Modo = "Cambio">
+			<cf_botones modo="#Modo#" names="Anterior,#btnName#,Siguiente" values="<< #vAnterior#,#btnTitulo#,#vSiguiente# >>" >	
+		</td>
+	</tr>
+	<cfif existeLF eq 'false'>
+	<tr>
+		<td colspan="3" style="color:##FF0000" align="center">Los Datos no han Sido Guardados, debe de presionar el boton "#btnTitulo#"</td>
+	</tr>
+	<cfelseif Modificado>
+	<tr>
+		<td colspan="3" style="color:##FF0000" align="center">Los Datos han Sido Modificados, debe de presionar el boton "#btnTitulo#"</td>
+	</tr>
+	</cfif>	
+</table>
+<table align="center" width="60%" border="0" cellspacing="0" cellpadding="3">
+	<tr>
+		<td align="center" colspan="3"><strong style="font-size:18px">Conceptos de Finiquito</strong></td>
+	</tr>
+	<tr>
+		<td align="center" colspan="3">&nbsp;</td>
+	</tr>
+	<tr>
+		<td align="center" width="50%"><strong>Conceptos</strong></td>
+		<td align="center"><strong>Importe</strong></td>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td>Percepciones Gravables</td>
+		<td class="money">#fnFormatMoney(MontoGrabadoF)#<input type="hidden" name="MontoGrabadoF" value="#fnRedondear(MontoGrabadoF)#"></td>
+		<cfset MSG = "
+		<table align='center' border='0' cellspacing='0' cellpadding='2'>
+			<tr>
+				<td width='50' colspan='2'><strong>Conceptos</strong></td>
+				<td class='money'><strong>Gravable</strong></td>
+			</tr>">
+		<cfloop query="rsLiqIngresosF">
+			<cfset MSG = MSG & "
+			<tr>
+				<td nowrap>#rsLiqIngresosF.RHLPdescripcion#</td>
+				<td>+</td>
+				<td class='money'>#fnFormatMoney(rsLiqIngresosF.RHLIgrabado)#</td>
+			</tr>">
+		</cfloop>
+		<cfset MSG = MSG & "
+			<tr>
+				<td class='moneyTotal' colspan='2'>TOTAL</td>
+				<td class='moneyTotal'>#fnFormatMoney(MontoGrabadoF)#</td>
+			</tr>">
+		<cfset MSG = MSG & "
+		</table>">
+		<cfset fnPopUp("Percepciones Gravables","#MSG#",1)>
+	</tr>
+	<tr>
+		<td>Percepciones Exentas</td>
+		<td class="money">#fnFormatMoney(MontoExentoF)#<input type="hidden" name="MontoExentoF" value="#fnRedondear(MontoExentoF)#"></td>
+		<cfset MSG = "
+		<table align='center' border='0' cellspacing='0' cellpadding='2'>
+			<tr>
+				<td width='50' colspan='2'><strong>Conceptos</strong></td>
+				<td class='money'><strong>Exento</strong></td>
+			</tr>">
+		<cfloop query="rsLiqIngresosF">
+			<cfset MSG = MSG & "
+				<tr>
+					<td nowrap>#rsLiqIngresosF.RHLPdescripcion#</td>
+					<td>+</td>
+					<td class='money'>#fnFormatMoney(rsLiqIngresosF.RHLIexento)#</td>
+				</tr>">
+		</cfloop>
+		<cfset MSG = MSG & "
+		<tr>
+			<td class='moneyTotal' colspan='2'>TOTAL</td>
+			<td class='moneyTotal'>#fnFormatMoney(MontoExentoF)#</td>
+		</tr>">
+		<cfset MSG = MSG & "
+		</table>">
+		<cfset fnPopUp("Percepciones Exentas","#MSG#",2)>
+	</tr>
+	<tr>
+		<td><strong>Total</strong></td>
+		<td class="money">#fnFormatMoney(TotalF)#</td>
+		<cfset MSG = "
+		<table align='center' border='0' cellspacing='0' cellpadding='2'>
+			<tr>
+				<td width='50' colspan='2'><strong>Conceptos</strong></td>
+				<td class='money'><strong>Monto</strong></td>
+			</tr>
+			<tr>
+				<td nowrap>Percepciones Gravables</td>
+				<td>+</td>
+				<td class='money'>#fnFormatMoney(MontoGrabadoF)#</td>
+			</tr>
+			<tr>
+				<td nowrap>Percepciones Exentas</td>
+				<td>+</td>
+				<td class='money'>#fnFormatMoney(MontoExentoF)#</td>
+			</tr>
+			<tr>
+				<td class='moneyTotal' colspan='2'>TOTAL</td>
+				<td class='moneyTotal'>#fnFormatMoney(TotalF)#</td>
+			</tr>
+		</table>">
+		<cfset fnPopUp("Total","#MSG#",3)>
+	</tr>
+	<tr>
+		<td>ISPT</td>
+		<td class="money">#fnFormatMoney(ISPTF)#<input type="hidden" name="ISPTF" value="#fnRedondear(ISPTF)#"></td>
+        <cfif LISR113F.DIRinf EQ ''>
+        	<cfset varDIRinf = 0>
+        <cfelse>
+        	<cfset varDIRinf = LISR113F.DIRinf>
+        </cfif>
+        <cfif LISR113F.DIRporcentaje EQ ''>
+        	<cfset varDIRporcentaje = 0>
+        <cfelse>
+        	<cfset varDIRporcentaje = LISR113F.DIRporcentaje>
+        </cfif>
+        <cfif LISR113F.DIRmontofijo EQ ''>
+        	<cfset varDIRmontofijo = 0>
+        <cfelse>
+        	<cfset varDIRmontofijo = LISR113F.DIRmontofijo>
+        </cfif>
+        
+        
+		<cfset MSG = "
+		<table align='center' border='0' cellspacing='0' cellpadding='2'>
+			<tr>
+				<td width='50' colspan='2'><strong>Conceptos</strong></td>
+				<td class='money'><strong>Importe</strong></td>
+			</tr>
+			<tr>
+				<td nowrap>Total Gravable</td>
+				<td>+</td>
+				<td class='money'>#fnFormatMoney(MontoGrabadoF)#</td>
+			</tr>
+			<tr>
+				<td nowrap>Limite Inferior (113 LISR)</td>
+				<td>-</td>
+				<td class='money'>#fnFormatMoney(LISR113F.DIRinf)#</td>
+			</tr>
+			<tr>
+				<td nowrap>% Sobre Excedente (113 LISR)</td>
+				<td>*</td>
+				<td class='money'>#fnFormatMoney(LISR113F.DIRporcentaje)#</td>
+			</tr>
+			<tr>
+				<td class='moneyTotal'>Impuesto Marginal</td>
+				<td class='moneyTotal'>&nbsp;</td>
+				<td class='moneyTotal'>#fnFormatMoney((MontoGrabadoF - varDIRinf) * (varDIRporcentaje / 100))#</td>
+			</tr>
+			<tr>
+				<td colspan='3'>&nbsp;</td>
+			</tr>
+			<tr>
+				<td nowrap>Cuota Fija (113 LISR)</td>
+				<td>+</td>
+				<td class='money'>#fnFormatMoney(LISR113F.DIRmontofijo)#</td>
+			</tr>
+			<tr>
+				<td nowrap>Impuesto Marginal</td>
+				<td>+</td>
+				<td class='money'>#fnFormatMoney((MontoGrabadoF - varDIRinf) * (varDIRporcentaje / 100))#</td>
+			</tr>
+			<tr>
+				<td nowrap>Subsidio Empleado (115 LISR)</td>
+				<td>-</td>
+				<td class='money'>#fnFormatMoney(SubsidioF)#</td>
+			</tr>
+			<tr>
+				<td class='moneyTotal'>Impuesto Sobre Tarifa</td>
+				<td class='moneyTotal'>&nbsp;</td>
+				<td class='moneyTotal'>#fnFormatMoney(((MontoGrabadoF - varDIRinf) * (varDIRporcentaje / 100) + varDIRmontofijo) - SubsidioF)#</td>
+			</tr>
+		</table>">
+		<cfset fnPopUp("ISPT","#MSG#",4)>
+	</tr>
+	<tr>
+		<td><strong>Total Finiquito</strong></td>
+		<td class="money">#fnFormatMoney(TotalGeneralF)#</td>
+		<cfset MSG = "
+		<table align='center' border='0' cellspacing='0' cellpadding='2'>
+			<tr>
+				<td width='50' colspan='2'><strong>Conceptos</strong></td>
+				<td class='money'><strong>Monto</strong></td>
+			</tr>
+			<tr>
+				<td nowrap>Percepciones</td>
+				<td>+</td>
+				<td class='money'>#fnFormatMoney(TotalF)#</td>
+			</tr>
+			<tr>
+				<td nowrap>ISPT</td>
+				<td>-</td>
+				<td class='money'>#fnFormatMoney(ISPTF)#</td>
+			</tr>
+			<tr>
+				<td class='moneyTotal' colspan='2'>TOTAL</td>
+				<td class='moneyTotal'>#fnFormatMoney(TotalGeneralF)#</td>
+			</tr>
+		</table>">
+		<cfset fnPopUp("Total Finiquito","#MSG#",5)>
+	</tr>
+	<tr>
+		<td>Infonavít</td>
+		<td class="money">#fnFormatMoney(Infonavit)#<input type="hidden" name="Infonavit" value="#fnRedondear(Infonavit)#"></td>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td><strong>Total Real</strong></td>
+		<td class="money">#fnFormatMoney(TotalRealF)#</td>
+		<cfset MSG = "
+		<table align='center' border='0' cellspacing='0' cellpadding='2'>
+			<tr>
+				<td width='50' colspan='2'><strong>Conceptos</strong></td>
+				<td class='money'><strong>Monto</strong></td>
+			</tr>
+			<tr>
+				<td nowrap>Total Finiquito</td>
+				<td>+</td>
+				<td class='money'>#fnFormatMoney(TotalGeneralF)#</td>
+			</tr>
+			<tr>
+				<td nowrap>Infonavít</td>
+				<td>-</td>
+				<td class='money'>#fnFormatMoney(Infonavit)#</td>
+			</tr>
+			<tr>
+				<td class='moneyTotal' colspan='2'>TOTAL</td>
+				<td class='moneyTotal'>#fnFormatMoney(TotalGeneralF)#</td>
+			</tr>
+		</table>">
+		<cfset fnPopUp("Total Real","#MSG#",7)>
+	</tr>
+	<tr>
+		<td align="center" colspan="3">&nbsp;</td>
+	</tr>
+	<tr>
+		<td align="center" colspan="3"><strong style="font-size:18px">Conceptos de Liquidación</strong></td>
+	</tr>
+	<tr>
+		<td align="center" colspan="3">&nbsp;</td>
+	</tr>
+	<tr>
+		<td width="50%"><strong>Conceptos</strong></td>
+		<td align="center"><strong>Importe</strong></td>
+		<td>&nbsp;</td>
+	</tr>
+	<cfset MSG = "
+	<table align='center' border='0' cellspacing='0' cellpadding='2'>
+		<tr>
+			<td width='50' colspan='2'><strong>Conceptos</strong></td>
+			<td class='money'><strong>Monto</strong></td>
+		</tr>
+	">
+	<cfloop query="rsLiqIngresosL">
+	<tr>
+		<td>#rsLiqIngresosL.RHLPdescripcion#</td>
+		<td class="money">#fnFormatMoney(rsLiqIngresosL.importe)#</td>
+		<td>&nbsp;</td>
+	</tr>
+	<cfset MSG = MSG & "
+	<tr>
+		<td>#rsLiqIngresosL.RHLPdescripcion#</td>
+		<td>+</td>
+		<td class='money'>#fnFormatMoney(rsLiqIngresosL.importe)#</td>
+	</tr>">
+	</cfloop>
+	<tr>
+		<td><strong>Total</strong></td>
+		<td class="money">#fnFormatMoney(TotalL)#<input type="hidden" name="TotalL" value="#fnRedondear(TotalL)#"></td>
+		<cfset MSG = MSG & "
+		<tr>
+			<td class='moneyTotal' colspan='2'>TOTAL</td>
+			<td class='moneyTotal'>#fnFormatMoney(TotalL)#</td>
+		</tr>
+		</table>">
+		<cfset fnPopUp("Total","#MSG#",8)>
+	</tr>
+	<tr>
+    <cfif TotalL LTE 0>
+     <cfset SalarioMensualLiq = 0>
+        		<td>Salario Mensual</td>
+		<td class="money">#fnFormatMoney(SalarioMensualLiq)#<input type="hidden" name="SalarioMensual" value="#fnRedondear(SalarioMensual)#"></td>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+    <cfelse>
+    <td>Salario Mensual</td>
+		<td class="money">#fnFormatMoney(SalarioMensual)#<input type="hidden" name="SalarioMensual" value="#fnRedondear(SalarioMensual)#"></td>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+    </cfif>
+		
+    <cfif TotalL LTE 0>
+     <cfset LimiteInferior = 0>
+    <cfset SobreExcedente = 0>
+    <cfset ImpuestoMarginal = 0>
+    <cfset CuotaFija = 0>
+    <cfset ISPTSalario = 0>
+    <cfelse>
+    <cfset LimiteInferior = LISR113L.DIRinf>
+    <cfset SobreExcedente = (LISR113L.DIRporcentaje)>
+    <cfset ImpuestoMarginal = ((SalarioMensual - LISR113L.DIRinf) * (LISR113L.DIRporcentaje / 100))>
+    <cfset CuotaFija =  LISR113L.DIRmontofijo>
+    <cfset ISPTSalario = (CuotaFija+ImpuestoMarginal)>
+    </cfif>
+		<td>ISPT Salario </td>
+		<td class="money">#fnFormatMoney(ISPTSalario)#<input type="hidden" name="ISPTSL" value="#fnRedondear(ISPTSL)#"></td>
+		<cfset MSG = "
+		<table align='center' border='0' cellspacing='0' cellpadding='2'>
+			<tr>
+				<td width='50' colspan='2'><strong>Conceptos</strong></td>
+				<td class='money'><strong>Importe</strong></td>
+			</tr>
+			<tr>
+				<td nowrap>Salario Mensual</td>
+				<td>+</td>
+				<td class='money'>#fnFormatMoney(SalarioMensual)#</td>
+			</tr>
+			<tr>
+				<td nowrap>Limite Inferior (113 LISR)</td>
+				<td>-</td>
+				<td class='money'>#fnFormatMoney(LimiteInferior)#</td>
+			</tr>
+			<tr>
+				<td nowrap>% Sobre Excedente (113 LISR)</td>
+				<td>*</td>
+				<td class='money'>#fnFormatMoney(SobreExcedente)#</td>
+			</tr>
+			<tr>
+				<td class='moneyTotal'>Impuesto Marginal</td>
+				<td class='moneyTotal'>&nbsp;</td>
+				<td class='moneyTotal'>#fnFormatMoney(ImpuestoMarginal)#</td>
+			</tr>
+			<tr>
+				<td colspan='3'>&nbsp;</td>
+			</tr>
+			<tr>
+				<td nowrap>Cuota Fija (113 LISR)</td>
+				<td>+</td>
+				<td class='money'>#fnFormatMoney(CuotaFija)#</td>
+			</tr>
+			<tr>
+				<td nowrap>Impuesto Marginal</td>
+				<td>+</td>
+				<td class='money'>#fnFormatMoney(ImpuestoMarginal)#</td>
+			</tr>
+			<tr>
+				<!---<td nowrap>Subsidio Empleado (115 LISR)</td>
+				<td>-</td>
+				<td class='money'>#fnFormatMoney(SubsidioL)#</td>--->
+			</tr>
+			<tr>
+				<td class='moneyTotal'>ISPT Sueldo</td>
+				<td class='moneyTotal'>&nbsp;</td>
+				<td class='moneyTotal'>#fnFormatMoney(ISPTSalario)#</td> <!---- SubsidioL--->
+			</tr>
+		</table>">
+		<cfset fnPopUp("ISPT Salario","#MSG#",10)>
+	</tr>
+	<tr>
+    <cfif TotalL LTE 0>
+    <cfset Factor = 0>
+    </cfif>
+		<td>Factor</td>
+		<td class="money">#fnFormatMoney(Factor*100)#%</td>
+		<cfset MSG = "
+		<table align='center' border='0' cellspacing='0' cellpadding='2'>
+			<tr>
+				<td width='50' colspan='2'><strong>Conceptos</strong></td>
+				<td class='money'><strong>Monto</strong></td>
+			</tr>
+			<tr>
+				<td nowrap>ISPT Sueldo</td>
+				<td>+</td>
+				<td class='money'>#fnFormatMoney(ISPTSalario)#</td>
+			</tr>
+			<tr>
+				<td nowrap>Salario Mensual</td>
+				<td>/</td>
+				<td class='money'>#fnFormatMoney(SalarioMensual)#</td>
+			</tr>
+			<tr>
+				<td class='moneyTotal' colspan='2'>Factor</td>
+				<td class='moneyTotal'>#fnFormatMoney(Factor*100)#%</td>
+			</tr>
+		</table>">
+		<cfset fnPopUp("Factor","#MSG#",11)>
+	</tr>
+	<tr>
+		<!---<td><strong>ISPT</strong></td>--->
+		<!---<td class="money">#fnFormatMoney(CalculoLoco.Resultado)#</td> ---><input type="hidden" name="ISPTL" value="#fnRedondear(CalculoLoco.Resultado)#">
+		<!---<cfset MSG = '
+		<table align="center" width="70%" border="0" cellspacing="0" cellpadding="0">
+			<tr>
+				<td width="33%" style="border-right:ridge" nowrap="nowrap"><strong>Concepto</strong></td>
+				<td width="33%" align="center" style="border-right:ridge"><strong>Formula</strong></td>
+				<td width="33%" align="center" style="border-right:ridge"><strong>Total</strong></td>
+			</tr>'>
+		<cfloop query="rsNivelesCL">
+			<cfset MSG = MSG & '<tr>
+				<td width="33%" style="border-right:ridge" nowrap="nowrap">#rsNivelesCL.RHDVDdescripcion#</td>
+				<td width="33%" style="border-right:ridge" class="money">#StructFind(CalculoLoco.OperacionNivel,rsNivelesCL.RHDVDid)#</td>
+				<td width="33%" style="border-right:ridge" class="money">#fnFormatMoney(StructFind(CalculoLoco.ResultadoNivel,rsNivelesCL.RHDVDid))#</td>
+			</tr>'>
+		</cfloop>
+		<cfset MSG = MSG & '
+		</table>'>
+		<cfset fnPopUp("ISPT","#MSG#",12)>--->
+	</tr>
+	<tr>
+    <cfif TotalL LTE 0>
+    <cfset BaseImp = 0>
+    <cfset ParteExenta = 0>
+    </cfif>
+		<td width="50%"><strong>Base Impuesto</strong></td>
+		<td class="money">#fnFormatMoney(BaseImp)#</td>
+		<cfset MSG = "
+		<table align='center' border='0' cellspacing='0' cellpadding='2'>
+			<tr>
+				<td width='50' colspan='2'><strong>Conceptos</strong></td>
+				<td class='money'><strong>Monto</strong></td>
+			</tr>
+			<tr>
+				<td nowrap>Total Liquidación</td>
+				<td>+</td>
+				<td class='money'>#fnFormatMoney(TotalL)#</td>
+			</tr>
+			<tr>
+				<td nowrap>Parte ISPT Exenta</td>
+				<td>-</td>
+				<td class='money'>#fnFormatMoney(ParteExenta)#</td>
+			</tr>
+			<tr>
+				<td class='moneyTotal' colspan='2'>TOTAL</td>
+				<td class='moneyTotal'>#fnFormatMoney(BaseImp)#</td>
+			</tr>
+		</table>">
+		<cfset fnPopUp("Base Impuesto","#MSG#",15)>
+	</tr>
+	<tr>
+		<td align="center" colspan="2">&nbsp;</td>
+	</tr>
+	<tr>
+		<td align="center" colspan="2"><strong style="font-size:18px">Operación General</strong></td>
+	</tr>
+	<tr>
+		<td align="center" width="50%"><strong>Conceptos</strong></td>
+		<td align="center"><strong>Importe</strong></td>
+	</tr>
+	<tr>
+		<td width="50%">Total Real Finiquito</td>
+		<td class="money">#fnFormatMoney(TotalF)#</td>
+		<!---<td class="money">#fnFormatMoney(TotalRealF)#</td>--->
+	</tr>
+	<tr>
+		<td width="50%">ISPT Finiquito</td>
+		<td class="money">#fnFormatMoney(ISPTF)#</td>
+	</tr>
+	<tr>
+		<td width="50%">Total Liquidación</td>
+		<td class="money">#fnFormatMoney(TotalL)#</td>
+	</tr>
+	<tr>
+    	<cfif TotalL LTE 0>
+            <cfset TotalRealLiquidacion = 0>
+		</cfif>
+		<td width="50%">ISPT Real Liquidación</td>
+		<td class="money">#fnFormatMoney(TotalL*Factor)#<input type="hidden" name="ISPTRealL" value="#TotalRealLiquidacion#"></td>
+		<cfset MSG = "
+		<table align='center' border='0' cellspacing='0' cellpadding='2'>
+			<tr>
+				<td width='50' colspan='2'><strong>Conceptos</strong></td>
+				<td class='money'><strong>Monto</strong></td>
+			</tr>
+			<tr>
+				<td nowrap>Total Liquidaci&oacute;n</td>
+				<td>*</td>
+				<td class='money'>#fnFormatMoney(TotalL)#</td>
+			</tr>
+			<tr>
+				<td nowrap>Factor</td>
+				<td>*</td>
+				<td class='money'>#fnFormatMoney(Factor*100)#%</td>
+			</tr>
+			<tr>
+				<td class='moneyTotal' colspan='2'>TOTAL</td>
+				<td class='moneyTotal'>#fnFormatMoney(TotalL*Factor)#</td>
+			</tr>
+		</table>">
+		<cfset fnPopUp("ISPT Liquidación","#MSG#",16)>
+	</tr>
+	<tr>
+		<td align="center" colspan="2">&nbsp;</td>
+	</tr>
+	<tr>
+		<td width="50%"><strong style="font-size:15px">Neto a recibir</strong></td>
+		<td class="money"><u><strong>#fnFormatMoney(Neto)#</strong></u><input type="hidden" name="Neto" value="#fnRedondear(Neto)#"></td>
+		<cfset MSG = "
+		<table align='center' border='0' cellspacing='0' cellpadding='2'>
+			<tr>
+				<td width='50' colspan='2'><strong>Conceptos</strong></td>
+				<td class='money'><strong>Importe</strong></td>
+			</tr>
+			<tr>
+				<td nowrap>Total Real Finiquito</td>
+				<td>+</td>
+				<td class='money'>#fnFormatMoney(TotalF)#</td>
+			</tr>
+			<tr>
+				<td nowrap>ISPT Finiquito</td>
+				<td>-</td>
+				<td class='money'>#fnFormatMoney(ISPTF)#</td>
+			</tr>
+			<tr>
+				<td nowrap>Total Real Liquidación</td>
+				<td>+</td>
+				<td class='money'>#fnFormatMoney(TotalL)#</td>
+			</tr>
+			<tr>
+				<td nowrap>ISPT Liquidación</td>
+				<td>-</td>
+				<td class='money'>#fnFormatMoney(TotalL*Factor)#</td>
+			</tr>">
+			<cfif rsMontoAportesRealizados.recordcount gt 0>
+				<cfset MSG = MSG & "
+					<tr>
+						<td nowrap>Cargas Sociales</td>
+						<td>-</td>
+						<td class='money'>#fnFormatMoney(rsMontoAportesRealizados.monto)#</td>
+					</tr>">
+			</cfif>
+		<cfset MSG = MSG & "
+			<tr>
+				<td class='moneyTotal' colspan='2'>TOTAL</td>
+				<td class='moneyTotal'>#fnFormatMoney(Neto)#</td>
+			</tr>
+		</table>">
+		<cfset fnPopUp("Neto a recibir","#MSG#",17)>
+	</tr>
+</table>
+</form>
+<!--- Finaliza: Pintado --->
+
+<script language="javascript1.2" type="text/javascript">
+	function funcAnterior() {
+		document.form1.paso.value = 1;
+	}
+
+	function funcSiguiente() {
+		<cfif existeLF eq 'false'>
+			alert("Los Datos no han Sido Guardados, debe de presionar el boton Calcular Datos y Guardar");
+			document.form1.paso.value = 2;
+		<cfelseif Modificado>
+			alert("Los Datos no han Sido Guardados, debe de presionar el boton Recalcular Datos y Guardar");
+			document.form1.paso.value = 2;
+		<cfelse>
+			document.form1.paso.value = 3;
+		</cfif>
+	}
+</script>
+</cfoutput>
+<cffunction name="fnFormatMoney" access="private" returntype="Any">
+	<cfargument name="Monto" type="any">
+	<cfargument name="Decimales" type="numeric" default="2">
+
+	<cfreturn LsCurrencyFormat(fnRedondear(Arguments.Monto,Arguments.Decimales),'none')>
+</cffunction>
+
+<cffunction name="fnRedondear" access="private" returntype="Any">
+	<cfargument name="Monto" type="any">
+	<cfargument name="Decimales" type="numeric" default="2">
+	
+	<cfreturn NumberFormat(Arguments.Monto,".#RepeatString('9', Arguments.Decimales)#")>
+</cffunction>
+
+<cffunction name="fnPopUp" access="private" output="true">
+	<cfargument name="Titulo" type="string">
+	<cfargument name="MSG" type="string">
+	<cfargument name="pageIndex" type="string">
+	<td>
+		<img src="" class="tooltip" title="" />
+		<span class="tooltip" title="#MSG#">#MSG#</span>
+		<img src="../../imagenes/help_small.gif"/>
+	</td>
+	<!--- <td><cf_notas link="<img src='../../imagenes/help_small.gif' border='0'>" titulo="#Arguments.Titulo#" msg="#Arguments.MSG#" width="400" pageIndex="#Arguments.pageIndex#"></td> --->
+</cffunction>
+
+
+<!--- Obtiene los datos de la tabla de Parámetros segun el pcodigo --->
+<cffunction name="fnGetDato" access="private" returntype="string">
+	<cfargument name="Pcodigo" 	type="numeric" required="true">
+	
+	<cfquery name="rsParam" datasource="#session.dsn#">
+		select Pvalor
+		from RHParametros
+		where Ecodigo = #session.Ecodigo# 
+		  and Pcodigo = #Arguments.Pcodigo#
+	</cfquery>
+	<cfreturn #rsParam.Pvalor#>
+</cffunction>
+
+
+<!--- Obtiene los datos de la tabla de Parámetros segun el pcodigo --->
+<cffunction name="fnValidaModificacion" access="private">
+	<cfargument name="Monto1" 	type="numeric" required="true">
+	<cfargument name="Monto2" 	type="numeric" required="true">
+	
+	<cfif fnRedondear(Arguments.Monto1) neq fnRedondear(Arguments.Monto2)>
+		<cfset Modificado = true>
+	</cfif>
+</cffunction>
+<cffunction name="rsMontoAportesRealizados" returntype="query">
+	<cfargument name="DEid" 	type="numeric" required="true">
+	
+	<cfquery name="rsDetAportesRealizados" datasource="#Session.DSN#">
+		select coalesce(sum(a.importe),0) as monto
+		from RHLiqCargas a
+		inner join DCargas   b
+			on a.DClinea = b.DClinea
+			and coalesce(DCSumarizarLiq,0) = 0
+		where a.DEid = <cfqueryparam cfsqltype="cf_sql_numeric" value="#Arguments.DEid#">
+	</cfquery>
+	<cfreturn rsDetAportesRealizados>
+</cffunction>
+

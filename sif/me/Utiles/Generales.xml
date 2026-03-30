@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<Etiquetas>
+<!-- ******************* INGLÉS ******************* -->		
+		<Idioma id="EN">
+			<SistemaME>
+				Sistema Modelo Entidad
+			</SistemaME>			
+		</Idioma>
+<!-- ******************* ESPAÑOL ******************* -->		
+		<Idioma id="ES_CR">
+			<SistemaME>
+				Sistema Modelo Entidad
+			</SistemaME>
+		</Idioma>
+</Etiquetas>

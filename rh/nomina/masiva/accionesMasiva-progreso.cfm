@@ -1,0 +1,175 @@
+﻿<cfoutput>
+	
+	<cfinvoke component="sif.Componentes.TranslateDB"
+		method="Translate"
+		VSvalor="#session.monitoreo.SScodigo#.#session.monitoreo.SMcodigo#.#session.monitoreo.SPcodigo#"
+		Default="Pasos"
+		VSgrupo="103"
+		returnvariable="nombre_proceso"/>
+		
+	<cf_web_portlet_start border="true" skin="#Session.Preferences.Skin#" tituloalign="center" titulo='#nombre_proceso#'>
+		<script language="javascript" type="text/javascript">
+			function goPage(f, paso) {
+				if (paso != 99) {
+					f.paso.value = paso;
+				} else {
+					f.RHAid.value = '';
+					f.paso.value = '1';
+				}
+				f.submit();
+			}
+		</script>
+		
+		<form name="formProgreso" action="#CurrentPage#" method="post" style="margin: 0;">
+			<cfinclude template="accionesMasiva-hiddens.cfm">
+			<table border="0" cellpadding="2" cellspacing="0">
+			  
+			  <!--- 0 --->
+			  <tr>
+				<td style="border-bottom: 1px solid black; ">
+				  <cfif Form.paso EQ 0>
+					<img src="/cfmx/rh/imagenes/addressGo.gif" border="0">
+				  <cfelse>
+					&nbsp;
+				  </cfif>
+				</td>
+				<td align="center" style="border-bottom: 1px solid black; "> <img src="/cfmx/rh/imagenes/home.gif" border="0"> </td>
+				<td class="etiquetaProgreso" style="border-bottom: 1px solid black; " nowrap>
+					<a href="javascript: goPage(document.formProgreso, 0);" tabindex="-1" onMouseOver="javascript: window.status = ''; return true;" onMouseOut="javascript: window.status = ''; return true;">
+						<strong><cf_translate key="LB_Lista_de_acciones">Lista de Acciones</cf_translate></strong>
+					</a>
+				</td>
+			  </tr>
+	
+			  <!--- 1 --->
+			  <tr>
+				<td width="1%" align="right">
+				  <cfif Form.paso GT 1>
+					<img src="/cfmx/rh/imagenes/w-check.gif" border="0">
+				  <cfelseif Form.paso EQ 1>
+					<img src="/cfmx/rh/imagenes/addressGo.gif" border="0">
+				  </cfif>
+				</td>
+				<td width="1%" align="right"> <img src="/cfmx/rh/imagenes/number1_16.gif" border="0"> </td>
+				<td class="etiquetaProgreso" nowrap>
+					<a href="javascript: goPage(document.formProgreso, 1);" tabindex="-1" onMouseOver="javascript: window.status = ''; return true;" onMouseOut="javascript: window.status = ''; return true;">
+						<cf_translate key="LB_Accion_de_personal">Acci&oacute;n de Personal</cf_translate>
+					</a>
+				</td>
+			  </tr>
+	
+			  <!--- 2 --->
+			  <tr>
+				<td width="1%" align="right">
+				  <cfif Form.paso GT 2>
+					<img src="/cfmx/rh/imagenes/w-check.gif" border="0">
+				  <cfelseif Form.paso EQ 2>
+					<img src="/cfmx/rh/imagenes/addressGo.gif" border="0">
+				  </cfif>
+				</td>
+				<td align="right"><img src="/cfmx/rh/imagenes/number2_16.gif" border="0"></td>
+				<td class="etiquetaProgreso" nowrap>
+					<cfif modo EQ "CAMBIO">
+					<a href="javascript: goPage(document.formProgreso, 2);" tabindex="-1" onMouseOver="javascript: window.status = ''; return true;" onMouseOut="javascript: window.status = ''; return true;">
+					</cfif>
+						<cf_translate key="LB_Componentes_Salariales">Componentes Salariales</cf_translate>
+					<cfif modo EQ "CAMBIO">
+					</a>
+					</cfif>
+				</td>
+			  </tr>
+	
+			  <!--- 3 --->
+			  <tr>
+				<td width="1%" align="right">
+				  <cfif Form.paso GT 3>
+					<img src="/cfmx/rh/imagenes/w-check.gif" border="0">
+				  <cfelseif Form.paso EQ 3>
+					<img src="/cfmx/rh/imagenes/addressGo.gif" border="0">
+				  </cfif>
+				</td>
+				<td align="right"><img src="/cfmx/rh/imagenes/number3_16.gif" border="0"></td>
+				<td class="etiquetaProgreso" nowrap>
+					<cfif modo EQ "CAMBIO">
+					<a href="javascript: goPage(document.formProgreso, 3);" tabindex="-1" onMouseOver="javascript: window.status = ''; return true;" onMouseOut="javascript: window.status = ''; return true;">
+					</cfif>
+						<cf_translate key="LB_Trabajar_con_periodos">Trabajar con Per&iacute;odos</cf_translate>
+					<cfif modo EQ "CAMBIO">
+					</a>
+					</cfif>
+				</td>
+			  </tr>
+	
+			  <!--- 4 --->
+			  <tr>
+				<td width="1%" align="right">
+				  <cfif Form.paso GT 4>
+					<img src="/cfmx/rh/imagenes/w-check.gif" border="0">
+				  <cfelseif Form.paso EQ 4>
+					<img src="/cfmx/rh/imagenes/addressGo.gif" border="0">
+				  </cfif>
+				</td>
+				<td align="right"><img src="/cfmx/rh/imagenes/number4_16.gif" border="0"></td>
+				<td class="etiquetaProgreso" nowrap>
+					<cfif modo EQ "CAMBIO">
+					<a href="javascript: goPage(document.formProgreso, 4);" tabindex="-1" onMouseOver="javascript: window.status = ''; return true;" onMouseOut="javascript: window.status = ''; return true;">
+					</cfif>
+						<cf_translate key="LB_Seleccionar_empleados">Seleccionar Empleados</cf_translate>
+					<cfif modo EQ "CAMBIO">
+					</a>
+					</cfif>
+				</td>
+			  </tr>
+
+			  <!--- 5 --->
+			  <tr>
+				<td width="1%" align="right">
+				  <cfif Form.paso GT 5>
+					<img src="/cfmx/rh/imagenes/w-check.gif" border="0">
+				  <cfelseif Form.paso EQ 5>
+					<img src="/cfmx/rh/imagenes/addressGo.gif" border="0">
+				  </cfif>
+				</td>
+				<td align="right"><img src="/cfmx/rh/imagenes/number5_16.gif" border="0"></td>
+				<td class="etiquetaProgreso" nowrap>
+					<cfif modo EQ "CAMBIO">
+					<a href="javascript: goPage(document.formProgreso, 5);" tabindex="-1" onMouseOver="javascript: window.status = ''; return true;" onMouseOut="javascript: window.status = ''; return true;">
+					</cfif>
+						<cf_translate key="LB_Aprobar_Accion">Aprobar Acci&oacute;n</cf_translate>
+					<cfif modo EQ "CAMBIO">
+					</a>
+					</cfif>
+				</td>
+			  </tr>
+				
+			  <!--- 6 --->
+			  <tr>
+				<td width="1%" align="right">
+				  <cfif Form.paso GT 6>
+					<img src="/cfmx/rh/imagenes/w-check.gif" border="0">
+				  <cfelseif Form.paso EQ 6>
+					<img src="/cfmx/rh/imagenes/addressGo.gif" border="0">
+				  </cfif>
+				</td>
+				<td align="right"><img src="/cfmx/rh/imagenes/number6_16.gif" border="0"></td>
+				<td class="etiquetaProgreso" nowrap>
+					<cfif modo EQ "CAMBIO">
+					<a href="javascript: goPage(document.formProgreso, 6);" tabindex="-1" onMouseOver="javascript: window.status = ''; return true;" onMouseOut="javascript: window.status = ''; return true;">
+					</cfif>
+						<cf_translate key="LB_Aplicar_Accion">Aplicar Acci&oacute;n</cf_translate>
+					<cfif modo EQ "CAMBIO">
+					</a>
+					</cfif>
+				</td>
+			  </tr>
+				
+			  <!--- Nuevo --->
+			  <tr>
+				<td style="border-top: 1px solid black; ">&nbsp;</td>
+				<td align="center" style="border-top: 1px solid black; "> <img src="/cfmx/rh/imagenes/file.png" border="0"> </td>
+				<td class="etiquetaProgreso" style="border-top: 1px solid black; " nowrap><a href="javascript: goPage(document.formProgreso, 99);" tabindex="-1" onMouseOver="javascript: window.status = ''; return true;" onMouseOut="javascript: window.status = ''; return true;"><cf_translate key="LB_Nueva_Accion">Nueva Acci&oacute;n</cf_translate></a></td>
+			  </tr>
+			</table>
+		</form>
+	<cf_web_portlet_end> 
+</cfoutput>

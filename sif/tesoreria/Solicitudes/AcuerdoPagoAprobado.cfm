@@ -1,0 +1,9 @@
+﻿<cfset Tipo = 1>
+<cfset MSGTipo = "Aprobo">
+<cfset TituloTipo = "Aprobado">
+<cfset BotonesI = "Aprobar,Generar,Rechazar,Regresar">
+<cfset BotonesLabel="Aprobar,Generar Reporte,Rechazar,Regresar">
+<cfset BotonesLista = "">
+<cfset IrA = "AcuerdoPagoAprobado.cfm">
+<cfset SoloLectura = true>
+<cfinclude template="AcuerdoPago.cfm"> 

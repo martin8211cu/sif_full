@@ -1,0 +1,44 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 154 - DBM 260: Creacion de la tabla CBUsuariosTCE
+
+	         PARCHE:  Parche023_224_SIF_Catalogo_Usuarios_TCE
+
+GENERADO EN:
+	SERVER:  http://mxpapp36:8300
+	DSN:     sifcim
+	FECHA:   27/08/2011 14:43:50
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* ADD_TABLE CBUsuariosTCE: CBUsuariosTCE */
+/* ======================================================================================== */
+
+CREATE TABLE CBUsuariosTCE (
+	 CBUid                          numeric(18)          identity
+	,Usucodigo                      numeric(18)          NULL
+	,Conciliador                    bit                  DEFAULT 0 NOT NULL
+	,CBUmovimientos                 bit                  DEFAULT 0 NOT NULL
+	,CBUpagador                     bit                  DEFAULT 0 NOT NULL
+	,CBUimportador                  bit                  DEFAULT 0 NOT NULL
+	,BMUsucodigo                    numeric(18)          NULL
+	,ts_rversion                    timestamp           
+	)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="P", SEC="0", COLS="CBUid" */
+ALTER TABLE CBUsuariosTCE ADD CONSTRAINT CBUsuariosTCE_PK PRIMARY KEY CLUSTERED (CBUid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

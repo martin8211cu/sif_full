@@ -1,0 +1,106 @@
+﻿/* CSS Document */
+
+/* colores en: styles.css */
+
+.listaNon { background-color:#FFFFFF; }
+.listaPar { background-color:#f0f0f0; }
+.listaParSel, .listaNonSel { background-color:#e0e0e0; }
+.listaCorte { background-color: #e0e0e0; }
+
+.tituloListas {
+	background-color: #d0d0d0;
+}
+.tituloAlterno {
+	background-color: #F5F5F5;
+}
+table.navbar, table.navbar a {
+	background-color:#f0f0f0;
+	color:#666666;
+}
+table.navbar .navbig, table.navbar .navbig a {
+	color:#333333;
+}
+table.navbar .navlast, table.navbar .navlast a {
+	color:black;
+}
+.errormsg {
+	color:#993300;
+}
+
+
+/* colores en tabs.css*/
+/**
+ * Funcionalidad de los tabs
+ */
+.tab_sel_l { background-image:url(/cfmx/plantillas/soinasp01/css/gris/tabs/sel_l.gif);height:21px}
+.tab_sel_m { background-image:url(/cfmx/plantillas/soinasp01/css/gris/tabs/sel_m.gif);height:21px;cursor:pointer;}
+.tab_contents { background-color:#f7f7f7;}
+.tab_sel_r { background-image:url(/cfmx/plantillas/soinasp01/css/gris/tabs/sel_r.gif);height:21px}
+
+/* colores en template.css */
+.iconoTop {
+	background:url(/cfmx/plantillas/soinasp01/css/gris/images/02-01b.jpg);
+	background-repeat: repeat-x;
+}
+.logoTop  {
+	background:url(/cfmx/plantillas/soinasp01/css/gris/images/logo2.gif);
+	background-repeat: no-repeat;
+}
+* {
+	font-family: Georgia, "Times New Roman", Times, serif;
+	font-size:12px;
+}
+
+
+/* colores en mlm_menu.css */
+.mlm_layer {
+	background-color:#e3e3e3;
+}
+.mlm_topbar {
+	background-color:#373737;
+}
+.mlm_topsel  {
+	background-color:#e3e3e3;
+}
+.mlm_item, .mlm_item * {
+	color:black;
+}
+.mlm_sel, .mlm_sel * {
+	background-color:#373737;
+	color:white;
+}
+/* colores en leftmenu.css */
+.cfmenu_titulo {
+	background-color: #afafaf; 
+}
+.cfmenu_titulo a {
+	color: #ffffff; 
+}
+.cfmenu_menu, .cfmenu_submenu {
+	background-color: #d7d7d7;
+}
+.cfmenu_menu a, .cfmenu_submenu a {
+	color: #454545;
+}
+.cfmenu_bottom {
+	background-image:url(/cfmx/plantillas/soinasp01/css/gris/images/menubottom.gif);
+	background-position:right;
+	background-repeat:no-repeat;
+	background-color:#d7d7d7;
+}
+/* hacer que los campos de fecha sean un poquito más anchos */
+input[title="dd/mm/yyyy"] {
+width:80px;
+}
+
+
+/* menus nuevos */
+.imagen_sistema {
+	padding-top: 2px;
+	padding-bottom: 1px;
+	color: #595959;
+	font-weight:bold;
+	text-decoration:none;	
+}
+
+

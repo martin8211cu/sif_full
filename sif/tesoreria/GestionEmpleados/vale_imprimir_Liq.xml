@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_ImpresionVale>Document Printing</LB_ImpresionVale>
+		<LB_ValeCajaChica>Petty Cash Document</LB_ValeCajaChica>
+		<LB_ComprobanteRecepcionCajaEfectivo>Cash Deposit Receipt</LB_ComprobanteRecepcionCajaEfectivo>
+		<LB_ImpresionPreliminarNoOficial>Unofficial Print Preview</LB_ImpresionPreliminarNoOficial>
+		<LB_CajaAsignada>Petty Cash Assigned</LB_CajaAsignada>
+		<LB_NumVale>Document Number</LB_NumVale>
+		<LB_CajaEfectivo>Petty Cash</LB_CajaEfectivo>
+		<LB_Comprobante>Receipt</LB_Comprobante>
+		<LB_NombreCompania>Enterprise Name</LB_NombreCompania>
+		<LB_CentroFuncional>Functional Center</LB_CentroFuncional>
+		<LB_FechaVale>Document Date</LB_FechaVale>
+		<LB_ValorEnLetras>Amount in Words</LB_ValorEnLetras>
+		<LB_PorConceptoDe>By Concept of</LB_PorConceptoDe>
+		<LB_Monto>Amount</LB_Monto>
+		<LB_AFavorDe>In favor of</LB_AFavorDe>
+		<LB_Emitido>Issued</LB_Emitido>
+		<LB_Fecha>Date</LB_Fecha>
+		<LB_Hora>Hour</LB_Hora>
+		<LB_DetalleVale>Document Detail</LB_DetalleVale>
+		<LB_Fechas>Dates</LB_Fechas>
+		<LB_CustodioFondoCajaChica>Custodian of Petty Cash Fund</LB_CustodioFondoCajaChica>
+		<LB_AutorizadoPor>Authorized by</LB_AutorizadoPor>
+		<LB_ReciboConforme>Received under</LB_ReciboConforme>
+		<MSG_NoSeEncontroElComprobanteSeleccionadoFavorIntenteloDeNuevo>The selected receipt was not found, please try again</MSG_NoSeEncontroElComprobanteSeleccionadoFavorIntenteloDeNuevo>
+		<MSG_ElComprobanteEstaVacioFavorIntenteloDeNuevo>The receipt is empty please try again</MSG_ElComprobanteEstaVacioFavorIntenteloDeNuevo>
+	</Idioma>
+</Etiquetas>

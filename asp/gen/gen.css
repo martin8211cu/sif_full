@@ -1,0 +1,4 @@
+* { font-family: Verdana; font-size: 10px; }
+a, a:hover { color:blue;  }
+.selected  { color:white; background-color:black }
+.mouseover, .mouseover td { color:white; background-color:gray }

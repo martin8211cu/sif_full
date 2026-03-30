@@ -1,0 +1,1565 @@
+<strong>INDICE:</strong><BR>- <A href='#COLs_CHG'>Columnas a modificarse</A><BR>- <A href='#COLs_ADD'>Columnas nuevas</A><BR>- <A href='#COLs_DEL'>Columnas a eliminarse</A><BR>- <A href='#KEYs_DEL'>Llaves a eliminarse</A><BR>- <A href='#TABs_ADD'>Tablas nuevas</A><BR>- <A href='#KEYs_ADD'>Llaves nuevas o a regenerarse</A><BR>- <A href='#KEYs_FI'>Indices para llaves foráneas</A><BR><BR><BR>
+			<BR><strong><A name='COLs_CHG'>COLUMNAS QUE VAN A SER ALTERADAS EN LA BASE DE DATOS PORQUE TIENEN CARACTERISTICAS MODIFICADAS EN EL MODELO DBM</A></strong><BR>
+			<table>
+			<tr><td><strong>TABLA</strong></td><td><strong>COLUMNA</strong></td><td><strong>&nbsp;</strong></td><td><strong>TIPO</strong></td><td><strong>LON</strong></td><td><strong>DEC</strong></td><td><strong>obl</strong></td><td><strong>ide</strong></td><td><strong>dfl</strong></td><td><strong>rul</strong></td></tr>
+			
+				<tr>
+					<td>CCHTransaccionesAplicadas</td><td>CCHTtipo</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td>VARCHAR</td>
+					<td>20</td>
+					<td>0</td>
+					<td>0</td>
+					
+						<td>0</td>
+					
+					<td></td>
+					<td><strong>([CCHTtipo] IS NULL OR ([CCHTtipo]='RECEPCION' OR [CCHTtipo]='ANTICIPO' OR [CCHTtipo]='GASTO' OR [CCHTtipo]='REINTEGRO' OR [CCHTtipo]='CIERRE' OR [CCHTtipo]='AUMENTO' OR [CCHTtipo]='DISMINUCION' OR [CCHTtipo]='APERTURA'))</strong></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>VARCHAR</td>
+					<td>20</td>
+					<td>0</td>
+					<td>0</td>
+					
+						<td>0</td>
+					
+					
+						<td><font color="#FF0000"></font></td>
+					
+					
+						<td>([CCHTtipo] IS NULL OR ([CCHTtipo]='ANTICIPO' OR [CCHTtipo]='GASTO' OR [CCHTtipo]='REINTEGRO' OR [CCHTtipo]='CIERRE' OR [CCHTtipo]='AUMENTO' OR [CCHTtipo]='DISMINUCION' OR [CCHTtipo]='APERTURA'))</td>
+					
+				</tr>
+			
+				<tr>
+					<td>GEliquidacion</td><td>GELtotalGastos</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td>MONEY</td>
+					<td>18</td>
+					<td>4</td>
+					<td><strong>1</strong></td>
+					
+						<td>0</td>
+					
+					<td><strong>0</strong></td>
+					<td></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>MONEY</td>
+					<td>18</td>
+					<td>4</td>
+					<td>0</td>
+					
+						<td>0</td>
+					
+					
+						<td></td>
+					
+					
+						<td><font color="#FF0000"></font></td>
+					
+				</tr>
+			
+				<tr>
+					<td>GEliquidacion</td><td>GELtotalDepositos</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td>MONEY</td>
+					<td>18</td>
+					<td>4</td>
+					<td><strong>1</strong></td>
+					
+						<td>0</td>
+					
+					<td><strong>0</strong></td>
+					<td></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>MONEY</td>
+					<td>18</td>
+					<td>4</td>
+					<td>0</td>
+					
+						<td>0</td>
+					
+					
+						<td></td>
+					
+					
+						<td><font color="#FF0000"></font></td>
+					
+				</tr>
+			
+				<tr>
+					<td>GEliquidacion</td><td>GELtotalAnticipos</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td>MONEY</td>
+					<td>18</td>
+					<td>4</td>
+					<td><strong>1</strong></td>
+					
+						<td>0</td>
+					
+					<td><strong>0</strong></td>
+					<td></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>MONEY</td>
+					<td>18</td>
+					<td>4</td>
+					<td>0</td>
+					
+						<td>0</td>
+					
+					
+						<td></td>
+					
+					
+						<td><font color="#FF0000"></font></td>
+					
+				</tr>
+			
+				<tr>
+					<td>GEliquidacion</td><td>GELreembolso</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td>MONEY</td>
+					<td>18</td>
+					<td>4</td>
+					<td><strong>1</strong></td>
+					
+						<td>0</td>
+					
+					<td><strong>0</strong></td>
+					<td></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>MONEY</td>
+					<td>18</td>
+					<td>4</td>
+					<td>0</td>
+					
+						<td>0</td>
+					
+					
+						<td></td>
+					
+					
+						<td><font color="#FF0000"></font></td>
+					
+				</tr>
+			
+				<tr>
+					<td>GEliquidacion</td><td>GELtipoCambio</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td><strong>FLOAT</strong></td>
+					<td><strong>15</strong></td>
+					<td><strong>0</strong></td>
+					<td><strong>1</strong></td>
+					
+						<td>0</td>
+					
+					<td><strong>1</strong></td>
+					<td></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>MONEY</td>
+					<td>18</td>
+					<td>4</td>
+					<td>0</td>
+					
+						<td>0</td>
+					
+					
+						<td></td>
+					
+					
+						<td><font color="#FF0000"></font></td>
+					
+				</tr>
+			
+				<tr>
+					<td>GEliquidacion</td><td>GELtotalDevoluciones</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td>MONEY</td>
+					<td>18</td>
+					<td>4</td>
+					<td><strong>1</strong></td>
+					
+						<td>0</td>
+					
+					<td><strong>0</strong></td>
+					<td></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>MONEY</td>
+					<td>18</td>
+					<td>4</td>
+					<td>0</td>
+					
+						<td>0</td>
+					
+					
+						<td></td>
+					
+					
+						<td><font color="#FF0000"></font></td>
+					
+				</tr>
+			
+				<tr>
+					<td>GEliquidacionAnts</td><td>GELAtotal</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td>MONEY</td>
+					<td>18</td>
+					<td>4</td>
+					<td><strong>1</strong></td>
+					
+						<td>0</td>
+					
+					<td><strong>0</strong></td>
+					<td></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>MONEY</td>
+					<td>18</td>
+					<td>4</td>
+					<td>0</td>
+					
+						<td>0</td>
+					
+					
+						<td></td>
+					
+					
+						<td><font color="#FF0000"></font></td>
+					
+				</tr>
+			
+				<tr>
+					<td>GEliquidacionDeps</td><td>GELid</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td>NUMERIC</td>
+					<td>18</td>
+					<td>0</td>
+					<td><strong>1</strong></td>
+					
+						<td>0</td>
+					
+					<td></td>
+					<td></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>NUMERIC</td>
+					<td>18</td>
+					<td>0</td>
+					<td>0</td>
+					
+						<td>0</td>
+					
+					
+						<td><font color="#FF0000"></font></td>
+					
+					
+						<td><font color="#FF0000"></font></td>
+					
+				</tr>
+			
+				<tr>
+					<td>GEliquidacionDeps</td><td>Ecodigo</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td>INTEGER</td>
+					<td>10</td>
+					<td>0</td>
+					<td><strong>1</strong></td>
+					
+						<td>0</td>
+					
+					<td></td>
+					<td></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>INTEGER</td>
+					<td>10</td>
+					<td>0</td>
+					<td>0</td>
+					
+						<td>0</td>
+					
+					
+						<td><font color="#FF0000"></font></td>
+					
+					
+						<td><font color="#FF0000"></font></td>
+					
+				</tr>
+			
+				<tr>
+					<td>GEliquidacionDeps</td><td>Mcodigo</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td>NUMERIC</td>
+					<td>8</td>
+					<td>0</td>
+					<td><strong>1</strong></td>
+					
+						<td>0</td>
+					
+					<td></td>
+					<td></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>NUMERIC</td>
+					<td>8</td>
+					<td>0</td>
+					<td>0</td>
+					
+						<td>0</td>
+					
+					
+						<td><font color="#FF0000"></font></td>
+					
+					
+						<td><font color="#FF0000"></font></td>
+					
+				</tr>
+			
+				<tr>
+					<td>GEliquidacionDeps</td><td>CBid</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td>NUMERIC</td>
+					<td>18</td>
+					<td>0</td>
+					<td><strong>1</strong></td>
+					
+						<td>0</td>
+					
+					<td></td>
+					<td></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>NUMERIC</td>
+					<td>18</td>
+					<td>0</td>
+					<td>0</td>
+					
+						<td>0</td>
+					
+					
+						<td><font color="#FF0000"></font></td>
+					
+					
+						<td><font color="#FF0000"></font></td>
+					
+				</tr>
+			
+				<tr>
+					<td>GEliquidacionDeps</td><td>GELDtotalOri</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td>MONEY</td>
+					<td>18</td>
+					<td>4</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					<td><strong>0</strong></td>
+					<td></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>MONEY</td>
+					<td>18</td>
+					<td>4</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					
+						<td></td>
+					
+					
+						<td><font color="#FF0000"></font></td>
+					
+				</tr>
+			
+				<tr>
+					<td>GEliquidacionDeps</td><td>GELDfecha</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td>DATE TIME</td>
+					<td>0</td>
+					<td>0</td>
+					<td><strong>1</strong></td>
+					
+						<td>0</td>
+					
+					<td></td>
+					<td></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>DATE TIME</td>
+					<td>0</td>
+					<td>0</td>
+					<td>0</td>
+					
+						<td>0</td>
+					
+					
+						<td><font color="#FF0000"></font></td>
+					
+					
+						<td><font color="#FF0000"></font></td>
+					
+				</tr>
+			
+				<tr>
+					<td>GEliquidacionDeps</td><td>GELDtipoCambio</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td>MONEY</td>
+					<td>18</td>
+					<td>4</td>
+					<td><strong>1</strong></td>
+					
+						<td>0</td>
+					
+					<td><strong>1</strong></td>
+					<td></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>MONEY</td>
+					<td>18</td>
+					<td>4</td>
+					<td>0</td>
+					
+						<td>0</td>
+					
+					
+						<td></td>
+					
+					
+						<td><font color="#FF0000"></font></td>
+					
+				</tr>
+			
+				<tr>
+					<td>GEliquidacionDeps</td><td>GELDtotal</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td>MONEY</td>
+					<td>18</td>
+					<td>4</td>
+					<td><strong>1</strong></td>
+					
+						<td>0</td>
+					
+					<td><strong>0</strong></td>
+					<td></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>MONEY</td>
+					<td>18</td>
+					<td>4</td>
+					<td>0</td>
+					
+						<td>0</td>
+					
+					
+						<td></td>
+					
+					
+						<td><font color="#FF0000"></font></td>
+					
+				</tr>
+			
+				<tr>
+					<td>GEliquidacionDeps</td><td>BTid</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td>NUMERIC</td>
+					<td>18</td>
+					<td>0</td>
+					<td><strong>1</strong></td>
+					
+						<td>0</td>
+					
+					<td></td>
+					<td></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>NUMERIC</td>
+					<td>18</td>
+					<td>0</td>
+					<td>0</td>
+					
+						<td>0</td>
+					
+					
+						<td><font color="#FF0000"></font></td>
+					
+					
+						<td><font color="#FF0000"></font></td>
+					
+				</tr>
+			
+				<tr>
+					<td>GEliquidacionGasto</td><td>GELGtotalOri</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td>MONEY</td>
+					<td>18</td>
+					<td>4</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					<td><strong>0</strong></td>
+					<td></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>MONEY</td>
+					<td>18</td>
+					<td>4</td>
+					<td>1</td>
+					
+						<td>0</td>
+					
+					
+						<td></td>
+					
+					
+						<td><font color="#FF0000"></font></td>
+					
+				</tr>
+			
+				<tr>
+					<td>GEliquidacionGasto</td><td>GELGtipoCambio</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td><strong>FLOAT</strong></td>
+					<td><strong>15</strong></td>
+					<td><strong>0</strong></td>
+					<td><strong>1</strong></td>
+					
+						<td>0</td>
+					
+					<td><strong>1</strong></td>
+					<td></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>MONEY</td>
+					<td>18</td>
+					<td>4</td>
+					<td>0</td>
+					
+						<td>0</td>
+					
+					
+						<td></td>
+					
+					
+						<td><font color="#FF0000"></font></td>
+					
+				</tr>
+			
+				<tr>
+					<td>GEliquidacionGasto</td><td>GELGtotal</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td>MONEY</td>
+					<td>18</td>
+					<td>4</td>
+					<td><strong>1</strong></td>
+					
+						<td>0</td>
+					
+					<td><strong>0</strong></td>
+					<td></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>MONEY</td>
+					<td>18</td>
+					<td>4</td>
+					<td>0</td>
+					
+						<td>0</td>
+					
+					
+						<td></td>
+					
+					
+						<td><font color="#FF0000"></font></td>
+					
+				</tr>
+			
+				<tr>
+					<td>GEliquidacionGasto</td><td>GELGtotalRet</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td>MONEY</td>
+					<td>18</td>
+					<td>4</td>
+					<td><strong>1</strong></td>
+					
+						<td>0</td>
+					
+					<td><strong>0</strong></td>
+					<td></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>MONEY</td>
+					<td>18</td>
+					<td>4</td>
+					<td>0</td>
+					
+						<td>0</td>
+					
+					
+						<td></td>
+					
+					
+						<td><font color="#FF0000"></font></td>
+					
+				</tr>
+			
+				<tr>
+					<td>GEliquidacionGasto</td><td>GELGtotalRetOri</td>
+					
+				</tr>
+				<tr><td colspan="2" align="right">MODELO DBM</td><td>:</td>
+					<td>MONEY</td>
+					<td>18</td>
+					<td>4</td>
+					<td><strong>1</strong></td>
+					
+						<td>0</td>
+					
+					<td><strong>0</strong></td>
+					<td></td>
+				</tr>	
+				<tr><td colspan="2" align="right">BASE DATOS</td>   <td>:</td>
+					<td>MONEY</td>
+					<td>18</td>
+					<td>4</td>
+					<td>0</td>
+					
+						<td>0</td>
+					
+					
+						<td></td>
+					
+					
+						<td><font color="#FF0000"></font></td>
+					
+				</tr>
+			
+			</table>
+		
+			<BR><strong><A name='COLs_ADD'>COLUMNAS NUEVAS EN EL MODELO DBM QUE SE VAN A CREAR EN LA BASE DE DATOS</A></strong><BR>
+			<table>
+			<tr><td><strong>TABLA</strong></td><td><strong>COLUMNA</strong></td><td><strong>TIPO</strong></td><td><strong>LON</strong></td><td><strong>DEC</strong></td><td><strong>obl</strong></td><td><strong>ide</strong></td><td><strong>dfl</strong></td><td><strong>rul</strong></td></tr>
+			
+				<tr><td>CFuncional&nbsp;&nbsp;</td><td>CFComplemento&nbsp;&nbsp;</td><td>VARCHAR&nbsp;&nbsp;</td><td>100</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>CFuncional&nbsp;&nbsp;</td><td>FPAEid&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>18</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>GEanticipoDet&nbsp;&nbsp;</td><td>CFComplemento&nbsp;&nbsp;</td><td>VARCHAR&nbsp;&nbsp;</td><td>100</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>GEanticipoDet&nbsp;&nbsp;</td><td>FPAEid&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>18</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>GEliquidacion&nbsp;&nbsp;</td><td>GELtotalDepositosEfectivo&nbsp;&nbsp;</td><td>MONEY&nbsp;&nbsp;</td><td>18</td><td>4</td><td>1</td><td>0</td><td>0</td><td></td></tr>
+			
+				<tr><td>GEliquidacion&nbsp;&nbsp;</td><td>GELtotalDocumentos&nbsp;&nbsp;</td><td>MONEY&nbsp;&nbsp;</td><td>18</td><td>4</td><td>1</td><td>0</td><td>0</td><td></td></tr>
+			
+				<tr><td>GEliquidacion&nbsp;&nbsp;</td><td>GELtotalRetenciones&nbsp;&nbsp;</td><td>MONEY&nbsp;&nbsp;</td><td>18</td><td>4</td><td>1</td><td>0</td><td>0</td><td></td></tr>
+			
+				<tr><td>GEliquidacion&nbsp;&nbsp;</td><td>GELtotalTCE&nbsp;&nbsp;</td><td>MONEY&nbsp;&nbsp;</td><td>18</td><td>4</td><td>1</td><td>0</td><td>0</td><td></td></tr>
+			
+				<tr><td>GEliquidacionGasto&nbsp;&nbsp;</td><td>CFComplemento&nbsp;&nbsp;</td><td>VARCHAR&nbsp;&nbsp;</td><td>100</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>GEliquidacionGasto&nbsp;&nbsp;</td><td>FPAEid&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>18</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>GEliquidacionGasto&nbsp;&nbsp;</td><td>GELGmonto&nbsp;&nbsp;</td><td>MONEY&nbsp;&nbsp;</td><td>18</td><td>4</td><td>1</td><td>0</td><td>0</td><td></td></tr>
+			
+				<tr><td>GEliquidacionGasto&nbsp;&nbsp;</td><td>GELGmontoOri&nbsp;&nbsp;</td><td>MONEY&nbsp;&nbsp;</td><td>18</td><td>4</td><td>1</td><td>0</td><td>0</td><td></td></tr>
+			
+			</table>
+		
+			<BR><strong><A name='COLs_DEL'>COLUMNAS QUE VAN A SER ELIMINADAS EN LA BASE DE DATOS PORQUE YA NO SE REQUIEREN EN EL MODELO DBM</A></strong><BR>
+			<table>
+			<tr><td><strong>TABLA</strong></td><td><strong>COLUMNA</strong></td><td><strong>TIPO</strong></td><td><strong>LON</strong></td><td><strong>DEC</strong></td><td><strong>obl</strong></td><td><strong>ide</strong></td><td><strong>dfl</strong></td><td><strong>rul</strong></td></tr>
+			
+				<tr><td>GEcomision&nbsp;&nbsp;</td><td>CBid_TCE&nbsp;&nbsp;</td><td>NUMERIC&nbsp;&nbsp;</td><td>18</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+			</table>
+		
+			<BR><strong><A name='KEYs_DEL'>LLAVES QUE SE VAN A ELIMINAR</A></strong><BR>
+			<table>
+			<tr><td><strong>TABLA</strong></td><td><strong>TIPO</strong></td><td><strong>CODIGO</strong></td><td><strong>COLUMNAS</strong></td><td><strong>TABLA REFERENCIADA</strong></td><td><strong>COLUMNAS REFERENCIADAS</strong></td><td><strong>RAZON</strong></td></tr>
+			
+				
+					<tr><td>GEcomision</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td>
+							
+								GEcomision_FK05
+							
+						</td>
+					
+					<td>CBid_TCE</td><td>CuentasBancos</td><td>CBid</td>
+					<td>
+						
+							BORRADA EN DBM (DBM:DROP)
+						
+					</td>
+					</tr>
+					
+				
+					<tr><td>GEcomision</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td>
+							
+								GEcomision_FI05
+							
+						</td>
+					
+					<td>CBid_TCE</td><td>CuentasBancos</td><td>CBid</td>
+					<td>
+						
+							BORRADA EN DBM (DBM:DROP)
+						
+					</td>
+					</tr>
+					
+				
+			
+				
+					<tr><td>GEliquidacionDeps</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td>
+							
+								GEliquidacionDeps_FK01
+							
+						</td>
+					
+					<td>CBid</td><td>CuentasBancos</td><td>CBid</td>
+					<td>
+						
+							CAMPOS MODIFICADOS
+						
+					</td>
+					</tr>
+					
+				
+					<tr><td>GEliquidacionDeps</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td>
+							
+								GEliquidacionDeps_FI01
+							
+						</td>
+					
+					<td>CBid</td><td>CuentasBancos</td><td>CBid</td>
+					<td>
+						
+							CAMPOS MODIFICADOS
+						
+					</td>
+					</tr>
+					
+				
+			
+				
+					<tr><td>GEliquidacionDeps</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td>
+							
+								GEliquidacionDeps_FK03
+							
+						</td>
+					
+					<td>Ecodigo</td><td>Empresas</td><td>Ecodigo</td>
+					<td>
+						
+							CAMPOS MODIFICADOS
+						
+					</td>
+					</tr>
+					
+				
+					<tr><td>GEliquidacionDeps</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td>
+							
+								GEliquidacionDeps_FI03
+							
+						</td>
+					
+					<td>Ecodigo</td><td>Empresas</td><td>Ecodigo</td>
+					<td>
+						
+							CAMPOS MODIFICADOS
+						
+					</td>
+					</tr>
+					
+				
+			
+				
+					<tr><td>GEliquidacionDeps</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td>
+							
+								GEliquidacionDeps_FK04
+							
+						</td>
+					
+					<td>GELid</td><td>GEliquidacion</td><td>GELid</td>
+					<td>
+						
+							CAMPOS MODIFICADOS
+						
+					</td>
+					</tr>
+					
+				
+					<tr><td>GEliquidacionDeps</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td>
+							
+								GEliquidacionDeps_FI04
+							
+						</td>
+					
+					<td>GELid</td><td>GEliquidacion</td><td>GELid</td>
+					<td>
+						
+							CAMPOS MODIFICADOS
+						
+					</td>
+					</tr>
+					
+				
+			
+				
+					<tr><td>GEliquidacionDeps</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td>
+							
+								GEliquidacionDeps_FK02
+							
+						</td>
+					
+					<td>Mcodigo</td><td>Monedas</td><td>Mcodigo</td>
+					<td>
+						
+							CAMPOS MODIFICADOS
+						
+					</td>
+					</tr>
+					
+				
+					<tr><td>GEliquidacionDeps</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td>
+							
+								GEliquidacionDeps_FI02
+							
+						</td>
+					
+					<td>Mcodigo</td><td>Monedas</td><td>Mcodigo</td>
+					<td>
+						
+							CAMPOS MODIFICADOS
+						
+					</td>
+					</tr>
+					
+				
+			
+			</table>
+		
+			<BR><strong><A name='TABs_ADD'>TABLAS NUEVAS EN EL MODELO DBM QUE SE VAN A CREAR EN LA BASE DE DATOS</A></strong><BR>
+			<table>
+			<tr><td><strong>TABLA</strong></td></tr>
+			
+				<tr><td>GEcomisionTCEs</td></tr>
+			
+				<tr><td>GEliquidacionDepsEfectivo</td></tr>
+			
+				<tr><td>GEliquidacionTCE</td></tr>
+			
+			</table>
+		
+			<BR><strong><A name='COLs_ADD'>LLAVES QUE SE VAN A CREAR.</font></A></strong><BR>
+			<table>
+			<tr><td><strong>TABLA</strong></td><td><strong>TIPO</strong></td><td><strong>SEC.</strong></td><td><strong>COLUMNAS</strong></td><td><strong>TABLA REFERENCIADA</strong></td><td><strong>COLUMNAS REFERENCIADAS</strong></td><td><strong>RAZON</strong></td></tr>
+			
+				
+					<tr><td>CFuncional</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							04
+						</td>
+					
+					<td>FPAEid</td><td>FPActividadE</td><td>FPAEid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>GEanticipoDet</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							05
+						</td>
+					
+					<td>FPAEid</td><td>FPActividadE</td><td>FPAEid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>GEcomisionTCEs</td><td align="center">
+						
+							PK 
+						
+					</td>
+					
+						<td align="center">
+							00
+						</td>
+					
+					<td>GECTid</td><td>*</td><td>*</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>GEcomisionTCEs</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>GECid</td><td>GEcomision</td><td>GECid</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>GEcomisionTCEs</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							02
+						</td>
+					
+					<td>CBid_TCE</td><td>CuentasBancos</td><td>CBid</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>GEliquidacionDeps</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>CBid</td><td>CuentasBancos</td><td>CBid</td>
+					<td>
+						
+							CAMPOS MODIFICADOS
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>GEliquidacionDeps</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							02
+						</td>
+					
+					<td>Mcodigo</td><td>Monedas</td><td>Mcodigo</td>
+					<td>
+						
+							CAMPOS MODIFICADOS
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>GEliquidacionDeps</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							03
+						</td>
+					
+					<td>Ecodigo</td><td>Empresas</td><td>Ecodigo</td>
+					<td>
+						
+							CAMPOS MODIFICADOS
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>GEliquidacionDeps</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							04
+						</td>
+					
+					<td>GELid</td><td>GEliquidacion</td><td>GELid</td>
+					<td>
+						
+							CAMPOS MODIFICADOS
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>GEliquidacionDepsEfectivo</td><td align="center">
+						
+							PK 
+						
+					</td>
+					
+						<td align="center">
+							00
+						</td>
+					
+					<td>GELDEid</td><td>*</td><td>*</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>GEliquidacionDepsEfectivo</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>GELid</td><td>GEliquidacion</td><td>GELid</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>GEliquidacionDepsEfectivo</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							02
+						</td>
+					
+					<td>CCHTAid</td><td>CCHTransaccionesAplicadas</td><td>CCHTAid</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>GEliquidacionTCE</td><td align="center">
+						
+							PK 
+						
+					</td>
+					
+						<td align="center">
+							00
+						</td>
+					
+					<td>GELGid</td><td>*</td><td>*</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>GEliquidacionTCE</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>GELid</td><td>GEliquidacion</td><td>GELid</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>GEliquidacionTCE</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							02
+						</td>
+					
+					<td>CBid_TCE</td><td>CuentasBancos</td><td>CBid</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>GEliquidacionTCE</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							03
+						</td>
+					
+					<td>GELGid</td><td>GEliquidacionGasto</td><td>GELGid</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+			</table>
+		
+			<BR><strong><A name='KEYs_FI'>INDICES QUE SE VAN A CREAR EN LA BASE DE DATOS PARA SOPORTAR LLAVES FORANEAS</A></strong><BR>
+			<table>
+			<tr><td><strong>TABLA</strong></td><td><strong>TIPO</strong></td><td><strong>SEC.</strong></td><td><strong>COLUMNAS</strong></td><td><strong>TABLA REFERENCIADA</strong></td><td><strong>COLUMNAS REFERENCIADAS</strong></td><td><strong>RAZON</strong></td></tr>
+			
+				
+					<tr><td>CFuncional</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							04
+						</td>
+					
+					<td>FPAEid</td><td>FPActividadE</td><td>FPAEid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>GEanticipoDet</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							05
+						</td>
+					
+					<td>FPAEid</td><td>FPActividadE</td><td>FPAEid</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>GEcomisionTCEs</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>GECid</td><td>GEcomision</td><td>GECid</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>GEcomisionTCEs</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							02
+						</td>
+					
+					<td>CBid_TCE</td><td>CuentasBancos</td><td>CBid</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>GEliquidacionDeps</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>CBid</td><td>CuentasBancos</td><td>CBid</td>
+					<td>
+						
+							CAMPOS MODIFICADOS
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>GEliquidacionDeps</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							02
+						</td>
+					
+					<td>Mcodigo</td><td>Monedas</td><td>Mcodigo</td>
+					<td>
+						
+							CAMPOS MODIFICADOS
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>GEliquidacionDeps</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							03
+						</td>
+					
+					<td>Ecodigo</td><td>Empresas</td><td>Ecodigo</td>
+					<td>
+						
+							CAMPOS MODIFICADOS
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>GEliquidacionDeps</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							04
+						</td>
+					
+					<td>GELid</td><td>GEliquidacion</td><td>GELid</td>
+					<td>
+						
+							CAMPOS MODIFICADOS
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>GEliquidacionDepsEfectivo</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>GELid</td><td>GEliquidacion</td><td>GELid</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>GEliquidacionDepsEfectivo</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							02
+						</td>
+					
+					<td>CCHTAid</td><td>CCHTransaccionesAplicadas</td><td>CCHTAid</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>GEliquidacionTCE</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>GELid</td><td>GEliquidacion</td><td>GELid</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>GEliquidacionTCE</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							02
+						</td>
+					
+					<td>CBid_TCE</td><td>CuentasBancos</td><td>CBid</td>
+					<td>
+						
+							TABLA NUEVA EN DBM
+						
+					</td>
+					</tr>
+					
+						
+			
+			</table>
+		

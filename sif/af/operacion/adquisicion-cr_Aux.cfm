@@ -1,0 +1,2 @@
+﻿<!--- Se necesita mantener un cascarón para JA y Aux, de esa forma no perder la barra de navegación debajo del portlet por motovos de la definición de la seguridad --->
+<cfinclude template="adquisicion-cr.cfm">

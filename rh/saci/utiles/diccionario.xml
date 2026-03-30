@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Etiquetas>
+<!-- ******************* INGLES ******************* -->		
+		<Idioma id="en">
+			<actual>Current</actual>
+			<apertura>Opening</apertura>
+			<nombre>Name</nombre>
+			<clave>Password</clave>
+			<servicio>Service</servicio>
+			<anterior>Previous</anterior>
+			<nuevo>New</nuevo>
+			<confirmar>Confirm</confirmar>
+			<email>E-Mail</email>
+			<motivo>Reason</motivo>
+			<login>Login</login>
+			<cuenta>Count</cuenta>
+			<fecha>Date</fecha>
+			<de>of</de>
+			<observacion>Observation</observacion>
+			<paquete>Package</paquete>
+			<tarifa>Tariffs</tarifa>
+			<basica>Basic</basica>
+			<derecho>Right</derecho>
+			<hora>Hour</hora>
+			<mensual>Monthly</mensual>
+			<cantidad>Quantity</cantidad>
+			<costo>Cost</costo>
+			<prepago>Prepaid</prepago>
+			<consultar>Consult</consultar>
+			<por>for</por>
+			<medio>Means</medio>
+			<todos>All</todos>
+			<desde>From</desde>
+			<hasta>To</hasta>
+			<tel>Phone</tel>
+			<dir>IP Address</dir>
+			<adicional>Additional</adicional>
+			<correo>Mail</correo>
+			<sobre>Sobre</sobre>
+			<estado>Status</estado>
+		</Idioma>
+<!-- ******************* ESPAÑOL ******************* -->		
+		<Idioma id="es">
+			<actual>Actual</actual>
+			<anterior>Anterior</anterior>
+			<apertura>Apertura</apertura>
+			<nombre>Nombre</nombre>
+			<clave>Contraseña</clave>
+			<servicio>Servicio</servicio>
+			<nuevo>Nuevo</nuevo>
+			<confirmar>Confirmar</confirmar>
+			<email>Correo Electrónico</email>
+			<motivo>Motivo</motivo>
+			<login>Login</login>
+			<cuenta>Cuenta</cuenta>
+			<fecha>Fecha</fecha>
+			<de>de</de>
+			<observacion>Observacion</observacion>
+			<paquete>Paquete</paquete>
+			<tarifa>Tarifa</tarifa>
+			<basica>Basica</basica>
+			<derecho>Derecho</derecho>
+			<hora>Hora</hora>
+			<mensual>Mensual</mensual>
+			<cantidad>Cantidad</cantidad>
+			<costo>Costo</costo>
+			<prepago>Prepago</prepago>
+			<consultar>Consultar</consultar>
+			<por>por</por>
+			<medio>Medio</medio>
+			<todos>Todos</todos>
+			<desde>Desde</desde>
+			<hasta>Hasta</hasta>
+			<tel>Teléfono</tel>
+			<dir>Dirección IP</dir>
+			<adicional>Adicional</adicional>
+			<correo>Correo</correo>
+			<sobre>Sobre</sobre>
+			<estado>Estado</estado>
+		</Idioma>
+</Etiquetas>

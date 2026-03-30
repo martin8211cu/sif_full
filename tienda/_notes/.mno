@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+<info>
+	<infoitem key="MM_ConnectionVar_Count" value="1" />
+	<infoitem key="MM_ConnectionVar1" value="session.dsn;tienda1" />
+</info>

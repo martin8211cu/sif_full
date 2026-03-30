@@ -1,0 +1,123 @@
+;INF file for soinPrintDocs.ocx
+;DestDir can be 10 for Windows directory, 11 for Windows\System(32) directory, or left blank for the Occache directory.
+
+[version]
+signature="$CHICAGO$"
+AdvancedINF=2.0
+[DefaultInstall]
+CopyFiles=install.files
+RegisterOCXs=RegisterFiles
+AddReg=AddToRegistry
+[RInstallApplicationFiles]
+CopyFiles=install.files
+RegisterOCXs=RegisterFiles
+AddReg=AddToRegistry
+[DestinationDirs]
+install.files=11
+[SourceDisksNames]
+1=%DiskName%,soinPrintDocs.CAB,1
+
+[Add.Code]
+soinPrintDocs.ocx=soinPrintDocs.ocx
+msstkprp.dll=msstkprp.dll
+msvbvm60.dll=msvbvm60.dll
+oleaut32.dll=oleaut32.dll
+olepro32.dll=olepro32.dll
+asycfilt.dll=asycfilt.dll
+stdole2.tlb=stdole2.tlb
+COMCAT.DLL=COMCAT.DLL
+[install.files]
+soinPrintDocs.ocx=soinPrintDocs.ocx
+msstkprp.dll=msstkprp.dll
+msvbvm60.dll=msvbvm60.dll
+oleaut32.dll=oleaut32.dll
+olepro32.dll=olepro32.dll
+asycfilt.dll=asycfilt.dll
+stdole2.tlb=stdole2.tlb
+COMCAT.DLL=COMCAT.DLL
+[SourceDisksFiles]
+soinPrintDocs.ocx=1
+msstkprp.dll=1
+msvbvm60.dll=1
+oleaut32.dll=1
+olepro32.dll=1
+asycfilt.dll=1
+stdole2.tlb=1
+COMCAT.DLL=1
+
+[soinPrintDocs.ocx]
+file-win32-x86=thiscab
+RegisterServer=yes
+clsid={2F266794-D834-40A1-86BF-B4D8B2D08644}
+DestDir= 
+FileVersion=1,0,0,82
+
+[msstkprp.dll]
+file-win32-x86=thiscab
+RegisterServer=yes
+DestDir=11
+FileVersion=6,0,81,69
+
+[msvbvm60.dll]
+file-win32-x86=thiscab
+RegisterServer=yes
+DestDir=11
+FileVersion=6,0,97,82
+
+[oleaut32.dll]
+file-win32-x86=thiscab
+RegisterServer=yes
+DestDir=11
+FileVersion=5,2,3790,1830
+
+[olepro32.dll]
+file-win32-x86=thiscab
+RegisterServer=yes
+DestDir=11
+FileVersion=5,2,3790,1830
+
+[asycfilt.dll]
+file-win32-x86=thiscab
+RegisterServer=no
+DestDir=11
+FileVersion=5,2,3790,1830
+
+[stdole2.tlb]
+file-win32-x86=thiscab
+RegisterServer=no
+DestDir=11
+FileVersion=5,2,3790,1830
+
+[COMCAT.DLL]
+file-win32-x86=thiscab
+RegisterServer=yes
+DestDir=11
+FileVersion=4,71,1460,1
+
+[Setup Hooks]
+AddToRegHook=AddToRegHook
+
+[AddToRegHook]
+InfSection=DefaultInstall2
+
+[DefaultInstall2]
+AddReg=AddToRegistry
+
+[AddToRegistry]
+HKLM,"SOFTWARE\Classes\CLSID\{2F266794-D834-40A1-86BF-B4D8B2D08644}\Implemented Categories\{7DD95802-9882-11CF-9FA9-00AA006C42C4}"
+HKLM,"SOFTWARE\Classes\CLSID\{2F266794-D834-40A1-86BF-B4D8B2D08644}\Implemented Categories\{7DD95801-9882-11CF-9FA9-00AA006C42C4}"
+HKLM,"SOFTWARE\Classes\CLSID\{9DAFB221-FF20-416D-962C-1E9231DF97F5}\Implemented Categories\{7DD95802-9882-11CF-9FA9-00AA006C42C4}"
+HKLM,"SOFTWARE\Classes\CLSID\{9DAFB221-FF20-416D-962C-1E9231DF97F5}\Implemented Categories\{7DD95801-9882-11CF-9FA9-00AA006C42C4}"
+HKLM,"SOFTWARE\Classes\CLSID\{88F43B7C-86EF-44C2-958F-7ECF726B3E7E}\Implemented Categories\{7DD95802-9882-11CF-9FA9-00AA006C42C4}"
+HKLM,"SOFTWARE\Classes\CLSID\{88F43B7C-86EF-44C2-958F-7ECF726B3E7E}\Implemented Categories\{7DD95801-9882-11CF-9FA9-00AA006C42C4}"
+HKLM,"SOFTWARE\Classes\CLSID\{871B9200-EDFD-4839-BECC-2CC326ADED85}\Implemented Categories\{7DD95802-9882-11CF-9FA9-00AA006C42C4}"
+HKLM,"SOFTWARE\Classes\CLSID\{871B9200-EDFD-4839-BECC-2CC326ADED85}\Implemented Categories\{7DD95801-9882-11CF-9FA9-00AA006C42C4}"
+HKCR,"Licenses",,,"Licensing: Copying the keys may be a violation of established copyrights."
+[RegisterFiles]
+%11%\COMCAT.DLL
+%11%\olepro32.dll
+%11%\oleaut32.dll
+%11%\msvbvm60.dll
+%11%\msstkprp.dll
+%11%\soinPrintDocs.ocx
+

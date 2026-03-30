@@ -1,0 +1,382 @@
+﻿ <cf_template template="#session.sitio.template#">
+	<cf_templatearea name="title">
+		Consulta  de Documentos Contables En Proceso
+	</cf_templatearea>
+	<cf_templatearea name="body"> 
+
+<!---
+	FILTRO DE DOCUMENTOS CONTABLES
+--->
+	<cfquery name="rsLotes" datasource="#Session.DSN#">
+		select  a.Cconcepto, <cf_dbfunction args="a.Cconcepto" name="to_char" datasource="#session.DSN#">  || '-' || Cdescripcion as Cdescripcion
+		from ConceptoContableE a
+		where a.Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#Session.Ecodigo#">
+		and not exists ( 
+			select 1 from UsuarioConceptoContableE b 
+			where a.Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#Session.Ecodigo#">
+			and a.Cconcepto = b.Cconcepto
+			and a.Ecodigo = b.Ecodigo
+		)  
+		UNION
+		select a.Cconcepto, <cf_dbfunction args="a.Cconcepto" name="to_char" datasource="#session.DSN#">  || '-' || Cdescripcion as Cdescripcion
+		from ConceptoContableE a,UsuarioConceptoContableE b
+		where a.Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#Session.Ecodigo#">
+		and a.Cconcepto = b.Cconcepto
+		and a.Ecodigo = b.Ecodigo
+		and b.Usucodigo  = <cfqueryparam cfsqltype="cf_sql_integer" value="#Session.Usucodigo#">
+	</cfquery>
+	<cfquery name="rsPer" datasource="#Session.DSN#">
+		select distinct Eperiodo
+		from EContables
+		where Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#Session.Ecodigo#">
+	</cfquery>
+	<cfquery name="rsMeses" datasource="sifControl">
+		select <cf_dbfunction args="b.VSvalor" name="to_number" datasource="sifControl"> as VSvalor, b.VSdesc 
+		from Idiomas a, VSidioma b 
+		where a.Icodigo = '#Session.Idioma#'
+			and a.Iid = b.Iid
+			and b.VSgrupo = 1
+		order by <cf_dbfunction args="b.VSvalor" name="to_number" datasource="sifControl">
+	</cfquery>
+	
+	<cfquery name="rsUsuarios" datasource="#Session.DSN#">
+		select  'Todos' as ECusuario, 'Todos' as ECusuarioDESC , 0 as orden
+		union 
+		select distinct ECusuario, ECusuario as ECusuarioDESC, 1 as orden
+		  from EContables
+		  where Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#Session.Ecodigo#">
+	</cfquery>
+	
+	<cfif not isdefined("form.Usucodigo")>
+		<!---
+		<cfset form.Usucodigo = session.Usucodigo>
+		--->
+		<cfset form.Usucodigo = "">
+	</cfif>
+	<cfif isdefined("url.ver") and not isdefined("form.ver")>
+		<cfset form.ver = url.ver>
+	</cfif>
+	<cfif isdefined("url.origen") and not isdefined("form.origen")>
+		<cfset form.origen = url.origen>
+	</cfif>
+	<cfif not isdefined("form.ver")>
+		<cfset form.ver = 15>
+	</cfif>
+
+
+		<script language="javascript1.2" type="text/javascript" src="/cfmx/sif/js/utilesMonto.js"></script>
+		<script language="JavaScript1.2" type="text/javascript" src="../../js/sinbotones.js"></script>
+		<cfinclude template="Funciones.cfm">
+		
+		<cfinvoke component="sif.Componentes.Translate" method="init" returnvariable="t">
+		<cfset PolizaE = t.Translate('PolizaE','P&oacute;liza')>
+		<cfset PolizaNum = t.Translate('PolizaNum','La p&oacute;liza debe ser num&eacute;rica.')>
+		<cfset periodo="#get_val(30).Pvalor#">
+	   	<cfset mes="#get_val(40).Pvalor#">
+		
+		<cf_web_portlet border="true" skin="#Session.Preferences.Skin#" tituloalign="center" titulo='Documentos Contables En Proceso'>
+			<cfinclude template="../../portlets/pNavegacion.cfm">
+			
+			<cfform action="DocumentosNoAplicados.cfm" method="post" name="formfiltro" style="margin:0;" onsubmit="return sinbotones()">
+			<cfoutput>
+				<table width="100%"  border="0" cellspacing="1" cellpadding="1" class="AreaFiltro" style="margin:0;">
+					<tr> 
+						<td width="22%"><b>Concepto Inicial </b></td>
+						<td width="18%" rowspan="4" valign="top">
+							<div id="idAsiento">
+								<table width="45%"  border="0" cellspacing="0" cellpadding="0">
+								  <tr>
+									<td nowrap><strong>Asiento Inicial</strong></td>
+								  </tr>
+								  <tr>
+									<td>
+										<!--- <input tabindex="1" type="text" name="EdocumentoI" value=""  size="10" maxlength="5" style="text-align: right;" onblur="javascript:fm(this);"  onfocus="javascript:this.value=qf(this); this.select();"  onkeyup="javascript:if(snumber(this,event)){ if(Key(event)=='13') {this.blur();}}" > --->
+									<cf_conlis title="Lista de Documentos Contables"
+										campos = "EdocumentoI" 
+										desplegables = "S" 
+										modificables = "S" 
+										size = "10"
+										tabla="EContables e"
+										columnas="e.Edocumento as EdocumentoI , 
+												e.Efecha, 
+												e.Eperiodo, 
+												e.Emes, 
+												e.ECusuario"
+												
+										filtro="e.Ecodigo = #Session.Ecodigo# order by Eperiodo, Emes, Edocumento"
+										desplegar="EdocumentoI, 
+												Efecha, 
+												Eperiodo, 
+												Emes, 
+												ECusuario"
+										etiquetas="Documento, 
+												Fecha, 
+												Periodo, 
+												Mes, 
+												Usuario"
+										formatos="S,D,S,S,S"
+										align="right,right,right,right,right"
+										asignar="EdocumentoI"
+										asignarformatos="S"
+										showEmptyListMsg="true"
+										debug="false"
+										form="formfiltro">
+									</td>
+								  </tr>
+								  <tr>
+								  	<td>&nbsp;
+								  		
+									</td>
+								  </tr>
+								  <tr>
+									<td nowrap><strong>Asiento Final</strong></td>
+								  </tr>
+								  <tr>
+									<td>
+										<cf_conlis title="Lista de Documentos Contables"
+										campos = "EdocumentoF" 
+										desplegables = "S" 
+										modificables = "S" 
+										size = "10"
+										tabla="EContables e"
+										columnas="e.Edocumento as EdocumentoF , 
+												e.Efecha, 
+												e.Eperiodo, 
+												e.Emes, 
+												e.ECusuario"
+												
+										filtro="e.Ecodigo = #Session.Ecodigo# order by Eperiodo, Emes, Edocumento"
+										desplegar="EdocumentoF, 
+												Efecha, 
+												Eperiodo, 
+												Emes, 
+												ECusuario"
+										etiquetas="Documento, 
+												Fecha, 
+												Periodo, 
+												Mes, 
+												Usuario"
+										formatos="S,D,S,S,S"
+										align="right,right,right,right,right"
+										asignar="EdocumentoF"
+										asignarformatos="S"
+										showEmptyListMsg="true"
+										debug="false"
+										form="formfiltro">
+										
+										<!--- <input tabindex="1" type="text" name="EdocumentoF" value=""  size="10" maxlength="5" style="text-align: right;" onblur="javascript:fm(this);"  onfocus="javascript:this.value=qf(this); this.select();"  onkeyup="javascript:if(snumber(this,event)){ if(Key(event)=='13') {this.blur();}}" > --->
+										
+										</td>
+								  </tr>
+								</table>
+							</div>
+						</td>
+						<td width="11%"><b>Per&iacute;odo Inicial </b></td>
+
+	<!--- select 
+		e.Edocumento as Documento, 
+		convert(datetime,e.Efecha,103) as Fecha, 
+		e.Eperiodo as Periodo, 
+		e.Emes as Mes, 
+		e.ECusuario as Usuario ,
+		coalesce(d.Doriginal, 1) as  Monto,
+		m.Msimbolo as Moneda
+	from EContables e
+		 inner join DContables d
+		   on d.IDcontable = e.IDcontable
+	  inner join Monedas m
+		  on m.Mcodigo = d.Mcodigo
+	where e.Ecodigo = 		 --->
+	
+		
+		
+
+						<td width="16%"><b>Mes Inicial</b></td>
+						<td width="19%" nowrap><b>Fecha Inicial.</b></td>
+						<td width="9%">&nbsp;</td>
+						<td width="5%"><b>&nbsp;</b></td>
+					</tr>
+					
+					<tr> 
+						<td> 
+							<select name="loteini" <!---onChange="javascript: cambioIni(this);"--->>
+								<option value="">Todos</option>
+								<cfloop query="rsLotes"> 
+									<option value="#Cconcepto#"<cfif isdefined("form.loteini") and form.loteini eq Cconcepto>selected</cfif>>#Cdescripcion#</option>
+								</cfloop> 
+							</select>
+						</td>
+						<td>
+                          <select name="periodoini">
+                           <!---  <option value="-1">Todos</option> --->
+                            <cfloop query="rsPer">
+                              <option value="#Eperiodo#" <cfif isdefined("periodo") and periodo eq Eperiodo>selected</cfif>>#Eperiodo#</option>
+                            </cfloop>
+                          </select>
+                        </td>
+						<td>
+                          <select name="mesini">
+                            <cfloop query="rsMeses">
+                              <option value="#VSvalor#"<cfif  isdefined("mes") and  mes eq VSvalor>selected</cfif>>#VSdesc#</option>
+                            </cfloop>
+                          </select>
+                        </td>
+						<td>
+                          <cfif isdefined("form.fechaIni")>
+                            <cf_sifcalendario name="fechaIni" value="#LSDateFormat(form.fechaIni,'dd/mm/yyyy')#" form="formfiltro">
+                            <cfelse>
+                            <cf_sifcalendario name="fechaIni" value="#LSDateFormat(Now(),'dd/mm/yyyy')#" form="formfiltro">
+                          </cfif>
+                        </td>
+						<td><input type="reset" name="bLimpiar" value="Limpiar"></td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr>
+					  <td><b>Concepto Final </b></td>
+					  <td><b>Per&iacute;odo Final </b></td>
+					  <td><b>Mes Final </b></td>
+					  <td nowrap><b>Fecha Final.</b></td>
+					  <td><input type="submit" name="bGenerar" value="Generar" onclick="return RangoFechas();"></td>
+					  <td>&nbsp;</td>
+				  </tr>
+					<tr>
+					  <td>
+                        <select name="lotefin" <!---onChange="javascript: cambioFin(this);"---> >
+                          <option value="">Todos</option>
+                          <cfloop query="rsLotes">
+                            <option value="#Cconcepto#"<cfif isdefined("form.lotefin") and  form.lotefin eq Cconcepto>selected</cfif>>#Cdescripcion#</option>
+                          </cfloop>
+                        </select>
+                      </td>
+					  <td>
+                        <select name="periodofin">
+                          <cfloop query="rsPer">
+                            <option value="#Eperiodo#" <cfif isdefined("periodo") and  periodo eq Eperiodo>selected</cfif>>#Eperiodo#</option>
+                          </cfloop>
+                        </select>
+                      </td>
+					  <td>
+                        <select name="mesfin">
+                          <cfloop query="rsMeses">
+                            <option value="#VSvalor#"<cfif isdefined("mes") and  mes eq VSvalor>selected</cfif>>#VSdesc#</option>
+                          </cfloop>
+                        </select>
+                      </td>
+					  <td>
+                        <cfif isdefined("form.fechaFin")>
+                          <cf_sifcalendario name="fechaFin" value="#LSDateFormat(form.fechaFin,'dd/mm/yyyy')#" form="formfiltro">
+                          <cfelse>
+                          <cf_sifcalendario name="fechaFin" value="#LSDateFormat(Now(),'dd/mm/yyyy')#" form="formfiltro">
+                        </cfif>
+                      </td>
+					  <td>&nbsp;</td>
+					  <td>&nbsp;</td>
+				  </tr>
+					<tr>
+					  <td nowrap><strong>Formato:</strong></td>
+					  <td nowrap>&nbsp;</td>
+					  <td ><b>Usuario que Gener&oacute; </b></td>
+					  <td><b>Orden:</b></td>
+					  <td><b>Origen del Asiento</b></td>
+					  <td>&nbsp;</td>
+					  <td>&nbsp;</td>
+			  		</tr>
+					<tr>
+					  <td nowrap><select name="formato">
+                          <option value="FlashPaper">FlashPaper</option>
+                          <option value="pdf">Adobe PDF</option>
+                          <option value="excel">Microsoft Excel</option>
+                      </select></td>
+
+					  <td>
+                          <!--- <cf_sifusuarioE form="formfiltro" idusuario="#form.Usucodigo#" size="40"  frame="frame1"> --->
+                      </td>
+					  <td ><select name="Usuario">
+                        <cfloop query="rsUsuarios">
+                          <option value="#rsUsuarios.ECusuario#" >#rsUsuarios.ECusuarioDESC#</option>
+                        </cfloop>
+                      </select></td>
+					  <td>
+					  	<select name="ordenamiento">
+							<option value="0" selected>Linea</option>
+                             <option value="1">Documento</option>
+                        </select>
+						</td>
+					  <td><input name="origen" type="text" size="5" maxlength="4" value="<cfif isdefined("form.origen")>#form.origen#</cfif>"></td>
+					   <td>&nbsp;</td>
+					  <td>&nbsp;</td>
+				    </tr>  
+					
+			</table>
+			</cfoutput>
+			<script language="JavaScript"> 
+				 
+				 function RangoFechas(){
+				 
+				 	var mesinicial = document.formfiltro.mesini.value;
+					var mesfinal = document.formfiltro.mesfin.value;
+									 
+				 	var fecha_ini = new Date(parseInt(document.formfiltro.periodoini.value, 10) , parseInt(mesinicial, 10)-1 , parseInt(01, 10));
+					var periodo = 0;
+					
+					var  mes = (parseInt(mesfinal, 10) + 1) % 12;
+					if (mes == 1)
+					   { periodo = document.formfiltro.periodofin.value + 1;
+					} else {
+						periodo = document.formfiltro.periodofin.value ;
+					}
+
+					fechatemp =  new Date(parseInt(periodo,10), parseInt(mes,10)-1, parseInt(1,10));
+					var fecha_fin = new Date(fechatemp.getTime() - 86400000.0);
+					
+					
+					var a = document.formfiltro.fechaIni.value.split("/");
+					var ini = new Date(parseInt(a[2], 10), parseInt(a[1], 10)-1, parseInt(a[0], 10));
+					var b = document.formfiltro.fechaFin.value.split("/");
+					var fin = new Date(parseInt(b[2], 10), parseInt(b[1], 10)-1, parseInt(b[0], 10));
+					
+					if (ini < fecha_ini ){
+						alert("La fecha inicial no debe ser menor al periodo y mes inicial solicitados.");
+						return false;						
+					}
+	
+					if (fin < fecha_ini ){
+						alert("La fecha final  no debe ser menor al periodo y mes inicial solicitados.");
+						return false;						
+					}
+				
+					if (ini > fecha_fin ){
+						alert("La fecha inicial no debe ser mayor al periodo y mes final solicitados.");
+						return false;						
+					}
+					
+					if (fin > fecha_fin ){
+						alert("La fecha final no debe ser mayor al periodo y mes final solicitados.");
+						return false;						
+					}
+				 }
+				 
+				function cambioIni(cb){
+					var _divAsiento = document.getElementById("idAsiento");
+			
+					if(cb.value == '' && document.formfiltro.lotefin.value == '')
+						_divAsiento.style.display = '';
+					else
+						_divAsiento.style.display = 'none';
+				}
+
+				function cambioFin(cb){
+					var _divAsiento = document.getElementById("idAsiento");
+			
+					if(cb.value == '' && document.formfiltro.loteini.value == '')
+						_divAsiento.style.display = '';
+					else
+						_divAsiento.style.display = 'none';
+				}				 
+				</script> 
+			
+		</cfform>
+		
+ 		</cf_web_portlet>
+	</cf_templatearea>
+</cf_template> 

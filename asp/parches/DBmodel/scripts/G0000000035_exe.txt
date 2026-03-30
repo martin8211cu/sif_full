@@ -1,0 +1,48 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 64 - DBM 189: Agregan (mexico) Marca Imp Nomina y para 
+
+	         PARCHE:  Parche023_105_RH _Faltas
+
+GENERADO EN:
+	SERVER:  http://mxpapp36:8300
+	DSN:     sifcim
+	FECHA:   11/07/2011 11:34:39
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* CHG_TABLE CIncidentes: Conceptos Incidentes */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): CIafectaISN - Calcula o no Impuesto Nomina */
+ALTER TABLE CIncidentes ADD CIafectaISN bit DEFAULT 0 NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE HIncidenciasCalculo: Histórico de Incidencias para  */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): ICespecie - Marca Salario Especie */
+ALTER TABLE HIncidenciasCalculo ADD ICespecie bit DEFAULT 0 NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE IncidenciasCalculo: Incidencias para el Calculo */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): ICespecie - Marca Salario Especie */
+ALTER TABLE IncidenciasCalculo ADD ICespecie bit DEFAULT 0 NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

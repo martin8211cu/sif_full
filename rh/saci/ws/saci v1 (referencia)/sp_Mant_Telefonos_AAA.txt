@@ -1,0 +1,65 @@
+      
+Create Procedure sp_Mant_Telefonos_AAA 
+    @profile_id         int = null output,    -- Identificacion login en Cisco 
+    @blob_ordinal       smallint = 1,         -- Indicador del bloddata 
+    @lista_telefonos    varchar(255) = null,  -- Lista de telefonos  
+    @opcion             char(1) = ' '         -- Tiene tres valores 'P' Insertar, 'M' Modificar y 'B' Borrar   
+As 
+Begin 
+  if @opcion = 'P'  -- Incluir Estructura de Telefono en Cisco 
+  begin 
+Insert csdb..cs_profile_blob 
+(profile_id, blob_ordinal, blob_data, profile_ts) 
+Values (@profile_id,@blob_ordinal,'allow "" "" "'+@lista_telefonos+'" 
+allow "" "" "async" 
+refuse "" "" "" 
+',getDate()) 
+    if @@error <> 0  
+    begin  
+       rollback tran  
+       SELECT -1 Result 
+       return -1  
+    end 
+    else   
+    begin 
+       commit  
+       SELECT 1 Result 
+    end  
+  end    
+  else  
+  if @opcion = 'M'  -- Modificar Estructura de Telefono en Cisco 
+  begin 
+Update csdb..cs_profile_blob Set  blob_data =  'allow "" "" "'+@lista_telefonos+'" 
+allow "" "" "async" 
+refuse "" "" "" 
+' Where profile_id = @profile_id 
+    if @@error <> 0  
+    begin  
+       rollback tran  
+       SELECT -1 Result 
+       return -1  
+    end 
+    else   
+    begin 
+       commit  
+       SELECT 1 Result 
+    end  
+  end  
+  else 
+  if @opcion = 'B'  -- Borrar Estructura de Telefono en Cisco 
+  begin 
+    Delete csdb..cs_profile_blob  
+    Where profile_id = @profile_id      
+    if @@error <> 0  
+    begin  
+       rollback tran  
+       SELECT -1 Result 
+       return -1  
+    end 
+    else   
+    begin 
+       commit  
+       SELECT 1 Result 
+    end  
+  end         
+End

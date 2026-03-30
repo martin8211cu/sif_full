@@ -1,0 +1,55 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 387 - DBM 318: Kardex
+
+	         PARCHE:  Parche023_332_SIF_UpdatesNACION
+
+GENERADO EN:
+	SERVER:  http://mxvqapp34:8300
+	DSN:     sifcim
+	FECHA:   06/01/2012 16:52:51
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* CHG_TABLE HERequisicion: Histórico de Encabezado de Req */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): CFid - CFid */
+ALTER TABLE HERequisicion ADD CFid numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(NUEVO): TIP="F", SEC="1", COLS="CFid", REF="CFuncional" */
+CREATE INDEX HERequisicion_FI01 ON HERequisicion (CFid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE Kardex: Kardex */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): DSlinea - Linea de Solicitud */
+ALTER TABLE Kardex ADD DSlinea numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ================================================================= */
+/*            CREA FKs NUEVOS O CON CAMPOS MODIFICADOS               */
+/* ================================================================= */
+/* CHG_TABLE HERequisicion */
+/* ADD_FK OP=(NUEVO): TIP="F", SEC="1", COLS="CFid", REF="CFuncional" */
+ALTER TABLE HERequisicion ADD CONSTRAINT HERequisicion_FK01 FOREIGN KEY (CFid) REFERENCES CFuncional (CFid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

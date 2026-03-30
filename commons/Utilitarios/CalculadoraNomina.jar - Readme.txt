@@ -1,0 +1,12 @@
+
+
+
+El jar de la calculadora debe instalarse en  el  WEB-INF\lib de la instancia que se desea ejecutar. 
+
+Esto según manual de documentacion del Coldfusion.
+
+Lugar de Instalacion:
+
+Colfusion 9 y 10: C:\ColdFusion10\cfusion\wwwroot\WEB-INF\lib
+
+Posterior a la instalación debe reiniciar el servicio de Coldfusion.

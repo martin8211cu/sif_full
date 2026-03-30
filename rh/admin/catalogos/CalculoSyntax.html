@@ -1,0 +1,298 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>Uso del formulador de Conceptos de Pago</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+<!--
+* {font-family: Verdana, Arial, Helvetica, sans-serif; }
+td {font-size:12px}
+h1 {font-size:16px; margin:6px 0px 6px 0px; border-bottom:1px solid}
+h2 {font-size:14px; margin:6px 0px 2px 0px}
+table.info {background-color:#CCCCCC}
+td.subtitle{background-color:#ededed;font-style:italic}
+body{margin:0}
+-->
+</style>
+</head>
+
+<body>
+<h1>Uso del formulador de Conceptos de Pago</h1>
+<a id="funciones"></a>
+<table width="100%"  border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="62%"><h2>Funciones disponibles</h2></td>
+    <td width="38%" align="right">[ funciones ] [ <a href="#tipos">tipos</a> ] [ <a href="#operadores">operadores</a> ] </td>
+  </tr>
+</table>
+<table width="100%"  border="0" cellpadding="1" cellspacing="1" class="info">
+  <tr bgcolor="#DFDFFF">
+    <td width="12%">Nombre</td>
+    <td width="18%">Par&aacute;metros</td>
+    <td width="44%">Funcionalidad</td>
+    <td width="26%">Ejemplo</td>
+  </tr>
+  <tr bgcolor="#FFFFCA">
+    <td valign="top"><strong>round</strong></td>
+    <td valign="top"> n&uacute;mero [,precisi&oacute;n]</td>
+    <td valign="top">Redondea al numero m&aacute;s cercano </td>
+    <td valign="top">round (4.2323) = 4<br>
+      round (4.2357, 2) = 4.23<br>
+      round (4.2357, 3) = 4.24</td>
+  </tr>
+  <tr bgcolor="#FFFFCA">
+    <td valign="top"><strong>ceiling</strong></td>
+    <td valign="top"> n&uacute;mero [,precisi&oacute;n]</td>
+    <td valign="top">Redondea hacia arriba </td>
+    <td valign="top">ceiling (4.2323) = 5<br>
+ceiling (4.2357, 2) = 4.24<br>
+ceiling (4.2357, 3) = 4.24</td>
+  </tr>
+  <tr bgcolor="#FFFFCA">
+    <td valign="top"><strong>floor</strong></td>
+    <td valign="top"> n&uacute;mero [,precisi&oacute;n]</td>
+    <td valign="top">Redondea hacia abajo </td>
+    <td valign="top">floor (4.2323) = 4<br>
+floor (4.2357, 2) = 4.23<br>
+floor (4.2357, 3) = 4.23</td>
+  </tr>
+  <tr bgcolor="#FFFFCA">
+    <td valign="top"><strong>min</strong></td>
+    <td valign="top"> n&uacute;mero [,n&uacute;mero...]</td>
+    <td valign="top">Obtiene el menor de dos o m&aacute;s n&uacute;meros </td>
+    <td valign="top">min (3,4,1,2) = 1 </td>
+  </tr>
+  <tr bgcolor="#FFFFCA">
+    <td valign="top"><strong>max</strong></td>
+    <td valign="top"> n&uacute;mero [,n&uacute;mero...]</td>
+    <td valign="top">Obtiene el mayor de dos o m&aacute;s n&uacute;meros </td>
+    <td valign="top">max (3,4,1,2) = 4 </td>
+  </tr>
+  <tr bgcolor="#FFFFCA">
+    <td valign="top"><strong>iif</strong></td>
+    <td valign="top"> condici&oacute;n, valor_cierto, valor_falso</td>
+    <td valign="top">Eval&uacute;a la primer condici&oacute;n, y si resulta ser cierta regresa el primer valor, de lo contrario regresa el segundo valor. </td>
+    <td valign="top">iif (3 &gt; 2, 6, 7) = 6 <br>
+    iif (3 == 2, 6, 7) = 7 </td>
+  </tr>
+  <tr bgcolor="#FFFFCA">
+    <td valign="top"><strong>getdate</strong></td>
+    <td valign="top">Ninguno</td>
+    <td valign="top">Regresa la fecha actual. </td>
+    <td valign="top">&nbsp;</td>
+  </tr>
+  <tr bgcolor="#FFFFCA">
+    <td valign="top">&nbsp;</td>
+    <td valign="top">&nbsp;</td>
+    <td valign="top">&nbsp;</td>
+    <td valign="top">&nbsp;</td>
+  </tr>
+</table>
+<a id="tipos"></a>
+<table width="100%"  border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="62%"><h2>Tipos de variables</h2></td>
+    <td width="38%" align="right">[ <a href="#funciones">funciones</a> ] [ tipos ] [ <a href="#operadores">operadores</a> ] </td>
+  </tr>
+</table>
+<table width="100%"  border="0" cellpadding="1" cellspacing="1" class="info">
+  <tr bgcolor="#DFDFFF">
+    <td width="12%" valign="top">Tipo</td>
+    <td width="18%" valign="top">Valores posibles </td>
+    <td width="70%" valign="top">&nbsp;</td>
+  </tr>
+  <tr bgcolor="#FFFFCA">
+    <td valign="top"><strong>Num&eacute;rica</strong></td>
+    <td valign="top">N&uacute;meros</td>
+    <td valign="top">Puede tener o no tener decimales. </td>
+  </tr>
+  <tr bgcolor="#FFFFCA">
+    <td valign="top"><strong>Booleana</strong></td>
+    <td valign="top">true / false </td>
+    <td valign="top">Se utiliza en operaciones de comparaci&oacute;n para la funci&oacute;n iif. </td>
+  </tr>
+  <tr bgcolor="#FFFFCA">
+    <td valign="top"><strong>Fecha</strong></td>
+    <td valign="top">#DD/MM/AAAA#</td>
+    <td valign="top">Los signos # se utilizan para indicar que se trata de una fecha y no de una divisi&oacute;n. </td>
+  </tr>
+  <tr bgcolor="#FFFFCA">
+    <td valign="top">&nbsp;</td>
+    <td valign="top">&nbsp;</td>
+    <td valign="top">&nbsp;</td>
+  </tr>
+</table>
+<a id="operadores"></a>
+<table width="100%"  border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="62%"><h2>Operadores disponibles</h2></td>
+    <td width="38%" align="right">[ <a href="#funciones">funciones</a> ] [ <a href="#tipos">tipos</a> ] [ operadores ] </td>
+  </tr>
+</table>
+<table width="100%" border="0" cellpadding="1" cellspacing="1" class="info">
+  <tr bgcolor="#DFDFFF">
+    <td width="12%">Operador</td>
+    <td width="18%">Nombre</td>
+    <td width="29%">Operandos v&aacute;lidos </td>
+    <td width="41%">Ejemplo</td>
+  </tr>
+  <tr bgcolor="#FFFFCA">
+    <td colspan="4" valign="top" class="subtitle">Aritm&eacute;ticos</td>
+  </tr>
+  <tr bgcolor="#FFFFCA">
+    <td valign="top">x <strong>+</strong> y </td>
+    <td valign="top">Suma</td>
+    <td valign="top">n&uacute;mero + n&uacute;mero<br>
+    fecha + n&uacute;mero_de_d&iacute;as </td>
+    <td valign="top">4 + 6 = 10<br>      #25/12/2005# + 7 = #31/12/2005# </td>
+  </tr>
+  <tr bgcolor="#FFFFCA">
+    <td valign="top">x <strong>-</strong> y </td>
+    <td valign="top">Resta</td>
+    <td valign="top">n&uacute;mero - n&uacute;mero<br>
+      fecha - n&uacute;mero_de_d&iacute;as<br>      
+      fecha - fecha</td>
+    <td valign="top">10 - 2 = 8  <br>
+    #31/12/2005# - 7 = #25/12/2005#<br>    #31/12/2005# - #25/12/2005# = 7 </td>
+  </tr>
+  <tr bgcolor="#FFFFCA">
+    <td valign="top">x <strong>*</strong> y </td>
+    <td valign="top">Multiplicaci&oacute;n</td>
+    <td valign="top">n&uacute;mero * n&uacute;mero </td>
+    <td valign="top">4 * 8 = 32 </td>
+  </tr>
+  <tr bgcolor="#FFFFCA">
+    <td valign="top">x <strong>/</strong> y </td>
+    <td valign="top">Divisi&oacute;n</td>
+    <td valign="top">n&uacute;mero / n&uacute;mero </td>
+    <td valign="top">6 / 2 = 3<br>
+      6 / 0 = 0 </td>
+  </tr>
+  <tr bgcolor="#FFFFCA">
+    <td valign="top">x <strong>%</strong> y </td>
+    <td valign="top">M&oacute;dulo o Residuo </td>
+    <td valign="top">n&uacute;mero % n&uacute;mero </td>
+    <td valign="top">35 % 6 = 5 </td>
+  </tr>
+  <tr bgcolor="#FFFFCA">
+    <td valign="top"><strong>-</strong>x</td>
+    <td valign="top">Negar</td>
+    <td valign="top">-n&uacute;mero</td>
+    <td valign="top">-8 = 8 negativo<br>
+      4+(-2) = 2</td>
+  </tr>
+  <tr bgcolor="#FFFFCA">
+    <td valign="top">x<strong>++</strong></td>
+    <td valign="top">Incremento</td>
+    <td valign="top">variable++</td>
+    <td valign="top">Incrementa el valor de una variable.<br>
+      x = 8; x++; Regresa 9 </td>
+  </tr>
+  <tr bgcolor="#FFFFCA">
+    <td valign="top">x<strong>--</strong></td>
+    <td valign="top">Decremento</td>
+    <td valign="top">variable--</td>
+    <td valign="top">Decrementa el valor de una variable.<br>
+x = 8; x++; Regresa 9</td>
+  </tr>
+  <tr bgcolor="#FFFFCA">
+    <td colspan="4" valign="top" class="subtitle">Comparaci&oacute;n</td>
+  </tr>
+  <tr bgcolor="#FFFFCA">
+    <td valign="top">a <strong>==</strong> b </td>
+    <td valign="top">Igualdad</td>
+    <td valign="top">n&uacute;mero == n&uacute;mero<br>
+    <br>      fecha == fecha </td>
+    <td valign="top">5 == 6; Regresa false<br>
+  5 == 5; Regresa true <br>
+  #2/12/2005# == #02/12/2005# Regresa true </td>
+  </tr>
+  <tr bgcolor="#FFFFCA">
+    <td valign="top">a <strong>!=</strong> b </td>
+    <td valign="top">Desigualdad</td>
+    <td valign="top">n&uacute;mero != n&uacute;mero <br>
+      <br>
+    fecha != fecha </td>
+    <td valign="top">5 != 6; Regresa true <br>
+  5 != 5; Regresa false <br>
+  #2/12/2005# != #02/12/2005# Regresa false </td>
+  </tr>
+  <tr bgcolor="#FFFFCA">
+    <td valign="top">a <strong>&gt;</strong> b </td>
+    <td valign="top">Mayor</td>
+    <td valign="top">n&uacute;mero &gt; numero<br>
+    fecha &gt; fecha </td>
+    <td valign="top">&nbsp;</td>
+  </tr>
+  <tr bgcolor="#FFFFCA">
+    <td valign="top">a <strong>&gt;=</strong> b</td>
+    <td valign="top">Mayor o igual </td>
+    <td valign="top">n&uacute;mero &gt;= numero<br>      fecha &gt;= fecha </td>
+    <td valign="top">&nbsp;</td>
+  </tr>
+  <tr bgcolor="#FFFFCA">
+    <td valign="top">a <strong>&lt;</strong> b </td>
+    <td valign="top">Menor</td>
+    <td valign="top">n&uacute;mero &lt; numero<br>      fecha &lt; fecha </td>
+    <td valign="top">&nbsp;</td>
+  </tr>
+  <tr bgcolor="#FFFFCA">
+    <td valign="top">a <strong>&lt;=</strong> b </td>
+    <td valign="top">Menor o igual </td>
+    <td valign="top">n&uacute;mero &lt;= numero<br>      fecha&lt;= fecha </td>
+    <td valign="top">&nbsp;</td>
+  </tr>
+  <tr bgcolor="#FFFFCA">
+    <td colspan="4" valign="top" class="subtitle">L&oacute;gicos</td>
+  </tr>
+  <tr bgcolor="#FFFFCA">
+    <td valign="top">a <strong>||</strong> b </td>
+    <td valign="top">OR</td>
+    <td valign="top">booleano || booleano </td>
+    <td valign="top">2==3 || 2==2; Regresa true <br>
+    2==3 || 3==2; Regresa false </td>
+  </tr>
+  <tr bgcolor="#FFFFCA">
+    <td valign="top">a <strong>&amp;&amp;</strong> b </td>
+    <td valign="top">AND</td>
+    <td valign="top">booleano &amp;&amp; booleano </td>
+    <td valign="top">3==3 &amp;&amp; 2==2; Regresa true <br>
+      2==3 &amp;&amp; 2==2; Regresa false <br>
+2==3 &amp;&amp; 3==2; Regresa false </td>
+  </tr>
+  <tr bgcolor="#FFFFCA">
+    <td valign="top"><strong>!</strong> a </td>
+    <td valign="top">NOT</td>
+    <td valign="top">! booleano </td>
+    <td valign="top">! (3 == 2); Regresa true, y es equivalente a (3 != 2) </td>
+  </tr>
+  <tr bgcolor="#FFFFCA">
+    <td colspan="4" valign="top" class="subtitle">Otros</td>
+  </tr>
+  <tr bgcolor="#FFFFCA">
+    <td valign="top"><strong>(</strong> expr <strong>) </strong></td>
+    <td valign="top">Par&eacute;ntesis</td>
+    <td valign="top">Sirva para modificar la prioridad de los operadores </td>
+    <td valign="top">(2+3) * 5; Regresa 5*5 = 25 <br>
+      2+3*5; Regresa 2+15 = 18 ;<br>
+      2+(3*5); Regresa 2+15 = 18;</td>
+  </tr>
+  <tr bgcolor="#FFFFCA">
+    <td valign="top">x <strong>=</strong> expr </td>
+    <td valign="top">Asignar</td>
+    <td valign="top">variable = expresi&oacute;n </td>
+    <td valign="top">Asigna la expresi&oacute;n de la derecha a una variable. Del lado izquierdo del signo igual debe haber un nombre de variable &uacute;nicamente.<br>
+      x = 4+2*6;<br>
+      y = 9+5*3 ; </td>
+  </tr>
+  <tr bgcolor="#FFFFCA">
+    <td valign="top"><strong>;</strong></td>
+    <td valign="top">Punto y coma </td>
+    <td valign="top">Separa m&uacute;ltiples asignaciones en una sola l&iacute;nea. No es necesario si la siguiente instrucci&oacute;n est&aacute; en una l&iacute;nea aparte </td>
+    <td valign="top">x=4; y=2; fecha_ley = #12/02/1994#<br>
+      z=9</td>
+  </tr>
+</table>
+</body>
+</html>

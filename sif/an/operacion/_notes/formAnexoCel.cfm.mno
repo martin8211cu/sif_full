@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+<info>
+	<infoitem key="UD_rsLinea" value="name:AnexoCelId;datatype:,name:AnexoId;datatype:,name:AnexoRan;datatype:,name:AnexoCon;datatype:,name:AnexoRel;datatype:,name:AnexoMes;datatype:,name:AnexoPer;datatype:,name:Ocodigo;datatype:,name:AnexoNeg;datatype:" />
+	<infoitem key="UD_rsConceptos" value="name:CAcodigo;datatype:,name:CAdescripcion;datatype:" />
+	<infoitem key="UD_rsOficinas" value="name:Ocodigo;datatype:,name:Odescripcion;datatype:" />
+	<infoitem key="MM_css_include" value="../../css/estilos.css" />
+	<infoitem key="MM_css_exclude" value="" />
+	<infoitem key="UD_rsMeses" value="name:VSvalor;datatype:,name:VSdesc;datatype:" />
+</info>

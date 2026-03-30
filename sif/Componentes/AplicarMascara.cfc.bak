@@ -1,0 +1,529 @@
+﻿<cfcomponent>
+	<cffunction name="AplicarMascara" returntype="string" access="public">
+		<cfargument name="cuenta" type="string" required="yes">
+		<cfargument name="valor"  type="string" required="yes">
+		<cfargument name="sustitucion" type="string" default="?">
+		
+		<cfset var sb = "">
+		<cfset var pos = 1>
+		<cfset var ch = "">
+		<cfset var len_cuenta = Len(Arguments.cuenta)>
+		<cfset var len_valor = Len(Arguments.valor)>
+		<cfif len_cuenta EQ 0>
+			<cfreturn "">
+		</cfif>
+		<cfif len_valor EQ 0>
+			<cfreturn Arguments.cuenta>
+		</cfif>
+		
+		<cfloop index="i" from="1" to="#len_cuenta#">
+			<cfset ch = Mid(Arguments.cuenta, i, 1)>
+			<cfif ch EQ arguments.sustitucion >
+				<cfset sb = sb & Mid(Arguments.valor, pos, 1)>
+				<cfset pos = pos + 1>
+				<cfif pos GT len_valor>
+					<cfset pos = 1>
+				</cfif>
+			<cfelse>
+				<cfset sb = sb & ch>
+			</cfif>
+		</cfloop>
+		
+		<cfreturn trim(sb)>
+	</cffunction>
+	
+	<!---
+	* Extrae del CFformato el CPformato dependiendo de nivelesP
+	* donde nivelesP tiene la forma "ini-lon,ini-lon..." e ini es la
+	posición del guión
+	* ej ExtraerNivelesP("0001-002-0003-04-05","1-4,9-5,17-3") regresa
+	"0001-0003-05"
+	--->
+	<cffunction name="ExtraerNivelesP" returntype="string" access="public">
+		<cfargument name="CFformato" type="string" required="yes">
+		<cfargument name="nivelesP"  type="string" required="yes">
+	
+		<cfset var LvarCPformato = "">
+		<cfloop list="#nivelesP#" index="LvarNivel">
+			<cfset LvarCPformato = LvarCPformato & mid(Arguments.CFformato,listGetAt(LvarNivel,1,"-"),listGetAt(LvarNivel,2,"-"))>
+		</cfloop>
+		<cfreturn LvarCPformato>
+	</cffunction>
+
+	<cffunction name="fnComplementoObras" returntype="string" access="public">
+		<cfargument name="OBOid" 	type="numeric" required="yes">
+		<cfargument name="conMayor" type="boolean" default="no">
+	
+		<cfquery datasource="#session.dsn#" name="rsSQL">
+			select CFformatoObr
+			  from OBobra
+			 where OBOid = <cfqueryparam cfsqltype="cf_sql_numeric" value="#Arguments.OBOid#">
+		</cfquery>
+		
+		<cfif arguments.conMayor>
+			<cfset LvarCuentaC = rsSQL.CFformatoObr>
+		<cfelse>
+			<cfset LvarCuentaC = mid(rsSQL.CFformatoObr,6,100)>
+		</cfif>
+		<cfset LvarCuentaC = replace(LvarCuentaC,"-","","ALL")>
+		<cfset LvarCuentaC = replace(LvarCuentaC,"X","","ALL")>
+		<cfreturn trim("#LvarCuentaC#")>
+	</cffunction>
+
+	<!--- fnComplementoItem(Ecodigo, CFid, SNid, tipoItem, Aid, Cid, ACcodigo, ACid) --->
+	<cffunction name="fnComplementoItem" returntype="string" access="public">
+		<cfargument name="Ecodigo" 	type="numeric"	required="yes">
+		<cfargument name="CFid" 	type="numeric"	required="yes">
+		<cfargument name="SNid" 	type="numeric"	required="yes">
+		<cfargument name="tipoItem" type="string"	required="yes">
+		<cfargument name="Aid"		type="string"	required="yes">
+		<cfargument name="Cid"		type="string"	required="yes">
+		<cfargument name="ACcodigo"	type="string"	required="yes">
+		<cfargument name="ACid"		type="string"	required="yes">	
+        <cfargument name="ActEcono"	type="string"	required="yes" default="" hint="Actividad Economica">
+        <cfargument name="GECid"	type="string"	required="yes" default="">
+        <cfargument name="GECid2"	type="string"	required="yes" default="">
+        <cfargument name="EcodigoExtra"	type="numeric"	required="no" >
+        <cfargument name="TipoTarjeta" 	type="numeric"	required="no" default="-1">
+		<cfargument name="CPDEid" type="numeric" required="no" default="0">
+
+		<cfif NOT isdefined('Arguments.EcodigoExtra') and isdefined('Arguments.Ecodigo')>
+        	<cfset Arguments.EcodigoExtra = Arguments.Ecodigo>
+        </cfif>
+		
+       	<cfif Arguments.tipoItem EQ "A">
+			<!---ERBG 10/04/2013 Inicia--->
+            <cfquery name="rsCtaConsInv" datasource="#session.dsn#">
+                select Pvalor
+                  from Parametros
+                 where Ecodigo = #Arguments.EcodigoExtra#
+                   and Pcodigo = 892
+            </cfquery>  
+            
+            <!---<cfthrow message="Parametro [Pvalor=#rsCtaConsInv.Pvalor#]">--->
+            
+			<cfif rsCtaConsInv.Pvalor eq '1'>
+				<!---A = Articulos de Inventario--->
+                <!--- 
+                    Macara 		= Cuenta de Inventarios del CentroFuncional
+                    Complemento = en la Clasificación del Articulo 
+                --->
+                <cfquery name="rsCFcomplemento" datasource="#session.DSN#">
+                    select  a.Acodigo, cl.Ccodigoclas, cl.cuentac as complemento1, ' ' as complemento2, cl.Cformato, cl.Cdescripcion
+                      from  Articulos a
+                        inner join Clasificaciones cl
+                         on cl.Ccodigo=a.Ccodigo
+                        and cl.Ecodigo=a.Ecodigo
+                     where  a.Aid		= <cfqueryparam cfsqltype="cf_sql_numeric" value="#Arguments.Aid#">
+                       and  a.Ecodigo	= #Arguments.EcodigoExtra#
+                </cfquery>
+                
+                <cfquery name="rsCFmascara" datasource="#session.DSN#">
+                    select  CFcodigo, CFcuentainventario as mascara, CFComplementoCtaGastoCS
+                      from  CFuncional
+                     where  CFid	= #Arguments.CFid#
+                       and  Ecodigo	= #Arguments.Ecodigo#
+                </cfquery>
+                
+                <cfif rsCFmascara.recordCount EQ 0>
+                    <cfthrow message="Centro Funcional [CFid=#Arguments.CFid#] no existe">
+                <cfelseif trim(rsCFmascara.mascara) EQ "">
+                    <cfthrow message="No ha sido definida la Máscara para Cuenta de Gasto por Consumo o Compras de Inventario en Centro Funcional '#rsCFmascara.CFcodigo#'">
+                </cfif>
+                <cfif find("?",rsCFmascara.mascara) AND "#trim(rsCFcomplemento.complemento1)##trim(rsCFcomplemento.complemento2)#" EQ "">
+                    <cfquery name="rsSQL" datasource="#session.DSN#">
+                        select Acodigo
+                          from Articulos
+                         where Aid		= <cfqueryparam cfsqltype="cf_sql_numeric" value="#Arguments.Aid#">
+                           and Ecodigo	= #Arguments.Ecodigo#
+                    </cfquery>
+                    <cfif rsSQL.recordCount EQ 0>
+                        <cfthrow message="Artículo de Inventario [Aid=#Arguments.Aid#] no existe">
+                    </cfif>
+                    <cfthrow message="No ha sido definido el Complemento Financiero ni en la Clasificacion '#rsCFcomplemento.Ccodigoclas#' ni en el Artículo de Inventario '#rsSQL.Acodigo#'">
+                </cfif>
+            <cfelse>
+                <!--- 
+                    Macara 		= Cuenta de Gastos por Consumo de Inventarios
+                    Complemento = en la Clasificación del Centro Funcional + Complemento Contable del Socio de Negocios
+                --->
+				<!--- Complemento del Socio de Negocios por Default --->
+                <cfquery name="rsCFmascara" datasource="#session.DSN#">
+                    select cl.Cformato as mascara, cl.Cdescripcion
+                      from  Articulos a
+                        inner join Clasificaciones cl
+                         on cl.Ccodigo=a.Ccodigo
+                        and cl.Ecodigo=a.Ecodigo
+                     where  a.Aid		= <cfqueryparam cfsqltype="cf_sql_numeric" value="#Arguments.Aid#">
+                       and  a.Ecodigo	= #Arguments.Ecodigo#
+                </cfquery>
+                <cfif trim(rsCFmascara.mascara) EQ "">
+                    <cfthrow message="No ha sido definida la cuenta de gasto por consumo para la clasificación '#rsCFcomplemento.Cdescripcion#'">
+                </cfif>
+                
+                <cfquery name="rsComplSD" datasource="#session.dsn#">
+                    select Pvalor
+                      from Parametros
+                     where Ecodigo = #Arguments.Ecodigo#
+                       and Pcodigo = 1370
+                </cfquery>
+                
+                <cfquery name="rsCFcomplemento2" datasource="#session.DSN#">
+                    select  CFcodigo, CFComplementoCtaGastoCS
+                      from  CFuncional
+                     where  CFid	= #Arguments.CFid#
+                       and  Ecodigo	= #Arguments.Ecodigo#
+                </cfquery>
+                <cfif find("!",rsCFmascara.mascara) AND "#trim(rsCFcomplemento2.CFComplementoCtaGastoCS)#" EQ "">
+                	<cfthrow message="No ha sido definida la Cuenta Complemento de Gasto para el Centro Funcional '#rsCFmascara.CFcodigo#">
+				</cfif> 
+				<cfif Arguments.SNid EQ -1>
+					<cfquery name="rsSNcomplemento" datasource="#session.DSN#">
+							select Pvalor as complemento1SN, ' ' as complemento2SN
+							from Parametros
+							where Ecodigo = #Arguments.Ecodigo#
+							and Pcodigo = 1370
+					</cfquery>
+					<cfif find("?",rsCFmascara.mascara) AND trim(rsSNcomplemento.complemento1SN) EQ "">
+						<cfthrow message="No ha definido el complemento default para el Socio de Negocios en los parametros adicionales del sistema.">
+					</cfif>					
+				<cfelse>
+					<cfquery name="rsSNcomplemento" datasource="#session.DSN#">
+						select SNcodigo, SNnombre, cuentac as complemento1SN, ' ' as complemento2SN
+						  from SNegocios
+						 where SNid		= <cfqueryparam cfsqltype="cf_sql_numeric" value="#Arguments.SNid#">
+						   and Ecodigo	= #Arguments.Ecodigo#
+					</cfquery>
+					<cfif find("?",rsCFmascara.mascara) AND trim(rsSNcomplemento.complemento1SN) EQ "">
+						<cfif rsSNcomplemento.recordCount EQ 0>
+							<cfthrow message="Concepto de Servicio [SNid=#Arguments.SNid#] no existe">
+						<cfelseif rsSNcomplemento.complemento1SN EQ "">
+							<cfif rsComplSD.Pvalor EQ "">
+                                <cfthrow message="No ha sido definida la Cuenta Complemento por Default">
+                            </cfif>
+						</cfif>
+					</cfif>
+				</cfif>
+            </cfif>
+		<cfelseif Arguments.tipoItem EQ "S">
+			<!---S = Concepto de Servicio--->
+			<!--- 
+				Macara 		= Cuenta de Gastos del CentroFuncional
+				Complemento = en la Clasificación del Concepto + Concepto de Gasto
+			--->
+			<cfquery name="rsParam" datasource="#session.DSN#">
+				select  Pvalor
+				  from  Parametros
+				 where  Ecodigo	= #Arguments.Ecodigo#
+				   and  Pcodigo = 890
+			</cfquery> 
+             
+             <cfquery name="rsConceptoCodigo" datasource="#session.DSN#">
+             	select  Ccodigo
+				  from Conceptos c
+				 where c.Cid		= <cfqueryparam cfsqltype="cf_sql_numeric" value="#Arguments.Cid#">
+				   and c.Ecodigo	= #Arguments.Ecodigo#
+             </cfquery>			 
+			 	        
+             <cfset LvarCid = "">
+             <cfif  rsConceptoCodigo.recordcount gt 0 and  rsConceptoCodigo.Ccodigo neq "">     
+                <cfquery name="rstipoconcepto" datasource="#session.DSN#">
+                    select  Ctipo, Cid
+                      from Conceptos c
+                     where c.Ccodigo	= <cfqueryparam cfsqltype="cf_sql_varchar" value="#rsConceptoCodigo.Ccodigo#">
+                       and c.Ecodigo	= #Arguments.EcodigoExtra#
+                </cfquery>
+              <cfset LvarCid = rstipoconcepto.Cid>
+              <cfelse>
+              	  <cfthrow message="El codigo del concepto no se encontró en el centro Funcional">
+              </cfif>  
+
+			<cfif rsParam.recordcount eq 0 or len(trim(rsParam.Pvalor)) EQ 0>              
+				<cfquery name="rsCFmascara" datasource="#session.DSN#">
+					select  CFcodigo, case when '#rstipoconcepto.Ctipo#' = 'G' then  CFcuentac else CFcuentaingreso end as mascara
+					  from  CFuncional
+					 where  CFid	= #Arguments.CFid#
+					   and  Ecodigo	= #Arguments.Ecodigo#
+				</cfquery>
+							
+				<cfif rsCFmascara.recordCount EQ 0>
+					<cfthrow message="Centro Funcional [CFid=#Arguments.CFid#] no existe">
+				<cfelseif rsCFmascara.mascara EQ "">
+					<cfthrow message="No ha sido definida la Máscara para Cuenta de Gasto o Compras de Servicios en Centro Funcional '#rsCFmascara.CFcodigo#'">
+				</cfif>
+				<cfquery name="rsCFcomplemento" datasource="#session.DSN#">
+					select  cc.cuentac as complemento1, c.cuentac as complemento2
+					  from Conceptos c
+						inner join CConceptos cc
+						 on cc.CCid		= c.CCid
+						and cc.Ecodigo	= c.Ecodigo
+					 where c.Cid		= <cfqueryparam cfsqltype="cf_sql_numeric" value="#LvarCid#">
+					   and c.Ecodigo	= #Arguments.EcodigoExtra#
+				</cfquery>
+			<cfif find("?",rsCFmascara.mascara) AND "#trim(rsCFcomplemento.complemento1)##trim(rsCFcomplemento.complemento2)#" EQ "">
+					<cfquery name="rsSQL" datasource="#session.DSN#">
+						select Ccodigo, CCid
+						  from Conceptos
+						 where Cid		= <cfqueryparam cfsqltype="cf_sql_numeric" value="#LvarCid#">
+						   and Ecodigo	= #Arguments.EcodigoExtra#
+					</cfquery>
+					<cfif rsSQL.recordCount EQ 0>
+						<cfthrow message="Concepto de Servicio [Cid=#Arguments.Cid#] no existe">
+					</cfif>
+					<cfset LvarCCid = rsSQL.CCid>
+					<cfquery name="rsSQL" datasource="#session.DSN#">
+						select  cc.CCcodigo, c.Ccodigo
+						  from Conceptos c
+							inner join CConceptos cc
+							 on cc.CCid		= c.CCid
+							and cc.Ecodigo	= c.Ecodigo
+						 where c.Cid		= <cfqueryparam cfsqltype="cf_sql_numeric" value="#LvarCid#">
+						   and c.Ecodigo	= #Arguments.EcodigoExtra#
+					</cfquery>
+					<cfif rsSQL.recordCount EQ 0>
+						<cfthrow message="Clasificacion del Concepto de Servicio [CCid=#LvarCCid#] no existe">
+					</cfif>
+					<cfthrow message="No ha sido definido el Complemento Financiero (Objeto de Gasto) ni en la Clasificacion '#rsSQL.CCcodigo#' ni en el Concepto de Servicio '#rsSQL.Ccodigo#'">
+				</cfif>
+			<cfelseif rsParam.Pvalor EQ "2">
+				<cfquery name="rsCFmascara" datasource="#session.DSN#">
+					select Ccodigo, Cformato as mascara
+					  from Conceptos c
+					 where c.Cid		= <cfqueryparam cfsqltype="cf_sql_numeric" value="#LvarCid#">
+					   and c.Ecodigo	= #Arguments.EcodigoExtra#
+				</cfquery>
+				<cfif rsCFmascara.recordCount EQ 0>
+					<cfthrow message="Concepto de Servicio [Cid=#Arguments.Cid#] no existe">
+				<cfelseif rsCFmascara.mascara EQ "">
+					<cfthrow message="No ha sido definida la Máscara para Cuenta de Gasto o Compras de Servicios en Concepto de Servicio '#rsCFmascara.Ccodigo#'">
+				</cfif>
+				<cfif Arguments.SNid EQ -1>
+					<cfset rsCFcomplemento = queryNew("complemento1, complemento2")>
+					<cfset queryAddRow(rsCFcomplemento,1)>
+					<cfset querySetCell(rsCFcomplemento,"complemento1","0000000000",1)>
+                    <cfset querySetCell(rsCFcomplemento,"complemento2","0000000000",1)>
+				<cfelse>
+					<cfquery name="rsCFcomplemento" datasource="#session.DSN#">
+						select SNcodigo, SNnombre, cuentac as complemento1, ' ' as complemento2
+						  from SNegocios
+						 where SNid		= <cfqueryparam cfsqltype="cf_sql_numeric" value="#Arguments.SNid#">
+						   and Ecodigo	= #Arguments.Ecodigo#
+					</cfquery>
+					<cfif find("?",rsCFmascara.mascara) AND trim(rsCFcomplemento.complemento1) EQ "">
+						<cfif rsCFcomplemento.recordCount EQ 0>
+							<cfthrow message="Concepto de Servicio [SNid=#Arguments.SNid#] no existe">
+						<cfelseif rsCFcomplemento.complemento1 EQ "">
+							<cfthrow message="No ha sido definida la Máscara para Cuenta de Gasto o Compras de Servicios en Socio de Negocios '#rsCFcomplemento.SNcodigo#'">
+						</cfif>
+					</cfif>
+				</cfif>
+			<!----ANGELES Parametro 3--->
+			<cfelseif rsParam.Pvalor EQ "3">
+				<cfquery name="rsCFmascara" datasource="#session.DSN#">
+					select Ccodigo, Cformato as mascara
+					  from Conceptos c
+					 where c.Cid		= <cfqueryparam cfsqltype="cf_sql_numeric" value="#LvarCid#">
+					   and c.Ecodigo	= #Arguments.EcodigoExtra#
+				</cfquery>
+				<cfif rsCFmascara.recordCount EQ 0>
+					<cfthrow message="Concepto de Servicio [Cid=#Arguments.Cid#] no existe">
+				<cfelseif rsCFmascara.mascara EQ "">
+					<cfthrow message="No ha sido definida la Máscara para Cuenta de Gasto o Compras de Servicios en Concepto de Servicio '#rsCFmascara.Ccodigo#'">
+				</cfif>
+				<cfif Arguments.CFid EQ -1>
+					<cfset rsCFcomplemento = queryNew("complemento1CF")>
+					<cfset queryAddRow(rsCFcomplemento,1)>
+					<cfset querySetCell(rsCFcomplemento,"complemento1CF","0000000000",1)>
+				<cfelse>
+					<cfquery name="rsCFcomplemento" datasource="#session.DSN#">
+						select CFcodigo, CFdescripcion, CFComplementoCtaGastoCS as complemento1CF
+						from CFuncional where CFid = <cfqueryparam cfsqltype="cf_sql_numeric" value="#Arguments.CFid#">
+						and Ecodigo	= #Arguments.Ecodigo#
+					</cfquery>
+					<cfif find("!",rsCFmascara.mascara) AND trim(rsCFcomplemento.complemento1CF) EQ "">
+						<cfif rsCFcomplemento.recordCount EQ 0>
+							<cfthrow message="Centro Funcional [CFid=#Arguments.CFid#] no existe">
+						<cfelseif rsCFcomplemento.complemento1CF EQ "">
+							<cfthrow message="No ha sido definido el complemento contable para el Centro Funcional '#rsCFcomplemento.CFcodigo#'">
+						</cfif>
+					</cfif>                   
+				</cfif>
+				<cfif Arguments.SNid EQ -1>
+					<cfquery name="rsSNcomplemento" datasource="#session.DSN#">
+							select Pvalor as complemento1SN, ' ' as complemento2SN
+							from Parametros
+							where Ecodigo = #Arguments.Ecodigo#
+							and Pcodigo = 1370
+					</cfquery>
+					<cfif find("?",rsCFmascara.mascara) AND trim(rsSNcomplemento.complemento1SN) EQ "">
+						<cfthrow message="No ha definido el complemento default para el Socio de Negocios en los parametros adicionales del sistema.">
+					</cfif>					
+				<cfelse>
+					<cfquery name="rsSNcomplemento" datasource="#session.DSN#">
+						select SNcodigo, SNnombre, cuentac as complemento1SN, ' ' as complemento2SN
+						  from SNegocios
+						 where SNid		= <cfqueryparam cfsqltype="cf_sql_numeric" value="#Arguments.SNid#">
+						   and Ecodigo	= #Arguments.Ecodigo#
+					</cfquery>
+					<cfif find("?",rsCFmascara.mascara) AND trim(rsSNcomplemento.complemento1SN) EQ "">
+						<cfif rsSNcomplemento.recordCount EQ 0>
+							<cfthrow message="Concepto de Servicio [SNid=#Arguments.SNid#] no existe">
+						<cfelseif rsSNcomplemento.complemento1SN EQ "">
+							<cfthrow message="No ha sido definido el complemento contable para el Socio de Negocios '#rsSNcomplemento.SNcodigo#'">
+						</cfif>
+					</cfif>
+				</cfif>			
+             <cfelse>
+             	<cfthrow message="Parametro de Construccion de Cuentas para Conceptos de Servicio no implementado (#rsParam.Pvalor#)">
+			</cfif>
+        <cfelseif Arguments.tipoItem EQ "Tarjeta">
+			<!---T = Para pagos con tarjeta de credio o debito--->
+			<!--- 
+				Macara 		=  ***
+				Complemento =  complemento de comision
+			--->         
+				<cfquery name="rsCFmascara" datasource="#session.DSN#">
+					select  CFcodigo, CFcuentac as mascara
+					  from  CFuncional
+					 where  CFid	= #Arguments.CFid#
+					   and  Ecodigo	= #Arguments.Ecodigo#
+				</cfquery>
+				<cfif rsCFmascara.recordCount EQ 0>
+					<cfthrow message="Centro Funcional [CFid=#Arguments.CFid#] no existe">
+				<cfelseif rsCFmascara.mascara EQ "">
+					<cfthrow message="No ha sido definida la Máscara para Cuenta de Gasto o Compras de Servicios en Centro Funcional '#rsCFmascara.CFcodigo#'">
+				</cfif>
+				<cfquery name="rsCFcomplemento" datasource="#session.DSN#">
+					select  t.FATcomplemento as complemento1, '' as complemento2
+					  from FATarjetas t					
+					 where t.FATid  	= <cfqueryparam cfsqltype="cf_sql_numeric" value="#Arguments.TipoTarjeta#">
+					   and t.Ecodigo	= #Arguments.Ecodigo#
+				</cfquery>
+				<cfif find("?",rsCFmascara.mascara) AND "#trim(rsCFcomplemento.complemento1)#" EQ "">
+					<cfthrow message="No ha sido definido el Complemento de comisión!">
+				</cfif>		
+		<cfelseif Arguments.tipoItem EQ "F">
+			<!---F = Activo Fijo--->
+			<!--- 
+				Macara 		= Cuenta de Inversión del CentroFuncional
+				Complemento = en la Categoría y Clasificación del Activo Fijo
+			--->
+			<cfquery name="rsCFmascara" datasource="#session.DSN#">
+				select  CFcodigo, CFcuentainversion as mascara
+				  from  CFuncional
+				 where  CFid	= #Arguments.CFid#
+				   and  Ecodigo	= #Arguments.Ecodigo#
+			</cfquery>
+			<cfif rsCFmascara.recordCount EQ 0>
+				<cfthrow message="Centro Funcional [CFid=#Arguments.CFid#] no existe">
+			<cfelseif rsCFmascara.mascara EQ "">
+				<cfthrow message="No ha sido definida la Máscara para Cuenta de Inversión o Compras de Activos Fijos en Centro Funcional '#rsCFmascara.CFcodigo#'">
+			</cfif>
+			<cfquery name="rsCFcomplemento" datasource="#session.DSN#">
+				select 	rtrim(cat.ACcodigodesc) as CatCodigo, rtrim(cat.ACcodigodesc) + '-' + rtrim(cla.ACcodigodesc) as ClaCodigo, 
+						cat.cuentac as complemento1, cla.cuentac as complemento2
+				  from AClasificacion cla
+					inner join ACategoria cat
+						 on cat.ACcodigo	= cla.ACcodigo
+						and cat.Ecodigo		= cla.Ecodigo
+				 where cla.ACcodigo	= #Arguments.ACcodigo#
+				   and cla.ACid		= #Arguments.ACid#
+				   and cla.Ecodigo	= #Arguments.Ecodigo#
+			</cfquery>
+			<cfif "#trim(rsCFcomplemento.complemento1)##trim(rsCFcomplemento.complemento2)#" EQ "">
+				<cfquery name="rsSQL" datasource="#session.DSN#">
+					select ACcodigodesc
+					  from ACategoria
+					 where ACcodigo	= #Arguments.ACcodigo#
+					   and Ecodigo	= #Arguments.Ecodigo#
+				</cfquery>
+				<cfif rsSQL.recordCount EQ 0>
+					<cfthrow message="Categoría de Activo Fijo [ACid=#Arguments.ACid#] no existe">
+				</cfif>
+				<cfquery name="rsSQL" datasource="#session.DSN#">
+					select rtrim(cat.ACcodigodesc) as CatCodigo, rtrim(cat.ACcodigodesc) + '-' + rtrim(cla.ACcodigodesc) as ClaCodigo
+					  from AClasificacion cla
+						inner join ACategoria cat
+							 on cat.ACcodigo	= cla.ACcodigo
+							and cat.Ecodigo		= cla.Ecodigo
+					 where cla.ACcodigo	= #Arguments.ACcodigo#
+					   and cla.ACid		= #Arguments.ACid#
+					   and cla.Ecodigo	= #Arguments.Ecodigo#
+				</cfquery>
+				<cfif rsSQL.recordCount EQ 0>
+					<cfthrow message="Clasificacion de Activo Fijo [(ACcodigo,ACid)=(Arguments.ACcodigo,#Arguments.ACid#)] no existe">
+				</cfif>
+				<cfthrow message="No ha sido definido el Complemento Financiero ni en la Categoria '#rsSQL.CatCodigo#' ni en la Clasificacion de Activo Fijo '#rsSQL.ClaCodigo#'">
+			</cfif>
+       	<cfelseif Arguments.tipoItem EQ "G">
+			<!--- G = Concepto de Gasto--->
+			<!--- 
+				Macara 		= Cuenta de Gastos del CentroFuncional
+				Complemento = En Conceptos de Gasto Al Empleado (GECcomplemento=Normal y deducible. GECcomplemento2=No deducible)
+			--->
+            <cfquery name="rsCFmascara" datasource="#session.DSN#">
+				select  CFcodigo, CFcuentac as mascara
+				  from  CFuncional
+				 where  CFid	= #Arguments.CFid#
+				   and  Ecodigo	= #Arguments.Ecodigo#
+			</cfquery>
+			<cfif rsCFmascara.recordCount EQ 0>
+				<cfthrow message="Centro Funcional [CFid=#Arguments.CFid#] no existe">
+			<cfelseif rsCFmascara.mascara EQ "">
+				<cfthrow message="No ha sido definida la Máscara para Cuenta de Gasto o Compras de Servicios en Centro Funcional '#rsCFmascara.CFcodigo#'">
+			</cfif>
+			<cfif Arguments.GECid2 NEQ "">
+				<cfquery name="rsCFcomplemento" datasource="#session.DSN#">
+					select GECconcepto,  GECcomplemento2 as complemento1, ' ' as complemento2 
+					from GEconceptoGasto
+					where GECid = #Arguments.GECid2#
+				</cfquery>
+			<cfelseif Arguments.GECid NEQ "">
+				<cfquery name="rsCFcomplemento" datasource="#session.DSN#">
+					select GECconcepto,  GECcomplemento as complemento1, ' ' as complemento2 
+					from GEconceptoGasto
+					where GECid = #Arguments.GECid#
+				</cfquery>
+			<cfelse>
+                <cfthrow message="Concepto de Gasto es obligatorio">
+			</cfif>
+            <cfif rsCFcomplemento.recordCount EQ 0>
+                <cfthrow message="Concepto de Gasto [GECid=#Arguments.GECid#] no existe">
+			<cfelseif rsCFcomplemento.complemento1 EQ "">
+                <cfthrow message="No ha sido definido el Complemento Financiero (Objeto de Gasto) en el Objeto de Gasto '#rsCFcomplemento.GECconcepto#'">
+            </cfif>
+        <cfelse>
+            <cfthrow message="No ha sido implementada la construcción de la Cuenta para Tipo de Item '#Arguments.tipoItem#'">
+        </cfif>        
+		<!----ANGELES!--->
+		<cfif  isdefined("rsParam.Pvalor") and rsParam.Pvalor EQ "3">
+			<!---Sustituye comodin centro funcional--->
+			<cfset Comodin = '!'>
+			<cfset LvarFormatoCuenta = AplicarMascara(rsCFmascara.mascara, "#trim(rsCFcomplemento.complemento1CF)#","#Comodin#")>		
+			<!---Sustituye comodin socio de negocio--->
+			<cfset Comodin = '?'>
+			<cfset LvarFormatoCuenta = AplicarMascara(LvarFormatoCuenta, "#trim(rsSNcomplemento.complemento1SN)##trim(rsSNcomplemento.complemento2SN)#","#Comodin#")>		
+		<cfelse>
+			<cfif Arguments.tipoItem EQ "A" and rsCtaConsInv.Pvalor eq '2'>
+				<!---Sustituye comodin centro funcional--->
+				<cfset Comodin = '!'>
+                <cfset LvarFormatoCuenta = AplicarMascara(rsCFmascara.mascara, "#trim(rsCFcomplemento2.CFComplementoCtaGastoCS)#","#Comodin#")>		
+                <!---Sustituye comodin socio de negocio--->
+                <cfset Comodin = '?'>
+                <cfif rsSNcomplemento.complemento1SN EQ "">
+					<cfset varComplementoSN = #rsComplSD.Pvalor#>
+                <cfelse>
+					<cfset varComplementoSN = #rsSNcomplemento.complemento1SN#>
+                </cfif>
+                <cfset LvarFormatoCuenta = AplicarMascara(LvarFormatoCuenta, "#trim(varComplementoSN)#", "#Comodin#")>	
+            <cfelse>
+                <cfset LvarFormatoCuenta = AplicarMascara(rsCFmascara.mascara,"#trim(rsCFcomplemento.complemento1)##trim(rsCFcomplemento.complemento2)#")>
+            </cfif>   
+		</cfif>
+		<cfif LEN(TRIM(Arguments.ActEcono))>
+        	 <cfset LvarFormatoCuenta = AplicarMascara(LvarFormatoCuenta,replace(Arguments.ActEcono,'-',''),'_')>
+        </cfif>
+       
+		<cfreturn LvarFormatoCuenta>
+    </cffunction>
+</cfcomponent>

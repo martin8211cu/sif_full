@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<info>
+	<infoitem key="UD_rsProc" value="name:NumeroInterfaz;datatype:,name:IdProceso;datatype:,name:SecReproceso;datatype:" />
+	<infoitem key="UD_rsMotor" value="name:FechaActivacion;datatype:,name:urlServidorMotor;datatype:,name:Activo;datatype:" />
+	<infoitem key="UD_rsProceso" value="name:cantidad;datatype:" />
+	<infoitem key="UD_rsCancelado" value="name:UsucodigoCancela;datatype:,name:FechaCancelacion;datatype:,name:MsgCancelacion;datatype:" />
+</info>

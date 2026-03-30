@@ -1,0 +1,28 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 14 - DBM 126: Pasar CDParametros de minisif a asp
+
+	         PARCHE:  ParcheParche023_008_ASP_CDParametros
+
+GENERADO EN:
+	SERVER:  http://localhost:8099
+	DSN:     minisif
+	FECHA:   01/03/2011 16:11:11
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* DEL_TABLE CDParametros: CDParametros */
+/* ======================================================================================== */
+DROP TABLE CDParametros
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* END_SCRIPT */

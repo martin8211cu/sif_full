@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_Titulo>Copy/Reverse Accounting Documents</LB_Titulo>
+		<LB_Poliza>Voucher</LB_Poliza>
+		<LB_PolizaSel>Select Voucher to Copy</LB_PolizaSel>
+		<LB_Reversar>Reverse</LB_Reversar>
+		<LB_PolizaDat>Details for New Voucher</LB_PolizaDat>
+		<LB_Lote>Batch</LB_Lote>
+		<LB_Periodo>Period</LB_Periodo>
+		<LB_Mes>Month</LB_Mes>
+		<LB_Descripcion>Description</LB_Descripcion>
+		<LB_Fecha>Date</LB_Fecha>
+		<LB_Referencia>Reference</LB_Referencia>
+		<LB_Documento>Document</LB_Documento>
+		<LB_PolizaVal>Voucher Value</LB_PolizaVal>
+		
+		<PolizaList>Voucher Consult List</PolizaList>
+		
+		<PolizaCon>Voucher Consult</PolizaCon>
+		
+	<PolizaDat>New Voucher Datas</PolizaDat><PolizaSel>Selected Voucher</PolizaSel><Msg_LaDescr>Description</Msg_LaDescr><Msg_SePreSigErr>The following errors occurred</Msg_SePreSigErr><Msg_esreq>- is required. \n</Msg_esreq></Idioma>
+</Etiquetas>

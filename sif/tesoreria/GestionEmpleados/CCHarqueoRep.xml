@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_ArqueoCajaChica>Petty Cash Count</LB_ArqueoCajaChica>
+		<LB_ReporteArqueo>Cash Count Report</LB_ReporteArqueo>
+		<LB_Fecha>Date</LB_Fecha>
+		<LB_DatosGenerales>General Information</LB_DatosGenerales>
+		<LB_CajaChica>Petty Cash</LB_CajaChica>
+		<LB_Responsable>Person in Charge</LB_Responsable>
+		<LB_ResultadosArqueo>Cash Count Results</LB_ResultadosArqueo>
+		<LB_Concepto>Concept</LB_Concepto>
+		<LB_Registrado>Registered</LB_Registrado>
+		<LB_Fisico>Physical</LB_Fisico>
+		<LB_Diferencia>Difference</LB_Diferencia>
+		<LB_MontoAsignado>Assigned Amount</LB_MontoAsignado>
+		<LB_ValesNoLiquidados>Documents Not Reimbursed</LB_ValesNoLiquidados>
+		<LB_GastosLiquidados>Settled Expenses</LB_GastosLiquidados>
+		<LB_EfectivoDisponible>Cash Available</LB_EfectivoDisponible>
+		<LB_Total>Total</LB_Total>
+		<LB_FirmaResponsable>Signature of Person in Charge</LB_FirmaResponsable>
+		<LB_FirmaAuditor>Signature of Auditor</LB_FirmaAuditor>
+	</Idioma>
+</Etiquetas>

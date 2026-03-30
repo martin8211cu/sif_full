@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_Titulo>Ledger Accounts Integration</LB_Titulo>
+		<LB_Cuenta>Account</LB_Cuenta>
+		<LB_Seleccione>Select</LB_Seleccione>
+		<LB_NivelDetalle>Detail Level</LB_NivelDetalle>
+		<LB_NivelCorte>Cut Level</LB_NivelCorte>
+		<LB_Periodo>Period</LB_Periodo>
+		<LB_Mes>Month</LB_Mes>
+		<LB_Unidades>Units</LB_Unidades>
+		<LB_Moneda>Currency</LB_Moneda>
+		<LB_MonedaConvertida>Converted Currency</LB_MonedaConvertida>
+		<LB_ImprimeCuentasEnCero>Print Zero Balance Accounts</LB_ImprimeCuentasEnCero>
+		<LB_NivelCorte0>Cut Level 0</LB_NivelCorte0>
+		<LB_Miles>Thousands</LB_Miles>
+		<LB_Millones>Millions</LB_Millones>
+	</Idioma>
+</Etiquetas>

@@ -1,0 +1,110 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 461 - DBM 401: Diagram: COMPROMISOS_AUTOMATICOS
+
+	         PARCHE:  Parche023_557_SIF_CompromisosAutomaticos
+
+GENERADO EN:
+	SERVER:  http://mxvqapp34:8300
+	DSN:     sifcim
+	FECHA:   08/01/2012 19:53:23
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* ADD_TABLE CPresupuestoComprometidas: Configuracion de Cuentas de Pr */
+/* ======================================================================================== */
+
+CREATE TABLE CPresupuestoComprometidas (
+	 CPCCid                         numeric(18)          identity
+	,CPPid                          numeric(18)          NOT NULL
+	,Ecodigo                        integer              NOT NULL
+	,Cmayor                         char(4)              NOT NULL
+	,CPCCmascara                    varchar(100)         NOT NULL
+	,CPCCdescripcion                varchar(40)          NOT NULL
+	,BMUsucodigo                    numeric(18)          NULL
+	,ts_rversion                    timestamp           
+	)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP = (TAB NUEVA): TIP="P", SEC="0", COLS="CPCCid" */
+ALTER TABLE CPresupuestoComprometidas ADD CONSTRAINT CPresupuestoComprometidas_PK PRIMARY KEY CLUSTERED (CPCCid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (TAB NUEVA): TIP="I", SEC="1", COLS="CPPid,Ecodigo,Cmayor,CPCCmascara" */
+CREATE NONCLUSTERED INDEX CPresupuestoComprometidas_ID01 ON CPresupuestoComprometidas (CPPid,Ecodigo,Cmayor,CPCCmascara)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* ADD_TABLE CPresupuestoComprometidasNAPs: Bitacora de NAPs de Compromiso */
+/* ======================================================================================== */
+
+CREATE TABLE CPresupuestoComprometidasNAPs (
+	 CPPid                          numeric(18)          NOT NULL
+	,Ecodigo                        integer              NOT NULL
+	,CPNAPnum                       numeric(18)          NOT NULL
+	,CPNAPnumReversa                numeric(18)          NULL
+	,CPcuenta                       numeric(18)          NOT NULL
+	,Ocodigo                        integer              NOT NULL
+	,CPCano                         integer              NOT NULL
+	,CPCmes                         integer              NOT NULL
+	,CPNAPDlinea                    integer              NOT NULL
+	,BMUsucodigo                    numeric(18)          NULL
+	,ts_rversion                    timestamp           
+	)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP = (TAB NUEVA): TIP="P", SEC="0", COLS="CPPid,Ecodigo,CPNAPnum" */
+ALTER TABLE CPresupuestoComprometidasNAPs ADD CONSTRAINT CPresupuestoComprometid01_PK PRIMARY KEY CLUSTERED (CPPid,Ecodigo,CPNAPnum)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ================================================================= */
+/*            CREA FKs NUEVOS O CON CAMPOS MODIFICADOS               */
+/* ================================================================= */
+/* CHG_TABLE CPresupuestoComprometidasNAPs */
+/* ADD_FK OP = (TAB NUEVA): TIP="F", SEC="3", COLS="CPcuenta", REF="CPresupuesto" */
+ALTER TABLE CPresupuestoComprometidasNAPs ADD CONSTRAINT CPresupuestoComprometid01_FK03 FOREIGN KEY (CPcuenta) REFERENCES CPresupuesto (CPcuenta)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_FK OP = (TAB NUEVA): TIP="F", SEC="4", COLS="Ecodigo,Ocodigo", REF="Oficinas" */
+ALTER TABLE CPresupuestoComprometidasNAPs ADD CONSTRAINT CPresupuestoComprometid01_FK04 FOREIGN KEY (Ecodigo,Ocodigo) REFERENCES Oficinas (Ecodigo,Ocodigo)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_FK OP = (TAB NUEVA): TIP="F", SEC="5", COLS="Ecodigo,CPPid", REF="CPresupuestoPeriodo" */
+ALTER TABLE CPresupuestoComprometidasNAPs ADD CONSTRAINT CPresupuestoComprometid01_FK05 FOREIGN KEY (Ecodigo,CPPid) REFERENCES CPresupuestoPeriodo (Ecodigo,CPPid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_FK OP = (TAB NUEVA): TIP="F", SEC="6", COLS="Ecodigo,CPCano,CPCmes", REF="CPmeses" */
+ALTER TABLE CPresupuestoComprometidasNAPs ADD CONSTRAINT CPresupuestoComprometid01_FK06 FOREIGN KEY (Ecodigo,CPCano,CPCmes) REFERENCES CPmeses (Ecodigo,CPCano,CPCmes)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_FK OP = (TAB NUEVA): TIP="F", SEC="7", COLS="Ecodigo,CPNAPnum,CPNAPDlinea", REF="CPNAPdetalle" */
+ALTER TABLE CPresupuestoComprometidasNAPs ADD CONSTRAINT CPresupuestoComprometid01_FK07 FOREIGN KEY (Ecodigo,CPNAPnum,CPNAPDlinea) REFERENCES CPNAPdetalle (Ecodigo,CPNAPnum,CPNAPDlinea)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

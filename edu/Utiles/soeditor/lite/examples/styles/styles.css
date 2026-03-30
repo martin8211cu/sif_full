@@ -1,0 +1,101 @@
+/* Standard styles */
+body {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 13px;
+	background-color: #FFFFFF;
+	background : url('../images/back.gif');
+	margin: 0px;
+}
+
+tbody {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 13px;
+}
+
+p {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 13px;
+}
+
+A {
+	color: #31316B;
+} 
+
+A:visited {
+	color: #31316B;
+}
+ 
+A:active {
+	color: #8484BD;
+} 
+
+A:hover {
+	color: #8484BD;
+	text-decoration: none;
+} 
+
+h1, h2, h3, h4, h5, h6 {
+	font-family: Arial, Helvetica, sans-serif;
+ 	font-weight: bold;
+	font-style: italic;
+	color: #9C0000;
+}
+
+hr {
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+
+fieldset {
+	padding : 0px 15px 0px 15px;
+}
+
+legend {
+	font-weight : bold;
+}
+
+/* Color styles */
+.headerTitleColor {
+  color: #FFFFFF;
+}
+
+.accentColorDark {
+  background-color: #4e4f97;
+}
+
+.accentColorMedium {
+  background-color: #DDDDDD;
+}
+
+.accentColorLight {
+  background-color: #EEEEEE;
+}
+
+/* Custom styles */
+.subtitle {
+ 	font-weight: bold;
+	font-style: italic;
+	color: #9C0000;
+}
+
+.button {
+	width : 75px;
+	font-size : 10px;
+	font-family : "MS Sans Serif", Geneva, sans-serif;
+	height : 23px;
+}
+
+.code {
+	font-family : "Courier New", Courier, monospace;
+}
+
+#content {
+	padding: 30px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	margin-left: 10%;
+	margin-right: 10%;
+	background-color: #FFFFFF;
+	border: 1px solid #000;
+	width: 100%;
+}

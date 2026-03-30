@@ -1,0 +1,646 @@
+﻿
+<cfset session.aa = "">
+<cfset session.aaconse = 0>
+
+<cfset vFechaI = createdate(right(form.FechaI,4),mid(form.FechaI,4,2),left(form.FechaI,2))>
+<cfset vFechaF = createdatetime(right(form.FechaF,4),mid(form.FechaF,4,2),left(form.FechaF,2),23,59,59)>
+
+<cfset minisifdb       = Application.dsinfo[session.dsn].schema>
+<cfset sifinterfacesdb = Application.dsinfo.sifinterfaces.schema>
+<cfset preictsdb       = Application.dsinfo.preicts.schema>
+<cfset tesoreriadb     = Application.dsinfo.tesoreria.schema>
+
+<cfset LvarHoraInicio = now()>
+
+<cfquery name="rsVerifica" datasource="sifinterfaces">
+	select *
+	from int_ICTS_SOIN
+	where Ecodigo = <cfqueryparam cfsqltype="cf_sql_numeric" value="#Session.Ecodigo#">
+</cfquery>
+
+<cfif rsVerifica.recordcount GT 0>
+	<cfset session.EmpresaICTS = rsVerifica.CodICTS>
+	<cfset session.EcodigoSDCSoin = rsVerifica.EcodigoSDCSoin>
+</cfif>
+
+<cfquery name="rsVerifica" datasource="preicts">
+	select acct_num, acct_short_name
+	from account
+	where acct_num = <cfqueryparam cfsqltype="cf_sql_integer" value="#session.EmpresaICTS#">
+</cfquery>
+
+<cfif rsVerifica.recordcount GT 0>
+	<cfset session.DescripcionICTS = rsVerifica.acct_short_name>
+</cfif>
+
+<cfif len("#session.EmpresaICTS#") EQ 0 OR len("#session.EcodigoSDCSoin#") EQ 0 OR len("#session.DescripcionICTS#") EQ 0>
+	<cfabort showerror="La empresa no aparece en int_ICTS_SOIN (Ecodigo=#session.Ecodigo#)">
+</cfif>
+
+<cfset LvarDsource = "#sifinterfacesdb#..">
+<cfset session.Dsource = LvarDsource>
+
+<!--- Para dejar los datos en la tabla de trabajo y evitar duplicar --->
+<cfquery datasource="sifinterfaces">
+	delete from #LvarDsource#OtrOperaPMI 
+	where sessionid = #session.monitoreo.sessionid#
+	or fecharegistro <= <cfqueryparam cfsqltype="cf_sql_date" value="# DateAdd('d', -1, Now())#">
+</cfquery>
+
+<!---   tablas de trabajo creadas en sif_interfaces para pruebas y en sif_interfaces para producción
+create table sif_interfaces..OtrOperaPMI
+(fecharegistro date null,
+sessionid numeric null,
+Operacion char(3) not null,
+Documento varchar(20) null,
+Banco varchar(15) null,
+BancoICTS int null,
+CuentaBanco varchar(20) null,
+FlujoTrans varchar(20) null,
+broker varchar(15) null, 
+TipoCD char(1) null,
+MontoCalculado money null,
+MontoOriginal money null,
+Ccontable varchar(100) null,
+Concepto varchar(100) null, 
+Tcambio float null,
+TipoInteres char(1) null,
+IRetencion float null,
+Moneda varchar(5) null,
+FechaDoc date null,
+CBroker char(3) null,
+MensajeError varchar(255) null)
+--->
+
+<!--- Extrae las Transferencias, Intereses o Comisiones segun se haya seleccionado --->
+<cfif form.TipoOper EQ "0">
+<!--- TRANSFERENCIAS --->
+	<cfquery name = "extrac" datasource="#tesoreria#">
+		insert #LvarDsource#OtrOperaPMI	(fecharegistro,sessionid,
+		Operacion,Documento,Banco,BancoICTS,CuentaBanco,FlujoTrans,broker,TipoCD,MontoCalculado,MontoOriginal,
+		Ccontable,Concepto,Tcambio,TipoInteres,Moneda,FechaDoc,CBroker)
+		select getdate(), #session.monitoreo.sessionid#,'TRN' as Operacion,
+		'TRN-'+convert(varchar,convert(date,fecha_valor))+ '-' + convert(varchar,contraparte_id) as Documento, 
+		null as Banco, cuenta_bancaria_prop_id as BancoICTS, null as CuentaBanco, a.flujo_descripcion as FlujoTrans, 
+		convert(varchar,contraparte_id) as broker,case when a.flujo_pago_cobro = 'P' then 'C' else 'D' end as TipoCD,
+		0 as Calculado,round(monto,2) as Original,null as Cuenta,
+		null as Concepto,0 as Cambio,null as TipoInteres, a.moneda as Moneda,fecha_valor as FechaDoc, null as CBroker
+		from flujos a inner join rel_costos_agrup_flujos b on a.flujo_id = b.flujo_id 
+		where fecha_valor between 
+		<cfqueryparam cfsqltype="cf_sql_timestamp" value="#ParseDateTime(vFechaI)#">
+			and
+		<cfqueryparam cfsqltype="cf_sql_timestamp" value="#ParseDateTime(vFechaF)#">
+		and sistema_id = 'SFUT_TRD'
+		and a.compania_prop_id = <cfqueryparam cfsqltype="cf_sql_integer" value="#session.EmpresaICTS#">
+	</cfquery>
+<cfelseif form.TipoOper EQ "1">
+<!--- INTERESES PAGADOS --->
+	<cfquery name = "extrac" datasource="preicts">
+		insert #LvarDsource#OtrOperaPMI	(fecharegistro,sessionid,
+		Operacion,Documento,Banco,BancoICTS,CuentaBanco,FlujoTrans,broker,TipoCD,MontoCalculado,MontoOriginal,
+		Ccontable,Concepto,Tcambio,TipoInteres,IRetencion,Moneda,FechaDoc,CBroker)
+		select getdate(), #session.monitoreo.sessionid#,'INT' as Operacion,
+		'INT-'+convert(varchar,convert(date,market_day))+ '-' + convert(varchar,clr_brkr_num) as Documento, 
+		null as Banco, null as BancoICTS, null as CuentaBanco, null as FlujoTrans, 
+		convert(varchar,clr_brkr_num) as broker, 'D' as TipoCD,
+		0 as Calculado,round(loans_ir_amount_auth,2) as Original,null as Cuenta,
+		null as Concepto,0 as Cambio,'P' as TipoInteres, witholding_tax as IRetencion,
+		currency_code as Moneda,market_day as FechaDoc, null as CBroker
+		from pmi_loans_ir 
+		where market_day between
+		<cfqueryparam cfsqltype="cf_sql_timestamp" value="#ParseDateTime(vFechaI)#">
+			and
+		<cfqueryparam cfsqltype="cf_sql_timestamp" value="#ParseDateTime(vFechaF)#">
+		and owner_num = <cfqueryparam cfsqltype="cf_sql_integer" value="#session.EmpresaICTS#">
+	</cfquery>
+<!--- INTERESES GANADOS --->
+	<cfquery name = "extrac" datasource="preicts">
+		insert #LvarDsource#OtrOperaPMI	(fecharegistro,sessionid,
+		Operacion,Documento,Banco,BancoICTS,CuentaBanco,FlujoTrans,broker,TipoCD,MontoCalculado,MontoOriginal,
+		Ccontable,Concepto,Tcambio,TipoInteres,IRetencion,Moneda,FechaDoc,CBroker)
+		select getdate(), #session.monitoreo.sessionid#,'INT' as Operacion,
+		'INT-'+convert(varchar,convert(date,market_date))+ '-' + convert(varchar,clr_brkr_num) as Documento, 
+		null as Banco, null as BancoICTS, null as CuentaBanco, null as FlujoTrans, 
+		convert(varchar,clr_brkr_num) as broker, 'C' as TipoCD,
+		0 as Calculado,round(total_equity_ir_amount_auth,2) as Original,null as Cuenta,
+		null as Concepto,0 as Cambio,'G' as TipoInteres, null as IRetencion,
+		currency_code as Moneda,market_date as FechaDoc, null as CBroker
+		from pmi_total_equity_ir 
+		where market_date between
+		<cfqueryparam cfsqltype="cf_sql_timestamp" value="#ParseDateTime(vFechaI)#">
+			and
+		<cfqueryparam cfsqltype="cf_sql_timestamp" value="#ParseDateTime(vFechaF)#">
+		and owner_num = <cfqueryparam cfsqltype="cf_sql_integer" value="#session.EmpresaICTS#">
+	</cfquery>
+<cfelseif form.TipoOper EQ "2">
+<!--- COMISIONES --->
+	<cfquery name = "extrac" datasource="preicts">
+		insert #LvarDsource#OtrOperaPMI	(fecharegistro,sessionid,
+		Operacion,Documento,Banco,BancoICTS,CuentaBanco,FlujoTrans,broker,TipoCD,MontoCalculado,MontoOriginal,
+		Ccontable,Concepto,Tcambio,TipoInteres,IRetencion,Moneda,FechaDoc,CBroker)
+		select getdate(), #session.monitoreo.sessionid#,'COM' as Operacion,
+		'COM-'+convert(varchar,convert(date,market_day))+ '-' + convert(varchar,clr_brkr_num) as Documento, 
+		null as Banco, null as BancoICTS, null as CuentaBanco, null as FlujoTrans, 
+		convert(varchar,clr_brkr_num) as broker, 'D' as TipoCD,
+		0 as Calculado,round(commissions_amount_auth,2) as Original,null as Cuenta,
+		null as Concepto,0 as Cambio,null as TipoInteres, null as IRetencion,
+		currency_code as Moneda,market_day as FechaDoc, null as CBroker
+		from pmi_commissions
+		where market_day between
+		<cfqueryparam cfsqltype="cf_sql_timestamp" value="#ParseDateTime(vFechaI)#">
+			and
+		<cfqueryparam cfsqltype="cf_sql_timestamp" value="#ParseDateTime(vFechaF)#">
+		and owner_num = <cfqueryparam cfsqltype="cf_sql_integer" value="#session.EmpresaICTS#">
+		and commissions_amount_auth > 0
+	</cfquery>
+</cfif>
+
+<!---Elimina los Registros de Documentos que ya han sido procesados --->
+<cfquery datasource="sifinterfaces">
+	delete OtrOperaPMI 
+	from OtrOperaPMI a
+	where Exists (select 1 from #minisifdb#..EContablesImportacion where Edocbase = a.Documento and 
+					Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#session.Ecodigo#">)
+		  or Exists (select 1 from #minisifdb#..EContables where Edocbase = a.Documento and 
+		  			Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#session.Ecodigo#">)
+		  or Exists (select 1 from #minisifdb#..HEContables where Edocbase = a.Documento and
+		  			Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#session.Ecodigo#">)
+</cfquery>
+
+<cfset LvarBanderaErrores = false>
+<cfset LvarControlID = "">
+
+<!--- Encuentra la Moenda Local para validar los tipos de cambio --->
+<cfquery name="rsVerifica" datasource="#minisifdb#">
+	select b.Mcodigo,b.Miso4217 as Moneda from Empresas a , Monedas b 
+		where a.Ecodigo = b.Ecodigo 
+		and a.Mcodigo = b.Mcodigo 
+		and a.Ecodigo = <cfqueryparam cfsqltype="cf_sql_numeric" value="#Session.Ecodigo#">
+</cfquery>
+<cfif rsVerifica.recordcount EQ 1>
+	<cfset OPvarMoneda = rsVerifica.Moneda>
+<cfelse>
+	<cfabort showerror="No se Puede Obtener la Moneda Local">
+</cfif>
+<cfquery name="extrac" datasource="sifinterfaces">
+	select * from OtrOperaPMI 
+	where sessionid = #session.monitoreo.sessionid#
+</cfquery>
+<cfloop query="extrac">
+	<!--- busca el complemento Contable del Broker --->
+	<cfquery name="rsVerifica" datasource="#minisifdb#">
+		select cuentac 
+		from SNegocios
+		where SNcodigoext = <cfqueryparam cfsqltype="cf_sql_varchar" value="#extrac.broker#">
+	</cfquery>
+	<cfif rsVerifica.recordcount EQ 1>
+		<cfset OPvarComplemento = rsVerifica.cuentac>
+	</cfif>
+	<!--- procesa los registros de Otras Operaciones --->	
+	<cfset LvarBanderaErrores_registro = False>
+	<!---Validaciones para las Transferencias --->
+	<cfif extrac.Operacion EQ "TRN">
+		<!--- Valida que no exista mas de una transferencia para un broker el mismo dia --->
+		<cfquery name="rsVerifica" datasource="sifinterfaces">
+			select * from #LvarDsource#OtrOperaPMI 
+			where Documento like '#extrac.Documento#'
+			and sessionid = #session.monitoreo.sessionid#
+		</cfquery>
+		<cfif rsVerifica.recordcount EQ 1>
+			<!--- Banco Valido --->
+			<cfquery name="rsVerifica" datasource="preicts">
+				select i_acct_num_banco,c_num_cuenta
+				from CAT_INST_BANCARIAS 
+				where i_id_instruccion = <cfqueryparam cfsqltype="cf_sql_integer" value="#extrac.BancoICTS#">
+				and i_acct_num_emp = <cfqueryparam cfsqltype="cf_sql_integer" value="#session.EmpresaICTS#">
+			</cfquery>
+			<cfif rsVerifica.recordcount GT 0>
+				<cfset OPvarBanco = rsVerifica.i_acct_num_banco>
+				<cfset OPvarCuentaB = rsVerifica.c_num_cuenta>
+				<cfquery datasource="preicts">
+					update #LvarDsource#OtrOperaPMI
+					set Banco = <cfqueryparam cfsqltype="cf_sql_varchar" value="#OPvarBanco#">,
+					CuentaBanco = <cfqueryparam cfsqltype="cf_sql_varchar" value="#OPvarCuentaB#">,
+					Concepto = 'Bancos-' + Documento, MontoCalculado = MontoOriginal
+					where Documento = <cfqueryparam cfsqltype="cf_sql_varchar" value="#extrac.Documento#">
+					and sessionid = #session.monitoreo.sessionid#
+				</cfquery>
+				<!--- Busca la cuenta Contable del Banco --->
+				<cfquery name="rsVerifica" datasource="#minisifdb#">
+					select a.Cformato from CContables a 
+						inner join CuentasBancos b 
+								inner join Bancos c 
+								on b.Bid = c.Bid and c.Iaba = <cfqueryparam cfsqltype="cf_sql_varchar" value="#OPvarBanco#">
+								 and b.Ecodigo = c.Ecodigo 
+								 and b.Ecodigo = <cfqueryparam cfsqltype="cf_sql_numeric" value="#Session.Ecodigo#">
+						on a.Ccuenta = b.Ccuenta and a.Ecodigo = b.Ecodigo 
+						and b.CBcodigo = <cfqueryparam cfsqltype="cf_sql_varchar" value="#OPvarCuentaB#">
+				</cfquery>
+				<cfif rsVerifica.recordcount GT 0>
+					<cfset OPvarCuenta = rsVerifica.Cformato>
+					<cfquery datasource="preicts">
+						update #LvarDsource#OtrOperaPMI
+						set Ccontable = <cfqueryparam cfsqltype="cf_sql_varchar" value="#OPvarCuenta#">
+						from #LvarDsource#OtrOperaPMI a, CAT_INST_BANCARIAS b
+						where Documento = <cfqueryparam cfsqltype="cf_sql_varchar" value="#extrac.Documento#">
+						and sessionid = #session.monitoreo.sessionid#
+					</cfquery>
+				</cfif>
+			</cfif>
+			<!--- Busca el tipo de cambio si la moneda del documento es diferente de la moneda Local --->
+			<cfif extrac.Moneda NEQ OPvarMoneda>
+				<!--- Obtiene el Mcodigo de la Moneda de la transferencia --->
+				<cfquery name="rsVerifica" datasource="#minisifdb#">
+					select max(Mcodigo) as Mcodigo from Monedas 
+					where Ecodigo = <cfqueryparam cfsqltype="cf_sql_numeric" value="#Session.Ecodigo#">
+					and Miso4217 like <cfqueryparam cfsqltype="cf_sql_varchar" value="#extrac.Moneda#">
+				</cfquery>
+				<cfif rsVerifica.recordcount GT 0>
+					<cfset OPvarMcodigo = rsVerifica.Mcodigo>
+					<cfquery name="rsVerifica" datasource="#minisifdb#">
+						select max(TCcompra) as TC from Htipocambio 
+						where Ecodigo = <cfqueryparam cfsqltype="cf_sql_numeric" value="#Session.Ecodigo#">
+						and Mcodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#OPvarMcodigo#">
+						and Hfecha <= <cfqueryparam cfsqltype="cf_sql_date" value="#extrac.FechaDoc#">
+						and Hfecha = (select max(Hfecha) from Htipocambio 
+										where Ecodigo = <cfqueryparam cfsqltype="cf_sql_numeric" value="#Session.Ecodigo#">
+										and Mcodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#OPvarMcodigo#">
+										and Hfecha <= <cfqueryparam cfsqltype="cf_sql_date" value="#extrac.FechaDoc#">)
+					</cfquery>
+					<cfif rsVerifica.recordcount GT 0>
+						<cfset OPvarTC = rsVerifica.TC>
+						<cfquery datasource="preicts">
+							update #LvarDsource#OtrOperaPMI
+							set Tcambio = round(#OPvarTC#,4)
+							where Documento = <cfqueryparam cfsqltype="cf_sql_varchar" value="#extrac.Documento#">
+							and Moneda = <cfqueryparam cfsqltype="cf_sql_varchar" value="#extrac.Moneda#">
+							and sessionid = #session.monitoreo.sessionid#
+						</cfquery>
+					</cfif>
+				</cfif>	
+			</cfif>
+			<!--- Genera el detalle para la linea de Credito de la poliza --->
+			<cfif isdefined("OPvarComplemento")>
+				<cfset OPvarCBroker = right(OPvarComplemento,3)>
+				<cfset OPvarCcontable = "2108-001-" & OPvarCBroker>
+			<cfelse>
+				<cfset OPvarCBroker = "">
+				<cfset OPvarCcontable = "">
+			</cfif>
+			<cfquery datasource="sifinterfaces">
+				insert #LvarDsource#OtrOperaPMI	(fecharegistro,sessionid,
+				Operacion,Documento,Banco,BancoICTS,CuentaBanco,FlujoTrans,broker,TipoCD,MontoCalculado,MontoOriginal,
+				Ccontable,Concepto,Tcambio,TipoInteres,Moneda,FechaDoc,CBroker)
+				values(<cfqueryparam cfsqltype="cf_sql_date" value="#extrac.fecharegistro#">, #extrac.sessionid#,
+				'#extrac.Operacion#', '#extrac.Documento#', null, null, null, null, null,
+				<cfif extrac.TipoCD EQ "D"> 'C' <cfelse> 'D' </cfif>, #extrac.MontoOriginal#,0, '#OPvarCcontable#',
+				'Linea de Credito-#extrac.Documento#',<cfif isdefined("OPvarTC")> #OPvarTC# <cfelse> 1 </cfif>, null, 
+				'#extrac.Moneda#',<cfqueryparam cfsqltype="cf_sql_date" value="#extrac.FechaDoc#">,'#OPvarCBroker#')
+			</cfquery>
+		<cfelseif rsVerifica.recordcount GT 1>
+			<cfquery datasource="sifinterfaces">
+				update #LvarDsource#OtrOperaPMI 
+					set MensajeError = 'Existe mas de una Transferencia para este broker el mismo dia'
+				where Documento like '#extrac.Documento#'
+				and sessionid = #session.monitoreo.sessionid#
+			</cfquery>
+		<cfelseif rsVerifica.recordcount LT 1>
+			<cfabort showerror="Error de Critico de datos">
+		</cfif>
+	</cfif>
+	<!---Validaciones para los Intereses --->
+	<cfif extrac.Operacion EQ "INT"> 
+		<!--- Calcular el monto Bruto Pagado si el tipo de Interes es Pagado--->
+		<cfif extrac.TipoInteres EQ "P">
+			<cfset OPvarMontoNeto = extrac.MontoOriginal>
+			<cfset OPvarMontoBruto = extrac.MontoOriginal/(1-(IRetencion/100))>
+			<cfquery name = "rsCalculo" datasource="sifinterfaces">
+				select  round(#OPvarMontoBruto#,2) as redondeo
+			</cfquery>
+			<cfset OPvarMontoBruto = rsCalculo.redondeo>
+			<cfset OPvarRetencion = OPvarMontoBruto * (extrac.IRetencion/100)>
+			<cfquery name = "rsCalculo" datasource="sifinterfaces">
+				select  round(#OPvarRetencion#,2) as redondeo
+			</cfquery>
+			<cfset OPvarRetencion = rsCalculo.redondeo>
+		<cfelse>
+			<cfset OPvarMontoNeto = extrac.MontoOriginal>
+			<cfset OPvarMontoBruto = extrac.MontoOriginal>
+			<cfset OPvarRetencion = 0>
+		</cfif>
+		<!--- Monto calculado para la primer linea de la poliza --->
+		<cfif isdefined("OPvarComplemento")>
+			<cfset OPvarCBroker = right(OPvarComplemento,3)>
+			<cfif extrac.TipoInteres EQ "P">
+				<cfset OPvarCcontable = "7202-004-" & OPvarCBroker>
+			<cfelse>
+				<cfset OPvarCcontable = "7101-004-" & OPvarCBroker & "-003">
+			</cfif>
+		<cfelse>
+			<cfset OPvarCBroker = "">
+			<cfset OPvarCcontable = "">
+		</cfif>
+		<cfquery datasource="sifinterfaces">
+			update #LvarDsource#OtrOperaPMI 
+			set MontoCalculado = <cfif extrac.TipoInteres EQ "P"> #OPvarMontoBruto# <cfelse> MontoOriginal </cfif>,
+			Concepto = <cfif extrac.TipoInteres EQ "P"> 'Intereses Pagados-#extrac.Documento#'
+					   <cfelse> 'Intereses Ganados-#extrac.Documento#' </cfif>,
+			Ccontable = '#OPvarCcontable#'
+			where Documento like '#extrac.Documento#'
+			and sessionid = #session.monitoreo.sessionid#
+		</cfquery>
+		<cfif extrac.Moneda NEQ OPvarMoneda>
+			<!---Busca el tipo de cambio para la fecha dada --->
+			<!--- Obtiene el Mcodigo de la Moneda del Documento --->
+			<cfquery name="rsVerifica" datasource="#minisifdb#">
+				select max(Mcodigo) as Mcodigo from Monedas 
+				where Ecodigo = <cfqueryparam cfsqltype="cf_sql_numeric" value="#Session.Ecodigo#">
+				and Miso4217 like <cfqueryparam cfsqltype="cf_sql_varchar" value="#extrac.Moneda#">
+			</cfquery>
+			<cfif rsVerifica.recordcount GT 0>
+				<cfset OPvarMcodigo = rsVerifica.Mcodigo>
+				<cfquery name="rsVerifica" datasource="#minisifdb#">
+					select max(TCcompra) as TC from Htipocambio 
+					where Ecodigo = <cfqueryparam cfsqltype="cf_sql_numeric" value="#Session.Ecodigo#">
+					and Mcodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#OPvarMcodigo#">
+					and Hfecha <= <cfqueryparam cfsqltype="cf_sql_date" value="#extrac.FechaDoc#">
+					and Hfecha = (select max(Hfecha) from Htipocambio 
+									where Ecodigo = <cfqueryparam cfsqltype="cf_sql_numeric" value="#Session.Ecodigo#">
+									and Mcodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#OPvarMcodigo#">
+									and Hfecha <= <cfqueryparam cfsqltype="cf_sql_date" value="#extrac.FechaDoc#">)
+				</cfquery>
+				<cfif rsVerifica.recordcount GT 0>
+					<cfset OPvarTC = rsVerifica.TC>
+					<cfquery datasource="preicts">
+						update #LvarDsource#OtrOperaPMI
+						set Tcambio = round(#OPvarTC#,4)
+						from #LvarDsource#OtrOperaPMI a
+						where Documento = <cfqueryparam cfsqltype="cf_sql_varchar" value="#extrac.Documento#">
+						and Moneda = <cfqueryparam cfsqltype="cf_sql_varchar" value="#extrac.Moneda#">
+						and sessionid = #session.monitoreo.sessionid#
+					</cfquery>
+				</cfif>
+			</cfif>
+		</cfif>	
+		<cfif extrac.TipoInteres EQ "P">
+			<!--- Cambia la Retencion a Pesos si es necesario --->
+			<cfif extrac.Moneda NEQ OPvarMoneda AND isdefined("OPvarTC")>
+				<cfset OPvarRetencionMXP = OPvarRetencion*OPvarTC>
+				<cfquery name = "rsCalculo" datasource="sifinterfaces">
+					select  round(#OPvarRetencionMXP#,2) as redondeo
+				</cfquery>
+				<cfset OPvarRetencionMXP = rsCalculo.redondeo>
+			<cfelseif extrac.Moneda NEQ OPvarMoneda AND NOT isdefined("OPvarTC")>
+				<cfquery datasource="sifinterfaces">
+					update #LvarDsource#OtrOperaPMI 
+						set MensajeError = 'No se logro Obtener Tipo de Cambio para Moneda #extrac.Moneda#'
+					where Documento like '#extrac.Documento#'
+					and sessionid = #session.monitoreo.sessionid#
+				</cfquery>
+			</cfif>
+			<!--- Cuenta Contable para la Linea de Retencion --->
+			<cfif extrac.IRetencion EQ 4.9>
+				<cfset OPvarCcontable = "2107-002-002-003">
+			<cfelseif extrac.IRetencion EQ 15>
+				<cfset OPvarCcontable = "2107-002-002-006">
+			<cfelse>
+				<cfset OPvarCcontable = "">
+			</cfif>
+			<!--- Genera la Linea para las Retenciones --->
+			<cfquery datasource="sifinterfaces">
+				insert #LvarDsource#OtrOperaPMI	(fecharegistro,sessionid,
+				Operacion,Documento,Banco,BancoICTS,CuentaBanco,FlujoTrans,broker,TipoCD,MontoCalculado,MontoOriginal,
+				Ccontable,Concepto,Tcambio,TipoInteres,Moneda,FechaDoc,CBroker)
+				values(<cfqueryparam cfsqltype="cf_sql_date" value="#extrac.fecharegistro#">, #extrac.sessionid#,
+				'#extrac.Operacion#', '#extrac.Documento#', null, null, null, null, null,
+				'C', #OPvarRetencionMXP#,0,'#OPvarCcontable#',
+				'Retenciones-#extrac.Documento#',1, 'P', 
+				'#OPvarMoneda#',<cfqueryparam cfsqltype="cf_sql_date" value="#extrac.FechaDoc#">,null)
+			</cfquery>
+			<!--- Si la Moneda de Diferente de la Local genera la linea de Balance Multimoneda --->
+			<cfif extrac.Moneda NEQ OPvarMoneda>
+				<cfset OPvarCcontable = "2111-001">
+				<cfquery datasource="sifinterfaces">
+					insert #LvarDsource#OtrOperaPMI	(fecharegistro,sessionid,
+					Operacion,Documento,Banco,BancoICTS,CuentaBanco,FlujoTrans,broker,TipoCD,MontoCalculado,MontoOriginal,
+					Ccontable,Concepto,Tcambio,TipoInteres,Moneda,FechaDoc,CBroker)
+					values(<cfqueryparam cfsqltype="cf_sql_date" value="#extrac.fecharegistro#">, #extrac.sessionid#,
+					'#extrac.Operacion#', '#extrac.Documento#', null, null, null, null, null,
+					'C', #OPvarRetencion#,0,'#OPvarCcontable#',
+					'Multimoneda-#extrac.Documento#',<cfif isdefined("OPvarTC")> #OPvarTC# <cfelse> 1 </cfif>, 'P', 
+					'#extrac.Moneda#',<cfqueryparam cfsqltype="cf_sql_date" value="#extrac.FechaDoc#">,null)
+				</cfquery>
+				<cfquery datasource="sifinterfaces">
+					insert #LvarDsource#OtrOperaPMI	(fecharegistro,sessionid,
+					Operacion,Documento,Banco,BancoICTS,CuentaBanco,FlujoTrans,broker,TipoCD,MontoCalculado,MontoOriginal,
+					Ccontable,Concepto,Tcambio,TipoInteres,Moneda,FechaDoc,CBroker)
+					values(<cfqueryparam cfsqltype="cf_sql_date" value="#extrac.fecharegistro#">, #extrac.sessionid#,
+					'#extrac.Operacion#', '#extrac.Documento#', null, null, null, null, null,
+					'D', #OPvarRetencionMXP#,0,'#OPvarCcontable#',
+					'Multimoneda-#extrac.Documento#',1, 'P', 
+					'#OPvarMoneda#',<cfqueryparam cfsqltype="cf_sql_date" value="#extrac.FechaDoc#">,null)
+				</cfquery>
+			</cfif>
+		</cfif>
+		<!--- Genera el detalle para la linea de Instrumentos Derivados de la poliza --->
+		<cfif isdefined("OPvarComplemento")>
+			<cfset OPvarCBroker = right(OPvarComplemento,3)>
+			<cfset OPvarCcontable = "2108-001-" & OPvarCBroker>
+		<cfelse>
+			<cfset OPvarCBroker = "">
+			<cfset OPvarCcontable = "">
+		</cfif>
+		<cfquery datasource="sifinterfaces">
+			insert #LvarDsource#OtrOperaPMI	(fecharegistro,sessionid,
+				Operacion,Documento,Banco,BancoICTS,CuentaBanco,FlujoTrans,broker,TipoCD,MontoCalculado,MontoOriginal,
+				Ccontable,Concepto,Tcambio,TipoInteres,Moneda,FechaDoc,CBroker)
+			values(<cfqueryparam cfsqltype="cf_sql_date" value="#extrac.fecharegistro#">, #extrac.sessionid#,
+				'#extrac.Operacion#', '#extrac.Documento#', null, null, null, null, null,
+				<cfif extrac.TipoInteres EQ "P"> 'C' <cfelse> 'D' </cfif>, #OPvarMontoNeto#,0,'#OPvarCcontable#',
+				'CxP Insrumentos financieros Derivados-#extrac.Documento#',
+				<cfif isdefined("OPvarTC")> #OPvarTC# <cfelse> 1 </cfif>, 
+				'#extrac.TipoInteres#','#extrac.Moneda#',
+				<cfqueryparam cfsqltype="cf_sql_date" value="#extrac.FechaDoc#">,null)
+		</cfquery>
+	</cfif>
+	<!---Validaciones para las Comisiones --->
+	<cfif extrac.Operacion EQ "COM"> 
+		<!--- Monto calculado para la primer linea de la poliza --->
+		<cfif isdefined("OPvarComplemento")>
+			<cfset OPvarCBroker = right(OPvarComplemento,3)>
+			<cfset OPvarCcontable = "7201-005-" & OPvarCBroker>
+		<cfelse>
+			<cfset OPvarCBroker = "">
+			<cfset OPvarCcontable = "">
+		</cfif>
+		<cfquery datasource="sifinterfaces">
+			update #LvarDsource#OtrOperaPMI 
+			set MontoCalculado = MontoOriginal,
+			Concepto = 'Comisiones-#extrac.Documento#',
+			Ccontable = '#OPvarCcontable#'
+			where Documento like '#extrac.Documento#'
+			and sessionid = #session.monitoreo.sessionid#
+		</cfquery>
+		<cfif extrac.Moneda NEQ OPvarMoneda>
+			<!---Busca el tipo de cambio para la fecha dada --->
+			<!--- Obtiene el Mcodigo de la Moneda del Documento --->
+			<cfquery name="rsVerifica" datasource="#minisifdb#">
+				select max(Mcodigo) as Mcodigo from Monedas 
+				where Ecodigo = <cfqueryparam cfsqltype="cf_sql_numeric" value="#Session.Ecodigo#">
+				and Miso4217 like <cfqueryparam cfsqltype="cf_sql_varchar" value="#extrac.Moneda#">
+			</cfquery>
+			<cfif rsVerifica.recordcount GT 0>
+				<cfset OPvarMcodigo = rsVerifica.Mcodigo>
+				<cfquery name="rsVerifica" datasource="#minisifdb#">
+					select max(TCcompra) as TC from Htipocambio 
+					where Ecodigo = <cfqueryparam cfsqltype="cf_sql_numeric" value="#Session.Ecodigo#">
+					and Mcodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#OPvarMcodigo#">
+					and Hfecha <= <cfqueryparam cfsqltype="cf_sql_date" value="#extrac.FechaDoc#">
+					and Hfecha = (select max(Hfecha) from Htipocambio 
+									where Ecodigo = <cfqueryparam cfsqltype="cf_sql_numeric" value="#Session.Ecodigo#">
+									and Mcodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#OPvarMcodigo#">
+									and Hfecha <= <cfqueryparam cfsqltype="cf_sql_date" value="#extrac.FechaDoc#">)
+				</cfquery>
+				<cfif rsVerifica.recordcount GT 0>
+					<cfset OPvarTC = rsVerifica.TC>
+					<cfquery datasource="preicts">
+						update #LvarDsource#OtrOperaPMI
+						set Tcambio = round(#OPvarTC#,4)
+						from #LvarDsource#OtrOperaPMI a
+						where Documento = <cfqueryparam cfsqltype="cf_sql_varchar" value="#extrac.Documento#">
+						and Moneda = <cfqueryparam cfsqltype="cf_sql_varchar" value="#extrac.Moneda#">
+						and sessionid = #session.monitoreo.sessionid#
+					</cfquery>
+				</cfif>
+			</cfif>
+		</cfif>	
+ 		<!--- Genera el detalle para la linea de Instrumentos Derivados de la poliza --->
+		<cfif isdefined("OPvarComplemento")>
+			<cfset OPvarCBroker = right(OPvarComplemento,3)>
+			<cfset OPvarCcontable = "2108-001-" & OPvarCBroker>
+		<cfelse>
+			<cfset OPvarCBroker = "">
+			<cfset OPvarCcontable = "">
+		</cfif>
+		<cfquery datasource="sifinterfaces">
+			insert #LvarDsource#OtrOperaPMI	(fecharegistro,sessionid,
+				Operacion,Documento,Banco,BancoICTS,CuentaBanco,FlujoTrans,broker,TipoCD,MontoCalculado,MontoOriginal,
+				Ccontable,Concepto,Tcambio,TipoInteres,Moneda,FechaDoc,CBroker)
+			values(<cfqueryparam cfsqltype="cf_sql_date" value="#extrac.fecharegistro#">, #extrac.sessionid#,
+				'#extrac.Operacion#', '#extrac.Documento#', null, null, null, null, null,
+				'C', #extrac.MontoOriginal#,0,'#OPvarCcontable#',
+				'CxP Insrumentos financieros Derivados-#extrac.Documento#',
+				<cfif isdefined("OPvarTC")> #OPvarTC# <cfelse> 1 </cfif>, 
+				null,'#extrac.Moneda#',
+				<cfqueryparam cfsqltype="cf_sql_date" value="#extrac.FechaDoc#">,null)
+		</cfquery>	
+	</cfif>
+</cfloop>
+
+<!--- Validaciones del Proceso --->
+<cfquery name="extrac" datasource="sifinterfaces">
+	select * from OtrOperaPMI 
+	where sessionid = #session.monitoreo.sessionid#
+</cfquery>
+<cfloop query="extrac">
+	<cfset LvarBanderaErrores_registro = False>
+	<cfset LvarTipoError = "">
+	<!--- Valida que la Moneda exista --->
+	<cfquery name="rsVerifica" datasource="#minisifdb#">
+		select * from Monedas 
+		where Ecodigo = <cfqueryparam cfsqltype="cf_sql_numeric" value="#Session.Ecodigo#">
+		and Miso4217 like '#extrac.Moneda#'
+	</cfquery>
+	<cfif rsVerifica.recordcount EQ 0>
+		<cfset LvarBanderaErrores_registro = true>
+		<cfset LvarBanderaErrores = true>
+		<cfif len(LvarTipoError)>
+			<cfset LvarTipoError = LvarTipoError & ", ">
+		</cfif>
+		<cfset LvarTipoError = LvarTipoError & "La Moneda:#extrac.Moneda# no existe en SOIN-SIF V6">
+	</cfif>
+	<!--- Valida que exista el tipo de cambio para la moneda del documento--->
+	<cfif extrac.Moneda NEQ OPvarMoneda AND extrac.Tcambio EQ 0>
+		<cfset LvarBanderaErrores_registro = true>
+		<cfset LvarBanderaErrores = true>
+		<cfif len(LvarTipoError)>
+			<cfset LvarTipoError = LvarTipoError & ", ">
+		</cfif>
+		<cfset LvarTipoError = LvarTipoError & "No se logro Encontrar Tipo de Cambio para la Moneda #extrac.Moneda#">
+	</cfif>
+	<!--- Valida que se haya podido obtener el banco en ICTS y que este exista en SOIN --->
+	<cfif extrac.Operacion EQ "TRN" AND extrac.MontoOriginal NEQ 0 AND extrac.BancoICTS EQ "">
+		<cfset LvarBanderaErrores_registro = true>
+		<cfset LvarBanderaErrores = true>
+		<cfif len(LvarTipoError)>
+			<cfset LvarTipoError = LvarTipoError & ", ">
+		</cfif>
+		<cfset LvarTipoError = LvarTipoError & "No se logro encontrar el codigo de Banco de ICTS">
+	</cfif> 
+	<cfif extrac.Operacion EQ "TRN" AND extrac.MontoOriginal NEQ 0 AND extrac.Banco EQ "">
+		<cfset LvarBanderaErrores_registro = true>
+		<cfset LvarBanderaErrores = true>
+		<cfset Busqueda = find("No se logro encontrar el codigo de Banco de ICTS",#LvarTipoError#)>
+		<cfif Busqueda EQ 0>
+			<cfif len(LvarTipoError)>
+				<cfset LvarTipoError = LvarTipoError & ", ">
+			</cfif>
+			<cfset LvarTipoError = LvarTipoError & "Banco #extrac.BancoICTS# No existe en SOIN-SIF V6">
+		</cfif>
+	</cfif> 
+	<cfif extrac.Operacion EQ "TRN" AND extrac.MontoOriginal NEQ 0 AND extrac.CuentaBanco EQ "">
+		<cfset LvarBanderaErrores_registro = true>
+		<cfset LvarBanderaErrores = true>
+		<cfset Busqueda = find("No se logro encontrar el codigo de Banco de ICTS",#LvarTipoError#)>
+		<cfif Busqueda EQ 0>
+			<cfif len(LvarTipoError)>
+				<cfset LvarTipoError = LvarTipoError & ", ">
+			</cfif>
+			<cfset LvarTipoError = LvarTipoError & "No se encontro la cuenta Bancaria en ICTS">
+		</cfif>
+	</cfif> 
+	<cfif extrac.Operacion EQ "TRN" AND extrac.MontoOriginal NEQ 0 AND extrac.CuentaBanco EQ "">
+		<cfset LvarBanderaErrores_registro = true>
+		<cfset LvarBanderaErrores = true>
+		<cfset Busqueda = find("Banco #extrac.BancoICTS# No existe en SOIN-SIF V6",#LvarTipoError#)>
+		<cfset Busquedab = find("No se encontro la cuenta Bancaria en ICTS",#LvarTipoError#)>
+		<cfif Busqueda EQ 0 and Busquedab EQ 0>
+			<cfif len(LvarTipoError)>
+				<cfset LvarTipoError = LvarTipoError & ", ">
+			</cfif>
+			<cfset LvarTipoError = 
+				LvarTipoError & "No exista la cuenta #extrac.CuentaBanco# para el Banco #extrac.Banco# en SOIN- SIF V6">
+		</cfif>
+	</cfif>
+	<!--- Valida el socio de Negocios y el Complemento Contable --->
+	<cfquery name="rsVerifica" datasource="#minisifdb#">
+		select * from SNegocios
+			where Ecodigo = <cfqueryparam cfsqltype="cf_sql_numeric" value="#Session.Ecodigo#">
+			and SNcodigoext =  <cfqueryparam cfsqltype="cf_sql_varchar" value="#extrac.broker#">
+	</cfquery>
+	<cfif rsVerifica.recordcount EQ 0>
+		<cfset LvarBanderaErrores_registro = true>
+		<cfset LvarBanderaErrores = true>
+		<cfif len(LvarTipoError)>
+			<cfset LvarTipoError = LvarTipoError & ", ">
+		</cfif>
+		<cfset LvarTipoError = LvarTipoError & "No existe socio #extrac.broker# en SOIN-SIF V6">
+	</cfif> 
+	<cfif extrac.CBroker EQ "">
+		<cfset LvarBanderaErrores_registro = true>
+		<cfset LvarBanderaErrores = true>
+		<cfset Busqueda = find("No existe socio #extrac.broker# en SOIN-SIF V6",#LvarTipoError#)>
+		<cfif Busqueda EQ 0>
+			<cfif len(LvarTipoError)>
+				<cfset LvarTipoError = LvarTipoError & ", ">
+			</cfif>
+			<cfset LvarTipoError = LvarTipoError & "El socio de Negocios no tiene su Complemento Contable">
+		</cfif>
+	</cfif> 
+</cfloop>	
+<!---	
+<cfquery name="extrac" datasource="sifinterfaces">
+	select * from OtrOperaPMI order by Documento
+</cfquery>
+<cf_dump var="#extrac#">
+--->

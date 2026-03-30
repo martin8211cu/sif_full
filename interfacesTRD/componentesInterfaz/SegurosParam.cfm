@@ -1,0 +1,51 @@
+﻿<cf_templateheader title="SIF - Interfaces P.M.I.">
+<cfinclude template="/sif/portlets/pNavegacion.cfm">
+<cf_web_portlet_start border="true" skin="#Session.Preferences.Skin#" tituloalign="center" titulo='Seguros'>
+
+<cfoutput>
+	<table width="100%" cellpadding="2" cellspacing="0" border="0" align="center">
+		<tr>
+			<td valign="top" align="center">
+			<fieldset><legend>Datos del Proceso</legend>
+	<form name="form1" method="post" action="ProcSeguros.cfm" onsubmit="return waitmsg();">
+				<table  width="100%" align="center" cellpadding="2" cellspacing="0" border="0">
+					<tr><td colspan="2">&nbsp;</td></tr>
+					<tr>
+						<td align="center">
+						<input type="radio" name="TipoSeguro" value="0" checked="checked" tabindex="1">	
+						<strong>Seguros Tipo Charter</strong></td>
+						<td align="center">
+						<input type="radio" name="TipoSeguro" value="1" tabindex="1">	
+						<strong>Seguros Tipo Carga</strong></td>
+					</tr>
+					
+					<tr><td colspan="2">&nbsp;</td></tr>
+					<tr><td colspan="2"><cf_botones values="Generar" names="Generar" tabindex="1"></td></tr>
+				</table>
+	</form>
+	<form name="formwait" style="display:none" action="javascript:void(0)" onsubmit="return 0">
+	<center>
+<table width="412" border="0" style="background-color:##E9E3FD; height:120px ">
+  <tr>
+    <td width="48" align="center"><img src='../componentesInterfaz/generales/loading.gif' width="32" height="32" border="0" loop="-1" /></td>
+    <td width="6">&nbsp;</td>
+    <td width="338" align="center"><strong>Extrayendo información, por favor espere unos momentos ...</strong> </td>
+  </tr>
+</table>
+</center>
+</form>
+				</fieldset>
+			</td>	
+		</tr>
+	</table>
+</cfoutput>
+<cf_web_portlet_end>
+<cf_qforms form = 'form1'>
+<script language="javascript" type="text/javascript">
+function waitmsg(){
+	document.form1.style.display = 'none';
+	document.formwait.style.display = '';
+	return true;
+}
+</script>
+<cf_templatefooter>

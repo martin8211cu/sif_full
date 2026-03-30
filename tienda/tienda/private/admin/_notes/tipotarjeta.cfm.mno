@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+<info>
+	<infoitem key="UD_listdata" value="name:tc_tipo;datatype:,name:nombre_tipo_tarjeta;datatype:,name:mascara;datatype:" />
+	<infoitem key="UD_data" value="name:tc_tipo;datatype:,name:nombre_tipo_tarjeta;datatype:,name:mascara;datatype:" />
+</info>

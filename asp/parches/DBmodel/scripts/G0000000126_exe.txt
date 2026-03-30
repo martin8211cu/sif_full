@@ -1,0 +1,36 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  asp
+	MODELO:  ASP Framework.pdm
+	VERSION: 420 - DBM 357: Agrega campo para CC y BCC
+
+	         PARCHE:  Parche023_416_SIF_MejorasNacion
+
+GENERADO EN:
+	SERVER:  http://mxvqapp34:8300
+	DSN:     asp
+	FECHA:   06/01/2012 17:46:59
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* CHG_TABLE SMTPQueue: SMTPQueue */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): SMTPcc - SMTPcc */
+ALTER TABLE SMTPQueue ADD SMTPcc varchar(255) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): SMTPbcc - SMTPbcc */
+ALTER TABLE SMTPQueue ADD SMTPbcc varchar(255) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

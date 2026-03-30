@@ -1,0 +1,577 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE jasperReport PUBLIC "-//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+
+<jasperReport name="Reporte1100541466781" pageWidth="612" pageHeight="792" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="14" bottomMargin="14">
+	<parameter name="Ecodigo" class="java.math.BigDecimal">
+	</parameter>
+	<parameter name="ESnumero" class="java.math.BigDecimal">
+	</parameter>
+	<parameter name="CMSid" class="java.math.BigDecimal">
+	</parameter>
+	<parameter name="FechaHoy" class="java.lang.String">
+	</parameter>
+	<parameter name="HoraHoy" class="java.lang.String">
+	</parameter>
+	<queryString><![CDATA[select b.DSconsecutivo, 
+      b.Aid,
+       b.DSmontoest,
+       b.DStotallinest,  
+       b.DScant,
+       b.Ucodigo,
+       c.Adescripcion, 
+       a.ESfecha,
+       a.EStotalest,
+       'Pendiente' as DescDet,
+       case when a.ESestado = 0 then 'Pendiente' 
+	    when a.ESestado = 10 then 'En Trámite Aprobación'
+	    when a.ESestado = 20 then 'Lista para Procesar'
+            when a.ESestado = 30 then 'En Proceso Compra'
+	    when a.ESestado = 40 then 'Parcialmente Surtida'
+            when a.ESestado = 50 then 'Surtida'
+            when a.ESestado = 60 then 'Cancelada' end as ESestado,
+       a.ESobservacion,
+       (rtrim(ltrim(d.CFcodigo)) || '-' || rtrim(ltrim(d.CFdescripcion))) as CFdescripcion,
+       (rtrim(ltrim(a.CMTScodigo)) || '-' || rtrim(ltrim(e.CMTSdescripcion))) as tipoTramite,
+/*	e.CMTSdescripcion,*/
+	a.ESnumero,
+                     m.Mnombre as Moneda,
+	a.ESfalta,
+	case DStipo when 'A' then coalesce(c.Adescripcion,'') 
+		when 'S' then coalesce(k.Cdescripcion,'')
+		when 'F' then coalesce(ac.ACdescripcion,'') 
+	end as descServ,	
+/*	case DStipo when 'A' then coalesce('Articulo','') */
+/*		when 'S' then coalesce('Servicio','')*/
+/*		when 'F' then coalesce('Activo Fijo','') */
+/*	end as tipoTramite,	*/
+                      case DStipo when 'A' then 'Código Artículo'
+		else  ''
+	end as codServ, 
+	b.Alm_Aid,
+                     al.Almcodigo as Bodega,
+	case DStipo when 'A'  then coalesce(c.Acodigo,'') 
+		when 'S' then coalesce(k.Ccodigo,'')
+/*		when 'F' then coalesce('Activo Fijo','') */
+	end as Art_Serv,
+/*                     c.Acodigo as Articulo,*/
+	c.Acodalterno,
+         em.Edescripcion, 
+	(select cpp.CPPfechaDesde
+	from CPresupuestoPeriodo cpp
+	where a.ESfecha between cpp.CPPfechaDesde and cpp.CPPfechaHasta
+ 	  and cpp.CPPestado = 1
+	  and cpp.Ecodigo = a.Ecodigo 
+	) as CPPfechaDesde,
+	(select cpp.CPPfechaHasta
+	from CPresupuestoPeriodo cpp
+	where a.ESfecha between cpp.CPPfechaDesde and cpp.CPPfechaHasta
+ 	  and cpp.CPPestado = 1
+	  and cpp.Ecodigo = a.Ecodigo 
+	) as CPPfechaHasta,
+(select cpp.CPPanoMesDesde / 100
+	from CPresupuestoPeriodo cpp
+	where a.ESfecha between cpp.CPPfechaDesde and cpp.CPPfechaHasta
+ 	  and cpp.CPPestado = 1
+	  and cpp.Ecodigo = a.Ecodigo 
+	) as CPPano,
+	cfcta.CFformato,
+                    a.ESobservacion,
+                   $P{FechaHoy} as FechaHoy,
+                    coalesce(rtrim(a.ESobservacion),'') as Observacion,
+                   $P{HoraHoy} as HoraHoy
+from ESolicitudCompraCM a
+     inner join DSolicitudCompraCM b
+       on a.Ecodigo = b.Ecodigo
+       and a.ESidsolicitud = b.ESidsolicitud 
+/*    inner join Articulos c*/
+/*      on  c.Ecodigo = b.Ecodigo*/
+/*      and c.Aid = b.Aid*/
+    inner join CFuncional d
+      on a.Ecodigo = d.Ecodigo
+      and a.CFid = d.CFid
+    inner join CMTiposSolicitud e	
+       on a.Ecodigo = e.Ecodigo
+       and a.CMTScodigo = e.CMTScodigo
+    inner join Monedas m	
+       on m.Ecodigo = a.Ecodigo
+       and m.Mcodigo = a.Mcodigo
+    left outer join Articulos c
+        on c.Aid=b.Aid
+        and c.Ecodigo=b.Ecodigo 
+   left outer join Almacen al
+      on  al.Ecodigo = b.Ecodigo
+      and al.Aid = b.Alm_Aid
+    left outer join Conceptos k
+        on b.Cid=k.Cid
+        and b.Ecodigo=k.Ecodigo 
+    left outer join AClasificacion ac
+      on b.Ecodigo = ac.Ecodigo
+      and b.ACcodigo = ac.ACcodigo
+      and b.ACid = ac.ACid  
+    inner join Empresas em
+      on a.Ecodigo = em.Ecodigo
+    inner join CFinanciera cfcta
+      on b.Ecodigo = cfcta.Ecodigo
+      and b.CFcuenta = cfcta.CFcuenta
+where a.Ecodigo = $P{Ecodigo}
+  and a.ESnumero = $P{ESnumero}
+  and a.CMSid = $P{CMSid}]]></queryString>
+	<field name="Edescripcion" class="java.lang.String">
+	</field>
+	<field name="ESestado" class="java.lang.String">
+	</field>
+	<field name="ESnumero" class="java.math.BigDecimal">
+	</field>
+	<field name="Moneda" class="java.lang.String">
+	</field>
+	<field name="ESfecha" class="java.util.Date">
+	</field>
+	<field name="FechaHoy" class="java.lang.String">
+	</field>
+	<field name="HoraHoy" class="java.lang.String">
+	</field>
+	<field name="CPPfechaDesde" class="java.util.Date">
+	</field>
+	<field name="CPPfechaHasta" class="java.util.Date">
+	</field>
+	<field name="CFdescripcion" class="java.lang.String">
+	</field>
+	<field name="tipoTramite" class="java.lang.String">
+	</field>
+	<field name="DSconsecutivo" class="java.math.BigDecimal">
+	</field>
+	<field name="Bodega" class="java.lang.String">
+	</field>
+	<field name="Art_Serv" class="java.lang.String">
+	</field>
+	<field name="Acodalterno" class="java.lang.String">
+	</field>
+	<field name="descServ" class="java.lang.String">
+	</field>
+	<field name="DScant" class="java.math.BigDecimal">
+	</field>
+	<field name="Ucodigo" class="java.lang.String">
+	</field>
+	<field name="DSmontoest" class="java.math.BigDecimal">
+	</field>
+	<field name="DStotallinest" class="java.math.BigDecimal">
+	</field>
+	<field name="Observacion" class="java.lang.String">
+	</field>
+	<variable name="IS_LAST_PAGE" class="java.lang.Boolean" resetType="None">
+		<variableExpression><![CDATA[$V{IS_LAST_PAGE}]]></variableExpression>
+		<initialValueExpression><![CDATA[Boolean.FALSE]]></initialValueExpression>
+	</variable>
+	<background>
+		<band height="764">
+			<line>
+				<reportElement positionType="Float" x="8" y="14" width="552" height="1"/>
+				<graphicElement pen="Thin"/>
+			</line>
+			<line>
+				<reportElement positionType="Float" x="8" y="14" width="1" height="737"/>
+				<graphicElement pen="Thin"/>
+			</line>
+			<line>
+				<reportElement positionType="Float" x="561" y="14" width="1" height="737"/>
+				<graphicElement pen="Thin"/>
+			</line>
+			<line>
+				<reportElement positionType="Float" x="8" y="751" width="552" height="1"/>
+				<graphicElement pen="Thin"/>
+			</line>
+			<line>
+				<reportElement positionType="Float" x="8" y="110" width="552" height="1"/>
+				<graphicElement pen="Thin"/>
+			</line>
+			<line>
+				<reportElement positionType="Float" x="8" y="156" width="552" height="1"/>
+				<graphicElement pen="Thin"/>
+			</line>
+			<line>
+				<reportElement positionType="Float" x="8" y="158" width="552" height="1"/>
+				<graphicElement pen="Thin"/>
+			</line>
+			<line>
+				<reportElement positionType="Float" x="8" y="170" width="552" height="1"/>
+				<graphicElement pen="Thin"/>
+			</line>
+			<line>
+				<reportElement positionType="Float" x="8" y="530" width="552" height="1"/>
+				<graphicElement pen="Thin"/>
+			</line>
+		</band>
+	</background>
+	<columnHeader>
+		<band height="174">
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="9" y="19" width="212" height="14"/>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="true" isItalic="false" isUnderline="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{Edescripcion}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="74" y="140" width="198" height="14"/>
+				<textElement>
+					<font fontName="Arial" size="9" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{ESestado}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="13" y="111" width="56" height="14"/>
+				<textElement>
+					<font fontName="Arial" size="9" isBold="true" isItalic="false" isUnderline="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<text><![CDATA[Trámite:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="13" y="127" width="56" height="14"/>
+				<textElement>
+					<font fontName="Arial" size="9" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<text><![CDATA[Dependencia:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="435" y="20" width="33" height="14"/>
+				<textElement>
+					<font fontName="Arial" size="9" isBold="true" isItalic="false" isUnderline="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<text><![CDATA[Fecha:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="435" y="36" width="33" height="14"/>
+				<textElement>
+					<font fontName="Arial" size="9" isBold="true" isItalic="false" isUnderline="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<text><![CDATA[Hora:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="3" y="70" width="544" height="14"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="10" isBold="true" isItalic="false" isUnderline="true" pdfFontName="Helvetica"/>
+				</textElement>
+				<text><![CDATA[Solicitud Rápida de Compra de Materiales y Equipo]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="464" y="112" width="56" height="14"/>
+				<textElement>
+					<font fontName="Arial" size="9" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{ESnumero}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="396" y="127" width="57" height="14"/>
+				<textElement>
+					<font fontName="Arial" size="9" isBold="true" isItalic="false" isUnderline="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<text><![CDATA[Moneda:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="396" y="142" width="65" height="14"/>
+				<textElement>
+					<font fontName="Arial" size="9" isBold="true" isItalic="false" isUnderline="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<text><![CDATA[Fecha Solicitud:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="396" y="112" width="56" height="14"/>
+				<textElement>
+					<font fontName="Arial" size="9" isBold="true" isItalic="false" isUnderline="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<text><![CDATA[No. Solicitud]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="464" y="127" width="85" height="14"/>
+				<textElement>
+					<font fontName="Arial" size="9" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{Moneda}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="464" y="142" width="56" height="14"/>
+				<textElement>
+					<font fontName="Arial" size="9" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression class="java.util.Date"><![CDATA[$F{ESfecha}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="13" y="158" width="15" height="14"/>
+				<textElement>
+					<font fontName="Arial" size="9" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<text><![CDATA[Lín.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="33" y="158" width="39" height="14"/>
+				<textElement>
+					<font fontName="Arial" size="9" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<text><![CDATA[Bodega]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="75" y="158" width="55" height="14"/>
+				<textElement>
+					<font fontName="Arial" size="9" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<text><![CDATA[Artículo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="133" y="158" width="42" height="14"/>
+				<textElement>
+					<font fontName="Arial" size="9" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<text><![CDATA[Parte]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="178" y="158" width="138" height="14"/>
+				<textElement>
+					<font fontName="Arial" size="9" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<text><![CDATA[Descripción]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="318" y="158" width="41" height="14"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="9" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<text><![CDATA[Cantidad]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="359" y="158" width="29" height="14"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="9" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<text><![CDATA[UM]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="388" y="158" width="85" height="14"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="9" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<text><![CDATA[Costo Unitario]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="474" y="158" width="85" height="14"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="9" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<text><![CDATA[Costo Total]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="8" y="39" width="212" height="14"/>
+				<textElement>
+					<font fontName="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<text><![CDATA[Gerencia de Proveeduría]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="13" y="142" width="56" height="14"/>
+				<textElement>
+					<font fontName="Arial" size="9" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<text><![CDATA[Estado:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="472" y="20" width="52" height="14"/>
+				<textElement>
+					<font fontName="Arial" size="9" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{FechaHoy}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="472" y="36" width="53" height="14"/>
+				<textElement>
+					<font fontName="Arial" size="9" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{HoraHoy}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="199" y="88" width="74" height="14"/>
+				<textElement>
+					<font fontName="Arial" size="9" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression class="java.util.Date"><![CDATA[$F{CPPfechaDesde}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="276" y="88" width="144" height="14"/>
+				<textElement>
+					<font fontName="Arial" size="9" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<text><![CDATA[Hasta el Periodo Presupuestario:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="73" y="88" width="122" height="14"/>
+				<textElement>
+					<font fontName="Arial" size="9" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<text><![CDATA[Del Periodo Presupuestario:]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="426" y="88" width="70" height="14"/>
+				<textElement>
+					<font fontName="Arial" size="9" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression class="java.util.Date"><![CDATA[$F{CPPfechaHasta}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="74" y="126" width="198" height="14"/>
+				<textElement>
+					<font fontName="Arial" size="9" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{CFdescripcion}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="74" y="111" width="198" height="14"/>
+				<textElement>
+					<font fontName="Arial" size="9" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{tipoTramite}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="24">
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="10" y="0" width="19" height="14"/>
+				<textElement>
+					<font fontName="Arial" size="9" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{DSconsecutivo}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="35" y="0" width="38" height="14"/>
+				<textElement>
+					<font fontName="Arial" size="9" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{Bodega}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="75" y="0" width="56" height="14"/>
+				<textElement>
+					<font fontName="Arial" size="9" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{Art_Serv}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="134" y="0" width="42" height="14"/>
+				<textElement>
+					<font fontName="Arial" size="9" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{Acodalterno}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="178" y="0" width="136" height="14"/>
+				<textElement>
+					<font fontName="Arial" size="9" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{descServ}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#0.00" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="318" y="0" width="42" height="14"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="9" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{DScant}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="361" y="0" width="29" height="14"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="9" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{Ucodigo}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###,###,###,###,##0.00" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="390" y="0" width="85" height="14"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="9" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{DSmontoest}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###,###,###,###,##0.00" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="473" y="0" width="85" height="14"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="9" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{DStotallinest}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="118">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="97" y="22" width="453" height="14">
+					<printWhenExpression><![CDATA[$V{IS_LAST_PAGE}]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font fontName="Arial" size="9" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{Observacion}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="112" y="83" width="141" height="14">
+					<printWhenExpression><![CDATA[$V{IS_LAST_PAGE}]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font fontName="Arial" size="9" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<text><![CDATA[Solicitante y Aprobadores]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="15" y="22" width="77" height="14">
+					<printWhenExpression><![CDATA[$V{IS_LAST_PAGE}]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font fontName="Arial" size="9" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<text><![CDATA[Observaciones:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="367" y="82" width="141" height="14">
+					<printWhenExpression><![CDATA[$V{IS_LAST_PAGE}]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font fontName="Arial" size="9" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<text><![CDATA[Revisado y Aprobado]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="289" y="0" width="85" height="14">
+					<printWhenExpression><![CDATA[$V{IS_LAST_PAGE}]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font fontName="Arial" size="9" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<text><![CDATA[Estimado Total:]]></text>
+			</staticText>
+			<textField pattern="###,###,###,###,##0.00" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="376" y="0" width="85" height="14">
+					<printWhenExpression><![CDATA[$V{IS_LAST_PAGE}]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="9" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{DSmontoest}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###,###,###,###,##0.00" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="464" y="0" width="85" height="14">
+					<printWhenExpression><![CDATA[$V{IS_LAST_PAGE}]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="9" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{DStotallinest}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band>
+			<line direction="BottomUp">
+				<reportElement positionType="Float" x="10" y="10" width="5" height="10">
+					<printWhenExpression><![CDATA[Boolean.FALSE); variable_IS_LAST_PAGE.setValue(Boolean.TRUE]]></printWhenExpression>
+				</reportElement>
+				<graphicElement/>
+			</line>
+		</band>
+	</summary>
+</jasperReport>

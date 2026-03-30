@@ -1,0 +1,113 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 163 - DBM 267: Se creo el campo CBTTcodigo, que es el co
+
+	         PARCHE:  Parche023_236_SIF_TCEPago
+
+GENERADO EN:
+	SERVER:  http://mxpapp36:8300
+	DSN:     sifcim
+	FECHA:   27/08/2011 14:53:03
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* CHG_TABLE CBEPagoTCE: CBEPagoTCE */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): CBPTCestatus - Estado del Proceso de Pago TCE */
+ALTER TABLE CBEPagoTCE ADD CBPTCestatus integer NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+UPDATE CBEPagoTCE SET CBPTCestatus = 10
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE CBEPagoTCE ALTER COLUMN CBPTCestatus integer NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE CBEPagoTCE ADD CONSTRAINT CBEPagoTCE_CK10 CHECK ([CBPTCestatus]=(13) OR [CBPTCestatus]=(12) OR [CBPTCestatus]=(11) OR [CBPTCestatus]=(10))
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE CBTipoTarjetaCredito: Tipos de Tarjeta */
+/* ======================================================================================== */
+/* CHG_COLUMN OP=(CAMBIO): CBTTcodigo - Codigo del Tipo de Tarjeta */
+ALTER TABLE CBTipoTarjetaCredito ALTER COLUMN CBTTcodigo varchar(20) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+UPDATE CBTipoTarjetaCredito SET CBTTcodigo = RTRIM(CBTTcodigo)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE CCHconfig: Parametros de Caja Chica */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): CCHCantsPendientes - Permite agregar nuevos Ants con pendientes */
+ALTER TABLE CCHconfig ADD CCHCantsPendientes bit DEFAULT 0 NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE GEcomision: Comision de Viaticos */
+/* ======================================================================================== */
+/* DEL_COLUMN OP=(OBSOLETO): GECdatosViaje - Itinerario */
+ALTER TABLE GEcomision DROP COLUMN GECdatosViaje
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_COLUMN OP=(NUEVO): GECtipo - Tipo Comision */
+ALTER TABLE GEcomision ADD GECtipo numeric(1) DEFAULT 1 NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE GEcomision ADD CONSTRAINT GEcomision_CK28 CHECK ([GECtipo]=(3) OR [GECtipo]=(2) OR [GECtipo]=(1))
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): GECobservaciones - Observaciones */
+ALTER TABLE GEcomision ADD GECobservaciones varchar(255) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): GECobservaciones2 - Observaciones 2 */
+ALTER TABLE GEcomision ADD GECobservaciones2 varchar(255) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): GECusaTCE - Utiliza TCE */
+ALTER TABLE GEcomision ADD GECusaTCE bit DEFAULT 0 NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE TESsolicitudPago: TESsolicitudPago */
+/* ======================================================================================== */
+/* CHG_COLUMN OP=(CAMBIO): TESSPtipoDocumento - Tipo Documento */
+ALTER TABLE TESsolicitudPago DROP CONSTRAINT TESsolicitudPago_CK05 /* CHECK ([TESSPtipoDocumento]=(100) OR [TESSPtipoDocumento]=(10) OR [TESSPtipoDocumento]=(8) OR [TESSPtipoDocumento]=(7) OR [TESSPtipoDocumento]=(6) OR [TESSPtipoDocumento]=(4) OR [TESSPtipoDocumento]=(3) OR [TESSPtipoDocumento]=(2) OR [TESSPtipoDocumento]=(1) OR [TESSPtipoDocumento]=(5) OR [TESSPtipoDocumento]=(0)) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE TESsolicitudPago ADD CONSTRAINT TESsolicitudPago_CK05 CHECK ([TESSPtipoDocumento]=(11) OR [TESSPtipoDocumento]=(100) OR [TESSPtipoDocumento]=(10) OR [TESSPtipoDocumento]=(8) OR [TESSPtipoDocumento]=(7) OR [TESSPtipoDocumento]=(6) OR [TESSPtipoDocumento]=(4) OR [TESSPtipoDocumento]=(3) OR [TESSPtipoDocumento]=(2) OR [TESSPtipoDocumento]=(1) OR [TESSPtipoDocumento]=(5) OR [TESSPtipoDocumento]=(0))
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

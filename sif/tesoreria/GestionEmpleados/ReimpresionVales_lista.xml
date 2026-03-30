@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_Titulo>List of Employee Documents</LB_Titulo>
+		<LB_Archivo>List of Employee Documents</LB_Archivo>
+		<LB_NumVale>Document Number</LB_NumVale>
+		<LB_Estado>Status</LB_Estado>
+		<LB_Empleado>Employee</LB_Empleado>
+		<LB_Fecha>Date</LB_Fecha>
+		<LB_MontoOriginal>Original Amount</LB_MontoOriginal>
+		<LB_MontoAplicado>Applied Amount</LB_MontoAplicado>
+	</Idioma>
+</Etiquetas>

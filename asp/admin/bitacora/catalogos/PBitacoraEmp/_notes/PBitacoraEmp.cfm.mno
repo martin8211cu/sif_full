@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<info>
+	<infoitem key="UD_empresas_asp" value="name:CEcodigo;datatype:,name:CEnombre;datatype:,name:Ecodigo;datatype:,name:Enombre;datatype:" />
+	<infoitem key="UD_lista" value="name:CEcodigo;datatype:,name:CEnombre;datatype:,name:Ecodigo;datatype:,name:Enombre;datatype:,name:PBinactivo;datatype:,name:trg_inactivo;datatype:" />
+</info>

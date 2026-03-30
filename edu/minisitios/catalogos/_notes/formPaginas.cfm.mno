@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+<info>
+	<infoitem key="UD_rsForm" value="name:MSCnombre;datatype:" />
+	<infoitem key="UD_rsMenu" value="name:Scodigo;datatype:,name:MSMmenu;datatype:" />
+	<infoitem key="UD_rsCategorias" value="name:MSCcategoria;datatype:,name:MSCnombre;datatype:" />
+</info>

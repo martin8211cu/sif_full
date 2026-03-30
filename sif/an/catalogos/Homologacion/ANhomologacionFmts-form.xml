@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_Mensaje>Financial Accounts Mask</LB_Mensaje>
+		<LB_Mensaje1>Enter ledger account and press TAB</LB_Mensaje1>
+		<LB_Sumar>Add</LB_Sumar>
+		<LB_Restar>Less</LB_Restar>
+	</Idioma> 
+</Etiquetas>

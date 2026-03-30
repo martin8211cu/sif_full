@@ -1,0 +1,63 @@
+﻿/* estilos del portal */
+
+/* los colores se han transferido a cada skin, eg:azul.css */
+.subTitulo {  font-weight: bold; border-color: black black #CCCCCC; border-style: inset; border-top-width: 0px; border-right-width: 0px; border-bottom-width: 1px; border-left-width: 0px}
+.listaNon, .listaPar,
+.listaParSel, .listaNonSel { vertical-align:middle; padding-left:5px;}
+
+.listaCorte {font-weight: bold; vertical-align: middle; padding-top: 1px; padding-bottom: 1px}
+
+.tituloListas {
+	font-weight: bolder;
+	vertical-align: middle;
+	padding: 2px;
+}
+.tituloAlterno {
+	font-weight: bolder;
+	text-align: center;
+	vertical-align: middle;
+	font-size: small;
+	padding: 2px;
+}
+
+table.navbar, table.navbar a {
+	padding-bottom:2px;
+	font-size:10px;
+}
+table.navbar a 
+table.navbar .navbig, table.navbar .navbig a {
+	font-size:18px;
+	font-weight:bold;
+}
+table.navbar .navlast, table.navbar .navlast a {
+}
+.errormsg {
+	font-weight:bold;
+}
+
+
+/* menu */
+
+.menuhead {
+	font-size: 16px;
+	font-weight: bold;
+}
+.menutitulo {
+	font-size: 12px;
+	font-weight: normal;
+	text-decoration: none;
+}
+.menuhablada {
+	font-size: 11px;
+	font-weight: normal;
+	text-decoration: none;
+}
+.menuanterior {
+	font-size: 11px;
+	font-weight: bold;
+	text-decoration: none;
+}
+
+.fbox:link{ text-decoration:none; color:#2b3c6e; font-size:11px;  }
+.fbox:visited{ text-decoration:none; color:#2b3c6e; font-size:11px; }
+.fbox:hover{ text-decoration:underline; color:#2b3c6e; font-size:11px;}

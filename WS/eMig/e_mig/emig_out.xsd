@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<schema targetNamespace="http://xmlns.soin.com/emig" 
+		xmlns="http://www.w3.org/2001/XMLSchema"
+		xmlns:emig="http://xmlns.soin.com/emig" 
+		elementFormDefault="qualified"
+		>
+  <element name="Respuesta" type="emig:R_ConsultaEstados"/>
+  <complexType name="R_ConsultaEstados">
+    <sequence>
+      <element name="NOMBRE"		type="string" minOccurs="0" nillable="true" />
+      <element name="ESTADO_CCSS"	type="string" minOccurs="0" nillable="true" />
+      <element name="ESTADO_RN"		type="string" minOccurs="0" nillable="true" />
+      <element name="ESTADO_TD"		type="string" minOccurs="0" nillable="true" />
+    </sequence>
+  </complexType>
+</schema>

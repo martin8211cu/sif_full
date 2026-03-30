@@ -1,0 +1,208 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 529 - DBM 418: Diagram: COMPROMISOS_AUTOMATICOS
+
+	         PARCHE:  Parche024_077_SIF_CPautomaticos
+
+GENERADO EN:
+	SERVER:  http://mxvqapp34:8300
+	DSN:     minisif
+	FECHA:   23/02/2012 11:52:41
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* ADD_TABLE CONS_CTACONELIMINAICONOF: Cons_CtaConEliminaIconoF */
+/* ======================================================================================== */
+
+CREATE TABLE CONS_CTACONELIMINAICONOF (
+	 CEcodigo                       integer              NOT NULL
+	,EcodigoEmp                     integer              NOT NULL
+	,Ccuenta                        varchar(50)          NOT NULL
+	,BMUsucodigo                    numeric(18)          NULL
+	,ts_rversion                    timestamp           
+	)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP = (TAB NUEVA): TIP="P", SEC="0", COLS="CEcodigo,EcodigoEmp,Ccuenta" */
+ALTER TABLE CONS_CTACONELIMINAICONOF ADD CONSTRAINT CONS_CTACONELIMINAICONOF_PK PRIMARY KEY CLUSTERED (CEcodigo,EcodigoEmp,Ccuenta)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* ADD_TABLE CONS_CTACONELIMINAINTER: Cons_CtaConEliminaInter */
+/* ======================================================================================== */
+
+CREATE TABLE CONS_CTACONELIMINAINTER (
+	 CEcodigo                       integer              NOT NULL
+	,EcodigoEmp                     integer              NOT NULL
+	,Ccuenta                        numeric(18)          NOT NULL
+	,Ccuenta2                       numeric(18)          NULL
+	,BMUsucodigo                    numeric(18)          NULL
+	,ts_rversion                    timestamp           
+	)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP = (TAB NUEVA): TIP="P", SEC="0", COLS="CEcodigo,EcodigoEmp,Ccuenta" */
+ALTER TABLE CONS_CTACONELIMINAINTER ADD CONSTRAINT CONS_CTACONELIMINAINTER_PK PRIMARY KEY CLUSTERED (CEcodigo,EcodigoEmp,Ccuenta)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* ADD_TABLE CONS_CTACONELIMINAINTER1: Cons_CtaConEliminaInter1 */
+/* ======================================================================================== */
+
+CREATE TABLE CONS_CTACONELIMINAINTER1 (
+	 CEcodigo                       numeric(18)          NOT NULL
+	,EcodigoEmp                     integer              NOT NULL
+	,CFCuentaContable               char(50)             NOT NULL
+	,CFCuentaComplemento            char(50)             NOT NULL
+	,Ccuenta                        numeric(18)          NULL
+	,Ccuenta2                       numeric(18)          NULL
+	,CFdescripcion                  varchar(50)          NULL
+	,BMUsucodigo                    numeric(18)          NULL
+	,ts_rversion                    timestamp           
+	)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP = (TAB NUEVA): TIP="P", SEC="0", COLS="CEcodigo,EcodigoEmp,CFCuentaContable" */
+ALTER TABLE CONS_CTACONELIMINAINTER1 ADD CONSTRAINT CONS_CTACONELIMINAINTER1_PK PRIMARY KEY CLUSTERED (CEcodigo,EcodigoEmp,CFCuentaContable)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* ADD_TABLE CONS_ICONOF: Cons_IconoF */
+/* ======================================================================================== */
+
+CREATE TABLE CONS_ICONOF (
+	 Periodo                        integer              NOT NULL
+	,Mes                            integer              NOT NULL
+	,Ecodigo                        integer              NOT NULL
+	,Linea                          integer              NOT NULL
+	,Sociedad                       varchar(60)          NULL
+	,Soc_Asoc                       varchar(60)          NULL
+	,Ejercicio_periodo              varchar(60)          NULL
+	,Cuenta_consolidacion           varchar(60)          NULL
+	,Referencia_I                   varchar(60)          NULL
+	,Referencia_II                  varchar(60)          NULL
+	,Descripcion                    varchar(60)          NULL
+	,Monto                          money                NULL
+	,Moneda                         varchar(3)           NULL
+	,Monto_Debe                     money                NULL
+	,Monto_Haber                    money                NULL
+	,Moneda_Contabilizacion         varchar(3)           NULL
+	,BMUsucodigo                    numeric(18)          NULL
+	,ts_rversion                    timestamp           
+	)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP = (TAB NUEVA): TIP="P", SEC="0", COLS="Periodo,Mes,Ecodigo,Linea" */
+ALTER TABLE CONS_ICONOF ADD CONSTRAINT CONS_ICONOF_PK PRIMARY KEY CLUSTERED (Periodo,Mes,Ecodigo,Linea)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE Cons_SaldosXCuenta: Cons_SaldosXCuenta */
+/* ======================================================================================== */
+/* CHG_COLUMN OP = (CAMBIO): Mcodigo - Mcodigo */
+UPDATE Cons_SaldosXCuenta SET Mcodigo = 0 WHERE convert(varchar,Mcodigo) IS NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE Cons_SaldosXCuenta ALTER COLUMN Mcodigo numeric(18) NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP = (NUEVO): BMUsucodigo - Usucodigo para Log del Portal */
+ALTER TABLE Cons_SaldosXCuenta ADD BMUsucodigo numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP = (NUEVO): ts_rversion - Timestamp version de registro */
+ALTER TABLE Cons_SaldosXCuenta ADD ts_rversion timestamp
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE CPresupuestoComprometidasNAPs: Bitacora de NAPs de Compromiso */
+/* ======================================================================================== */
+/* DEL_KEY OP = (OBSOLETO): TIP="P", COLS="CPPid,Ecodigo,CPNAPnum" */
+ALTER TABLE CPresupuestoComprometidasNAPs DROP CONSTRAINT CPresupuestoComprometid01_PK /* PRIMARY KEY (CPPid,Ecodigo,CPNAPnum) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (NUEVO): TIP="P", SEC="0", COLS="CPPid,Ecodigo,CPNAPnum" */
+ALTER TABLE CPresupuestoComprometidasNAPs ADD CONSTRAINT CPresupuestoComprometid01_PK PRIMARY KEY CLUSTERED (CPPid,Ecodigo,CPNAPnum)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE DDocumentosCP: Detalle de Documentos de CxP */
+/* ======================================================================================== */
+/* ADD_COLUMN OP = (NUEVO): UsucodigoModifica - Usucodigo que modifico el Item o cuenta */
+ALTER TABLE DDocumentosCP ADD UsucodigoModifica numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE DDocumentosCxP: Detalle de Documentos sin Post */
+/* ======================================================================================== */
+/* ADD_COLUMN OP = (NUEVO): UsucodigoModifica - Usucodigo que Modifico Cuenta o Item */
+ALTER TABLE DDocumentosCxP ADD UsucodigoModifica numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE GEconceptoGasto: GEconceptoGasto */
+/* ======================================================================================== */
+/* ADD_COLUMN OP = (NUEVO): GECajusteDias - Ajuste a numero dias o noches */
+ALTER TABLE GEconceptoGasto ADD GECajusteDias numeric(1) DEFAULT 1 NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE GEconceptoGasto ADD CONSTRAINT GEconceptoGasto_CK11 CHECK ([GECajusteDias]=(0) OR [GECajusteDias]=(1))
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE GEliquidacion: GEliquidacion */
+/* ======================================================================================== */
+/* ADD_COLUMN OP = (NUEVO): CPNAPnum_cancelacion - NAP de Cancelacion */
+ALTER TABLE GEliquidacion ADD CPNAPnum_cancelacion numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE HDDocumentosCP: Histórico de Detalle de Docume */
+/* ======================================================================================== */
+/* ADD_COLUMN OP = (NUEVO): UsucodigoModifica - Usucodigo que modifica el Item o la Cuenta */
+ALTER TABLE HDDocumentosCP ADD UsucodigoModifica numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

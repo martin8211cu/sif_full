@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+			<LB_SistGastoEmp>Employee Expense System</LB_SistGastoEmp>	
+			<LB_RpteLiquidaciones>Settlement Report</LB_RpteLiquidaciones>
+			<LB_FormaPago>Payment Method</LB_FormaPago>
+			<LB_Liquidacion>Settlement</LB_Liquidacion>			
+			<LB_Descripcion>Description</LB_Descripcion>
+			<LB_Beneficiario>Beneficiary</LB_Beneficiario>
+			<LB_Moneda>Currency</LB_Moneda>
+			<LB_Fecha>Date</LB_Fecha>
+			<LB_TotalAnticipo>Total Advance</LB_TotalAnticipo>
+			<LB_TotalGastado>Total expenses</LB_TotalGastado>
+			<LB_TotalReembolso>Total Refund</LB_TotalReembolso>
+			<LB_TotalDevoluciones>Repayment Total</LB_TotalDevoluciones>			
+	</Idioma>
+</Etiquetas>

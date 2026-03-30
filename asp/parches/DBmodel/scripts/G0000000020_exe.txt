@@ -1,0 +1,330 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 16 - Modificaciones varias planilla presupuestaria
+
+	         PARCHE:  ParcheRH_023_005
+
+GENERADO EN:
+	SERVER:  http://localhost:8099
+	DSN:     minisif
+	FECHA:   03/03/2011 16:59:30
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* CHG_TABLE RHCFormulacion: RH Componentes Formulacion */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): RHCFMonto - RHCFMonto */
+ALTER TABLE RHCFormulacion ADD RHCFMonto money NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* ADD_TABLE RHCPFormulacion: RHCPFormulacion */
+/* ======================================================================================== */
+
+CREATE TABLE RHCPFormulacion (
+	 RHCPFid                        numeric(18)          NOT NULL
+	,RHEid                          numeric(18)          NULL
+	,Ecodigo                        integer              NULL
+	,Mes                            integer              NULL
+	,Periodo                        integer              NULL
+	,Mcodigo                        numeric(8)           NULL
+	,CFid                           numeric(18)          NULL
+	,DClinea                        numeric(18)          NULL
+	,RHCPmontoTotal                 float                NULL
+	,RHCPFmontoCarga                money                NULL
+	,CFformato                      varchar(100)         NULL
+	,CPformato                      varchar(100)         NULL
+	,BMfecha                        datetime             NOT NULL
+	,BMUsucodigo                    numeric(18)          NOT NULL
+	,ts_rversion                    timestamp           
+	)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="P", SEC="0", COLS="RHCPFid" */
+ALTER TABLE RHCPFormulacion ADD CONSTRAINT RHCPFormulacion_PK PRIMARY KEY CLUSTERED (RHCPFid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="F", SEC="1", COLS="CFid", REF="CFuncional" */
+CREATE INDEX RHCPFormulacion_FI01 ON RHCPFormulacion (CFid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="F", SEC="2", COLS="DClinea", REF="DCargas" */
+CREATE INDEX RHCPFormulacion_FI02 ON RHCPFormulacion (DClinea)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="F", SEC="3", COLS="Mcodigo", REF="Monedas" */
+CREATE INDEX RHCPFormulacion_FI03 ON RHCPFormulacion (Mcodigo)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="F", SEC="4", COLS="RHEid", REF="RHEscenarios" */
+CREATE INDEX RHCPFormulacion_FI04 ON RHCPFormulacion (RHEid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* ADD_TABLE RHDOtrasPartidas: RHDOtrasPartidas */
+/* ======================================================================================== */
+
+CREATE TABLE RHDOtrasPartidas (
+	 RHOPid                         numeric(18)          NOT NULL
+	,CFid                           numeric(18)          NOT NULL
+	,Mes                            integer              NOT NULL
+	,Periodo                        integer              NOT NULL
+	,Monto                          money                NULL
+	,BMfecha                        datetime             NULL
+	,BMUsucodigo                    numeric(18)          NULL
+	,ts_rversion                    timestamp           
+	)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="P", SEC="0", COLS="RHOPid,CFid,Mes,Periodo" */
+ALTER TABLE RHDOtrasPartidas ADD CONSTRAINT RHDOtrasPartidas_PK PRIMARY KEY CLUSTERED (RHOPid,CFid,Mes,Periodo)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="F", SEC="1", COLS="CFid", REF="CFuncional" */
+CREATE INDEX RHDOtrasPartidas_FI01 ON RHDOtrasPartidas (CFid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="F", SEC="2", COLS="RHOPid", REF="RHOtrasPartidas" */
+CREATE INDEX RHDOtrasPartidas_FI02 ON RHDOtrasPartidas (RHOPid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* ADD_TABLE RHECargasPatrolanes: RHECargasPatrolanes */
+/* ======================================================================================== */
+
+CREATE TABLE RHECargasPatrolanes (
+	 RHEid                          numeric(18)          NOT NULL
+	,DClinea                        numeric(18)          NOT NULL
+	,Ecodigo                        integer              NULL
+	,RHECPvalor                     float                NULL
+	,RHECPcuentac                   varchar(100)         NULL
+	,RHECPmentodo                   integer              NULL
+	,RHECPaplicaCargas              integer              NULL
+	,BMfecha                        datetime             NOT NULL
+	,BMUsucodigo                    numeric(18)          NOT NULL
+	,ts_rversion                    timestamp           
+	)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="P", SEC="0", COLS="RHEid,DClinea" */
+ALTER TABLE RHECargasPatrolanes ADD CONSTRAINT RHECargasPatrolanes_PK PRIMARY KEY CLUSTERED (RHEid,DClinea)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="F", SEC="1", COLS="DClinea", REF="DCargas" */
+CREATE INDEX RHECargasPatrolanes_FI01 ON RHECargasPatrolanes (DClinea)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="F", SEC="2", COLS="RHEid", REF="RHEscenarios" */
+CREATE INDEX RHECargasPatrolanes_FI02 ON RHECargasPatrolanes (RHEid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* ADD_TABLE RHOPDFormulacion: RHOPDFormulacion */
+/* ======================================================================================== */
+
+CREATE TABLE RHOPDFormulacion (
+	 RHOPFid                        numeric(18)          NOT NULL
+	,CFid                           numeric(18)          NOT NULL
+	,Mes                            integer              NOT NULL
+	,Periodo                        integer              NOT NULL
+	,Monto                          money                NULL
+	,CFformato                      varchar(100)         NULL
+	,CPformato                      varchar(100)         NULL
+	,BMfecha                        datetime             NOT NULL
+	,BMUsucodigo                    numeric(18)          NOT NULL
+	,ts_rversion                    timestamp           
+	)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="P", SEC="0", COLS="RHOPFid,CFid,Mes,Periodo" */
+ALTER TABLE RHOPDFormulacion ADD CONSTRAINT RHOPDFormulacion_PK PRIMARY KEY CLUSTERED (RHOPFid,CFid,Mes,Periodo)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="F", SEC="1", COLS="CFid", REF="CFuncional" */
+CREATE INDEX RHOPDFormulacion_FI01 ON RHOPDFormulacion (CFid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="F", SEC="2", COLS="RHOPFid", REF="RHOPFormulacion" */
+CREATE INDEX RHOPDFormulacion_FI02 ON RHOPDFormulacion (RHOPFid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* ADD_TABLE RHOPFormulacion: RHOPFormulacion */
+/* ======================================================================================== */
+
+CREATE TABLE RHOPFormulacion (
+	 RHOPFid                        numeric(18)          NOT NULL
+	,Ecodigo                        integer              NULL
+	,RHOPid                         numeric(18)          NULL
+	,RHEid                          numeric(18)          NULL
+	,Mcodigo                        numeric(8)           NULL
+	,RHOPFmonto                     money                NULL
+	,fdesdecorte                    datetime             NULL
+	,fhastacorte                    datetime             NULL
+	,fdesde                         datetime             NULL
+	,fhasta                         datetime             NULL
+	,RHOPFgastado                   money                NULL
+	,RHOPFdisponible                money                NULL
+	,RHOPFreserva                   money                NULL
+	,RHOPFrefuerzo                  money                NULL
+	,RHOPFmodificacion              money                NULL
+	,BMfecha                        datetime             NOT NULL
+	,BMUsucodigo                    numeric(18)          NOT NULL
+	,ts_rversion                    timestamp           
+	)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="P", SEC="0", COLS="RHOPFid" */
+ALTER TABLE RHOPFormulacion ADD CONSTRAINT RHOPFormulacion_PK PRIMARY KEY CLUSTERED (RHOPFid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="F", SEC="1", COLS="Mcodigo", REF="Monedas" */
+CREATE INDEX RHOPFormulacion_FI01 ON RHOPFormulacion (Mcodigo)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="F", SEC="2", COLS="RHEid", REF="RHEscenarios" */
+CREATE INDEX RHOPFormulacion_FI02 ON RHOPFormulacion (RHEid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="F", SEC="3", COLS="RHOPid", REF="RHOtrasPartidas" */
+CREATE INDEX RHOPFormulacion_FI03 ON RHOPFormulacion (RHOPid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ================================================================= */
+/*            CREA FKs NUEVOS O CON CAMPOS MODIFICADOS               */
+/* ================================================================= */
+/* CHG_TABLE RHCPFormulacion */
+/* ADD_FK OP=(TAB NUEVA): TIP="F", SEC="1", COLS="CFid", REF="CFuncional" */
+ALTER TABLE RHCPFormulacion ADD CONSTRAINT RHCPFormulacion_FK01 FOREIGN KEY (CFid) REFERENCES CFuncional (CFid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_FK OP=(TAB NUEVA): TIP="F", SEC="2", COLS="DClinea", REF="DCargas" */
+ALTER TABLE RHCPFormulacion ADD CONSTRAINT RHCPFormulacion_FK02 FOREIGN KEY (DClinea) REFERENCES DCargas (DClinea)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_FK OP=(TAB NUEVA): TIP="F", SEC="3", COLS="Mcodigo", REF="Monedas" */
+ALTER TABLE RHCPFormulacion ADD CONSTRAINT RHCPFormulacion_FK03 FOREIGN KEY (Mcodigo) REFERENCES Monedas (Mcodigo)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_FK OP=(TAB NUEVA): TIP="F", SEC="4", COLS="RHEid", REF="RHEscenarios" */
+ALTER TABLE RHCPFormulacion ADD CONSTRAINT RHCPFormulacion_FK04 FOREIGN KEY (RHEid) REFERENCES RHEscenarios (RHEid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_TABLE RHDOtrasPartidas */
+/* ADD_FK OP=(TAB NUEVA): TIP="F", SEC="1", COLS="CFid", REF="CFuncional" */
+ALTER TABLE RHDOtrasPartidas ADD CONSTRAINT RHDOtrasPartidas_FK01 FOREIGN KEY (CFid) REFERENCES CFuncional (CFid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_FK OP=(TAB NUEVA): TIP="F", SEC="2", COLS="RHOPid", REF="RHOtrasPartidas" */
+ALTER TABLE RHDOtrasPartidas ADD CONSTRAINT RHDOtrasPartidas_FK02 FOREIGN KEY (RHOPid) REFERENCES RHOtrasPartidas (RHOPid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_TABLE RHECargasPatrolanes */
+/* ADD_FK OP=(TAB NUEVA): TIP="F", SEC="1", COLS="DClinea", REF="DCargas" */
+ALTER TABLE RHECargasPatrolanes ADD CONSTRAINT RHECargasPatrolanes_FK01 FOREIGN KEY (DClinea) REFERENCES DCargas (DClinea)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_FK OP=(TAB NUEVA): TIP="F", SEC="2", COLS="RHEid", REF="RHEscenarios" */
+ALTER TABLE RHECargasPatrolanes ADD CONSTRAINT RHECargasPatrolanes_FK02 FOREIGN KEY (RHEid) REFERENCES RHEscenarios (RHEid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_TABLE RHOPDFormulacion */
+/* ADD_FK OP=(TAB NUEVA): TIP="F", SEC="1", COLS="CFid", REF="CFuncional" */
+ALTER TABLE RHOPDFormulacion ADD CONSTRAINT RHOPDFormulacion_FK01 FOREIGN KEY (CFid) REFERENCES CFuncional (CFid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_FK OP=(TAB NUEVA): TIP="F", SEC="2", COLS="RHOPFid", REF="RHOPFormulacion" */
+ALTER TABLE RHOPDFormulacion ADD CONSTRAINT RHOPDFormulacion_FK02 FOREIGN KEY (RHOPFid) REFERENCES RHOPFormulacion (RHOPFid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_TABLE RHOPFormulacion */
+/* ADD_FK OP=(TAB NUEVA): TIP="F", SEC="1", COLS="Mcodigo", REF="Monedas" */
+ALTER TABLE RHOPFormulacion ADD CONSTRAINT RHOPFormulacion_FK01 FOREIGN KEY (Mcodigo) REFERENCES Monedas (Mcodigo)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_FK OP=(TAB NUEVA): TIP="F", SEC="2", COLS="RHEid", REF="RHEscenarios" */
+ALTER TABLE RHOPFormulacion ADD CONSTRAINT RHOPFormulacion_FK02 FOREIGN KEY (RHEid) REFERENCES RHEscenarios (RHEid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_FK OP=(TAB NUEVA): TIP="F", SEC="3", COLS="RHOPid", REF="RHOtrasPartidas" */
+ALTER TABLE RHOPFormulacion ADD CONSTRAINT RHOPFormulacion_FK03 FOREIGN KEY (RHOPid) REFERENCES RHOtrasPartidas (RHOPid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

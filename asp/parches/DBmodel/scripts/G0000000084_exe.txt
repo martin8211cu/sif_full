@@ -1,0 +1,164 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 189 - DBM 314: Diagram: Viaticos_por_Comision
+
+	         PARCHE:  Parche023_329_SIF_GastoEmpleados
+
+GENERADO EN:
+	SERVER:  http://mxpapp36:8300
+	DSN:     sifcim
+	FECHA:   08/10/2011 08:10:27
+*/
+
+/* INI_SCRIPT */
+
+/* ================================================================= */
+/*    ELIMINA FKs QUE YA NO SE UTILIZAN O CON CAMPOS MODIFICADOS     */
+/* ================================================================= */
+/* CHG_TABLE CCHespecialMovs */
+/* DEL_FK OP=(OBSOLETO): TIP="F", COLS="CCHTAid", REF="CCHTransaccionesAplicadas" */
+ALTER TABLE CCHespecialMovs DROP CONSTRAINT CCHespecialMovs_FK04 /* REFERENCES CCHTransaccionesAplicadas (CCHTAid) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE CCHespecialMovs: Movimientos de Caja Especial d */
+/* ======================================================================================== */
+/* DEL_KEY OP=(OBSOLETO): TIP="F", COLS="CCHTAid", REF="CCHTransaccionesAplicadas" */
+DROP INDEX CCHespecialMovs.CCHespecialMovs_FI04 /* REFERENCES INDEX (CCHTAid) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* DEL_COLUMN OP=(OBSOLETO): CCHTAid - ID de Transaccion de Efectivo */
+ALTER TABLE CCHespecialMovs DROP COLUMN CCHTAid
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_COLUMN OP=(NUEVO): CCHEMdescripcion - Descripcion */
+ALTER TABLE CCHespecialMovs ADD CCHEMdescripcion varchar(255) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+UPDATE CCHespecialMovs SET CCHEMdescripcion = ' '
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE CCHespecialMovs ALTER COLUMN CCHEMdescripcion varchar(255) NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): CCHTCid_entrega - ID Trans de Custodio donde entrego efectivo */
+ALTER TABLE CCHespecialMovs ADD CCHTCid_entrega numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(NUEVO): TIP="F", SEC="5", COLS="CCHTCid_entrega", REF="CCHTransaccionesCProceso" */
+CREATE INDEX CCHespecialMovs_FI05 ON CCHespecialMovs (CCHTCid_entrega)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE GEliquidacionGasto: GEliquidacionGasto */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): GELGreferencia - Referencia */
+ALTER TABLE GEliquidacionGasto ADD GELGreferencia varchar(100) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE TESdetallePago: TESdetallePago */
+/* ======================================================================================== */
+/* CHG_KEY OP=(CAMBIO): TIP="I", COLS="TESDPidDocumento,EcodigoOri,TESDPestado" */
+DROP INDEX TESdetallePago.TESdetallePago_ID01 /* INDEX (TESDPidDocumento,EcodigoOri,TESDPestado) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_COLUMN OP=(CAMBIO): TESDPestado - Estado Detalle Pago */
+ALTER TABLE TESdetallePago DROP CONSTRAINT TESdetallePago_CK02 /* CHECK ([TESDPestado]=(312) OR [TESDPestado]=(302) OR [TESDPestado]=(13) OR [TESDPestado]=(12) OR [TESDPestado]=(110) OR [TESDPestado]=(11) OR [TESDPestado]=(103) OR [TESDPestado]=(101) OR [TESDPestado]=(10) OR [TESDPestado]=(23) OR [TESDPestado]=(3) OR [TESDPestado]=(212) OR [TESDPestado]=(202) OR [TESDPestado]=(2) OR [TESDPestado]=(1) OR [TESDPestado]=(0)) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE TESdetallePago DROP CONSTRAINT DF__TESdetall__TESDP__7ABCFF24
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE TESdetallePago ALTER COLUMN TESDPestado numeric(3) NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE TESdetallePago ADD CONSTRAINT TESdetallePago_DF02 DEFAULT 0 FOR TESDPestado
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE TESdetallePago ADD CONSTRAINT TESdetallePago_CK02 CHECK ([TESDPestado]=(312) OR [TESDPestado]=(302) OR [TESDPestado]=(13) OR [TESDPestado]=(12) OR [TESDPestado]=(110) OR [TESDPestado]=(11) OR [TESDPestado]=(103) OR [TESDPestado]=(101) OR [TESDPestado]=(10) OR [TESDPestado]=(23) OR [TESDPestado]=(3) OR [TESDPestado]=(212) OR [TESDPestado]=(202) OR [TESDPestado]=(2) OR [TESDPestado]=(1) OR [TESDPestado]=(0))
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_KEY OP=(CAMBIO): TIP="I", SEC="1", COLS="TESDPidDocumento,EcodigoOri,TESDPestado" */
+CREATE NONCLUSTERED INDEX TESdetallePago_ID01 ON TESdetallePago (TESDPidDocumento,EcodigoOri,TESDPestado)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE TESsolicitudPago: TESsolicitudPago */
+/* ======================================================================================== */
+/* CHG_KEY OP=(CAMBIO): TIP="I", COLS="EcodigoOri,TESSPestado,TESSPfechaPagar" */
+DROP INDEX TESsolicitudPago.TESsolicitudPago_ID02 /* INDEX (EcodigoOri,TESSPestado,TESSPfechaPagar) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_COLUMN OP=(CAMBIO): TESSPestado - Estado de la Solicitud */
+ALTER TABLE TESsolicitudPago DROP CONSTRAINT TESsolicitudPago_CK06 /* CHECK ([TESSPestado]=(312) OR [TESSPestado]=(302) OR [TESSPestado]=(13) OR [TESSPestado]=(12) OR [TESSPestado]=(110) OR [TESSPestado]=(11) OR [TESSPestado]=(103) OR [TESSPestado]=(101) OR [TESSPestado]=(10) OR [TESSPestado]=(23) OR [TESSPestado]=(3) OR [TESSPestado]=(212) OR [TESSPestado]=(202) OR [TESSPestado]=(2) OR [TESSPestado]=(1) OR [TESSPestado]=(0)) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE TESsolicitudPago DROP CONSTRAINT DF__TESsolici__TESSP__0781FD65
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE TESsolicitudPago ALTER COLUMN TESSPestado numeric(3) NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE TESsolicitudPago ADD CONSTRAINT TESsolicitudPago_DF06 DEFAULT 0 FOR TESSPestado
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE TESsolicitudPago ADD CONSTRAINT TESsolicitudPago_CK06 CHECK ([TESSPestado]=(312) OR [TESSPestado]=(302) OR [TESSPestado]=(13) OR [TESSPestado]=(12) OR [TESSPestado]=(110) OR [TESSPestado]=(11) OR [TESSPestado]=(103) OR [TESSPestado]=(101) OR [TESSPestado]=(10) OR [TESSPestado]=(23) OR [TESSPestado]=(3) OR [TESSPestado]=(212) OR [TESSPestado]=(202) OR [TESSPestado]=(2) OR [TESSPestado]=(1) OR [TESSPestado]=(0))
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_KEY OP=(CAMBIO): TIP="I", SEC="2", COLS="EcodigoOri,TESSPestado,TESSPfechaPagar" */
+CREATE NONCLUSTERED INDEX TESsolicitudPago_ID02 ON TESsolicitudPago (EcodigoOri,TESSPestado,TESSPfechaPagar)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ================================================================= */
+/*            CREA FKs NUEVOS O CON CAMPOS MODIFICADOS               */
+/* ================================================================= */
+/* CHG_TABLE CCHespecialMovs */
+/* ADD_FK OP=(NUEVO): TIP="F", SEC="5", COLS="CCHTCid_entrega", REF="CCHTransaccionesCProceso" */
+ALTER TABLE CCHespecialMovs ADD CONSTRAINT CCHespecialMovs_FK05 FOREIGN KEY (CCHTCid_entrega) REFERENCES CCHTransaccionesCProceso (CCHTCid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

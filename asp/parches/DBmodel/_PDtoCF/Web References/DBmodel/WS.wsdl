@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:tns1="http://rpc.xml.coldfusion" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:impl="http://componentes.dbmodel.parches.asp" xmlns:intf="http://componentes.dbmodel.parches.asp" targetNamespace="http://componentes.dbmodel.parches.asp" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://rpc.xml.coldfusion">
+      <xsd:import namespace="http://xml.apache.org/xml-soap" />
+      <xsd:import namespace="http://componentes.dbmodel.parches.asp" />
+      <xsd:import namespace="http://schemas.xmlsoap.org/soap/encoding/" />
+      <xsd:complexType name="CFCInvocationException">
+        <xsd:sequence />
+      </xsd:complexType>
+      <xsd:complexType name="QueryBean">
+        <xsd:sequence>
+          <xsd:element name="columnList" nillable="true" type="intf:ArrayOf_xsd_string" />
+          <xsd:element name="data" nillable="true" type="intf:ArrayOfArrayOf_xsd_anyType" />
+        </xsd:sequence>
+      </xsd:complexType>
+    </xsd:schema>
+    <xsd:schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://componentes.dbmodel.parches.asp">
+      <xsd:import namespace="http://xml.apache.org/xml-soap" />
+      <xsd:import namespace="http://rpc.xml.coldfusion" />
+      <xsd:import namespace="http://schemas.xmlsoap.org/soap/encoding/" />
+      <xsd:complexType name="ArrayOf_xsd_anyType">
+        <xsd:complexContent mixed="false">
+          <xsd:restriction base="soapenc:Array">
+            <xsd:attribute wsdl:arrayType="xsd:anyType[]" ref="soapenc:arrayType" />
+          </xsd:restriction>
+        </xsd:complexContent>
+      </xsd:complexType>
+      <xsd:complexType name="ArrayOf_xsd_string">
+        <xsd:complexContent mixed="false">
+          <xsd:restriction base="soapenc:Array">
+            <xsd:attribute wsdl:arrayType="xsd:string[]" ref="soapenc:arrayType" />
+          </xsd:restriction>
+        </xsd:complexContent>
+      </xsd:complexType>
+      <xsd:complexType name="ArrayOfArrayOf_xsd_anyType">
+        <xsd:complexContent mixed="false">
+          <xsd:restriction base="soapenc:Array">
+            <xsd:attribute wsdl:arrayType="xsd:anyType[][]" ref="soapenc:arrayType" />
+          </xsd:restriction>
+        </xsd:complexContent>
+      </xsd:complexType>
+    </xsd:schema>
+    <xsd:schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://xml.apache.org/xml-soap">
+      <xsd:import namespace="http://rpc.xml.coldfusion" />
+      <xsd:import namespace="http://componentes.dbmodel.parches.asp" />
+      <xsd:import namespace="http://schemas.xmlsoap.org/soap/encoding/" />
+      <xsd:complexType name="mapItem">
+        <xsd:sequence>
+          <xsd:element name="key" nillable="true" type="xsd:anyType" />
+          <xsd:element name="value" nillable="true" type="xsd:anyType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="Map">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="item" type="apachesoap:mapItem" />
+        </xsd:sequence>
+      </xsd:complexType>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="qryEsquemasModeloRequest">
+    <wsdl:part name="modelo" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="uploadRequest">
+    <wsdl:part name="usuario" type="xsd:string" />
+    <wsdl:part name="modelo" type="xsd:string" />
+    <wsdl:part name="descripcion" type="xsd:string" />
+    <wsdl:part name="cantidad" type="xsd:string" />
+    <wsdl:part name="XMLzip" type="xsd:base64Binary" />
+  </wsdl:message>
+  <wsdl:message name="qryEsquemasModeloResponse">
+    <wsdl:part name="qryEsquemasModeloReturn" type="intf:ArrayOf_xsd_anyType" />
+  </wsdl:message>
+  <wsdl:message name="uploadResponse">
+    <wsdl:part name="uploadReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="CFCInvocationException">
+    <wsdl:part name="fault" type="tns1:CFCInvocationException" />
+  </wsdl:message>
+  <wsdl:message name="addModeloRequest">
+    <wsdl:part name="modelo" type="xsd:string" />
+    <wsdl:part name="esquema" type="xsd:string" />
+    <wsdl:part name="usuario" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="addModeloResponse" />
+  <wsdl:portType name="WS">
+    <wsdl:operation name="upload" parameterOrder="usuario modelo descripcion cantidad XMLzip">
+      <wsdl:input name="uploadRequest" message="intf:uploadRequest" />
+      <wsdl:output name="uploadResponse" message="intf:uploadResponse" />
+      <wsdl:fault name="CFCInvocationException" message="intf:CFCInvocationException" />
+    </wsdl:operation>
+    <wsdl:operation name="addModelo" parameterOrder="modelo esquema usuario">
+      <wsdl:input name="addModeloRequest" message="intf:addModeloRequest" />
+      <wsdl:output name="addModeloResponse" message="intf:addModeloResponse" />
+      <wsdl:fault name="CFCInvocationException" message="intf:CFCInvocationException" />
+    </wsdl:operation>
+    <wsdl:operation name="qryEsquemasModelo" parameterOrder="modelo">
+      <wsdl:input name="qryEsquemasModeloRequest" message="intf:qryEsquemasModeloRequest" />
+      <wsdl:output name="qryEsquemasModeloResponse" message="intf:qryEsquemasModeloResponse" />
+      <wsdl:fault name="CFCInvocationException" message="intf:CFCInvocationException" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="WS.cfcSoapBinding" type="intf:WS">
+    <wsdlsoap:binding transport="http://schemas.xmlsoap.org/soap/http" style="rpc" />
+    <wsdl:operation name="upload">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="uploadRequest">
+        <wsdlsoap:body use="encoded" namespace="http://componentes.dbmodel.parches.asp" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="uploadResponse">
+        <wsdlsoap:body use="encoded" namespace="http://componentes.dbmodel.parches.asp" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+      <wsdl:fault name="CFCInvocationException">
+        <wsdlsoap:fault use="encoded" name="CFCInvocationException" namespace="http://componentes.dbmodel.parches.asp" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="addModelo">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="addModeloRequest">
+        <wsdlsoap:body use="encoded" namespace="http://componentes.dbmodel.parches.asp" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="addModeloResponse">
+        <wsdlsoap:body use="encoded" namespace="http://componentes.dbmodel.parches.asp" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+      <wsdl:fault name="CFCInvocationException">
+        <wsdlsoap:fault use="encoded" name="CFCInvocationException" namespace="http://componentes.dbmodel.parches.asp" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="qryEsquemasModelo">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="qryEsquemasModeloRequest">
+        <wsdlsoap:body use="encoded" namespace="http://componentes.dbmodel.parches.asp" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="qryEsquemasModeloResponse">
+        <wsdlsoap:body use="encoded" namespace="http://componentes.dbmodel.parches.asp" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+      <wsdl:fault name="CFCInvocationException">
+        <wsdlsoap:fault use="encoded" name="CFCInvocationException" namespace="http://componentes.dbmodel.parches.asp" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="WSService">
+    <wsdl:port name="WS.cfc" binding="intf:WS.cfcSoapBinding">
+      <wsdlsoap:address location="http://localhost:8300/cfmx/asp/parches/DBmodel/Componentes/WS.cfc" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

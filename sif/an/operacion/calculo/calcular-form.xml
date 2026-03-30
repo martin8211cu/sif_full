@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_CalculoAnexos>Calculate Financial Reports</LB_CalculoAnexos>
+		<LB_GrupoSeleccionado>Selected Group</LB_GrupoSeleccionado>
+		<LB_SeleccionarAnexo>Select Financial Report</LB_SeleccionarAnexo>
+		<LB_Seleccion>Select</LB_Seleccion>
+		<LB_todos>all</LB_todos>
+		<LB_Anexo>Financial Report</LB_Anexo>
+		<LB_OrigenDatos>Data Source</LB_OrigenDatos>
+		<LB_Programacion>Programming</LB_Programacion>
+		<LB_Unidades>Units</LB_Unidades>
+		<LB_Periodo>Period</LB_Periodo>
+		<LB_Mes>Month</LB_Mes>
+		<LB_Fecha>Date</LB_Fecha>
+		<LB_Hora>Hour</LB_Hora>
+		<LB_Moneda>Currency</LB_Moneda>
+		<LB_MovsEnMoneda>Currency Movements</LB_MovsEnMoneda>
+		<LB_MovsMonedas>Any Currency</LB_MovsMonedas>
+		<LB_Smes>Select</LB_Smes>
+		<LB_Smes1>January</LB_Smes1>
+		<LB_Smes2>February</LB_Smes2>
+		<LB_Smes3>March</LB_Smes3>
+		<LB_Smes4>April</LB_Smes4>
+		<LB_Smes5>May</LB_Smes5>
+		<LB_Smes6>June</LB_Smes6>
+		<LB_Smes7>July</LB_Smes7>
+		<LB_Smes8>August</LB_Smes8>
+		<LB_Smes9>September</LB_Smes9>
+		<LB_Smes10>October</LB_Smes10>
+		<LB_Smes11>November</LB_Smes11>
+		<LB_Smes12>December</LB_Smes12>		
+		<LB_Mensaje>Execute values calculation and update Financial Report calculated</LB_Mensaje>
+		<LB_Mensaje1>(SOIN Financial Reports is required to update Financial Report calculated)</LB_Mensaje1>
+		<LB_Mensaje2>Schedule values calculation for later execution</LB_Mensaje2>
+		<LB_Mensaje3>(Calculated Financial Report can be update after calculation)</LB_Mensaje3>
+		<LB_Mensaje4>There are no Financial Reports pending to send</LB_Mensaje4>
+		<LB_Mensaje5>There are no Financial  Reports in this group</LB_Mensaje5>
+		<LB_Mensaje6>Calculation finished. Click here to consult the result</LB_Mensaje6>
+		<LB_Mensaje7>Calculation not completed. Click Calculate to try again</LB_Mensaje7>
+		<LB_Mensaje8>Request calculation has been scheduled. The request can be canceled using the list below</LB_Mensaje8>
+		<LB_Distribuir>Send Financial Report Calculated After Update</LB_Distribuir>
+		<LB_Operaciones>Pending Operations</LB_Operaciones>
+		<LB_OperacionesTipo1>Financial Reports calculation in process</LB_OperacionesTipo1>
+		<LB_OperacionesTipo2>Financial Reports scheduled calculations</LB_OperacionesTipo2>
+		<LB_OperacionesTipo3>Finished calculations that require update the financial report  using Excel</LB_OperacionesTipo3>
+		<LB_OperacionesTipo4>Financial Reports that can not be sent</LB_OperacionesTipo4>
+		<LB_OperacionesTipo5>Financial Reports calculated in sending process</LB_OperacionesTipo5>
+		<LB_OperacionesTipo6>Financial Reports Calculated not Sent</LB_OperacionesTipo6>
+		<LB_Mostrar>Show</LB_Mostrar> 
+		<LB_Empresa>Enterprise</LB_Empresa>
+		<LB_Oficina>Office</LB_Oficina>
+		<LB_FechaCalculo>Calculation Date</LB_FechaCalculo>
+		<LB_MultiMoneda>Financial Report is Multi-currency</LB_MultiMoneda>
+		<CHK_ExpresadoEnLocal>Local Currency</CHK_ExpresadoEnLocal>
+		<BTN_Calcular>Calculate</BTN_Calcular>
+		<BTN_Refrescar>Update Financial Report calculated using Excel SOIN Financial Reports</BTN_Refrescar>
+		<BTN_EnviarCorreo>Send by eMail Financial Report calculated</BTN_EnviarCorreo>
+	<LB_AnexosCalculados>Financial Reports Calculated</LB_AnexosCalculados></Idioma> 
+</Etiquetas>

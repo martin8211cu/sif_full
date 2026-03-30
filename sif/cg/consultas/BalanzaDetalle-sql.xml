@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="es">
+		<inicio>Inicio</inicio>
+		<favoritos>Favoritos</favoritos>
+		<compania>Compa&amp;ntilde;&amp;iacute;a</compania>
+		<LB_Formato>Visualizar en formato</LB_Formato>
+		<TituloBigHTML>Reporte de balanza a detalle</TituloBigHTML>
+		<Titulo>Reporte de balanza a detalle 2</Titulo>
+		<TotalCuenta>Total Cuenta:</TotalCuenta>
+		<TotalMayor>Total Mayor:</TotalMayor>
+		<Mayor>Mayor</Mayor>
+		<Cuenta>Cuenta</Cuenta>
+		<DesdeCuenta>Desde la cuenta</DesdeCuenta>
+		<HastaCuenta>Hasta la cuenta</HastaCuenta>
+        <Periodo>Periodo</Periodo>
+        <Fecha>Fecha</Fecha>
+        <Lote>Lote</Lote>
+        <Poliza>Póliza</Poliza>
+        <Oficina>Oficina</Oficina>
+        <Documento>Documento</Documento>
+        <Descripcion>Descripción</Descripcion>
+        <Ref>Ref</Ref>
+        <Monto>Monto</Monto>
+        <Moneda>Moneda</Moneda>
+        <Debitos>Débitos</Debitos>
+        <Creditos>Créditos</Creditos>
+        <Movimiento>Movimiento</Movimiento>
+        <Acumulado>Acumulado</Acumulado>
+		<TotalFecha>Total Fecha:</TotalFecha>		
+	</Idioma>
+	<Idioma id="en">
+		<compania>Enterprise</compania>
+		<favoritos>Favorite</favoritos>
+		<inicio>Start</inicio>
+		<LB_Formato>Format</LB_Formato>
+		<TituloBigHTML>Balance Sheet Detailed Report</TituloBigHTML>
+		<Titulo>Balance Sheet Detailed Report</Titulo>
+		<TotalCuenta>Total Account</TotalCuenta>
+		<TotalMayor>Total Ledger Account</TotalMayor>
+		<Mayor>Ledger Account</Mayor>
+		<Cuenta>Account</Cuenta>
+		<DesdeCuenta>From Account</DesdeCuenta>
+		<HastaCuenta>To Account</HastaCuenta>
+        <LB_Periodo>Period</LB_Periodo>
+        <Fecha>Date</Fecha>
+        <Lote>Batch</Lote>
+        <Poliza>Voucher</Poliza>
+        <Oficina>Office</Oficina>
+        <Documento>Document</Documento>
+        <Descripcion>Description</Descripcion>
+        <Ref>Ref</Ref>
+        <Monto>Amount</Monto>
+        <Moneda>Currency</Moneda>
+        <Debitos>Debit</Debitos>
+        <Creditos>Credit</Creditos>
+        <Movimiento>Movement</Movimiento>
+        <Acumulado>Accumulated</Acumulado>
+		<TotalFecha>Total by Date</TotalFecha>
+		<LB_PorFavor>Please Wait</LB_PorFavor>
+		<LB_Proceso>Process may take  several minutes</LB_Proceso>
+		<BTN_Generar>Generate</BTN_Generar>
+		<BTN_Regresar>Return</BTN_Regresar>
+	<Periodo>Period</Periodo></Idioma>
+</Etiquetas>

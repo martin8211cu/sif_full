@@ -1,0 +1,1 @@
+﻿<cflocation url="http://bo.soin.net/apps/jsp/UPHome.jsp" addtoken="no">

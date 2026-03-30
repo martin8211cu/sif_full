@@ -1,0 +1,1446 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE>I Semestre</TITLE>
+<script language="JavaScript" type="text/javascript">
+    var GvarNewTD;
+	var GvarMatricula = new Array();
+	var GvarHorario;
+
+function fm(campo,ndec) {
+   var s = "";
+   if (campo.name)
+	 s=campo.value
+   else
+	 s=campo
+ 
+   if(s=='' && ndec>0) 
+  s='0'
+ 
+   var nc=""
+   var s1=""
+   var s2=""
+   if (s != '') {
+	  str = new String("")
+	  str_temp = new String(s)
+	  t1 = str_temp.length
+	  cero_izq=true
+	  if (t1 > 0) {
+		 for(i=0;i<t1;i++) {
+			c=str_temp.charAt(i)
+			if ((c!="0") || (c=="0" && ((i<t1-1 && str_temp.charAt(i+1)==".")) || i==t1-1) || (c=="0" && cero_izq==false)) {
+			   cero_izq=false
+			   str+=c
+			}
+		 }
+	  }
+	  t1 = str.length
+	  p1 = str.indexOf(".")
+	  p2 = str.lastIndexOf(".")
+	  if ((p1 == p2) && t1 > 0) {
+		 if (p1>0)
+			str+="00000000"
+		 else
+			str+=".0000000"
+		 p1 = str.indexOf(".")
+		 s1=str.substring(0,p1)
+		 s2=str.substring(p1+1,p1+1+ndec)
+		 t1 = s1.length
+		 n=0
+		 for(i=t1-1;i>=0;i--) {
+			 c=s1.charAt(i)
+			 if (c == ".") {flag=0;nc="."+nc;n=0}
+			 if (c>="0" && c<="9") {
+				if (n < 2) {
+				   nc=c+nc
+				   n++
+				}
+				else {
+				   n=0
+				   nc=c+nc
+				   if (i > 0)
+					  nc=","+nc
+				}
+			 }
+		 }
+		 if (nc != "" && ndec > 0)
+			nc+="."+s2
+	  }
+	  else {ok=1}
+   }
+   
+   if(campo.name) {
+	if(ndec>0) {
+   campo.value=nc
+	} else {
+   campo.value=qf(nc)
+  }
+   } else {
+	 return nc
+   }
+}
+
+function qf(Obj)
+{
+		var VALOR=""
+		var HILERA=""
+		var CARACTER=""
+		if(Obj.name)
+		  VALOR=Obj.value
+		else
+		  VALOR=Obj
+		
+		for (var i=0; i<VALOR.length; i++) {	
+		
+			CARACTER =VALOR.substring(i,i+1);
+			if (CARACTER=="," || CARACTER==" ") {
+				CARACTER=""; //CAMBIA EL CARACTER POR BLANCO
+			}  
+			HILERA+=CARACTER;
+		}
+		return HILERA
+}
+	function objCurso(PEScodigo, MPcodigo, Ccodigo, Status, Color, Melectiva, Mcodificacion, Mnombre, Mcreditos, Requisitos, Cgrupo, Cprofesor, Horario)
+	{
+	  this.Status    = Status;  // 1-Nuevo y 2-Borrado, 3=Viejo y 4=Retirado
+	  this.Color     = Color;
+	  this.Melectiva = Melectiva;
+	  this.Mcodificacion = Mcodificacion;
+	  this.Mnombre   = Mnombre;
+	  this.Mcreditos = Mcreditos;
+	  this.Requisitos= Requisitos;
+	  this.Cgrupo    = Cgrupo;
+	  this.Cprofesor = Cprofesor;
+	  this.Horario   = Horario;
+	  this.PEScodigo = PEScodigo;
+	  this.MPcodigo  = MPcodigo;
+	  this.Ccodigo   = Ccodigo;
+	}
+
+	function objHor(diaSem, inicio, fin, aula)
+	{
+	  this.diaSem = diaSem;
+	  this.inicio = inicio;
+	  this.fin    = fin;
+	  this.aula   = aula;
+	}
+
+	function sbGenerarMatricula(LprmColor, LprmElectiva, LprmHorarioTR)
+	{
+	  var LvarTable = document.getElementById("tblMatricula");
+	  var LvarTbody = LvarTable.tBodies[0];
+
+	  for(var i=0; i<GvarMatricula.length; i++)
+	    LvarTbody.appendChild(fnCreaMatriculaTR (i, GvarMatricula[i]));
+	}
+
+	function fnCreaMatriculaTR(LprmIndex, LprmCurso)
+	{
+	  var LvarCurso = LprmCurso;
+	  var LvarTR    = document.createElement("TR");
+	  
+	  LvarTR.name="LinMatricula";
+	  sbAgregaTdInput (LvarTR, "Linea", "", LprmIndex+"", "HIDDEN", "");
+
+	  sbAgregaTdText (LvarTR, "Linea", LvarCurso.Color, LvarCurso.Mcodificacion); //OJO COLOR
+	  sbAgregaTdText (LvarTR, "Linea", "", LvarCurso.Mnombre);
+	  sbAgregaTdText (LvarTR, "Linea", "", LvarCurso.Mcreditos);
+	  GvarNewTD.align = "center";
+	  sbAgregaTdText (LvarTR, "Linea", "", LvarCurso.Requisitos);
+	  sbAgregaTdText (LvarTR, "Linea", "", LvarCurso.Cgrupo);
+	  var LvarTD2 = document.createElement("TD");
+	  LvarTD2.width="125"; LvarTD2.vAlign="top";
+	  var LvarTAB2 = document.createElement("TABLE");
+	  LvarTAB2.className="Linea"; LvarTAB2.cellSpacing="0"; LvarTAB2.cellPadding="0"; LvarTAB2.border="0"; LvarTAB2.width=125;
+	  var LvarTB2 = document.createElement("TBODY");
+	  for (var i=0; i<LvarCurso.Horario.length; i++)
+	  {
+		  var LvarTR2 = document.createElement("TR");
+		  sbAgregaTdText (LvarTR2, "Linea1", "", LvarCurso.Horario[i].diaSem+" "+LvarCurso.Horario[i].inicio+"-"+LvarCurso.Horario[i].fin);
+		  GvarNewTD.width = 75;
+		  sbAgregaTdText (LvarTR2, "Linea1", "", LvarCurso.Horario[i].aula);
+		  GvarNewTD.width = 50;
+		  LvarTB2.appendChild(LvarTR2);
+	  }
+	  LvarTAB2.appendChild(LvarTB2);
+	  LvarTD2.appendChild(LvarTAB2);
+	  LvarTR.appendChild(LvarTD2);
+
+	  sbAgregaTdText (LvarTR, "Linea", "", LvarCurso.Cprofesor);
+	  sbAgregaTdInput (LvarTR, "Linea", "", LvarCurso.PEScodigo, "HIDDEN", "PEScodigo");
+	  sbAgregaTdInput (LvarTR, "Linea", "", LvarCurso.MPcodigo, "HIDDEN", "MPcodigo");
+	  sbAgregaTdInput (LvarTR, "Linea", "", LvarCurso.Ccodigo, "HIDDEN", "Ccodigo");
+	  sbAgregaTdInput (LvarTR, "Linea", "", LvarCurso.Status, "HIDDEN", "Status");
+
+	  if (LvarCurso.Status == 1)
+	  {
+	    sbAgregaTdImage (LvarTR, "Linea", "imgDel");
+	    if (document.all)
+	      GvarNewTD.attachEvent ("onclick", sbEliminarMatricula);
+	    else
+	      GvarNewTD.addEventListener ("click", sbEliminarMatricula, false);
+	  }
+	  else if (LvarCurso.Status == 3)
+	  {
+	    sbAgregaTdImage (LvarTR, "Linea", "imgRet");
+	    if (document.all)
+	      GvarNewTD.attachEvent ("onclick", sbEliminarMatricula);
+	    else
+	      GvarNewTD.addEventListener ("click", sbEliminarMatricula, false);
+	  }
+	  else if (LvarCurso.Status == 4 || LvarCurso.Status == 5)
+	  {
+	    sbAgregaTdImage (LvarTR, "Linea", "imgRet2");
+	  }
+
+	  if (document.all)
+	  {
+	    LvarTR.attachEvent ("onmouseout", sbMouseOut);
+	    LvarTR.attachEvent ("onmouseover", sbMouseOver);
+	  }
+	  else
+	  {
+	    LvarTR.addEventListener ("mouseout", sbMouseOut, false);
+	    LvarTR.addEventListener ("mouseover", sbMouseOver, false);
+	  }
+
+	  return LvarTR;
+	}
+
+	function sbAgregaMatricula(LprmColor, LprmElectiva, LprmHorarioTR)
+	{
+	  var LvarCurso = new objCurso();
+	  LvarCurso.Status    = 1;
+	  LvarCurso.Color     = LprmColor;
+	  LvarCurso.Melectiva = LprmElectiva;
+	  
+	  var LvarTable = document.getElementById("tblMatricula");
+	  var LvarTbody = LvarTable.tBodies[0];
+	  var LvarTR    = document.createElement("TR");
+	  
+	  sbAgregaTdInput (LvarTR, "Linea", "", GvarMatricula.length+"", "HIDDEN", "");
+
+	  var LvarMateriaTR = LprmHorarioTR.parentNode.parentNode.parentNode.parentNode;
+
+	  var LvarTD = LvarMateriaTR.firstChild;
+	  if (document.all == null) {LvarTD = LvarTD.nextSibling;}
+
+	  LvarCurso.Mcodificacion = fnTdTextValue(LvarTD);
+	  LvarCurso.McodifiElectiva = LprmElectiva;
+	  sbAgregaTdText (LvarTR, "Linea", LprmColor, fnTdTextValue(LvarTD));
+	  LvarTD = LvarTD.nextSibling;
+          if (document.all == null) {LvarTD = LvarTD.nextSibling;}
+
+	  LvarCurso.Mnombre = fnTdTextValue(LvarTD);
+	  sbAgregaTdText (LvarTR, "Linea", "", fnTdTextValue(LvarTD));
+	  LvarTD = LvarTD.nextSibling;
+          if (document.all == null) {LvarTD = LvarTD.nextSibling;}
+	  LvarCurso.Mcreditos = fnTdTextValue(LvarTD);
+	  sbAgregaTdText (LvarTR, "Linea", "", fnTdTextValue(LvarTD));
+	  GvarNewTD.align = "center";
+	  LvarTD = LvarTD.nextSibling;
+          if (document.all == null) {LvarTD = LvarTD.nextSibling;}
+	  LvarCurso.Requisitos = fnTdTextValue(LvarTD);
+	  sbAgregaTdText (LvarTR, "Linea", "", fnTdTextValue(LvarTD));
+
+      //Grupo
+	  LvarTD = LprmHorarioTR.firstChild;
+          if (document.all == null) {LvarTD = LvarTD.nextSibling;}
+	  LvarCurso.Cgrupo = fnTdTextValue(LvarTD);
+	  sbAgregaTdText (LvarTR, "Linea", "", fnTdTextValue(LvarTD));
+
+      //TD Horario
+	  LvarTD = LvarTD.nextSibling;
+          if (document.all == null) {LvarTD = LvarTD.nextSibling;}
+
+	  var LvarHorarioTD = LvarTD.cloneNode(true);
+
+      //TBODY
+	  var LvarTR2 = LvarTD.firstChild;
+          if (document.all == null) {LvarTR2 = LvarTR2.nextSibling;}
+      //TR
+	  LvarCurso.Horario = new Array();
+	  for (var i=0; i<LvarTR2.rows.length; i++)
+	  {
+	    LvarCurso.Horario[i] = new objHor();
+	    var LvarHorarioTR = document.createElement("TR");
+	    var LvarTD2;
+	    LvarTD2 = LvarTR2.rows[i].firstChild;
+	    if (document.all == null) {LvarTD2 = LvarTD2.nextSibling;}
+
+	    //Horario: fnTdTextValue(LvarTD2)
+	    //0123456789012
+	    //L 10.00-11.00
+	    LvarHorario = fnTdTextValue(LvarTD2);
+	    LvarCurso.Horario[i].diaSem = LvarHorario.substring(0,1);
+	    LvarCurso.Horario[i].inicio = LvarHorario.substring(2,7);  //parseFloat(LvarHorario.substring(2,7));
+	    LvarCurso.Horario[i].fin    = LvarHorario.substring(8,13); //parseFloat(LvarHorario.substring(8,13));
+
+	    LvarTD2 = LvarTD2.nextSibling;
+            if (document.all == null) {LvarTD2 = LvarTD2.nextSibling;}
+	    //Aula: fnTdTextValue(LvarTD2)
+	    LvarCurso.Horario[i].aula = fnTdTextValue(LvarTD2);
+	  }
+	  LvarTR.appendChild(LvarHorarioTD);
+
+      //Profesor
+	  LvarTD = LvarTD.nextSibling;
+          if (document.all == null) {LvarTD = LvarTD.nextSibling;}
+	  LvarCurso.Cprofesor = fnTdTextValue(LvarTD);
+	  sbAgregaTdText (LvarTR, "Linea", "", fnTdTextValue(LvarTD));
+
+      //PEScodigo
+	  LvarTD = LvarTD.nextSibling;
+          if (document.all == null) {LvarTD = LvarTD.nextSibling;}
+	  LvarCurso.PEScodigo = fnTdInputValue(LvarTD);
+	  sbAgregaTdInput (LvarTR, "Linea", "", fnTdInputValue(LvarTD), "HIDDEN", "PEScodigo");
+
+      //MPcodigo
+	  LvarTD = LvarTD.nextSibling;
+          if (document.all == null) {LvarTD = LvarTD.nextSibling;}
+	  LvarCurso.MPcodigo = fnTdInputValue(LvarTD);
+	  sbAgregaTdInput (LvarTR, "Linea", "", fnTdInputValue(LvarTD), "HIDDEN", "MPcodigo");
+
+      //Ccodigo
+	  LvarTD = LvarTD.nextSibling;
+          if (document.all == null) {LvarTD = LvarTD.nextSibling;}
+	  LvarCurso.Ccodigo = fnTdInputValue(LvarTD);
+	  sbAgregaTdInput (LvarTR, "Linea", "", fnTdInputValue(LvarTD), "HIDDEN", "Ccodigo");
+
+	  var LvarTDimg    = document.createElement("TD");
+	  var LvarImg = document.getElementById("imgDel").cloneNode(true);
+	  LvarImg.style.display="";
+	  LvarTDimg.appendChild(LvarImg);
+	  LvarTDimg.className = "linea";
+	  LvarTR.appendChild(LvarTDimg);
+
+	  LvarTR.name="LinMatricula";
+	  if (document.all)
+	  {
+	    LvarImg.attachEvent ("onclick", sbEliminarMatricula);
+	    LvarTR.attachEvent ("onmouseout", sbMouseOut);
+	    LvarTR.attachEvent ("onmouseover", sbMouseOver);
+	  }
+	  else
+	  {
+	    LvarImg.addEventListener ("click", sbEliminarMatricula, false);
+	    LvarTR.addEventListener ("mouseout", sbMouseOut, false);
+	    LvarTR.addEventListener ("mouseover", sbMouseOver, false);
+	  }
+
+	  // VERIFICACION CON CURSOS RETIRADOS
+	  var LvarSustituirRetirada = -1;
+	  for (var i=0; i<GvarMatricula.length; i++)
+	  {
+	    if ((GvarMatricula[i].Status == 4) &&
+		(LvarCurso.Ccodigo == GvarMatricula[i].Ccodigo) &&
+		((LvarCurso.PEScodigo != GvarMatricula[i].PEScodigo) || (LvarCurso.MPcodigo == GvarMatricula[i].MPcodigo)) )
+	    {
+	      LvarCurso.Status = 3;
+	      LvarSustituirRetirada = i;
+	      break;
+	    }
+	    else if (GvarMatricula[i].Status < 3)
+	      break;
+	  }
+
+	  // VERIFICACION CON CURSOS MATRICULADOS
+	  var LvarSustituir = -1;
+	  for (var i=0; i<GvarMatricula.length; i++)
+	  {
+		if (GvarMatricula[i].Status == 2 || GvarMatricula[i].Status == 4 || GvarMatricula[i].Status == 5) 
+		  continue;  // Se brinca los borrados, en retiro y Retirados
+
+		if (LvarCurso.Ccodigo == GvarMatricula[i].Ccodigo)
+		{
+		  if ((LvarCurso.PEScodigo != GvarMatricula[i].PEScodigo) || (LvarCurso.MPcodigo == GvarMatricula[i].MPcodigo))
+		  {
+			if (GvarMatricula[i].Status == 3)
+			  alert ("El curso ya está Matriculado");
+			else
+			  alert ("El curso ya fue escogido");
+			return;
+		  }
+		  else if ((LvarCurso.PEScodigo == GvarMatricula[i].PEScodigo) || (LvarCurso.MPcodigo != GvarMatricula[i].MPcodigo))
+		  {
+			c = confirm ("¿Desea sustituir la Materia + '"+GvarMatricula[i].Mcodificacion+"'?");
+			if (c)
+			  LvarSustituir = i;
+			else
+			  return;
+		  }
+		}
+		else if (LvarCurso.MPcodigo == GvarMatricula[i].MPcodigo)
+		{
+		  // Materia Regular
+		  if (LprmElectiva == "")
+		  {
+			c = confirm ("¿Desea sustituir el Curso para la Materia '"+GvarMatricula[i].Mcodificacion+"?");
+			if (c)
+			  LvarSustituir = i;
+			else
+			  return;
+		  }
+		  // Materia Electiva y misma Elegible
+		  else if (LvarCurso.Mcodificacion == GvarMatricula[i].Mcodificacion)
+		  {
+			c = confirm ("¿Desea sustituir el Curso para la Materia Elegible '"+GvarMatricula[i].Mcodificacion+"?");
+			if (c)
+			  LvarSustituir = i;
+			else
+			  return;
+		  }
+		  // Materia Electiva y diferente Elegible
+		  else
+		  {
+			c = confirm ("¿Desea sustituir la Materia Elegible '"+GvarMatricula[i].Mcodificacion+"' para la Materia Electiva '"+LprmElectiva+"'?");
+			if (c)
+			  LvarSustituir = i;
+			else
+			  return;
+		  }
+ 	    }
+
+	    if (i != LvarSustituir)
+		for (var j1=0; j1<LvarCurso.Horario.length; j1++)
+		  for (var j2=0; j2<GvarMatricula[i].Horario.length; j2++)
+		    if (LvarCurso.Horario[j1].diaSem == GvarMatricula[i].Horario[j2].diaSem)
+			  if ( (LvarCurso.Horario[j1].fin > GvarMatricula[i].Horario[j2].inicio && LvarCurso.Horario[j1].fin <= GvarMatricula[i].Horario[j2].fin) ||
+		           (GvarMatricula[i].Horario[j2].fin > LvarCurso.Horario[j1].inicio && GvarMatricula[i].Horario[j2].fin <= LvarCurso.Horario[j1].fin) )
+		  		{
+				     alert ("El horario del Curso choca con la materia '"+GvarMatricula[i].Mcodificacion+"'");
+					 return;
+				
+				}
+	  } //for
+
+	  // AGREGAR UNA MATERIA NUEVA
+	  if ((LvarSustituir == -1) && (LvarSustituirRetirada == -1))
+	  {
+	    LvarTR = fnCreaMatriculaTR (GvarMatricula.length, LvarCurso);
+ 	    GvarMatricula[GvarMatricula.length] = LvarCurso;
+	    LvarTbody.appendChild(LvarTR);
+	  }
+	  else
+	  {
+	    for (var i=1; i<LvarTable.rows.length; i++)
+	    {
+		  var LvarPto = fnTdInputValue(LvarTable.rows[i]);
+		  // SUSTITUYE LA MATERIA ANTERIOR
+		  if (LvarPto == LvarSustituir)
+		  {
+		    // SI LA MATERIA SELECCIONADA ESTA COMO RETIRADA, LA MATERIA NO RETIRADA A SUSTITUIR SE BORRA
+		    if (LvarSustituirRetirada != -1)
+		    {
+		      GvarMatricula[LvarSustituir].Status++;
+		      LvarTable.rows[i].parentNode.removeChild(LvarTable.rows[i]);
+		    }
+		    else if (GvarMatricula[LvarSustituir].Status == 3)
+		    {
+		    // SI LA MATERIA A SUSTITUIR ESTA MATRICULADA, SE RETIRA Y SE AGREGA LA SELECCIONADA
+		      GvarMatricula[LvarSustituir].Status++;
+		      var LvarTR2 = fnCreaMatriculaTR(LvarPto, GvarMatricula[LvarSustituir]);
+		      LvarTable.rows[i].parentNode.replaceChild(LvarTR2, LvarTable.rows[i]);
+
+		      LvarTR = fnCreaMatriculaTR (GvarMatricula.length, LvarCurso);
+		      GvarMatricula[GvarMatricula.length] = LvarCurso;
+		      LvarTbody.appendChild(LvarTR);
+		    }
+		    else
+		    {
+		    // SI LA MATERIA A SUSTITUIR SE ACABA DE AGREGAR (NO ESTA MATRICULADA NI ESTA RETIRADA) SIMPLEMENTE SE SUSTITUYE
+		      LvarTR = fnCreaMatriculaTR (LvarSustituir, LvarCurso);
+		      GvarMatricula[LvarSustituir] = LvarCurso;
+		      LvarTable.rows[i].parentNode.replaceChild(LvarTR, LvarTable.rows[i]);
+		    }
+
+		    break;
+		  }
+		  // REMATRICULA UNA MATERIA RETIRADA
+		  else if (LvarPto == LvarSustituirRetirada)
+		  {
+		    LvarTR = fnCreaMatriculaTR (LvarSustituirRetirada, LvarCurso);
+		    GvarMatricula[LvarSustituirRetirada] = LvarCurso;
+		    LvarTable.rows[i].parentNode.replaceChild(LvarTR, LvarTable.rows[i]);
+
+		    if (LvarSustituir == -1)
+		      break;
+		  }
+	    } //for
+	  }
+	  sbGeneraHorario();
+	}
+
+	function sbEliminarMatricula(e)
+	{
+	  var LvarTR;
+	  if (document.all)
+	    LvarTR = e.srcElement.parentNode;
+	  else
+	    LvarTR = e.currentTarget;
+	  while (LvarTR.name != "LinMatricula")
+	    LvarTR = LvarTR.parentNode;
+		
+	  var LvarPto = fnTdInputValue(LvarTR);
+	  if (GvarMatricula[LvarPto].Status == 1)
+	  {
+		  if (confirm ("¿Desea eliminar la Materia '"+GvarMatricula[LvarPto].Mcodificacion+"' de la Matricula?"))
+		  {
+			GvarMatricula[LvarPto].Status++;
+			LvarTR.parentNode.removeChild(LvarTR);
+		  }
+	  }
+	  else
+		  if (confirm ("¿Desea retirar la Materia '"+GvarMatricula[LvarPto].Mcodificacion+"' de la Matricula?"))
+		  {
+			//GvarMatricula[LvarPto].Status++;
+			//var LvarTR2 = fnCreaMatriculaTR(LvarPto, GvarMatricula[LvarPto]);
+  	   		//LvarTR.parentNode.replaceChild(LvarTR2, LvarTR);
+			GvarMatricula[LvarPto].Status=5;
+			LvarTR.parentNode.removeChild(LvarTR);
+		  }
+	  sbGeneraHorario();
+	}
+
+	function sbMouseOver(e)
+	{
+	  var LvarTR;
+	  if (document.all)
+	    LvarTR = e.srcElement.parentNode;
+	  else
+	    LvarTR = e.currentTarget;
+	  while (LvarTR.name != "LinMatricula")
+	    LvarTR = LvarTR.parentNode;
+		
+	  LvarTR.style.backgroundColor="#EFEFEF";
+	  //LvarTR.style.cursor="hand";
+	}
+
+	function sbMouseOut(e)
+	{
+	  var LvarTR;
+	  if (document.all)
+	    LvarTR = e.srcElement.parentNode;
+	  else
+	    LvarTR = e.currentTarget;
+	  while (LvarTR.name != "LinMatricula")
+	    LvarTR = LvarTR.parentNode;
+		
+	  LvarTR.style.backgroundColor="#FFFFFF";
+	  //LvarTR.style.cursor="default";
+	}
+
+	function fnTdTextValue(LprmNode)
+	{
+	  var LvarNode = LprmNode;
+
+	  while (LvarNode.hasChildNodes())
+	  {
+	    LvarNode = LvarNode.firstChild;
+	    if (document.all == null)
+	    {
+	      if (!LvarNode.firstChild && LvarNode.nextSibling != null && LvarNode.nextSibling.hasChildNodes())
+		LvarNode = LvarNode.nextSibling;
+	    }
+	  }
+	  return LvarNode.nodeValue;
+	}
+		
+	function fnTdInputValue(LprmNode)
+	{
+	  var LvarNode = LprmNode;
+
+	  while (LvarNode.hasChildNodes())
+	  {
+	    LvarNode = LvarNode.firstChild;
+	    if (document.all == null)
+	    {
+	      if (!LvarNode.firstChild && LvarNode.nextSibling != null && LvarNode.nextSibling.hasChildNodes())
+		    LvarNode = LvarNode.nextSibling;
+	    }
+	  }
+	  return LvarNode.value;
+	}
+		
+	function sbPeriodo (LprmPeriodo)
+	{
+	  var LvarBody = "bdyPeriodo" + LprmPeriodo;
+	  var LvarOpen = "btnPerOpen" + LprmPeriodo;
+	  var LvarClose= "btnPerClose" + LprmPeriodo;
+	  if (document.getElementById(LvarBody).style.display == 'none')
+	  {
+	    document.getElementById(LvarBody).style.display='';
+	    document.getElementById(LvarOpen).style.display='';
+	    document.getElementById(LvarClose).style.display='none';
+	  }
+	  else
+	  {
+	    document.getElementById(LvarBody).style.display='none';
+	    document.getElementById(LvarOpen).style.display='none';
+	    document.getElementById(LvarClose).style.display='';
+	  }
+	}
+
+	function sbElectiva (LprmElectiva)
+	{
+	  var LvarTR = "trElegible" + LprmElectiva + "_";
+	  var LvarOpen = "btnEleOpen" + LprmElectiva;
+	  var LvarClose= "btnEleClose" + LprmElectiva;
+	  var LvarOpnD;
+	  var LvarClsD;
+
+	  if (document.getElementById(LvarOpen).style.display == "none")
+	  {
+	    document.getElementById(LvarOpen).style.display="";
+	    document.getElementById(LvarClose).style.display="none";
+	    LvarDisplay = "";
+	  }
+	  else
+	  {
+	    document.getElementById(LvarOpen).style.display="none";
+	    document.getElementById(LvarClose).style.display="";
+	    LvarDisplay = "none";
+	  }
+
+	  var i = 1;
+	  while (document.getElementById(LvarTR + i))
+	  {
+	    document.getElementById(LvarTR + i).style.display=LvarDisplay;
+		i++;
+	  }
+	}
+
+	function sbAgregaTdImage (LprmTR, LprmClass, LprmNombre)
+	{
+	  var LvarTDimg    = document.createElement("TD");
+	  var LvarImg = document.getElementById(LprmNombre).cloneNode(true);
+	  LvarImg.style.display="";
+	  LvarTDimg.appendChild(LvarImg);
+	  LvarTDimg.className = LprmClass;
+
+	  GvarNewTD = LvarTDimg;
+	  LprmTR.appendChild(LvarTDimg);
+	}
+
+	function sbAgregaTdText (LprmTR, LprmClass, LprmColor, LprmValue)
+	{
+	  var LvarTD    = document.createElement("TD");
+
+	  //LvarTD.innerHTML = LprmValue;
+	  var LvarTxt   = document.createTextNode(LprmValue);
+	  LvarTD.appendChild(LvarTxt);
+	  if (LprmClass!="") LvarTD.className = LprmClass;
+	  if (LprmColor != "")
+	  {
+	    LvarTD.style.color = LprmColor;
+	    LvarTD.style.fontWeight="bold";
+	  }
+	  GvarNewTD = LvarTD;
+	  LprmTR.appendChild(LvarTD);
+	}
+
+	function sbAgregaTdInput (LprmTR, LprmClass, LprmColor, LprmValue, LprmType, LprmName)
+	{
+	  var LvarTD    = document.createElement("TD");
+
+	  //LvarTD.innerHTML = LprmValue;
+	  var LvarInp   = document.createElement("INPUT");
+	  LvarInp.type = LprmType;
+	  if (LprmName!="") LvarInp.name = LprmName;
+	  if (LprmValue!="") LvarInp.value = LprmValue;
+	  LvarTD.appendChild(LvarInp);
+	  if (LprmClass!="") LvarTD.className = LprmClass;
+	  if (LprmColor != "")
+	  {
+	    LvarTD.style.color = LprmColor;
+	    LvarTD.style.fontWeight="bold";
+	  }
+	  GvarNewTD = LvarTD;
+	  LprmTR.appendChild(LvarTD);
+	}
+
+	function sbGeneraHorario()
+	{
+	  GvarHorario = new Array();
+	  for (var d=0; d<7; d++)
+	  {
+		GvarHorario[d] = new Array();
+		for (var h=0; h<48; h++)
+		{
+		  GvarHorario[d][h] = new Array("", 0, "");
+		}
+	  }
+//GvarHorario[3][13][1] = "MA-001">
+//GvarHorario[3][13][2] = 3>
+//GvarHorario[3][14][1] = "*">
+//GvarHorario[3][15][1] = "*">
+//GvarHorario[5][13][1] = "MA-001">
+//GvarHorario[5][13][2] = 4>
+//GvarHorario[5][14][1] = "*">
+//GvarHorario[5][15][1] = "*">
+//GvarHorario[5][16][1] = "*">
+//GvarMatricula[1] = new objCurso(111, 3, 6, 3, "#009933", "EL-001", "FI-0002", "Fisica II", 4, "FI-0001", "01", "Oscar Bonilla Calderón", 
+//								new Array (	new objHor("K","10.00","12.00","IN-0001"),
+//										new objHor("J","10.00","12.00","IN-0001") ));
+	  var LvarPrimera =8;
+	  var LvarUltima = 19;
+	  for (var i=0; i<GvarMatricula.length; i ++)
+	  {
+		if (GvarMatricula[i].Status == 2 || GvarMatricula[i].Status == 4 || GvarMatricula[i].Status == 5) 
+		  continue;  // Se brinca los borrados, en retiro y Retirados
+
+	    for (var j=0; j<GvarMatricula[i].Horario.length; j++)
+		{
+			var LvarDiaSem = "DLKMJVS".indexOf(GvarMatricula[i].Horario[j].diaSem);
+			var LvarInicio = GvarMatricula[i].Horario[j].inicio;
+			var LvarFinal  = GvarMatricula[i].Horario[j].fin;
+			if (LvarInicio < LvarPrimera)
+			  LvarPrimera = LvarInicio;
+			if (LvarFinal > LvarUltima)
+			  LvarUltima = LvarFinal;
+			LvarInicio = LvarInicio* 2 + 1;
+			LvarFinal  = LvarFinal * 2 + 1;
+			
+			for (var k=LvarInicio; k<LvarFinal; k++)
+			{
+			  GvarHorario[LvarDiaSem][LvarInicio][1]++;
+			  if (k == LvarInicio)
+			  {
+			    GvarHorario[LvarDiaSem][k][0] = GvarMatricula[i].Mcodificacion;
+			    GvarHorario[LvarDiaSem][k][2] = GvarMatricula[i].Color;
+			  }
+			  else
+				GvarHorario[LvarDiaSem][k][0] = "*";
+			}
+		}
+	  }
+
+	  var LvarTable = document.getElementById("tblHorario");
+	  var LvarTbody = LvarTable.tBodies[0];
+	  while (LvarTbody.rows.length>0)
+	    LvarTbody.deleteRow(LvarTbody.rows[0]);
+	  {
+		var LvarTR = document.createElement("TR");
+		sbAgregaTdText (LvarTR, "EncabezadoPlan", "", "HORA");
+		GvarNewTD.width = 50; GvarNewTD.align = "center";
+		sbAgregaTdText (LvarTR, "EncabezadoPlan", "", "Domingo");
+		GvarNewTD.width = 75; 
+		sbAgregaTdText (LvarTR, "EncabezadoPlan", "", "Lunes");
+		GvarNewTD.width = 75; 
+		sbAgregaTdText (LvarTR, "EncabezadoPlan", "", "Martes");
+		GvarNewTD.width = 75; 
+		sbAgregaTdText (LvarTR, "EncabezadoPlan", "", "Miercoles");
+		GvarNewTD.width = 75; 
+		sbAgregaTdText (LvarTR, "EncabezadoPlan", "", "Jueves");
+		GvarNewTD.width = 75; 
+		sbAgregaTdText (LvarTR, "EncabezadoPlan", "", "Viernes");
+		GvarNewTD.width = 75; 
+		sbAgregaTdText (LvarTR, "EncabezadoPlan", "", "Sabado");
+		GvarNewTD.width = 75; 
+		sbAgregaTdText (LvarTR, "EncabezadoPlan", "", " ");
+		GvarNewTD.width = 1; 
+		LvarTbody.appendChild(LvarTR);
+	  }
+		
+	  for (var h=LvarPrimera; h<LvarUltima; h++)
+	  {
+		  var h2=h*2;
+		  for (var h0=0; h0<=1; h0++)
+		  {
+			var LvarTR = document.createElement("TR");
+		    if (h0 == 0)
+			{
+			  sbAgregaTdText (LvarTR, "EncabezadoPlan", "", fm(h,2));
+			  GvarNewTD.rowSpan = 2;
+			  GvarNewTD.align = "center";
+			}
+		    h2++;
+		    for (var d=0; d<7; d++)
+			{ 
+			  if (GvarHorario[d][h2][0] == "")
+			  {
+			    sbAgregaTdText (LvarTR, "Cuadro" + h0, "", " ");
+			  }
+			  else if (GvarHorario[d][h2][0] != "*")
+			  {
+			    sbAgregaTdText (LvarTR, "Cuadro", GvarHorario[d][h2][2], GvarHorario[d][h2][0]);
+				if (GvarHorario[d][h2][1] > 1)
+				  GvarNewTD.rowSpan = GvarHorario[d][h2][1];
+			  }
+			}
+			sbAgregaTdText (LvarTR, "Cuadro1", "", "");
+		    LvarTbody.appendChild(LvarTR);
+		  }
+
+		  LvarTbody.appendChild(LvarTR);
+	  }
+	}
+	
+  </script>
+<style>
+<!--
+.BloqueMatricula {
+	color: #ADADCA;
+	font-size: 12pt;
+	font-family: Arial;
+	font-weight: bold;
+	border-bottom-style: solid;
+	border-bottom-color: #ADADCA;
+}
+.EncabezadoPlan {
+	color: #FFFFFF;
+	background-color=#0066ff; 	font-size: 8pt;
+	font-family: Arial;
+	font-weight: bold;
+	background-color: #ADADCA;
+               }
+
+.Linea {
+	font-size: 8pt;
+	font-family: Arial;
+	border-top-width: 1px;
+	border-top-style: solid;
+	border-top-color: #C0C0C0;
+}
+
+.Linea1 {
+	font-size: 8pt;
+	font-family: Arial;
+	white-space: nowrap;
+}
+.Amarillo
+{
+}
+.Cuadro      {
+	font-size: 8pt;
+	font-family: Arial;
+	text-align: Center;
+	line-height: 8px;
+	border-left: 1px solid #C0C0C0;
+	border-top: 1px solid #C0C0C0;
+	background-color: #CCCCCC;
+}
+.Cuadro0      {
+	font-size: 8pt;
+	font-family: Arial;
+	text-align: Center;
+	line-height: 8px;
+	border-left: 1px solid #C0C0C0;
+	border-top: 1px solid #C0C0C0;
+}
+.Cuadro1      {
+	font-size: 8pt;
+	font-family: Arial;
+	text-align: Center;
+	line-height: 8px;
+	border-left: 1px solid #C0C0C0;
+}
+-->
+</style>
+</HEAD>
+<BODY>
+<cfset titulo = "Matrícula">
+<cfset navBarItems = ArrayNew(1)>
+<cfset navBarLinks = ArrayNew(1)>
+<cfset navBarItems[1] = "Menú Principal">
+<cfset navBarLinks[1] = "/cfmx/educ/admin/menuAdmin.cfm">
+<cfinclude template="../../portlets/pNavegacionAdmin.cfm">
+<input type="image" id="imgDel" src="../../oscar/del.bmp" title="Eliminar Materia de la Matricula" style="display:none;">
+<input type="image" id="imgRet" src="../../oscar/ret.bmp" title="Retirar Materia" style="display:none;">
+<img id="imgRet2" src="../../oscar/ret2.bmp" title="Materia Retirada" style="display:none;">
+<table width="100%">
+<TR>
+<TD width="20">
+</TD>
+    <TD> <font class="Linea1"><strong>CURSOS MATRICULADOS: </strong> </font> 
+      <TABLE id="tblMatricula" width="735" border="0" cellspacing="0" cellpadding="0"
+  		 style="border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #C0C0C0;">
+  <TBODY>
+	<TR class="EncabezadoPlan"> 
+	  <TD width="75" class="EncabezadoPlan" colspan="2">Codigo&nbsp;</TD>
+	  <TD width=200 class="EncabezadoPlan">Materia&nbsp;</TD>
+	  <TD width=55  class="EncabezadoPlan"><cfoutput>#session.parametros.Creditos#</cfoutput>&nbsp;</TD>
+	  <TD width=95  class="EncabezadoPlan">Requisitos&nbsp;</TD>
+	  <TD width=20 >Gr.</TD>
+	  <TD width=125><TABLE border="0" cellspacing="0" cellpadding="0" class="EncabezadoPlan" style="font-size: 8pt;" width="125">
+	    <TD width=75 >Horario</TD>
+	    <TD width=50 >Aula</TD>
+ 	  </TABLE></TD>
+	  <TD width=145>Profesor</TD>
+	  <TD width=0></TD>
+	  <TD width=0></TD>
+	  <TD width=0></TD>
+	  <TD width=0></TD>
+	  <TD width=20></TD>
+	</TR>
+  </TBODY>
+  </TABLE>
+<BR style="line-height: 10px;">
+<TABLE id="tblMatricula" width="735" border="0" cellspacing="0" cellpadding="0">
+  <td valign="top">
+ <font class="Linea1"><strong>HORARIO:</strong> </font> 
+  </td>
+  <td>
+  <TABLE id="tblHorario" border="0" cellspacing="0" cellpadding="0"
+		style= "border-right-width: 1px;
+				border-right-style: solid;
+				border-right-color: #C0C0C0;
+				border-bottom-width: 1px;
+				border-bottom-style: solid;
+				border-bottom-color: #C0C0C0;">
+  <TBODY>
+  <tr>
+    <td width="50" class="EncabezadoPlan" style="line-height: 12px;" align="center">HORA</td>
+    <td width="75" class="EncabezadoPlan" align="center">Domingo</td>
+    <td width="75" class="EncabezadoPlan" align="center">Lunes</td>
+    <td width="75" class="EncabezadoPlan" align="center">Martes</td>
+    <td width="75" class="EncabezadoPlan" align="center">Miercoles</td>
+    <td width="75" class="EncabezadoPlan" align="center">Jueves</td>
+    <td width="75" class="EncabezadoPlan" align="center">Viernes</td>
+    <td width="75" class="EncabezadoPlan" align="center">Sabado</td>
+    <td width="0" class="EncabezadoPlan" align="center"></td>
+  </tr>
+  </TBODY>
+  </TABLE>
+  </td>
+  </tr>
+</TABLE>
+<BR style="line-height: 10px;">
+      <table width="735" border="0" cellspacing="1" cellpadding="1" class="Linea1">
+        <tr>
+			<td width="2%" style="background-color: #009933">&nbsp;</td>
+			<td width="33%">Cumple todos los requisitos</td>
+			<td width="2%" style="background-color: #CCCC00">&nbsp;</td>
+			<td width="38%">Requisitos Pendientes (cursando cursos)</td>
+			<td width="2%" style="background-color: #CC3300">&nbsp;</td>
+			<td width="23%">Faltan requisitos</td>
+        </tr>
+      </table>
+<BR style="line-height: 10px;">
+<script language="JavaScript" type="text/javascript">
+  GvarMatricula[0] = new objCurso(111, 6, 11, 3, "#888800", "", "MA-0022", "Programacion III", 4, "MA-0229 IN-0012", "01", "Oscar Bonilla", 
+  								new Array (new objHor("L","10.00","12.00","IN-0001")));
+  GvarMatricula[1] = new objCurso(111, 3, 6, 3, "#009933", "EL-001", "FI-0002", "Fisica II", 4, "FI-0001", "01", "Oscar Bonilla Calderón", 
+  								new Array (	new objHor("K","10.00","12.00","IN-0001"),
+											new objHor("J","10.00","12.00","IN-0001") ));
+  sbGenerarMatricula();
+  sbGeneraHorario();
+</script>
+
+
+<strong><font class="linea1">GUIA DE HORARIOS PARA EL PLAN DE ESTUDIOS: <select name="cboPlanEstudios" class="linea1"><option>Bachillerato: Ingenieria en Sistemas</option></select> </font></strong>
+<table width="745" border="0" cellspacing="0" cellpadding="0">
+	<TR class="BloqueMatricula" style="line-height: 1px;"> 
+	  <TD width="75">&nbsp;</TD>
+	  <TD width=200 ></TD>
+	  <TD width=55  ></TD>
+	  <TD width=95  ></TD>
+      <TD width=10></TD>
+	  <TD width=310></TD>
+	</TR>
+  <TR> 
+    <TD colSpan=7 class="BloqueMatricula" style="line-height: 1px;">&nbsp;</TD>
+  </TR>
+  <TR onClick="sbPeriodo(1);"> 
+    <TD colSpan=7 class="BloqueMatricula"><input id="btnPerOpen1" type="image" src="../../oscar/opn.bmp" title="Click para cerrar el detalle del período"><input id="btnPerClose1" type="image" src="../../oscar/cls.bmp" style="display:none;" title="Click para abrir el detalle del período">
+    &nbsp;&nbsp;I Semestre</TD>
+  </TR>
+  <tbody id="bdyPeriodo1">
+    <TR> 
+      <TD class="Linea" >  <font color="#009933"> MA-0129</font></TD>
+      <TD class="Linea" >  Matemática para Computación I</TD>
+      <TD class="Linea" align="center">  4</TD>
+      <TD class="Linea">&nbsp; </TD>
+      <TD class="Linea">&nbsp; </TD>
+      <TD class="Linea">Ganado</TD>
+    </TR>
+    <TR> 
+      <TD class="Linea" width="75"  >  <font color="#009933">IN-0001</font></TD>
+      <TD class="Linea" width="200"  >  Introduccion a la Informatica</TD>
+      <TD class="Linea"  align="center" width="56">  4</TD>
+      <TD class="Linea" width="95"  >&nbsp; </TD>
+      <TD class="Linea">&nbsp; </TD>
+      <TD class="Linea">Convalidado</TD>
+    </TR>
+    <TR> 
+      <TD class="Linea" width="75"  >  <font color="#009933">IN-0002</font></TD>
+      <TD class="Linea" width="200"  >  Programacion I</TD>
+      <TD class="Linea"  align="center" width="56">  4</TD>
+      <TD class="Linea" width="95" >&nbsp; </TD>
+      <TD class="Linea">&nbsp; </TD>
+      <TD class="Linea">Ganado</TD>
+    </TR>
+    <TR class="Linea"> 
+      <TD class="Linea" width="75" >EL-001</TD>
+      <TD class="Linea" width="200" >  Electiva 1</TD>
+      <TD class="Linea" align="center" width="56" >  4</TD>
+      <TD class="Linea" width="95" >&nbsp;</TD>
+      <TD class="Linea">&nbsp; </TD>
+      <TD class="Linea">&nbsp;</TD>
+    </TR>
+    <TR> 
+      <TD class="Linea" style="padding-left: 15px" width="75"><font color="#009933">FI-0001</font></TD>
+      <TD class="Linea"  style="padding-left: 15px" width="200">Fisica I</TD>
+      <TD class="Linea"   align="center" width="56">  4</TD>
+      <TD class="Linea" width="95" >&nbsp;</TD>
+      <TD class="Linea">&nbsp; </TD>
+      <TD class="Linea">Ganado</TD>
+    </TR>
+  <TR> 
+    <TD colSpan=7 class="BloqueMatricula" style="line-height: 1px;">&nbsp;</TD>
+  </TR>
+  </tbody>
+  <tbody>
+    <TR onClick="sbPeriodo(2);"> 
+      <TD colSpan=7 class="BloqueMatricula">
+<input id="btnPerOpen2" type="image" src="../../oscar/opn.bmp" title="Click para cerrar el detalle del período"><input id="btnPerClose2" type="image" src="../../oscar/cls.bmp" style="display:none;" title="Click para abrir el detalle del período">
+&nbsp;&nbsp;II Semestre</TD>
+    </TR>
+  </tbody>
+  <tbody id="bdyPeriodo2">
+    <TR> 
+      <TD class="Linea" width="75" >  <font color="#009933">MA-0229</font></TD>
+      <TD class="Linea" width="200"  >  Matemática para Computación II</TD>
+      <TD class="Linea"   align="center" width="56">  4</TD>
+      <TD class="Linea" width="95"  > <font color="#009933">&nbsp;</font></TD>
+      <TD class="Linea">&nbsp; </TD>
+      <TD class="Linea">Ganado</TD>
+    </TR>
+    <TR> 
+      <TD class="Linea" width="75"  >MA-1101</TD>
+      <TD class="Linea" width="200"  >  Equaciones 1</TD>
+      <TD class="Linea"  align="center" width="56">  4</TD>
+      <TD class="Linea" width="95" >  <font color="#009933"> MA-0229</font></TD>
+      <TD class="Linea">&nbsp; </TD>
+      <TD width="310" valign="top"> <table border="0" cellspacing="0" cellpadding="0" width="310">
+          <tr
+           onClick="sbAgregaMatricula('#009933', '', this);"
+           onMouseover="this.style.backgroundColor='#009933';this.style.cursor='hand';"
+           onMouseout ="this.style.backgroundColor='#FFFFFF';this.style.cursor='default';"
+        > 
+            <td width="20" class="Linea">01</td>
+            <td width="125" valign="top" class="Linea">
+	           <table border="0" cellspacing="0" cellpadding="0" width="125">
+			     <tr>
+                  <td width="75" class="Linea1" nowrap>L 12.00-13.00</td>
+				   <td width="50" class="Linea1">IN-0001</td>
+				 </tr>
+			   </table>
+			</td>
+            <td width=145 class="Linea">Oscar Bonilla Calderón</td>
+            <td width=0><input type="hidden" value="111"></td>
+            <td width=0><input type="hidden" value="0"></td>
+            <td width=0><input type="hidden" value="2"></td>
+          </tr>
+        </table></TD>
+    </TR>
+    <TR id="Materia1"> 
+      <TD class="Linea" width="75"  >  <font color="#888800">IN-0012</font></TD>
+      <TD class="Linea" width="200"  >  Programacion II</TD>
+      <TD class="Linea"  align="center" width="56">  4</TD>
+      <TD class="Linea" width="95"> <font color="#009933">&nbsp;</font></TD>
+      <TD class="Linea">&nbsp; </TD>
+      <TD width="310" valign="top"><table border="0" cellspacing="0" cellpadding="0" width="310" >
+          <tr> 
+                  <td colspan=3 class="Linea" ><strong>Condicionado a que repruebe el curso</strong></td>
+          </tr>
+          <tr
+           onClick="sbAgregaMatricula('#888800', '', this);"
+           onMouseover="this.style.backgroundColor='#888800';this.style.cursor='hand';"
+           onMouseout ="this.style.backgroundColor='#FFFFFF';this.style.cursor='default';"
+        > 
+            <td width=20 class="Linea">01</td>
+            <td width="125" valign="top" class="Linea">
+	           <table border="0" cellspacing="0" cellpadding="0" width="125">
+			     <tr>
+				   <td width="67" class="Linea1" nowrap>L 10.00-12.00</td>
+				   <td width="45" class="Linea1">IN-0001</td>
+				 </tr>
+			   </table>
+			</td>
+            <td width=145 class="Linea">Oscar Enrique Bonilla Calderón</td>
+            <td width=0><input type="hidden" value="111"></td>
+            <td width=0><input type="hidden" value="2"></td>
+            <td width=0><input type="hidden" value="3"></td>
+          </tr>
+          <tr
+           onClick="sbAgregaMatricula('#888800', '', this);"
+           onMouseover="this.style.backgroundColor='#888800';this.style.cursor='hand';"
+           onMouseout ="this.style.backgroundColor='#FFFFFF';this.style.cursor='default';"
+        > 
+            <td width=20 class="Linea">02</td>
+            <td width="125" valign="top" class="Linea">
+	           <table border="0" cellspacing="0" cellpadding="0" width="125">
+			     <tr>
+				   <td width="69" class="Linea1" nowrap>M 10.00-12.00</td>
+				   <td width="43" class="Linea1">IN-0001</td>
+				 </tr>
+			     <tr>
+				   <td width="69" class="Linea1" nowrap>J 10.00-12.00</td>
+				   <td width="43" class="Linea1">IN-0001</td>
+				 </tr>
+			   </table>
+			</td>
+            <td width=145 class="Linea">Oscar Bonilla Calderón</td>
+            <td width=0><input type="hidden" value="111"></td>
+            <td width=0><input type="hidden" value="2"></td>
+            <td width=0><input type="hidden" value="4"></td>
+          </tr>
+          <tr> 
+            <td width=20 class="Linea">03</td>
+            <td width="125" class="Linea" colspan="2">Cerrado</td>
+          </tr>
+          <tr 
+           onClick="sbAgregaMatricula('#888800', '', this);"
+           onMouseover="this.style.backgroundColor='#888800';this.style.cursor='hand';"
+           onMouseout ="this.style.backgroundColor='#FFFFFF';this.style.cursor='default';"
+        > 
+            <td width=20 class="Linea">04</td>
+            <td width="125" valign="top" class="Linea">
+	           <table border="0" cellspacing="0" cellpadding="0" width="125">
+			     <tr>
+				   <td width="68" class="Linea1" nowrap>L 10.00-12.00</td>
+				   <td width="44" class="Linea1">IN-0001</td>
+				 </tr>
+			   </table>
+			</td>
+            <td width=145 class="Linea">Oscar Bonilla Calderón</td>
+            <td width=0><input type="hidden" value="111"></td>
+            <td width=0><input type="hidden" value="2"></td>
+            <td width=0><input type="hidden" value="5"></td>
+          </tr>
+        </table></TD>
+    </TR>
+    <TR> 
+      <TD width="75" height="20" class="Linea" >EL-001</TD>
+      <TD class="Linea" width="200" >Electiva 2</TD>
+      <TD class="Linea" align="center" width="56">4</TD>
+	  <TD colSpan=3 class="Linea"><input id="btnEleOpen1" type="image" src="../../oscar/opn.bmp" onClick="sbElectiva(1)" title="Click para cerrar las materias elegibles"><input id="btnEleClose1" type="image" src="../../oscar/cls.bmp" style="display:none;" onClick="sbElectiva(1)"title=" Click para abrir las materias elegibles"></TD>
+    </TR>
+<!--
+    <tbody id="bdyElectiva1">
+-->
+    <TR id="trElegible1_1"> 
+      <TD class="Linea" style="padding-left: 15px" width="75">FI-0002</TD>
+      <TD class="Linea" style="padding-left: 15px" width="200">Fisica II&nbsp;</TD>
+      <TD class="Linea"  align="center" width="55">  4</TD>
+      <TD class="Linea" width="95" > <font color="#009933"> FI-0001</font></TD>
+      <TD class="Linea">&nbsp; </TD>
+      <TD width="310" valign="top"> <table border="0" cellspacing="0" cellpadding="0" width="310">
+          <tr
+           onClick="sbAgregaMatricula('#009933', 'EL-001', this);"
+           onMouseover="this.style.backgroundColor='#009933';this.style.cursor='hand';"
+           onMouseout ="this.style.backgroundColor='#FFFFFF';this.style.cursor='default';"
+        > 
+            <td width=20 class="Linea" >01</td>
+            <td width="125" valign="top" class="Linea">
+	           <table border="0" cellspacing="0" cellpadding="0" width="125">
+			     <tr>
+				   <td width="69" class="Linea1" nowrap>K 10.00-12.00</td>
+				   <td width="43" class="Linea1">IN-0001</td>
+				 </tr>
+			     <tr>
+				   <td width="69" class="Linea1" nowrap>J 10.00-12.00</td>
+				   <td width="43" class="Linea1">IN-0001</td>
+				 </tr>
+			   </table>
+			</td>
+            <td width=145 class="Linea">Oscar Bonilla Calderón</td>
+            <td width=0><input type="hidden" value="111"></td>
+            <td width=0><input type="hidden" value="3"></td>
+            <td width=0><input type="hidden" value="6"></td>
+          </tr>
+          <tr
+           onClick="sbAgregaMatricula('#009933', 'EL-001', this);"
+           onMouseover="this.style.backgroundColor='#009933';this.style.cursor='hand';"
+           onMouseout ="this.style.backgroundColor='#FFFFFF';this.style.cursor='default';"
+        > 
+                  <td width=20 class="Linea">02</td> 
+                  <td width="125" valign="top" class="Linea">
+	           <table border="0" cellspacing="0" cellpadding="0" width="125">
+			     <tr>
+				   <td width="68" class="Linea1" nowrap>K 10.00-12.00</td>
+				   <td width="44" class="Linea1">IN-0001</td>
+				 </tr>
+			   </table>
+			</td>
+            <td width=145 class="Linea">Oscar Bonilla Calderón </td>
+            <td width=0><input type="hidden" value="111"></td>
+            <td width=0><input type="hidden" value="3"></td>
+            <td width=0><input type="hidden" value="7"></td>
+          </tr>
+          <tr> 
+            <td width=20 class="Linea">03</td>
+            <td width=75 class="Linea" >Cerrado</td>
+            <td width=125 class="Linea" >&nbsp;</td>
+            <td width=0><input type="hidden" value="111"></td>
+            <td width=0><input type="hidden" value="3"></td>
+            <td width=0><input type="hidden" value="8"></td>
+          </tr>
+          <tr
+           onClick="sbAgregaMatricula('#009933', 'EL-001', this);"
+           onMouseover="this.style.backgroundColor='#009933';this.style.cursor='hand';"
+           onMouseout ="this.style.backgroundColor='#FFFFFF';this.style.cursor='default';"
+        > 
+            <td width=20 class="Linea">04</td>
+            <td width="125" valign="top" class="Linea">
+	           <table border="0" cellspacing="0" cellpadding="0" width="125">
+			     <tr>
+				   <td width="68" class="Linea1" nowrap>K 10.00-12.00</td>
+				   <td width="44" class="Linea1">IN-0001</td>
+				 </tr>
+			   </table>
+			</td>
+            <td width=145 class="Linea">Oscar Bonilla Calderón </td>
+            <td width=0><input type="hidden" value="111"></td>
+            <td width=0><input type="hidden" value="3"></td>
+            <td width=0><input type="hidden" value="9"></td>
+          </tr>
+        </table></TD>
+    </TR>
+    <TR id="trElegible1_2"> 
+      <TD class="Linea" style="padding-left: 15px" width="75">QU-1002</TD>
+      <TD class="Linea" style="padding-left: 15px" width="200">  Quimica II</TD>
+      <TD class="Linea" align="center" width="56" >  4</TD>
+      <TD class="Linea" width="95" > <font color="#CC3300"> QU-1001</font></TD>
+      <TD class="Linea">&nbsp; </TD>
+	  <TD width="310" valign="top"> <table border="0" cellspacing="0" cellpadding="0" width="310">
+          <tr> 
+            <td colspan=3 class="Linea"><strong>Autorizado a Matricular</strong></td>
+          </tr>
+          <tr
+           onClick="sbAgregaMatricula('#CC3300', 'EL-001', this);"
+           onMouseover="this.style.backgroundColor='#CC3300';this.style.cursor='hand';"
+           onMouseout ="this.style.backgroundColor='#FFFFFF';this.style.cursor='default';"
+        > 
+            <td width=20 class="Linea"  >01</td>
+            <td width="125" valign="top" class="Linea">
+	           <table border="0" cellspacing="0" cellpadding="0" width="125">
+			     <tr>
+				   <td width="75" class="Linea1" nowrap>V 10.00-12.00</td>
+				   <td width="50" class="Linea1">IN-0001</td>
+				 </tr>
+			   </table>
+			</td>
+            <td width=145 class="Linea">Oscar Bonilla Calderón</td>
+            <td width=0><input type="hidden" value="111"></td>
+            <td width=0><input type="hidden" value="3"></td>
+            <td width=0><input type="hidden" value="50"></td>
+          </tr>
+        </table></TD>
+    </TR>
+<!--
+	</tbody>
+-->
+  <TR> 
+    <TD colSpan=7 class="BloqueMatricula" style="line-height: 1px;">&nbsp;</TD>
+  </TR>
+  </tbody>
+  <tbody>
+    <TR onClick="sbPeriodo(3);"> 
+      <TD colSpan=7 class="BloqueMatricula">
+<input id="btnPerOpen3" type="image" src="../../oscar/opn.bmp" title="Click para cerrar el detalle del período"><input id="btnPerClose3" type="image" src="../../oscar/cls.bmp" style="display:none;" title="Click para abrir el detalle del período">
+&nbsp;&nbsp;III Semestre</TD>
+    </TR>
+  </tbody>
+  <tbody id="bdyPeriodo3">
+    <TR> 
+      <TD class="Linea" width="75"   >MA-0022</TD>
+      <TD class="Linea" width="200"   >  Programacion III</TD>
+      <TD class="Linea" align="center" width="55"  >  4</TD>
+      <TD class="Linea" width="95"   >  <font color="#888800"> MA-0229 IN-0012</font></TD>
+      <TD class="Linea">&nbsp; </TD>
+      <TD width="310" valign="top"> 
+	    <table border="0" cellspacing="0" cellpadding="0" width="310">
+          <tr> 
+            <td colspan=3 class="Linea" width="310" ><strong>Condicionado a que apruebe los requisistos</strong></td>
+          </tr>
+          <tr class="Linea"
+           onClick="sbAgregaMatricula('#888800', '', this);"
+           onMouseover="this.style.backgroundColor='#888800';this.style.cursor='hand';"
+           onMouseout ="this.style.backgroundColor='#FFFFFF';this.style.cursor='default';"
+        > 
+            <td width=20 class="Linea">01</td>
+            <td width="125" valign="top" class="Linea">
+	           <table border="0" cellspacing="0" cellpadding="0" width="125">
+			     <tr class="Linea">
+				   <td width="75" class="Linea1" nowrap>L 10.00-12.00</td>
+				   <td width="50" class="Linea1">IN-0001</td>
+				 </tr>
+			   </table>
+			</td>
+            <td width=145 class="Linea">Oscar Bonilla Calderón</td>
+            <td width=0><input type="hidden" value="111"></td>
+            <td width=0><input type="hidden" value="6"></td>
+            <td width=0><input type="hidden" value="11"></td>
+          </tr>
+        </table></TD>
+    </TR>
+    <TR> 
+      <TD class="Linea" width="75"  >MA-0329</TD>
+      <TD class="Linea" width="200"  >  Matemática para Computación III</TD>
+      <TD class="Linea"  align="center" width="56">  4</TD>
+      <TD class="Linea" width="95" >  <font color="#009933"> MA-0229</font></TD>
+      <TD class="Linea">&nbsp; </TD>
+      <TD width="310" valign="top"> <table border="0" cellspacing="0" cellpadding="0" width="310">
+          <tr
+           onClick="sbAgregaMatricula('#009933', '', this);"
+           onMouseover="this.style.backgroundColor='#009933';this.style.cursor='hand';"
+           onMouseout ="this.style.backgroundColor='#FFFFFF';this.style.cursor='default';"
+        > 
+            <td width=20 class="Linea">01</td>
+            <td width="125" valign="top" class="Linea">
+	           <table border="0" cellspacing="0" cellpadding="0" width="125">
+			     <tr>
+				   <td width="75" class="Linea1" nowrap>K 10.00-12.00</td>
+				   <td width="50" class="Linea1">IN-0001</td>
+				 </tr>
+			   </table>
+			</td>
+            <td width=145 class="Linea">Oscar Bonilla Calderón</td>
+            <td width=0><input type="hidden" value="111"></td>
+            <td width=0><input type="hidden" value="7"></td>
+            <td width=0><input type="hidden" value="12"></td>
+          </tr>
+        </table></TD>
+    </TR>
+    <TR> 
+      <TD class="Linea" width="75"  >IN-1000</TD>
+      <TD class="Linea" width="200"  >  Logica Avanzada</TD>
+      <TD class="Linea"  align="center" width="56">  4</TD>
+      <TD class="Linea" width="95" > <font color="#009933"> IN-0001 o IN-0012 
+        IN-0002</font></TD>
+      <TD class="Linea">&nbsp; </TD>
+      <TD width="310" valign="top"> <table border="0" cellspacing="0" cellpadding="0" width="310">
+          <tr
+           onClick="sbAgregaMatricula('#009933', '', this);"
+           onMouseover="this.style.backgroundColor='#009933';this.style.cursor='hand';"
+           onMouseout ="this.style.backgroundColor='#FFFFFF';this.style.cursor='default';"
+        > 
+            <td width=20 class="Linea" >01</td>
+            <td width="125" valign="top" class="Linea">
+	           <table border="0" cellspacing="0" cellpadding="0" width="125">
+			     <tr>
+				   <td width="69" class="Linea1" nowrap>K 10.00-12.00</td>
+				   <td width="43" class="Linea1">IN-0001</td>
+				 </tr>
+			   </table>
+			</td>
+            <td width=145 class="Linea">Oscar Bonilla Calderón</td>
+            <td width=0><input type="hidden" value="111"></td>
+            <td width=0><input type="hidden" value="8"></td>
+            <td width=0><input type="hidden" value="13"></td>
+          </tr>
+        </table></TD>
+    </TR>
+    <TR> 
+      <TD class="Linea" width="75"   >IN-1001</TD>
+      <TD class="Linea" width="200"   >  Base de Datos</TD>
+      <TD class="Linea" align="center" width="56"  >  4</TD>
+      <TD class="Linea" width="95"   >  <font color="#888800"> IN-0012</font></TD>
+      <TD class="Linea">&nbsp; </TD>
+      <TD width="310" valign="top"> <table border="0" cellspacing="0" cellpadding="0" width="310">
+          <tr> 
+            <td colspan=3 class="Linea"><strong>Condicionado que apruebe los requisistos</strong></td>
+          </tr>
+          <tr
+           onClick="sbAgregaMatricula('#888800', '', this);"
+           onMouseover="this.style.backgroundColor='#888800';this.style.cursor='hand';"
+           onMouseout ="this.style.backgroundColor='#FFFFFF';this.style.cursor='default';"
+        > 
+            <td width=20 class="Linea"  >01</td>
+            <td width="125" valign="top" class="Linea">
+	           <table border="0" cellspacing="0" cellpadding="0" width="125">
+			     <tr>
+				   <td width="75" class="Linea1" nowrap>V 10.00-12.00</td>
+				   <td width="50" class="Linea1">IN-0001</td>
+				 </tr>
+			   </table>
+			</td>
+            <td width=145 class="Linea">Oscar Bonilla Calderón</td>
+            <td width=0><input type="hidden" value="111"></td>
+            <td width=0><input type="hidden" value="9"></td>
+            <td width=0><input type="hidden" value="14"></td>
+          </tr>
+        </table></TD>
+    </TR>
+    <TR> 
+      <TD class="Linea" width="75"   >MA-1102</TD>
+      <TD class="Linea" width="200"   >  Equaciones 2</TD>
+      <TD class="Linea" align="center" width="56"  >  4</TD>
+      <TD class="Linea" width="95"   >  <font color="#CC3300"> MA-1101</font></TD>
+      <TD class="Linea">&nbsp; </TD>
+      <TD width="310" valign="top"> <table border="0" cellspacing="0" cellpadding="0">
+          <tr> 
+            <td width="310" class="Linea" ><strong>Faltan Requisitos</strong></td>
+          </tr>
+        </table></TD>
+    </TR>
+    <TR> 
+      <TD class="Linea" width="75" >EL-001</TD>
+      <TD class="Linea" width="200" >Electiva 3</TD>
+      <TD class="Linea" align="center" width="56">  4</TD>
+	  <TD colSpan=3 class="Linea"><input id="btnEleOpen2" type="image" src="../../oscar/opn.bmp" onClick="sbElectiva(2)" title="Click para cerrar las materias elegibles"><input id="btnEleClose2" type="image" src="../../oscar/cls.bmp" style="display:none;" onClick="sbElectiva(2)" title="Click para abrir las materias elegibles"></TD>
+    </TR>
+<!-- 
+<tbody id="bdyElectiva2">
+ -->    
+    <TR id="trElegible2_1"> 
+      <TD  class="Linea" style="padding-left: 15px" width="75">FI-0003</TD>
+      <TD class="Linea" style="padding-left: 15px" width="200">  Fisica III</TD>
+      <TD class="Linea" align="center" width="56" >  4</TD>
+      <TD class="Linea" width="95" > <font color="#CC3300"> FI-0002</font></TD>
+      <TD class="Linea">&nbsp; </TD>
+	  <TD width="310" valign="top"> <table border="0" cellspacing="0" cellpadding="0">
+          <tr> 
+            <td width="310" class="Linea" ><strong>Faltan Requisitos</strong></td>
+          </tr>
+        </table></TD>
+    </TR>
+    <TR id="trElegible2_2"> 
+      <TD  class="Linea" style="padding-left: 15px" width="75">QU-1003</TD>
+      <TD class="Linea" style="padding-left: 15px" width="200">  Quimica III</TD>
+      <TD class="Linea" align="center" width="56" >  4</TD>
+      <TD class="Linea" width="95" > <font color="#CC3300"> QU-1003</font></TD>
+      <TD class="Linea">&nbsp; </TD>
+      <TD width="310" valign="top"> <table border="0" cellspacing="0" cellpadding="0">
+          <tr> 
+            <td width="310" class="Linea" ><strong>Faltan Requisitos</strong></td>
+          </tr>
+        </table></TD>
+    </TR>
+<!--
+	</tbody>
+-->
+  <TR> 
+    <TD colSpan=7 class="BloqueMatricula" style="line-height: 1px;">&nbsp;</TD>
+  </TR>
+  </tbody>
+</TABLE>
+</TD>
+</TR>
+</table>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+</BODY>
+</HTML>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<snippet name="Calendario" description="Muestra un Botoncito que invoca el Calendario" preview="code" type="wrap">
+<insertText location="beforeSelection">
+<![CDATA[<a href="#" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('Calendar','','<cfoutput>#session.rutaImagenes#</cfoutput>TBP_0099.JPG',1)"><img src="<cfoutput>#session.rutaImagenes#</cfoutput>TBP_0097.JPG" alt="Calendario" name="Calendar" width="11" height="11" border="0" onclick="javascript:showCalendar('document.form1.objeto');"></a>]]>
+</insertText>
+<insertText location="afterSelection"><![CDATA[]]>
+</insertText>
+</snippet>

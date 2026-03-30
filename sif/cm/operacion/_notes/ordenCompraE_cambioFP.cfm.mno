@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<info>
+	<infoitem key="UD_rsPais" value="name:Ppais;datatype:,name:Pnombre;datatype:" />
+	<infoitem key="UD_rsCourier" value="name:CRid;datatype:,name:CRcodigo;datatype:,name:CRdescripcion;datatype:" />
+</info>

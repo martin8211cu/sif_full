@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+		<Idioma id="en">
+			<LB_Cantidad_de_Dias>Number of Days</LB_Cantidad_de_Dias>
+			<LB_Fecha_de_Ingreso></LB_Fecha_de_Ingreso>
+			<LB_Imprimir>Print</LB_Imprimir>
+			<LB_Monto_Cesantia>Ceasing Amount</LB_Monto_Cesantia>
+			<LB_Reporte_de_Cesantia_Masiva>Massive Generation of Ceasing Amounts  Report</LB_Reporte_de_Cesantia_Masiva>
+			<LB_Salario_Promedio>Average Salary</LB_Salario_Promedio>
+		</Idioma>
+	</Etiquetas>

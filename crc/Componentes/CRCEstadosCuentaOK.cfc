@@ -1,0 +1,536 @@
+<cfcomponent>
+    <cffunction  name="checkDir"> <!--- FUNCION PARA CREAR DIRECTORIOS SI NO EXISTEN --->
+        <cfargument  name="path" required="true">
+        <cfif !DirectoryExists("#arguments.path#") >
+            <cfset DirectoryCreate("#arguments.path#")>
+        </cfif>
+    </cffunction>
+
+    <cffunction  name="getPath"> <!--- FUNCION PARA OBTENER LA RUTA ABSOLUTA DEL SERVIDOR --->
+        <cfset vsPath_R = "#ExpandPath( GetContextRoot() )#">
+        <cfif REFind('(cfmx)$',vsPath_R) gt 0> 
+            <cfset vsPath_R = "#Replace(vsPath_R,'cfmx','')#"> 
+        <cfelse> 
+            <cfset vsPath_R = "#vsPath_R#\">
+        </cfif>
+        <cfreturn vsPath_R>
+    </cffunction>
+
+    <cffunction  name="SavePDFEstadoCuenta"> <!--- FUNCION PARA CREAR ESTADOS DE CUENTA MASIVOS (LLAMA A CREACION INDIVIDUAL)--->
+        <cfargument  name="CodigoSelect"        type="string"   required="yes">
+        <cfargument  name="Tipo"                type="string"   required="no">
+        <cfargument  name="CuentaIds"           type="string"   required="no"   default="X">
+        <cfargument  name="dsn"                 type="string"   required="no"   default="#session.dsn#">
+        <cfargument  name="ecodigo"             type="string"   required="no"   default="#session.ecodigo#">
+    
+        <cfset vsPath_R = getPath()>
+
+        <!--- OBTENER EL TIPO DE PLANTILLA A UTILIZAR SEGUN EL TIPO DE CORTE --->
+        <cfquery name="q_Corte" datasource="#arguments.dsn#">
+            select Tipo from CRCCortes where Codigo = '#arguments.CodigoSelect#' and ecodigo = #arguments.ecodigo#;
+        </cfquery>
+        <cfset arguments.Tipo = '#q_Corte.Tipo#'>
+
+        <!--- OBTENER TODOS LOS ID DE CUENTAS --->
+        <cfif arguments.CuentaIds eq 'X'>
+            <cfquery name="q_Cuentas" datasource="#arguments.dsn#">
+                select id from CRCCuentas where Tipo = '#q_Corte.Tipo#' and ecodigo = #arguments.ecodigo#;
+            </cfquery>
+            
+            <cfif q_Cuentas.RecordCount eq 0>
+                <cffile file="#vsPath_R#DocCortes\#arguments.CodigoSelect#\ErrorLog.log" action="append" 
+                    output="#Now()# [SYS]: No se encontraron cuentas para generar - (select id from CRCCuentas where Tipo = '#q_Corte.Tipo#';)" fixnewline="yes">
+                <cfabort>
+            <cfelse>
+                <cfset arguments.CuentaIds = ValueList(q_Cuentas.id)>
+            </cfif>
+        </cfif>
+
+        <!--- GENERAR UN ARCHIVO PDF POR CADA ID DE CUENTA ESPECIFICADO --->
+        <cfloop list="#arguments.CuentaIds#" index="CtaId">
+            <cfset result = createEstadoCuenta(
+                    CodigoSelect	= "#arguments.CodigoSelect#"
+                ,	Tipo			= "#arguments.Tipo#"
+                ,	CuentaId		= "#CtaId#"
+                ,	dsn				= "#arguments.dsn#"
+                ,	ecodigo			= arguments.ecodigo
+                ,   saveAs          = "#arguments.CodigoSelect#_#CtaId#"
+                )>
+        </cfloop>
+
+    </cffunction>
+
+    <cffunction  name="SavePDFRecibosPago"> <!--- FUNCION PARA CREAR LOS RECIBOS DE PAGO MASIVOS (LLAMA A CREACION POR CUENTA)--->
+        <cfargument  name="CodigoSelect"        type="string"   required="yes">
+        <cfargument  name="CuentaIds"           type="string"   required="no"   default="X">
+        <cfargument  name="dsn"                 type="string"   required="no"   default="#session.dsn#">
+        <cfargument  name="ecodigo"             type="string"   required="no"   default="#session.ecodigo#">
+    
+        <cfset vsPath_R = getPath()>
+
+        <!--- OBTENER EL TIPO DE PLANTILLA A UTILIZAR SEGUN EL TIPO DE CORTE --->
+        <cfquery name="q_Corte" datasource="#arguments.dsn#">
+            select Tipo from CRCCortes where Codigo = '#arguments.CodigoSelect#' and ecodigo = #arguments.ecodigo#;
+        </cfquery>
+
+        <cfset codCorte = arguments.CodigoSelect>
+        <cfset dir = CheckDir("#vsPath_R#DocCortes")>
+        <cfset dir = CheckDir("#vsPath_R#DocCortes\#codCorte#")>
+        
+        <cfset dirPath="#vsPath_R#DocCortes\#codCorte#\">
+
+        <!--- OBTENER TODOS LOS ID DE CUENTAS --->
+        <cfif arguments.CuentaIds eq 'X'>
+            <cfquery name="q_Cuentas" datasource="#arguments.dsn#">
+                select id from CRCCuentas where Tipo = '#q_Corte.Tipo#' and ecodigo = #arguments.ecodigo#;
+            </cfquery>
+            <cfif q_Cuentas.RecordCount eq 0>
+                <cffile file="#vsPath_R#DocCortes\#codCorte#\ErrorLog.log" action="append" 
+                    output="#Now()# [SYS]: No se encontraron cuentas para generar - (select id from CRCCuentas where Tipo = '#q_Corte.Tipo#';)" fixnewline="yes">
+                <cfabort>
+            <cfelse>
+                <cfset arguments.CuentaIds = ValueList(q_Cuentas.id)>
+            </cfif>
+        </cfif>
+
+        <!--- GENERAR UN ARCHIVO PDF POR CADA ID DE CUENTA ESPECIFICADO --->
+        <cfloop list="#arguments.CuentaIds#" index="CtaId">
+            <cfset fileName="#codCorte#_#CtaId#RP">
+            <cfset filePath="#dirPath##fileName#.pdf">
+
+            <cfif !FileExists(filePath)>
+                <cfset objEstadoCuenta = createObject( "component","crc.Componentes.CRCEstadosCuenta")>
+                <cfset pdf = objEstadoCuenta.createReciboPago(
+                        CodigoSelect	= "#codCorte#"
+                    ,	CuentaId		= "#CtaId#"
+                    ,	dsn				= "#arguments.dsn#"
+                    ,	ecodigo			= arguments.ecodigo
+                    ,	saveAs			= "#fileName#"
+                    )>
+            </cfif>
+        </cfloop>
+
+    </cffunction>
+
+    <cffunction  name="createEstadoCuenta"> <!--- FUNCION PARA CREAR ESTADOS DE CUENTA INDIVIDUALES--->
+        <cfargument  name="CodigoSelect"        type="string"   required="yes">
+        <cfargument  name="Tipo"                type="string"   required="yes">
+        <cfargument  name="CuentaId"            type="string"   required="no">
+        <cfargument  name="saveAs"              type="string"   required="no"   default="">
+        <cfargument  name="dsn"                 type="string"   required="no"   default="#session.dsn#">
+        <cfargument  name="ecodigo"             type="string"   required="no"   default="#session.ecodigo#">
+        <cfargument  name="acumulado"           type="any"      required="false" default='0'>
+        
+        <cfset CuentaID = #arguments.CuentaId#>
+        <cfset CodCorte = '#arguments.CODIGOSELECT#'>
+        <cfset TipoTM=''>
+        <cfset codAnno=''>
+        <cfif arguments.Tipo eq 'TM'>
+            <cfset TipoTM='TM'>
+            <cfset codAnno= listToArray(CodCorte)[1]>
+        </cfif>
+        <!--- RUTAS PARA DIRECTORIOS DEL ESTADO DE CUENTAS--->
+        <cfset vsPath_R = getPath()>
+            <cfset dir = CheckDir("#vsPath_R#Enviar")>
+            <cfset dir = CheckDir("#vsPath_R#Enviar\ImgQR")>
+            <cfset dir = CheckDir("#vsPath_R#DocCortes\#TipoTM##replace(CodCorte,',','_')#")>
+
+        <cftry>
+            
+            <cfquery name="q_LogoImg" datasource="#arguments.dsn#">
+                select Elogo from empresa where Ereferencia = #arguments.ecodigo#;
+            </cfquery>
+            
+            <cfquery name="rsCuenta" datasource="#arguments.dsn#">
+                select Numero from CRCCuentas where id = #CuentaID#;
+            </cfquery>
+            
+            <!--- QUERYS PARA OBTENER LA INFORMACION GENERICA PARA EL ESTADO DE CUENTA--->
+            <cfinclude template="../credito/reportes/EstadosCuenta_querys.cfm">
+            
+            <!--- IMAGENES PARA ESTADOS DE CUENTA --->
+            <cfimage action="resize" height="80%" width="80%" source="#q_LogoImg.Elogo#" name="imgLogoPath">
+            <cfimage action="write" destination="#vsPath_R#Enviar\E_Logo.png" source="#imgLogoPath#" overwrite = "true">
+
+            <cfset imgLogoPath = "/Enviar/E_Logo.png">
+            <cfset imgPromoPath = "/Enviar/publicidad.jpg">
+            <cfset imgBarcodePath = "/crc/images/#rsCuenta.Numero#.jpg">
+
+            <!--- HOJA DE ESTILOS CSS:
+                    Realmente son variables que contienen el texto para el atributo style de los tags en HTML
+                    Debido a la limitada capacidad de cfdocument para procesar los css --->
+            <cfinclude template="../credito/reportes/EstadosCuenta_css.cfm">
+            
+            <!--- TEMPLATE CON EL HTML Y CONVERSION A PDF DEL ESTADO DE CUENTA--->
+            <cfif isdefined('arguments.saveAs') && arguments.saveAs neq "">
+
+                <cfdocument 
+                    format = "PDF"
+                    marginBottom = "0.2"
+                    marginLeft = "0.2"
+                    marginRight = "0.2"
+                    marginTop = "1"
+                    filename = "#vsPath_R#DocCortes\#TipoTM##replace(CodCorte,',','_')#\#codAnno##arguments.saveAs#.pdf"
+                    overwrite = "yes"
+                >
+                    <cfinclude template="../credito/reportes/EstadosCuenta_Template#Trim(arguments.Tipo)#.cfm">
+                </cfdocument>
+                
+            <cfelse>
+                <cfdocument 
+                    format = "PDF"
+                    marginBottom = "0.2"
+                    marginLeft = "0.2"
+                    marginRight = "0.2"
+                    marginTop = "1"
+                >
+                    <cfinclude template="../credito/reportes/EstadosCuenta_Template#Trim(arguments.Tipo)#.cfm">
+                </cfdocument>
+
+            </cfif>
+            <!--- Copiamos los archivos que acumularemos --->
+            <cfif arguments.acumulado eq 1>
+                <cfset fileOrigen = "#vsPath_R#DocCortes\#TipoTM##replace(CodCorte,',','_')#\#codAnno##arguments.saveAs#.pdf">
+                <cfset fileDest = "#vsPath_R#DocCortes\#TipoTM##replace(CodCorte,',','_')#\Acumulados\tmp\#codAnno##arguments.saveAs#.pdf">
+
+                <cfif FileExists(fileOrigen)>
+                        <!--- Copy file from server to sources  --->
+                    <cffile action = "copy" source = "#fileOrigen#" 
+                        destination = "#fileDest#">       
+                </cfif>
+            </cfif>
+        
+        <cfcatch>
+            <cfif isdefined('arguments.saveAs') && arguments.saveAs neq "">
+                <cffile file="#vsPath_R#DocCortes\#TipoTM##CodCorte#\ErrorLog.log" action="append" 
+                output="#Now()# [#CuentaID#]: #cfcatch.stacktrace#" fixnewline="yes">
+                <cfrethrow>
+            <cfelse>
+                <cfthrow Message="#cfcatch.Message#">
+            </cfif>
+        </cfcatch>
+        </cftry> 
+
+    </cffunction>
+
+    <cffunction  name="createReciboPago"> <!--- FUNCION PARA CREAR EL PDF DE RECIBOS DE PAGO POR CUENTA (MERGE DE CADA PAGINA)--->
+        <cfargument  name="CodigoSelect"        type="string"   required="yes">
+        <cfargument  name="CuentaId"            type="string"   required="no"   default="X">
+        <cfargument  name="saveAs"              type="string"   required="no"   default="">
+        <cfargument  name="dsn"                 type="string"   required="no"   default="#session.dsn#">
+        <cfargument  name="ecodigo"             type="string"   required="no"   default="#session.ecodigo#">
+        
+        <cfset CuentaID = "#Trim(arguments.CuentaId)#">
+        <cfset CodCorte = '#arguments.CODIGOSELECT#'>
+       
+        <cfquery name="rsCorte" datasource="#arguments.Dsn#">
+            select * from CRCCortes where Codigo = '#CodCorte#'
+        </cfquery>
+        
+        <!--- REVISION DE RUTAS PARA ARCHIVOS --->
+        <cfset vsPath_R = getPath()>
+        <cfset dir = CheckDir("#vsPath_R#DocCortes")>
+        <cfset dir = CheckDir("#vsPath_R#DocCortes\#codCorte#")>
+        <cfset finalPath = "#vsPath_R#DocCortes\#codCorte#">
+        <cfset fileName = "#codCorte#_#CuentaID#RP">
+
+        <cftry>
+
+            
+            <!--- CREAR PAGINAS PARA RECIBOS DE PAGO --->
+            <cfset RP_Paginas = RP_Data(
+                      path      ="#finalPath#\paginasRE"
+                    , CuentaId  ="#CuentaID#"
+                    , dsn       ="#arguments.dsn#"
+                    , ecodigo   =arguments.ecodigo)>
+                   
+            <cfif ArrayLen(RP_Paginas) gt 0>
+                <!--- COMBINAR TODAS LAS PAGINAS EN UN SOLO PDF --->
+                <cfpdf action="merge" destination="#finalPath#\#arguments.saveAs#.pdf" overwrite="yes"> 
+                    <cfloop index="i" from="1" to="#ArrayLen(RP_Paginas)#">
+                        <cfpdfparam source="#finalPath#\paginasRE\p#i#.pdf"> 
+                    </cfloop>
+                </cfpdf>
+            </cfif>
+        
+        <cfcatch>
+            <cfif isdefined('arguments.saveAs') && arguments.saveAs neq "">
+                <cffile file="#vsPath_R#DocCortes\#CodCorte#\ErrorLog.log" action="append" 
+                    output="#Now()# [#CuentaID#]: #cfcatch.Message#" fixnewline="yes">
+                    <cfrethrow>
+            <cfelse>
+                <cfthrow Message="#cfcatch.Message#">
+            </cfif>
+        </cfcatch>
+        </cftry>
+        
+    </cffunction>
+
+    <cffunction  name="RP_Data"> <!--- FUNCION PARA CREAR LAS PAGINAS DE CADA RECIBO DE PAGO POR CUENTA --->
+        <cfargument  name="path"                type="string"   required="yes">
+        <cfargument  name="CuentaId"            type="string"   required="no"   default="X">
+        <cfargument  name="dsn"                 type="string"   required="no"   default="#session.dsn#">
+        <cfargument  name="ecodigo"             type="string"   required="no"   default="#session.ecodigo#">
+        
+        <cfset CuentaID = "#Trim(arguments.CuentaId)#">
+
+        <!--- QUERY PARA OBTENER EL RESUMEN DE DATOS PARA LOS RECIBOS DE PAGO --->
+        <cfquery name="q_ReciboPagos" datasource="#arguments.dsn#">
+            select 
+                1 as primeraColumna, 
+                B.id,
+                S.SNnombre,
+                ct.Numero,
+                '#rsCorte.Codigo#' Codigo,
+                '#rsCorte.FechaInicio#' FechaInicio,
+                '#rsCorte.FechaFin#' FechaFin,
+                '#rsCorte.FechaInicioSV#' FechaInicioSV,
+                ct.Numero CURP,
+                B.Cliente,
+                B.Monto SaldoTotal,
+                isnull(cn.ComprasNuevas,0) NuevasCompras,
+                A.Descripcion Parcialidad,   <!--- NAva --->
+                A.MontoAPagar - (A.Pagado + A.Descuento) AbonoPagar,
+                A.MontoAPagar - (A.Pagado + A.Descuento) MinimoPagar,
+                case when (i.SaldoIntereses - (A.MontoAPagar - (A.Pagado + A.Descuento))) > 0
+                    then round((i.SaldoIntereses - (A.MontoAPagar - (A.Pagado + A.Descuento))) * (select Pvalor from CRCParametros where Pcodigo = '30000701' and Ecodigo = #arguments.ecodigo#)/100,2) 
+                    else 0
+                end as Intereses,
+                B.monto - isnull(C.Pagos,0) - (A.MontoAPagar - (A.Pagado + A.Descuento)) + A.MontoAPagar - (A.Pagado + A.Descuento) AS SaldoAnterior,
+                B.monto - isnull(C.Pagos,0) - (A.MontoAPagar - (A.Pagado + A.Descuento)) AS NuevoSaldo
+            from CRCMovimientoCuenta as A 
+            inner join CRCTransaccion B 
+                on A.CRCTransaccionid = B.id 
+            inner join CRCCuentas ct
+                on ct.id = B.CRCCuentasid
+            inner join SNegocios S
+                on ct.SNegociosSNid = S.SNid
+            inner join CRCTipoTransaccion TT
+                on TT.Codigo = B.TipoTransaccion
+                and TT.Ecodigo = B.Ecodigo
+            left join (
+                select CRCTransaccionid, Sum(A.Pagado)+ sum(A.Descuento) - sum(A.Intereses) + sum(A.Condonaciones) as Pagos
+                from CRCMovimientoCuenta A 
+                inner join CRCCortes B  on B.Codigo = A.Corte
+                where  B.FechaFin <= '#DateFormat(rsCorte.fechafin,'yyyy-mm-dd')#'
+                group by A.CRCTransaccionid
+            ) as C
+                on C.CRCTransaccionid = B.id
+            left join (
+                select t.CRCCuentasid CuentaId, t.Cliente, t.CURP, 
+                case when cc.parcialidad = 1 then sum(t.Monto) else 0 end ComprasNuevas
+                from CRCCortes cr
+                inner join CRCTransaccion t
+                    on t.FechaInicioPago between cr.FechaInicio and cr.FechaFin
+                    and t.TipoTransaccion = 'VC'
+                inner join (
+                    select CRCTransaccionid, count(CRCTransaccionid) parcialidad 
+                    from CRCMovimientoCuenta
+                    where Corte <= '#rsCorte.Codigo#'
+                    group by CRCTransaccionid
+                ) cc
+                    on t.id = cc.CRCTransaccionid
+                where cr.Codigo = '#rsCorte.Codigo#'
+                group by t.CRCCuentasid, t.Cliente, t.CURP, cc.parcialidad
+            ) cn
+                on B.Cliente = cn.Cliente and B.CURP = cn.CURP
+            left join (
+                select tr.Cliente, tr.CURP, tr.CRCCuentasid, sum((mc.MontoAPagar - (mc.Pagado + mc.Descuento)) ) as SaldoIntereses
+                from CRCMovimientoCuenta mc 
+                inner join	CRCTransaccion tr on tr.id = mc.CRCTransaccionid
+                inner join CRCCortes ct on ct.Codigo = mc.Corte and ct.status = 2
+                group by tr.Cliente,tr.CRCCuentasid, tr.CURP
+            ) i
+                on a.id = i.CRCCuentasid
+                and B.Cliente = i.Cliente and B.CURP = i.CURP
+            where 
+                A.Corte = '#CodCorte#' 
+                and A.MontoAPagar - (A.Pagado + A.Descuento) > 0
+                <cfif CuentaID neq "X" && CuentaID neq "">
+                    and B.CRCCuentasid = #CuentaID# and A.Ecodigo = #arguments.ecodigo#
+                </cfif>
+                and rtrim(ltrim(B.TipoTransaccion)) <> 'SG'
+                and A.CRCConveniosid is null
+                order by B.Cliente; 
+        </cfquery>
+        
+        <!---  VARIABLES DE PAGINACION --->
+        <cfset e_paginas = []>
+        <cfset e_pagina = []>
+        <cfset e_cliente = structNew()>
+        
+        <cfif q_ReciboPagos.recordCount gt 0>
+            <cfset crcParametros = createObject("component", "crc.Componentes.CRCParametros")>
+            <cfset diasPen = crcParametros.GetParametro(codigo="30006101", conexion=arguments.dsn, ecodigo = arguments.ecodigo) + 3>
+                    
+            <!--- PAGINACION DE RESULTADOS DEL QUERY --->
+            <cfset _contador = 0> 
+            <cfloop query="#q_ReciboPagos#">
+                <cfset _contador += 1> 
+                <cfset e_cliente.eFechaCorte           = "#DateFormat(q_ReciboPagos.FechaFin,'yyyy.mm.dd')#">
+                <cfset e_cliente.ePagueAntes           = "#DateFormat(DateAdd("d",-diasPen,q_ReciboPagos.FechaInicioSV),'yyyy.mm.dd')#">
+                <cfset e_cliente.eNumeroDistribuidor   = "#q_ReciboPagos.Numero#">
+                <cfset e_cliente.eNombreDistribuidor   = "#q_ReciboPagos.SNnombre#">
+                <cfset e_cliente.eParcialidad           = REMatch("\(\d+?\/\d+?\)",q_ReciboPagos.Parcialidad)[1]>  <!---  NAva --->
+                <cfset e_cliente.eMinPago              = "#NumberFormat(q_ReciboPagos.MinimoPagar,'00.00')#">
+                <cfset e_cliente.eNumeroCliente        = "#q_ReciboPagos.CURP#">
+                <cfset e_cliente.eNombreCliente        = "#q_ReciboPagos.Cliente#">
+                <cfset e_cliente.eSaldoAnterior        = "#NumberFormat(q_ReciboPagos.SaldoAnterior,'00.00')#">
+                <cfset e_cliente.eCompraNueva          = "#NumberFormat(q_ReciboPagos.NuevasCompras,'00.00')#">
+                <cfset e_cliente.eIntereses            = "#NumberFormat(q_ReciboPagos.Intereses,'00.00')#">
+                <cfset e_cliente.eAbonoPagar           = "#NumberFormat(q_ReciboPagos.AbonoPagar,'00.00')#">
+                <cfset e_cliente.eNuevoSaldo           = "#NumberFormat(q_ReciboPagos.NuevoSaldo,'00.00')#">
+                <cfset arrayAppend(e_pagina, e_cliente)>
+                <cfif arrayLen(e_pagina) eq 6>
+                    <cfset arrayAppend(e_paginas, e_pagina)>
+                    <cfset e_pagina = []>
+                <cfelseif _contador eq q_ReciboPagos.recordCount>
+                    <cfset arrayAppend(e_paginas, e_pagina)>
+                </cfif>
+                <cfset e_cliente = structNew()>
+            </cfloop>
+            
+            <cfloop index="i" from="#arrayLen(e_pagina)#" to="5">
+                <cfset e_cliente.eFechaCorte           = "">
+                <cfset e_cliente.ePagueAntes           = "">
+                <cfset e_cliente.eNumeroDistribuidor   = "">
+                <cfset e_cliente.eNombreDistribuidor   = "">
+                <cfset e_cliente.eParcialidad          = "">  <!--- NAva --->
+                <cfset e_cliente.eMinPago              = "">
+                <cfset e_cliente.eNumeroCliente        = "">
+                <cfset e_cliente.eNombreCliente        = "">
+                <cfset e_cliente.eSaldoAnterior        = "">
+                <cfset e_cliente.eCompraNueva          = "">
+                <cfset e_cliente.eIntereses            = "">
+                <cfset e_cliente.eAbonoPagar           = "">
+                <cfset e_cliente.eNuevoSaldo           = "">
+                <cfset arrayAppend(e_pagina, e_cliente)>
+                <cfif arrayLen(e_pagina) gt 6 and arrayLen(e_pagina) % 6 eq 1>
+                    <cfset arrayAppend(e_paginas, e_pagina)>
+                    <cfset e_pagina = []>
+                </cfif>
+                <cfset e_cliente = structNew()>
+            </cfloop>
+            
+            <!--- ELIMINACION DE DIRECTORIO/ARCHIVOS VIEJOS DEL CORTE PROCESADO --->
+            <cfif DirectoryExists("#arguments.path#") >
+                <cfdirectory action="delete" directory="#arguments.path#" recurse="true">
+            </cfif>
+            <cfset DirectoryCreate("#arguments.path#")>
+
+            <!--- CREACION DE PAGINAS DE RECIBOS DE PAGO --->
+            <cfloop array="#e_paginas#" index="i" item="t">
+                <cfset Recibo = e_paginas[i]>
+                <cfoutput>
+                    <cfdocument 
+                        format = "PDF"
+                        marginBottom = "0"
+                        marginLeft = "0"
+                        marginRight = "0"
+                        marginTop = "0"
+                        pageType = "letter"
+                        pageHeight = "11"
+                        unit= "cm"
+                        filename = "#arguments.path#\p#i#.pdf"
+                        overwrite = "yes"
+                    >
+                        <cfinclude template="../Plantillas/Plantilla_ValesDePagoFULL.cfm">
+                    </cfdocument>
+                </cfoutput>
+            </cfloop>
+        </cfif>
+        <cfreturn e_paginas>
+
+    </cffunction>
+
+    <cffunction  name="sendEmail">
+        <cfargument  name="corte"               type="string"   required="yes">
+        <cfargument  name="CuentaId"            type="string"   required="no"   default="X">
+        <cfargument  name="bodyPath"            type="string"   required="no"   default="/crc/Plantillas/emailBody_EstadoCuenta.cfm">
+        <cfargument  name="enviar"              type="string"   required="no"   default="true">
+        <cfargument  name="subject"             type="string"   required="no"   default="">
+        <cfargument  name="writeLog"            type="string"   required="no"   default="true">
+        <cfargument  name="dsn"                 type="string"   required="no"   default="#session.dsn#">
+        <cfargument  name="ecodigo"             type="string"   required="no"   default="#session.ecodigo#">
+        
+        <cfset CuentaID = "#Trim(arguments.CuentaId)#">
+        <cfset CodCorte = '#arguments.corte#'>
+
+        <cfquery name="q_Corte" datasource="#arguments.dsn#">
+            select * from CRCCortes where Codigo = '#CodCorte#' and ecodigo = #arguments.ecodigo#
+        </cfquery>
+
+        <cfquery name="q_Cuenta" datasource="#arguments.dsn#">
+            select c.id, sn.SNemail, sn.SNnombre, sn.SNenviarEmail
+            from CRCCuentas c
+                inner join SNegocios sn
+                    on sn.SNid = c.SNegociosSNid 
+            where  c.ecodigo = #arguments.ecodigo# 
+                <cfif CuentaID neq 'X'>
+                    and c.id = #CuentaID#
+                <cfelse>
+                    and sn.SNenviarEmail = 1
+                </cfif>
+                and c.tipo = '#q_Corte.Tipo#'
+        </cfquery>
+        
+
+        <cfif trim(arguments.subject) eq ''>
+            <cfset arguments.subject = "Cierre al corte #CodCorte# (#Dateformat(q_Corte.fechaInicio,'dd/mm/yyyy')# - #Dateformat(q_Corte.fechafin,'dd/mm/yyyy')#)">
+        </cfif>
+
+        <!--- REVISION DE RUTAS PARA ARCHIVOS --->
+        <cfset vsPath_R = getPath()>
+            <cfset dir = CheckDir("#vsPath_R#DocCortes")>
+            <cfset dir = CheckDir("#vsPath_R#DocCortes\#codCorte#")>
+            <cfset finalPath = "#vsPath_R#DocCortes\#codCorte#">
+
+        <cfloop query="q_Cuenta">
+            <cftry>
+                <cfif trim(q_Cuenta.SNemail) eq ''>
+                    <cfthrow message="No se ha definido un email para el Socio de Negocio (#q_Cuenta.SNnombre#)">
+                </cfif>
+
+                <cfset fileNameA = "#codCorte#_#q_Cuenta.id#.pdf">
+                <!---
+                <cfdump var="#q_Cuenta#">
+                <cfdump var="#fileExists("#finalPath#\#fileNameA#")#">
+                <cfdump var=" -- #finalPath#\#fileNameA#">
+                --->
+                <cfif fileExists("#finalPath#\#fileNameA#")>
+                    <!--- <cfdump var=" -- SEND"> --->
+                    <cfset SMTP = createObject( "component","asp.admin.correo.SMTPQueue")>
+                    <cfset pdf = SMTP.createEmail(
+                            from = "sender@gmail.com"
+                            , to = "#q_Cuenta.SNemail#"
+                            , subject = "#arguments.subject#"
+                            , contentPath = "#bodyPath#"
+                            , attachmentPath = '#finalPath#\#fileNameA#'
+                            , attachmentExt = 'pdf'
+                            , send = arguments.enviar
+                        )>
+                </cfif>
+                <!--- <cfdump var="out"> --->
+            <cfcatch>
+                <cfif arguments.writeLog>
+                    <cffile file="#vsPath_R#DocCortes\#CodCorte#\ErrorLog.log" action="append" 
+                        output="#Now()# [#CuentaID#]: #cfcatch.Message#" fixnewline="yes">
+                    <cfrethrow>
+                <cfelse>
+                    <cfthrow Message="#cfcatch.Message#">
+                </cfif>
+            </cfcatch>
+            </cftry>
+        </cfloop>
+
+        
+
+    </cffunction>
+
+    <cffunction  name="toLSCurrencyFormat">
+        <cfargument  name="value">
+    
+        <cfreturn "$#LSCurrencyFormat(NumberFormat(arguments.value,"00.00"),"none")#">
+     </cffunction>
+
+</cfcomponent>

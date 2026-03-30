@@ -1,0 +1,36 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 544 - DBM 504: Saldos Contables Convertidos AK
+
+	         PARCHE:  Parche024_152_SIF_SaldosConvertidos
+
+GENERADO EN:
+	SERVER:  http://mxvqapp34:8300
+	DSN:     minisiftrd
+	FECHA:   15/03/2012 15:14:43
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* CHG_TABLE SaldosContablesConvertidos: SaldosContablesConvertidos */
+/* ======================================================================================== */
+/* DEL_KEY OP = (OBSOLETO): TIP="A", COLS="Ccuenta,Speriodo,Smes,Ecodigo,Ocodigo,Mcodigo,McodigoOri" */
+ALTER TABLE SaldosContablesConvertidos DROP CONSTRAINT SaldosContablesConverti01_AK04 /* UNIQUE KEY (Ccuenta,Speriodo,Smes,Ecodigo,Ocodigo,Mcodigo,McodigoOri) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (NUEVO): TIP="A", SEC="5", COLS="Ccuenta,Speriodo,Smes,Ecodigo,Ocodigo,Mcodigo,McodigoOri,B15" */
+ALTER TABLE SaldosContablesConvertidos ADD CONSTRAINT SaldosContablesConverti01_AK05 UNIQUE NONCLUSTERED (Ccuenta,Speriodo,Smes,Ecodigo,Ocodigo,Mcodigo,McodigoOri,B15)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

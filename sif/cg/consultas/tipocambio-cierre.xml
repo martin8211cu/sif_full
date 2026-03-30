@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_Titulo>Exchange Rate for End Closing</LB_Titulo>
+		<LB_Periodo>Period</LB_Periodo>
+		<LB_Selecciona>Select</LB_Selecciona>
+		<LB_Mes>Month</LB_Mes>
+		<LB_Moneda>Currency</LB_Moneda>
+		<LB_TipoCambio>Exchange Rate</LB_TipoCambio>
+		<LB_FinReporte>End</LB_FinReporte>
+		<LB_SinRegistros>No Records Found</LB_SinRegistros>
+		<LB_Imprimir>Print</LB_Imprimir>
+	</Idioma>
+</Etiquetas>

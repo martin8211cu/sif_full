@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<info>
+	<infoitem key="UD_rsModulos" value="name:SMcodigo;datatype:,name:SMdescripcion;datatype:" />
+	<infoitem key="UD_rsSistemas" value="name:SScodigo;datatype:,name:SSdescripcion;datatype:" />
+</info>

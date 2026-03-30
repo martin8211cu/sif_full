@@ -1,0 +1,196 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 171 - DBM 283: Se agregaron las referencias con las tabl
+
+	         PARCHE:  Parche023_269_SIF_TCambioPagoTCE
+
+GENERADO EN:
+	SERVER:  http://mxpapp36:8300
+	DSN:     sifcim
+	FECHA:   06/09/2011 19:08:35
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* CHG_TABLE CBTarjetaCredito: Tabla para el Catálogo de Tarj */
+/* ======================================================================================== */
+/* CHG_COLUMN OP=(CAMBIO): Bid - ID del Banco */
+UPDATE CBTarjetaCredito SET Bid = 0 WHERE convert(varchar,Bid) IS NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE CBTarjetaCredito ALTER COLUMN Bid numeric(18) NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_COLUMN OP=(CAMBIO): CBTCDescripcion - Descripción */
+UPDATE CBTarjetaCredito SET CBTCDescripcion = ' ' WHERE convert(varchar,CBTCDescripcion) IS NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE CBTarjetaCredito ALTER COLUMN CBTCDescripcion varchar(255) NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_COLUMN OP=(CAMBIO): CBTTid - ID del Tipo de Tarjeta */
+UPDATE CBTarjetaCredito SET CBTTid = 0 WHERE convert(varchar,CBTTid) IS NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE CBTarjetaCredito ALTER COLUMN CBTTid numeric(18) NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_COLUMN OP=(CAMBIO): CBSTid - ID del Status */
+UPDATE CBTarjetaCredito SET CBSTid = 0 WHERE convert(varchar,CBSTid) IS NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE CBTarjetaCredito ALTER COLUMN CBSTid numeric(18) NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_COLUMN OP=(CAMBIO): DEid - Titular */
+UPDATE CBTarjetaCredito SET DEid = 0 WHERE convert(varchar,DEid) IS NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE CBTarjetaCredito ALTER COLUMN DEid numeric(18) NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_COLUMN OP=(CAMBIO): CBTCfechainico - Fecha de Inicio */
+UPDATE CBTarjetaCredito SET CBTCfechainico = getdate() WHERE convert(varchar,CBTCfechainico) IS NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE CBTarjetaCredito ALTER COLUMN CBTCfechainico datetime NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_COLUMN OP=(CAMBIO): CBTCfechacorte - Fecha de Corte */
+UPDATE CBTarjetaCredito SET CBTCfechacorte = 0 WHERE convert(varchar,CBTCfechacorte) IS NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE CBTarjetaCredito ALTER COLUMN CBTCfechacorte numeric(2) NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_COLUMN OP=(CAMBIO): CBTCfechapago - Fecha de Pago */
+UPDATE CBTarjetaCredito SET CBTCfechapago = 0 WHERE convert(varchar,CBTCfechapago) IS NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE CBTarjetaCredito ALTER COLUMN CBTCfechapago numeric(2) NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_COLUMN OP=(CAMBIO): CBTCfechavencimiento - Fecha de Vencimiento */
+UPDATE CBTarjetaCredito SET CBTCfechavencimiento = getdate() WHERE convert(varchar,CBTCfechavencimiento) IS NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE CBTarjetaCredito ALTER COLUMN CBTCfechavencimiento datetime NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_COLUMN OP=(CAMBIO): Ecodigo - Codigo de la Empresa */
+UPDATE CBTarjetaCredito SET Ecodigo = 0 WHERE convert(varchar,Ecodigo) IS NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE CBTarjetaCredito ALTER COLUMN Ecodigo integer NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_COLUMN OP=(CAMBIO): CBTNumTarjeta - Número de Tarjeta */
+UPDATE CBTarjetaCredito SET CBTNumTarjeta = ' ' WHERE convert(varchar,CBTNumTarjeta) IS NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE CBTarjetaCredito ALTER COLUMN CBTNumTarjeta varchar(30) NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_COLUMN OP=(CAMBIO): CBTMid - Referencia CBTMarcas */
+UPDATE CBTarjetaCredito SET CBTMid = 0 WHERE convert(varchar,CBTMid) IS NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE CBTarjetaCredito ALTER COLUMN CBTMid numeric(18) NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(NUEVO): TIP="F", SEC="1", COLS="CBTMid", REF="CBTMarcas" */
+CREATE INDEX CBTarjetaCredito_FI01 ON CBTarjetaCredito (CBTMid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(NUEVO): TIP="F", SEC="2", COLS="CBid", REF="CuentasBancos" */
+CREATE INDEX CBTarjetaCredito_FI02 ON CBTarjetaCredito (CBid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(NUEVO): TIP="F", SEC="3", COLS="CBTTid", REF="CBTipoTarjetaCredito" */
+CREATE INDEX CBTarjetaCredito_FI03 ON CBTarjetaCredito (CBTTid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(NUEVO): TIP="F", SEC="4", COLS="CBSTid", REF="CBStatusTarjetaCredito" */
+CREATE INDEX CBTarjetaCredito_FI04 ON CBTarjetaCredito (CBSTid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ================================================================= */
+/*            CREA FKs NUEVOS O CON CAMPOS MODIFICADOS               */
+/* ================================================================= */
+/* CHG_TABLE CBTarjetaCredito */
+/* ADD_FK OP=(NUEVO): TIP="F", SEC="1", COLS="CBTMid", REF="CBTMarcas" */
+ALTER TABLE CBTarjetaCredito ADD CONSTRAINT CBTarjetaCredito_FK01 FOREIGN KEY (CBTMid) REFERENCES CBTMarcas (CBTMid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_FK OP=(NUEVO): TIP="F", SEC="2", COLS="CBid", REF="CuentasBancos" */
+ALTER TABLE CBTarjetaCredito ADD CONSTRAINT CBTarjetaCredito_FK02 FOREIGN KEY (CBid) REFERENCES CuentasBancos (CBid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_FK OP=(NUEVO): TIP="F", SEC="3", COLS="CBTTid", REF="CBTipoTarjetaCredito" */
+ALTER TABLE CBTarjetaCredito ADD CONSTRAINT CBTarjetaCredito_FK03 FOREIGN KEY (CBTTid) REFERENCES CBTipoTarjetaCredito (CBTTid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_FK OP=(NUEVO): TIP="F", SEC="4", COLS="CBSTid", REF="CBStatusTarjetaCredito" */
+ALTER TABLE CBTarjetaCredito ADD CONSTRAINT CBTarjetaCredito_FK04 FOREIGN KEY (CBSTid) REFERENCES CBStatusTarjetaCredito (CBSTid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

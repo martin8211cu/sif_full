@@ -1,0 +1,243 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  sifInterfaces
+	MODELO:  SIF Interfaces.pdm
+	VERSION: 9 - DBM 121: BASE CERO MOTOR INTERFACES
+
+	         PARCHE:  ParcheParche023_001_SIF_BASE0
+
+GENERADO EN:
+	SERVER:  http://mxvdapp10:8300
+	DSN:     sifinterfaces
+	FECHA:   02/06/2011 10:00:05
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* ADD_TABLE EmpresaExterna: EmpresaExterna */
+/* ======================================================================================== */
+
+CREATE TABLE EmpresaExterna (
+	 CEcodigo                       numeric(18)          NOT NULL
+	,SistemaExterno                 varchar(20)          NOT NULL
+	,EcodigoExterno                 varchar(20)          NOT NULL
+	,EcodigoSDC                     numeric(18)          NOT NULL
+	,Ecodigo                        numeric(18)          NOT NULL
+	,BMUsucodigo                    numeric(18)          NULL
+	,ts_rversion                    timestamp           
+	)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ======================================================================================== */
+/* CHG_TABLE IdProceso: Control de los IDs de Proceso */
+/* ======================================================================================== */
+/* CHG_KEY_PK (OP=RENAME): cols=IdProceso */
+EXEC sp_rename 'IdProceso.PK_IDPROCESO', 'IdProceso_PK', 'INDEX'
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ======================================================================================== */
+/* CHG_TABLE Interfaz: Definición de Parámetros de ca */
+/* ======================================================================================== */
+/* CHG_COLUMN OP=(CAMBIO): OrigenInterfaz - Origen de la Interfaz S Soin E externo */
+ALTER TABLE Interfaz ADD CONSTRAINT Interfaz_CK03 CHECK ([OrigenInterfaz]='S' OR [OrigenInterfaz]='E')
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_COLUMN OP=(CAMBIO): TipoProcesamiento - Tipo Procesamiento */
+ALTER TABLE Interfaz ADD CONSTRAINT Interfaz_CK04 CHECK ([TipoProcesamiento]='D' OR [TipoProcesamiento]='S' OR [TipoProcesamiento]='A')
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_COLUMN OP=(CAMBIO): ManejoDatos - Tipo Manejo Datos */
+ALTER TABLE Interfaz ADD CONSTRAINT Interfaz_CK05 CHECK ([ManejoDatos]='V' OR [ManejoDatos]='T')
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_COLUMN OP=(CAMBIO): TipoRetardo - Activar en un ciclo o a una hora especifica */
+ALTER TABLE Interfaz ADD CONSTRAINT Interfaz_CK08 CHECK ([TipoRetardo]='H' OR [TipoRetardo]='M')
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_COLUMN OP=(CAMBIO): spFinalTipo - Tipo SpFinal */
+ALTER TABLE Interfaz ADD CONSTRAINT Interfaz_CK10 CHECK ([spFinalTipo]='C' OR [spFinalTipo]='S' OR [spFinalTipo]='D' OR [spFinalTipo]='N')
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_KEY_PK (OP=RENAME): cols=NumeroInterfaz */
+EXEC sp_rename 'Interfaz.PK_INTERFAZ', 'Interfaz_PK', 'INDEX'
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ======================================================================================== */
+/* CHG_TABLE InterfazBitacoraProcesos: Bitácora de Procesos de Interf */
+/* ======================================================================================== */
+/* CHG_COLUMN OP=(CAMBIO): OrigenInterfaz - Origen de la Interfaz S Soin E externo */
+ALTER TABLE InterfazBitacoraProcesos ADD CONSTRAINT InterfazBitacoraProcesos_CK07 CHECK ([OrigenInterfaz]='S' OR [OrigenInterfaz]='E')
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_COLUMN OP=(CAMBIO): TipoProcesamiento - Tipo Procesamiento */
+ALTER TABLE InterfazBitacoraProcesos ADD CONSTRAINT InterfazBitacoraProcesos_CK08 CHECK ([TipoProcesamiento]='D' OR [TipoProcesamiento]='0' OR [TipoProcesamiento]='S' OR [TipoProcesamiento]='A')
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_COLUMN OP=(CAMBIO): StatusProceso - StatusProceso */
+ALTER TABLE InterfazBitacoraProcesos ADD CONSTRAINT InterfazBitacoraProcesos_CK09 CHECK ([StatusProceso]=(5) OR [StatusProceso]=(12) OR [StatusProceso]=(11) OR [StatusProceso]=(10) OR [StatusProceso]=(4) OR [StatusProceso]=(3) OR [StatusProceso]=(2) OR [StatusProceso]=(1))
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_KEY_PK (OP=RENAME): cols=IdBitacora */
+EXEC sp_rename 'InterfazBitacoraProcesos.PK_INTERFAZBITACORAPROCESOS', 'InterfazBitacoraProcesos_PK', 'INDEX'
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP=(NUEVO): TIP="I", SEC="1", COLS="IdProceso" */
+CREATE NONCLUSTERED INDEX InterfazBitacoraProcesos_ID01 ON InterfazBitacoraProcesos (IdProceso)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(NUEVO): TIP="I", SEC="2", COLS="CEcodigo,EcodigoSDC" */
+CREATE NONCLUSTERED INDEX InterfazBitacoraProcesos_ID02 ON InterfazBitacoraProcesos (CEcodigo,EcodigoSDC)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(NUEVO): TIP="I", SEC="3", COLS="CEcodigo,NumeroInterfaz,IdProceso,SecReproceso" */
+CREATE NONCLUSTERED INDEX InterfazBitacoraProcesos_ID03 ON InterfazBitacoraProcesos (CEcodigo,NumeroInterfaz,IdProceso,SecReproceso)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE InterfazColaProcesos: Cola de Procesos para Interfac */
+/* ======================================================================================== */
+/* CHG_COLUMN OP=(CAMBIO): OrigenInterfaz - Origen de la Interfaz S Soin E externo */
+ALTER TABLE InterfazColaProcesos ADD CONSTRAINT InterfazColaProcesos_CK06 CHECK ([OrigenInterfaz]='S' OR [OrigenInterfaz]='E')
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_COLUMN OP=(CAMBIO): TipoProcesamiento - Tipo Procesamiento */
+ALTER TABLE InterfazColaProcesos ADD CONSTRAINT InterfazColaProcesos_CK07 CHECK ([TipoProcesamiento]='D' OR [TipoProcesamiento]='S' OR [TipoProcesamiento]='A')
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_COLUMN OP=(CAMBIO): StatusProceso - StatusProceso */
+ALTER TABLE InterfazColaProcesos ADD CONSTRAINT InterfazColaProcesos_CK08 CHECK ([StatusProceso]=(5) OR [StatusProceso]=(11) OR [StatusProceso]=(10) OR [StatusProceso]=(4) OR [StatusProceso]=(3) OR [StatusProceso]=(2) OR [StatusProceso]=(1))
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_KEY_PK (OP=RENAME): cols=CEcodigo,NumeroInterfaz,IdProceso,SecReproceso */
+EXEC sp_rename 'InterfazColaProcesos.PK_INTERFAZCOLAPROCESOS', 'InterfazColaProcesos_PK', 'INDEX'
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP=(NUEVO): TIP="F", SEC="1", COLS="NumeroInterfaz", REF="Interfaz" */
+CREATE INDEX InterfazColaProcesos_FI01 ON InterfazColaProcesos (NumeroInterfaz)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(NUEVO): TIP="I", SEC="1", COLS="IdProceso" */
+CREATE NONCLUSTERED INDEX InterfazColaProcesos_ID01 ON InterfazColaProcesos (IdProceso)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(NUEVO): TIP="I", SEC="2", COLS="NumeroInterfaz,EcodigoSDC" */
+CREATE NONCLUSTERED INDEX InterfazColaProcesos_ID02 ON InterfazColaProcesos (NumeroInterfaz,EcodigoSDC)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(NUEVO): TIP="I", SEC="3", COLS="CEcodigo,NumeroInterfaz,StatusProceso" */
+CREATE NONCLUSTERED INDEX InterfazColaProcesos_ID03 ON InterfazColaProcesos (CEcodigo,NumeroInterfaz,StatusProceso)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE InterfazColaProcesosCancelar: Cancelacion de la Cola de Proc */
+/* ======================================================================================== */
+/* CHG_KEY_PK (OP=RENAME): cols=CEcodigo,NumeroInterfaz,IdProceso,SecReproceso */
+EXEC sp_rename 'InterfazColaProcesosCancelar.PK_INTERFAZCOLAPROCESOSCANCELA', 'InterfazColaProcesosCan01_PK', 'INDEX'
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP=(NUEVO): TIP="I", SEC="1", COLS="NumeroInterfaz" */
+CREATE NONCLUSTERED INDEX InterfazColaProcesosCan01_ID01 ON InterfazColaProcesosCancelar (NumeroInterfaz)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE InterfazDatosXML: Datos XML para manejo de datos */
+/* ======================================================================================== */
+/* CHG_KEY OP=(CAMBIO): TIP="P", COLS="CEcodigo,NumeroInterfaz,IdProceso,TipoIO" */
+ALTER TABLE InterfazDatosXML DROP CONSTRAINT PK_INTERFAZDATOSXML /* PRIMARY KEY (CEcodigo,NumeroInterfaz,IdProceso,TipoIO) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_COLUMN OP=(CAMBIO): TipoIO - Tipo Entrada o Salida */
+ALTER TABLE InterfazDatosXML ADD CONSTRAINT InterfazDatosXML_CK04 CHECK ([TipoIO]='O' OR [TipoIO]='I')
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_KEY OP=(CAMBIO): TIP="P", SEC="0", COLS="CEcodigo,NumeroInterfaz,IdProceso,TipoIO" */
+ALTER TABLE InterfazDatosXML ADD CONSTRAINT InterfazDatosXML_PK PRIMARY KEY NONCLUSTERED (CEcodigo,NumeroInterfaz,IdProceso,TipoIO)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE InterfazMotor: Definición de Parámetros del M */
+/* ======================================================================================== */
+/* CHG_COLUMN OP=(CAMBIO): spFinalTipo - Tipo Procedimiento Final Default */
+ALTER TABLE InterfazMotor ADD CONSTRAINT InterfazMotor_CK04 CHECK ([spFinalTipo]='C' OR [spFinalTipo]='S')
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_KEY_PK (OP=RENAME): cols=CEcodigo */
+EXEC sp_rename 'InterfazMotor.PK_INTERFAZMOTOR', 'InterfazMotor_PK', 'INDEX'
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ================================================================= */
+/*            CREA FKs NUEVOS O CON CAMPOS MODIFICADOS               */
+/* ================================================================= */
+/* CHG_TABLE InterfazColaProcesos */
+/* ADD_FK OP=(NUEVO): TIP="F", SEC="1", COLS="NumeroInterfaz", REF="Interfaz" */
+ALTER TABLE InterfazColaProcesos ADD CONSTRAINT InterfazColaProcesos_FK01 FOREIGN KEY (NumeroInterfaz) REFERENCES Interfaz (NumeroInterfaz)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_TABLE InterfazColaProcesosCancelar */
+/* ADD_FK OP=(NUEVO): TIP="F", SEC="1", COLS="CEcodigo,NumeroInterfaz,IdProceso,SecReproceso", REF="InterfazColaProcesos" */
+ALTER TABLE InterfazColaProcesosCancelar ADD CONSTRAINT InterfazColaProcesosCan01_FK01 FOREIGN KEY (CEcodigo,NumeroInterfaz,IdProceso,SecReproceso) REFERENCES InterfazColaProcesos (CEcodigo,NumeroInterfaz,IdProceso,SecReproceso)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

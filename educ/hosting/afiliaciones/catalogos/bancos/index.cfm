@@ -1,0 +1,1 @@
+<cflocation url="/cfmx/sif/mb/catalogos/Bancos.cfm">

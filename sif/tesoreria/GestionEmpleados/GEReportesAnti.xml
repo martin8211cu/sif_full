@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+			<LB_Titulo>Consult of Advances not Reimbursed</LB_Titulo>
+			<LB_FormaPago>Payment Method</LB_FormaPago>
+			<LB_FechaDesde>From</LB_FechaDesde>
+			<LB_FechaHasta>To</LB_FechaHasta>
+			<LB_Tesoreria>Treasury</LB_Tesoreria>
+			<LB_Todos>All</LB_Todos>
+			<LB_EstadoAnticipo>Advance Status</LB_EstadoAnticipo>
+			<LB_EntregadosVencidos>Maturity Delivered</LB_EntregadosVencidos>
+			<LB_Entregados>Delivered</LB_Entregados>
+			<LB_AprobadosNoEntregados>Approved Not Delivered</LB_AprobadosNoEntregados>
+			<LB_MsgError1>Define a payment amount</LB_MsgError1>
+	</Idioma>
+</Etiquetas>

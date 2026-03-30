@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+<info>
+	<infoitem key="UD_rsSQL" value="name:Ecodigo;datatype:int,name:ACcodigo;datatype:int,name:ACdescripcion;datatype:varchar,name:ACvutil;datatype:int,name:ACcatvutil;datatype:char,name:timestamp;datatype:varbinary" />
+	<infoitem key="UD_rsLista" value="name:Ecodigo;datatype:int,name:ACcodigo;datatype:int,name:ACdescripcion;datatype:varchar,name:ACvutil;datatype:int,name:ACcatvutil;datatype:char,name:timestamp;datatype:varbinary" />
+</info>

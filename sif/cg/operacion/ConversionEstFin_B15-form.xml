@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_Titulo>Translation of Financial Statements</LB_Titulo>
+		<LB_TituloA>Exchange Differential for Financial Statements Translation</LB_TituloA>
+		<LB_PrimeraConversionB15>First Conversion B15</LB_PrimeraConversionB15>
+		<LB_SegundaConversionB15>Second Conversion B15</LB_SegundaConversionB15>
+		<LB_PeriodoContable>Accounting Period</LB_PeriodoContable>
+		<LB_MesContable>Accounting Month</LB_MesContable>
+		<LB_CuentaDiffCamb>Exchange Differential Account</LB_CuentaDiffCamb>	
+		<LB_MonedaOrigen>Origin Currency</LB_MonedaOrigen>
+		<LB_MonedaConversion>Conversion Currency</LB_MonedaConversion>
+		<LB_TipoCambioVenta>Exchange Rate (Sale)</LB_TipoCambioVenta>
+		<LB_TipoCambioCompra>Exchange Rate (Buy)</LB_TipoCambioCompra>
+		<LB_TipoCambioPromedio>Exchange Rate (Average)</LB_TipoCambioPromedio>
+		<LB_SeleccioneMoneda>Select Currency conversion for financial statements</LB_SeleccioneMoneda>
+		<BTN_TCAdicional>Additional ER</BTN_TCAdicional>
+	</Idioma>
+</Etiquetas>

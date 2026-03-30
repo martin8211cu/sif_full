@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_Titulo>Tryal Balance by Ledger Account</LB_Titulo>
+		<LB_Archivo>Tryal Balance by Ledger Account</LB_Archivo>
+		<LB_Moneda>Currency</LB_Moneda>
+		<LB_Periodo>Period</LB_Periodo>
+		<LB_Mes>Month</LB_Mes>
+		<LB_Mensual>Monthly</LB_Mensual>
+		<LB_Acumulado>Accumulated</LB_Acumulado>
+		<LB_Empresa>Enterprise</LB_Empresa>
+		<LB_Office>Office</LB_Office>
+		<LB_CuentaMayor>Ledger Account</LB_CuentaMayor>
+		<LB_Debitos>Debits</LB_Debitos>
+		<LB_Creditos>Credits</LB_Creditos>
+		<LB_Descripcion>Description</LB_Descripcion>
+		<LB_SinRegistros>No Results</LB_SinRegistros>
+		<LB_FinConsulta>End</LB_FinConsulta>
+	</Idioma>
+</Etiquetas>

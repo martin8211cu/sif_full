@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_RECEPCIONDEPOSITOSEFECTIVO>Cash Deposit Receipt</LB_RECEPCIONDEPOSITOSEFECTIVO>
+		<LB_Fecha>Date</LB_Fecha>
+		<LB_CajaEfectivo>Petty Cash</LB_CajaEfectivo>
+		<LB_Ninguno>None</LB_Ninguno>
+		<LB_Descripcion>Description</LB_Descripcion>
+		<LB_DepositadoPor>Deposited by</LB_DepositadoPor>
+		<LB_Moneda>Currency</LB_Moneda>
+		<LB_TipoCambio>Exchange Rate</LB_TipoCambio>
+		<LB_Monto>Amount</LB_Monto>
+		<LB_ConfirmarMonto>Confirm Amount</LB_ConfirmarMonto>
+		<LB_NumComision>Commission Number</LB_NumComision>
+		<LB_Empleado>Employee</LB_Empleado>
+		<LB_CentroFuncional>Functional Center</LB_CentroFuncional>
+		<MSG_NoSeEncontraronRegistros>No Records Found</MSG_NoSeEncontraronRegistros>
+		<BTN_RecibirEfectivo>Receive Cash</BTN_RecibirEfectivo>
+		<LB_Errores>Check the following errors</LB_Errores>
+		<LB_CampoDescripcion>The Description is mandatory</LB_CampoDescripcion>
+		<LB_CampoMonto>The amount is mandatory</LB_CampoMonto>
+	</Idioma>
+</Etiquetas>

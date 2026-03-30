@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<dbStream xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://UOServer:8090/RepraWebApp/dtds/dbeventstream.xsd" environment="UOSERVER_RC.SACISIIC">
+  <dbEvent eventId="104:000000000171c8d500242f5c000a00242f5c0006000097e700e066fa0000000000010001">
+    <delete schema="SSGTPP">
+      <oldValues>
+        <cell name="TPPLOG" type="VARCHAR">22racsa101022</cell>
+        <cell name="TPP07COD" type="INT">33617</cell>
+        <cell name="TPPFGN" type="DATETIME">20050524 16:24:28:733</cell>
+      </oldValues>
+    </delete>
+  </dbEvent>
+</dbStream>

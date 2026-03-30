@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+
+	<Idioma id="en">
+		<LB_Titulo>Mapping Accounts</LB_Titulo>
+		<LB_Cuenta>Account</LB_Cuenta>
+		<LB_Nombre>Name</LB_Nombre>
+		<LB_Datos>Data</LB_Datos>
+		<LB_MonedaConvertida>Converted Currency</LB_MonedaConvertida>
+	</Idioma>
+</Etiquetas>

@@ -1,0 +1,1 @@
+document.write("<script src='/rh/Utiles/calendar_js.cfm'type='text/javascript'></script>");

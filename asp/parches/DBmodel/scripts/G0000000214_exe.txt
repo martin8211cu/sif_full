@@ -1,0 +1,91 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 527 - DBM 475: Creacion de Tabla RHControlSaldos
+
+	         PARCHE:  Parche024_051_RH _AccionesDePersonalConControlSa
+
+GENERADO EN:
+	SERVER:  http://mxvqapp34:8300
+	DSN:     sifcim
+	FECHA:   14/02/2012 16:25:24
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* CHG_TABLE HIncidenciasCalculo: Histórico de Incidencias para  */
+/* ======================================================================================== */
+/* ADD_COLUMN OP = (NUEVO): DLlinea - DLlinea */
+ALTER TABLE HIncidenciasCalculo ADD DLlinea numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE IncidenciasCalculo: Incidencias para el Calculo */
+/* ======================================================================================== */
+/* ADD_COLUMN OP = (NUEVO): DLlinea - DLlinea */
+ALTER TABLE IncidenciasCalculo ADD DLlinea numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* ADD_TABLE RHControlSaldos: RHControlSaldos */
+/* ======================================================================================== */
+
+CREATE TABLE RHControlSaldos (
+	 DEid                           numeric(18)          NOT NULL
+	,DLlinea                        numeric(18)          NOT NULL
+	,CIid                           numeric(18)          NOT NULL
+	,RHCSdesde                      datetime             NOT NULL
+	,RHCShasta                      datetime             NOT NULL
+	,RHCSultimopago                 datetime             NOT NULL
+	,RHCScantidad                   numeric(18,4)        NOT NULL
+	,RHCSmonto                      numeric(18,4)        NOT NULL
+	,RHCSsaldo                      numeric(18,4)        NOT NULL
+	,RHCSdiario                     numeric(18,4)        NOT NULL
+	,RHCSanulado                    numeric(10)          DEFAULT 0 NOT NULL
+	,RHCSsuspendido                 numeric(10)          DEFAULT 0 NOT NULL
+	,RHTipoConcepto                 integer              NOT NULL
+	,BMUsucodigo                    numeric(18)          NULL
+	,ts_rversion                    timestamp           
+	)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP = (TAB NUEVA): TIP="P", SEC="0", COLS="DEid,DLlinea,CIid" */
+ALTER TABLE RHControlSaldos ADD CONSTRAINT RHControlSaldos_PK PRIMARY KEY CLUSTERED (DEid,DLlinea,CIid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ================================================================= */
+/*            CREA FKs NUEVOS O CON CAMPOS MODIFICADOS               */
+/* ================================================================= */
+/* CHG_TABLE RHControlSaldos */
+/* ADD_FK OP = (TAB NUEVA): TIP="F", SEC="1", COLS="CIid", REF="CIncidentes" */
+ALTER TABLE RHControlSaldos ADD CONSTRAINT RHControlSaldos_FK01 FOREIGN KEY (CIid) REFERENCES CIncidentes (CIid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_FK OP = (TAB NUEVA): TIP="F", SEC="2", COLS="DEid", REF="DatosEmpleado" */
+ALTER TABLE RHControlSaldos ADD CONSTRAINT RHControlSaldos_FK02 FOREIGN KEY (DEid) REFERENCES DatosEmpleado (DEid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_FK OP = (TAB NUEVA): TIP="F", SEC="3", COLS="DLlinea", REF="DLaboralesEmpleado" */
+ALTER TABLE RHControlSaldos ADD CONSTRAINT RHControlSaldos_FK03 FOREIGN KEY (DLlinea) REFERENCES DLaboralesEmpleado (DLlinea)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

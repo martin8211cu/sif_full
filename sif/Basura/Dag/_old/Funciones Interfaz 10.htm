@@ -1,0 +1,243 @@
+﻿<!---
+		Metodo: 
+			insertar_DocumentoCC
+		Resultado:
+			Inserta el encabezado de Documentos de CxC.
+			Retorna el Id generado.
+	--->
+	<cffunction name="insertar_DocumentoCC" access="public" returntype="numeric">
+		<cfargument type="numeric" 	name="Ecodigo"	 		  required="yes" default="#Request.CPCC_InterfazDocumentos.GvarEcodigo#">
+		<cfargument type="string" 	name="Ocodigo" 			  required="yes" >
+		<cfargument type="string"   name="CCTcodigo" 		  required="yes" >
+		<cfargument type="string" 	name="EDdocumento"        required="yes" >
+		<cfargument type="string" 	name="SNcodigo" 		  required="yes" >
+		<cfargument type="string" 	name="Mcodigo" 			  required="yes" >
+		<cfargument type="string" 	name="TipoCambio" 		  required="yes" >
+	 	<cfargument type="string" 	name="Ccuenta"			  required="yes" >
+		<cfargument type="string" 	name="Rcodigo" 			  required="yes" >
+		<cfargument type="string" 	name="EDfecha"  		  required="yes" >
+		<cfargument type="string" 	name="EDfechavencimiento" required="yes" >
+		<cfargument type="string"  	name="VoucherNo"		  required="yes" >
+		<cfargument type="string" 	name="Usuario"			  required="yes" default="#session.Usuario#">
+		<cfargument type="numeric" 	name="Usucodigo"		  required="yes" default="#session.Usucodigo#">
+
+		<cfquery name="verificacuenta" datasource="#Request.CPCC_InterfazDocumentos.GvarConexion#" >
+			select c.Cmayor as Mayor, c.Cformato as Formato 
+			from CContables c
+			where c.Ccuenta = <cfqueryparam cfsqltype="cf_sql_numeric" value="#Arguments.Ccuenta#">
+		</cfquery>
+		
+		<cfif verificacuenta.recordcount EQ 0 or len(verificacuenta.Formato) eq 0>
+			<cfthrow message="CM_InterfazDocumentos.insertar_DocumentoCC: El valor asignado para cuenta contable #Arguments.Ccuenta# no es correcto o no se encontró. Proceso cancelado!">
+		</cfif>
+		
+		<cfquery name="data" datasource="#Request.CPCC_InterfazDocumentos.GvarConexion#" >
+			insert EDocumentosCxC( Ecodigo, 
+								   Ocodigo, 
+								   CCTcodigo, 
+								   EDdocumento, 
+								   SNcodigo, 
+								   Mcodigo, 
+								   EDtipocambio, 
+								   Icodigo, 
+								   Ccuenta, 
+								   Rcodigo, 
+								   EDdescuento, 
+								   EDporcdesc, 
+								   EDimpuesto, 
+								   EDtotal, 
+								   EDfecha, 
+								   EDtref, 
+								   EDdocref, 
+								   EDusuario, 
+								   BMUsucodigo, 
+								   EDvencimiento, 
+								   Interfaz, 
+								   EDreferencia )
+			values ( <cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.Ecodigo#">,
+					 <cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.Ocodigo#">,
+					 <cfqueryparam cfsqltype="cf_sql_char"    value="#trim(arguments.CCTcodigo)#">,
+					 <cfqueryparam cfsqltype="cf_sql_varchar" value="#trim(arguments.EDdocumento)#">,
+					 <cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.SNcodigo#">,
+					 <cfqueryparam cfsqltype="cf_sql_numeric" value="#arguments.Mcodigo#">,
+					 <cfqueryparam cfsqltype="cf_sql_money" value="#arguments.TipoCambio#">,
+					 null,
+					 <cfqueryparam cfsqltype="cf_sql_numeric" value="#arguments.Ccuenta#">,
+					 <cfif len(trim(arguments.Rcodigo))><cfqueryparam cfsqltype="cf_sql_char" value="#trim(arguments.Rcodigo)#"><cfelse>null</cfif>,
+					 0,
+					 0,
+					 0,
+					 0,
+					 <cfqueryparam cfsqltype="cf_sql_timestamp" value="#LSParseDateTime(arguments.EDfecha)#">,
+					 null,
+					 null,
+					 <cfqueryparam cfsqltype="cf_sql_varchar" value="#Request.CPCC_InterfazDocumentos.GvarUsuario#">,
+					 <cfqueryparam cfsqltype="cf_sql_numeric" value="#session.Usucodigo#">,
+					 <cfqueryparam cfsqltype="cf_sql_timestamp" value="#LSParseDateTime(arguments.EDfechavencimiento)#">,
+					 1,
+					 <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.VoucherNo#"> )
+			<cf_dbidentity1 datasource="#Request.CPCC_InterfazDocumentos.GvarConexion#" verificar_transaccion="false">
+		</cfquery>	
+		<cf_dbidentity2 datasource="#Request.CPCC_InterfazDocumentos.GvarConexion#"  verificar_transaccion="false" name="data">
+
+		<cfreturn data.identity > 
+	</cffunction>
+
+	<!---
+		Metodo: 
+			insertar_DocumentoCP
+		Resultado:
+			Inserta el encabezado de Documentos de CxP.
+			Retorna el Id generado.
+	--->
+	<cffunction name="insertar_DocumentoCP" access="public" returntype="numeric">
+		<cfargument type="numeric" 	name="Ecodigo"	 		  required="yes" default="#Request.CPCC_InterfazDocumentos.GvarEcodigo#">
+		<cfargument type="numeric" 	name="Ocodigo" 			  required="yes" >
+		<cfargument type="string"   name="CPTcodigo" 		  required="yes" >
+		<cfargument type="string" 	name="EDdocumento"        required="yes" >
+		<cfargument type="numeric" 	name="SNcodigo" 		  required="yes" >
+		<cfargument type="numeric" 	name="Mcodigo" 			  required="yes" >
+	 	<cfargument type="numeric" 	name="Ccuenta"			  required="yes" >
+		<cfargument type="string" 	name="Rcodigo" 			  required="yes" >
+		<cfargument type="string" 	name="EDfecha"  		  required="yes" >
+		<cfargument type="string" 	name="EDfechavencimiento" required="yes" >
+		<cfargument type="string"  	name="VoucherNo"		  required="yes" >
+		<cfargument type="string" 	name="Usuario"			  required="yes" default="#session.Usuario#">
+		<cfargument type="numeric" 	name="Usucodigo"		  required="yes" default="#session.Usucodigo#">
+
+		<cfquery name="verificacuenta" datasource="#Request.CPCC_InterfazDocumentos.GvarConexion#" >
+			select c.Cmayor as Mayor, c.Cformato as Formato 
+			from CContables c
+			where c.Ccuenta = <cfqueryparam cfsqltype="cf_sql_numeric" value="#Arguments.Ccuenta#">
+		</cfquery>
+		
+		<cfif verificacuenta.recordcount EQ 0 or len(verificacuenta.Formato) eq 0>
+			<cfthrow message="CM_InterfazDocumentos.insertar_DocumentoCP: El valor asignado para cuenta contable #Arguments.Ccuenta# no es correcto o no se encontró. Proceso cancelado!">
+		</cfif>
+
+		<cfquery name="data" datasource="#Request.CPCC_InterfazDocumentos.GvarConexion#" >
+			insert into EDocumentosCxP( Ecodigo, 
+										Ocodigo, 
+										CPTcodigo,
+										EDdocumento, 
+										SNcodigo, 
+										Mcodigo, 
+										EDtipocambio, 
+										Icodigo, 
+										Ccuenta, 
+										Rcodigo, 
+										EDdescuento, 
+										EDporcdescuento, 
+										EDimpuesto, 
+										EDtotal, 
+										EDfecha, 
+										EDdocref, 
+										EDusuario,
+										BMUsucodigo,
+										EDvencimiento, 
+										Interfaz, 
+										EDreferencia )
+										
+			values ( <cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.Ecodigo#">,
+					 <cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.Ocodigo#">,
+					 <cfqueryparam cfsqltype="cf_sql_char"    value="#trim(arguments.CPTcodigo)#">,
+					 <cfqueryparam cfsqltype="cf_sql_varchar" value="#trim(arguments.EDdocumento)#">,
+					 <cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.SNcodigo#">,
+					 <cfqueryparam cfsqltype="cf_sql_numeric" value="#arguments.Mcodigo#">,
+					 1,
+					 null,
+					 <cfqueryparam cfsqltype="cf_sql_numeric" value="#arguments.Ccuenta#">,
+					 <cfif len(trim(arguments.Rcodigo))><cfqueryparam cfsqltype="cf_sql_char" value="#trim(arguments.Rcodigo)#"><cfelse>null</cfif>,
+					 0,
+					 0,
+					 0,
+					 0,
+					 <cfqueryparam cfsqltype="cf_sql_timestamp" value="#LSParseDateTime(arguments.EDfecha)#">,
+					 null,
+					 <cfqueryparam cfsqltype="cf_sql_varchar" value="#Request.CPCC_InterfazDocumentos.GvarUsuario#">,
+					 <cfqueryparam cfsqltype="cf_sql_numeric" value="#Request.CPCC_InterfazDocumentos.GvarUsucodigo#">,
+					 <cfqueryparam cfsqltype="cf_sql_timestamp" value="#LSParseDateTime(arguments.EDfechavencimiento)#">,
+					 1,
+					 <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.VoucherNo#"> )
+			<cf_dbidentity1 datasource="#Request.CPCC_InterfazDocumentos.GvarConexion#" verificar_transaccion="false">
+		</cfquery>	
+		<cf_dbidentity2 datasource="#Request.CPCC_InterfazDocumentos.GvarConexion#"  verificar_transaccion="false" name="data">
+
+		<cfreturn data.identity > 
+	</cffunction>
+
+	<!---
+	Metodo:
+		obtieneCuentaEnc
+	Resultado:
+		0.	Se busca la máscara asociada a la cuenta dada en CFinanciera, esta es la máscara del Socio de Negocios.
+		1.	Se toma la máscara del Socio de Negocios XXXX-XXXX-XXXX-XXX,
+		2.	Si existe asociado al documento un concepto de servicio, y el concepto de servicio tiene complemento de cuenta, continua, si no termina.
+		3.	Se sustituye el ultimo nivel con el complemento de cuenta del concepto de servicio, XXXX-XXXX-XXXX-123
+	--->
+	<cffunction access="private" name="obtieneCuentaEnc" output="false" returntype="numeric">
+		<cfargument name="Ccuenta" required="yes" type="numeric">
+		<cfargument name="Ccodigo" required="no" type="string" default="">
+
+		<cfif (len(Arguments.Ccuenta) EQ 0 or Arguments.Ccuenta EQ 0)>
+			<cfthrow message="CM_InterfazDocumentos.obtieneCuentaEnc: No se pasó el valor de la Cuenta Contable. Proceso cancelado!">
+		</cfif>
+
+		<cfset LRetCcuenta = Arguments.Ccuenta>
+
+		<cfif len(trim(Arguments.Ccodigo))>
+			<cfquery name="rsConceptos" datasource="#Request.CPCC_InterfazDocumentos.GvarConexion#">
+				select cuentac
+				from Conceptos
+				where Ecodigo = <cfqueryparam cfsqltype="cf_sql_numeric" value="#Request.CPCC_InterfazDocumentos.GvarEcodigo#">
+				and upper(rtrim(Ccodigo)) = <cfqueryparam cfsqltype="cf_sql_char" value="#Ucase(Trim(Arguments.Ccodigo))#">
+			</cfquery>
+			<cfif len(trim(rsConceptos.cuentac))>
+				<cfquery name="rsObtieneFormato" datasource="#Request.CPCC_InterfazDocumentos.GvarConexion#">
+					select min(CFformato) as CFformato, min(Cmayor) as Cmayor
+					from CFinanciera
+					where Ecodigo = <cfqueryparam cfsqltype="cf_sql_numeric" value="#Request.CPCC_InterfazDocumentos.GvarEcodigo#">
+					  and Ccuenta = <cfqueryparam cfsqltype="cf_sql_numeric" value="#Arguments.Ccuenta#">
+				</cfquery>
+				<cfif (rsObtieneFormato.Cmayor EQ "1104" or rsObtieneFormato.Cmayor EQ "2103")> 
+					<!--- El siguiente código esta fijo y de esta manera porque no se quizo afectar la funcionalidad propia de SIF,
+					agregando la posibilidad de agregar comodines al Socio de Negocios, únicamente para utilzar esta funcionalidad
+					en la presente interfaz --->
+					<cfset LvarFormatoLevels = ListToArray(rsObtieneFormato.CFformato,'-')>
+					<cfset LvarFormato = ''>
+					<cfloop from="1" to="#ArrayLen(LvarFormatoLevels)-1#" index="i">
+						<cfset LvarFormato = LvarFormato & iif(len(LvarFormato),DE('-'),DE('')) & LvarFormatoLevels[i]>
+					</cfloop>
+					<cfset LvarFormato = LvarFormato & iif(len(LvarFormato),DE('-'),DE('')) & rsConceptos.cuentac>
+					<cfinvoke component="sif.Componentes.PC_GeneraCuentaFinanciera" method="fnGeneraCuentaFinanciera" returnvariable="LvarError">
+						<cfinvokeargument name="Lprm_Cmayor" value="#Left(LvarFormato,4)#"/>							
+						<cfinvokeargument name="Lprm_Cdetalle" value="#mid(LvarFormato,6,100)#"/>
+						<cfinvokeargument name="Lprm_TransaccionActiva" value="true"/>
+						<cfinvokeargument name="Conexion" value="#Request.CPCC_InterfazDocumentos.GvarConexion#"/>
+						<cfinvokeargument name="ecodigo" value="#Request.CPCC_InterfazDocumentos.GvarEcodigo#"/>
+					</cfinvoke>		
+					<cfif LvarError NEQ "OLD" AND LvarError NEQ "NEW">
+						<cfthrow message="Cuenta #LvarFormato#: #LvarERROR#">
+					</cfif>
+					<cfquery name="rsCuenta" datasource="#Request.CPCC_InterfazDocumentos.GvarConexion#">
+						select Ccuenta
+						from CFinanciera
+						where Ecodigo = <cfqueryparam cfsqltype="cf_sql_integer" value="#Request.CPCC_InterfazDocumentos.GvarEcodigo#">
+						  and CFformato = <cfqueryparam cfsqltype="cf_sql_char" value="#LvarFormato#">
+					</cfquery>
+					<cfif len(trim(rsCuenta.Ccuenta))>
+						<cfset LRetCcuenta = rsCuenta.Ccuenta>
+					<cfelse>
+						<cfthrow message="Cuenta #LvarFormato#: Cuenta Inválida! Proceso Cancelado!">
+					</cfif>
+				<cfelse>
+					<cfset LRetCcuenta = Arguments.Ccuenta>
+				</cfif>
+			<cfelse>
+				<cfset LRetCcuenta = Arguments.Ccuenta>
+			</cfif>
+		<cfelse>
+			<cfset LRetCcuenta = Arguments.Ccuenta>
+		</cfif>
+		<cfreturn LRetCcuenta>
+	</cffunction>

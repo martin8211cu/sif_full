@@ -1,0 +1,68 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 144 - DBM 245: Modificar campos CBTarjetaCredito
+
+	         PARCHE:  Parche023_206_SIF_tarjetasCreditoTCE
+
+GENERADO EN:
+	SERVER:  http://mxpapp36:8300
+	DSN:     sifcim
+	FECHA:   12/08/2011 16:51:21
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* CHG_TABLE CBTarjetaCredito: Tabla para el Catálogo de Tarj */
+/* ======================================================================================== */
+/* CHG_COLUMN OP=(CAMBIO): CBTCfechacorte - Fecha de Corte */
+/* IF X GT 0:select count(1) as X from syscolumns where id=object_id('CBTarjetaCredito') and name='CBTCfechacorte__NEW' */
+LA SIGUIENTE INSTRUCCION NO SE VA A EJECUTAR PORQUE NO SE CUMPLIO LA CONDICION 'X GT 0':
+ALTER TABLE CBTarjetaCredito DROP COLUMN CBTCfechacorte__NEW
+go
+ALTER TABLE CBTarjetaCredito ADD CBTCfechacorte__NEW numeric(2) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+UPDATE CBTarjetaCredito SET CBTCfechacorte__NEW = convert(numeric(28,10),convert(varchar,CBTCfechacorte,112))
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE CBTarjetaCredito DROP COLUMN CBTCfechacorte
+go
+EJECUCION EN BASE DE DATOS OK
+
+EXEC sp_rename 'CBTarjetaCredito.CBTCfechacorte__NEW', 'CBTCfechacorte', 'COLUMN'
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_COLUMN OP=(CAMBIO): CBTCfechapago - Fecha de Pago */
+/* IF X GT 0:select count(1) as X from syscolumns where id=object_id('CBTarjetaCredito') and name='CBTCfechapago__NEW' */
+LA SIGUIENTE INSTRUCCION NO SE VA A EJECUTAR PORQUE NO SE CUMPLIO LA CONDICION 'X GT 0':
+ALTER TABLE CBTarjetaCredito DROP COLUMN CBTCfechapago__NEW
+go
+ALTER TABLE CBTarjetaCredito ADD CBTCfechapago__NEW numeric(2) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+UPDATE CBTarjetaCredito SET CBTCfechapago__NEW = convert(numeric(28,10),convert(varchar,CBTCfechapago,112))
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE CBTarjetaCredito DROP COLUMN CBTCfechapago
+go
+EJECUCION EN BASE DE DATOS OK
+
+EXEC sp_rename 'CBTarjetaCredito.CBTCfechapago__NEW', 'CBTCfechapago', 'COLUMN'
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

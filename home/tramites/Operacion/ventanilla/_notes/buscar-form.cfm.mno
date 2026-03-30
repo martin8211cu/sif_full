@@ -1,0 +1,4 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<info>
+	<infoitem key="UD_tipoidentificacion" value="name:id_tipoident;datatype:,name:codigo_tipoident;datatype:,name:nombre_tipoident;datatype:" />
+</info>

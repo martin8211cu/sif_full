@@ -1,0 +1,72 @@
+celeste = #0079c0
+
+#plantillaMenuContenedor
+	//border 1px solid red
+	margin 0
+	padding 0
+	#contenedor
+		margin-left 5%
+		margin-right 5%
+		#leftContent
+			color blue
+			#pnl_capacitacionDesarrollo
+				iframe
+					width 100%
+					height 100%
+					border none
+			#pnl_SitiosInteres
+				a
+					text-decoration underline
+					color blue
+		#rightContent
+			#pnl_noticiasAvisos
+				.nav
+					font-size 0.9em
+				#abrirLeerNoticia
+					color celeste
+					font-size 12px
+					font-weight bold
+					float right
+				.contenido
+					border-bottom none
+					height 500px
+					overflow hidden
+					margin-bottom 5px
+			#pnl_calendario
+				.contenido
+					height 512px
+		#encabezado
+			margin 0
+			padding 0
+			h1 
+				color #0079c0
+				display inline-block
+				font-weight bold
+				margin-bottom 0
+			#icono
+				color #0079c0
+		div	
+			margin 0
+			padding 5px
+		.panel
+			margin 0
+			padding 10px
+			text-align left
+			h1
+				font-size 20
+				font-weight bold
+				min-height 30px
+				margin 0
+				padding 0
+				text-align center
+			&:hover
+				.contenido
+					li
+						color blue
+						a
+							color celeste
+			.contenido
+				min-height 225px
+				li 
+					margin-left -40
+					list-style none

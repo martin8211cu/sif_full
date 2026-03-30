@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_InsertarPlaca>Insert plaque for get the responsible </LB_InsertarPlaca>
+		<LB_placa>Plaque</LB_placa>
+		<LB_buscar>Search</LB_buscar>
+		<LB_ActDuplicado>File is duplicated</LB_ActDuplicado>
+		<LB_ActRetirado>File is removed</LB_ActRetirado>
+		<LB_ActNoExiste>File is not found</LB_ActNoExiste>		
+	</Idioma>
+</Etiquetas>
+

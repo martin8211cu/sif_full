@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_TituloHeaderComprobacionViaticosComisionEmpleado>Allowance Check</LB_TituloHeaderComprobacionViaticosComisionEmpleado>
+		<LB_CentroFuncional>Functional Center</LB_CentroFuncional>
+		<LB_Solicitante>Requester</LB_Solicitante>
+		<LB_Empleado>Employee</LB_Empleado>
+		<LB_ListaEmpleados>Employees List</LB_ListaEmpleados>
+		<LB_Identificacion>Identification</LB_Identificacion>
+		<LB_Nombre>Name</LB_Nombre>
+		<LB_Apellido1>First Name</LB_Apellido1>
+		<LB_Apellido2>Second Surname</LB_Apellido2>
+		<LB_Fecha>Date</LB_Fecha>
+		<LB_FechaHasta>To</LB_FechaHasta>
+		<LB_NumLiquidacion>Settlement Number</LB_NumLiquidacion>
+		<LB_Moneda>Currency</LB_Moneda>
+		<LB_TodasMonedas>All Currencies</LB_TodasMonedas>
+		<LB_FormaPago>Payment Method</LB_FormaPago>	
+		<BTN_Filtrar>Filter</BTN_Filtrar>	
+		<LB_Comision>Commission</LB_Comision>
+		<LB_OfiCentroFuncional>Office:Functional Center</LB_OfiCentroFuncional>
+		<LB_NombreEmpleado>Employee Name</LB_NombreEmpleado>
+		<LB_FechaLiquidacion>Settlement Day</LB_FechaLiquidacion>
+		<LB_Gastos>Expenses</LB_Gastos>
+		<LB_TipoPago>Payment Type</LB_TipoPago>
+		<LB_CajaChica>Petty Cash</LB_CajaChica>
+		<LB_Tesoreria>Treasury</LB_Tesoreria>
+	</Idioma>
+</Etiquetas>

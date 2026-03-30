@@ -1,0 +1,30 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 526 - DBM 478: Se cambia el tamaño del campo a 15 de la 
+
+	         PARCHE:  Parche024_039_RH _Configuracion_Reportes_Dinamicos
+
+GENERADO EN:
+	SERVER:  http://mxvqapp34:8300
+	DSN:     sifcim
+	FECHA:   14/02/2012 16:21:55
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* CHG_TABLE RHReportesNomina: RHReportesNomina */
+/* ======================================================================================== */
+/* CHG_COLUMN OP = (CAMBIO): RHRPTNcodigo - Codigo de RHReportesNomina */
+ALTER TABLE RHReportesNomina ALTER COLUMN RHRPTNcodigo char(15) NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

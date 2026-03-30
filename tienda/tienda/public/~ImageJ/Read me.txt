@@ -1,0 +1,51 @@
+IMAGEJ CFC V0.9 beta
+by Benoit Hediard (ben@benorama.com)
+last modified 24/04/03 
+
+Description :
+A CFC wrapper to access the most useful ImageJ API.
+
+
+To install ImageJ API
+1- extracts the ij.jar (V1.29) from ImageJ.zip file and put it in your WEB-INF/lib
+2- restart ColdFusion.
+OR
+1- download the imageJ zip from http://rsb.info.nih.gov/ij/download.html
+2- extracts the ij.jar file and put it in your WEB-INF/lib
+3- restart ColdFusion.
+You can now call any imageJ objects "ij.*" from ColdFusion.
+
+ATTENTION : the current ImageJ CFC works only with V1.29 of ImageJ.
+There are some changes in the API in V1.30 for Jpeg Encoding.
+I found V1.30 also much slower to open the images, so I keep using V1.29...
+If you want to use V1.30, you need to perform some modification in saveAsJpeg() method
+
+ImageJ CFC methods :
+- input : open (tiff, dicom, fits, pgm, png, jpeg, bmp or gif images)
+- output/Conversion : save, saveAs, saveAsTiff, saveAsZip, saveAsGif, saveAsJpeg
+- region of interest : setROI, resetROI
+- manipulation : rotateLeft, rotateRight, flipHorizontal, flipVertical
+- filters : invert, findEdges, medianFilter, smooth, sharpen, erode, dilate, grayscale
+- drawing : setColor, setFont, setLineWidth, moveTo, lineTo, drawPixel, drawLine, drawRect, drawString, fill
+- size : resize, crop, scale
+
+Example :
+image = createObject("component","ImageJ");
+image.open("d:/anImage.jpg"); 
+image.resize(70); 
+image.saveAs("d:/aSmallImage.jpg");
+
+
+ImagingApp.cfm :
+This very small imaging application allows you to test the ImageJ API.
+It only works locally (you must run ColdFusion locally or execute the page from the server).
+ImageJ.cfc must be in the same directory.
+
+
+Know issues :
+- antialiased text does not work (throws a ColdFusion method selection error),
+- cannot open with Fireworks a gif file converted from a jpeg file (even if it displays correctly in IE),
+- might not work on Linux (only tested on Win2000, winXP with CFMX Standalone and CFMX for J2EE on Jrun).
+
+Latest changes :
+- 24/04/03 : added fileOutputStream.close(); in saveAsGif() and saveAsJpeg()

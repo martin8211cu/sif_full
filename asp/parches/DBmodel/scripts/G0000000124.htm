@@ -1,0 +1,133 @@
+<strong>INDICE:</strong><BR>- <A href='#COLs_DEL'>Columnas a eliminarse</A><BR>- <A href='#KEYs_ADD'>Llaves nuevas o a regenerarse</A><BR>- <A href='#KEYs_FI'>Indices para llaves foráneas</A><BR><BR><BR>
+			<BR><strong><A name='COLs_DEL'>COLUMNAS QUE VAN A SER ELIMINADAS EN LA BASE DE DATOS PORQUE YA NO SE REQUIEREN EN EL MODELO DBM</A></strong><BR>
+			<table>
+			<tr><td><strong>TABLA</strong></td><td><strong>COLUMNA</strong></td><td><strong>TIPO</strong></td><td><strong>LON</strong></td><td><strong>DEC</strong></td><td><strong>obl</strong></td><td><strong>ide</strong></td><td><strong>dfl</strong></td><td><strong>rul</strong></td></tr>
+			
+				<tr><td>ID711&nbsp;&nbsp;</td><td>CFformato&nbsp;&nbsp;</td><td>CHAR&nbsp;&nbsp;</td><td>100</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>ID711&nbsp;&nbsp;</td><td>Icodigo&nbsp;&nbsp;</td><td>CHAR&nbsp;&nbsp;</td><td>5</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>ID711&nbsp;&nbsp;</td><td>TESDPdescripcion&nbsp;&nbsp;</td><td>VARCHAR&nbsp;&nbsp;</td><td>80</td><td>0</td><td>1</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>ID711&nbsp;&nbsp;</td><td>TESDPdocumentoOri&nbsp;&nbsp;</td><td>VARCHAR&nbsp;&nbsp;</td><td>20</td><td>0</td><td>1</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>ID711&nbsp;&nbsp;</td><td>TESDPfechaVencimiento&nbsp;&nbsp;</td><td>DATE TIME&nbsp;&nbsp;</td><td>0</td><td>0</td><td>1</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>ID711&nbsp;&nbsp;</td><td>TESDPmontoVencimientoOri&nbsp;&nbsp;</td><td>MONEY&nbsp;&nbsp;</td><td>18</td><td>4</td><td>1</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>ID711&nbsp;&nbsp;</td><td>TESDPreferenciaOri&nbsp;&nbsp;</td><td>VARCHAR&nbsp;&nbsp;</td><td>25</td><td>0</td><td>1</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>IE707&nbsp;&nbsp;</td><td>CFcodigo&nbsp;&nbsp;</td><td>CHAR&nbsp;&nbsp;</td><td>10</td><td>0</td><td>1</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>IE711&nbsp;&nbsp;</td><td>CFcodigo&nbsp;&nbsp;</td><td>CHAR&nbsp;&nbsp;</td><td>10</td><td>0</td><td>1</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>IE711&nbsp;&nbsp;</td><td>Miso4217&nbsp;&nbsp;</td><td>CHAR&nbsp;&nbsp;</td><td>3</td><td>0</td><td>1</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>IE711&nbsp;&nbsp;</td><td>TESSPfechaPagar&nbsp;&nbsp;</td><td>DATE TIME&nbsp;&nbsp;</td><td>0</td><td>0</td><td>1</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>IE711&nbsp;&nbsp;</td><td>TESSPfechaSolicitud&nbsp;&nbsp;</td><td>DATE TIME&nbsp;&nbsp;</td><td>0</td><td>0</td><td>1</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>IE711&nbsp;&nbsp;</td><td>TESSPobservaciones&nbsp;&nbsp;</td><td>CHAR LOB&nbsp;&nbsp;</td><td>-2</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>IE711&nbsp;&nbsp;</td><td>TESSPtipoCambioOriManual&nbsp;&nbsp;</td><td>MONEY&nbsp;&nbsp;</td><td>18</td><td>4</td><td>1</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>IE711&nbsp;&nbsp;</td><td>TESSPtipoDocumento&nbsp;&nbsp;</td><td>INTEGER&nbsp;&nbsp;</td><td>3</td><td>0</td><td>1</td><td>0</td><td></td><td></td></tr>
+			
+				<tr><td>IE711&nbsp;&nbsp;</td><td>TESSPtotalPagarOri&nbsp;&nbsp;</td><td>MONEY&nbsp;&nbsp;</td><td>18</td><td>4</td><td>0</td><td>0</td><td></td><td></td></tr>
+			
+			</table>
+		
+			<BR><strong><A name='COLs_ADD'>LLAVES QUE SE VAN A CREAR.</font></A></strong><BR>
+			<table>
+			<tr><td><strong>TABLA</strong></td><td><strong>TIPO</strong></td><td><strong>SEC.</strong></td><td><strong>COLUMNAS</strong></td><td><strong>TABLA REFERENCIADA</strong></td><td><strong>COLUMNAS REFERENCIADAS</strong></td><td><strong>RAZON</strong></td></tr>
+			
+				
+					<tr><td>ID711</td><td align="center">
+						
+							PK 
+						
+					</td>
+					
+						<td align="center">
+							00
+						</td>
+					
+					<td>ID,SecOrden,SecSolicitud</td><td>*</td><td>*</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>IS711</td><td align="center">
+						
+							FK 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>ID,SecOrden,SecSolicitud</td><td>ID711</td><td>ID,SecOrden,SecSolicitud</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+			</table>
+		
+			<BR><strong><A name='KEYs_FI'>INDICES QUE SE VAN A CREAR EN LA BASE DE DATOS PARA SOPORTAR LLAVES FORANEAS</A></strong><BR>
+			<table>
+			<tr><td><strong>TABLA</strong></td><td><strong>TIPO</strong></td><td><strong>SEC.</strong></td><td><strong>COLUMNAS</strong></td><td><strong>TABLA REFERENCIADA</strong></td><td><strong>COLUMNAS REFERENCIADAS</strong></td><td><strong>RAZON</strong></td></tr>
+			
+				
+					<tr><td>ID711</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							02
+						</td>
+					
+					<td>ID,SecOrden</td><td>IE711</td><td>ID,SecOrden</td>
+					<td>
+						
+					</td>
+					</tr>
+					
+						
+			
+				
+					<tr><td>IS711</td><td align="center">
+						
+							FI 
+						
+					</td>
+					
+						<td align="center">
+							01
+						</td>
+					
+					<td>ID,SecOrden,SecSolicitud</td><td>ID711</td><td>ID,SecOrden,SecSolicitud</td>
+					<td>
+						
+							NUEVO EN DBM 
+						
+					</td>
+					</tr>
+					
+						
+			
+			</table>
+		

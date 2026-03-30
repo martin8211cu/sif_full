@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+<info>
+	<infoitem key="UD_rsAnexoAct" value="name:AnexoId;datatype:,name:AnexoDef;datatype:" />
+	<infoitem key="UD_rsPeriodos" value="name:Speriodo;datatype:" />
+	<infoitem key="UD_rsMeses" value="name:VSvalor;datatype:,name:VSdesc;datatype:" />
+	<infoitem key="UD_rsOficinas" value="name:Ocodigo;datatype:,name:Odescripcion;datatype:" />
+	<infoitem key="UD_rsMonedas" value="name:Mcodigo;datatype:,name:Mnombre;datatype:" />
+	<infoitem key="UD_rsAnexos" value="name:AnexoId;datatype:,name:AnexoDes;datatype:" />
+	<infoitem key="UD_rsLeer" value="name:AnexoDef;datatype:" />
+</info>

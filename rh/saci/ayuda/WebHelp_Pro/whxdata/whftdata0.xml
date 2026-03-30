@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='windows-1252' ?>
+<ftstdata>
+<topic name="Autogestión" url="Autogesti_n/Autogesti_n.htm" />
+<topic name="Actividad económica" url="Catalogos/Actividad_econ_mica.htm" />
+<topic name="Atributos Extendidos" url="Catalogos/Atributos_Extendidos.htm" />
+<topic name="Clase de Cuenta" url="Catalogos/Clase_de_Cuenta.htm" />
+<topic name="Compañía de Medios" url="Catalogos/Compa__a_de_Medios.htm" />
+<topic name="Entidad Financiera" url="Catalogos/Entidades_Financieras.htm" />
+<topic name="Grupo de Cobro" url="Catalogos/Grupo_de_Cobro.htm" />
+<topic name="Tipo de inconsistencia" url="Catalogos/Inconsistencias.htm" />
+<topic name="Localidad" url="Catalogos/Localidad.htm" />
+<topic name="Moneda" url="Catalogos/Moneda.htm" />
+<topic name="Motivo de retiro" url="Catalogos/Motivo_de_retiro.htm" />
+<topic name="Oficina Postal" url="Catalogos/Oficina_Postal.htm" />
+<topic name="País" url="Catalogos/Pa_s.htm" />
+<topic name="Razón de bloqueo" url="Catalogos/Raz_n_de_bloqueo.htm" />
+<topic name="servicio" url="Catalogos/servicio.htm" />
+<topic name="Sobre de acceso" url="Catalogos/Sobre_de_acceso.htm" />
+<topic name="Tarifa" url="Catalogos/Tarifa.htm" />
+<topic name="Tipo de Garantía" url="Catalogos/Tipo_de_Garant_a.htm" />
+<topic name="Valores del atributo" url="Catalogos/Valores_del_atributo.htm" />
+<topic name="Agente Autorizado" url="Entidades/Agente_Autorizado.htm" />
+<topic name="Cuenta" url="Entidades/Cuenta.htm" />
+<topic name="Login" url="Entidades/Login.htm" />
+<topic name="Persona" url="Entidades/Persona.htm" />
+<topic name="Producto" url="Entidades/Producto.htm" />
+<topic name="Prospecto" url="Entidades/Prospecto.htm" />
+<topic name="Vendedor" url="Entidades/Vendedor.htm" />
+<topic name="Datos Básicos" url="Lista_de_Valores/Datos_B_sicos.htm" />
+<topic name="Día de la semana" url="Lista_de_Valores/D_a_de_la_semana.htm" />
+<topic name="Enviar copia" url="Lista_de_Valores/Enviar_copia.htm" />
+<topic name="Estado" url="Lista_de_Valores/Estado.htm" />
+<topic name="Estado de la inconsistencia" url="Lista_de_Valores/Estado_de_la_inconsistencia.htm" />
+<topic name="Estado de la razón de bloqueo" url="Lista_de_Valores/Estado_de_la_raz_n_de_bloqueo.htm" />
+<topic name="Estado del prepago" url="Lista_de_Valores/Estado_del_prepago.htm" />
+<topic name="Estado del sobre" url="Lista_de_Valores/Estado_del_sobre.htm" />
+<topic name="Estado de la cuenta" url="Lista_de_Valores/Estadop_de_la_cuenta.htm" />
+<topic name="Forma de cobro" url="Lista_de_Valores/Forma_de_cobro.htm" />
+<topic name="Personería" url="Lista_de_Valores/Personer_a.htm" />
+<topic name="Responsable" url="Lista_de_Valores/Responsable.htm" />
+<topic name="Severidad de la inconsistencia" url="Lista_de_Valores/Severidad_de_la_inconsistencia.htm" />
+<topic name="Tipo de dato" url="Lista_de_Valores/Tipo_de_dato.htm" />
+<topic name="Tipo de envío" url="Lista_de_Valores/Tipo_de_env_o.htm" />
+<topic name="Tipo de incidencia" url="Lista_de_Valores/Tipo_de_incidencia.htm" />
+<topic name="Tipos de Comisión" url="Lista_de_Valores/Tipos_de_Comisi_n.htm" />
+<topic name="Tipos de representante" url="Lista_de_Valores/Tipos_de_representante.htm" />
+<topic name="Unidad de Cobro" url="Lista_de_Valores/Unidad_de_Cobro.htm" />
+<topic name="Valoración de incidencia" url="Lista_de_Valores/Valoraci_n_de_incidencia.htm" />
+<topic name="Administración de cuentas" url="Procesos/Administraci_n_de_cuentas.htm" />
+<topic name="Administración de Prepagos" url="Procesos/Administraci_n_de_Prepagos.htm" />
+<topic name="Administración de Usuarios 900" url="Procesos/Administraci_n_de_Usuarios_900.htm" />
+<topic name="Administración de ventas" url="Procesos/Administraci_n_de_ventas.htm" />
+<topic name="Aprobación de ventas" url="Procesos/Aprobaci_n_de_ventas.htm" />
+<topic name="Atención de prospectos" url="Procesos/Atenci_n_de_prospectos.htm" />
+<topic name="Consulta de tráfico" url="Procesos/Consulta_de_tr_fico.htm" />
+<topic name="Funciones sobre clientes" url="Procesos/Funciones_sobre_clientes.htm" />
+<topic name="Funciones sobre cuentas" url="Procesos/Funciones_sobre_cuentas.htm" />
+<topic name="Funciones sobre logines" url="Procesos/Funciones_sobre_logines.htm" />
+<topic name="Funciones sobre paquetes" url="Procesos/Funciones_sobre_paquetes.htm" />
+<topic name="Incidencias del Agente" url="Procesos/Incidencias_del_Agente.htm" />
+<topic name="Revisa unicidad" url="Procesos/Revisa_unicidad.htm" />
+<topic name="Seguimiento de ventas general" url="Procesos/Seguimiento_de_ventas_general.htm" />
+<topic name="Venta de servicios" url="Procesos/Venta_de_servicios.htm" />
+<topic name="Calendario" url="Uso_del_Aplicativo/Calendario.htm" />
+<topic name="Catálogo preestablecido" url="Uso_del_Aplicativo/Cat_logo_preestablecido.htm" />
+<topic name="Formulario de Consulta" url="Uso_del_Aplicativo/Formulario_de_Consulta.htm" />
+<topic name="Formulario selector" url="Uso_del_Aplicativo/Formulario_selector.htm" />
+<topic name="Lista" url="Uso_del_Aplicativo/Lista.htm" />
+<topic name="Lista de Selección" url="Uso_del_Aplicativo/Lista_de_Selecci_n.htm" />
+<topic name="Opción de ejecución" url="Uso_del_Aplicativo/Opci_n_de_ejecuci_n.htm" />
+<topic name="Plantilla de registro" url="Uso_del_Aplicativo/Plantilla_de_registro.htm" />
+<topic name="Portlet" url="Uso_del_Aplicativo/Portlet.htm" />
+<topic name="Usuario" url="Uso_del_Aplicativo/Usuario.htm" />
+
+</ftstdata>  

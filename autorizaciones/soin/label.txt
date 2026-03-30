@@ -1,0 +1,4 @@
+Pruebas
+Autoriza aproximadamente el 60% de las
+transacciones sometidas a él sin más
+averiguaciones, y regresa un número cualquiera

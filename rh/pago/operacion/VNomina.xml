@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+<!-- ******************* INGLÉS ******************* -->		
+		<Idioma id="EN">
+			<cuentaCliente>
+				The Account Client of the business does not exist.
+			</cuentaCliente>
+			<importesCero>
+				There are smaller Salaries to zero.
+			</importesCero>
+			<noDetalles>
+				There are not Details for this Transaction.
+			</noDetalles>
+		</Idioma>
+<!-- ******************* ESPAÑOL ******************* -->		
+		<Idioma id="ES_CR">
+			<cuentaCliente>
+				La Cuenta Cliente de la empresa no existe.
+			</cuentaCliente>
+			<importesCero>
+				Hay Salarios menores a cero.
+			</importesCero>
+			<noDetalles>
+				No hay Detalles para esta Transacción.
+			</noDetalles>
+		</Idioma>
+<Idioma id="en"><cuentaCliente>Clients account</cuentaCliente><importesCero>Values cero</importesCero><noDetalles>No details</noDetalles><CMB_Todos>All</CMB_Todos><LB_TipoIdentificacion>Identification type</LB_TipoIdentificacion><LB_Identificacion>Identification</LB_Identificacion><LB_CuentaCliente>Clients account</LB_CuentaCliente><LB_Nombre>Name</LB_Nombre><LB_Periodo>Period</LB_Periodo><MSG_ElCampo>The field</MSG_ElCampo><MSG_DebeContenerUnaFechaValida>Should contain a valid date.</MSG_DebeContenerUnaFechaValida><MSG_Periodo>Period</MSG_Periodo><LB_TipoPago>Payment type</LB_TipoPago><LB_Importe>Value</LB_Importe></Idioma></Etiquetas>

@@ -1,0 +1,1 @@
+﻿<cfinclude template="../../capacitacion/expediente/CompetenciasM.cfm">

@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<BTN_PlanCompras>Purchase Plan</BTN_PlanCompras>
+		<LB_CuentaFinanciera>Financial Account</LB_CuentaFinanciera>
+		<LB_MontoSolicitado>Amount Requested</LB_MontoSolicitado>
+		<LB_Concepto>Concept</LB_Concepto>
+		<LB_Anticipo>Advance</LB_Anticipo>
+		<LB_ListaConceptosGastos>Expense Concepts List</LB_ListaConceptosGastos>
+		<LB_Plantilla>Template</LB_Plantilla>
+		<LB_Viatico>Allowance</LB_Viatico>
+		<LB_Inicio>Start</LB_Inicio>
+		
+	<BTN_Itinerario>Itinerary</BTN_Itinerario></Idioma>
+</Etiquetas>

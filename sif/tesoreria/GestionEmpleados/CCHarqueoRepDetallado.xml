@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_ArqueoCajaChica>Petty Cash Count</LB_ArqueoCajaChica>
+		<LB_ReporteArqueo>Cash Count Report</LB_ReporteArqueo>
+		<LB_Fecha>Date</LB_Fecha>
+		<LB_DatosGenerales>General Information</LB_DatosGenerales>
+		<LB_CajaChica>Petty Cash</LB_CajaChica>
+		<LB_Responsable>Person in Charge</LB_Responsable>
+		<LB_ResultadosArqueo>Cash Count Results</LB_ResultadosArqueo>
+		<LB_Concepto>Concept</LB_Concepto>
+		<LB_Registrado>Registered</LB_Registrado>
+		<LB_Fisico>Physical</LB_Fisico>
+		<LB_Diferencia>Difference</LB_Diferencia>
+		<LB_MontoAsignado>Amount Assigned</LB_MontoAsignado>
+		<LB_ValesNoLiquidados>Documents not Reimbursed</LB_ValesNoLiquidados>
+		<LB_GastosLiquidados>Settled Expenses</LB_GastosLiquidados>
+		<LB_EfectivoDisponible>Available Cash</LB_EfectivoDisponible>
+		<LB_Total>Total</LB_Total>
+		<LB_FirmaResponsable>Signature of Person in Charge</LB_FirmaResponsable>
+		<LB_FirmaAuditor>Signature of Auditor</LB_FirmaAuditor>
+		<LB_DetalleArqueo>Cash Count Detail</LB_DetalleArqueo>
+		<LB_ValesNoLiquidadosRegistradosEnElSistema>Documents not Reimbursed Registered</LB_ValesNoLiquidadosRegistradosEnElSistema>
+		<MSG_NoHayRegistros>No Records Found</MSG_NoHayRegistros>
+		<LB_NoAnticipo>No Advance</LB_NoAnticipo>
+        <LB_Empleado>Employee</LB_Empleado>
+        <LB_Descripcion>Description</LB_Descripcion>
+        <LB_Estado>Status</LB_Estado>
+        <LB_Moneda>Currency</LB_Moneda>
+		<LB_EnPreparacion>In Preparation Process</LB_EnPreparacion>
+        <LB_EnAprobacion>In Approval Process</LB_EnAprobacion>
+        <LB_Aprobada>Approved</LB_Aprobada>
+        <LB_Rechazada>Rejected</LB_Rechazada>
+        <LB_Pagada>Paid</LB_Pagada>
+        <LB_Liquidada>Settlement Realized</LB_Liquidada> 
+        <LB_EstadoDesconocido>Unknown State</LB_EstadoDesconocido>
+		<LB_GastosLiquidadosRegistradosEnElSistema>Settled Expenses Registered</LB_GastosLiquidadosRegistradosEnElSistema>
+		<LB_Finalizada>Finalized</LB_Finalizada>
+        <LB_PorReintegrar>To Reimbursement</LB_PorReintegrar>
+	</Idioma>
+</Etiquetas>

@@ -1,0 +1,18 @@
+/**
+ * Estilos no visuales
+ */
+.cajasinborde {
+	border: 0;
+	background-color: #F5F5F5;
+	font-weight: bold;
+}
+.cajasinbordeb {
+	border: 0;
+	background-color: transparent;
+}
+
+@media print {
+	.noprint {
+		display: none;
+	}
+}

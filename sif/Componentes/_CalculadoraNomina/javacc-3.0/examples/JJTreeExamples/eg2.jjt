@@ -1,0 +1,118 @@
+/*
+ *                 Sun Public License Notice
+ * 
+ * The contents of this file are subject to the Sun Public License
+ * Version 1.0 (the "License"). You may not use this file except in
+ * compliance with the License. A copy of the License is available at
+ * http://www.sun.com/
+ * 
+ * The Original Code is JavaCC. The Initial Developer of the Original
+ * Code is Sun Microsystems, Inc. Portions Copyright 1996-2002 Sun
+ * Microsystems, Inc. All Rights Reserved.
+ */
+
+options {
+  MULTI=true;
+}
+
+PARSER_BEGIN(eg2)
+
+class eg2 {
+  public static void main(String args[]) {
+    System.out.println("Reading from standard input...");
+    eg2 t = new eg2(System.in);
+    try {
+      ASTStart n = t.Start();
+      n.dump("");
+      System.out.println("Thank you.");
+    } catch (Exception e) {
+      System.out.println("Oops.");
+      System.out.println(e.getMessage());
+      e.printStackTrace();
+    }
+  }
+}
+
+PARSER_END(eg2)
+
+
+SKIP :
+{
+  " "
+| "\t"
+| "\n"
+| "\r"
+| <"//" (~["\n","\r"])* ("\n"|"\r"|"\r\n")>
+| <"/*" (~["*"])* "*" (~["/"] (~["*"])* "*")* "/">
+}
+
+TOKEN : /* LITERALS */
+{
+  < INTEGER_LITERAL:
+        <DECIMAL_LITERAL> (["l","L"])?
+      | <HEX_LITERAL> (["l","L"])?
+      | <OCTAL_LITERAL> (["l","L"])?
+  >
+|
+  < #DECIMAL_LITERAL: ["1"-"9"] (["0"-"9"])* >
+|
+  < #HEX_LITERAL: "0" ["x","X"] (["0"-"9","a"-"f","A"-"F"])+ >
+|
+  < #OCTAL_LITERAL: "0" (["0"-"7"])* >
+}
+
+TOKEN : /* IDENTIFIERS */
+{
+  < IDENTIFIER: <LETTER> (<LETTER>|<DIGIT>)* >
+|
+  < #LETTER: ["_","a"-"z","A"-"Z"] >
+|
+  < #DIGIT: ["0"-"9"] >
+}
+
+ASTStart Start() : {}
+{
+  Expression() ";"
+  { return jjtThis; }
+}
+
+
+void Expression() #void : {}
+{
+  AdditiveExpression()
+}
+
+void AdditiveExpression() #void : {}
+{
+  (
+    MultiplicativeExpression() ( ( "+" | "-" ) MultiplicativeExpression() )*
+  ) #Add(>1)
+}
+
+void MultiplicativeExpression() #void : {}
+{
+  (
+    UnaryExpression() ( ( "*" | "/" | "%" ) UnaryExpression() )*
+  ) #Mult(>1)
+}
+
+void UnaryExpression() #void : {}
+{
+  "(" Expression() ")" | MyID() | Integer()
+}
+
+void MyID() :
+{
+  Token t;
+}
+{
+  t=<IDENTIFIER>
+  {
+    jjtThis.setName(t.image);
+  }
+}
+
+void Integer() : {}
+{
+  <INTEGER_LITERAL>
+}

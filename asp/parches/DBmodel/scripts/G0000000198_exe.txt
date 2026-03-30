@@ -1,0 +1,216 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  sifInterfaces
+	MODELO:  SIF Interfaces.pdm
+	VERSION: 408 - DBM 341: Creacion de las tablas para la Interfaz 7
+
+	         PARCHE:  Parche023_390_SIF_InterfacesNacion
+
+GENERADO EN:
+	SERVER:  http://mxvqapp34:8300
+	DSN:     sifinterfaces
+	FECHA:   08/02/2012 15:32:39
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* ADD_TABLE ID707: ID707 */
+/* ======================================================================================== */
+
+CREATE TABLE ID707 (
+	 ID                             numeric(18)          NOT NULL
+	,Ecodigo                        integer              NULL
+	,DMmonto                        money                NULL
+	,DMdescripcion                  varchar(120)         NULL
+	,CFcodigo                       char(10)             NULL
+	,CFformato                      char(100)            NULL
+	,BMUsucodigo                    numeric(18)          NULL
+	,ts_rversion                    timestamp           
+	)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP = (TAB NUEVA): TIP="P", SEC="0", COLS="ID" */
+ALTER TABLE ID707 ADD CONSTRAINT ID707_PK PRIMARY KEY CLUSTERED (ID)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* ADD_TABLE ID711: Interfaz 711 Solicitud de Pago */
+/* ======================================================================================== */
+
+CREATE TABLE ID711 (
+	 ID                             numeric(18)          NOT NULL
+	,TESDPdocumentoOri              varchar(20)          NOT NULL
+	,TESDPreferenciaOri             varchar(25)          NOT NULL
+	,TESDPfechaVencimiento          datetime             NOT NULL
+	,TESDPmontoVencimientoOri       money                NOT NULL
+	,TESDPdescripcion               varchar(80)          NOT NULL
+	,CFformato                      char(100)            NULL
+	,Icodigo                        char(5)              NULL
+	,SecOrden                       numeric(18)          NOT NULL
+	,SecSolicitud                   numeric(18)          NOT NULL
+	,CFcodigo                       char(10)             NOT NULL
+	,TESSPtipoDocumento             tinyint              NOT NULL
+	,TESSPfechaPagar                datetime             NOT NULL
+	,Miso4217                       char(3)              NOT NULL
+	,TESPtipoCambioOriManual        money                NOT NULL
+	,TESSPfechaSolicitud            datetime             NOT NULL
+	,TESSPobservaciones             text                 NULL
+	,EcodigoOri                     integer              NULL
+	,BMUsucodigo                    numeric(18)          NULL
+	,ts_rversion                    timestamp           
+	)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP = (TAB NUEVA): TIP="P", SEC="0", COLS="ID,SecOrden,SecSolicitud" */
+ALTER TABLE ID711 ADD CONSTRAINT ID711_PK PRIMARY KEY CLUSTERED (ID,SecOrden,SecSolicitud)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE IE6: Tabla de Registro de Solicitud */
+/* ======================================================================================== */
+/* CHG_KEY_PK (OP = RENAME): cols=ID */
+EXEC sp_rename 'IE6.PK_IE6', 'IE6_PK', 'INDEX'
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* CHG_COLUMN OP = (CAMBIO): Imodo - Imodo */
+ALTER TABLE IE6 ADD CONSTRAINT IE6_CK16 CHECK ([Imodo]='B' OR [Imodo]='A')
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP = (NUEVO): TRcodigo - Codigo de Tipo  de Requisicion */
+ALTER TABLE IE6 ADD TRcodigo char(4) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP = (NUEVO): Ecodigo - Codigo de la Empresa */
+ALTER TABLE IE6 ADD Ecodigo integer NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* ADD_TABLE IE707: Movimientos Bancarios */
+/* ======================================================================================== */
+
+CREATE TABLE IE707 (
+	 ID                             numeric(18)          NOT NULL
+	,Ecodigo                        integer              NOT NULL
+	,BTcodigo                       char(2)              NOT NULL
+	,CBcodigo                       varchar(50)          NOT NULL
+	,CFcodigo                       char(10)             NOT NULL
+	,EMtipocambio                   float                NOT NULL
+	,EMdocumento                    char(20)             NOT NULL
+	,EMtotal                        money                NOT NULL
+	,EMreferencia                   char(25)             NOT NULL
+	,EMfecha                        datetime             NOT NULL
+	,EMdescripcion                  varchar(120)         NOT NULL
+	,TipoSocio                      integer              NOT NULL
+	,EMAplicar                      bit                  NOT NULL
+	,BMUsucodigo                    numeric(18)          NULL
+	,ts_rversion                    timestamp           
+	)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP = (TAB NUEVA): TIP="P", SEC="0", COLS="ID" */
+ALTER TABLE IE707 ADD CONSTRAINT IE707_PK PRIMARY KEY CLUSTERED (ID)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* ADD_TABLE IE711: Encabezado 711 Orden Pago */
+/* ======================================================================================== */
+
+CREATE TABLE IE711 (
+	 ID                             numeric(18)          NOT NULL
+	,TEScodigo                      char(4)              NOT NULL
+	,SNcodigo                       integer              NOT NULL
+	,TESOPfechaPago                 datetime             NULL
+	,CBcodigoPago                   varchar(50)          NULL
+	,TESMPcodigo                    char(10)             NULL
+	,TESTPcuentab                   varchar(100)         NULL
+	,TESOPobservaciones             text                 NULL
+	,CFcodigo                       char(10)             NOT NULL
+	,TESSPtipoDocumento             tinyint              NOT NULL
+	,TESSPfechaPagar                datetime             NOT NULL
+	,Miso4217                       char(3)              NOT NULL
+	,TESSPtipoCambioOriManual       money                NOT NULL
+	,TESSPtotalPagarOri             money                NULL
+	,TESSPfechaSolicitud            datetime             NOT NULL
+	,TESSPobservaciones             text                 NULL
+	,GeneraOP                       bit                  NOT NULL
+	,SecOrden                       numeric(18)          NOT NULL
+	,EcodigoPago                    integer              NULL
+	,BMUsucodigo                    numeric(18)          NULL
+	,ts_rversion                    timestamp           
+	)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP = (TAB NUEVA): TIP="P", SEC="0", COLS="ID,SecOrden" */
+ALTER TABLE IE711 ADD CONSTRAINT IE711_PK PRIMARY KEY CLUSTERED (ID,SecOrden)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* ADD_TABLE IS711: Interfaz 711 Detalle Orden de  */
+/* ======================================================================================== */
+
+CREATE TABLE IS711 (
+	 ID                             numeric(18)          NOT NULL
+	,SecOrden                       numeric(18)          NOT NULL
+	,SecSolicitud                   numeric(18)          NOT NULL
+	,TESDPdocumentoOri              varchar(20)          NOT NULL
+	,TESDPreferenciaOri             varchar(25)          NOT NULL
+	,TESDPfechaVencimiento          datetime             NOT NULL
+	,TESDPmontoVencimientoOri       money                NOT NULL
+	,TESDPdescripcion               varchar(80)          NOT NULL
+	,Icodigo                        char(5)              NULL
+	,CFformato                      char(100)            NULL
+	,BMUsucodigo                    numeric(18)          NULL
+	,ts_rversion                    timestamp           
+	)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ================================================================= */
+/*            CREA FKs NUEVOS O CON CAMPOS MODIFICADOS               */
+/* ================================================================= */
+/* CHG_TABLE ID707 */
+/* ADD_FK OP = (TAB NUEVA): TIP="F", SEC="1", COLS="ID", REF="IE707" */
+ALTER TABLE ID707 ADD CONSTRAINT ID707_FK01 FOREIGN KEY (ID) REFERENCES IE707 (ID)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_TABLE ID711 */
+/* ADD_FK OP = (TAB NUEVA): TIP="F", SEC="2", COLS="ID,SecOrden", REF="IE711" */
+ALTER TABLE ID711 ADD CONSTRAINT ID711_FK02 FOREIGN KEY (ID,SecOrden) REFERENCES IE711 (ID,SecOrden)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_TABLE IS711 */
+/* ADD_FK OP = (TAB NUEVA): TIP="F", SEC="1", COLS="ID,SecOrden,SecSolicitud", REF="ID711" */
+ALTER TABLE IS711 ADD CONSTRAINT IS711_FK01 FOREIGN KEY (ID,SecOrden,SecSolicitud) REFERENCES ID711 (ID,SecOrden,SecSolicitud)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

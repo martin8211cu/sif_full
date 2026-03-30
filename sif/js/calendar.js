@@ -1,0 +1,1 @@
+document.write("<script src='/cfmx/sif/Utiles/calendar_js.cfm?4' type='text/javascript'></script>");

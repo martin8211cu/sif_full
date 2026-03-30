@@ -1,0 +1,692 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 172 - DBM 289: Diagram: Viaticos_por_Comision
+
+	         PARCHE:  Parche023_280_SIF_ViaticosComision
+
+GENERADO EN:
+	SERVER:  http://mxpapp36:8300
+	DSN:     sifcim
+	FECHA:   08/09/2011 12:47:24
+*/
+
+/* INI_SCRIPT */
+
+/* ================================================================= */
+/*    ELIMINA FKs QUE YA NO SE UTILIZAN O CON CAMPOS MODIFICADOS     */
+/* ================================================================= */
+/* CHG_TABLE GEcomision */
+/* DEL_FK OP=(OBSOLETO): TIP="F", COLS="CBid_TCE", REF="CuentasBancos" */
+ALTER TABLE GEcomision DROP CONSTRAINT GEcomision_FK05 /* REFERENCES CuentasBancos (CBid) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_TABLE GEliquidacionDeps */
+/* CHG_FK OP=(CAMBIO): TIP="F", COLS="CBid", REF="CuentasBancos" */
+ALTER TABLE GEliquidacionDeps DROP CONSTRAINT GEliquidacionDeps_FK01 /* REFERENCES CuentasBancos (CBid) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_FK OP=(CAMBIO): TIP="F", COLS="Ecodigo", REF="Empresas" */
+ALTER TABLE GEliquidacionDeps DROP CONSTRAINT GEliquidacionDeps_FK03 /* REFERENCES Empresas (Ecodigo) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_FK OP=(CAMBIO): TIP="F", COLS="GELid", REF="GEliquidacion" */
+ALTER TABLE GEliquidacionDeps DROP CONSTRAINT GEliquidacionDeps_FK04 /* REFERENCES GEliquidacion (GELid) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_FK OP=(CAMBIO): TIP="F", COLS="Mcodigo", REF="Monedas" */
+ALTER TABLE GEliquidacionDeps DROP CONSTRAINT GEliquidacionDeps_FK02 /* REFERENCES Monedas (Mcodigo) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE CCHTransaccionesAplicadas: Autorizaciones de caja en Apli */
+/* ======================================================================================== */
+/* CHG_COLUMN OP=(CAMBIO): CCHTtipo - tipo de transacción */
+ALTER TABLE CCHTransaccionesAplicadas DROP CONSTRAINT CCHTransaccionesAplicadas_CK18 /* CHECK ([CCHTtipo] IS NULL OR ([CCHTtipo]='ANTICIPO' OR [CCHTtipo]='GASTO' OR [CCHTtipo]='REINTEGRO' OR [CCHTtipo]='CIERRE' OR [CCHTtipo]='AUMENTO' OR [CCHTtipo]='DISMINUCION' OR [CCHTtipo]='APERTURA')) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE CCHTransaccionesAplicadas ADD CONSTRAINT CCHTransaccionesAplicadas_CK18 CHECK ([CCHTtipo] IS NULL OR ([CCHTtipo]='RECEPCION' OR [CCHTtipo]='ANTICIPO' OR [CCHTtipo]='GASTO' OR [CCHTtipo]='REINTEGRO' OR [CCHTtipo]='CIERRE' OR [CCHTtipo]='AUMENTO' OR [CCHTtipo]='DISMINUCION' OR [CCHTtipo]='APERTURA'))
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE CFuncional: Centros Funcionales */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): FPAEid - Id de la Actividad */
+ALTER TABLE CFuncional ADD FPAEid numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): CFComplemento - CFComplemento */
+ALTER TABLE CFuncional ADD CFComplemento varchar(100) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(NUEVO): TIP="F", SEC="4", COLS="FPAEid", REF="FPActividadE" */
+CREATE INDEX CFuncional_FI04 ON CFuncional (FPAEid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE GEanticipoDet: GEanticipoDet */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): FPAEid - Id de la Actividad */
+ALTER TABLE GEanticipoDet ADD FPAEid numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): CFComplemento - CFComplemento */
+ALTER TABLE GEanticipoDet ADD CFComplemento varchar(100) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(NUEVO): TIP="F", SEC="5", COLS="FPAEid", REF="FPActividadE" */
+CREATE INDEX GEanticipoDet_FI05 ON GEanticipoDet (FPAEid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE GEcomision: Comision de Viaticos */
+/* ======================================================================================== */
+/* DEL_KEY OP=(OBSOLETO): TIP="F", COLS="CBid_TCE", REF="CuentasBancos" */
+DROP INDEX GEcomision.GEcomision_FI05 /* REFERENCES INDEX (CBid) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* DEL_COLUMN OP=(OBSOLETO): CBid_TCE - CBid_TCE */
+ALTER TABLE GEcomision DROP COLUMN CBid_TCE
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ======================================================================================== */
+/* ADD_TABLE GEcomisionTCEs: Tarjetas de Credito Adicionale */
+/* ======================================================================================== */
+
+CREATE TABLE GEcomisionTCEs (
+	 GECTid                         numeric(18)          identity
+	,GECid                          numeric(18)          NULL
+	,CBid_TCE                       numeric(18)          NULL
+	,BMUsucodigo                    numeric(18)          NULL
+	,ts_rversion                    timestamp           
+	)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="P", SEC="0", COLS="GECTid" */
+ALTER TABLE GEcomisionTCEs ADD CONSTRAINT GEcomisionTCEs_PK PRIMARY KEY NONCLUSTERED (GECTid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="F", SEC="1", COLS="GECid", REF="GEcomision" */
+CREATE INDEX GEcomisionTCEs_FI01 ON GEcomisionTCEs (GECid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="F", SEC="2", COLS="CBid_TCE", REF="CuentasBancos" */
+CREATE INDEX GEcomisionTCEs_FI02 ON GEcomisionTCEs (CBid_TCE)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE GEliquidacion: GEliquidacion */
+/* ======================================================================================== */
+/* CHG_COLUMN OP=(CAMBIO): GELtotalGastos - Monto total Gastos Autorizados */
+UPDATE GEliquidacion SET GELtotalGastos = 0 WHERE convert(varchar,GELtotalGastos) IS NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE GEliquidacion ALTER COLUMN GELtotalGastos money NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE GEliquidacion ADD CONSTRAINT GEliquidacion_DF13 DEFAULT 0 FOR GELtotalGastos
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_COLUMN OP=(CAMBIO): GELtotalDepositos - Monto total Depositos */
+UPDATE GEliquidacion SET GELtotalDepositos = 0 WHERE convert(varchar,GELtotalDepositos) IS NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE GEliquidacion ALTER COLUMN GELtotalDepositos money NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE GEliquidacion ADD CONSTRAINT GEliquidacion_DF14 DEFAULT 0 FOR GELtotalDepositos
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_COLUMN OP=(CAMBIO): GELtotalAnticipos - Monto total Anticipos */
+UPDATE GEliquidacion SET GELtotalAnticipos = 0 WHERE convert(varchar,GELtotalAnticipos) IS NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE GEliquidacion ALTER COLUMN GELtotalAnticipos money NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE GEliquidacion ADD CONSTRAINT GEliquidacion_DF15 DEFAULT 0 FOR GELtotalAnticipos
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_COLUMN OP=(CAMBIO): GELreembolso - Monto de Pago Adicional al Empleado */
+UPDATE GEliquidacion SET GELreembolso = 0 WHERE convert(varchar,GELreembolso) IS NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE GEliquidacion ALTER COLUMN GELreembolso money NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE GEliquidacion ADD CONSTRAINT GEliquidacion_DF16 DEFAULT 0 FOR GELreembolso
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_COLUMN OP=(CAMBIO): GELtipoCambio - Tipo de Cambio */
+ALTER TABLE GEliquidacion ALTER COLUMN GELtipoCambio float NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+UPDATE GEliquidacion SET GELtipoCambio = 1 WHERE convert(varchar,GELtipoCambio) IS NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE GEliquidacion ALTER COLUMN GELtipoCambio float NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE GEliquidacion ADD CONSTRAINT GEliquidacion_DF25 DEFAULT 1 FOR GELtipoCambio
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_COLUMN OP=(CAMBIO): GELtotalDevoluciones - Monto Devolucion a Caja Chica */
+UPDATE GEliquidacion SET GELtotalDevoluciones = 0 WHERE convert(varchar,GELtotalDevoluciones) IS NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE GEliquidacion ALTER COLUMN GELtotalDevoluciones money NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE GEliquidacion ADD CONSTRAINT GEliquidacion_DF29 DEFAULT 0 FOR GELtotalDevoluciones
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): GELtotalDocumentos - Monto total Comprobantes */
+ALTER TABLE GEliquidacion ADD GELtotalDocumentos money DEFAULT 0 NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): GELtotalTCE - Monto total Pago por TCE */
+ALTER TABLE GEliquidacion ADD GELtotalTCE money DEFAULT 0 NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): GELtotalRetenciones - Monto total Retenciones */
+ALTER TABLE GEliquidacion ADD GELtotalRetenciones money DEFAULT 0 NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): GELtotalDepositosEfectivo - Monto total Depositos en Efectivo */
+ALTER TABLE GEliquidacion ADD GELtotalDepositosEfectivo money DEFAULT 0 NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE GEliquidacionAnts: GEliquidacionAnts */
+/* ======================================================================================== */
+/* CHG_COLUMN OP=(CAMBIO): GELAtotal - Monto del Anticipo a Liquidar */
+UPDATE GEliquidacionAnts SET GELAtotal = 0 WHERE convert(varchar,GELAtotal) IS NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE GEliquidacionAnts ALTER COLUMN GELAtotal money NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE GEliquidacionAnts ADD CONSTRAINT GEliquidacionAnts_DF04 DEFAULT 0 FOR GELAtotal
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE GEliquidacionDeps: GEliquidacionDeps */
+/* ======================================================================================== */
+/* CHG_KEY OP=(CAMBIO): TIP="F", COLS="CBid", REF="CuentasBancos" */
+DROP INDEX GEliquidacionDeps.GEliquidacionDeps_FI01 /* REFERENCES INDEX (CBid) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_KEY OP=(CAMBIO): TIP="F", COLS="Ecodigo", REF="Empresas" */
+DROP INDEX GEliquidacionDeps.GEliquidacionDeps_FI03 /* REFERENCES INDEX (Ecodigo) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_KEY OP=(CAMBIO): TIP="F", COLS="GELid", REF="GEliquidacion" */
+DROP INDEX GEliquidacionDeps.GEliquidacionDeps_FI04 /* REFERENCES INDEX (GELid) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_KEY OP=(CAMBIO): TIP="F", COLS="Mcodigo", REF="Monedas" */
+DROP INDEX GEliquidacionDeps.GEliquidacionDeps_FI02 /* REFERENCES INDEX (Mcodigo) */
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_COLUMN OP=(CAMBIO): GELid - ID de la Liquidación */
+UPDATE GEliquidacionDeps SET GELid = 0 WHERE convert(varchar,GELid) IS NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE GEliquidacionDeps ALTER COLUMN GELid numeric(18) NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_COLUMN OP=(CAMBIO): Ecodigo - Código Empresa */
+UPDATE GEliquidacionDeps SET Ecodigo = 0 WHERE convert(varchar,Ecodigo) IS NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE GEliquidacionDeps ALTER COLUMN Ecodigo integer NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_COLUMN OP=(CAMBIO): Mcodigo - Codigo Moneda */
+UPDATE GEliquidacionDeps SET Mcodigo = 0 WHERE convert(varchar,Mcodigo) IS NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE GEliquidacionDeps ALTER COLUMN Mcodigo numeric(8) NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_COLUMN OP=(CAMBIO): CBid - ID Cuenta */
+UPDATE GEliquidacionDeps SET CBid = 0 WHERE convert(varchar,CBid) IS NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE GEliquidacionDeps ALTER COLUMN CBid numeric(18) NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_COLUMN OP=(CAMBIO): GELDtotalOri - Monto deposito */
+ALTER TABLE GEliquidacionDeps ADD CONSTRAINT GEliquidacionDeps_DF07 DEFAULT 0 FOR GELDtotalOri
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_COLUMN OP=(CAMBIO): GELDfecha - Fecha */
+UPDATE GEliquidacionDeps SET GELDfecha = getdate() WHERE convert(varchar,GELDfecha) IS NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE GEliquidacionDeps ALTER COLUMN GELDfecha datetime NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_COLUMN OP=(CAMBIO): GELDtipoCambio - Tipo Cambio */
+UPDATE GEliquidacionDeps SET GELDtipoCambio = 1 WHERE convert(varchar,GELDtipoCambio) IS NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE GEliquidacionDeps ALTER COLUMN GELDtipoCambio money NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE GEliquidacionDeps ADD CONSTRAINT GEliquidacionDeps_DF09 DEFAULT 1 FOR GELDtipoCambio
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_COLUMN OP=(CAMBIO): GELDtotal - Monto total en moneda liquidante */
+UPDATE GEliquidacionDeps SET GELDtotal = 0 WHERE convert(varchar,GELDtotal) IS NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE GEliquidacionDeps ALTER COLUMN GELDtotal money NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE GEliquidacionDeps ADD CONSTRAINT GEliquidacionDeps_DF10 DEFAULT 0 FOR GELDtotal
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_COLUMN OP=(CAMBIO): BTid - ID transaccion bancaria */
+UPDATE GEliquidacionDeps SET BTid = 0 WHERE convert(varchar,BTid) IS NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE GEliquidacionDeps ALTER COLUMN BTid numeric(18) NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_KEY OP=(CAMBIO): TIP="F", SEC="1", COLS="CBid", REF="CuentasBancos" */
+CREATE INDEX GEliquidacionDeps_FI01 ON GEliquidacionDeps (CBid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_KEY OP=(CAMBIO): TIP="F", SEC="2", COLS="Mcodigo", REF="Monedas" */
+CREATE INDEX GEliquidacionDeps_FI02 ON GEliquidacionDeps (Mcodigo)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_KEY OP=(CAMBIO): TIP="F", SEC="3", COLS="Ecodigo", REF="Empresas" */
+CREATE INDEX GEliquidacionDeps_FI03 ON GEliquidacionDeps (Ecodigo)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_KEY OP=(CAMBIO): TIP="F", SEC="4", COLS="GELid", REF="GEliquidacion" */
+CREATE INDEX GEliquidacionDeps_FI04 ON GEliquidacionDeps (GELid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* ADD_TABLE GEliquidacionDepsEfectivo: Liquidacion Depósitos en Caja  */
+/* ======================================================================================== */
+
+CREATE TABLE GEliquidacionDepsEfectivo (
+	 GELid                          numeric(18)          NOT NULL
+	,GELDEid                        numeric(18)          identity
+	,CCHTAid                        numeric(18)          NOT NULL
+	,Linea                          numeric(18)          NULL
+	,Ecodigo                        integer              NOT NULL
+	,GELDreferencia                 varchar(75)          NOT NULL
+	,GELDfecha                      datetime             NOT NULL
+	,Mcodigo                        numeric(8)           NOT NULL
+	,GELDtotalOri                   money                DEFAULT 0 NOT NULL
+	,GELDtipoCambio                 money                DEFAULT 1 NOT NULL
+	,GELDtotal                      money                DEFAULT 0 NOT NULL
+	,BMUsucodigo                    numeric(18)          NULL
+	,ts_rversion                    timestamp           
+	)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="P", SEC="0", COLS="GELDEid" */
+ALTER TABLE GEliquidacionDepsEfectivo ADD CONSTRAINT GEliquidacionDepsEfectivo_PK PRIMARY KEY NONCLUSTERED (GELDEid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="F", SEC="1", COLS="GELid", REF="GEliquidacion" */
+CREATE INDEX GEliquidacionDepsEfectivo_FI01 ON GEliquidacionDepsEfectivo (GELid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="F", SEC="2", COLS="CCHTAid", REF="CCHTransaccionesAplicadas" */
+CREATE INDEX GEliquidacionDepsEfectivo_FI02 ON GEliquidacionDepsEfectivo (CCHTAid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE GEliquidacionGasto: GEliquidacionGasto */
+/* ======================================================================================== */
+/* CHG_COLUMN OP=(CAMBIO): GELGtotalOri - Monto Autorizado moneda Comprobante */
+ALTER TABLE GEliquidacionGasto ADD CONSTRAINT GEliquidacionGasto_DF18 DEFAULT 0 FOR GELGtotalOri
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_COLUMN OP=(CAMBIO): GELGtipoCambio - Tipo Cambio moneda Comprobante */
+ALTER TABLE GEliquidacionGasto ALTER COLUMN GELGtipoCambio float NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+UPDATE GEliquidacionGasto SET GELGtipoCambio = 1 WHERE convert(varchar,GELGtipoCambio) IS NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE GEliquidacionGasto ALTER COLUMN GELGtipoCambio float NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE GEliquidacionGasto ADD CONSTRAINT GEliquidacionGasto_DF19 DEFAULT 1 FOR GELGtipoCambio
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_COLUMN OP=(CAMBIO): GELGtotal - Monto Autorizado moneda Liquidacion */
+UPDATE GEliquidacionGasto SET GELGtotal = 0 WHERE convert(varchar,GELGtotal) IS NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE GEliquidacionGasto ALTER COLUMN GELGtotal money NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE GEliquidacionGasto ADD CONSTRAINT GEliquidacionGasto_DF20 DEFAULT 0 FOR GELGtotal
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_COLUMN OP=(CAMBIO): GELGtotalRet - Monto Retenido moneda Liquidacion */
+UPDATE GEliquidacionGasto SET GELGtotalRet = 0 WHERE convert(varchar,GELGtotalRet) IS NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE GEliquidacionGasto ALTER COLUMN GELGtotalRet money NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE GEliquidacionGasto ADD CONSTRAINT GEliquidacionGasto_DF23 DEFAULT 0 FOR GELGtotalRet
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_COLUMN OP=(CAMBIO): GELGtotalRetOri - Monto Retenido moneda Comprobante */
+UPDATE GEliquidacionGasto SET GELGtotalRetOri = 0 WHERE convert(varchar,GELGtotalRetOri) IS NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE GEliquidacionGasto ALTER COLUMN GELGtotalRetOri money NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE GEliquidacionGasto ADD CONSTRAINT GEliquidacionGasto_DF24 DEFAULT 0 FOR GELGtotalRetOri
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): FPAEid - FPAEid */
+ALTER TABLE GEliquidacionGasto ADD FPAEid numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): CFComplemento - CFComplemento */
+ALTER TABLE GEliquidacionGasto ADD CFComplemento varchar(100) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): GELGmontoOri - Monto Documento moneda Comprobante */
+ALTER TABLE GEliquidacionGasto ADD GELGmontoOri money DEFAULT 0 NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): GELGmonto - Monto Documento moneda Liquidacion */
+ALTER TABLE GEliquidacionGasto ADD GELGmonto money DEFAULT 0 NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* ADD_TABLE GEliquidacionTCE: Liquidacion pagos con TCE */
+/* ======================================================================================== */
+
+CREATE TABLE GEliquidacionTCE (
+	 GELid                          numeric(18)          NOT NULL
+	,GELGid                         numeric(9)           NOT NULL
+	,Linea                          numeric(18)          NULL
+	,CBid_TCE                       numeric(18)          NOT NULL
+	,GELTreferencia                 varchar(20)          NOT NULL
+	,GELTmontoOri                   money                DEFAULT 0 NOT NULL
+	,GELTmonto                      money                DEFAULT 0 NOT NULL
+	,GELTtipoCambio                 float                DEFAULT 1 NOT NULL
+	,GELTmontoTCE                   money                DEFAULT 0 NOT NULL
+	,BMUsucodigo                    numeric(18)          NULL
+	,ts_rversion                    timestamp           
+	)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="P", SEC="0", COLS="GELGid" */
+ALTER TABLE GEliquidacionTCE ADD CONSTRAINT GEliquidacionTCE_PK PRIMARY KEY NONCLUSTERED (GELGid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="F", SEC="1", COLS="GELid", REF="GEliquidacion" */
+CREATE INDEX GEliquidacionTCE_FI01 ON GEliquidacionTCE (GELid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="F", SEC="2", COLS="CBid_TCE", REF="CuentasBancos" */
+CREATE INDEX GEliquidacionTCE_FI02 ON GEliquidacionTCE (CBid_TCE)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ================================================================= */
+/*            CREA FKs NUEVOS O CON CAMPOS MODIFICADOS               */
+/* ================================================================= */
+/* CHG_TABLE CFuncional */
+/* ADD_FK OP=(NUEVO): TIP="F", SEC="4", COLS="FPAEid", REF="FPActividadE" */
+ALTER TABLE CFuncional ADD CONSTRAINT CFuncional_FK04 FOREIGN KEY (FPAEid) REFERENCES FPActividadE (FPAEid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_TABLE GEanticipoDet */
+/* ADD_FK OP=(NUEVO): TIP="F", SEC="5", COLS="FPAEid", REF="FPActividadE" */
+ALTER TABLE GEanticipoDet ADD CONSTRAINT GEanticipoDet_FK05 FOREIGN KEY (FPAEid) REFERENCES FPActividadE (FPAEid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_TABLE GEcomisionTCEs */
+/* ADD_FK OP=(TAB NUEVA): TIP="F", SEC="1", COLS="GECid", REF="GEcomision" */
+ALTER TABLE GEcomisionTCEs ADD CONSTRAINT GEcomisionTCEs_FK01 FOREIGN KEY (GECid) REFERENCES GEcomision (GECid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_FK OP=(TAB NUEVA): TIP="F", SEC="2", COLS="CBid_TCE", REF="CuentasBancos" */
+ALTER TABLE GEcomisionTCEs ADD CONSTRAINT GEcomisionTCEs_FK02 FOREIGN KEY (CBid_TCE) REFERENCES CuentasBancos (CBid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_TABLE GEliquidacionDeps */
+/* CHG_FK OP=(CAMBIO): TIP="F", SEC="1", COLS="CBid", REF="CuentasBancos" */
+ALTER TABLE GEliquidacionDeps ADD CONSTRAINT GEliquidacionDeps_FK01 FOREIGN KEY (CBid) REFERENCES CuentasBancos (CBid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_FK OP=(CAMBIO): TIP="F", SEC="2", COLS="Mcodigo", REF="Monedas" */
+ALTER TABLE GEliquidacionDeps ADD CONSTRAINT GEliquidacionDeps_FK02 FOREIGN KEY (Mcodigo) REFERENCES Monedas (Mcodigo)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_FK OP=(CAMBIO): TIP="F", SEC="3", COLS="Ecodigo", REF="Empresas" */
+ALTER TABLE GEliquidacionDeps ADD CONSTRAINT GEliquidacionDeps_FK03 FOREIGN KEY (Ecodigo) REFERENCES Empresas (Ecodigo)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_FK OP=(CAMBIO): TIP="F", SEC="4", COLS="GELid", REF="GEliquidacion" */
+ALTER TABLE GEliquidacionDeps ADD CONSTRAINT GEliquidacionDeps_FK04 FOREIGN KEY (GELid) REFERENCES GEliquidacion (GELid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_TABLE GEliquidacionDepsEfectivo */
+/* ADD_FK OP=(TAB NUEVA): TIP="F", SEC="1", COLS="GELid", REF="GEliquidacion" */
+ALTER TABLE GEliquidacionDepsEfectivo ADD CONSTRAINT GEliquidacionDepsEfectivo_FK01 FOREIGN KEY (GELid) REFERENCES GEliquidacion (GELid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_FK OP=(TAB NUEVA): TIP="F", SEC="2", COLS="CCHTAid", REF="CCHTransaccionesAplicadas" */
+ALTER TABLE GEliquidacionDepsEfectivo ADD CONSTRAINT GEliquidacionDepsEfectivo_FK02 FOREIGN KEY (CCHTAid) REFERENCES CCHTransaccionesAplicadas (CCHTAid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_TABLE GEliquidacionTCE */
+/* ADD_FK OP=(TAB NUEVA): TIP="F", SEC="1", COLS="GELid", REF="GEliquidacion" */
+ALTER TABLE GEliquidacionTCE ADD CONSTRAINT GEliquidacionTCE_FK01 FOREIGN KEY (GELid) REFERENCES GEliquidacion (GELid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_FK OP=(TAB NUEVA): TIP="F", SEC="2", COLS="CBid_TCE", REF="CuentasBancos" */
+ALTER TABLE GEliquidacionTCE ADD CONSTRAINT GEliquidacionTCE_FK02 FOREIGN KEY (CBid_TCE) REFERENCES CuentasBancos (CBid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_FK OP=(TAB NUEVA): TIP="F", SEC="3", COLS="GELGid", REF="GEliquidacionGasto" */
+ALTER TABLE GEliquidacionTCE ADD CONSTRAINT GEliquidacionTCE_FK03 FOREIGN KEY (GELGid) REFERENCES GEliquidacionGasto (GELGid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

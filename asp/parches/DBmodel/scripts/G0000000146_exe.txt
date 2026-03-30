@@ -1,0 +1,305 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 459 - DBM 397: SalariosOtrosPatronos
+
+	         PARCHE:  Parche023_543_RH _SalariosOtrosPatronos
+
+GENERADO EN:
+	SERVER:  http://mxvqapp34:8300
+	DSN:     sifcim
+	FECHA:   08/01/2012 19:48:09
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* ADD_TABLE CPNAPpryFinanciados: Aprobacion de Proyectos con Fi */
+/* ======================================================================================== */
+
+CREATE TABLE CPNAPpryFinanciados (
+	 Ecodigo                        integer              NOT NULL
+	,CPNAPnum                       numeric(18)          NOT NULL
+	,CPPFid                         numeric(18)          NOT NULL
+	,CPCano                         integer              NOT NULL
+	,CPCmes                         integer              NOT NULL
+	,CPNAPPFingresos                money                NOT NULL
+	,CPNAPPFconsumos                money                NOT NULL
+	,BMUsucodigo                    numeric(18)          NULL
+	,ts_rversion                    timestamp           
+	)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP = (TAB NUEVA): TIP="P", SEC="0", COLS="Ecodigo,CPNAPnum,CPPFid,CPCano,CPCmes" */
+ALTER TABLE CPNAPpryFinanciados ADD CONSTRAINT CPNAPpryFinanciados_PK PRIMARY KEY CLUSTERED (Ecodigo,CPNAPnum,CPPFid,CPCano,CPCmes)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* ADD_TABLE CPNRPpryFinanciados: Rechazo de Proyectos sin Finan */
+/* ======================================================================================== */
+
+CREATE TABLE CPNRPpryFinanciados (
+	 Ecodigo                        integer              NOT NULL
+	,CPNRPnum                       numeric(18)          NOT NULL
+	,CPPFid                         numeric(18)          NOT NULL
+	,CPCano                         integer              NOT NULL
+	,CPCmes                         integer              NOT NULL
+	,CPNRPPFingresos                money                NOT NULL
+	,CPNRPPFconsumos                money                NOT NULL
+	,BMUsucodigo                    numeric(18)          NULL
+	,ts_rversion                    timestamp           
+	)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP = (TAB NUEVA): TIP="P", SEC="0", COLS="Ecodigo,CPNRPnum,CPPFid,CPCano,CPCmes" */
+ALTER TABLE CPNRPpryFinanciados ADD CONSTRAINT CPNRPpryFinanciados_PK PRIMARY KEY CLUSTERED (Ecodigo,CPNRPnum,CPPFid,CPCano,CPCmes)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* ADD_TABLE CPproyectosFinanciados: Configuracion de Cuentas de Pr */
+/* ======================================================================================== */
+
+CREATE TABLE CPproyectosFinanciados (
+	 CPPFid                         numeric(18)          identity
+	,Ecodigo                        integer              NOT NULL
+	,CPPFcodigo                     char(10)             NOT NULL
+	,CPPFdescripcion                varchar(50)          NOT NULL
+	,CPPFporCF                      bit                  DEFAULT 0 NOT NULL
+	,CPPFconSubproyectos            bit                  DEFAULT 0 NOT NULL
+	,CPPFconFinanciamiento          bit                  DEFAULT 0 NOT NULL
+	,CPPFid_padre                   numeric(18)          NULL
+	,BMUsucodigo                    numeric(18)          NULL
+	,ts_rversion                    timestamp           
+	)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP = (TAB NUEVA): TIP="P", SEC="0", COLS="CPPFid" */
+ALTER TABLE CPproyectosFinanciados ADD CONSTRAINT CPproyectosFinanciados_PK PRIMARY KEY CLUSTERED (CPPFid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (TAB NUEVA): TIP="A", SEC="1", COLS="Ecodigo,CPPFcodigo" */
+ALTER TABLE CPproyectosFinanciados ADD CONSTRAINT CPproyectosFinanciados_AK01 UNIQUE NONCLUSTERED (Ecodigo,CPPFcodigo)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP = (TAB NUEVA): TIP="I", SEC="2", COLS="Ecodigo,CPPFcodigo,CPPFdescripcion" */
+CREATE NONCLUSTERED INDEX CPproyectosFinanciados_ID02 ON CPproyectosFinanciados (Ecodigo,CPPFcodigo,CPPFdescripcion)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* ADD_TABLE CPproyectosFinanciadosCFs: Centros Funcionales del Proyec */
+/* ======================================================================================== */
+
+CREATE TABLE CPproyectosFinanciadosCFs (
+	 CPPFid                         numeric(18)          NOT NULL
+	,Ecodigo                        integer              NOT NULL
+	,CPPid                          numeric(18)          NOT NULL
+	,CFid                           numeric(18)          NOT NULL
+	,BMUsucodigo                    numeric(18)          NULL
+	,ts_rversion                    timestamp           
+	)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP = (TAB NUEVA): TIP="P", SEC="0", COLS="CPPFid,Ecodigo,CPPid,CFid" */
+ALTER TABLE CPproyectosFinanciadosCFs ADD CONSTRAINT CPproyectosFinanciadosCFs_PK PRIMARY KEY CLUSTERED (CPPFid,Ecodigo,CPPid,CFid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* ADD_TABLE CPproyectosFinanciadosCtas: Cuentas del Proyecto */
+/* ======================================================================================== */
+
+CREATE TABLE CPproyectosFinanciadosCtas (
+	 CPPFid                         numeric(18)          NOT NULL
+	,Ecodigo                        integer              NOT NULL
+	,CPPid                          numeric(18)          NOT NULL
+	,CPPFCmascara                   varchar(100)         NOT NULL
+	,CPPFCdescripcion               varchar(40)          NOT NULL
+	,CPPFCtipo                      char(1)              NOT NULL
+	 CONSTRAINT CPproyectosFinanciadosC01_CK06 CHECK ([CPPFCtipo]='E' OR [CPPFCtipo]='I')
+	,CPPFCesCF                      bit                  DEFAULT 0 NOT NULL
+	,BMUsucodigo                    numeric(18)          NULL
+	,ts_rversion                    timestamp           
+	)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP = (TAB NUEVA): TIP="P", SEC="0", COLS="CPPFid,Ecodigo,CPPid,CPPFCmascara" */
+ALTER TABLE CPproyectosFinanciadosCtas ADD CONSTRAINT CPproyectosFinanciadosC01_PK PRIMARY KEY CLUSTERED (CPPFid,Ecodigo,CPPid,CPPFCmascara)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE HSalarioEmpleado: Histórico de SalarioEmpleado */
+/* ======================================================================================== */
+/* ADD_COLUMN OP = (NUEVO): SEotrossalarios - SEotrossalarios */
+ALTER TABLE HSalarioEmpleado ADD SEotrossalarios money DEFAULT 0 NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP = (NUEVO): SErentaotrossalarios - SErentaotrossalarios */
+ALTER TABLE HSalarioEmpleado ADD SErentaotrossalarios money DEFAULT 0 NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* ADD_TABLE RH_OtrosPatronos: RH_OtrosPatronos */
+/* ======================================================================================== */
+
+CREATE TABLE RH_OtrosPatronos (
+	 OPid                           numeric(18)          identity
+	,OPcodigo                       varchar(255)         NOT NULL
+	,OPdescripcion                  varchar(255)         NOT NULL
+	,Ecodigo                        integer              NOT NULL
+	,BMUsucodigo                    numeric(18)          NULL
+	,ts_rversion                    timestamp           
+	)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP = (TAB NUEVA): TIP="P", SEC="0", COLS="OPid" */
+ALTER TABLE RH_OtrosPatronos ADD CONSTRAINT RH_OtrosPatronos_PK PRIMARY KEY CLUSTERED (OPid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE SalarioEmpleado: SalarioEmpleado */
+/* ======================================================================================== */
+/* ADD_COLUMN OP = (NUEVO): SEotrossalarios - SEotrossalarios */
+ALTER TABLE SalarioEmpleado ADD SEotrossalarios money DEFAULT 0 NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP = (NUEVO): SErentaotrossalarios - SErentaotrossalarios */
+ALTER TABLE SalarioEmpleado ADD SErentaotrossalarios money DEFAULT 0 NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* ADD_TABLE SalariosOtrosPatronos: SalariosOtrosPatronos */
+/* ======================================================================================== */
+
+CREATE TABLE SalariosOtrosPatronos (
+	 DEid                           numeric(18)          NOT NULL
+	,OPid                           numeric(18)          NOT NULL
+	,SalarioBase                    money                NOT NULL
+	,Ecodigo                        integer              NOT NULL
+	,BMUsucodigo                    numeric(18)          NULL
+	,ts_rversion                    timestamp           
+	)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP = (TAB NUEVA): TIP="P", SEC="0", COLS="DEid,OPid" */
+ALTER TABLE SalariosOtrosPatronos ADD CONSTRAINT SalariosOtrosPatronos_PK PRIMARY KEY CLUSTERED (DEid,OPid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ================================================================= */
+/*            CREA FKs NUEVOS O CON CAMPOS MODIFICADOS               */
+/* ================================================================= */
+/* CHG_TABLE CPNAPpryFinanciados */
+/* ADD_FK OP = (TAB NUEVA): TIP="F", SEC="1", COLS="CPPFid", REF="CPproyectosFinanciados" */
+ALTER TABLE CPNAPpryFinanciados ADD CONSTRAINT CPNAPpryFinanciados_FK01 FOREIGN KEY (CPPFid) REFERENCES CPproyectosFinanciados (CPPFid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_FK OP = (TAB NUEVA): TIP="F", SEC="2", COLS="Ecodigo,CPNAPnum", REF="CPNAP" */
+ALTER TABLE CPNAPpryFinanciados ADD CONSTRAINT CPNAPpryFinanciados_FK02 FOREIGN KEY (Ecodigo,CPNAPnum) REFERENCES CPNAP (Ecodigo,CPNAPnum)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_TABLE CPNRPpryFinanciados */
+/* ADD_FK OP = (TAB NUEVA): TIP="F", SEC="1", COLS="CPPFid", REF="CPproyectosFinanciados" */
+ALTER TABLE CPNRPpryFinanciados ADD CONSTRAINT CPNRPpryFinanciados_FK01 FOREIGN KEY (CPPFid) REFERENCES CPproyectosFinanciados (CPPFid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_FK OP = (TAB NUEVA): TIP="F", SEC="2", COLS="Ecodigo,CPNRPnum", REF="CPNRP" */
+ALTER TABLE CPNRPpryFinanciados ADD CONSTRAINT CPNRPpryFinanciados_FK02 FOREIGN KEY (Ecodigo,CPNRPnum) REFERENCES CPNRP (Ecodigo,CPNRPnum)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_TABLE CPproyectosFinanciados */
+/* ADD_FK OP = (TAB NUEVA): TIP="F", SEC="1", COLS="CPPFid_padre", REF="CPproyectosFinanciados" */
+ALTER TABLE CPproyectosFinanciados ADD CONSTRAINT CPproyectosFinanciados_FK01 FOREIGN KEY (CPPFid_padre) REFERENCES CPproyectosFinanciados (CPPFid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_TABLE CPproyectosFinanciadosCFs */
+/* ADD_FK OP = (TAB NUEVA): TIP="F", SEC="1", COLS="CFid", REF="CFuncional" */
+ALTER TABLE CPproyectosFinanciadosCFs ADD CONSTRAINT CPproyectosFinanciadosCFs_FK01 FOREIGN KEY (CFid) REFERENCES CFuncional (CFid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_FK OP = (TAB NUEVA): TIP="F", SEC="2", COLS="CPPFid", REF="CPproyectosFinanciados" */
+ALTER TABLE CPproyectosFinanciadosCFs ADD CONSTRAINT CPproyectosFinanciadosCFs_FK02 FOREIGN KEY (CPPFid) REFERENCES CPproyectosFinanciados (CPPFid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_FK OP = (TAB NUEVA): TIP="F", SEC="3", COLS="Ecodigo,CPPid", REF="CPresupuestoPeriodo" */
+ALTER TABLE CPproyectosFinanciadosCFs ADD CONSTRAINT CPproyectosFinanciadosCFs_FK03 FOREIGN KEY (Ecodigo,CPPid) REFERENCES CPresupuestoPeriodo (Ecodigo,CPPid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_TABLE CPproyectosFinanciadosCtas */
+/* ADD_FK OP = (TAB NUEVA): TIP="F", SEC="1", COLS="CPPFid", REF="CPproyectosFinanciados" */
+ALTER TABLE CPproyectosFinanciadosCtas ADD CONSTRAINT CPproyectosFinanciadosC01_FK01 FOREIGN KEY (CPPFid) REFERENCES CPproyectosFinanciados (CPPFid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_FK OP = (TAB NUEVA): TIP="F", SEC="2", COLS="Ecodigo,CPPid", REF="CPresupuestoPeriodo" */
+ALTER TABLE CPproyectosFinanciadosCtas ADD CONSTRAINT CPproyectosFinanciadosC01_FK02 FOREIGN KEY (Ecodigo,CPPid) REFERENCES CPresupuestoPeriodo (Ecodigo,CPPid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* CHG_TABLE SalariosOtrosPatronos */
+/* ADD_FK OP = (TAB NUEVA): TIP="F", SEC="1", COLS="DEid", REF="DatosEmpleado" */
+ALTER TABLE SalariosOtrosPatronos ADD CONSTRAINT SalariosOtrosPatronos_FK01 FOREIGN KEY (DEid) REFERENCES DatosEmpleado (DEid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_FK OP = (TAB NUEVA): TIP="F", SEC="2", COLS="OPid", REF="RH_OtrosPatronos" */
+ALTER TABLE SalariosOtrosPatronos ADD CONSTRAINT SalariosOtrosPatronos_FK02 FOREIGN KEY (OPid) REFERENCES RH_OtrosPatronos (OPid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

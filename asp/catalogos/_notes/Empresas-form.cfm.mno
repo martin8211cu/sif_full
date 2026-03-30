@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<info>
+	<infoitem key="UD_rsMonedas" value="name:Mcodigo;datatype:,name:Mnombre;datatype:" />
+	<infoitem key="UD_rsCaches" value="name:Cid;datatype:,name:Ccache;datatype:" />
+</info>

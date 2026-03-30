@@ -1,0 +1,233 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>$$TITLE$$</title>
+<meta http-equiv="Expires" content="Fri, Jan 01 1970 08:20:00 GMT">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Content-Language" content="en-us">
+<link type="text/css" rel="stylesheet" href="style.css" >
+<style type="text/css">
+	<!--
+	
+	.style1 {
+		color: #006699;
+		font-weight: bold;
+	}
+	.style8 {color: #003399; font-size: 12px;}
+	.style9 {color: #003399}
+	.style10 {
+		color: #626262;
+		font-size: 12px;
+	}	
+	.style13 {font-size: 14px}
+	.style14 {
+		color: #003399;
+		font-family: Arial;
+		font-size: 14px;
+		font-style: normal;
+		font-weight: lighter;
+	}
+	.style16 {color: #0033FF}
+	.style18 {
+		color: #660066;
+		font-size: 10px;
+		font-weight: bold;
+	}
+	.style47 {color: #FFFFFF; font-weight: bold; }
+	.style59 {
+		color: #003399;
+		font-weight: bold;
+		font-size: 10px;
+		font-family: Verdana, Arial, Helvetica, sans-serif;
+	}
+	.style60 {font-family: Verdana, Arial, Helvetica, sans-serif; color: #003399;}
+
+	<cfoutput>
+	<cfloop index="i" from="1" to="5">
+	.clsButUpOut_#i# {
+		color: ##FFFFFF;
+		font-family: Arial, Helvetica, sans-serif;
+		font-size: 11px;
+		background-image: url('/cfmx/educ/publico/empresas/sgu/images/but0#i#.gif');
+	}
+	.clsButOver_#i# {
+		color: ##FFFFFF;
+		font-family: Arial, Helvetica, sans-serif;
+		font-size: 11px;
+		background-image: url('/cfmx/educ/publico/empresas/sgu/images/but0#i#a.gif');
+	}
+	.clsButDown_#i# {
+		color: ##FFFFFF;
+		font-family: Arial, Helvetica, sans-serif;
+		font-size: 11px;
+		background-image: url('/cfmx/educ/publico/empresas/sgu/images/but0#i#b.gif');
+	}
+	</cfloop>
+	</cfoutput>
+	-->
+	</style>
+<script type="text/javascript" language="JavaScript" src="/cfmx/sif/js/DHTMLMenu/stm31.js"></script>
+</head>
+<body style="margin:0;">
+  <table width="100%" height="100%" border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse; border-color:#111111" id="AutoNumber1">
+    <tr>
+      <td  height="1" valign="top" colspan="2" background="images/3_fon.gif">
+		<table border="0" cellspacing="0" cellpadding="0" style="margin:0;">
+		  <tr>
+			<td width="532" height="130" background="images/usg_logo.jpg">
+			</td>
+			<td valign="top">
+				<cfset LvarPubicaClass="left">
+				<cfinclude template="../../comun/pubica.cfm">
+			</td>
+		  </tr>
+		  <tr>
+		  	<td>
+		  	<table border="0" cellpadding="0" cellspacing="0">
+				<tr>
+				<td id="but01" class="clsButUpOut_1" width="104" height="44" align="center" valign="middle" 
+					onMouseDown="this.className='clsButDown_1';" 
+					onMouseUp=  "this.className='clsButUpOut_1';"
+					onMouseOut= "this.className='clsButUpOut_1';this.style.cursor='';" 
+					onMouseOver="this.className='clsButOver_1';this.style.cursor='pointer';"
+					onClick="document.location.href='/cfmx/educ/publico/empresas/sgu/home.cfm'">
+					Principal
+				</td>
+				<td id="but02" class="clsButUpOut_2" width="104" height="44" align="center" valign="middle"
+					onMouseDown="this.className='clsButDown_2';" 
+					onMouseUp=  "this.className='clsButUpOut_2';"
+					onMouseOut= "this.className='clsButUpOut_2';this.style.cursor='';" 
+					onMouseOver="this.className='clsButOver_2';this.style.cursor='pointer';"
+					onClick="document.location.href='/cfmx/educ/publico/empresas/sgu/usg.cfm'">
+					Nuestra Universidad</td>
+				<td id="but03" class="clsButUpOut_3" width="104" height="44" align="center" valign="middle"
+					onMouseDown="this.className='clsButDown_3';" 
+					onMouseUp=  "this.className='clsButUpOut_3';"
+					onMouseOut= "this.className='clsButUpOut_3';this.style.cursor='';" 
+					onMouseOver="this.className='clsButOver_3';this.style.cursor='pointer';"
+					onClick="document.location.href='/cfmx/educ/publico/oferta/oferta.cfm'">
+					Oferta Académica</td>
+				<td id="but04" class="clsButUpOut_4" width="104" height="44" align="center" valign="middle"
+					onMouseDown="this.className='clsButDown_4';" 
+					onMouseUp=  "this.className='clsButUpOut_4';"
+					onMouseOut= "this.className='clsButUpOut_4';this.style.cursor='';" 
+					onMouseOver="this.className='clsButOver_4';this.style.cursor='pointer';"
+					onClick="document.location.href='/cfmx/educ/publico/empresas/sgu/servicios.cfm'">
+					Servicios</td>
+				<td id="but05" class="clsButUpOut_5" width="104" height="44" align="center" valign="middle"
+					onMouseDown="this.className='clsButDown_5';" 
+					onMouseUp=  "this.className='clsButUpOut_5';"
+					onMouseOut= "this.className='clsButUpOut_5';this.style.cursor='';" 
+					onMouseOver="this.className='clsButOver_5';this.style.cursor='pointer';"
+					onClick="document.location.href='/cfmx/educ/index.cfm'"> Ingresar 
+                  al Sistema</td>
+				</tr>
+			</table>
+		  </tr>
+		</table>
+		
+      </td>
+    </tr>	
+	<tr>
+
+	<cfset LvarLeft = true>
+	<cfloop index="i" from="1" to="#arraylen(thistag.areas)#">
+	  <cfif thistag.areas[i].name EQ "left">
+	  	<cfif findnocase("##N/A##",thistag.areas[i].contents) GT 0>
+			<cfset LvarLeft = false>
+		</cfif>
+	  </cfif>
+	</cfloop>
+	<cfif LvarLeft>
+    	<td width="10%" valign="top" bgcolor="#7990A4">
+			<p class="paragraph style14"><span class="style59">$$LEFT OPTIONAL$$ </span></p>
+		</td>
+	<cfelse>
+    	<td width="2%" valign="top" bgcolor="#7990A4">&nbsp;
+			
+		</td>
+	</cfif>
+		<td width="90%" valign="top" align="left" bgcolor="#7990A4">
+			<table width="100%" border="0" bgcolor="#FFFFFF" cellpadding="0" cellspacing="0">
+				<tr>
+					<td width="500" align="left" valign="top" bgcolor="#FFFFFF" style="border:1px solid;border-top:none;border-bottom:none;">
+						<table width="100%" border="0" bgcolor="#FFFFFF" cellpadding="0" cellspacing="0">
+							<tr> 
+								<td height="8" width="5" background="images/main_top.gif">
+								</td>
+								<td height="8" width="485" background="images/main_top.gif"> 
+								</td>
+								<td height="8" width="5" background="images/main_top.gif"> 
+								</td>
+							</tr>
+							<tr> 
+								<td height="25">
+								</td>
+								<td nowrap height="25" valign="top"> 
+								  <font color="#006699" size="3"><strong>$$HEADER OPTIONAL$$</strong></font> 
+								</td>
+								<td height="25"> 
+								</td>
+							</tr>
+							<tr> 
+								<td>&nbsp;</td>
+								<td align="left" valign="top">$$BODY$$</td>
+								<td>&nbsp;</td>
+							</tr>
+							<tr> 
+								<td colspan="3">&nbsp;</td>
+							</tr>
+						</table>
+					</td>
+					<td valign="top"  bgcolor="#7990A4">
+						<table width="100%" height="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF">
+							<tr> 
+								<td valign="top" colspan="2" background="images/fon_top01.gif" height="44">
+								</td>
+							</tr>
+							<tr> 
+								
+                				<td height="100" valign="top" bgcolor="#006699"></td>
+								<td height="100" valign="top" bgcolor="#006699"> 
+									<p style="color:#FFFFFF"><font size="2">$$RIGHT OPTIONAL$$</font></p>
+								</td>
+							</tr>
+							<tr> 
+								<td height="44" valign="top" colspan="2" background="images/fon_top01.gif">
+								</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				<tr> 
+					<td valign="top" background="images/fon_top01.gif" height="44">
+					</td>
+					<td valign="top" bgcolor="#7990A4">
+					</td>
+				</tr>
+			</table>
+		</td>
+	</tr>	
+
+    <tr>
+      <td valign="top" height="19" colspan="2">
+          <p align="center" class="style9"><font size="1" face="Verdana">
+		  <a href="//www.soin.net/cfmx/plantillas/login02/index.cfm" style="text-decoration: none">Soin Home</a>&nbsp;&nbsp; |&nbsp;&nbsp;
+          <a href="//www.soin.net/cfmx/plantillas/login02/nosotros.cfm" style="text-decoration: none"> Qui&eacute;nes Somos </a>&nbsp;&nbsp; |&nbsp;&nbsp;
+		  <a href="//www.soin.net/cfmx/plantillas/login02/productos.cfm" style="text-decoration: none">Productos</a>&nbsp;&nbsp; |&nbsp;&nbsp;
+		  <a href="//www.soin.net/cfmx/plantillas/login02/capacitacion.cfm" style="text-decoration: none">Capacitaci&oacute;n</a>&nbsp;&nbsp; |&nbsp;&nbsp; 
+		  <a href="//www.soin.net/cfmx/home/menu/" style="text-decoration: none">Servicios</a>&nbsp;&nbsp; |&nbsp;&nbsp; 
+          <a href="//www.soin.net/cfmx/plantillas/login02/soporte.cfm" style="text-decoration: none">Soporte</a>&nbsp; |&nbsp;&nbsp; 
+          <a href="//www.soin.net/cfmx/plantillas/login02/contactenos.cfm" style="text-decoration: none">Contactenos</a></font></td>
+    </tr>
+    <tr>
+      <td valign="top" height="19" colspan="2" bgcolor="#626262" align="center">
+	<font size="1" face="Verdana" color="#FFFFFF">&copy; SOIN, Soluciones Integrales S.A. 2003-2004 </font>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>

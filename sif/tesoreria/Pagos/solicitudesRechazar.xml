@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_Titulo>Rejection of Payment Requests</LB_Titulo>
+		<LB_TrabajarConTesoreria>Working with Treasury</LB_TrabajarConTesoreria>
+		<LB_EmpresaOrigen>Enterprise Origin</LB_EmpresaOrigen>
+		<LB_CentroFuncional>Funtional Center</LB_CentroFuncional>
+		<LB_Solicitante>Applicant</LB_Solicitante>
+		<LB_BeneficiarioContado>Beneficiary Counted</LB_BeneficiarioContado>
+		<LB_ClienteDetallista>Customer Retailer</LB_ClienteDetallista>	
+		<LB_SocioNegocio>Bussines Partner</LB_SocioNegocio>
+		<LB_FechaDesde>Date from</LB_FechaDesde>
+		<LB_Hasta>to</LB_Hasta>
+		<LB_Beneficiario>Beneficiary</LB_Beneficiario>
+		<LB_Todos>All</LB_Todos>
+		<LB_NumSolicitud>Application Number</LB_NumSolicitud>
+		<LB_Moneda>Currency</LB_Moneda>
+	<LB_Lista_de_Centros_Funcionales>Functional Centers List</LB_Lista_de_Centros_Funcionales><LB_TrabajarTesoreria>Working with Treasury</LB_TrabajarTesoreria><LB_EmpresaOri>Origin Enterprise</LB_EmpresaOri><LB_FechaPagoSolicitado>Payment Date Requested</LB_FechaPagoSolicitado><LB_FechaSolicitud>Request Date</LB_FechaSolicitud><LB_InstrAlBanco>Bank Instruction</LB_InstrAlBanco><LB_MotRechazoAnt>Previously Amount Rejected</LB_MotRechazoAnt><LB_Observaciones>Comments</LB_Observaciones><LB_PagTes>Treasury Payment</LB_PagTes><LB_TotalPagoSolicitado>Total Amount Requested</LB_TotalPagoSolicitado><LB_Empleado>Employee</LB_Empleado><LB_MotRechazo>Rejected Reason</LB_MotRechazo></Idioma>
+</Etiquetas>

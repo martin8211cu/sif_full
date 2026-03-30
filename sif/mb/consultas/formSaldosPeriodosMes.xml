@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<MSG_NoHayDatosParaReportar>No Records Found</MSG_NoHayDatosParaReportar>
+		<LB_TituloReporte>Bank Movements by Period / Month</LB_TituloReporte>
+		<LB_Periodo>Period</LB_Periodo>
+		<LB_Mes>Month</LB_Mes>
+		<LB_Cuenta>Account</LB_Cuenta>
+		<LB_SaldoMonedaOrigen>Initial Balance Origin Currency</LB_SaldoMonedaOrigen>
+		<LB_SaldoMonedaLocal>Initial Balance Local Currency</LB_SaldoMonedaLocal>
+		<LB_MonedaLocal>Origin Currency</LB_MonedaLocal>
+		<LB_MonedaOrigen>Local Currency</LB_MonedaOrigen>
+		<LB_Fecha>Date</LB_Fecha>
+		<LB_Documento>Document</LB_Documento>
+		<LB_Descripcion>Description</LB_Descripcion>
+		<LB_Debito>Debit</LB_Debito>
+		<LB_Credito>Credit</LB_Credito>
+		<LB_FinReporte>End Report</LB_FinReporte>
+		<LB_TotalDebitoCredito>Total Debits / Credits</LB_TotalDebitoCredito>
+		<LB_SaldoFinalMonedaOrigen>Final Balance Currency Origin</LB_SaldoFinalMonedaOrigen>
+		<LB_SaldoFinalMonedaLocal>Final Balance Local Currency</LB_SaldoFinalMonedaLocal>
+	</Idioma>
+</Etiquetas>

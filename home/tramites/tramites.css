@@ -1,0 +1,21 @@
+﻿.boton{ cursor:pointer;  
+        font-size:10px;
+        font-family:Verdana,Helvetica;
+        font-weight:bold;
+        color:white;
+        background:#638cb5;
+        border:0px;
+		border:2px solid gray;
+        width:82px;
+        height:19px;
+   }
+.borderleft {
+	/*border-left-width: 1px;
+	border-left-style: inset;
+	border-left-color: black black #CCCCCC;*/
+}
+.borderbottom {
+	border-bottom-width: 1px;
+	border-bottom-style: inset;
+	border-bottom-color: black
+}

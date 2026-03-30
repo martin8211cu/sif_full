@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+Se quita el targetNamespace http://soin.net/2006/isb/cambio_paquete/1.0 porque XmlValidate (coldfusion) no lo admite
+-->
+<xs:schema 
+   elementFormDefault="qualified"
+   xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   <xs:element name="cambioFormaCobro">
+      <xs:complexType>
+         <xs:sequence>
+            <xs:element name="Contratoid" maxOccurs="1" minOccurs="1"/>
+            <xs:element name="datosFormaCobro">
+               <xs:complexType>
+                  <xs:attribute name="CTcobro">
+                  </xs:attribute>
+                  <xs:attribute name="CTtipoCtaBco">
+                  </xs:attribute>
+                  <xs:attribute name="CTbcoRef">
+                  </xs:attribute>
+                  <xs:attribute name="CTmesVencimiento">
+                  </xs:attribute>
+                  <xs:attribute name="CTanoVencimiento">
+                  </xs:attribute>
+                  <xs:attribute name="EFid">
+                  </xs:attribute>
+                  <xs:attribute name="MTid">
+                  </xs:attribute>
+                  <xs:attribute name="PpaisTH">
+                  </xs:attribute>
+                  <xs:attribute name="CTcedulaTH">
+                  </xs:attribute>
+                  <xs:attribute name="CTnombreTH">
+                  </xs:attribute>
+                  <xs:attribute name="CTapellido1TH">
+                  </xs:attribute>
+                  <xs:attribute name="CTapellido2TH">
+                  </xs:attribute>
+               </xs:complexType>
+            </xs:element>
+         </xs:sequence>
+      </xs:complexType>
+   </xs:element>
+</xs:schema>

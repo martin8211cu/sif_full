@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_Titulo>Balances and Movements</LB_Titulo>
+		<LB_Archivo>BalanceAccount</LB_Archivo>
+		<LB_NivelNoAceptaMov>This level does not accept movements</LB_NivelNoAceptaMov>
+		<LB_Periodo>Period</LB_Periodo>
+		<LB_Fecha>Date</LB_Fecha>
+		<LB_Mes>Month</LB_Mes>
+		<LB_Cierre>Closing</LB_Cierre>
+		<LB_Oficina>Office</LB_Oficina>
+		<LB_SaldoInicial>Inicial Balance</LB_SaldoInicial>
+		<LB_Debitos>Debits</LB_Debitos>
+		<LB_Creditos>Credits</LB_Creditos>
+		<LB_SaldoFinal>Final Balance</LB_SaldoFinal>
+		<LB_ResumenMoneda>Summary by Currency</LB_ResumenMoneda>
+		<LB_Moneda>Currency</LB_Moneda>
+		<LB_Poliza>Voucher</LB_Poliza>
+		<LB_Lote>Batch</LB_Lote>
+		<LB_CentroFuncional>Funtional Center</LB_CentroFuncional>
+		<LB_Descripcion>Description</LB_Descripcion>
+		<LB_Documento>Document</LB_Documento>
+		<LB_Debitos>Debits</LB_Debitos>
+		<LB_Creditos>Credits</LB_Creditos>
+	</Idioma>
+</Etiquetas>

@@ -1,0 +1,1957 @@
+﻿<cfcomponent>
+	<!---
+	Retenciones:
+		Se insertan en TESdetallePago donde RlineaId = TESDPid del detalle al que se le calcula la retención
+			TESdetallePago.RlineaId is NULL: 		Es línea original, +Rmonto tiene calculado la +suma de la retención
+			TESdetallePago.RlineaId is NOT NULL: 	Es retención, TESDPmontoSolicitadoOri es la -retención calculada
+				Rmonto(RlineaId is null) = -sum(TESDPmontoSolicitadoOri(RlineaId is not null))
+	Multas:
+		Se insertan en TESdetallePago donde MlineaId = TESDPid del detalle al que se le calcula la multa
+			TESdetallePago.MlineaId is NULL: 		Es línea original
+			TESdetallePago.MlineaId is NOT NULL: 	Es multa, TESDPmontoSolicitadoOri es la -multa calculada. Rmonto=0 (no tiene retención)
+
+	Embargos y Cesiones
+		Se insertan en TESdetallePagoCPC por cada TESDPid + CPCid (secuenciado por CPCsp>0):
+			 TESdetallePagoCPC.TESDPid = TESDPid del detalle al que se le calcula la Cesion
+			 TESdetallePagoCPC.CPCsp   = es un consecutivo por TESDPid generado
+			 TESDPmontoSolicitadoOri   = es el monto calculado para la Cesion
+			 Rmonto = proporcion ajustada de:
+				Por cada Retencion TESdetallePago.RlineaId = TESDPid
+					Se insertan en TESdetallePagoCPC:
+						 TESdetallePagoCPC.TESDPid = el TESdetallePago.RlineaId correspondiente al TESDPid
+						 TESdetallePagoCPC.CPCsp   = el mismo CPCsp del TESDPid
+						 TESDPmontoSolicitadoOri   = proporción ajustada el monto de la Retencion al monto de la Cesion
+
+	Calculo del Pago al Titular:
+		Se insertan en TESdetallePagoCPC todas las líneas de la TESSPid
+			Si la linea no es multa
+				TESDPmontoSolicitadoOri se ajusta restándole todo lo generado en TESdetallePagoCPC para la misma TESDPid
+				Rmonto se ajusta restándole todo lo generado en TESdetallePagoCPC para la misma TESDPid
+						coalesce(
+							case
+								when dp.MlineaId is NULL then 					<!--- que no sean multas --->
+								(
+									select sum(TESDPmontoSolicitadoOri)
+									  from TESdetallePagoCPC
+									 where TESDPid = dp.TESDPid
+								)
+							end
+
+	--->
+
+	<cf_dbfunction name="OP_concat" returnvariable="_CAT">
+
+	<cffunction name="sbCalculaAfectacionesPago" access="public" output="yes" returntype="void">
+		<cfargument name="TESSPid"			type="numeric"	required="yes">
+		<cfargument name="updateSP"			type="boolean"	default="yes">
+
+		<!--- Calculo:
+			1. Se calculan Retenciones
+			2. Se distribuye el SaldoNeto entre las Multas
+			3. Se destribuye el SaldoNeto - Multas entre Cesiones y Embargos
+			4. Se guardan registros generados:
+				4.1 Multas:
+					4.1.1 Se Registran en TESdetallePago
+				4.2 Cesiones/Embargos:
+					4.2.1 Estimar y Ajustar la Retencion y MontoSolicitado a partir del MontoNeto:
+						Como se distribuye SaldoNeto, hay que estimar el MontoSolicitado como proporcion del Pago Original
+							MontoNeto = Solicitado - Retencion
+							Solicitado-Retencion 	es a SolicitadoOriginal-RetencionOriginal
+							Retencion				es a RetencionOriginal
+
+							Retencion = MontoNeto * RetencionOriginal / (SolicitadoOriginal - RetencionOriginal)
+							Solicitado = MontoNetoDistribuido + Retencion
+						Calcular la Retención y ajustar MontoSolicitado para mantener el MontoNeto
+							MontoSolicitado = MontoSolicitado - RetencionEstimada + RetencionCalculada
+			5. Si hay Cesiones o Embargos TESdetallePagoCPC:
+				5.1 Calcular en TESdetallePagoCPC el pago al Titular:
+					A cada detalle del pagoOriginal se le resta lo generado en TESdetallePagoCPC
+
+PAGO:
+	- Cuando la monedas de Factura y Cesion son iguales, funciona como Tesoreria
+	- Multa o Cesión: es en moneda factura u orden compra.
+				HAY QUE ASEGURARSE QUE LAS FACTURAS DE UNA ORDEN DE COMPRA SEAN EN LA MISMA MONEDA
+				SIENDO ASI NO HAY NINGUN PROBLEMA: funciona como Tesoreria
+	- Embargo: HAY DIFERENTES MONEDAS Y DIFERENTES TIPOS DE CAMBIO.
+				No es manejable porque Tesoreria solo maneja Solicitudes de Pago en una Moneda
+				Como el Embargo genera una Solicitud de Pago,
+				simplemente NO HAY QUE PERMITIR CAMBIAR TIPOS DE CAMBIO
+
+	-
+		--->
+
+		<!--- Obtiene Moneda Local --->
+		<cfquery name="rsSQL" datasource="#session.dsn#">
+			select Mcodigo
+			  from Empresas
+			 where Ecodigo = #session.Ecodigo#
+		</cfquery>
+		<cfset LvarMcodigoLocal = rsSQL.Mcodigo>
+
+		<!--- Obtiene Solicitud de Pago --->
+		<cfquery name="rsSP" datasource="#session.dsn#">
+			select 	TESSPestado, TESSPtipoDocumento
+			  from TESsolicitudPago sp
+			 where TESSPid = <cfqueryparam cfsqltype="cf_sql_numeric" value="#Arguments.TESSPid#">
+			   and EcodigoOri = #session.Ecodigo#
+		</cfquery>
+
+		<cfset GvarMultas	= 0>
+		<cfset GvarCesiones	= 0>
+		<cfset GvarEmbargos	= 0>
+		<cfset GvarCPCsp	= 0>
+
+		<cfif rsSP.TESSPtipoDocumento EQ 1 AND (rsSP.TESSPestado EQ 0 OR rsSP.TESSPestado EQ 1)>
+			<!--- Borra Embargos y Cesiones (despues se vuelven a incluir) --->
+			<cfquery datasource="#session.dsn#">
+				delete from TESdetallePagoCPC
+				 where TESSPid = <cfqueryparam cfsqltype="cf_sql_numeric" value="#Arguments.TESSPid#">
+			</cfquery>
+
+			<!--- Borra Retenciones y Multas (despues se vuelven a incluir) --->
+			<cfquery datasource="#session.dsn#">
+				delete from TESdetallePago
+				 where TESSPid = <cfqueryparam cfsqltype="cf_sql_numeric" value="#Arguments.TESSPid#">
+				   and EcodigoOri = #session.Ecodigo#
+				   and (CPCid IS NOT NULL OR RlineaId IS NOT NULL)
+			</cfquery>
+
+			<cfquery datasource="#session.dsn#">
+				update TESdetallePago
+				   set Mmonto = NULL
+				 where TESSPid = <cfqueryparam cfsqltype="cf_sql_numeric" value="#Arguments.TESSPid#">
+				   and EcodigoOri = #session.Ecodigo#
+			</cfquery>
+
+			<cfquery datasource="#session.dsn#">
+				update TESdetallePago
+				   set TESDPtipoCambioOri = (select coalesce(EDtcultrev,Dtipocambio) from HEDocumentosCP where IDdocumento = TESdetallePago.TESDPidDocumento)
+				 where TESSPid = <cfqueryparam cfsqltype="cf_sql_numeric" value="#Arguments.TESSPid#">
+				   and EcodigoOri = #session.Ecodigo#
+                   and TESDPtipoCambioOri is null
+                   and TESDPtipoDocumento = 1
+			</cfquery>
+
+			<cfset sbRetenciones(Arguments.TESSPid)>
+			<cfset sbMultasEmbargosCesiones(Arguments.TESSPid)>
+
+			<cfquery name="rsTotal" datasource="#session.DSN#">
+				select coalesce(round(sum(TESDPmontoSolicitadoOri - coalesce(Rmonto,0)),2),0) as total
+				  from TESdetallePago
+				 where EcodigoOri = #session.Ecodigo#
+				   and TESSPid = <cfqueryparam cfsqltype="cf_sql_numeric" value="#Arguments.TESSPid#">
+				   and RlineaId is NULL
+			</cfquery>
+			<cfif Arguments.updateSP>
+				<cfquery datasource="#session.DSN#">
+					update TESsolicitudPago
+					   set TESSPtotalPagarOri = #rsTotal.total#
+					 where TESSPid	= #Arguments.TESSPid#
+				</cfquery>
+			</cfif>
+			<cfif rsTotal.total EQ 0>
+				<cfquery name="rsDPs" datasource="#session.DSN#">
+					select dp.TESDPid, dp.CPCid, m.Mcodigo as McodigoSP, c.Mcodigo as McodigoCPC
+					  from TESdetallePago dp
+						left join CPCesion c on c.CPCid = dp.CPCid
+						inner join Monedas m on m.Ecodigo = dp.EcodigoOri and m.Miso4217 = dp.Miso4217Ori
+					 where EcodigoOri = #session.Ecodigo#
+					   and TESSPid = <cfqueryparam cfsqltype="cf_sql_numeric" value="#Arguments.TESSPid#">
+				</cfquery>
+				<cfloop query="rsDPs">
+					<cfquery datasource="#session.DSN#">
+						update TESdetallePago
+						   set 	TESDPtipoCambioOri		= #GvarTCs["M#rsDPs.McodigoSP#"]#
+						 where TESDPid = #rsDPs.TESDPid#
+					</cfquery>
+				</cfloop>
+			</cfif>
+		<cfelseif rsSP.TESSPtipoDocumento EQ 1>
+			<cfquery name="rsCPCs" datasource="#session.dsn#">
+				select
+						case CPCtipo when 'M' then 1 else 2 end as Orden,
+						c.CPCfecha,
+						case CPCtipo
+							when 'M' then 'MULTA '
+							when 'C' then 'CESION '
+							when 'E' then 'EMBARGO '
+						end #_CAT# CPCdocumento as CPCdocumento,
+						case CPCnivel
+							when 'O' then 'O.C.' #_CAT# (select <cf_dbfunction name="to_char" args="EOnumero"> from EOrdenCM where EOidorden = c.EOidorden)
+							when 'D' then (select CPTcodigo #_CAT# '.' #_CAT# Ddocumento from HEDocumentosCP where IDdocumento = c.IDdocumento)
+						end as Documento,
+						c.CPCid, CPCtipo, CPCnivel,
+						coalesce(EOidorden,-1) as EOidorden, coalesce(IDdocumento,-1) as IDdocumento,
+						CPCestado, c.Mcodigo, m.Miso4217, CPCmonto
+						, round(c.CPCmonto - c.CPCpagado - c.TESDPaprobadoPendiente,2) as SALDO_INI_MON_CESION
+						, round(c.CPCmonto - c.CPCpagado - c.TESDPaprobadoPendiente,2) as SALDO_MON_CESION
+						, 0.0000000001 as PAGADO_MON_CESION2
+						, 0.00 as PAGADO_MON_CESION
+						, 0.00 as PAGADO_MON_LOCAL
+						, (select Miso4217 from Monedas where Mcodigo=sp.McodigoOri) as MON_PAGO
+						, 0.00 as PAGADO_MON_PAGO
+						, sn.SNnombre
+				  from TESdetallePagoCPC cpc
+				  	inner join TESsolicitudPago sp
+						on sp.TESSPid = cpc.TESSPid
+				  	inner join CPCesion c
+						on c.CPCid = cpc.CPCid
+					inner join Monedas m
+						 on m.Ecodigo = c.Ecodigo
+						and m.Mcodigo = c.Mcodigo
+					left join SNegocios sn
+						 on sn.SNid = c.SNidDestino
+				 where cpc.TESSPid = #arguments.TESSPid#
+				order by Orden, CPCfecha
+			</cfquery>
+			<cfset sbDPCPC(Arguments.TESSPid)>
+			<cfquery name="rsSQL" dbtype="query">
+				select CPCid
+				  from rsDPCPC
+				 where CPCtipo = 'M'
+			</cfquery>
+			<cfset GvarMultas = rsSQL.recordCount>
+			<cfquery name="rsSQL" dbtype="query">
+				select CPCid
+				  from rsDPCPC
+				 where CPCtipo = 'C'
+			</cfquery>
+			<cfset GvarCesiones = rsSQL.recordCount>
+			<cfquery name="rsSQL" dbtype="query">
+				select CPCid
+				  from rsDPCPC
+				 where CPCtipo = 'E'
+			</cfquery>
+			<cfset GvarEmbargos = rsSQL.recordCount>
+		<cfelse>
+			<cfset GvarMultas = 0>
+			<cfset GvarCesiones = 0>
+			<cfset GvarEmbargos = 0>
+		</cfif>
+
+		<cfreturn>
+	</cffunction>
+
+	<cffunction name="fnRound2" access="private" returntype="numeric" output="no">
+		<cfargument name="valor"	type="numeric">
+		<cfreturn round(100*Arguments.valor)/100>
+	</cffunction>
+
+	<cffunction name="sbRetenciones" access="private" returntype="void" output="no">
+		<cfargument name="TESSPid"	type="numeric">
+
+		<cfquery name="rsSQL" datasource="#session.DSN#">
+			select count(1) as cantidad
+			  from TESdetallePago
+			 WHERE TESSPid = #Arguments.TESSPid#
+			   and Rcodigo is not null
+		</cfquery>
+
+		<cfif rsSQL.cantidad GT 0>
+			<!--- Inserta un detalle negativo con la Retención calculada 
+		--->
+			<cfquery name="rsSQL" datasource="#session.dsn#">
+				insert into TESdetallePago
+					(
+					 TESid, CFid, OcodigoOri,
+					 TESDPestado, TESSPid, TESOPid,
+					 TESDPtipoDocumento, TESDPidDocumento,
+					 TESDPmoduloOri, TESDPdocumentoOri, TESDPreferenciaOri,
+					 SNcodigoOri,
+					 TESDPfechaVencimiento, TESDPfechaSolicitada, TESDPfechaAprobada,
+					 EcodigoOri, EcodigoPago, Miso4217Ori,
+					 TESDPmontoVencimientoOri, TESDPmontoSolicitadoOri, TESDPmontoAprobadoOri,
+					 TESDPdescripcion,
+					 CFcuentaDB, TESRPTCid, BMUsucodigo
+					 ,Rcodigo, Rmonto, RlineaId,
+					 TESDPtipoCambioOri
+					)
+				Select
+						  dp.TESid, cxp.CFid, cxp.Ocodigo
+						, 0 , #Arguments.TESSPid#
+						, <cf_jdbcquery_param cfsqltype="cf_sql_numeric" value="null">
+						, 1, cxp.IDdocumento
+						, 'CPFC', cxp.Ddocumento, cxp.CPTcodigo
+						, cxp.SNcodigo
+						, cxp.Dfechavenc , cxp.Dfechavenc , cxp.Dfechavenc
+						, cxp.Ecodigo, cxp.Ecodigo, Miso4217,
+						A1 = -round(
+							    TESDPmontoSolicitadoOri *
+						        (
+							        coalesce(
+							    	    (
+							    			select sum(h.DDtotallin-h.DDdesclinea) 			<!--- Base Retencion CxP: sum(DDtotallinea) - EDdescuento = Total Factura sin Impuesto --->
+							    			from DDocumentosCP h
+							    			left join Impuestos i on i.Ecodigo = h.Ecodigo and i.Icodigo = h.Icodigo
+							    			where IDdocumento = dp.TESDPidDocumento
+							    			  and coalesce(i.InoRetencion,0) <> 1
+							    	    )
+							        , 0) 
+							        * (case when rd.Rporcentaje is not null then rd.Rporcentaje else r.Rporcentaje end /100)
+									    + ( coalesce((
+											case
+							    			    when r.isVariable = 1 then coalesce(hcxp.EDretencionVariable,0)
+							    			    else 0
+							    			end) /* * (1.0 * TESDPmontoSolicitadoOri / (cxp.Dtotal-isnull(cxp.EDretencionVariable,0)- isnull(cxp.EDmontoretori, 0))) */ ,0)
+							    	) 
+							    )
+							    / (cxp.Dtotal-isnull(hcxp.EDretencionVariable,0)- isnull(hcxp.EDmontoretori, 0))
+							,4,1),
+							/*, -round(
+							 1.0 * TESDPmontoSolicitadoOri / (cxp.EDsaldo- isnull(cxp.EDmontoretori,0) )
+							 	* coalesce(
+									(select sum(h.DDtotallin-h.DDdesclinea) 			<!--- Base Retencion CxP: sum(DDtotallinea) - EDdescuento = Total Factura sin Impuesto --->
+										 from DDocumentosCP h
+											left join Impuestos i on i.Ecodigo = h.Ecodigo and i.Icodigo = h.Icodigo
+										where IDdocumento = dp.TESDPidDocumento
+										  and coalesce(i.InoRetencion,0) <> 1
+									), 0)
+								* case when rd.Rporcentaje is not null then rd.Rporcentaje else r.Rporcentaje end / 100
+								+ coalesce((case
+											when rd.Rcodigo is not null then
+												case
+													when rd.isVariable = 1 then coalesce(cxp.EDretencionVariable,0)
+													else 0
+												end
+											else
+												case
+													when r.isVariable = 1 then coalesce(cxp.EDretencionVariable,0)
+													else 0
+												end
+										end) * (1.0 * TESDPmontoSolicitadoOri / (cxp.Dtotal-isnull(cxp.EDretencionVariable,0)- isnull(cxp.EDmontoretori, 0))) ,0)
+						,4,1) AAAA*/ 
+						A2 = -round(
+							    TESDPmontoSolicitadoOri *
+						        (
+							        coalesce(
+							    	    (
+							    			select sum(h.DDtotallin-h.DDdesclinea) 			<!--- Base Retencion CxP: sum(DDtotallinea) - EDdescuento = Total Factura sin Impuesto --->
+							    			from DDocumentosCP h
+							    			left join Impuestos i on i.Ecodigo = h.Ecodigo and i.Icodigo = h.Icodigo
+							    			where IDdocumento = dp.TESDPidDocumento
+							    			  and coalesce(i.InoRetencion,0) <> 1
+							    	    )
+							        , 0) 
+							        * (case when rd.Rporcentaje is not null then rd.Rporcentaje else r.Rporcentaje end /100)
+							    		+ ( coalesce((
+											case
+							    			    when r.isVariable = 1 then coalesce(hcxp.EDretencionVariable,0)
+							    			    else 0
+							    			end) /* * (1.0 * TESDPmontoSolicitadoOri / (cxp.Dtotal-isnull(cxp.EDretencionVariable,0)- isnull(cxp.EDmontoretori, 0))) */ ,0)
+							    	) 
+							    )
+							    / (cxp.Dtotal-isnull(hcxp.EDretencionVariable,0)- isnull(hcxp.EDmontoretori, 0))
+							,4,1),
+						/* -round(
+							 1.0 * TESDPmontoSolicitadoOri / (cxp.EDsaldo-isnull(EDmontoretori,0) )
+							 	* coalesce(
+									(select sum(h.DDtotallin-h.DDdesclinea) 			<!--- Base Retencion CxP: sum(DDtotallinea) - EDdescuento --->
+										 from DDocumentosCP h
+											left join Impuestos i on i.Ecodigo = h.Ecodigo and i.Icodigo = h.Icodigo
+										where IDdocumento = dp.TESDPidDocumento
+										  and coalesce(i.InoRetencion,0) <> 1
+									), 0)
+								* case when rd.Rporcentaje is not null then rd.Rporcentaje else r.Rporcentaje end / 100
+								+ coalesce((case
+											when rd.Rcodigo is not null then
+												case
+													when rd.isVariable = 1 then coalesce(cxp.EDretencionVariable,0)
+													else 0
+												end
+											else
+												case
+													when r.isVariable = 1 then coalesce(cxp.EDretencionVariable,0)
+													else 0
+												end
+										end)* (1.0 * TESDPmontoSolicitadoOri / (cxp.Dtotal-isnull(cxp.EDretencionVariable,0)- isnull(cxp.EDmontoretori, 0))) ,0)
+						,4,1)*/
+						A3 = -round(
+							    TESDPmontoSolicitadoOri *
+						        (
+							        coalesce(
+							    	    (
+							    			select sum(h.DDtotallin-h.DDdesclinea) 			<!--- Base Retencion CxP: sum(DDtotallinea) - EDdescuento = Total Factura sin Impuesto --->
+							    			from DDocumentosCP h
+							    			left join Impuestos i on i.Ecodigo = h.Ecodigo and i.Icodigo = h.Icodigo
+							    			where IDdocumento = dp.TESDPidDocumento
+							    			  and coalesce(i.InoRetencion,0) <> 1
+							    	    )
+							        , 0) 
+							        * (case when rd.Rporcentaje is not null then rd.Rporcentaje else r.Rporcentaje end /100)
+									    + ( coalesce((
+											case
+							    			    when r.isVariable = 1 then coalesce(hcxp.EDretencionVariable,0)
+							    			    else 0
+							    			end) /* * (1.0 * TESDPmontoSolicitadoOri / (cxp.Dtotal-isnull(cxp.EDretencionVariable,0)- isnull(cxp.EDmontoretori, 0))) */ ,0)
+							    	)
+							    )
+							    / (cxp.Dtotal-isnull(hcxp.EDretencionVariable,0)- isnull(hcxp.EDmontoretori, 0))
+						,4,1)
+						/* , -round(
+							 1.0 * TESDPmontoSolicitadoOri / (cxp.EDsaldo-isnull(EDmontoretori,0) )
+							 	* coalesce(
+									(select sum(h.DDtotallin-h.DDdesclinea) 			<!--- Base Retencion CxP: sum(DDtotallinea) - EDdescuento --->
+										 from DDocumentosCP h
+											left join Impuestos i on i.Ecodigo = h.Ecodigo and i.Icodigo = h.Icodigo
+										where IDdocumento = dp.TESDPidDocumento
+										  and coalesce(i.InoRetencion,0) <> 1
+									), 0)
+								* case when rd.Rporcentaje is not null then rd.Rporcentaje else r.Rporcentaje end / 100
+								+ coalesce((case
+											when rd.Rcodigo is not null then
+												case
+													when rd.isVariable = 1 then coalesce(cxp.EDretencionVariable,0)
+													else 0
+												end
+											else
+												case
+													when r.isVariable = 1 then coalesce(cxp.EDretencionVariable,0)
+													else 0
+												end
+										end)* (1.0 * TESDPmontoSolicitadoOri / (cxp.Dtotal-isnull(cxp.EDretencionVariable,0)- isnull(cxp.EDmontoretori, 0))) ,0)
+						,4,1) */
+						, ' - ' #_CAT# r.Rdescripcion
+						, (select min(CFcuenta) from CFinanciera where Ecodigo = cxp.Ecodigo and Ccuenta = coalesce(rd.Ccuentaretp, r.Ccuentaretp))
+						, <cf_jdbcquery_param cfsqltype="cf_sql_numeric" value="null">, #session.Usucodigo#
+						, case when rd.Rcodigo is not null then rd.Rcodigo else  r.Rcodigo end, 0, TESDPid,
+						TESDPtipoCambioOri
+				  from TESdetallePago dp
+						inner join EDocumentosCP cxp
+						inner join CPTransacciones tt
+							 on tt.Ecodigo 		= cxp.Ecodigo
+							and tt.CPTcodigo 	= cxp.CPTcodigo
+							and tt.CPTtipo 		= 'C'
+						inner join Monedas m
+							 on m.Mcodigo 	= cxp.Mcodigo
+						inner join Retenciones r
+							left join RetencionesComp rc
+								inner join Retenciones rd
+								 on rd.Ecodigo = rc.Ecodigo
+								and rd.Rcodigo = rc.RcodigoDet
+							 on rc.Ecodigo = r.Ecodigo
+							and rc.Rcodigo = r.Rcodigo
+						 on r.Ecodigo = cxp.Ecodigo
+						and r.Rcodigo = cxp.Rcodigo
+					 on cxp.Ecodigo		= dp.EcodigoOri
+					and cxp.IDdocumento	= dp.TESDPidDocumento
+					inner join HEDocumentosCP hcxp  on hcxp.IDdocumento = cxp.IDdocumento
+				  WHERE dp.TESSPid =  #Arguments.TESSPid#
+					AND dp.RlineaId is NULL				<!--- Sin retenciones --->
+					AND dp.MlineaId is NULL				<!--- Sin multas: no se han generado Cesiones o Embargos --->
+			</cfquery>
+
+		<!--- 	<cfquery name="rsSQL" datasource="#session.dsn#">
+				update TESdetallePago
+				   set Rmonto =
+						-(
+							select sum(TESDPmontoSolicitadoOri)
+							  from TESdetallePago d
+							 where d.RlineaId = TESdetallePago.TESDPid
+						)
+				where TESSPid	= #Arguments.TESSPid#
+				  and RlineaId is NULL
+				  and Rcodigo	is not null
+			</cfquery> --->
+		</cfif>
+	</cffunction>
+
+	<cffunction name="sbMultasEmbargosCesiones" access="private" returntype="void" output="no">
+		<cfargument name="TESSPid"	type="numeric">
+
+		<!--- Obtiene Solicitud de Pago --->
+		<cfquery name="rsSP" datasource="#session.dsn#">
+			select 	TESSPid, s.SNid,
+					TESSPestado, TESSPtipoDocumento,
+					McodigoOri,  m.Miso4217,
+					(
+						select round(sum(TESDPmontoSolicitadoOri),2)
+						  from TESdetallePago
+						 where TESSPid	= sp.TESSPid
+						   and RlineaId is NULL
+					) as TESSPtotalPagarOri
+					,(
+						select round(sum(coalesce(Rmonto,0)),2)
+						  from TESdetallePago
+						 where TESSPid	= sp.TESSPid
+						   and RlineaId is NULL
+					) as Rmonto
+			  from TESsolicitudPago sp
+				inner join SNegocios s
+					 on s.SNcodigo 	= sp.SNcodigoOri
+					and s.Ecodigo	= sp.EcodigoOri
+				inner join Monedas m
+					 on m.Mcodigo 	= sp.McodigoOri
+					and m.Ecodigo	= sp.EcodigoOri
+			 where TESSPid = <cfqueryparam cfsqltype="cf_sql_numeric" value="#Arguments.TESSPid#">
+			   and EcodigoOri = #session.Ecodigo#
+		</cfquery>
+
+		<!--- Obtiene todos los IDdocumentos a pagar: CPs --->
+		<cfquery name="rsFacturas" datasource="#session.dsn#">
+			select distinct dp.TESDPidDocumento as IDdocumento
+			  from TESdetallePago dp
+			 where TESSPid = #Arguments.TESSPid#
+			   and TESDPtipoDocumento = 1
+		</cfquery>
+
+		<cfset LvarCPs = valueList(rsFacturas.IDdocumento)>
+		<cfif LvarCPs EQ "">
+			<cfset LvarCPs = "-1">
+		</cfif>
+
+		<!--- Obtiene todos los EOidorden a pagar: OCs --->
+		<cfquery name="rsOCs" datasource="#session.dsn#">
+			select distinct oc.EOidorden as EOidorden
+			  from TESdetallePago dp
+				inner join DDocumentosCP cxp
+					on cxp.IDdocumento = dp.TESDPidDocumento
+				inner join DOrdenCM oc
+					on oc.DOlinea = cxp.DOlinea
+			 where TESSPid = #Arguments.TESSPid#
+			   and TESDPtipoDocumento = 1
+		</cfquery>
+
+		<cfset LvarOCs = valueList(rsOCs.EOidorden)>
+		<cfif LvarOCs EQ "">
+			<cfset LvarOCs = "-1">
+		</cfif>
+
+		<!--- Obtiene todas las Multas, Embargos y Cesiones aprobados o enviados a aprobar que Coincidan con la SP --->
+		<cfquery name="rsCPCs" datasource="#session.dsn#">
+			select
+					case CPCtipo when 'M' then 1 else 2 end as Orden,
+					CPCfecha,
+					case CPCtipo
+						when 'M' then 'MULTA '
+						when 'C' then 'CESION '
+						when 'E' then 'EMBARGO '
+					end #_CAT# CPCdocumento as CPCdocumento,
+					case CPCnivel
+						when 'O' then 'O.C.' #_CAT# (select <cf_dbfunction name="to_char" args="EOnumero"> from EOrdenCM where EOidorden = c.EOidorden)
+						when 'D' then (select CPTcodigo #_CAT# '.' #_CAT# Ddocumento from HEDocumentosCP where IDdocumento = c.IDdocumento)
+					end as Documento,
+					CPCid, CPCtipo, CPCnivel,
+					coalesce(EOidorden,-1) as EOidorden, coalesce(IDdocumento,-1) as IDdocumento,
+					CPCestado, c.Mcodigo, m.Miso4217, CPCmonto
+					, round(CPCmonto - CPCpagado - TESDPaprobadoPendiente,2) as SALDO_INI_MON_CESION
+					, round(CPCmonto - CPCpagado - TESDPaprobadoPendiente,2) as SALDO_MON_CESION
+					, 0.0000000001 as PAGADO_MON_CESION2
+					, 0.00 as PAGADO_MON_CESION
+					, 0.00 as PAGADO_MON_LOCAL
+					, '#rsSP.Miso4217#' as MON_PAGO
+					, 0.00 as PAGADO_MON_PAGO
+					, sn.SNnombre
+			  from CPCesion c
+			  	inner join Monedas m
+					 on m.Ecodigo = c.Ecodigo
+					and m.Mcodigo = c.Mcodigo
+			  	left join SNegocios sn
+					 on sn.SNid = c.SNidDestino
+			 where SNidOrigen = #rsSP.SNid#
+			   and CPCestado in (1,2,3)
+			   and CPCmonto - CPCpagado - TESDPaprobadoPendiente > 0
+			   and (
+					CPCnivel = 'S'
+					OR (CPCnivel = 'O' AND EOidorden	IN (#LvarOCs#))
+					OR (CPCnivel = 'D' AND IDdocumento	IN (#LvarCPs#))
+					)
+			order by Orden, CPCfecha
+		</cfquery>
+
+		<cfif rsCPCs.recordCount EQ 0>
+			<cfreturn>
+		</cfif>
+
+		<!--- Obtiene todos los EOidorden con cesiones: OCs (únicamente se lleva control de saldos por OCs con cesiones)--->
+		<cfset LvarOCs = valueList(rsCPCs.EOidorden)>
+		<cfif LvarOCs EQ "">
+			<cfset LvarOCs = "-1">
+		</cfif>
+
+		<cfset LvarSaldoOC_CP		= structNew()>
+
+		<!---
+			Saldos Iniciales:
+				Todos los controles se hacen a partir del PagoNeto = MontoSolicitado - Retención
+			Las multas se generan en negativo y no llevan retención. La retención la mantiene el pago al titular
+			Los embargos y cesiones sí llevan retención, pero al distribuirse el SaldoNeto, se estima el MontoSolicitado y la Retención que luego se deben ajustar
+		--->
+		<cfset LvarSaldoPago 		= rsSP.TESSPtotalPagarOri - rsSP.Rmonto>
+		<cfquery name="rsPagos" datasource="#session.dsn#">
+			select dp.TESDPidDocumento as IDdocumento,
+					round(sum(dp.TESDPmontoSolicitadoOri - coalesce(dp.Rmonto,0)),2) as pagadoNeto
+			  from TESdetallePago dp
+			 where dp.TESSPid 				= #Arguments.TESSPid#
+			   and dp.TESDPtipoDocumento 	= 1
+			   and RlineaId is NULL
+			group by dp.TESDPidDocumento
+		</cfquery>
+
+		<cfloop query="rsPagos">
+			<cfset LvarSaldoOC_CP["CP#rsPagos.IDdocumento#"] = rsPagos.pagadoNeto>
+		</cfloop>
+
+		<!--- Guarda el Saldo Inicial del Pago NETO de las OCs con afectación: (Monto Solicitado de Pago  - Retenciones) * totalLineaCxP/totalDocumentoCxP --->
+		<cfquery name="rsPagos" datasource="#session.dsn#">
+			select 	oc.EOidorden,
+					round(
+						sum(1.0 * (dp.TESDPmontoSolicitadoOri - coalesce(dp.Rmonto,0)) / doc.Dtotal * (DDtotallin-DDdescdoc+DDcostosProrrateados+(DDimpuestoCF+DDimpuestoCosto+coalesce(DDMontoIeps,0)+coalesce(DDCostoIEPS,0))) )
+					,2) as pagadoNeto
+			  from TESdetallePago dp
+				inner join HDDocumentosCP cxp
+					on cxp.IDdocumento = dp.TESDPidDocumento
+				inner join EDocumentosCP doc
+					on doc.IDdocumento = dp.TESDPidDocumento
+				inner join DOrdenCM oc
+					on oc.DOlinea = cxp.DOlinea
+			 where TESSPid 				= #Arguments.TESSPid#
+			   and TESDPtipoDocumento 	= 1
+			   and oc.EOidorden			IN (#LvarOCs#)
+			   and RlineaId is NULL
+			 group by oc.EOidorden
+		</cfquery>
+
+		<cfloop query="rsPagos">
+			<cfset LvarSaldoOC_CP["OC#rsPagos.EOidorden#"] = rsPagos.pagadoNeto>
+		</cfloop>
+
+		<!---
+			Determina el monto que se va a asignar a PagoCesion: menor entre SaldoPago, SaldoCesion y SaldoOC y SaldoFactura
+			Disminuye o Reserva el saldoPago y SaldoOC y SaldoFactura
+			SaldoOC y SaldoFactura debe distribuir el PagoCesion entre sus complementarios
+			Generar TESdetallePago por Factura:
+				En caso de Factura es directo
+				En caso de OC es la distribucion de todas las facturas de la misma OC
+				En caso de Socio se debe distribuir al final a los saldos de las diferentes facturas
+		--->
+
+		<!--- GENERACION TESdetallePago:
+			A nivel de Socio:  Primero se debe generar a nivel de Factura y OC
+				PagoCesion = Se Reserva el menor entre el SaldoPago y SaldoCesion
+			A nivel de Factura:
+				PagoCesion = Se Reserva el menor entre el SaldoPago y SaldoCesion y SaldoFactura
+				PagoFactura = Se Reserva PagoCesion
+				Por cada OC de la misma Factura: llevar control de saldos de cesiones posteriores a nivel de OC (complemento)
+					PagoOC = Se Reserva PagoCesionDistribuido
+				Genera un TESdetallePago por PagoCesion de la Factura
+			A nivel de OC:
+				PagoCesion = Se Reserva el menor entre el SaldoPago y SaldoCesion y SaldoOC
+				PagoOC = Se Reserva PagoCesion
+				Por cada Factura de la misma OC: llevar control de saldos de cesiones posteriores a nivel de Factura (complemento)
+					PagoFactura = Se Reserva PagoCesionDistribuido
+					Genera un TESdetallePago por PagoCesionDistribuido de la Factura + OC
+
+			Por cada Cesion a nivel de Socio:
+				Por cada Factura con saldo, se distribuye el PagoCesion:
+					Genera un TESdetallePago por Factura
+		--->
+		<cfloop query="rsCPCs">
+			<cfif LvarSaldoPago LTE 0>
+				<cfbreak>
+			</cfif>
+
+			<cfif rsCPCs.CPCtipo EQ "M">
+				<cfset GvarMultas++>
+			<cfelseif rsCPCs.CPCtipo EQ "C">
+				<cfset GvarCesiones++>
+			<cfelse>
+				<cfset GvarEmbargos++>
+			</cfif>
+
+			<cfset LvarTCs				= fnTCs (rsCPCs.Mcodigo, rsSP.McodigoOri, LvarMcodigoLocal)>
+			<cfset LvarCPCs_FC			= LvarTCs.FC>
+			<cfset LvarCPCs_Saldo 		= rsCPCs.SALDO_MON_CESION * LvarCPCs_FC>
+			<cfset LvarCPCs_SaldoIni	= rsCPCs.SALDO_INI_MON_CESION>
+			<cfset LvarCPCs_Miso 		= rsCPCs.Miso4217>
+
+			<cfif rsCPCs.CPCnivel EQ "S">
+				<!--- Menor entre SaldoPago y SaldoCesion --->
+				<cfif LvarSaldoPago LT LvarCPCs_Saldo>
+					<cfset LvarPagoCesion = LvarSaldoPago>
+				<cfelseif LvarCPCs_Saldo GT 0>
+					<cfset LvarPagoCesion = LvarCPCs_Saldo>
+				<cfelse>
+					<cfset LvarPagoCesion = 0>
+				</cfif>
+
+				<cfset LvarPagoCesionSP_00 = fnRound2(LvarPagoCesion)>
+				<cfset LvarPagoCesionSP_00	= fnRound2(LvarPagoCesion)>
+				<cfset LvarPagoCesionCPC_00	= fnRound2(LvarPagoCesionSP_00/LvarCPCs_FC)>
+				<cfset LvarPagoCesionLOC_00	= fnRound2(LvarPagoCesionCPC_00 * LvarTCs.SP)>
+
+				<!--- Diminuye Saldos --->
+				<cfset LvarSaldoPago 						-= LvarPagoCesionSP_00>
+				<cfset LvarSaldoPago 						= fnRound2(LvarSaldoPago)>
+
+				<cfset QuerySetCell(rsCPCs, "PAGADO_MON_PAGO", 		LvarPagoCesionSP_00, 									rsCPCs.currentRow)>
+				<cfset QuerySetCell(rsCPCs, "PAGADO_MON_CESION", 	fnRound2(LvarPagoCesion/LvarCPCs_FC),			rsCPCs.currentRow)>
+				<cfset QuerySetCell(rsCPCs, "PAGADO_MON_LOCAL", 	LvarPagoCesionLOC_00,								rsCPCs.currentRow)>
+				<cfset QuerySetCell(rsCPCs, "PAGADO_MON_CESION2", 	LvarPagoCesion/LvarCPCs_FC,							rsCPCs.currentRow)>
+				<cfset QuerySetCell(rsCPCs, "SALDO_MON_CESION", 	fnRound2(rsCPCs.SALDO_MON_CESION-rsCPCs.PAGADO_MON_CESION),	rsCPCs.currentRow)>
+
+				<!--- GENERACION TESdetallePago: Cuando es a nivel de Socio, primero hay que asignar a nivel de Factura y OC --->
+			<cfelse>
+				<cfif rsCPCs.CPCnivel EQ "O">
+					<cfset LvarSaldoOC_CP_Key = "OC#rsCPCs.EOidorden#">
+				<cfelse>
+					<cfset LvarSaldoOC_CP_Key = "CP#rsCPCs.IDdocumento#">
+				</cfif>
+
+				<!--- Menor entre SaldoPago y SaldoCesion y SaldoDoc --->
+				<cfif LvarSaldoPago LTE LvarCPCs_Saldo AND LvarSaldoPago LTE LvarSaldoOC_CP[LvarSaldoOC_CP_Key]>
+					<cfset LvarPagoCesion = LvarSaldoPago>
+				<cfelseif LvarCPCs_Saldo LTE LvarSaldoPago AND LvarCPCs_Saldo LTE LvarSaldoOC_CP[LvarSaldoOC_CP_Key]>
+					<cfset LvarPagoCesion = LvarCPCs_Saldo>
+				<cfelseif LvarSaldoOC_CP[LvarSaldoOC_CP_Key] GT 0>
+					<cfset LvarPagoCesion = LvarSaldoOC_CP[LvarSaldoOC_CP_Key]>
+				<cfelse>
+					<cfset LvarPagoCesion = 0>
+				</cfif>
+
+				<cfset LvarPagoCesionSP_00	= fnRound2(LvarPagoCesion)>
+				<cfset LvarPagoCesionCPC_00	= fnRound2(LvarPagoCesionSP_00/LvarCPCs_FC)>
+				<cfset LvarPagoCesionLOC_00	= fnRound2(LvarPagoCesionCPC_00 * LvarTCs.SP)>
+
+				<!--- Diminuye Saldos --->
+				<cfset LvarSaldoPago 						-= LvarPagoCesionSP_00>
+				<cfset LvarSaldoOC_CP[LvarSaldoOC_CP_Key]	-= LvarPagoCesionSP_00>
+				<cfset LvarSaldoPago 						= fnRound2(LvarSaldoPago)>
+				<cfset LvarSaldoOC_CP[LvarSaldoOC_CP_Key]	= fnRound2(LvarSaldoOC_CP[LvarSaldoOC_CP_Key])>
+
+				<cfset QuerySetCell(rsCPCs, "PAGADO_MON_PAGO", 		LvarPagoCesionSP_00, 									rsCPCs.currentRow)>
+				<cfset QuerySetCell(rsCPCs, "PAGADO_MON_CESION", 	LvarPagoCesionCPC_00,								rsCPCs.currentRow)>
+				<cfset QuerySetCell(rsCPCs, "PAGADO_MON_LOCAL", 	LvarPagoCesionLOC_00,								rsCPCs.currentRow)>
+				<cfset QuerySetCell(rsCPCs, "PAGADO_MON_CESION2", 	LvarPagoCesion/LvarCPCs_FC,							rsCPCs.currentRow)>
+				<cfset QuerySetCell(rsCPCs, "SALDO_MON_CESION", 	fnRound2(rsCPCs.SALDO_MON_CESION-rsCPCs.PAGADO_MON_CESION),	rsCPCs.currentRow)>
+
+				<cfset LvarPagoDistribuir = LvarPagoCesionSP_00>
+
+				<cfset LvarCPCnivel		= rsCPCs.CPCnivel>
+				<cfset LvarCPCid		= rsCPCs.CPCid>
+				<cfset LvarCPCtipo		= rsCPCs.CPCtipo>
+				<cfset LvarCPCestado	= rsCPCs.CPCestado>
+				<cfset LvarCPCfecha		= rsCPCs.CPCfecha>
+				<cfif rsCPCs.CPCnivel EQ "D">
+					<!--- GENERACION TESdetallePago: Cuando es a nivel de Factura se debe generar lineas por Factura + LvarPagoCesion --->
+					<cfquery name="rsDPs" datasource="#session.dsn#">
+						select 	min(dp.TESDPid) as TESDPid
+						  from TESdetallePago dp
+						 where TESSPid 				= #Arguments.TESSPid#
+						   and TESDPtipoDocumento 	= 1
+						   and dp.TESDPidDocumento	= #rsCPCs.IDdocumento#
+					</cfquery>
+					<cfset sbInsert (Arguments.TESSPid, rsDPs.TESDPid, rsCPCs.CPCid, rsCPCs.CPCtipo, rsCPCs.CPCfecha, LvarPagoCesionSP_00, LvarCPCs_Miso, LvarPagoCesionCPC_00, LvarPagoCesionLOC_00, LvarCPCs_SaldoIni, rsCPCs.IDdocumento, LvarCPCestado, rsCPCs.Documento)>
+				<cfelseif rsCPCs.CPCnivel EQ "O">
+					<!--- A nivel de OC: Distribuye PagoCesion entre las proporciones de OC de cada factura para cesiones posteriores --->
+					<cfquery name="rsDPs" datasource="#session.dsn#">
+						select 	cxp.IDdocumento, oc.EOidorden,
+								min(dp.TESDPid) as TESDPid, min(oc.EOnumero) as EOnumero,
+								round(
+									sum(1.0 * (dp.TESDPmontoSolicitadoOri - coalesce(dp.Rmonto,0)) / doc.Dtotal * (DDtotallin-DDdescdoc+DDcostosProrrateados+(DDimpuestoCF+DDimpuestoCosto+DDMontoIeps+DDCostoIEPS)) )
+								,2) as pagadoNeto
+						  from TESdetallePago dp
+							inner join HDDocumentosCP cxp
+								on cxp.IDdocumento = dp.TESDPidDocumento
+							inner join EDocumentosCP doc
+								on doc.IDdocumento = dp.TESDPidDocumento
+							left join DOrdenCM oc
+								on oc.DOlinea = cxp.DOlinea
+						 where TESSPid 				= #Arguments.TESSPid#
+						   and TESDPtipoDocumento 	= 1
+						   and oc.EOidorden			= #rsCPCs.EOidorden#
+						   and RlineaId is NULL				<!--- Sin retenciones --->
+						   and MlineaId is NULL				<!--- Sin multas --->
+						group by cxp.IDdocumento, oc.EOidorden
+						order by dp.TESDPdocumentoOri, dp.TESDPreferenciaOri, dp.TESDPid
+					</cfquery>
+
+					<cfloop query="rsDPs">
+						<cfif LvarPagoDistribuir LTE 0>
+							<cfbreak>
+						</cfif>
+						<cfset LvarSaldoOC_CP_Key = "CP#rsDPs.IDdocumento#">
+						<cfif LvarPagoDistribuir LTE rsDPs.pagadoNeto AND LvarPagoDistribuir LTE LvarSaldoOC_CP[LvarSaldoOC_CP_Key]>
+							<cfset LvarDistribuido = LvarPagoDistribuir>
+						<cfelseif rsDPs.pagadoNeto LT LvarPagoDistribuir AND rsDPs.pagadoNeto LT LvarSaldoOC_CP[LvarSaldoOC_CP_Key]>
+							<cfset LvarDistribuido = rsDPs.pagadoNeto>
+						<cfelseif LvarSaldoOC_CP[LvarSaldoOC_CP_Key] GT 0>
+							<cfset LvarDistribuido = LvarSaldoOC_CP[LvarSaldoOC_CP_Key]>
+						<cfelse>
+							<cfset LvarDistribuido = 0>
+						</cfif>
+						<cfset LvarPagoDistribuir 					-= LvarDistribuido>
+						<cfif isdefined("LvarSaldoOC_CP.#LvarSaldoOC_CP_Key#")>
+							<cfset LvarSaldoOC_CP[LvarSaldoOC_CP_Key] 	-= LvarDistribuido>
+						</cfif>
+						<!--- GENERACION TESdetallePago: Cuando es a nivel de OC se debe generar lineas por Factura + OC + LvarDistribuido --->
+						<cfset sbInsert (Arguments.TESSPid, rsDPs.TESDPid, LvarCPCid, LvarCPCtipo, LvarCPCfecha, LvarDistribuido, LvarCPCs_Miso, LvarDistribuido/LvarCPCs_FC, LvarDistribuido*LvarTCs.SP, LvarCPCs_SaldoIni, rsDPs.IDdocumento, LvarCPCestado, "O.C.#rsDPs.EOnumero#")>
+					</cfloop>
+				</cfif>
+			</cfif>
+		</cfloop>
+
+		<!--- GENERACION TESdetallePago: Cuando es a nivel de Socio se debe distribuir el PagoCesion entre las facturas que tengan saldo, generar lineas por FacturaConSaldo + LvarDistribuido --->
+		<cfloop query="rsCPCs">
+			<cfif rsCPCs.CPCnivel EQ "S">
+				<cfif rsCPCs.PAGADO_MON_CESION NEQ 0>
+					<cfset LvarPagoDistribuir	= rsCPCs.PAGADO_MON_PAGO>
+					<cfset LvarCPCs_FC			= rsCPCs.PAGADO_MON_PAGO / rsCPCs.PAGADO_MON_CESION2>
+					<cfset LvarCPCs_TC_SP		= rsCPCs.PAGADO_MON_LOCAL / LvarPagoDistribuir>
+				<cfelse>
+					<cfset LvarPagoDistribuir	= 0>
+					<cfset LvarCPCs_FC			= 0>
+					<cfset LvarCPCs_TC_SP		= 0>
+				</cfif>
+				<cfset LvarCPCs_SaldoIni	= rsCPCs.SALDO_INI_MON_CESION>
+				<cfset LvarCPCs_Miso 		= rsCPCs.Miso4217>
+
+				<cfquery name="rsDPs" datasource="#session.dsn#">
+					select 	doc.IDdocumento,
+							min(dp.TESDPid) as TESDPid
+					  from TESdetallePago dp
+						inner join EDocumentosCP doc
+							on doc.IDdocumento = dp.TESDPidDocumento
+					 where TESSPid 				= #Arguments.TESSPid#
+					   and TESDPtipoDocumento 	= 1
+					   and RlineaId is NULL				<!--- Sin retenciones --->
+					   and MlineaId is NULL				<!--- Sin multas --->
+					group by doc.IDdocumento
+					order by min(dp.TESDPid)
+				</cfquery>
+
+				<cfset LvarCPCid		= rsCPCs.CPCid>
+				<cfset LvarCPCtipo		= rsCPCs.CPCtipo>
+				<cfset LvarCPCestado	= rsCPCs.CPCestado>
+				<cfset LvarCPCfecha		= rsCPCs.CPCfecha>
+				<cfloop query="rsDPs">
+					<cfif LvarPagoDistribuir LTE 0>
+						<cfbreak>
+					</cfif>
+					<cfset LvarSaldoOC_CP_Key = "CP#rsDPs.IDdocumento#">
+					<cfif LvarPagoDistribuir LTE LvarSaldoOC_CP[LvarSaldoOC_CP_Key]>
+						<cfset LvarDistribuido = LvarPagoDistribuir>
+					<cfelseif LvarSaldoOC_CP[LvarSaldoOC_CP_Key] GT 0>
+						<cfset LvarDistribuido = LvarSaldoOC_CP[LvarSaldoOC_CP_Key]>
+					<cfelse>
+						<cfset LvarDistribuido = 0>
+					</cfif>
+					<cfif LvarDistribuido GT 0>
+						<cfset LvarPagoDistribuir 				  -= LvarDistribuido>
+						<cfif isdefined("LvarSaldoOC_CP.#LvarSaldoOC_CP_Key#")>
+							<cfset LvarSaldoOC_CP[LvarSaldoOC_CP_Key] -= LvarDistribuido>
+						</cfif>
+
+						<cfset sbInsert (Arguments.TESSPid, rsDPs.TESDPid, LvarCPCid, LvarCPCtipo, LvarCPCfecha, LvarDistribuido, LvarCPCs_Miso, fnRound2(LvarDistribuido/LvarCPCs_FC), fnRound2(LvarDistribuido*LvarCPCs_TC_SP), LvarCPCs_SaldoIni, rsDPs.IDdocumento, LvarCPCestado, "")>
+					</cfif>
+				</cfloop>
+			</cfif>
+		</cfloop>
+
+
+		<cfif (GvarMultas + GvarCesiones + GvarEmbargos) GT 0>
+			<!--- Calcular el pago al Titular, es el ultimo insert a TESdetallePagoCPC --->
+			<cfquery datasource="#session.dsn#">
+				insert into TESdetallePagoCPC
+					(
+					 TESSPid, CPCsp, TESDPid,
+					 TESDPidNew,
+					 CPCid,
+					 CPCfecha,
+					 TESDPdescripcion,
+					 TESDPmontoVencimientoOri,
+					 TESDPmontoSolicitadoOri,
+					 Rmonto,
+					 Rcodigo, RlineaId,
+
+					 CPCpagado, CPClocal
+					)
+				select
+					 TESSPid, 0, TESDPid,
+					 TESDPid,
+					 CPCid,
+					 dp.TESDPfechaVencimiento,
+					 dp.TESDPdescripcion,
+					 dp.TESDPmontoVencimientoOri -
+						coalesce(
+							case
+								when dp.MlineaId is NULL then 					<!--- que no sean multas --->
+								(
+									select sum(TESDPmontoVencimientoOri)
+									  from TESdetallePagoCPC
+									 where TESDPid = dp.TESDPid
+								)
+							end
+						,0),
+					 dp.TESDPmontoSolicitadoOri -
+						coalesce(
+							case
+								when dp.MlineaId is NULL then 					<!--- que no sean multas --->
+								(
+									select sum(TESDPmontoSolicitadoOri)
+									  from TESdetallePagoCPC
+									 where TESDPid = dp.TESDPid
+								)
+							end
+						,0),
+					 dp.Rmonto -
+						coalesce(
+							case
+								when dp.MlineaId is NULL then 					<!--- que no sean multas --->
+								(
+									select sum(Rmonto)
+									  from TESdetallePagoCPC
+									 where TESDPid = dp.TESDPid
+								)
+							end
+						,0),
+					 Rcodigo, RlineaId,
+
+					 <!--- **OJO**: CUANDO ES MULTA SE GUARDA CPCpagado/CPClocal EN TESDPmontoAprobadoOri/TESDPmontoAprobadoLocal TEMPORALMENTE --->
+					 CASE WHEN MlineaId is NOT NULL THEN round(TESDPmontoAprobadoOri,2) END,
+					 CASE WHEN MlineaId is NOT NULL THEN round(TESDPmontoAprobadoLocal,2) END
+
+				 from TESdetallePago dp
+				where TESSPid	= #Arguments.TESSPid#
+				  and round(
+							dp.TESDPmontoSolicitadoOri -
+								coalesce((
+									select sum(TESDPmontoSolicitadoOri)
+									  from TESdetallePagoCPC
+									 where TESDPid = dp.TESDPid
+								),0)
+						,2) <> 0
+			</cfquery>
+
+			<!--- /* **OJO**: CUANDO ES MULTA SE GUARDA CPCpagado/CPClocal EN TESDPmontoAprobadoOri/TESDPmontoAprobadoLocal TEMPORALMENTE.
+					AQUI SE GUARDA EL DATO REAL */ --->
+			<cfquery datasource="#session.dsn#">
+				update TESdetallePago
+				   set TESDPmontoAprobadoOri = TESDPmontoSolicitadoOri,
+				       TESDPmontoAprobadoLocal = <cf_jdbcquery_param cfsqltype="cf_sql_numeric" value="null">
+				where TESSPid = #Arguments.TESSPid#
+				  and CPCid IS NOT NULL						<!--- multas: no se han generado cesiones ni embargos --->
+			</cfquery>
+		</cfif>
+
+		<cfquery datasource="#session.dsn#">
+			update TESdetallePago
+			   set Mmonto =
+					-(
+						select sum(TESDPmontoSolicitadoOri)
+						  from TESdetallePago d
+						 where d.MlineaId = TESdetallePago.TESDPid
+					)
+			where TESSPid	= #Arguments.TESSPid#
+			  and
+				(
+					select count(1)
+					  from TESdetallePago d
+					 where d.MlineaId = TESdetallePago.TESDPid
+				) > 0
+		</cfquery>
+
+		<cfset sbDPCPC(Arguments.TESSPid)>
+
+		<cfreturn>
+	</cffunction>
+
+	<cffunction name="sbDPCPC" output="no" returntype="void" access="public">
+		<cfargument name="TESSPid"	type="numeric">
+
+		<cfquery name="rsDPCPC" datasource="#session.dsn#">
+			select
+				dpc.TESDPid,
+				dpc.CPCsp,
+				dpc.CPCid,
+				dpc.RlineaId,
+				c.CPCtipo,
+				case c.CPCtipo
+					when 'M' then 'MULTA '
+					when 'C' then 'CESION '
+					when 'E' then 'EMBARGO '
+				end #_CAT# c.CPCdocumento as CPCdocumento,
+				case c.CPCnivel
+					when 'O' then 'O.C.' #_CAT# (select <cf_dbfunction name="to_char" args="EOnumero"> from EOrdenCM where EOidorden = c.EOidorden)
+					when 'D' then (select CPTcodigo #_CAT# '.' #_CAT# Ddocumento from HEDocumentosCP where IDdocumento = c.IDdocumento)
+				end as Documento,
+				dpc.TESDPdescripcion,
+				m.Mnombre, m.Miso4217,
+				dpc.TESDPmontoSolicitadoOri,
+				coalesce(dpc.Rmonto, 0) as Rmonto,
+				dpc.TESDPmontoSolicitadoOri - coalesce(dpc.Rmonto, 0) as Neto,
+				case when dpc.CPCid=0 then sn.SNnombre else snD.SNnombre end as aFavorDe,
+				dpc.TESSPnumero,
+				(select sum(TESDPmontoSolicitadoOri) from TESdetallePagoCPC where TESSPid=dpc.TESSPid AND CPCsp = dpc.CPCsp) as SPneto
+			 from TESdetallePagoCPC dpc
+			 	inner join TESdetallePago dp
+					on dp.TESDPid = dpc.TESDPid
+			 	inner join TESsolicitudPago sp
+					inner join Monedas m
+						 on m.Mcodigo 	= sp.McodigoOri
+						and m.Ecodigo	= sp.EcodigoOri
+					inner join SNegocios sn
+						 on sn.Ecodigo	= sp.EcodigoOri
+						and sn.SNcodigo	= sp.SNcodigoOri
+					on sp.TESSPid = dpc.TESSPid
+				left join CPCesion c
+					left join SNegocios snD
+						on snD.SNid = c.SNidDestino
+					on c.CPCid = dpc.CPCid
+			where dpc.TESSPid	= #Arguments.TESSPid#
+			order by CPCsp, dp.TESDPdocumentoOri, dp.TESDPreferenciaOri, dp.TESDPid
+		</cfquery>
+	</cffunction>
+
+	<cffunction name="sbInsert" access="private" output="yes" returntype="void">
+		<cfargument name="TESSPid"		type="numeric">
+		<cfargument name="TESDPid"		type="numeric">
+		<cfargument name="CPCid"		type="numeric">
+		<cfargument name="CPCtipo"		type="string">
+		<cfargument name="CPCfecha"		type="date">
+		<cfargument name="CPCmonto"		type="numeric">
+		<cfargument name="CPC_Miso"		type="string">
+		<cfargument name="CPCpagado"	type="numeric">
+		<cfargument name="CPClocal"		type="numeric">
+		<cfargument name="CPCinicial"	type="numeric">
+		<cfargument name="IDdocumento" 	type="numeric">
+		<cfargument name="CPCestado" 	type="numeric">
+		<cfargument name="Documento" 	default="">
+
+		<cfset LvarDescripcion = "">
+		<cfif Arguments.Documento NEQ "">
+			<cfset LvarDescripcion = "#Arguments.Documento#">
+		</cfif>
+		<cfif Arguments.CPCtipo EQ "M">
+			<cfset LvarDescripcion = "MULTA #LvarDescripcion#">
+		<cfelseif Arguments.CPCtipo EQ "C">
+			<cfset LvarDescripcion = "CESION #LvarDescripcion#">
+		<cfelseif Arguments.CPCtipo EQ "E">
+			<cfset LvarDescripcion = "EMBARGO #LvarDescripcion#">
+		</cfif>
+
+		<cfif Arguments.CPCpagado GTE Arguments.CPCinicial>
+			<cfset Arguments.CPCpagado = Arguments.CPCinicial>
+			<cfset LvarDescripcionMonto = " ,por #Arguments.CPC_Miso# #numberFormat(Arguments.CPCpagado,",9.99")#">
+		<cfelse>
+			<cfset LvarDescripcionMonto = ", Aplica #numberFormat(Arguments.CPCpagado,",9.99")# de #numberFormat(Arguments.CPCinicial,",9.99")# #Arguments.CPC_Miso#s">
+		</cfif>
+
+		<cfif Arguments.CPCestado EQ 1>
+			<cfset LvarDescripcionMonto = ' (PENDIENTE DE APROBAR)'>
+		</cfif>
+		<cfif Arguments.CPCmonto NEQ 0 AND Arguments.CPCpagado NEQ 0>
+			<cfif Arguments.CPCtipo EQ "M">
+				<!--- MULTAS --->
+				<cfif NOT isdefined("LvarCFcuentaMultas")>
+					<cfquery name="rsSQL" datasource="#session.dsn#">
+						select Pvalor as CcuentaMultas
+						from Parametros
+						where Ecodigo =  #session.Ecodigo#
+						  and Pcodigo = 151
+						  and Mcodigo = 'GN'
+					</cfquery>
+					<cfif rsSQL.CcuentaMultas EQ "">
+						<cfthrow message="No se ha definido la Cuenta Financiera para Multas en Administración del Sistema, Cuentas Contables de Operación">
+					</cfif>
+					<cfquery name="rsSQL" datasource="#session.dsn#">
+						select min(CFcuenta) as CFcuentaMultas
+						from CFinanciera
+						where Ecodigo =  #session.Ecodigo#
+						  and Ccuenta = #rsSQL.CcuentaMultas#
+					</cfquery>
+					<cfset LvarCFcuentaMultas = rsSQL.CFcuentaMultas>
+				</cfif>
+
+				<cfset Arguments.CPCmonto = -Arguments.CPCmonto>
+				<cfset LvarRmonto = 0>
+				<!--- Inserta un detalle negativo con la Multa calculada --->
+				<cfquery datasource="#session.dsn#">
+					insert into TESdetallePago
+						(
+						 TESid, CFid, OcodigoOri,
+						 TESDPestado, TESSPid, TESOPid,
+						 TESDPtipoDocumento, TESDPidDocumento,
+						 TESDPmoduloOri, TESDPdocumentoOri, TESDPreferenciaOri,
+						 SNcodigoOri,
+						 TESDPfechaVencimiento, TESDPfechaSolicitada, TESDPfechaAprobada,
+						 EcodigoOri, EcodigoPago, Miso4217Ori,
+
+						 TESDPmontoVencimientoOri,
+						 TESDPmontoSolicitadoOri,
+
+						 TESDPdescripcion,
+						 CFcuentaDB, TESRPTCid, BMUsucodigo,
+
+						 Rcodigo, Rmonto,
+						 TESDPmontoAprobadoOri,
+						 TESDPmontoAprobadoLocal,
+
+						 CPCid, MlineaId
+						)
+					select
+						 TESid, CFid, OcodigoOri,
+						 TESDPestado, #Arguments.TESSPid#, TESOPid,
+						 TESDPtipoDocumento, TESDPidDocumento,
+						 TESDPmoduloOri, TESDPdocumentoOri, TESDPreferenciaOri,
+						 SNcodigoOri,
+						 <cf_jdbcquery_param cfsqltype="cf_sql_date" value="#Arguments.CPCfecha#">,
+						 <cf_jdbcquery_param cfsqltype="cf_sql_date" value="#Arguments.CPCfecha#">,
+						 <cf_jdbcquery_param cfsqltype="cf_sql_date" value="#Arguments.CPCfecha#">,
+						 EcodigoOri, EcodigoPago, Miso4217Ori,
+
+						 round(#Arguments.CPCinicial*Arguments.CPCmonto/Arguments.CPCpagado#,2),
+						 round(#Arguments.CPCmonto#,2),
+
+						 '- #trim(LvarDescripcion)#' #_CAT# '#LvarDescripcionMonto#',
+
+						 #LvarCFcuentaMultas#,
+
+					     <cf_jdbcquery_param cfsqltype="cf_sql_numeric" value="null">,
+
+						 BMUsucodigo,
+
+						 <!--- **OJO**: CUANDO ES MULTA SE GUARDA CPCpagado/CPClocal EN TESDPmontoAprobadoOri/TESDPmontoAprobadoLocal TEMPORALMENTE --->
+						 <cf_jdbcquery_param cfsqltype="cf_sql_char" value="null">, 0,
+						 round(#Arguments.CPCpagado#,2),
+						 round(#Arguments.CPClocal#,2),
+
+						 #Arguments.CPCid#, TESDPid
+					 from TESdetallePago
+					where TESDPid = #Arguments.TESDPid#
+				</cfquery>
+			<cfelse>
+				<!--- EMBARGOS Y CESIONES --->
+				<cfset GvarCPCsp ++>
+				<cfset LvarSaldo = Arguments.CPCinicial*Arguments.CPCmonto/Arguments.CPCpagado>
+				<cfquery name="rsSQL" datasource="#session.dsn#">
+					select
+						 TESDPmontoSolicitadoOri, coalesce(Rmonto,0) as Rmonto
+					 from TESdetallePago
+					where TESDPid = #Arguments.TESDPid#
+				</cfquery>
+				<cfset LvarRmonto = 0>
+				<cfif rsSQL.Rmonto NEQ 0>
+					<cfset LvarRmonto = Arguments.CPCmonto * rsSQL.Rmonto / (rsSQL.TESDPmontoSolicitadoOri-rsSQL.Rmonto)>
+					<cfset LvarRmonto = fnRound2(LvarRmonto)>
+					<cfset Arguments.CPCmonto += LvarRmonto>
+					<cfset Arguments.CPCmonto = fnRound2(Arguments.CPCmonto)>
+				</cfif>
+
+				<!--- Registra Embargo o Cesion con los montos Solicitado y Retención estimados --->
+				<cfquery datasource="#session.dsn#">
+					insert into TESdetallePagoCPC
+						(
+						 TESSPid, CPCsp, TESDPid,
+						 TESDPidNew,
+						 CPCid, CPCpagado, CPClocal,
+						 CPCfecha,
+						 TESDPdescripcion,
+						 TESDPmontoVencimientoOri,
+						 TESDPmontoSolicitadoOri,
+						 Rmonto, Rcodigo, RlineaId
+						)
+					select
+						 TESSPid, #GvarCPCsp#, TESDPid,
+						 <cf_jdbcquery_param cfsqltype="cf_sql_numeric" value="null">,
+						 #Arguments.CPCid#, round(#Arguments.CPCpagado#,2), round(#Arguments.CPClocal#,2),
+						 <cf_jdbcquery_param cfsqltype="cf_sql_timestamp" value="#Arguments.CPCfecha#">,
+						<cf_dbfunction name="sPart" args="rtrim(TESDPdescripcion) #_CAT# ' - #trim(LvarDescripcion)#' #_CAT# '#LvarDescripcionMonto#'°1°80" delimiters="°">,
+
+						round(#LvarSaldo#,2),
+						round(#Arguments.CPCmonto#,2),
+
+						round(#LvarRmonto#,2), Rcodigo, <cf_jdbcquery_param cfsqltype="cf_sql_numeric" value="null">
+					 from TESdetallePago
+					where TESDPid = #Arguments.TESDPid#
+				</cfquery>
+
+				<cfif LvarRmonto NEQ 0>
+					<!--- Calcula la Retención para el Embargo o Cesion: sale de cada retención calculada para la linea original --->
+					<cfquery datasource="#session.dsn#">
+						insert into TESdetallePagoCPC
+							(
+							 TESSPid, CPCsp, TESDPid,
+							 TESDPidNew,
+							 CPCid, CPCpagado, CPClocal,
+							 CPCfecha,
+							 TESDPdescripcion,
+							 TESDPmontoVencimientoOri,
+							 TESDPmontoSolicitadoOri,
+							 Rmonto, Rcodigo, RlineaId
+							)
+						select
+							 TESSPid, #GvarCPCsp#, TESDPid,
+							 <cf_jdbcquery_param cfsqltype="cf_sql_numeric" value="null">,
+							 <cf_jdbcquery_param cfsqltype="cf_sql_numeric" value="null">, 0, 0,
+							 <cfqueryparam cfsqltype="cf_sql_date" value="#Arguments.CPCfecha#">,
+							 dp.TESDPdescripcion,
+							 -round(
+								 1.0 * #Arguments.CPCmonto# / cxp.Dtotal
+									 * (select sum(DDtotallin-DDdescdoc+DDcostosProrrateados) from HDDocumentosCP where IDdocumento = dp.TESDPidDocumento)
+									 * r.Rporcentaje / 100.0
+								,2),
+							 -round(
+								 1.0 * #Arguments.CPCmonto# / cxp.Dtotal
+									 * (select sum(DDtotallin-DDdescdoc+DDcostosProrrateados) from HDDocumentosCP where IDdocumento = dp.TESDPidDocumento)
+									 * r.Rporcentaje / 100.0
+								,2),
+							 0, dp.Rcodigo, RlineaId
+						 from TESdetallePago dp
+							inner join EDocumentosCP cxp
+							 on cxp.Ecodigo		= dp.EcodigoOri
+							and cxp.IDdocumento	= dp.TESDPidDocumento
+							inner join Retenciones r
+							 on r.Ecodigo = dp.EcodigoOri
+							and r.Rcodigo = dp.Rcodigo
+						where RlineaId = #Arguments.TESDPid#
+						<!--- Si es compuesta dp.Rcodigo tiene el del detalle --->
+					</cfquery>
+
+					<!--- Ajuste de MontoSolicitado Estimado = MontoSolicitado - RetenciónEstimada + RetenciónCalculada --->
+					<cfquery name="rsSQL" datasource="#session.dsn#">
+						update TESdetallePagoCPC
+						   set Rmonto =
+								-(
+									select sum(TESDPmontoSolicitadoOri)
+										  from TESdetallePagoCPC d
+									 where d.TESSPid			= TESdetallePagoCPC.TESSPid
+									   and d.RlineaId 			= TESdetallePagoCPC.TESDPid
+									   and d.CPCsp				= TESdetallePagoCPC.CPCsp
+								),
+								TESDPmontoSolicitadoOri = TESDPmontoSolicitadoOri - coalesce(Rmonto,0) -
+								(
+									select sum(TESDPmontoSolicitadoOri)
+									  from TESdetallePagoCPC d
+									 where d.TESSPid			= TESdetallePagoCPC.TESSPid
+									   and d.RlineaId 			= TESdetallePagoCPC.TESDPid
+									   and d.CPCsp				= TESdetallePagoCPC.CPCsp
+								)
+						where TESSPid	= #Arguments.TESSPid#
+						  and RlineaId is NULL
+						  and Rcodigo	is not null
+					</cfquery>
+				</cfif>
+			</cfif>
+		</cfif>
+	</cffunction>
+
+	<cffunction name="fnTCs" access="private" returntype="struct" output="no">
+		<cfargument name="McodigoCesion"	type="numeric"	required="yes">
+		<cfargument name="McodigoSP"		type="numeric"	required="yes">
+		<cfargument name="McodigoLocal"		type="numeric"	required="yes">
+
+		<cfset LvarTCs = structNew()>
+		<cfif Arguments.McodigoCesion EQ Arguments.McodigoLocal>
+			<cfset LvarTCs.CPC	= 1>
+			<cfset GvarTCs["M#Arguments.McodigoCesion#"]	= 1>
+		<cfelseif isdefined("GvarTCs.M#Arguments.McodigoCesion#")>
+			<cfset LvarTCs.CPC = GvarTCs["M#Arguments.McodigoCesion#"]>
+		<cfelse>
+			<cfquery name="TCsugCPC" datasource="#Session.DSN#">
+				select tc.Hfecha, tc.TCcompra, tc.TCventa
+				from Htipocambio tc
+				where tc.Ecodigo = #Session.Ecodigo#
+				   and tc.Mcodigo = #Arguments.McodigoCesion#
+				   and tc.Hfecha <= <cfqueryparam cfsqltype="cf_sql_date" value="#now()#">
+				   and tc.Hfechah > <cfqueryparam cfsqltype="cf_sql_date" value="#now()#">
+			</cfquery>
+			<cfset LvarTCs.CPC	= TCsugCPC.TCcompra>
+			<cfset GvarTCs["M#Arguments.McodigoCesion#"] = LvarTCs.CPC>
+		</cfif>
+
+		<cfif Arguments.McodigoSP EQ Arguments.McodigoLocal>
+			<cfset LvarTCs.SP	= 1>
+			<cfset GvarTCs["M#Arguments.McodigoSP#"]	= 1>
+		<cfelseif isdefined("GvarTCs.M#Arguments.McodigoSP#")>
+			<cfset LvarTCs.SP = GvarTCs["M#Arguments.McodigoSP#"]>
+		<cfelse>
+			<cfquery name="TCsugSP" datasource="#Session.DSN#">
+				select tc.Hfecha, tc.TCcompra, tc.TCventa
+				from Htipocambio tc
+				where tc.Ecodigo = #Session.Ecodigo#
+				   and tc.Mcodigo = #Arguments.McodigoSP#
+				   and tc.Hfecha <= <cfqueryparam cfsqltype="cf_sql_date" value="#now()#">
+				   and tc.Hfechah > <cfqueryparam cfsqltype="cf_sql_date" value="#now()#">
+			</cfquery>
+			<cfset LvarTCs.SP	= TCsugSP.TCcompra>
+			<cfset GvarTCs["M#Arguments.McodigoSP#"]	= LvarTCs.SP>
+		</cfif>
+
+		<cfif Arguments.McodigoSP EQ Arguments.McodigoCesion>
+			<cfset LvarTCs.FC	= 1>
+		<cfelse>
+			<cfset LvarTCs.FC	= LvarTCs.CPC/LvarTCs.SP>
+		</cfif>
+
+		<cfreturn LvarTCs>
+	</cffunction>
+
+	<cffunction name="sbImprimeCPCs" access="public" output="yes" returntype="boolean">
+		<cfargument name="TESSPid"			type="numeric"	required="yes">
+		<cfargument name="esReporte"		type="boolean"	required="yes">
+		<cfargument name="ReporteN"			type="numeric"	required="yes">
+
+		<cfset  sbCalculaAfectacionesPago(Arguments.TESSPid, Arguments.esReporte)>
+
+		<cfif NOT isdefined("rsCPCs") OR rsCPCS.recordCount EQ 0>
+			<cfreturn false>
+		</cfif>
+
+		<cfif Arguments.EsReporte>
+			<cfif GvarCesiones+GvarEmbargos EQ 0>
+				<cfreturn false>
+			</cfif>
+			<cfif Arguments.ReporteN + rsCPCS.recordCount*2  LT 19>
+				<cfloop index = "LoopCount" from = "1" to = "#20 - (Arguments.ReporteN + rsCPCS.recordCount*2 )#">
+				  <tr>
+					<td style="border-right-width: 1px; border-right-style: solid; border-right-color: gray;">&nbsp;</td>
+					<td style="border-right-width: 1px; border-right-style: solid; border-right-color: gray;">&nbsp;</td>
+					<td style="border-right-width: 1px; border-right-style: solid; border-right-color: gray;">&nbsp;</td>
+					<td style="border-right-width: 1px; border-right-style: solid; border-right-color: gray;">&nbsp;</td>
+				  </tr>
+				</cfloop>
+			</cfif>
+			<tr class="listaPar">
+				<td colspan="4" nowrap style="border-right:1px solid gray; border-top:1px solid gray;" >
+					<cfset sbPoneDetalle3(Arguments.EsReporte)>
+				</td>
+			</tr>
+		<cfelse>
+			<cfquery name="rsSQL" dbtype="query">
+				select count(1) as cantidad
+				  from rsCPCS
+				 where PAGADO_MON_PAGO <> 0
+				   and CPCtipo <> 'M'
+			</cfquery>
+			<cfset LvarHayCesiones = rsSQL.cantidad GT 0>
+
+			<cfquery name="rsSQL" dbtype="query">
+				select count(1) as cantidad
+				  from rsCPCS
+				 where PAGADO_MON_PAGO <> 0
+				   and CPCestado = 1
+			</cfquery>
+			<cfset LvarHayPendientes = rsSQL.cantidad GT 0>
+
+			<script language="javascript">
+				<!-- No permite generar si hay multas cesiones -->
+				<cfif NOT LvarHayPendientes AND LvarHayCesiones>
+				if (document.form1.GenerarOP)
+				{
+					document.form1.GenerarOP.style.display = "none";
+					document.form1.GenerarOP.onclick = new Function ("return false;");
+				}
+				</cfif>
+				<cfif LvarHayPendientes>
+					<!-- No permite generar si hay multas/cesiones pendientes -->
+					if (document.form1.AAprobar)
+					{
+						document.form1.AAprobar.onclick = new Function ("alert('Existen Multas, Embargos o Cesiones pendientes de Aprobar');return false;");
+					}
+					if (document.form1.Aprobar)
+					{
+						document.form1.Aprobar.style.display = "none";
+						document.form1.Aprobar.onclick = new Function ("return false;");
+					}
+				</cfif>
+			</script>
+
+			<cfset titulo = 'Documentos de Afectación al Pago: Multas, Embargos y Cesiones'>
+
+			<BR><BR>
+			<cf_web_portlet_start border="true" titulo="#titulo#" skin="#Session.Preferences.Skin#">
+				<cfset sbPoneDetalle2(Arguments.EsReporte)>
+			<cf_web_portlet_end>
+
+			<cfif GvarCesiones+GvarEmbargos GT 0>
+				<BR><BR>
+				<cf_web_portlet_start border="true" titulo="Solicitudes de Pago a Aprobar" skin="#Session.Preferences.Skin#">
+					<cfset sbPoneDetalle3(Arguments.EsReporte)>
+				<cf_web_portlet_end>
+			</cfif>
+		</cfif>
+		<cfreturn true>
+	</cffunction>
+
+	<cffunction name="sbPoneDetalle2" output="true" returntype="void">
+		<cfargument name="esReporte"		type="boolean"	required="yes">
+
+		<table 	align="center" border="0" cellspacing="0" cellpadding="0" width="100%">
+			<cfif Arguments.EsReporte>
+				<cfset LvarClass = "style8">
+				<tr>
+					<td class="style8" align="left" colspan="7"><strong>DOCUMENTOS DE AFECTACIÓN AL PAGO: MULTAS, EMBARGOS Y CESIONES:</strong></td>
+				</tr>
+			<cfelse>
+				<cfset LvarClass = "tituloListas">
+			</cfif>
+
+			<tr>
+				<td class="#LvarClass#" align="center"><strong><span class="style8">Fecha</span></strong></td>
+				<td class="#LvarClass#" align="left"><strong><span class="style8">TIPO</span></strong></td>
+				<td class="#LvarClass#" align="left"><strong><span class="style8">Documento</span></strong></td>
+				<td class="#LvarClass#" align="center" colspan="2"><strong><span class="style8">Saldo Doc.<BR>Afectacion</span></strong></td>
+				<td class="#LvarClass#" align="center" colspan="2"><strong><span class="style8">Abonar Doc.<BR>Afectacion</span></strong></td>
+				<td class="#LvarClass#" align="center" colspan="2"><strong><span class="style8">Afectacion<BR>Moneda S.P.</span></strong></td>
+			</tr>
+
+			<cfset LvarLista = "ListaPar">
+
+			<cfoutput query="rsCPCS">
+				<cfif CPCtipo NEQ "X">
+					<cfif LvarLista NEQ "ListaPar">
+						<cfset LvarLista = "ListaPar">
+					<cfelse>
+						<cfset LvarLista = "ListaNon">
+					</cfif>
+					<tr class="#LvarLista#">
+						<td align="center"><span class="style8">#DateFormat(CPCfecha,"DD/MM/YYYY")#</span></td>
+						<td align="left"><span class="style8">#CPCdocumento#</span></td>
+						<td align="left"><span class="style8">#Documento#</span></td>
+						<td align="right"><span class="style8">#numberFormat(SALDO_INI_MON_CESION,",9.00")#</span></td>
+						<td align="left"><span class="style8">#Miso4217#</span></td>
+						<td align="right"><span class="style8">#numberFormat(PAGADO_MON_CESION,",9.00")#</span></td>
+						<td align="left"><span class="style8">#Miso4217#</span></td>
+						<td align="right"><strong><span class="style8">#numberFormat(PAGADO_MON_PAGO,",9.00")#</span></strong></td>
+						<td align="left">&nbsp;<strong><span class="style8">#MON_PAGO#</span></strong></td>
+					</tr>
+					<tr class="#LvarLista#">
+						<cfif CPCtipo EQ "M">
+							<td  colspan="7"></td>
+						<cfelse>
+							<td align="center"></td>
+							<td align="right"><span class="style8">a favor de:&nbsp;</span></td>
+							<td align="left" colspan="5"><strong><span class="style8">#SNnombre#</strong></span></td>
+						</cfif>
+						<cfif CPCestado EQ 1 AND PAGADO_MON_PAGO NEQ 0>
+							<td colspan="2" align="right"><font color='##FF0000'><strong><span class="style8">(PENDIENTE DE APROBAR)</span></strong></font></td>
+						<cfelseif CPCestado EQ 1>
+							<td colspan="2" align="right"><span class="style8">(PENDIENTE DE APROBAR)</span></td>
+						</cfif>
+					</tr>
+				</cfif>
+			</cfoutput>
+			<tr>
+				<td>&nbsp;</td>
+			</tr>
+		</table>
+	</cffunction>
+
+	<cffunction name="sbPoneDetalle3" output="true" returntype="void">
+		<cfargument name="esReporte"		type="boolean"	required="yes">
+
+		<table 	align="center" border="0" cellspacing="0" cellpadding="0" width="100%">
+			<cfif Arguments.EsReporte>
+				<cfset LvarClass = "style8">
+				<tr>
+					<td class="style8" align="left" colspan="7">
+					<cfif listFind("0,1",rsSP.TESSPestado)>
+						<strong>SOLICITUDES DE PAGO A GENERAR:</strong>
+					<cfelse>
+						<strong>SOLICITUDES DE PAGO GENERADAS Y APROBADAS:</strong>
+					</cfif>
+					</td>
+				</tr>
+			<cfelse>
+				<cfset LvarClass = "tituloListas">
+			</cfif>
+
+			<tr>
+				<td class="#LvarClass#" align="center"><strong><span class="style8">&nbsp;&nbsp;&nbsp;</span></strong></td>
+				<td class="#LvarClass#" align="center"><strong><span class="style8">Descripcion</span></strong></td>
+				<td class="#LvarClass#" align="left"><strong><span class="style8">Moneda</span></strong></td>
+				<td class="#LvarClass#" align="right"><strong><span class="style8">Monto Pago<BR>Aplicar</span></strong></td>
+				<td class="#LvarClass#" align="right"><strong><span class="style8">Retención</span></strong></td>
+				<td class="#LvarClass#" align="right"><strong><span class="style8">Pago Neto</span></strong></td>
+			</tr>
+
+			<cfset LvarLista = "ListaPar">
+			<cfoutput query="rsDPCPC" group="CPCsp">
+				<cfset LvarCantidad = 0>
+				<cfset LvarTESDPmontoSolicitadoOri = 0>
+				<cfset LvarRmonto = 0>
+				<cfset LvarNeto = 0>
+				<cfif LvarLista NEQ "ListaPar">
+					<cfset LvarLista = "ListaPar">
+				<cfelse>
+					<cfset LvarLista = "ListaNon">
+				</cfif>
+				<tr class="#LvarLista#">
+					<td align="left" colspan="6">
+						<span class="style8">
+							<strong>
+								SP.#TESSPnumero# a favor de #aFavorDe#
+								<cfif CPCsp EQ 0>
+									titular del Pago
+								<cfelse>
+									por #CPCdocumento#
+									<cfif documento NEQ "">
+										a #documento#
+									</cfif>
+								</cfif>
+							</strong>
+						</span>
+					</td>
+				</tr>
+				<cfoutput>
+					<cfif RlineaId EQ "">
+						<cfif LvarLista NEQ "ListaPar">
+							<cfset LvarLista = "ListaPar">
+						<cfelse>
+							<cfset LvarLista = "ListaNon">
+						</cfif>
+						<cfset LvarCantidad ++>
+						<cfset LvarTESDPmontoSolicitadoOri += TESDPmontoSolicitadoOri>
+						<cfset LvarRmonto += Rmonto>
+						<cfset LvarNeto += Neto>
+						<tr class="#LvarLista#">
+							<td><span class="style8">&nbsp;</span></td>
+							<td align="left"><span class="style8">#TESDPdescripcion#</span></td>
+							<td align="left"><span class="style8">#Mnombre#</span></td>
+							<td align="right"><span class="style8">#numberFormat(TESDPmontoSolicitadoOri,",9.00")#</span></td>
+							<td align="right"><span class="style8">#numberFormat(Rmonto,",9.00")#</span></td>
+							<td align="right"><span class="style8">#numberFormat(Neto,",9.00")#</span></td>
+						</tr>
+					</cfif>
+				</cfoutput>
+				<cfif LvarCantidad GT 1>
+					<cfif LvarLista NEQ "ListaPar">
+						<cfset LvarLista = "ListaPar">
+					<cfelse>
+						<cfset LvarLista = "ListaNon">
+					</cfif>
+					<tr class="#LvarLista#">
+						<td align="right" colspan="2"><span class="style8" style="font-weight:bolder">TOTALES&nbsp;</span></td>
+						<td><span class="style8" style="font-weight:bolder">SP.</span></td>
+						<td align="right"><span class="style8" style="font-weight:bolder">#numberFormat(LvarTESDPmontoSolicitadoOri,",9.00")#</span></td>
+						<td align="right"><span class="style8" style="font-weight:bolder">#numberFormat(LvarRmonto,",9.00")#</span></td>
+						<td align="right"><span class="style8" style="font-weight:bolder">#numberFormat(LvarNeto,",9.00")#</span></td>
+					</tr>
+				</cfif>
+			</cfoutput>
+			<tr>
+				<td>&nbsp;</td>
+			</tr>
+		</table>
+	</cffunction>
+
+	<cffunction name="sbImprimeCPCsTramites" access="public" output="yes" returntype="void">
+		<cfargument name="TESSPid"			type="numeric"	required="yes">
+		<cfargument name="esReporte"		type="boolean"	required="yes">
+
+		<cfset  sbCalculaAfectacionesPago(Arguments.TESSPid, Arguments.esReporte)>
+		<cfif isdefined("rsDPCPC") AND rsDPCPC.recordCount GT 0 AND GvarCesiones+GvarEmbargos GT 0>
+
+
+			<table align="center" border="0" cellspacing="0" cellpadding="0" width="100%">
+			<cfif Arguments.EsReporte>
+			<cfset LvarClass = "style8">
+				<tr><td>&nbsp;</td></tr>
+				<tr>
+					<td colspan="5">
+						<strong><cf_translate key="LB_DetallesDeLineasDeLaSolicitudDePago">SOLICITUDES DE PAGO A GENERAR POR CESION O EMBARGO:</cf_translate></strong>
+					</td>
+				</tr>
+				<tr><td colspan="5" style="border-bottom: 1px solid black;" >&nbsp;</td></tr>
+			<cfelse>
+				<cfset LvarClass = "tituloListas">
+			</cfif>
+			<tr>
+				<td nowrap align="left" 	style="padding-right: 5px;  border-bottom: 1px solid black; border-left: 1px solid black;"><cf_translate key="LB_Documento"><strong>Descripcion</strong></cf_translate></td>
+				<td nowrap align="center" 	style="padding-right: 5px;  border-bottom: 1px solid black; border-left: 1px solid black;"><cf_translate key="LB_Documento"><strong>Moneda</strong></cf_translate></td>
+				<td nowrap align="right" 	style="padding-right: 5px;  border-bottom: 1px solid black; border-left: 1px solid black;"><cf_translate key="LB_Documento"><strong>Monto Pago</strong></cf_translate></td>
+				<td nowrap align="right" 	style="padding-right: 5px;  border-bottom: 1px solid black; border-left: 1px solid black;"><cf_translate key="LB_Documento"><strong>Retención</strong></cf_translate></td>
+				<td nowrap align="right" 	style="padding-right: 5px;  border-bottom: 1px solid black; border-left: 1px solid black;"><cf_translate key="LB_Documento"><strong>Pago Neto</strong></cf_translate></td>
+			</tr>
+				<cfset LvarLista = "ListaPar">
+				<cfoutput query="rsDPCPC" group="CPCsp">
+					<cfset LvarCantidad = 0>
+					<cfset LvarTESDPmontoSolicitadoOri = 0>
+					<cfset LvarRmonto = 0>
+					<cfset LvarNeto = 0>
+					<cfif LvarLista NEQ "ListaPar">
+						<cfset LvarLista = "ListaPar">
+					<cfelse>
+						<cfset LvarLista = "ListaNon">
+					</cfif>
+
+					<tr class="#LvarLista#">
+					<td colspan="5" class="tituloListas" style="border-bottom: 1px solid black; border-bottom: 1px solid black; border-left: 1px solid black;" >
+						<strong>
+								SP.#TESSPnumero# a favor de #aFavorDe#
+									<cfif CPCsp EQ 0>
+										titular del Pago
+									<cfelse>
+										por #CPCdocumento#
+									</cfif>
+								</strong>
+							</span>
+						</td>
+					</tr>
+					<cfoutput>
+						<cfif RlineaId EQ "">
+							<cfif LvarLista NEQ "ListaPar">
+								<cfset LvarLista = "ListaPar">
+							<cfelse>
+								<cfset LvarLista = "ListaNon">
+							</cfif>
+							<cfset LvarCantidad ++>
+							<cfset LvarTESDPmontoSolicitadoOri += TESDPmontoSolicitadoOri>
+							<cfset LvarRmonto += Rmonto>
+							<cfset LvarNeto += Neto>
+							<tr class="#LvarLista#">
+								<td nowrap align="left" style="padding-right: 5px; border-bottom: 1px solid black; border-left: 1px solid black;">#TESDPdescripcion#</td>
+								<td nowrap align="center" style="padding-right: 5px; border-bottom: 1px solid black; border-left: 1px solid black;">#Miso4217#</td>
+								<td nowrap align="right" style="padding-right: 5px; border-bottom: 1px solid black; border-left: 1px solid black;">#numberFormat(TESDPmontoSolicitadoOri,",9.00")#</td>
+								<td nowrap align="right" style="padding-right: 5px; border-bottom: 1px solid black; border-left: 1px solid black;">#numberFormat(Rmonto,",9.00")#</td>
+								<td nowrap align="right" style="padding-right: 5px; border-bottom: 1px solid black; border-left: 1px solid black;">#numberFormat(Neto,",9.00")#</td>
+							</tr>
+						</cfif>
+					</cfoutput>
+					<cfif LvarCantidad GT 1>
+						<cfif LvarLista NEQ "ListaPar">
+							<cfset LvarLista = "ListaPar">
+						<cfelse>
+							<cfset LvarLista = "ListaNon">
+						</cfif>
+						<tr class="#LvarLista#">
+							<td nowrap align="right" style="font-weight:bolder; padding-right: 5px; border-bottom: 1px solid black; border-left: 1px solid black;">TOTALES SP.</td>
+							<td nowrap align="left"  style="font-weight:bolder;padding-right: 5px; border-bottom: 1px solid black; ">&nbsp;</td>
+							<td nowrap align="right"  style="font-weight:bolder;padding-right: 5px; border-bottom: 1px solid black; border-left: 1px solid black;">#numberFormat(LvarTESDPmontoSolicitadoOri,",9.00")#</td>
+							<td nowrap align="right"  style="font-weight:bolder;padding-right: 5px; border-bottom: 1px solid black; border-left: 1px solid black;">#numberFormat(LvarRmonto,",9.00")#</td>
+							<td nowrap align="right"  style="font-weight:bolder;padding-right: 5px; border-bottom: 1px solid black; border-left: 1px solid black;">#numberFormat(LvarNeto,",9.00")#</td>
+						</tr>
+					</cfif>
+				</cfoutput>
+				<tr>
+					<td>&nbsp;</td>
+				</tr>
+			</table>
+		</cfif>
+	</cffunction>
+
+	<cffunction name="sbGenerarSPs" output="yes" access="package" returntype="void">
+		<cfargument name="TESSPid"			type="numeric"	required="yes">
+
+		<cfif not isdefined("rsDPCPC")>
+			<cfset sbDPCPC(Arguments.TESSPid)>
+		</cfif>
+		<cfquery name="rsSQL" dbtype="query">
+			select distinct CPCsp
+			  from rsDPCPC
+		</cfquery>
+		<cfset LvarSPs = rsSQL.recordCount>
+
+		<cfif LvarSPs EQ 0>
+			<!---
+				Cuando no hay MULTAs, CESIONes O EMBARGOs:
+					es una SP común y corriente, termina el proceso
+			--->
+			<cfreturn>
+		</cfif>
+
+		<cfquery name="rsSPs" dbtype="query">
+			select CPCsp, CPCid, CPCtipo, SPneto
+			  from rsDPCPC
+			where CPCid IS NOT NULL
+		</cfquery>
+
+		<!--- Actualiza el TESDPaprobadoPendiente de CPCesiones: Aumenta el pendiente (Disminuye el saldo) --->
+		<cfquery datasource="#session.dsn#">
+			UPDATE CPCesion
+			   SET TESDPaprobadoPendiente = TESDPaprobadoPendiente +
+					(
+			 		select sum(CPCpagado)
+					  from TESdetallePagoCPC
+					 where TESSPid	= #Arguments.TESSPid#
+					   and CPCid	= CPCesion.CPCid
+					)
+			 WHERE (
+			 		select count(1)
+					  from TESdetallePagoCPC
+					 where TESSPid	= #Arguments.TESSPid#
+					   and CPCid	= CPCesion.CPCid
+					) > 0
+		</cfquery>
+		<cfif LvarSPs EQ 1>
+			<!---
+				UNA UNICA SP con MULTA, CESION O EMBARGO:
+					no se van a generar SPs nuevas, sino sólo se conserva la original.
+					TESdetallePagoCPC se convierte sólo en el control de la multa, embargo o cesión,
+					por tanto, se borran las líneas calculadas del titular (excepto de multa)
+			--->
+			<cfquery datasource="#session.dsn#">
+				DELETE FROM TESdetallePagoCPC
+				 WHERE TESSPid	= #Arguments.TESSPid#
+				   AND CPCsp	= 0			<!--- Lineas del Titular --->
+				   AND CPCid is NULL		<!--- que no son Multas: embargos y cesiones están en CPCsp>0 --->
+			</cfquery>
+
+			<cfquery datasource="#session.dsn#">
+				UPDATE TESdetallePagoCPC
+				   set TESDPidNew = TESDPid
+				 WHERE TESSPid	= #Arguments.TESSPid#
+			</cfquery>
+
+			<cfquery datasource="#session.dsn#">
+				UPDATE 	TESdetallePago
+				   set 	CPCid 	= #rsSPs.CPCid#
+				 WHERE TESSPid	= #Arguments.TESSPid#
+				   and (
+							select count(1)
+							  from TESdetallePagoCPC dpc
+							 where dpc.TESDPidNew = TESdetallePago.TESDPid
+							   and dpc.CPCid 	  = #rsSPs.CPCid#
+						) > 0
+			</cfquery>
+
+			<cfif rsSPs.CPCsp EQ 0>
+				<!--- Cuando es sólo una Multa --->
+				<cfif rsSPs.SPneto NEQ 0>
+					<!---
+						Cuando solo hay multas y la SP tiene saldo neto mayor que cero,
+							es una SP común y corriente, termina el proceso
+					--->
+					<cfreturn>
+				<cfelse>
+					<!--- Cuando el pago SPneto es 0: AplicarSPsinPago y dejar en estado 212=Aplicada sin pago --->
+					<cfset sbAplicarSPsinPago(Arguments.TESSPid)>
+				</cfif>
+			<cfelse>
+				<!--- Cuando es un sólo Embargo o Cesión se cambia el beneficiario a la SP original, es decir,
+					  se asigna el CPCid, y sigue el proceso de pago
+				--->
+				<cfquery datasource="#session.dsn#">
+					UPDATE 	TESsolicitudPago
+					   set 	CPCid 	= #rsSPs.CPCid#
+					 WHERE TESSPid	= #Arguments.TESSPid#
+				</cfquery>
+			</cfif>
+		<cfelse>
+			<!--- Generar tantas SPs como CPCs en rsDPCPC asignando el CPCid y relacionandolas con la SP original --->
+			<!--- Si el pago SPneto al titular es 0: AplicarSPsinPago y dejar en estado 212=Aplicada sin pago --->
+			<!--- Cambiar estado de la SP original a 202=Aprobada con cesiones --->
+			<cfoutput query="rsDPCPC" group="CPCsp">
+				<cflock type="exclusive" name="TesSolPago#session.Ecodigo#" timeout="3">
+					<cfquery name="rsNewSol" datasource="#session.dsn#">
+						select (max(coalesce(TESSPnumero,0)) + 1) as newSol
+						from TESsolicitudPago
+						where EcodigoOri=<cfqueryparam cfsqltype="cf_sql_integer" value="#session.Ecodigo#">
+					</cfquery>
+					<cfquery datasource="#session.dsn#" name="insert">
+						select
+							sp.TESid, sp.CFid,
+							sp.TESSPtipoDocumento,
+							coalesce(sn.SNnombrePago,sn.SNnombre) as Titular,
+							sp.SNcodigoOri,
+							sp.TESSPfechaPagar,
+							sp.McodigoOri,	sp.TESSPtipoCambioOriManual,
+							sp.TESSPmsgRechazo,
+							sp.TESSPfechaSolicitud, sp.UsucodigoSolicitud,
+							sp.TESOPobservaciones,
+							sp.TESOPinstruccion,
+							sp.TESOPbeneficiarioSuf
+						  from TESsolicitudPago sp
+								inner join SNegocios sn
+									  on sn.Ecodigo  = sp.EcodigoOri
+									 and sn.SNcodigo = sp.SNcodigoOri
+						 where sp.EcodigoOri 	= #session.Ecodigo#
+						   and sp.TESSPid 		= #Arguments.TESSPid#
+						   and sp.TESSPestado 	= 2
+					</cfquery>
+
+					<cfquery datasource="#session.dsn#" name="insert">
+						insert into TESsolicitudPago (
+							TESid, CFid,
+							EcodigoOri, TESSPnumero,
+							TESSPtipoDocumento, TESSPestado,
+							SNcodigoOri,
+							TESSPfechaPagar,
+							McodigoOri,	TESSPtipoCambioOriManual, TESSPtotalPagarOri,
+							TESSPmsgRechazo,
+							TESSPfechaSolicitud, UsucodigoSolicitud,
+							BMUsucodigo,
+
+							TESSPidCPC,
+
+							CPCid,
+							TESOPobservaciones,
+							TESOPinstruccion,
+							TESOPbeneficiarioSuf
+						)
+						values (
+							#insert.TESid#, #insert.CFid#,
+							#session.Ecodigo#,
+							#rsNewSol.newSol#,
+							#insert.TESSPtipoDocumento#,
+							2,
+							#insert.SNcodigoOri#,
+							<cf_jdbcquery_param cfsqltype="cf_sql_timestamp" value="#insert.TESSPfechaPagar#" null="#insert.TESSPfechaPagar EQ ""#">,
+							#insert.McodigoOri#,
+							<cf_jdbcquery_param cfsqltype="cf_sql_float" value="#insert.TESSPtipoCambioOriManual#" null="#insert.TESSPtipoCambioOriManual EQ ""#">,
+							#SPneto#,
+							<cf_jdbcquery_param cfsqltype="cf_sql_varchar" 		value="#insert.TESSPmsgRechazo#" null="#insert.TESSPmsgRechazo EQ ""#">,
+							<cf_jdbcquery_param cfsqltype="cf_sql_timestamp" 	value="#insert.TESSPfechaSolicitud#" null="#insert.TESSPfechaSolicitud EQ ""#">,
+							<cf_jdbcquery_param cfsqltype="cf_sql_numeric" 		value="#insert.UsucodigoSolicitud#" null="#insert.UsucodigoSolicitud EQ ""#">,
+							#session.Usucodigo#
+							, #Arguments.TESSPid#
+
+							<cfif CPCsp EQ 0>
+								, null				<!--- líneas del titular (incluye multas) --->
+								, <cf_jdbcquery_param cfsqltype="cf_sql_varchar" value="#insert.TESOPobservaciones#" null="#insert.TESOPobservaciones EQ ""#">
+								, <cf_jdbcquery_param cfsqltype="cf_sql_varchar" value="#insert.TESOPinstruccion#" null="#insert.TESOPinstruccion EQ ""#">
+								, <cf_jdbcquery_param cfsqltype="cf_sql_varchar" value="#insert.TESOPbeneficiarioSuf#" null="#insert.TESOPbeneficiarioSuf EQ ""#">
+							<cfelse>
+								, #CPCid#			<!--- líneas de embargo o cesión: cambio de beneficiario --->
+								<cfif CPCtipo EQ "E">
+									, <cf_jdbcquery_param cfsqltype="cf_sql_varchar" value="Embargo num. #CPCdocumento#, titular: #insert.Titular#">
+								<cfelse>
+									, <cf_jdbcquery_param cfsqltype="cf_sql_varchar" value="Cesion num. #CPCdocumento#, titular: #insert.Titular#">
+								</cfif>
+								, null
+								, null
+							</cfif>
+						)
+						<cf_dbidentity1 datasource="#session.DSN#">
+					</cfquery>
+					<cf_dbidentity2 datasource="#session.DSN#" name="insert" returnvariable="LvarTESSPid">
+				</cflock>
+
+				<cfoutput>	<!--- Por cada rsDPCPC.TESDPid del mismo CPCsp --->
+					<cfquery name="insert" datasource="#session.dsn#">
+						select
+							dp.TESid, dp.CFid, dp.OcodigoOri,
+							2,
+							dp.EcodigoOri,
+							#LvarTESSPid#,
+							dp.TESDPtipoDocumento, dp.TESDPidDocumento,
+							dp.TESDPmoduloOri, dp.TESDPdocumentoOri, dp.TESDPreferenciaOri, dp.SNcodigoOri, dp.TESDPfechaVencimiento,
+							dp.TESDPfechaSolicitada, dp.TESDPfechaAprobada, dp.Miso4217Ori, dp.TESDPtipoCambioOri,
+							dp.CFcuentaDB, dp.TESRPTCid,
+
+							dpc.TESDPmontoVencimientoOri, dpc.TESDPmontoSolicitadoOri, dpc.TESDPmontoSolicitadoOri,
+							dpc.TESDPdescripcion,
+							dpc.Rcodigo, dpc.Rmonto, dpc.RlineaId,
+							dp.MlineaId,
+							dpc.CPCid
+						  from TESdetallePagoCPC dpc
+							inner join TESdetallePago dp
+								on dp.TESDPid		= dpc.TESDPid
+							 where dpc.TESSPid		= #Arguments.TESSPid#
+							   and dpc.CPCsp		= #CPCsp#
+							   and dpc.TESDPid		= #TESDPid#
+							   and dp.TESDPestado 	= 2
+					</cfquery>
+					<cfquery name="insert" datasource="#session.dsn#">
+						insert INTO TESdetallePago
+						(
+							 TESid, CFid, OcodigoOri,
+							 TESDPestado, EcodigoOri, TESSPid,
+							 TESDPtipoDocumento, TESDPidDocumento,
+							 TESDPmoduloOri, TESDPdocumentoOri, TESDPreferenciaOri, SNcodigoOri, TESDPfechaVencimiento,
+							 TESDPfechaSolicitada, TESDPfechaAprobada, Miso4217Ori, TESDPtipoCambioOri,
+							 CFcuentaDB, TESRPTCid,
+
+							 TESDPmontoVencimientoOri, TESDPmontoSolicitadoOri, TESDPmontoAprobadoOri,
+							 TESDPdescripcion,
+							 Rcodigo, Rmonto, RlineaId,
+							<!--- MlineaId: Solo aplica cuando CPCsp = 0, si es multa --->
+							 MlineaId,
+							 CPCid
+						)
+						VALUES(
+							   <cf_jdbcQuery_param cfsqltype="cf_sql_numeric" scale="0" value="#insert.TESid#"                    voidNull>,
+							   <cf_jdbcQuery_param cfsqltype="cf_sql_numeric" scale="0" value="#insert.CFid#"                     voidNull>,
+							   <cf_jdbcQuery_param cfsqltype="cf_sql_integer"           value="#insert.OcodigoOri#"               voidNull>,
+								2,
+							   <cf_jdbcQuery_param cfsqltype="cf_sql_integer"           value="#insert.EcodigoOri#"               voidNull>,
+								#LvarTESSPid#,
+							   <cf_jdbcQuery_param cfsqltype="cf_sql_integer"           value="#insert.TESDPtipoDocumento#"       voidNull>,
+							   <cf_jdbcQuery_param cfsqltype="cf_sql_numeric" scale="0" value="#insert.TESDPidDocumento#"         voidNull>,
+							   <cf_jdbcQuery_param cfsqltype="cf_sql_varchar" len="4"   value="#insert.TESDPmoduloOri#"           voidNull>,
+							   <cf_jdbcQuery_param cfsqltype="cf_sql_varchar" len="20"  value="#insert.TESDPdocumentoOri#"        voidNull>,
+							   <cf_jdbcQuery_param cfsqltype="cf_sql_varchar" len="25"  value="#insert.TESDPreferenciaOri#"       voidNull>,
+							   <cf_jdbcQuery_param cfsqltype="cf_sql_integer"           value="#insert.SNcodigoOri#"              voidNull>,
+							   <cf_jdbcQuery_param cfsqltype="cf_sql_timestamp"         value="#insert.TESDPfechaVencimiento#"    voidNull>,
+							   <cf_jdbcQuery_param cfsqltype="cf_sql_timestamp"         value="#insert.TESDPfechaSolicitada#"     voidNull>,
+							   <cf_jdbcQuery_param cfsqltype="cf_sql_timestamp"         value="#insert.TESDPfechaAprobada#"       voidNull>,
+							   <cf_jdbcQuery_param cfsqltype="cf_sql_varchar" len="3"   value="#insert.Miso4217Ori#"              voidNull>,
+							   <cf_jdbcQuery_param cfsqltype="cf_sql_float"             value="#insert.TESDPtipoCambioOri#" 	  voidNull>,
+							   <cf_jdbcQuery_param cfsqltype="cf_sql_numeric" scale="0" value="#insert.CFcuentaDB#"               voidNull>,
+							   <cf_jdbcQuery_param cfsqltype="cf_sql_numeric" scale="0" value="#insert.TESRPTCid#"                voidNull>,
+
+							   <cf_jdbcQuery_param cfsqltype="cf_sql_money"             value="#insert.TESDPmontoVencimientoOri#" voidNull>,
+							   <cf_jdbcQuery_param cfsqltype="cf_sql_money"             value="#insert.TESDPmontoSolicitadoOri#"  voidNull>,
+							   <cf_jdbcQuery_param cfsqltype="cf_sql_money"             value="#insert.TESDPmontoSolicitadoOri#"  voidNull>,
+
+							   <cf_jdbcQuery_param cfsqltype="cf_sql_varchar" len="80"  value="#insert.TESDPdescripcion#"         voidNull>,
+
+							   <cf_jdbcQuery_param cfsqltype="cf_sql_varchar" len="2"   value="#insert.Rcodigo#"                  voidNull>,
+							   <cf_jdbcQuery_param cfsqltype="cf_sql_money"             value="#insert.Rmonto#"                   voidNull>,
+							   <cf_jdbcQuery_param cfsqltype="cf_sql_numeric" scale="0" value="#insert.RlineaId#"                 voidNull>,
+								<!--- MlineaId: Solo aplica cuando CPCsp = 0, si es multa --->
+							   <cf_jdbcQuery_param cfsqltype="cf_sql_numeric" scale="0" value="#insert.MlineaId#"                 voidNull null="#CPCsp NEQ 0#">,
+							   <cf_jdbcQuery_param cfsqltype="cf_sql_numeric" scale="0" value="#insert.CPCid#"                    voidNull>
+						)
+						<cf_dbidentity1 datasource="#session.DSN#" name="insert" returnvariable="LvarDPid">
+					</cfquery>
+					<cf_dbidentity2 datasource="#session.DSN#" name="insert" returnvariable="LvarDPid">
+					<cfquery datasource="#session.dsn#">
+						UPDATE 	TESdetallePagoCPC
+						   set 	TESSPnumero = #rsNewSol.newSol#
+							 ,	TESDPidNew 	= #LvarDPid#
+						 where TESSPid		= #Arguments.TESSPid#
+						   and CPCsp		= #CPCsp#
+						   and TESDPid		= #TESDPid#
+					</cfquery>
+				</cfoutput> <!--- Termina DPs --->
+
+				<!--- Actualiza RlineaId y MlineaId de la nueva TESSPid: de TESDPid original a TESDPidNew --->
+				<cfquery datasource="#session.dsn#">
+					UPDATE 	TESdetallePago
+					   set 	RlineaId = (
+					   					select TESDPidNew
+										  from TESdetallePagoCPC
+										 where TESSPid		= #Arguments.TESSPid#
+										   and TESSPnumero	= #rsNewSol.newSol#
+										   and TESDPid		= TESdetallePago.RlineaId
+										)
+					       , MlineaId = (
+					   					select TESDPidNew
+										  from TESdetallePagoCPC
+										 where TESSPid		= #Arguments.TESSPid#
+										   and TESSPnumero	= #rsNewSol.newSol#
+										   and TESDPid		= TESdetallePago.MlineaId
+										)
+					 where TESSPid		= #LvarTESSPid#
+				</cfquery>
+
+				<cfif CPCsp EQ 0 and SPneto EQ 0>
+					<!--- Cuando el pago SPneto es 0: AplicarSPsinPago y dejar en estado 212=Aplicada sin pago --->
+					<cfset sbAplicarSPsinPago(LvarTESSPid)>
+				</cfif>
+			</cfoutput> <!--- Termina SP --->
+
+			<!--- La solicitud original pasa de aprobada a estado 202=Aprobada con Cesiones Generadas --->
+			<cfquery datasource="#session.dsn#">
+				UPDATE 	TESsolicitudPago
+				   set 	TESSPestado	= 202
+				 WHERE TESSPid	= #Arguments.TESSPid#
+			</cfquery>
+			<cfquery datasource="#session.dsn#">
+				UPDATE 	TESdetallePago
+				   set 	TESDPestado	= 202
+				 WHERE TESSPid	= #Arguments.TESSPid#
+			</cfquery>
+		</cfif>
+	</cffunction>
+
+	<cffunction name="sbAplicarSPsinPago" output="yes" access="package" returntype="void">
+		<cfargument name="TESSPid"			type="numeric"	required="yes">
+
+		<cfinvoke 	component	= "TESaplicacion"
+					method		= "sbAplicarSPsinOP"
+					TESSPid		= "#Arguments.TESSPid#"
+		>
+	</cffunction>
+</cfcomponent>

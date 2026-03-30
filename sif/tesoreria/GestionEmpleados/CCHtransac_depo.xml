@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_MontoDepositar>Amount to Deposit</LB_MontoDepositar>
+		<LB_MontoDepositado>Deposited Amount</LB_MontoDepositado>
+		<LB_Deposito>Deposit</LB_Deposito>
+		<LB_Fecha>Date</LB_Fecha> 
+		<LB_CuentaBancaria>Bank Account</LB_CuentaBancaria> 
+		<LB_MontoDeposito>Deposit Amount</LB_MontoDeposito>
+		<LB_Monto>Amount</LB_Monto>
+		<BTN_Aplicar>Apply</BTN_Aplicar>
+		<LB_Transaccion>Transaction</LB_Transaccion>
+		<LB_Bancos>Banks</LB_Bancos>
+		<LB_TipoCambio>Exchange Rate</LB_TipoCambio>
+		<LB_FactorConv>Conversion Factor</LB_FactorConv>
+		<BTN_Ingresar>Sign in</BTN_Ingresar> 
+		<BTN_Regresar>Return</BTN_Regresar>
+		<BTN_Nuevo>New</BTN_Nuevo>
+		<BTN_Modificar>Modify</BTN_Modificar>
+		<BTN_Eliminar>Delete</BTN_Eliminar>
+		<MSG_DeseaEliminarElRegistro>Delete selected record</MSG_DeseaEliminarElRegistro>
+	</Idioma>
+</Etiquetas>

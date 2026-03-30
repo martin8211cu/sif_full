@@ -1,0 +1,108 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html>
+<head>
+<title>DHTML Menu 4 Menu Bar Creation (WebFX)</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script type="text/javascript" src="local/webfxlayout.js"></script>
+</head>
+<body>
+<!-- WebFX Layout Include -->
+<script type="text/javascript">
+
+var articleMenu= new WebFXMenu;
+articleMenu.left  = 384;
+articleMenu.top   = 86;
+articleMenu.width = 140;
+articleMenu.add(new WebFXMenuItem("Introduction", "menu4.html"));
+articleMenu.add(new WebFXMenuItem("Menu Creation", "menucreation.html"));
+articleMenu.add(new WebFXMenuItem("Menu Bar Creation", "menubarcreation.html"));
+articleMenu.add(new WebFXMenuItem("Usage", "usage.html"));
+articleMenu.add(new WebFXMenuItem("API", "api.html"));
+articleMenu.add(new WebFXMenuItem("Customizing look &amp; feel", "looknfeel.html"));
+articleMenu.add(new WebFXMenuItem("Demos", "demos.html"));
+articleMenu.add(new WebFXMenuSeparator);
+articleMenu.add(new WebFXMenuItem("Download", "menu4.zip"));
+webfxMenuBar.add(new WebFXMenuButton("Article Menu", null, null, articleMenu));
+
+webfxLayout.writeTitle("DHTML Menu 4");
+webfxLayout.writeMenu();
+webfxLayout.writeDesignedByEdger();
+
+</script>
+<div class="webfx-main-body">
+<!-- end WebFX Layout Includes -->
+
+<h2>Menu Bar Creation</h2>
+
+<p>DHTML Menu 4 also has support for creating menu bars. Menu bars contians
+menu buttons and these menu buttons open menus when clicked. To use the menu
+bar you should first create your menus. If you don't already know how to work
+with menus you should check out the <a href="menucreation.html">Menu Creation</a>
+page.</p>
+
+<h3>MenuBar</h3>
+
+<p>A menu bar is a also a menu. The class <code>MenuBar</code> extends
+<code>Menu</code>. This might seem a bit odd but if you think about it they are
+really very similar. There are of course things that does not apply to a menu
+bar, such as opening, closing and positioning it and the methods for handling
+these have been overridden.</p>
+
+<p>To create a menu bar just create a new instance from the class
+<code>MenuBar</code>. After this you create your menu buttons and finally
+insert the menu into your page. The insertion can be done in two ways. You can
+either draw it into the page while the page is loading or you can create a DOM
+node that can later be inserted and moved etc.</p>
+
+<pre>
+var mb = new MenuBar();
+
+// create the menu buttons
+
+// write into page
+mb.write();
+
+// or create DOM node
+var el = mb.create();
+document.body.appendChild(el);
+</pre>
+
+<p>For more properties and methods see the <a href="api.html#MenuBar">API page</a>.</p>
+
+<h3>MenuButton</h3>
+
+<p>The MenuButton is used to show the buttons on the menu bar. Each menu button
+is associated with a menu that is opened when the button is clicked.</p>
+
+<pre>
+// fileMenu : Menu
+// mb : MenuBar
+
+var menuButton = new MenuButton("File", fileMenu);
+menuButton.mnemonic = 'f';
+mb.add(menuButton);
+</pre>
+
+<p>For more properties and methods see the <a href="api.html#MenuButton">API page</a>.</p>
+
+
+<p>
+<a href="menu4.html">Introduction</a><br />
+<a href="menucreation.html">Menu Creation</a><br />
+<a href="menubarcreation.html">Menu Bar Creation</a><br />
+<a href="usage.html">Usage</a><br />
+<a href="api.html">API</a><br />
+<a href="looknfeel.html">Customizing look &amp; feel<br />
+<a href="demos.html">Demos</a><br />
+<a href="menu4.zip">Download</a>
+</p>
+
+<p class="author">Author: Erik Arvidsson</p>
+
+<!-- end webfx-main-body -->
+</div>
+
+</body>
+</html>

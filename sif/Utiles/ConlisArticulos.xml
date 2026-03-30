@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_Codigo>Code</LB_Codigo>
+		<LB_CodigoAlterno>Alternate Code</LB_CodigoAlterno>
+		<LB_Descripcion>Description</LB_Descripcion>
+		<BTN_Filtrar>Filter</BTN_Filtrar>
+		<LB_Clasificacion>Classification</LB_Clasificacion>
+		<LB_MostrarTodo>Show all</LB_MostrarTodo>
+		<MSG_RequisicionPreparacion>Some of the stocks already in demand in state Requisition Preparation.</MSG_RequisicionPreparacion>
+	</Idioma>
+</Etiquetas>

@@ -1,0 +1,74 @@
+a.bottom {
+	color: #ffffff;
+	text-decoration: none;
+	font-weight: normal;
+}
+a:hover.bottom {
+	color: #3399CC;
+	text-decoration: none;
+	font-weight: normal;
+}
+a.top {
+	color: #666666;
+	text-decoration: none;
+	font-weight: normal;
+}
+a:hover.top {
+	color: #999999;
+	text-decoration: none;
+	font-weight: normal;
+}
+a.conte {
+	color: #2B3C6E;
+	text-decoration: none;
+	font-weight: normal;
+}
+a:hover.conte {
+	color: #FF0000;
+	text-decoration: none;
+	font-weight: normal;
+}
+a.conte2 {
+	color: #FF0000;
+	text-decoration: none;
+	font-weight: normal;
+}
+a:hover.conte2 {
+	color: #2B3C6E;
+	text-decoration: none;
+	font-weight: normal;
+}
+a.conte3 {
+	color: #ffffff;
+	text-decoration: none;
+	font-weight: normal;
+}
+a:hover.conte3 {
+	color: #003366;
+	text-decoration: none;
+	font-weight: normal;
+}
+table.marco {
+	border: 1px solid #000000;
+}
+.box {
+	background-color: FFFFE5;
+}
+.linea {
+	background-repeat: repeat-x;
+	background-position: center;
+	background-image: url(images/linea.jpg);
+
+
+}
+.fondo {
+	background-image: url(images/fotocontacto.jpg);
+	background-repeat: no-repeat;
+	background-position: right top;
+	background-attachment: scroll;
+}
+.linea2 {
+	background-image: url(images/temp/linea.jpg);
+	background-repeat: repeat-x;
+	background-position: center center;
+}

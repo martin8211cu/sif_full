@@ -1,0 +1,30 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 69 - DBM 192: agrega bit de especificar cuenta
+
+	         PARCHE:  Parche023_113_SIF_RegistroFacturas
+
+GENERADO EN:
+	SERVER:  http://mxpapp36:8300
+	DSN:     sifcim
+	FECHA:   11/07/2011 11:39:25
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* CHG_TABLE DDocumentosCxP: Detalle de Documentos sin Post */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): DSespecificacuenta - Especifica si se puede modificar la cuenta */
+ALTER TABLE DDocumentosCxP ADD DSespecificacuenta bit DEFAULT 0 NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

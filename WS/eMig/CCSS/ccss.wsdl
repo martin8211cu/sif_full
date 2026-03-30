@@ -1,0 +1,65 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:tns0="http://ccss/ConsultaMorosoWS.wsdl/types/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://ccss/ConsultaMorosoWS.wsdl" name="ConsultaMorosoWS" targetNamespace="http://ccss/ConsultaMorosoWS.wsdl">
+    <types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:soap11-enc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="http://ccss/ConsultaMorosoWS.wsdl/types/" targetNamespace="http://ccss/ConsultaMorosoWS.wsdl/types/" elementFormDefault="qualified">
+            <element name="verificaMorosidadWebElement">
+                <complexType>
+                    <sequence>
+                        <element name="pTipPatrono" type="string" nillable="true"/>
+                        <element name="pNumPatrono" type="string" nillable="true"/>
+                    </sequence>
+                </complexType>
+            </element>
+            <element name="verificaMorosidadWebResponseElement">
+                <complexType>
+                    <sequence>
+                        <element name="result" type="tns:ConsultaMorosoWSUser_verificaMorosidadWeb_Out" nillable="true"/>
+                    </sequence>
+                </complexType>
+            </element>
+            <complexType name="ConsultaMorosoWSUser_verificaMorosidadWeb_Out">
+                <sequence>
+                    <element name="pnumsectorOut" type="decimal" nillable="true"/>
+                    <element name="pdsclugarpagoOut" type="string" nillable="true"/>
+                    <element name="pnompatronoOut" type="string" nillable="true"/>
+                    <element name="pindactivoOut" type="string" nillable="true"/>
+                    <element name="pmontresponOut" type="decimal" nillable="true"/>
+                    <element name="pindmorosoOut" type="string" nillable="true"/>
+                    <element name="pnumsegregadoOut" type="decimal" nillable="true"/>
+                    <element name="presultadoOut" type="decimal" nillable="true"/>
+                    <element name="pmonttotalOut" type="decimal" nillable="true"/>
+                    <element name="pcantfacturasOut" type="decimal" nillable="true"/>
+                </sequence>
+            </complexType>
+        </schema>
+    </types>
+    <message name="ConsultaMorosoWS_verificaMorosidadWeb">
+        <part name="parameters" element="tns0:verificaMorosidadWebElement"/>
+    </message>
+    <message name="ConsultaMorosoWS_verificaMorosidadWebResponse">
+        <part name="parameters" element="tns0:verificaMorosidadWebResponseElement"/>
+    </message>
+    <portType name="ConsultaMorosoWS">
+        <operation name="verificaMorosidadWeb">
+            <input message="tns:ConsultaMorosoWS_verificaMorosidadWeb"/>
+            <output message="tns:ConsultaMorosoWS_verificaMorosidadWebResponse"/>
+        </operation>
+    </portType>
+    <binding name="ConsultaMorosoWSSoapHttp" type="tns:ConsultaMorosoWS">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <operation name="verificaMorosidadWeb">
+            <soap:operation soapAction="http://ccss/ConsultaMorosoWS.wsdl/verificaMorosidadWeb"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+    </binding>
+    <service name="ConsultaMorosoWS">
+        <port name="ConsultaMorosoWSSoapHttpPort" binding="tns:ConsultaMorosoWSSoapHttp">
+            <soap:address location="https://ccsssjapp03.ccss.sa.cr/ConsultaMorosidadWS/ConsultaMorosoWSSoapHttpPort"/>
+        </port>
+    </service>
+</definitions>

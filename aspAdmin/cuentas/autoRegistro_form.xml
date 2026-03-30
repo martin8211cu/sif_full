@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<Etiquetas>
+	<Idioma id="ES_CR">
+		<uno>
+			Etiqueta NUEVA uno:
+		</uno>
+	</Idioma>
+	<Idioma id="ES_CR">
+		<dos>
+			Etiqueta NUEVA dos:
+		</dos>
+	</Idioma>
+	<Idioma id="ES_CR">
+		<tres>
+			Etiqueta NUEVA tres:
+		</tres>
+	</Idioma>
+	<Idioma id="ES_CR">
+		<cuatro>
+			Etiqueta NUEVA cuatro:
+		</cuatro>
+	</Idioma>
+	<Idioma id="ES_CR">
+		<cinco>
+			Etiqueta NUEVA cinco:
+		</cinco>
+	</Idioma>
+	<Idioma id="ES_CR">
+		<seis>
+			Etiqueta NUEVA seis:
+		</seis>
+	</Idioma>
+	<Idioma id="ES_CR">
+		<siete>
+			Etiqueta NUEVA siete:
+		</siete>
+	</Idioma>
+	<Idioma id="ES_CR">
+		<ocho>
+			Etiqueta NUEVA ocho:
+		</ocho>
+	</Idioma>
+	<Idioma id="ES_CR">
+		<nueve>
+			Etiqueta NUEVA nueve:
+		</nueve>
+	</Idioma>
+	<Idioma id="ES_CR">
+		<diez>
+			Etiqueta NUEVA diez:
+		</diez>
+	</Idioma>
+</Etiquetas>

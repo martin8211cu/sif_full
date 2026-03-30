@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiqueta>
+	<Idioma id="en">
+		<LB_Codigo>Code</LB_Codigo>
+		<LB_Descripcion>Description</LB_Descripcion>
+		<BTN_Filtrar>Filter</BTN_Filtrar>
+		<BTN_Limpiar>Clean</BTN_Limpiar>
+	</Idioma>
+</Etiqueta>

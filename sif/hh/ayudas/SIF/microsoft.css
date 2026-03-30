@@ -1,0 +1,1051 @@
+/*=(===============================================================)*/
+
+/*=(===============================================================)*/
+/*=(Created with RoboEditor.)=======================================*/
+/*=(===============================================================)*/
+
+body {
+	font-family: Verdana, Arial, Helvetica, Sans-Serif;
+}
+
+a {
+	color: #0033CC;
+}
+
+a:link {
+	color: #0033CC;
+}
+
+a:visited {
+	color: #800080;
+}
+
+a:hover {
+	color: #FF6600;
+}
+
+a:active {
+	color: #800080;
+}
+
+h1 {
+	margin: 12px 0px 0px 0px;
+	color: #000000;
+	x-text-overline: Off;
+	l: ;
+	font-size: 24pt;
+	font-family: Verdana, sans-serif;
+	border-left-style: Solid;
+	border-right-style: Solid;
+	border-top-style: Solid;
+	border-bottom-style: Solid;
+	border-left-width: 1px;
+	border-right-width: 1px;
+	border-top-width: 1px;
+	border-bottom-width: 1px;
+	border-left-color: #000000;
+	border-right-color: #000000;
+	border-top-color: #000000;
+	border-bottom-color: #000000;
+	background-color: #c0c0c0;
+	text-align: Center;
+	font-weight: bold;
+	font-style: normal;
+	/*begin!kadov{{*/ text-decoration: none; /*}}end!kadov*/ 
+}
+
+/*=(Generated Code)=================================================*/
+/*=(WARNING: DO NOT EDIT OR DELETE THIS SECTION!)===================*/
+/*begin!kadov{{=====================================================*/ 
+LI.kadov-h1 {
+	color: #000000;
+	x-text-overline: Off;
+	l: ;
+	font-size: 24pt;
+	font-family: Verdana, sans-serif;
+	text-align: Center;
+	font-weight: bold;
+	font-style: normal;
+	text-decoration: none;
+}
+/*}}end!kadov=======================================================*/ 
+
+
+
+h2 {
+	font-size: 85%;
+	font-weight: bold;
+	margin: 0.4em 0px 0.5em 20px;
+}
+
+/*=(Generated Code)=================================================*/
+/*=(WARNING: DO NOT EDIT OR DELETE THIS SECTION!)===================*/
+/*begin!kadov{{=====================================================*/ 
+LI.kadov-h2 {
+	font-size: 85%;
+	font-weight: bold;
+}
+/*}}end!kadov=======================================================*/ 
+
+
+
+h3 {
+	font-size: 75%;
+	font-weight: bold;
+	margin: 0.4em 0px 0.5em 20px;
+}
+
+/*=(Generated Code)=================================================*/
+/*=(WARNING: DO NOT EDIT OR DELETE THIS SECTION!)===================*/
+/*begin!kadov{{=====================================================*/ 
+LI.kadov-h3 {
+	font-size: 75%;
+	font-weight: bold;
+}
+/*}}end!kadov=======================================================*/ 
+
+
+
+h4 {
+	font-weight: bold;
+	font-size: 70%;
+	margin: 0px 0px 1em 0px;
+}
+
+/*=(Generated Code)=================================================*/
+/*=(WARNING: DO NOT EDIT OR DELETE THIS SECTION!)===================*/
+/*begin!kadov{{=====================================================*/ 
+LI.kadov-h4 {
+	font-weight: bold;
+	font-size: 70%;
+}
+/*}}end!kadov=======================================================*/ 
+
+
+
+h5 {
+	font-weight: bold;
+	font-size: 65%;
+	margin: 0px 0px 5px 0px;
+}
+
+/*=(Generated Code)=================================================*/
+/*=(WARNING: DO NOT EDIT OR DELETE THIS SECTION!)===================*/
+/*begin!kadov{{=====================================================*/ 
+LI.kadov-h5 {
+	font-weight: bold;
+	font-size: 65%;
+}
+/*}}end!kadov=======================================================*/ 
+
+
+
+.stdBullet {
+	padding-right: 0.5em;
+	padding-top: 2px;
+	font-size: 70%;
+	color: #A6A6A6;
+}
+
+/*=(Generated Code)=================================================*/
+/*=(WARNING: DO NOT EDIT OR DELETE THIS SECTION!)===================*/
+/*begin!kadov{{=====================================================*/ 
+LI.kadov-CstdBullet {
+	font-size: 70%;
+	color: #A6A6A6;
+}
+/*}}end!kadov=======================================================*/ 
+
+
+
+.indent {
+	margin-left: 20px;
+}
+
+/*=(Generated Code)=================================================*/
+/*=(WARNING: DO NOT EDIT OR DELETE THIS SECTION!)===================*/
+/*begin!kadov{{=====================================================*/ 
+LI.kadov-Cindent {
+}
+/*}}end!kadov=======================================================*/ 
+
+
+
+.headline {
+	padding-bottom: 0.5em;
+}
+
+/*=(Generated Code)=================================================*/
+/*=(WARNING: DO NOT EDIT OR DELETE THIS SECTION!)===================*/
+/*begin!kadov{{=====================================================*/ 
+LI.kadov-Cheadline {
+}
+/*}}end!kadov=======================================================*/ 
+
+
+
+.headlineLink {
+	font-size: 70%;
+}
+
+/*=(Generated Code)=================================================*/
+/*=(WARNING: DO NOT EDIT OR DELETE THIS SECTION!)===================*/
+/*begin!kadov{{=====================================================*/ 
+LI.kadov-CheadlineLink {
+	font-size: 70%;
+}
+/*}}end!kadov=======================================================*/ 
+
+
+
+.headlineInfo {
+	font-size: 65%;
+	color: #999999;
+}
+
+/*=(Generated Code)=================================================*/
+/*=(WARNING: DO NOT EDIT OR DELETE THIS SECTION!)===================*/
+/*begin!kadov{{=====================================================*/ 
+LI.kadov-CheadlineInfo {
+	font-size: 65%;
+	color: #999999;
+}
+/*}}end!kadov=======================================================*/ 
+
+
+
+.refLabel {
+	font-size: 70%;
+	line-height: 140%;
+	font-weight: bold;
+}
+
+/*=(Generated Code)=================================================*/
+/*=(WARNING: DO NOT EDIT OR DELETE THIS SECTION!)===================*/
+/*begin!kadov{{=====================================================*/ 
+LI.kadov-CrefLabel {
+	font-size: 70%;
+	line-height: 140%;
+	font-weight: bold;
+}
+/*}}end!kadov=======================================================*/ 
+
+
+
+.refLabelH2 {
+	font-size: 85%;
+	line-height: 140%;
+	font-weight: bold;
+	margin-bottom: 0.3em;
+}
+
+/*=(Generated Code)=================================================*/
+/*=(WARNING: DO NOT EDIT OR DELETE THIS SECTION!)===================*/
+/*begin!kadov{{=====================================================*/ 
+LI.kadov-CrefLabelH2 {
+	font-size: 85%;
+	line-height: 140%;
+	font-weight: bold;
+}
+/*}}end!kadov=======================================================*/ 
+
+
+
+.refLabelH3 {
+	font-size: 75%;
+	line-height: 140%;
+	font-weight: bold;
+}
+
+/*=(Generated Code)=================================================*/
+/*=(WARNING: DO NOT EDIT OR DELETE THIS SECTION!)===================*/
+/*begin!kadov{{=====================================================*/ 
+LI.kadov-CrefLabelH3 {
+	font-size: 75%;
+	line-height: 140%;
+	font-weight: bold;
+}
+/*}}end!kadov=======================================================*/ 
+
+
+
+p.nomargin {
+	font-size: 70%;
+	line-height: 140%;
+	margin: 0px;
+}
+
+/*=(Generated Code)=================================================*/
+/*=(WARNING: DO NOT EDIT OR DELETE THIS SECTION!)===================*/
+/*begin!kadov{{=====================================================*/ 
+LI.kadov-p-Cnomargin {
+	font-size: 70%;
+	line-height: 140%;
+}
+/*}}end!kadov=======================================================*/ 
+
+
+
+.linkList {
+	margin-top: 0.3em;
+	margin-bottom: -5px;
+}
+
+/*=(Generated Code)=================================================*/
+/*=(WARNING: DO NOT EDIT OR DELETE THIS SECTION!)===================*/
+/*begin!kadov{{=====================================================*/ 
+LI.kadov-ClinkList {
+}
+/*}}end!kadov=======================================================*/ 
+
+
+
+.linkListItem {
+	padding-bottom: 0.3em;
+}
+
+/*=(Generated Code)=================================================*/
+/*=(WARNING: DO NOT EDIT OR DELETE THIS SECTION!)===================*/
+/*begin!kadov{{=====================================================*/ 
+LI.kadov-ClinkListItem {
+}
+/*}}end!kadov=======================================================*/ 
+
+
+
+.listLink {
+	font-size: 70%;
+	line-height: 140%;
+}
+
+/*=(Generated Code)=================================================*/
+/*=(WARNING: DO NOT EDIT OR DELETE THIS SECTION!)===================*/
+/*begin!kadov{{=====================================================*/ 
+LI.kadov-ClistLink {
+	font-size: 70%;
+	line-height: 140%;
+}
+/*}}end!kadov=======================================================*/ 
+
+
+
+p {
+	font-size: 70%;
+	margin-top: 0em;
+	margin-bottom: 1em;
+	line-height: 140%;
+}
+
+/*=(Generated Code)=================================================*/
+/*=(WARNING: DO NOT EDIT OR DELETE THIS SECTION!)===================*/
+/*begin!kadov{{=====================================================*/ 
+LI.kadov-p {
+	font-size: 70%;
+	line-height: 140%;
+}
+/*}}end!kadov=======================================================*/ 
+
+
+
+p.blurb {
+	font-size: 70%;
+	margin-top: 0em;
+	margin-bottom: 1.4em;
+	line-height: 140%;
+	margin-left: 20px;
+}
+
+/*=(Generated Code)=================================================*/
+/*=(WARNING: DO NOT EDIT OR DELETE THIS SECTION!)===================*/
+/*begin!kadov{{=====================================================*/ 
+LI.kadov-p-Cblurb {
+	font-size: 70%;
+	line-height: 140%;
+}
+/*}}end!kadov=======================================================*/ 
+
+
+
+.container {
+	font-size: 65%;
+	margin-top: 0em;
+	margin-bottom: 1em;
+	line-height: 130%;
+}
+
+/*=(Generated Code)=================================================*/
+/*=(WARNING: DO NOT EDIT OR DELETE THIS SECTION!)===================*/
+/*begin!kadov{{=====================================================*/ 
+LI.kadov-Ccontainer {
+	font-size: 65%;
+	line-height: 130%;
+}
+/*}}end!kadov=======================================================*/ 
+
+
+
+.newLink {
+	color: #ff0000;
+	font-weight: bold;
+	font-size: 65%;
+}
+
+/*=(Generated Code)=================================================*/
+/*=(WARNING: DO NOT EDIT OR DELETE THIS SECTION!)===================*/
+/*begin!kadov{{=====================================================*/ 
+LI.kadov-CnewLink {
+	color: #ff0000;
+	font-weight: bold;
+	font-size: 65%;
+}
+/*}}end!kadov=======================================================*/ 
+
+
+
+hr {
+	margin-top: 0.5em;
+	margin-bottom: 0px;
+}
+
+.sideObject {
+	padding-bottom: 1em;
+}
+
+/*=(Generated Code)=================================================*/
+/*=(WARNING: DO NOT EDIT OR DELETE THIS SECTION!)===================*/
+/*begin!kadov{{=====================================================*/ 
+LI.kadov-CsideObject {
+}
+/*}}end!kadov=======================================================*/ 
+
+
+
+.sidebarContent {
+	background: #E9E9E6;
+	width: 165px;
+	padding: 8px 7px 6px 7px;
+}
+
+/*=(Generated Code)=================================================*/
+/*=(WARNING: DO NOT EDIT OR DELETE THIS SECTION!)===================*/
+/*begin!kadov{{=====================================================*/ 
+LI.kadov-CsidebarContent {
+}
+/*}}end!kadov=======================================================*/ 
+
+
+
+.sidebarContent p {
+	margin-bottom: 0.8em;
+}
+
+/*=(Generated Code)=================================================*/
+/*=(WARNING: DO NOT EDIT OR DELETE THIS SECTION!)===================*/
+/*begin!kadov{{=====================================================*/ 
+.sidebarContent LI.kadov-p {
+}
+/*}}end!kadov=======================================================*/ 
+
+
+
+.containerHeader {
+	background: #999999;
+}
+
+/*=(Generated Code)=================================================*/
+/*=(WARNING: DO NOT EDIT OR DELETE THIS SECTION!)===================*/
+/*begin!kadov{{=====================================================*/ 
+LI.kadov-CcontainerHeader {
+}
+/*}}end!kadov=======================================================*/ 
+
+
+
+.containerFooter {
+	background: #999999;
+	margin-bottom: 12px;
+}
+
+/*=(Generated Code)=================================================*/
+/*=(WARNING: DO NOT EDIT OR DELETE THIS SECTION!)===================*/
+/*begin!kadov{{=====================================================*/ 
+LI.kadov-CcontainerFooter {
+}
+/*}}end!kadov=======================================================*/ 
+
+
+
+.containerImage {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+	text-align: center;
+}
+
+/*=(Generated Code)=================================================*/
+/*=(WARNING: DO NOT EDIT OR DELETE THIS SECTION!)===================*/
+/*begin!kadov{{=====================================================*/ 
+LI.kadov-CcontainerImage {
+	text-align: center;
+}
+/*}}end!kadov=======================================================*/ 
+
+
+
+.spotGraphic {
+	padding-top: 3px;
+	padding-bottom: 3px;
+}
+
+/*=(Generated Code)=================================================*/
+/*=(WARNING: DO NOT EDIT OR DELETE THIS SECTION!)===================*/
+/*begin!kadov{{=====================================================*/ 
+LI.kadov-CspotGraphic {
+}
+/*}}end!kadov=======================================================*/ 
+
+
+
+.sidebarLink {
+	font-size: 65%;
+	line-height: 130%;
+	padding-bottom: 0.75em;
+}
+
+/*=(Generated Code)=================================================*/
+/*=(WARNING: DO NOT EDIT OR DELETE THIS SECTION!)===================*/
+/*begin!kadov{{=====================================================*/ 
+LI.kadov-CsidebarLink {
+	font-size: 65%;
+	line-height: 130%;
+}
+/*}}end!kadov=======================================================*/ 
+
+
+
+div.hr {
+	width: 100%;
+	height: 5px;
+	overflow-y: hidden;
+	border-top: solid 1px #CCCCCC;
+}
+
+.reference {
+	margin-bottom: 16px;
+}
+
+/*=(Generated Code)=================================================*/
+/*=(WARNING: DO NOT EDIT OR DELETE THIS SECTION!)===================*/
+/*begin!kadov{{=====================================================*/ 
+LI.kadov-Creference {
+}
+/*}}end!kadov=======================================================*/ 
+
+
+
+.headlines {
+	margin-left: 20px;
+	margin-bottom: 9px;
+}
+
+/*=(Generated Code)=================================================*/
+/*=(WARNING: DO NOT EDIT OR DELETE THIS SECTION!)===================*/
+/*begin!kadov{{=====================================================*/ 
+LI.kadov-Cheadlines {
+}
+/*}}end!kadov=======================================================*/ 
+
+
+
+.dataTable {
+	border-bottom: solid 1px #CCCCCC;
+	margin-left: 20px;
+}
+
+/*=(Generated Code)=================================================*/
+/*=(WARNING: DO NOT EDIT OR DELETE THIS SECTION!)===================*/
+/*begin!kadov{{=====================================================*/ 
+LI.kadov-CdataTable {
+}
+/*}}end!kadov=======================================================*/ 
+
+
+
+.dataTable td {
+	padding: 5px;
+}
+
+.tableHeader {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 80%;
+	font-weight: bold;
+	background: #999999;
+	color: #ffffff;
+}
+
+/*=(Generated Code)=================================================*/
+/*=(WARNING: DO NOT EDIT OR DELETE THIS SECTION!)===================*/
+/*begin!kadov{{=====================================================*/ 
+LI.kadov-CtableHeader {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 80%;
+	font-weight: bold;
+	color: #ffffff;
+}
+/*}}end!kadov=======================================================*/ 
+
+
+
+.superHeader {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 70%;
+}
+
+/*=(Generated Code)=================================================*/
+/*=(WARNING: DO NOT EDIT OR DELETE THIS SECTION!)===================*/
+/*begin!kadov{{=====================================================*/ 
+LI.kadov-CsuperHeader {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 70%;
+}
+/*}}end!kadov=======================================================*/ 
+
+
+
+.stdHeader {
+	background: #CCCCCC;
+	color: #000000;
+}
+
+/*=(Generated Code)=================================================*/
+/*=(WARNING: DO NOT EDIT OR DELETE THIS SECTION!)===================*/
+/*begin!kadov{{=====================================================*/ 
+LI.kadov-CstdHeader {
+	color: #000000;
+}
+/*}}end!kadov=======================================================*/ 
+
+
+
+.stdHeader td {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 70%;
+	font-weight: bold;
+	border-top: solid 1px #CCCCCC;
+	border-left: solid 1px #CCCCCC;
+}
+
+.subHeader {
+	background: #DDDDDD;
+}
+
+/*=(Generated Code)=================================================*/
+/*=(WARNING: DO NOT EDIT OR DELETE THIS SECTION!)===================*/
+/*begin!kadov{{=====================================================*/ 
+LI.kadov-CsubHeader {
+}
+/*}}end!kadov=======================================================*/ 
+
+
+
+.subHeader td {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 70%;
+	font-weight: bold;
+	border-top: solid 1px #CCCCCC;
+	border-left: solid 1px #CCCCCC;
+}
+
+.record td {
+	border-top: solid 1px #CCCCCC;
+	border-left: solid 1px #CCCCCC;
+}
+
+.record td td {
+	border-width: 0px;
+}
+
+.evenRecord {
+	background: #E9E9E6;
+}
+
+/*=(Generated Code)=================================================*/
+/*=(WARNING: DO NOT EDIT OR DELETE THIS SECTION!)===================*/
+/*begin!kadov{{=====================================================*/ 
+LI.kadov-CevenRecord {
+}
+/*}}end!kadov=======================================================*/ 
+
+
+
+.evenRecord td {
+	border-top: solid 1px #CCCCCC;
+	border-left: solid 1px #CCCCCC;
+}
+
+.evenRecord td td {
+	border-width: 0px;
+}
+
+.rowLabel {
+	font-weight: bold;
+	background: #F0F0F0;
+}
+
+/*=(Generated Code)=================================================*/
+/*=(WARNING: DO NOT EDIT OR DELETE THIS SECTION!)===================*/
+/*begin!kadov{{=====================================================*/ 
+LI.kadov-CrowLabel {
+	font-weight: bold;
+}
+/*}}end!kadov=======================================================*/ 
+
+
+
+p.lastInCell {
+	padding-bottom: 0px;
+}
+
+/*=(Generated Code)=================================================*/
+/*=(WARNING: DO NOT EDIT OR DELETE THIS SECTION!)===================*/
+/*begin!kadov{{=====================================================*/ 
+LI.kadov-p-ClastInCell {
+}
+/*}}end!kadov=======================================================*/ 
+
+
+
+.keyLegend {
+	padding-bottom: 6px;
+	margin-left: 20px;
+}
+
+/*=(Generated Code)=================================================*/
+/*=(WARNING: DO NOT EDIT OR DELETE THIS SECTION!)===================*/
+/*begin!kadov{{=====================================================*/ 
+LI.kadov-CkeyLegend {
+}
+/*}}end!kadov=======================================================*/ 
+
+
+
+.key {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 65%;
+	font-weight: bold;
+	padding-right: 10px;
+}
+
+/*=(Generated Code)=================================================*/
+/*=(WARNING: DO NOT EDIT OR DELETE THIS SECTION!)===================*/
+/*begin!kadov{{=====================================================*/ 
+LI.kadov-Ckey {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 65%;
+	font-weight: bold;
+}
+/*}}end!kadov=======================================================*/ 
+
+
+
+.legend {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 65%;
+}
+
+/*=(Generated Code)=================================================*/
+/*=(WARNING: DO NOT EDIT OR DELETE THIS SECTION!)===================*/
+/*begin!kadov{{=====================================================*/ 
+LI.kadov-Clegend {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 65%;
+}
+/*}}end!kadov=======================================================*/ 
+
+
+
+.legendBullets {
+	color: #666666;
+}
+
+/*=(Generated Code)=================================================*/
+/*=(WARNING: DO NOT EDIT OR DELETE THIS SECTION!)===================*/
+/*begin!kadov{{=====================================================*/ 
+LI.kadov-ClegendBullets {
+	color: #666666;
+}
+/*}}end!kadov=======================================================*/ 
+
+
+
+.dataBullets {
+	color: #666666;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+
+/*=(Generated Code)=================================================*/
+/*=(WARNING: DO NOT EDIT OR DELETE THIS SECTION!)===================*/
+/*begin!kadov{{=====================================================*/ 
+LI.kadov-CdataBullets {
+	color: #666666;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+/*}}end!kadov=======================================================*/ 
+
+
+
+.tableFootnotes {
+	margin-top: 7px;
+	margin-left: 5px;
+}
+
+/*=(Generated Code)=================================================*/
+/*=(WARNING: DO NOT EDIT OR DELETE THIS SECTION!)===================*/
+/*begin!kadov{{=====================================================*/ 
+LI.kadov-CtableFootnotes {
+}
+/*}}end!kadov=======================================================*/ 
+
+
+
+.dataTableBottomMargin {
+	height: 1px;
+	overflow: hidden;
+	margin-bottom: 18px;
+}
+
+/*=(Generated Code)=================================================*/
+/*=(WARNING: DO NOT EDIT OR DELETE THIS SECTION!)===================*/
+/*begin!kadov{{=====================================================*/ 
+LI.kadov-CdataTableBottomMargin {
+}
+/*}}end!kadov=======================================================*/ 
+
+
+
+tr.sortable {
+	background: #CCC;
+	color: #000000;
+}
+
+td.sortable {
+	padding: 0px;
+}
+
+td.sortable a {
+	cursor: hand;
+}
+
+td.sortable a:hover {
+	background: #E0E0E0;
+}
+
+td.sortable table {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 70%;
+	font-weight: bold;
+	border-style: solid;
+	border-width: 1px;
+	border-color: #ffffff #999 #999 #ffffff;
+	padding: 5px;
+	height: expression(this.parentElement.parentElement.clientHeight);
+}
+
+td.selectedSort {
+	padding: 0px;
+}
+
+td.selectedSort a {
+	cursor: hand;
+	background: #999;
+}
+
+td.selectedSort table {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 70%;
+	font-weight: bold;
+	border-style: solid;
+	border-width: 1px;
+	border-color: #666 #CCC #CCC #666;
+	padding: 5px;
+	height: expression(this.parentElement.parentElement.clientHeight);
+	color: #ffffff;
+}
+
+.simpleForm {
+	margin: 20px 0px 1.5ex 20px;
+}
+
+/*=(Generated Code)=================================================*/
+/*=(WARNING: DO NOT EDIT OR DELETE THIS SECTION!)===================*/
+/*begin!kadov{{=====================================================*/ 
+LI.kadov-CsimpleForm {
+}
+/*}}end!kadov=======================================================*/ 
+
+
+
+.simpleForm p {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 65%;
+	font-weight: bold;
+	margin-bottom: 0px;
+}
+
+/*=(Generated Code)=================================================*/
+/*=(WARNING: DO NOT EDIT OR DELETE THIS SECTION!)===================*/
+/*begin!kadov{{=====================================================*/ 
+.simpleForm LI.kadov-p {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 65%;
+	font-weight: bold;
+}
+/*}}end!kadov=======================================================*/ 
+
+
+
+.simpleForm div {
+	margin-bottom: 14px;
+}
+
+.simpleFormSelect {
+	font-family: Tahoma, Arial, Helvetica, sans-serif;
+	font-size: 70%;
+	margin-right: 6px;
+	margin-top: 2px;
+}
+
+/*=(Generated Code)=================================================*/
+/*=(WARNING: DO NOT EDIT OR DELETE THIS SECTION!)===================*/
+/*begin!kadov{{=====================================================*/ 
+LI.kadov-CsimpleFormSelect {
+	font-family: Tahoma, Arial, Helvetica, sans-serif;
+	font-size: 70%;
+}
+/*}}end!kadov=======================================================*/ 
+
+
+
+.simpleFormSelectSmall {
+	font-family: Tahoma, Arial, Helvetica, sans-serif;
+	font-size: 70%;
+	margin-right: 6px;
+	margin-top: 2px;
+	width: 123px;
+}
+
+/*=(Generated Code)=================================================*/
+/*=(WARNING: DO NOT EDIT OR DELETE THIS SECTION!)===================*/
+/*begin!kadov{{=====================================================*/ 
+LI.kadov-CsimpleFormSelectSmall {
+	font-family: Tahoma, Arial, Helvetica, sans-serif;
+	font-size: 70%;
+}
+/*}}end!kadov=======================================================*/ 
+
+
+
+.simpleFormSelectMedium {
+	font-family: Tahoma, Arial, Helvetica, sans-serif;
+	font-size: 70%;
+	margin-right: 6px;
+	margin-top: 2px;
+	width: 169px;
+}
+
+/*=(Generated Code)=================================================*/
+/*=(WARNING: DO NOT EDIT OR DELETE THIS SECTION!)===================*/
+/*begin!kadov{{=====================================================*/ 
+LI.kadov-CsimpleFormSelectMedium {
+	font-family: Tahoma, Arial, Helvetica, sans-serif;
+	font-size: 70%;
+}
+/*}}end!kadov=======================================================*/ 
+
+
+
+.simpleFormSelectLarge {
+	font-family: Tahoma, Arial, Helvetica, sans-serif;
+	font-size: 70%;
+	margin-right: 6px;
+	margin-top: 2px;
+	width: 261px;
+}
+
+/*=(Generated Code)=================================================*/
+/*=(WARNING: DO NOT EDIT OR DELETE THIS SECTION!)===================*/
+/*begin!kadov{{=====================================================*/ 
+LI.kadov-CsimpleFormSelectLarge {
+	font-family: Tahoma, Arial, Helvetica, sans-serif;
+	font-size: 70%;
+}
+/*}}end!kadov=======================================================*/ 
+
+
+
+.simpleFormText {
+	font-family: Tahoma, Arial, Helvetica, sans-serif;
+	font-size: 70%;
+	width: 261px;
+	margin-right: 6px;
+	margin-top: 1px;
+}
+
+/*=(Generated Code)=================================================*/
+/*=(WARNING: DO NOT EDIT OR DELETE THIS SECTION!)===================*/
+/*begin!kadov{{=====================================================*/ 
+LI.kadov-CsimpleFormText {
+	font-family: Tahoma, Arial, Helvetica, sans-serif;
+	font-size: 70%;
+}
+/*}}end!kadov=======================================================*/ 
+
+
+
+.simpleFormSubmit {
+	font-family: Tahoma, Arial, Helvetica, sans-serif;
+	font-size: 70%;
+	padding: 0px 1px 0px 2px;
+}
+
+/*=(Generated Code)=================================================*/
+/*=(WARNING: DO NOT EDIT OR DELETE THIS SECTION!)===================*/
+/*begin!kadov{{=====================================================*/ 
+LI.kadov-CsimpleFormSubmit {
+	font-family: Tahoma, Arial, Helvetica, sans-serif;
+	font-size: 70%;
+}
+/*}}end!kadov=======================================================*/ 
+
+
+
+.listBullet {
+	color: #A6A6A6;
+	font-size: 80%;
+}
+
+/*=(Generated Code)=================================================*/
+/*=(WARNING: DO NOT EDIT OR DELETE THIS SECTION!)===================*/
+/*begin!kadov{{=====================================================*/ 
+LI.kadov-ClistBullet {
+	color: #A6A6A6;
+	font-size: 80%;
+}
+/*}}end!kadov=======================================================*/ 
+
+
+
+.listItem {
+	padding: 0em 0em 0em 0.5em;
+}
+
+/*=(Generated Code)=================================================*/
+/*=(WARNING: DO NOT EDIT OR DELETE THIS SECTION!)===================*/
+/*begin!kadov{{=====================================================*/ 
+LI.kadov-ClistItem {
+}
+/*}}end!kadov=======================================================*/ 
+
+
+
+
+/*=(===============================================================)*/

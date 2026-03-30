@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_ProcCierre>Do you want to execute Subsidiary Ledger Closing for the company</LB_ProcCierre>
+		<LB_PeriodoA>Period</LB_PeriodoA>
+		<LB_MesA>Month</LB_MesA>
+		<LB_Moneda>Currency</LB_Moneda>
+		<LB_Compra>Buy</LB_Compra>
+		<LB_Venta>Sale</LB_Venta>
+		<LB_Promedio>Average</LB_Promedio>
+		<BTN_TipoCH>Exchange Rate Historical</BTN_TipoCH>
+		<BTN_ProcCierreA>Execute Subsidiary Ledger Closing</BTN_ProcCierreA>
+		<MSG_ProcesoExitoso>Subsidiary Ledger Closing executed</MSG_ProcesoExitoso>
+		<MSG_Seguro>Are you sure to execute Subsidiary Ledger Closing</MSG_Seguro>
+		<MSG_SinTC>Currency without Exchange Rate</MSG_SinTC>
+		<MSG_TCinvalido>Exchange Rate not valid, try again</MSG_TCinvalido>
+	</Idioma>
+</Etiquetas>

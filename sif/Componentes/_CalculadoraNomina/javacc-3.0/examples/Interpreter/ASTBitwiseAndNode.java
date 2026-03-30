@@ -1,0 +1,38 @@
+/*
+ *                 Sun Public License Notice
+ * 
+ * The contents of this file are subject to the Sun Public License
+ * Version 1.0 (the "License"). You may not use this file except in
+ * compliance with the License. A copy of the License is available at
+ * http://www.sun.com/
+ * 
+ * The Original Code is JavaCC. The Initial Developer of the Original
+ * Code is Sun Microsystems, Inc. Portions Copyright 1996-2002 Sun
+ * Microsystems, Inc. All Rights Reserved.
+ */
+
+/* JJT: 0.2.2 */
+
+
+
+
+public class ASTBitwiseAndNode extends SimpleNode {
+  ASTBitwiseAndNode(int id) {
+    super(id);
+  }
+
+
+  public void interpret()
+  {
+     jjtGetChild(0).interpret();
+     jjtGetChild(1).interpret();
+
+     if (stack[top] instanceof Boolean)
+        stack[--top] = new Boolean(((Boolean)stack[top]).booleanValue() &
+                                ((Boolean)stack[top + 1]).booleanValue());
+     else if (stack[top] instanceof Integer)
+        stack[--top] = new Integer(((Integer)stack[top]).intValue() &
+                                ((Integer)stack[top + 1]).intValue());
+  }
+
+}

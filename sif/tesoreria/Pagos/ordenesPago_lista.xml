@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_Titulo>List of Payment Orders in Preparation</LB_Titulo>
+		<BTN_SeleccionarSolicitudes>Select requests</BTN_SeleccionarSolicitudes>
+	</Idioma>
+</Etiquetas>

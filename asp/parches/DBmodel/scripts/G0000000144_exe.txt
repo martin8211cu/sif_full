@@ -1,0 +1,182 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 453 - DBM 390: CoopelescaIncidencias
+
+	         PARCHE:  Parche023_514_RH _CoopelescaIncidencias
+
+GENERADO EN:
+	SERVER:  http://mxvqapp34:8300
+	DSN:     sifcim
+	FECHA:   06/01/2012 18:53:17
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* CHG_TABLE HIncidencias: HIncidencias */
+/* ======================================================================================== */
+/* ADD_COLUMN OP = (NUEVO): Ifechaaprobacion - Ifechaaprobacion */
+ALTER TABLE HIncidencias ADD Ifechaaprobacion datetime NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP = (NUEVO): Iusuaprobacion - Iusuaprobacion */
+ALTER TABLE HIncidencias ADD Iusuaprobacion numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP = (NUEVO): NRP - NRP */
+ALTER TABLE HIncidencias ADD NRP numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP = (NUEVO): NAP - NAP */
+ALTER TABLE HIncidencias ADD NAP numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP = (NUEVO): complemento - complemento */
+ALTER TABLE HIncidencias ADD complemento varchar(100) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP = (NUEVO): Ifechacontrol - Fecha Generado Inidencia */
+ALTER TABLE HIncidencias ADD Ifechacontrol datetime NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP = (NUEVO): Inumdocumento - Inumdocumento */
+ALTER TABLE HIncidencias ADD Inumdocumento integer NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP = (NUEVO): CFcuenta - CFcuenta */
+ALTER TABLE HIncidencias ADD CFcuenta numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP = (NUEVO): CFormato - CFormato */
+ALTER TABLE HIncidencias ADD CFormato varchar(100) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP = (NUEVO): EIlote - Lote del las Incidencias */
+ALTER TABLE HIncidencias ADD EIlote numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP = (NUEVO): Iestadoaprobacion - Estado de aprobacion del jefe */
+ALTER TABLE HIncidencias ADD Iestadoaprobacion integer NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE HIncidencias ADD CONSTRAINT HIncidencias_CK32 CHECK ([Iestadoaprobacion] IS NULL OR ([Iestadoaprobacion]=(3) OR [Iestadoaprobacion]=(2) OR [Iestadoaprobacion]=(1) OR [Iestadoaprobacion]=(0)))
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP = (NUEVO): Iingresadopor - Quien ingresa la incidencia */
+ALTER TABLE HIncidencias ADD Iingresadopor integer NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE HIncidencias ADD CONSTRAINT HIncidencias_CK33 CHECK ([Iingresadopor] IS NULL OR ([Iingresadopor]=(2) OR [Iingresadopor]=(1) OR [Iingresadopor]=(0)))
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP = (NUEVO): usuCF - Usuario del Centro Funcional */
+ALTER TABLE HIncidencias ADD usuCF numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP = (NUEVO): Iobservacion - Observacion de la incidencia */
+ALTER TABLE HIncidencias ADD Iobservacion varchar(255) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP = (NUEVO): Ijustificacion - Justificacion de la incidencia */
+ALTER TABLE HIncidencias ADD Ijustificacion varchar(255) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP = (NUEVO): Iestado - Estado de aprobacion del administrador de RH */
+ALTER TABLE HIncidencias ADD Iestado integer NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE HIncidencias ADD CONSTRAINT HIncidencias_CK37 CHECK ([Iestado] IS NULL OR ([Iestado]=(2) OR [Iestado]=(1) OR [Iestado]=(0)))
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE IMPIncidentes: IMPIncidentes */
+/* ======================================================================================== */
+/* ADD_COLUMN OP = (NUEVO): Iobservacion - Observacion de la incidencia */
+ALTER TABLE IMPIncidentes ADD Iobservacion varchar(255) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* CHG_TABLE Incidencias: Incidencias */
+/* ======================================================================================== */
+/* ADD_COLUMN OP = (NUEVO): Iestadoaprobacion - Estado de aprobacion del jefe */
+ALTER TABLE Incidencias ADD Iestadoaprobacion integer NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE Incidencias ADD CONSTRAINT Incidencias_CK28 CHECK ([Iestadoaprobacion] IS NULL OR ([Iestadoaprobacion]=(3) OR [Iestadoaprobacion]=(2) OR [Iestadoaprobacion]=(1) OR [Iestadoaprobacion]=(0)))
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP = (NUEVO): Iingresadopor - Quien ingresa la incidencia */
+ALTER TABLE Incidencias ADD Iingresadopor integer NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE Incidencias ADD CONSTRAINT Incidencias_CK29 CHECK ([Iingresadopor] IS NULL OR ([Iingresadopor]=(2) OR [Iingresadopor]=(1) OR [Iingresadopor]=(0)))
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP = (NUEVO): usuCF - Usuario del Centro Funcional */
+ALTER TABLE Incidencias ADD usuCF numeric(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP = (NUEVO): Ijustificacion - Justificacion de la incidencia */
+ALTER TABLE Incidencias ADD Ijustificacion varchar(255) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP = (NUEVO): Iobservacion - Observacion de la incidencia */
+ALTER TABLE Incidencias ADD Iobservacion varchar(255) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

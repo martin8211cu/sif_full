@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<dbStream xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://UOServer:8090/RepraWebApp/dtds/dbeventstream.xsd" environment="UOSERVER_RC.SACISIIC">
+  <dbEvent eventId="104:000000000171db7800242fbd000300242fbc0019000097e800dedb360000000000010001">
+    <update schema="ISBprepago">
+      <values>
+        <cell name="TJestado" type="CHAR">1</cell>
+        <cell name="ts_rversion" type="VARBINARY">0x000000000171db89</cell>
+      </values>
+      <oldValues>
+        <cell name="TJid" type="NUMERIC">1</cell>
+      </oldValues>
+    </update>
+  </dbEvent>
+</dbStream>

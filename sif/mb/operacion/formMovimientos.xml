@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_EncabezadoMovimiento>Movement Headline</LB_EncabezadoMovimiento>
+		<LB_Documento>Document</LB_Documento>
+		<LB_Descripcion>Description</LB_Descripcion>
+		<LB_Fecha>Date</LB_Fecha>
+		<LB_TransaccionBanco>Bank Transaction</LB_TransaccionBanco>
+		<LB_SeleccioneTransaccion>Select a Transaction</LB_SeleccioneTransaccion>
+		<LB_Banco>Bank</LB_Banco>
+		<LB_SeleccioneBanco>Select a Bank</LB_SeleccioneBanco>	
+		<LB_CuentaBancaria>Bank Account</LB_CuentaBancaria>
+		<LB_TarjetaCredito>Credit Cards</LB_TarjetaCredito>
+		<LB_Moneda>Currency</LB_Moneda>
+		<LB_TipoCambio>Exchange Rates</LB_TipoCambio>
+		<LB_Tipo>Type</LB_Tipo>
+		<LB_Bancos>Banks</LB_Bancos>
+		<LB_Cliente>Client</LB_Cliente>
+		<LB_Proveedor>Supplier</LB_Proveedor>
+		<LB_Referencia>Reference</LB_Referencia>
+		<LB_Total>Total</LB_Total>
+		<LB_SocioNegocio>Partner</LB_SocioNegocio>
+		<LB_Direccion>Adress</LB_Direccion>
+		<LB_ClientePOS>POS Client</LB_ClientePOS>
+		<LB_TransaccionDestino>Transaction destined</LB_TransaccionDestino>	
+		<LB_ListaSocioNegocio>Partners List</LB_ListaSocioNegocio>
+		<LB_Codigo>Code</LB_Codigo>	
+		<LB_Identificacion>Identification</LB_Identificacion>	
+		<LB_Nombre>Name</LB_Nombre>
+		<LB_TransaccionesCliente>Customer Transactions</LB_TransaccionesCliente>	
+		<LB_ListasCuentasBancarias>Bank Accounts List</LB_ListasCuentasBancarias>	
+		<LB_ListasTransaccionesProveedor>Supplier Transactions List</LB_ListasTransaccionesProveedor>
+		<LB_ListaDocumentos>Documents List</LB_ListaDocumentos>
+		<LB_Saldo>Balance</LB_Saldo>	
+		<LB_ListaTarjetasCredito>Credit Cards List</LB_ListaTarjetasCredito>	
+		<LB_Apellido1>Last Name</LB_Apellido1>	
+		<LB_Apellido2>Maiden Name</LB_Apellido2>	
+		<MSG_NoHayTarjetas>There are no Credit Cards</MSG_NoHayTarjetas>
+		<LB_CentroFuncional>Functional Center</LB_CentroFuncional>
+		<LB_CuentaContable>Accounting Account</LB_CuentaContable>
+		<LB_Monto>Amount</LB_Monto>
+		<LB_DetalleMovimientos>Movements Detail</LB_DetalleMovimientos>	
+		<MSG_NoHayDatosParaReportar>No Records Found</MSG_NoHayDatosParaReportar>			
+		
+	<MSG_AgregaLinea>To add new lines press modify button</MSG_AgregaLinea><MSG_FechaMenor>The date have to be less or equal to</MSG_FechaMenor><MSG_MontoDetNoCero>Detail amount have to be different to zero</MSG_MontoDetNoCero><MSG_MontoNoCero>The amount have to be different to zero</MSG_MontoNoCero><MSG_QuitarDetalle>To remove the movement  details is necessary to press modify button</MSG_QuitarDetalle><MSG_Refrescar>You have to refresh addresses</MSG_Refrescar><OBJ_CContableDetalle>Accounting Account of Detail</OBJ_CContableDetalle><OBJ_CFDetalle>Functional Center of Detail</OBJ_CFDetalle><OBJ_DescDetalle>Detail Description</OBJ_DescDetalle><OBJ_MontoDetalle>Amount Detail</OBJ_MontoDetalle><OBJ_TipoTransaccion>Transaction Type</OBJ_TipoTransaccion></Idioma>
+</Etiquetas>

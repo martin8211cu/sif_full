@@ -1,0 +1,41 @@
+﻿/*
+   CSS Document
+   Estilos utilizados por el tag cf_menu.
+*/
+
+/* para todos los estilos del menu */
+.cfmenu_titulo,
+.cfmenu_menu,
+.cfmenu_submenu {
+	padding-top:    3px; 
+	padding-bottom: 4px; 
+	padding-left:   8px; 
+	padding-right: 10px; 
+	font-family: Verdana, Arial, sans-serif; 
+	font-size: 9px; 
+}
+
+/* titulo del menu */
+.cfmenu_titulo {
+}
+.cfmenu_titulo a {
+	font-weight: bold; 
+}
+/* menu de primer nivel */
+.cfmenu_menu {
+}
+.cfmenu_menu a {
+	font-weight: bold;
+}
+/* menu de segundo nivel */
+.cfmenu_submenu {
+	padding-left:16px;
+}
+.cfmenu_submenu a {
+	font-weight: normal;
+}
+.cfmenu_bottom {
+	background-image:url(/cfmx/plantillas/soinasp01/css/compat/menubottom.gif);
+	background-position:right;
+	background-repeat:no-repeat;
+}

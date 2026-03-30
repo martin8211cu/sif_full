@@ -1,0 +1,125 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 396 - DBM 328: Creacion de la tabla historico de las reg
+
+	         PARCHE:  Parche023_351_SIF_Eliminacion-Restauracion_ReglasC
+
+GENERADO EN:
+	SERVER:  http://mxvqapp34:8300
+	DSN:     sifcim
+	FECHA:   06/01/2012 17:02:16
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* CHG_TABLE CFinanciera: Cuentas Financieras o de Ultim */
+/* ======================================================================================== */
+/* DEL_CHECK OP=(OBSOLETO): chk=(Ccuenta IS NOT NULL AND CFmovimiento='S' OR CFmovimiento<>'S') */
+ALTER TABLE CFinanciera DROP CONSTRAINT CFinanciera_CK
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ======================================================================================== */
+/* CHG_TABLE FAP000: ParametrosGenerales2 */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): FAPMSG - Mensaje para la Factura */
+ALTER TABLE FAP000 ADD FAPMSG varchar(80) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ======================================================================================== */
+/* ADD_TABLE HPCReglas: Reglas por Máscara Cuenta y pe */
+/* ======================================================================================== */
+
+CREATE TABLE HPCReglas (
+	 PCRid                          numeric(18)          NOT NULL
+	,Ecodigo                        integer              NOT NULL
+	,Cmayor                         char(4)              NOT NULL
+	,PCEMid                         numeric(18)          NOT NULL
+	,OficodigoM                     varchar(10)          NULL
+	,PCRref                         numeric(18)          NULL
+	,PCRdescripcion                 varchar(255)         NULL
+	,PCRregla                       varchar(100)         NOT NULL
+	,PCRvalida                      bit                  DEFAULT 0 NOT NULL
+	,PCRdesde                       datetime             NOT NULL
+	,PCRhasta                       datetime             NOT NULL
+	,Usucodigo                      numeric(18)          NOT NULL
+	,Ulocalizacion                  char(2)              NOT NULL
+	,BMfechaalta                    datetime             NULL
+	,PCRGid                         numeric(18)          NOT NULL
+	,HBMfechaalta                   datetime             NOT NULL
+	,HUsucodigo                     numeric(18)          NOT NULL
+	,HPCRfechaVencimiento           datetime             NULL
+	,BMUsucodigo                    numeric(18)          NULL
+	,ts_rversion                    timestamp           
+	)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="P", SEC="0", COLS="PCRid" */
+ALTER TABLE HPCReglas ADD CONSTRAINT HPCReglas_PK PRIMARY KEY CLUSTERED (PCRid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="F", SEC="1", COLS="PCRref", REF="HPCReglas" */
+CREATE INDEX HPCReglas_FI01 ON HPCReglas (PCRref)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="F", SEC="2", COLS="PCEMid", REF="PCEMascaras" */
+CREATE INDEX HPCReglas_FI02 ON HPCReglas (PCEMid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="F", SEC="3", COLS="Ecodigo,Cmayor", REF="CtasMayor" */
+CREATE INDEX HPCReglas_FI03 ON HPCReglas (Ecodigo,Cmayor)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="I", SEC="1", COLS="Ecodigo,OficodigoM" */
+CREATE NONCLUSTERED INDEX HPCReglas_ID01 ON HPCReglas (Ecodigo,OficodigoM)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="I", SEC="2", COLS="Ecodigo,Cmayor,PCRregla,PCRdesde,PCRhasta" */
+CREATE NONCLUSTERED INDEX HPCReglas_ID02 ON HPCReglas (Ecodigo,Cmayor,PCRregla,PCRdesde,PCRhasta)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ================================================================= */
+/*            CREA FKs NUEVOS O CON CAMPOS MODIFICADOS               */
+/* ================================================================= */
+/* CHG_TABLE HPCReglas */
+/* ADD_FK OP=(TAB NUEVA): TIP="F", SEC="1", COLS="PCRref", REF="HPCReglas" */
+ALTER TABLE HPCReglas ADD CONSTRAINT HPCReglas_FK01 FOREIGN KEY (PCRref) REFERENCES HPCReglas (PCRid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_FK OP=(TAB NUEVA): TIP="F", SEC="2", COLS="PCEMid", REF="PCEMascaras" */
+ALTER TABLE HPCReglas ADD CONSTRAINT HPCReglas_FK02 FOREIGN KEY (PCEMid) REFERENCES PCEMascaras (PCEMid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_FK OP=(TAB NUEVA): TIP="F", SEC="3", COLS="Ecodigo,Cmayor", REF="CtasMayor" */
+ALTER TABLE HPCReglas ADD CONSTRAINT HPCReglas_FK03 FOREIGN KEY (Ecodigo,Cmayor) REFERENCES CtasMayor (Ecodigo,Cmayor)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

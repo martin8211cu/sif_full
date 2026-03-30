@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_CuentasPorExcepcionPorTransaccionesDeCxC>Accounts for receivables transactions</LB_CuentasPorExcepcionPorTransaccionesDeCxC>
+		<LB_CuentasPorExcepcionPorTransaccionesDeCxP>Accounts for payable transactions</LB_CuentasPorExcepcionPorTransaccionesDeCxP>
+		<LB_Transaccion>Transaction</LB_Transaccion>
+		<LB_CuentaFinanciera>Financial Account</LB_CuentaFinanciera>
+		<MSG_NoHayCuentasPorExcepcion>No exception Accounts</MSG_NoHayCuentasPorExcepcion>
+		<BTN_Agregar>Add</BTN_Agregar>
+		<LB_Cuenta>Account</LB_Cuenta>
+	</Idioma>
+</Etiquetas>

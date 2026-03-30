@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<rhpml majorversion="1" minorversion="0">
+	<folders/>
+	<topics>
+		<topic>
+			<name>Consulta_Control_de_Presupuesto.htm</name>
+			<comments></comments>
+			<frameset>0</frameset>
+		</topic>
+		<topic>
+			<name>Consulta_de_Autorizaciones_Presupuestarias_(NAPs).htm</name>
+			<comments></comments>
+			<frameset>0</frameset>
+		</topic>
+		<topic>
+			<name>3_-_Consulta_de_Rechazos_Presupuestarios_(NRPs).htm</name>
+			<comments></comments>
+			<frameset>0</frameset>
+		</topic>
+		<topic>
+			<name>Consulta_Proyección_de_Tipos_de_Cambio..htm</name>
+			<comments></comments>
+			<frameset>0</frameset>
+		</topic>
+	</topics>
+</rhpml>

@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiqueta>
+	<Idioma id="en">	
+		<LB_PreFactura>Pre invoice</LB_PreFactura>
+		<LB_Transaccion>Transaction</LB_Transaccion>
+		<LB_Estatus>Status</LB_Estatus>
+		<LB_Todas>All</LB_Todas>
+		<LB_Pendiente>Pending</LB_Pendiente>
+		<LB_Estimada>Estimated</LB_Estimada>
+		<BTN_Filtrar>Filter</BTN_Filtrar>
+		<LB_Cliente>Client</LB_Cliente>
+		<LB_Moneda>Currency</LB_Moneda>
+		<LB_Oficina>Office</LB_Oficina>
+	</Idioma>
+</Etiqueta>

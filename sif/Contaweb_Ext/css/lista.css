@@ -1,0 +1,23 @@
+.listaNon {  text-indent: 10px; vertical-align: middle}
+.listaPar {  background-color: #FAFAFA; vertical-align: middle; text-indent: 10px}
+.tituloListas {
+	font-weight: bolder;
+	vertical-align: middle;
+	padding: 2px;
+	background-color: #ECECEC;
+}
+.tituloCorte {
+	font-weight: bolder;
+	vertical-align: middle;
+	padding: 2px;
+	background-color: buttonface;
+	color: buttontext;
+}
+
+a { text-decoration:none;
+color:#000000;
+}
+
+a:hover{
+	color: #FF0000;
+}

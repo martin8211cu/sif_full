@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_ListaCajas>Cash List</LB_ListaCajas>
+		<LB_Codigo>Code</LB_Codigo>
+		<LB_Descripcion>Description</LB_Descripcion>
+		<LB_CAJASCHICASPARAGASTOSMENORES>Petty Cash for Minor Expenses</LB_CAJASCHICASPARAGASTOSMENORES>
+		<LB_CAJASESPECIALESDEEFECTIVO>Petty Cash Special</LB_CAJASESPECIALESDEEFECTIVO>
+		<LB_CAJASEXTERNAS>External Cash</LB_CAJASEXTERNAS>
+	</Idioma>
+</Etiquetas>

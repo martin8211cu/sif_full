@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<Etiquetas>
+	<Idioma id="ES_CR">
+		<Observaciones>
+			Observaciones
+		</Observaciones>
+	</Idioma>
+	<Idioma id="EN">
+		<Observaciones>
+			Remarks
+		</Observaciones>
+	</Idioma>
+</Etiquetas>

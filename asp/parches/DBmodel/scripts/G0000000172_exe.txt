@@ -1,0 +1,38 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 503 - DBM 446: Se le agrega el check de exentos de costo
+
+	         PARCHE:  Parche023_636_SIF_CodigosConceptosFundatec
+
+GENERADO EN:
+	SERVER:  http://mxvqapp34:8300
+	DSN:     sifcim
+	FECHA:   17/01/2012 10:40:27
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* CHG_TABLE Conceptos: Conceptos */
+/* ======================================================================================== */
+/* ADD_COLUMN OP = (NUEVO): CexcostosAuto - Excento de costos automaticos */
+ALTER TABLE Conceptos ADD CexcostosAuto bit NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+UPDATE Conceptos SET CexcostosAuto = 0
+go
+EJECUCION EN BASE DE DATOS OK
+
+ALTER TABLE Conceptos ALTER COLUMN CexcostosAuto bit NOT NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_TransferenciasBancarias>Bank Transfer</LB_TransferenciasBancarias>
+		<LB_TransferenciasCuentas>Account Transfers</LB_TransferenciasCuentas>
+		<LB_Documento>Document</LB_Documento>
+		<LB_Cuenta>Account</LB_Cuenta>
+		<LB_Moneda>Currency</LB_Moneda>
+		<LB_Monto>Amount</LB_Monto>
+	</Idioma>
+</Etiquetas>

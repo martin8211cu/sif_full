@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='ISO-8859-1' ?>
+<ftstdata>
+<topic name="Frequently Asked Questions" url="getting_started/frequently_asked_questions.htm" />
+<topic name="Installation" url="getting_started/installation.htm" />
+<topic name="Requirements" url="getting_started/requirements.htm" />
+<topic name="Using soEditor" url="getting_started/using_soeditor.htm" />
+<topic name="Welcome to soEditor" url="getting_started/welcome_to_soeditor.htm" />
+<topic name="What's new" url="getting_started/whats_new.htm" />
+<topic name="Optional Attributes" url="reference/optional_attributes.htm" />
+<topic name="Required Attributes" url="reference/required_attributes.htm" />
+
+</ftstdata>  

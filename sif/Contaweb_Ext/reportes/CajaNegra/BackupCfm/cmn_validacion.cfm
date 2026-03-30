@@ -1,0 +1,67 @@
+﻿<cfif isdefined("url.PERIODO")>
+	<cfset VPer = url.PERIODO>
+<cfelse>
+	<cfset VPer = Year(Now())>
+</cfif>
+
+<cftry>
+
+<cfif VPer lt 2006>
+
+	<cfquery name="rs" datasource="#session.Conta.dsn#">
+			 set nocount on 
+			 exec  ICEWEB..cg_ValidaCuenta
+			 @CGE5COD  	= '#trim(url.CGE5COD)#' ,
+			 @CGM1IM 	= '#trim(url.CGM1IM)#' ,	
+			 @CGM1CD 	= '#trim(url.CGM1CD)#' 
+			 set nocount off 	
+	</cfquery>
+
+<cfelse>
+	
+	<cfquery name="rs" datasource="#session.Conta.dsn#">
+		set nocount on 
+	
+		declare 
+			@CFcuenta int, 
+			@msg_sal varchar(250)
+		
+		exec sif_interfaces..cg_CreaCuenta
+					@Mayor 			= <cfqueryparam cfsqltype="cf_sql_varchar" value="#trim(url.CGM1IM)#">, 
+					@Detalle 		= <cfqueryparam cfsqltype="cf_sql_varchar" value="#trim(url.CGM1CD)#">, 
+					@Oficodigo    	= <cfqueryparam cfsqltype="cf_sql_varchar" value="#trim(url.CGE5COD)#">,					
+					@CFcuenta		= @CFcuenta output,
+					@MSG_sal		= @msg_sal output,
+					@GenError		= 'N'
+		
+		if @msg_sal != 'OK' 
+		begin
+			select @msg_sal as resultado									 
+		end
+		else
+		begin
+			select 'La cuenta es correcta y puede ser utilizada.'	as resultado		
+		end
+		
+		set nocount off
+	</cfquery>
+
+</cfif>
+
+<cfcatch type="any">
+	<table width="100%" border="0">
+		<tr>
+			<td align="center" nowrap  bgcolor="#FFFF00"><strong><cfoutput>#trim(cfcatch.Detail)#</cfoutput></strong></td>
+		</tr>            
+	</table>
+	<cfabort>
+</cfcatch>
+</cftry>	
+<cfif isdefined("rs")  and rs.recordcount gt 0>
+	<table width="100%" border="0">
+		<tr>
+			<td align="center" nowrap bgcolor="#FFFF00"><strong><cfoutput>#trim(rs.resultado)#</cfoutput></strong></td>
+		</tr>            
+	</table>
+</cfif>
+

@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_MontoSolicitado>Amount Requested</LB_MontoSolicitado>
+		<LB_NumDoc>Document Number</LB_NumDoc>
+		<LB_Fecha>Date</LB_Fecha>
+		<LB_Gastos>Expenses</LB_Gastos>
+		<LB_MonedaDoc>Document Currency</LB_MonedaDoc>
+		<LB_AutorizadoDoc>Doc. Authorized</LB_AutorizadoDoc>
+		<LB_AutorizadoLiq>Settlement Authorized</LB_AutorizadoLiq>
+		<BTN_Nuevo>New</BTN_Nuevo>
+	</Idioma>
+</Etiquetas>

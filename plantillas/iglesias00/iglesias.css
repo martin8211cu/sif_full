@@ -1,0 +1,7 @@
+p,td { font-family:Geneva, Arial, Helvetica, sans-serif; font-size:12px } 
+a {
+	text-decoration: none;
+	color: #000000;
+}
+.listaNon { background-color:#FFFFFF; vertical-align:middle; }
+.listaPar { background-color:#FAFAFA; vertical-align:middle; }

@@ -1,0 +1,145 @@
+
+    <data>
+        
+        <variable name="BrechaCapacitacion">
+        <row>
+            <column>Codigo</column>
+            <column>Decripcion</column>
+            <column>Falta</column>
+            <column>Brecha</column>
+            <column>Peso</column>
+            <column>Posee</column>
+            <column>Cumplimiento</column>
+            <column>DEid</column>
+            <column>Puesto</column>
+            <column>NombreE</column>
+            <column>NombreP</column>
+        </row>
+        
+            <row>
+                <column>BZ018</column>
+                <column>Manejo de Relaciones Interpersonales</column>
+                <column>6.3000</column>
+                <column>21.0000</column>
+                <column>30.0000</column>
+                <column>23.7000</column>
+                <column>79.0000</column>
+                <column>24540</column>
+                <column>0003      </column>
+                <column>ANDREA FONSECA SOLANO</column>
+                <column>GERENTE DE RRHH</column>
+            </row>
+        
+            <row>
+                <column>BZ021</column>
+                <column>Motivaci&#xf3;n</column>
+                <column>2.1000</column>
+                <column>7.0000</column>
+                <column>30.0000</column>
+                <column>27.9000</column>
+                <column>93.0000</column>
+                <column>24540</column>
+                <column>0003      </column>
+                <column>ANDREA FONSECA SOLANO</column>
+                <column>GERENTE DE RRHH</column>
+            </row>
+        
+            <row>
+                <column>BZ022</column>
+                <column>Trabajo en Equipo</column>
+                <column>1.2000</column>
+                <column>4.0000</column>
+                <column>30.0000</column>
+                <column>28.8000</column>
+                <column>96.0000</column>
+                <column>24540</column>
+                <column>0003      </column>
+                <column>ANDREA FONSECA SOLANO</column>
+                <column>GERENTE DE RRHH</column>
+            </row>
+        
+            <row>
+                <column>BZ028</column>
+                <column>Habilidad de Negociaci&#xf3;n</column>
+                <column>10.5000</column>
+                <column>35.0000</column>
+                <column>30.0000</column>
+                <column>19.5000</column>
+                <column>65.0000</column>
+                <column>24540</column>
+                <column>0003      </column>
+                <column>ANDREA FONSECA SOLANO</column>
+                <column>GERENTE DE RRHH</column>
+            </row>
+        
+            <row>
+                <column>BZ026</column>
+                <column>Mejora Continua</column>
+                <column>4.7500</column>
+                <column>19.0000</column>
+                <column>25.0000</column>
+                <column>20.2500</column>
+                <column>81.0000</column>
+                <column>24540</column>
+                <column>0003      </column>
+                <column>ANDREA FONSECA SOLANO</column>
+                <column>GERENTE DE RRHH</column>
+            </row>
+        
+            <row>
+                <column>BZ006</column>
+                <column>Direcci&#xf3;n de Capital Humano</column>
+                <column>4.0000</column>
+                <column>20.0000</column>
+                <column>20.0000</column>
+                <column>16.0000</column>
+                <column>80.0000</column>
+                <column>24540</column>
+                <column>0003      </column>
+                <column>ANDREA FONSECA SOLANO</column>
+                <column>GERENTE DE RRHH</column>
+            </row>
+        
+            <row>
+                <column>BZ010</column>
+                <column>Administraci&#xf3;n del Tiempo</column>
+                <column>5.6000</column>
+                <column>28.0000</column>
+                <column>20.0000</column>
+                <column>14.4000</column>
+                <column>72.0000</column>
+                <column>24540</column>
+                <column>0003      </column>
+                <column>ANDREA FONSECA SOLANO</column>
+                <column>GERENTE DE RRHH</column>
+            </row>
+        
+            <row>
+                <column>BZ011</column>
+                <column>Administraci&#xf3;n de Procesos</column>
+                <column>2.2000</column>
+                <column>11.0000</column>
+                <column>20.0000</column>
+                <column>17.8000</column>
+                <column>89.0000</column>
+                <column>24540</column>
+                <column>0003      </column>
+                <column>ANDREA FONSECA SOLANO</column>
+                <column>GERENTE DE RRHH</column>
+            </row>
+        
+    </variable>
+     
+        <variable name="Puesto">
+        <row>
+            <column>0003</column>
+        </row>
+    	</variable>
+        <variable name="Empleado">
+        <row>
+            <column>24540</column>
+        </row>
+    	</variable>
+       
+  </data>
+

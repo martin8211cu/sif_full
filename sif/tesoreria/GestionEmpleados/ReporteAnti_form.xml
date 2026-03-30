@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+			<LB_Titulo>Reports of Employees Management</LB_Titulo>
+			<LB_Archivo>Employees Management</LB_Archivo>
+			<LB_SistGastoEmp>Employee Expense System</LB_SistGastoEmp>
+			<LB_RepteAnts>Advances Report</LB_RepteAnts>
+			<LB_Del>From</LB_Del>
+			<LB_Al>To</LB_Al>
+			<LB_Anticipo>Advance</LB_Anticipo>
+			<LB_FormaPago>Payment Method</LB_FormaPago>
+			<LB_Cuenta>Account</LB_Cuenta>
+			<LB_Comision>Commission</LB_Comision>
+			<LB_Descripcion>Description</LB_Descripcion>
+			<LB_Beneficiario>Beneficiary</LB_Beneficiario>
+			<LB_Monto>Amount</LB_Monto>
+			<LB_FechaEntregaAnticipo>Payment Date of Advance</LB_FechaEntregaAnticipo>
+			<LB_FechaVencimiento>Maturity Date</LB_FechaVencimiento>
+			<LB_PolizaAnticipo>Advance Voucher</LB_PolizaAnticipo>
+			<LB_Viatico>Allowance</LB_Viatico>
+			<LB_FinLinea>End Line</LB_FinLinea>
+	</Idioma>
+</Etiquetas>

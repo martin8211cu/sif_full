@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">	
+		<LB_Titulo>Accounting Documents Import</LB_Titulo>
+		<Balance_de_Poliza_en_Moneda_Origen>Origin Currency Balance</Balance_de_Poliza_en_Moneda_Origen>
+		<monto>Amount</monto>
+		<oficina>Office</oficina>
+		<debito>Debits</debito>
+		<credito>Credits</credito>
+		<Balance_de_Poliza_en_Moneda_Local>Local Currency Balance</Balance_de_Poliza_en_Moneda_Local>
+		<titulodoc>Retroactive Documents</titulodoc>
+		<concepto>Concept</concepto>
+		<periodo>Period</periodo>
+		<mes>Month</mes>
+		<poliza>Voucher</poliza>
+		<descripcion>Description</descripcion>
+		<fecha>Date</fecha>
+		<referencia>Reference</referencia>
+		<documento>Document</documento>
+		<cuenta_contable>Financial Account</cuenta_contable>
+		<linea>Line</linea>
+		<LB_Todas>All</LB_Todas>
+		<movimiento>Movement</movimiento>
+		<PolizaMon>Origin Currency Balance</PolizaMon>
+		<PolizaMonLoc>Local Currency Balance</PolizaMonLoc>
+	<AYUDA_ElArchivoDebeSerUnArchivoPlanoConElSiguienteFormato>The document have to be a flat file with the following format</AYUDA_ElArchivoDebeSerUnArchivoPlanoConElSiguienteFormato><AYUDA_Importacion>Importation</AYUDA_Importacion><AYUDA_ResumenDeImportacion>Import Summary</AYUDA_ResumenDeImportacion><AYUDA_Revision>Revision</AYUDA_Revision><AYUDA_SeleccionDeArchivo>Select file</AYUDA_SeleccionDeArchivo><LB_Columnas>Columns</LB_Columnas><LB_CrearNueva>Create New</LB_CrearNueva><LB_FormatoDeArchivoDeImportacion>Format File</LB_FormatoDeArchivoDeImportacion><LB_Lista_de_Centros_Funcionales>Functional Centers List</LB_Lista_de_Centros_Funcionales><LB_PasosParaLaImportacion>Import Process</LB_PasosParaLaImportacion><PolizaMon2></PolizaMon2><compania>Enterprise</compania><favoritos>Favorites</favoritos><inicio>Start</inicio><PolizaMon3></PolizaMon3></Idioma>
+	<Idioma id="es"><PolizaMon>Balance de P&amp;oacute;liza en Moneda Origen</PolizaMon><monto>Mon</monto><oficina>Oficina</oficina><debito>D&amp;eacute;bitos</debito><credito>Cr&amp;eacute;ditos</credito><titulodoc>Importaci&amp;oacute;n de Documento Contable</titulodoc><concepto>Concepto</concepto><periodo>Per&amp;iacute;odo</periodo><mes>Mes</mes><fecha>Fecha</fecha><descripcion>Descripci&amp;oacute;n</descripcion><documento>Documento</documento><referencia>Referencia</referencia><cuenta_contable>Cuenta Financiera</cuenta_contable><movimiento>Movimiento</movimiento><PolizaMonLoc>Balance de P&amp;oacute;liza en Moneda Local</PolizaMonLoc><PolizaMon2>La PÃ³liza no estÃ¡ balanceada para la Moneda</PolizaMon2><inicio>Inicio</inicio><favoritos>Favoritos</favoritos><compania>Compa&amp;ntilde;&amp;iacute;a</compania>
+	</Idioma>
+</Etiquetas>

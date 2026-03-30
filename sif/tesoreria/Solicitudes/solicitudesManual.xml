@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_Titulo>Prepare Manual Payment Request</LB_Titulo>
+		<LB_Solicitante>Requester</LB_Solicitante>
+		<LB_Estado>Status</LB_Estado>
+		<LB_NumSolicitud>Request Number</LB_NumSolicitud>
+		<LB_Beneficiario>Beneficiary</LB_Beneficiario>
+		<LB_Moneda>Currency</LB_Moneda>
+		<LB_CentroFuncional>Functional Center</LB_CentroFuncional>
+		<LB_BeneficiarioContado>Cash Beneficiary</LB_BeneficiarioContado>
+		<LB_ClienteDetallista>Retail Customer</LB_ClienteDetallista>	
+		<LB_SocioNegocio>Partner</LB_SocioNegocio>
+		<LB_FechaDesde>Date from</LB_FechaDesde>
+		<LB_Hasta>to</LB_Hasta>
+		<LB_Estado>Status</LB_Estado>
+		<LB_Todos>All</LB_Todos>
+		<LB_MotivoCancelacion>Cancellation Reason</LB_MotivoCancelacion>
+		<LB_MotivoRechazo>Reject Reason</LB_MotivoRechazo>
+		<LB_MotivoRechazoAnterior>Previously Rejected Reason</LB_MotivoRechazoAnterior>
+		<LB_IncluirSubordinados>Include Subordinate</LB_IncluirSubordinados>
+		<LB_SolicitudesCanceladas>List Requests Cancelled</LB_SolicitudesCanceladas>
+		
+		<LB_FechaSolicitud>Requested Date</LB_FechaSolicitud>
+		<LB_SufijoNombreCK>Name Suffix CK</LB_SufijoNombreCK>
+		<LB_Observaciones>Commnents</LB_Observaciones>
+		<LB_TipoCambio>Exchange Rate</LB_TipoCambio>
+		<LB_TotalPagoSolicitado>Total Amount Requested</LB_TotalPagoSolicitado>
+		<LB_FechaPagoSolicitado>Payment Date Requested</LB_FechaPagoSolicitado>
+		<LB_InstruccionBanco>Bank Instruction</LB_InstruccionBanco>
+		<LB_NuevaSolicitudPago>New Payment Request</LB_NuevaSolicitudPago>
+		<LB_ImprimirSolicitudEnviada>Print Request Sent</LB_ImprimirSolicitudEnviada>
+	<LB_CrearNueva>Create New</LB_CrearNueva><MSG_ReviseDatos>Please, review following data</MSG_ReviseDatos><MSG_ValidaCF>Define a Functional Center</MSG_ValidaCF><MSG_ValidaFecha>Define a Payment Date</MSG_ValidaFecha><MSG_ValidaIdentBeneficiario>Define the beneficiary identification or define a partner</MSG_ValidaIdentBeneficiario><MSG_ValidaMoneda>Define a currency</MSG_ValidaMoneda><MSG_ValidaMonto>Define the total amount payable</MSG_ValidaMonto><MSG_ValidaNomBeneficiario>Define a partner or define a beneficiary</MSG_ValidaNomBeneficiario><LB_Concepto>Concept</LB_Concepto><LB_CtaFinanciera>Financial Account</LB_CtaFinanciera><LB_Descripcion>Description</LB_Descripcion><LB_Documento>Document</LB_Documento><LB_EspecificaCta>Define Account</LB_EspecificaCta><LB_ImpNoCF>No Tax Credit</LB_ImpNoCF><LB_Impuesto>Tax</LB_Impuesto><LB_Monto>Amount</LB_Monto><LB_NoImpCreditoFiscal>No Tax Credit</LB_NoImpCreditoFiscal><LB_PagoTerceros>Third parties payments</LB_PagoTerceros><LB_Referencia>Reference</LB_Referencia><LB_TipoMov>Movement Type</LB_TipoMov><LB_Total>Total</LB_Total><LB_MontoSol>Amount Requested</LB_MontoSol><LB_Oficina>Office</LB_Oficina><LB_Servicio>Service</LB_Servicio><LB_TituloListaDet>Detail Manual Payment Request</LB_TituloListaDet><MSG_NecesarioConceptoParaDistribucion>You need to define a concept to choose a distribution</MSG_NecesarioConceptoParaDistribucion><MSG_ValidaCtaFinanciera>You have to define an account</MSG_ValidaCtaFinanciera><MSG_ValidaDescripcion>Define a description</MSG_ValidaDescripcion><MSG_ValidaDocto>Define a document number</MSG_ValidaDocto><MSG_ValidaMontoMenorSaldoSuficiencia>The amount requested have to be less than the sufficiency balance</MSG_ValidaMontoMenorSaldoSuficiencia><MSG_ValidaMontoSolicitMayorCero>The amount requested have to be greater than zero</MSG_ValidaMontoSolicitMayorCero><MSG_ValidaMontoSolicitado>You have to define an amount</MSG_ValidaMontoSolicitado><MSG_ValidaPagosTerceros>Define a third party payment concept</MSG_ValidaPagosTerceros><MSG_ValidaReferencia>Define a reference</MSG_ValidaReferencia><LB_CreditoGanancia>Credit (revenue)</LB_CreditoGanancia><LB_DebitoPagoNormal>Debit (Normal Payment)</LB_DebitoPagoNormal></Idioma>	
+</Etiquetas>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<rhpml majorversion="1" minorversion="0">
+	<folders>
+		<folder>
+			<name>Descripción_de_Puestos</name>
+		</folder>
+		<folder>
+			<name>Valoración_de_Puestos</name>
+		</folder>
+	</folders>
+	<topics/>
+</rhpml>

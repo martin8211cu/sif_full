@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_ListaDetalleMovimiento>Movement Detail List</LB_ListaDetalleMovimiento>
+		<LB_Cuenta>Account</LB_Cuenta>	
+		<LB_Descripcion>Description</LB_Descripcion>
+		<LB_Monto>Amount</LB_Monto>
+	<LB_Lista_de_Centros_Funcionales>Functional Centers List</LB_Lista_de_Centros_Funcionales></Idioma>
+</Etiquetas>

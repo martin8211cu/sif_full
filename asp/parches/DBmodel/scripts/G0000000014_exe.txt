@@ -1,0 +1,31 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  sifControl
+	MODELO:  SIF Control.pdm
+	VERSION: 5 - DBM 113: BASE CERO: SIF Control
+
+	         PARCHE:  ParcheParche023_001_SIF_BASE0
+
+GENERADO EN:
+	SERVER:  http://localhost:8099
+	DSN:     sifcontrol
+	FECHA:   07/03/2011 15:25:09
+*/
+
+/* INI_SCRIPT */
+
+/* ================================================================= */
+/*            CREA FKs NUEVOS O CON CAMPOS MODIFICADOS               */
+/* ================================================================= */
+/* CHG_TABLE IBitacora */
+/* ADD_FK OP=(NUEVO): TIP="F", SEC="1", COLS="EIid", REF="EImportador" */
+ALTER TABLE IBitacora ADD CONSTRAINT IBitacora_FK01 FOREIGN KEY (EIid) REFERENCES EImportador (EIid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

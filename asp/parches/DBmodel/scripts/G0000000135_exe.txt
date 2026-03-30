@@ -1,0 +1,55 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 437 - DBM 374: Creacion de la tabla en PD
+
+	         PARCHE:  Parche023_453_SIF_MLibrosDetalle
+
+GENERADO EN:
+	SERVER:  http://mxvqapp34:8300
+	DSN:     sifcim
+	FECHA:   06/01/2012 18:11:37
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* ADD_TABLE MLibrosDetalle: Detalle de Movimiento Libros */
+/* ======================================================================================== */
+
+CREATE TABLE MLibrosDetalle (
+	 MLid                           numeric(18)          NULL
+	,MLperiodo                      integer              NULL
+	,MLmes                          integer              NULL
+	,IDcontable                     numeric(18)          NULL
+	,TESSPid                        numeric(18)          NULL
+	,CFcuenta                       numeric(18)          NULL
+	,MLdescripcion                  varchar(100)         NULL
+	,MLdocumento                    varchar(20)          NULL
+	,MLmontolocTotal                numeric(18)          NULL
+	,MLmontoloc                     numeric(18)          NULL
+	,MLmontoDet                     numeric(18)          NULL
+	,BMUsucodigo                    numeric(18)          NULL
+	,ts_rversion                    timestamp           
+	)
+go
+EJECUCION EN BASE DE DATOS OK
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="I", SEC="1", COLS="MLid" */
+CREATE NONCLUSTERED INDEX MLibrosDetalle_ID01 ON MLibrosDetalle (MLid)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_KEY OP=(TAB NUEVA): TIP="I", SEC="2", COLS="CFcuenta,MLperiodo,MLmes" */
+CREATE NONCLUSTERED INDEX MLibrosDetalle_ID02 ON MLibrosDetalle (CFcuenta,MLperiodo,MLmes)
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

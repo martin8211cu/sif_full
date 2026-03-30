@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='ISO-8859-1' ?>
+<tocdata>
+<book name="Getting Started" >
+  <item name="Welcome" url="getting_started/welcome_to_soeditor.htm" />
+  <item name="What's new" url="getting_started/whats_new.htm" />
+  <item name="Requirements" url="getting_started/requirements.htm" />
+  <item name="Installation" url="getting_started/installation.htm" />
+  <item name="FAQ" url="getting_started/frequently_asked_questions.htm" />
+  <item name="Using soEditor" url="getting_started/using_soeditor.htm" />
+</book>
+<book name="Reference" >
+  <item name="Required Attributes" url="reference/required_attributes.htm" />
+  <item name="Optional Attributes" url="reference/optional_attributes.htm" />
+</book>
+<remoteitem name="Online Support" url="http://www.siteobjects.com/pages/support.cfm" />
+<remoteitem name="Discussion Forums" url="http://www.siteobjects.com/pages/forums.cfm" />
+<remoteitem name="SiteObjects.com" url="http://www.siteobjects.com/" />
+
+</tocdata>

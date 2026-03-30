@@ -1,0 +1,30 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 401 - DBM 334: nuevo campo de tipo de detalle de la cuen
+
+	         PARCHE:  Parche023_374_SIF_HSBC_transBancarias
+
+GENERADO EN:
+	SERVER:  http://mxvqapp34:8300
+	DSN:     sifcim
+	FECHA:   06/01/2012 17:15:18
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* CHG_TABLE TEStransferenciaP: Instruccion de pago o cuenta d */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): TESTPtipoDet - Detalle del tipo de cuenta */
+ALTER TABLE TEStransferenciaP ADD TESTPtipoDet varchar(50) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */

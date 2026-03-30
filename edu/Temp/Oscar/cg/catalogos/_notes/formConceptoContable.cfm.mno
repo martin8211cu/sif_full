@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+<info>
+	<infoitem key="UD_rsOrigenes" value="name:Oorigen;datatype:,name:Odescripcion;datatype:" />
+	<infoitem key="UD_rsConceptos" value="name:Cconcepto;datatype:,name:Cdescripcion;datatype:" />
+</info>

@@ -1,0 +1,1 @@
+﻿<cfset LvarXML = XMLparse(GvarXML_OE)>

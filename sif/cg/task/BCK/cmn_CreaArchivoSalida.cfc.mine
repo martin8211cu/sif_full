@@ -1,0 +1,618 @@
+﻿<!--- <cfoutput> Inicia Proceso de Cuenta #rsCuentas.Cformato# en #now()#<br /> </cfoutput> --->
+<!--- Generación del encabezado del archivo
+	SELECT DE RESULTADOS SEGUN LO SELECIONADO
+		1 =  Saldos acumulados			 por Periodo / Mes / Oficina
+		2 =  Saldos del periodo			 por Periodo / Oficina
+		3 =  Movimientos del mes		 por Periodo / Mes / Oficina
+		4 =  Movimientos asiento del mes por Periodo / Mes / Oficina / Lote	
+		5 =  Movimientos asiento consecutivo del mes por Periodo / Mes / Oficina / Lote / Asiento
+	Se obliga a grabar en archivo plano la cuenta procesada, para controlar que se genere el archivo por cada una
+	Cuando se reinicia el proceso por un error de procesamiento se continua en el punto donde quedo
+	Esto asumiendo que una cuenta ocupe menos de 1/2 megabyte en el informe:
+	Tamaño máximo por registro:
+		Oficina:   2 digitos     + 1  =  3
+		Cuenta:   25 caracteres  + 1  = 26
+		Mes:       2 caracteres  + 1  =  3
+		Periodo:   4 caracteres  + 1  =  5
+		Concepto:  3 caracteres  + 1  =  4
+		Documento: 4 caracteres  + 1  =  5
+		Inicial:   17 caracteres + 1  = 18	(12,345,678,901,234.67)
+		Debitos:   17 caracteres + 1  = 18	(12,345,678,901,234.67)
+		Creditos:  17 caracteres + 1  = 18	(12,345,678,901,234.67)
+		Neto:	   17 caracteres + 1  = 18	(12,345,678,901,234.67)
+
+		Total:    118 bytes
+		Registros por medio mega:       4443 
+	Se usa una transaccion para asegurar que se graba el registro de control y el archivo plano
+--->
+<cfcomponent output="no">
+	<cfsetting requesttimeout="2700"><!--- Tiempo maximo de procesamiento de 45 minutos.  --->
+	<cffunction name="fnGeneraSalidaArchivo" access="public" output="no" returntype="boolean">
+		<cfargument name="LLAVE" type="numeric" default="-1">
+		<cfargument name="USER"  type="string" default="-1">
+		<cfargument name="MostrarSalida" type="boolean" default="false">
+		<cfargument name="conexion" type="string" required="yes">
+		<cfargument name="ProcesarForzado" type="boolean" required="no" default="false">
+	
+		<cfset session.dsn = Arguments.conexion>
+		<cfset LLAVE = Arguments.LLAVE>
+		<cfset USER  = Arguments.USER>
+		<cfquery datasource="#Arguments.conexion#"  name="sql" >	
+			select Status, UltCuentaProc
+			from tbl_archivoscf
+			where  IDArchivo = #LLAVE#
+		</cfquery>	
+		<cfif sql.recordcount LT 1 or (sql.Status NEQ "W" and not Arguments.ProcesarForzado)>
+			<cfreturn false>
+		</cfif>
+		<cfset LvarUltCuentaProc = sql.UltCuentaProc>
+		<cfquery datasource="#Arguments.conexion#">	
+			update  tbl_archivoscf 
+			set Status = 'E', FechaProce = #now()#, FechaFin = null
+			where  IDArchivo = #LLAVE#
+		</cfquery>	
+		<cfquery datasource="#Arguments.conexion#"  name="sql" >	
+			select 	Usuario, BorrarArch, TpoRep, Periodo, MesIni, MesFin, ListaCuenta, Mcodigo, Ofi_Emp, TpoImpresion, Ecodigo
+			from 	tbl_archivoscf
+			where  	IDArchivo = #LLAVE#
+		</cfquery>
+		<!--- CARGA DE VARIABLES --->
+		<cfset Usuario 	    = sql.Usuario>
+		<cfset BorrarArch 	= sql.BorrarArch>
+		<cfset TpoRep 		= sql.TpoRep>
+		<cfset ListaCuenta	= sql.ListaCuenta>
+		<cfset Mcodigo		= sql.Mcodigo>
+		<cfset Ofi_Emp 		= sql.Ofi_Emp>
+		<cfset TpoImpresion = sql.TpoImpresion>
+		<cfset LvarEmpresa  = sql.Ecodigo>
+		<cfset Periodo 		= sql.Periodo>
+		<cfset MesIni 		= sql.MesIni>
+		<cfif len(trim(sql.MesFin)) EQ 0 or sql.MesFin LT MesIni>
+			<cfset MesFin 		= sql.MesIni>
+		<cfelse>
+			<cfset MesFin 		= sql.MesFin>
+		</cfif>
+		<cfset LarrCuentas  = ListToarray(ListaCuenta)>
+		<cfset cantReg      = ArrayLen(LarrCuentas)>
+		<cfquery name="rsCodigoCorp" datasource="#Arguments.conexion#">
+			select EcodigoSDC, Edescripcion
+			from Empresas
+			where Ecodigo = #LvarEmpresa#
+		</cfquery>
+		<cfset LvarCEcodigo   = rsCodigoCorp.EcodigoSDC>
+		<cfset PEmpresas      = rsCodigoCorp.Edescripcion>
+		<cfif TpoImpresion eq "2"><!--- Saldos del Periodo. Se debe forzar a que el mes inicial sea 1 y el mes final sea 12 --->
+			<cfset MesIni = 1><cfset MesFin = 12>
+		</cfif>
+		<cfif isdefined("Mcodigo") and  len(trim(Mcodigo))>
+			<cfquery name="rsMISO" datasource="#Arguments.conexion#">
+				select MISO4217 from Monedas 
+				where Mcodigo = #Mcodigo# and Ecodigo = #LvarEmpresa#
+			</cfquery>
+			<cfset MISO4217 = rsMISO.MISO4217>
+		</cfif>
+		<cfquery name="rsUser" datasource="#Arguments.conexion#">
+			Select Usulogin from Usuario where Usucodigo = #Usuario#
+		</cfquery>
+		<cfset NOM_ARCH = LLAVE & '_'& rsUser.Usulogin>
+		<!---Manejo de las empresas y oficinas--->
+		<cfset Oficina  = true>
+		<cfset Empresa  = true>
+		<cfset POficinas = "">
+		<cfset ListaEmpresas  = LvarEmpresa>
+		<cfset ListaOficinas  = "">
+		<cfif len(trim(Ofi_Emp))>
+			<cfset fnPreparaOficinas (Arguments.Conexion, Ofi_Emp)>
+		<cfelse>
+			<cfset POficinas = "Todas">
+			<cfset Oficina  = false>
+			<cfset Empresa  = true>
+		</cfif>
+		<cfset GvarBuffer = CreateObject("java", "java.lang.StringBuffer").init( JavaCast("int", 524228 ))>
+		<!--- Generación del encabezado del archivo --->
+		<cfset ContenidoLinea ="">
+		<cfif TpoImpresion EQ 1>
+		   <cfset NOM_ARCH = NOM_ARCH  &"SAL_ACU">
+		   <cfset ContenidoLinea =  'SEGMENTO' & chr(9)& 'CUENTA' & chr(9)& 'MES' & chr(9)& 'ANNO' & chr(9)& 'INICIAL' & chr(9) & 'DEBITOS' & chr(9)& 'CREDITOS' & chr(9)& 'FINAL' & chr(13)>
+		<cfelseif TpoImpresion EQ 2>
+		   <cfset NOM_ARCH = NOM_ARCH  & "SAL_PER">
+		   <cfset ContenidoLinea =  'SEGMENTO' & chr(9)& 'CUENTA' & chr(9)& 'ANNO' & chr(9)	& 'INICIAL' & chr(9) & 'DEBITOS' & chr(9)& 'CREDITOS' & chr(9)& 'FINAL' & chr(13)>
+		<cfelseif TpoImpresion EQ 3>
+		   <cfset NOM_ARCH = NOM_ARCH  &"MOV_MES">
+		   <cfset ContenidoLinea =  'SEGMENTO' & chr(9)& 'CUENTA' & chr(9)& 'MES' & chr(9)& 'ANNO' & chr(9)& 'DEBITOS' & chr(9)& 'CREDITOS' & chr(9)& 'NETO' & chr(13)>
+		<cfelseif TpoImpresion EQ 4>
+		   <cfset NOM_ARCH = NOM_ARCH  & "MOV_MES_AS">
+		   <cfset ContenidoLinea =  'SEGMENTO' & chr(9)& 'CUENTA' & chr(9)& 'MES' & chr(9)& 'ANNO' & chr(9)& 'ASIENTO' & chr(9)& 'DEBITOS' & chr(9)& 'CREDITOS' & chr(9)& 'NETO' & chr(13)>
+		<cfelseif TpoImpresion EQ 5>
+		   <cfset NOM_ARCH = NOM_ARCH  & "MOV_MES_CONS">
+		   <cfset ContenidoLinea =  'SEGMENTO' & chr(9)& 'CUENTA' & chr(9)& 'MES' & chr(9)& 'ANNO' & chr(9)& 'ASIENTO' & chr(9)& 'CONSECUTIVO' & chr(9)& 'DEBITOS' & chr(9)& 'CREDITOS' & chr(9)& 'NETO' & chr(13)>
+		</cfif>
+		<cfset tempfile_TXT = "#GetTempDirectory()##NOM_ARCH#.txt">
+		<cfif len(LvarUltCuentaProc) EQ 0>
+			<cffile action="write" file="#tempfile_TXT#" output="#ContenidoLinea#" nameconflict="overwrite">
+		</cfif>
+		<cfset reporte=fnCrearTablaTemporal()>
+		<cfset fnPrepara_rsCuentas(TpoRep, Arguments.Conexion)>
+		<cfloop query="rsCuentas"><cfsilent>
+			<cfset LvarCicloCcuenta = rsCuentas.Ccuenta>
+			<cfset LvarCicloCuentaF = rsCuentas.Cformato>
+			<cfset fnPrepara_rsCuentasContables(TpoImpresion, Arguments.Conexion, LvarCicloCcuenta)>
+			<cfloop query="rsCuentasContables"><cfsilent>
+				<cfif rsCuentasContables.debitos NEQ 0.00 or rsCuentasContables.creditos NEQ 0.00 or rsCuentasContables.Inicial NEQ 0.00>
+					<cfif TpoImpresion EQ 1>
+					   <cfset fnGraba(trim(rsCuentasContables.Oficodigo) & chr(9) & trim(LvarCicloCuentaF) & chr(9) & rsCuentasContables.Smes & chr(9)
+							& rsCuentasContables.Speriodo & chr(9) & rsCuentasContables.inicial & chr(9)& rsCuentasContables.debitos & chr(9)  & rsCuentasContables.creditos & chr(9)
+							& rsCuentasContables.Neto & chr(13) & chr(10))> 
+					<cfelseif TpoImpresion EQ 2>
+					   <cfset fnGraba(trim(rsCuentasContables.Oficodigo) & chr(9) & trim(LvarCicloCuentaF) & chr(9) & rsCuentasContables.Speriodo & chr(9)
+							& rsCuentasContables.inicial & chr(9) & rsCuentasContables.debitos & chr(9)
+							& rsCuentasContables.creditos & chr(9) & (rsCuentasContables.inicial+rsCuentasContables.Neto) & chr(13) & chr(10))>
+					<cfelseif TpoImpresion EQ 3>
+					   <cfset fnGraba(trim(rsCuentasContables.Oficodigo) & chr(9) & trim(LvarCicloCuentaF) & chr(9) & rsCuentasContables.Smes & chr(9)
+					   		& rsCuentasContables.Speriodo & chr(9) & rsCuentasContables.debitos & chr(9)
+					   		& rsCuentasContables.creditos & chr(9) & rsCuentasContables.Neto & chr(13) & chr(10))>
+					<cfelseif TpoImpresion EQ 4>
+					   <cfset fnGraba(trim(rsCuentasContables.Oficodigo) & chr(9) & trim(LvarCicloCuentaF) & chr(9) & rsCuentasContables.Emes & chr(9)
+					   		& rsCuentasContables.Eperiodo & chr(9) & rsCuentasContables.Cconcepto & chr(9)
+					   		& rsCuentasContables.debitos & chr(9)  & rsCuentasContables.creditos & chr(9)
+					   		& (rsCuentasContables.debitos-rsCuentasContables.creditos) & chr(13) & chr(10))>
+					<cfelseif TpoImpresion EQ 5>
+					   <cfset fnGraba(trim(rsCuentasContables.Oficodigo) & chr(9) & trim(LvarCicloCuentaF) & chr(9) & rsCuentasContables.Emes & chr(9)
+					   		& rsCuentasContables.Eperiodo & chr(9)  & rsCuentasContables.Cconcepto & chr(9)
+					   		& rsCuentasContables.Edocumento & chr(9) & rsCuentasContables.debitos & chr(9)
+					   		& rsCuentasContables.creditos & chr(9) 	& (rsCuentasContables.debitos-rsCuentasContables.creditos) & chr(13) & chr(10))>
+					</cfif>
+				</cfif>			
+			</cfsilent></cfloop>
+			<!--- <cfoutput> Finaliza Ciclo para Cuenta #rsCuentas.Cformato# en #now()# y Graba ultima cuenta <br /> </cfoutput> --->
+			<cftransaction>
+				<cfquery datasource="#Arguments.conexion#">	
+					update  tbl_archivoscf set UltCuentaProc = '#LvarCicloCuentaF#' where IDArchivo = #LLAVE#
+				</cfquery>
+				<cfset fnGraba("", true)>
+			</cftransaction>
+		</cfsilent></cfloop>
+		<!---Cambio de estatus--->
+		<cfquery datasource="#Arguments.conexion#"  name="sql" >	
+			update  tbl_archivoscf set Status = 'L', FechaFin  = <cfqueryparam cfsqltype="cf_sql_timestamp" value="#now()#">,
+				FechaEjec = <cfqueryparam cfsqltype="cf_sql_timestamp" value="#dateadd("yyyy", 1, now())#">,
+				NombreArchivo  = <cfqueryparam  cfsqltype="cf_sql_varchar"  value="#NOM_ARCH#">
+			where IDArchivo = #LLAVE#
+		</cfquery>
+		<cftry>
+			<cfquery datasource="#Arguments.conexion#">
+				delete from #reporte#
+			</cfquery>
+			<cfquery datasource="#Arguments.Conexion#">
+				delete from #ctas#
+			</cfquery>
+			<cfcatch>
+				<cfset LvarEncontroError = true>
+			</cfcatch>
+		</cftry>
+		<cfreturn true>
+	</cffunction>
+
+	<cffunction name="fnGraba" output="no">
+		<cfargument name="contenido" type="string" required="yes">
+		<cfargument name="fin" type="boolean" required="no" default="no">
+		<cfset GvarBuffer.append(Arguments.contenido)>
+		<cfif Arguments.fin Or (GvarBuffer.length() GE 522000)>
+			<cffile action="append" file="#tempfile_TXT#" output="#GvarBuffer.toString()#" addnewline="no">
+			<cfset GvarBuffer.setLength(0)>
+		</cfif>
+	</cffunction>
+
+	<cffunction name="fnPreparaCuentas" output="no" access="private">
+		<cfargument name="Conexion" 	type="string"  required="yes">
+		<cfargument name="CuentaCiclo" 	type="numeric" required="yes">
+		<cfargument name="Periodo" 		type="numeric" required="yes">
+		<cfargument name="MesIni" 		type="numeric" required="yes">
+		<cfargument name="MesFin" 		type="numeric" required="yes">
+
+		<cfquery datasource="#Arguments.Conexion#">
+				delete from #ctas#
+		</cfquery>
+		<cfquery datasource="#Arguments.conexion#">
+			insert into #ctas# (ccuenta, periodo, mesini, mesfin)
+			select cu.Ccuenta, #Arguments.Periodo#, #Arguments.MesIni#, #Arguments.MesFin#
+			from PCDCatalogoCuenta cu
+			where cu.Ccuentaniv   =  #Arguments.CuentaCiclo#
+		</cfquery>
+	</cffunction>
+    
+	<cffunction name="fnCrearTablaTemporal" access="private" output="no" returntype="string">
+		<!--- Creando Tabla Temporal--->
+		<cf_dbtemp name="ArchivoConta" returnvariable="reporte">
+			<cf_dbtempcol name="Ccuenta" 	type="numeric">
+			<cf_dbtempcol name="Ecodigo" 	type="integer">
+			<cf_dbtempcol name="nivel" 		type="integer">
+			<cf_dbtempcol name="cantidad" 	type="integer">
+		</cf_dbtemp>
+		
+		<cf_dbtemp name="CtasRep" returnvariable="ctas">
+			<cf_dbtempcol name="periodo" 	type="integer">
+			<cf_dbtempcol name="mesini" 	type="integer">
+			<cf_dbtempcol name="mesfin" 	type="integer">
+			<cf_dbtempcol name="ccuenta" 	type="numeric">
+		</cf_dbtemp>
+		<cfreturn reporte>
+	</cffunction>
+
+	<cffunction name="fnPrepara_rsCuentas" access="private" output="no" hint="Prepara las cuentas Contables a Procesar y regresa rsCuentas">
+		<cfargument name="TpoRep" type="numeric" required="yes">
+		<cfargument name="Conexion" type="string" required="yes">
+		<cfswitch expression="#Arguments.TpoRep#">
+			<cfcase value="1"><!--- SALDOS PARA 1 CUENTA PRIMER INSERT AGREGA TODAS LAS CUENTAS DESDE EL NIVEL O HASTA EL NIVEL INDICADO EN EL REPORTE --->
+				<cfset Valores = ListToarray(LarrCuentas[1],'|')>
+				<cfset Pcuentas = trim(Valores[1])>
+				<cfset CMayor = mid(Pcuentas,1,4)>
+				<cfset LvarCformatoParam = trim(Pcuentas)>
+				<cfset LvarCformato = LvarCformatoParam>
+				<cfset LvarPosIni = 6>
+				<cfset LvarPosSep = 6>
+				<cfset LvarNivAct = 0>
+				<!--- Obtener la información de la máscara para determinar el formato de la cuenta a buscar según la cuenta de mayor y el nivel indicado por el usuario, se debe de obtener la máscara de cuenta a buscar
+					Se evita usar la tabla PCDCatalogoCuenta que tiene muchos registros y la cuenta puede estar duplicada
+				--->
+				<cfquery name="rs" datasource="#Arguments.conexion#">
+					select coalesce(m.PCEMformatoC, c.Cmascara) as Mascara
+					from CtasMayor c
+						left outer join  PCEMascaras m
+						on m.PCEMid = c.PCEMid
+					where c.Ecodigo =  #LvarEmpresa#
+					  and c.Cmayor  = '#trim(CMayor)#'
+				</cfquery>
+				<cfset LvarMascara = rs.Mascara>
+				<cfloop condition="LvarNivAct LT Valores[2]"><cfsilent>
+					<cfset LvarPosSep = find("-", LvarMascara, LvarPosIni)>
+					<cfif LvarPosSep LT LvarPosIni>
+						<cfset LvarPosSep = len(LvarMascara) + 1>
+					</cfif>
+					<cfif LvarPosIni GT LvarPosSep>
+						<cfbreak>
+					</cfif>
+					<cfif len(LvarCformatoParam) LT LvarPosSep - 1>
+						<cfset LvarCformato = LvarCformato & "-" & RepeatString("_", LvarPosSep - LvarPosIni)>
+					</cfif>
+					<cfset LvarPosIni = LvarPosSep + 1>
+					<cfif LvarPosIni GT len(LvarMascara)>
+						<cfbreak>
+					</cfif>
+					<cfset LvarNivAct = LvarNivAct + 1>
+				</cfsilent></cfloop>
+				<cfquery datasource="#Arguments.conexion#">
+					insert into #reporte#
+						(Ecodigo,  Ccuenta, nivel, cantidad)
+					select 
+						c.Ecodigo,
+						c.Ccuenta, 
+						#Valores[2]#,
+						1 as Cantidad
+					from CContables c
+					where 
+						<cfif Empresa eq true>c.Ecodigo in (#ListaEmpresas#)<cfelse>c.Ecodigo =  #LvarEmpresa#</cfif>
+						and c.Cmayor =      '#trim(CMayor)#'
+						and c.Cformato like '#LvarCformato#'
+						<cfif len(LvarUltCuentaProc) gt 0>and c.Cformato > '#LvarUltCuentaProc#'</cfif>
+						and exists(
+							select 1
+							from SaldosContables s
+							where s.Ccuenta = c.Ccuenta
+							  and s.Speriodo = #Periodo#
+							  <cfif MesIni EQ MesFin>and s.Smes     =  #MesIni#<cfelse>and s.Smes     >= #MesIni# and s.Smes     <= #MesFin#</cfif>
+							  )
+				</cfquery>
+			</cfcase>
+			<cfcase value="2"><!--- SALDOS PARA UN RANGO DE CUENTAS PRIMER INSERT AGREGA TODAS LAS CUENTAS DESDE EL NIVEL O HASTA EL NIVEL INDICADO EN EL REPORTE --->
+				<cfset Valores1 = ListToarray(LarrCuentas[1],'|')>
+				<cfset Valores2 = ListToarray(LarrCuentas[2],'|')>
+				<cfset Pcuentas = trim(Valores1[1]) & "<br>" & trim(Valores2[1])>
+				<cfquery datasource="#Arguments.conexion#">
+					insert into #reporte# (Ecodigo,Ccuenta, nivel, cantidad)
+					select 
+						c.Ecodigo,
+						c.Ccuenta, 
+						#Valores1[2]#,
+						1 as Cantidad
+					from CContables c
+					where 
+						<cfif Empresa eq true>c.Ecodigo in (#ListaEmpresas#)<cfelse>c.Ecodigo =  #LvarEmpresa#</cfif>
+						and c.Cformato >= '#trim(Valores1[1])#'
+						and c.Cformato <= '#trim(Valores2[1])#'
+						and c.Cmovimiento = 'S'
+						and c.Cformato  <> c.Cmayor
+						and exists(
+							select 1
+							from SaldosContables s
+							where s.Ccuenta = c.Ccuenta
+							  and s.Speriodo = #Periodo#
+							  <cfif MesIni EQ MesFin>and s.Smes     =  #MesIni#<cfelse>and s.Smes     >= #MesIni# and s.Smes     <= #MesFin#</cfif>
+							  )
+				</cfquery> 
+			</cfcase>
+			<cfcase value="3"><!--- SALDOS PARA LISTA DE CUENTAS PRIMER INSERT AGREGA TODAS LAS CUENTAS DESDE EL NIVEL O HASTA EL NIVEL INDICADO EN EL REPORTE --->
+				<cfset Pcuentas = "">
+				<cfloop index="i"  from="1" to="#cantReg#"><cfsilent>
+					<cfset arreglo = listtoarray(LarrCuentas[i],"|")>
+					<cfset cuenta = "#arreglo[1]#">
+					<cfset Pcuentas = Pcuentas & trim(arreglo[1]) & "<br>" >
+					<cfset cMayor = mid(cuenta,1,4)>
+					<cfset NIVELDET = "#arreglo[2]#">
+					<cfset NIVELTOT = "#arreglo[3]#">
+					<cfquery datasource="#Arguments.conexion#">
+						insert into #reporte# (Ecodigo,Ccuenta, nivel, cantidad)
+						select 
+							c.Ecodigo,
+							c.Ccuenta, 
+							cu.PCDCniv,
+							count(1) as Cantidad
+						from CContables c
+							inner join PCDCatalogoCuenta cu
+								on cu.Ccuentaniv = c.Ccuenta
+						where 
+							<cfif Empresa eq true>c.Ecodigo in (#ListaEmpresas#)<cfelse>c.Ecodigo =  #LvarEmpresa#</cfif>
+							and c.Cmayor =      	'#trim(cMayor)#'
+							and c.Cformato like 	'#trim(cuenta)#%'
+							and cu.PCDCniv = #NIVELDET#
+							and exists(
+								select 1
+								from SaldosContables s
+								where s.Ccuenta = c.Ccuenta
+								  and s.Speriodo = #Periodo#
+								  <cfif MesIni EQ MesFin>and s.Smes     =  #MesIni#<cfelse>and s.Smes     >= #MesIni# and s.Smes     <= #MesFin#</cfif>
+							  )
+						group by c.Ecodigo, c.Ccuenta, cu.PCDCniv
+					</cfquery> 
+				</cfsilent></cfloop>
+			</cfcase>
+		</cfswitch> 
+		<cfquery name="rsCuentas" datasource="#Arguments.conexion#">
+			select c.Ccuenta, c.Cformato
+			from #reporte# r
+				inner join CContables c
+				on c.Ccuenta = r.Ccuenta
+			<cfif len(LvarUltCuentaProc) GT 0>
+			   where c.Cformato > '#LvarUltCuentaProc#'
+			</cfif> 
+			order by c.Cformato
+		</cfquery>
+	</cffunction>
+
+	<cffunction name="fnPrepara_rsCuentasContables" access="private" output="no" hint="Prepara el recordset rsCuentasContables para procesamiento">
+		<cfargument name="TpoImpresion" type="numeric" required="yes">
+		<cfargument name="Conexion" type="string" required="yes">
+		<cfargument name="LvarCicloCuenta" type="numeric" required="yes">
+		<cfswitch expression="#Arguments.TpoImpresion#">
+		<cfcase value="1">  <!--- *******  Saldos acumulados   ******* --->
+			<cfquery name="rsCuentasContables" datasource="#Arguments.conexion#" >
+				select 
+					s.Speriodo, s.Smes, s.Ocodigo, min(o.Oficodigo) as Oficodigo,  
+				<cfif isdefined("Mcodigo") and  len(trim(Mcodigo))>
+					sum(s.SOinicial) as Inicial, 
+					sum(s.DOdebitos) as debitos, 
+					sum(s.COcreditos)as creditos,
+					sum(s.SOinicial  + s.DOdebitos - s.COcreditos) as Neto 
+				<cfelse>
+					sum(s.SLinicial) as Inicial,
+					sum(s.DLdebitos) as debitos, 
+					sum(s.CLcreditos)as creditos, 
+					sum(s.SLinicial + s.DLdebitos - s.CLcreditos) as Neto 
+				</cfif>
+				from SaldosContables s
+					left outer join Oficinas o 
+					   on o.Ecodigo = s.Ecodigo 
+					  and o.Ocodigo = s.Ocodigo
+				where s.Ccuenta  =   #Arguments.LvarCicloCuenta#
+				  and s.Speriodo =   #Periodo#
+				  <cfif MesIni EQ MesFin>and s.Smes     =  #MesIni#<cfelse>and s.Smes     >= #MesIni# and s.Smes     <= #MesFin#</cfif>
+				  <cfif len(trim(ListaOficinas)) GT 0>and s.Ocodigo in (#ListaOficinas#)</cfif>
+				<cfif isdefined("MISO4217") and  len(trim(MISO4217))>
+					and s.Mcodigo in (
+						select Mcodigo 
+						from Monedas 
+						where Miso4217  		= '#trim(MISO4217)#')		
+				</cfif>	
+				group by s.Speriodo, s.Smes, s.Ocodigo
+				order by s.Speriodo, s.Smes, s.Ocodigo
+			</cfquery>
+		</cfcase>
+		<cfcase value="2">   <!--- *******  Saldos del periodo    ******* --->
+			<cfquery name="rsCuentasContables" datasource="#Arguments.conexion#" >
+				select s.Speriodo, s.Ocodigo,
+					min((select min(o.Oficodigo) from Oficinas o where o.Ecodigo = s.Ecodigo and o.Ocodigo = s.Ocodigo )) as Oficodigo,  
+				<cfif isdefined("Mcodigo") and  len(trim(Mcodigo))>
+					sum((select sum(si.SOinicial) from SaldosContables si 
+					 where si.Ccuenta = s.Ccuenta and si.Speriodo = s.Speriodo and si.Smes = 1
+					   and si.Ecodigo = s.Ecodigo and si.Ocodigo = s.Ocodigo   and si.Mcodigo = s.Mcodigo
+					   )) as Inicial,
+					sum(s.DOdebitos) as debitos, 
+					sum(s.COcreditos)as creditos,
+					sum(s.DOdebitos - s.COcreditos) as Neto 
+				<cfelse>
+					sum((select sum(si.SLinicial) from SaldosContables si 
+					 where si.Ccuenta = s.Ccuenta and si.Speriodo = s.Speriodo and si.Smes = 1
+					   and si.Ecodigo = s.Ecodigo and si.Ocodigo = s.Ocodigo   and si.Mcodigo = s.Mcodigo
+					   )) as Inicial,
+					sum(s.DLdebitos) as debitos, 
+					sum(s.CLcreditos)as creditos, 
+					sum(s.DLdebitos - s.CLcreditos) as Neto
+				</cfif> 								
+				from SaldosContables s
+				where s.Ccuenta  =   #Arguments.LvarCicloCuenta#
+				  and s.Speriodo =   #Periodo#
+				  <cfif MesIni EQ MesFin>and s.Smes     =  #MesIni#<cfelse>and s.Smes     >= #MesIni# and s.Smes     <= #MesFin#</cfif>
+				  <cfif len(trim(ListaOficinas)) GT 0>and s.Ocodigo in (#ListaOficinas#)</cfif>
+				<cfif isdefined("MISO4217") and  len(trim(MISO4217))>
+					and s.Mcodigo in (select Mcodigo from Monedas where Miso4217 = '#trim(MISO4217)#')		
+				</cfif>	
+				group by s.Speriodo, s.Ocodigo
+				order by s.Speriodo, s.Ocodigo
+			</cfquery>
+		</cfcase>		
+		<cfcase value="3">  <!--- *******  Movimientos del mes    ******* --->
+			<cfquery name="rsCuentasContables" datasource="#Arguments.conexion#" >
+				select s.Speriodo, s.Smes, s.Ocodigo,
+					min(( select min(o.Oficodigo) from Oficinas o where o.Ecodigo = s.Ecodigo and o.Ocodigo = s.Ocodigo )) as Oficodigo,  
+				<cfif isdefined("Mcodigo") and  len(trim(Mcodigo))>
+					sum(s.SOinicial) as Inicial,
+					sum(s.DOdebitos) as debitos, 
+					sum(s.COcreditos)as creditos,
+					sum(s.DOdebitos - s.COcreditos) as Neto 
+				<cfelse>
+					sum(s.SLinicial) as Inicial,
+					sum(s.DLdebitos) as debitos, 
+					sum(s.CLcreditos)as creditos, 
+					sum(s.DLdebitos - s.CLcreditos) as Neto
+				</cfif>
+				from SaldosContables s
+				where s.Ccuenta  =   #Arguments.LvarCicloCuenta#
+				  and s.Speriodo =   #Periodo#
+				  <cfif MesIni EQ MesFin>and s.Smes     =  #MesIni#<cfelse>and s.Smes     >= #MesIni# and s.Smes     <= #MesFin#</cfif>
+				  <cfif len(trim(ListaOficinas)) GT 0>and s.Ocodigo in (#ListaOficinas#)</cfif>
+				<cfif isdefined("MISO4217") and  len(trim(MISO4217))>
+					and s.Mcodigo in (select Mcodigo from Monedas where Miso4217 = '#trim(MISO4217)#')		
+				</cfif>	
+				group by s.Speriodo, s.Smes, s.Ocodigo
+				order by s.Speriodo, s.Smes, s.Ocodigo
+			</cfquery>
+		</cfcase>		
+		<cfcase value="4">  <!--- *******  Movimientos asiento del mes   ******* --->
+			<cfset fnPreparaCuentas(Arguments.conexion, Arguments.LvarCicloCuenta, Periodo, MesIni, MesFin )>					
+			<cfquery name="rsCuentasContables" datasource="#Arguments.conexion#" >
+				select #Periodo# as Eperiodo, a.Emes, a.Ocodigo, a.Cconcepto,
+				min(( 
+					select min(Oficodigo) 
+					from Oficinas o 
+					where o.Ecodigo =  a.Ecodigo
+					  and o.Ocodigo = a.Ocodigo
+				)) as Oficodigo,
+				0.00 as Inicial,
+				<cfif isdefined("Mcodigo") and  len(trim(Mcodigo))>
+					sum(case a.Dmovimiento when 'D'  then a.Doriginal  else 0 end ) as debitos, 
+					sum(case a.Dmovimiento when 'C'  then a.Doriginal  else 0 end ) as creditos 								
+				<cfelse>
+					sum(case a.Dmovimiento when 'D'  then a.Dlocal  else 0 end ) as debitos, 
+					sum(case a.Dmovimiento when 'C'  then a.Dlocal  else 0 end ) as creditos 								
+				</cfif>
+				from #ctas# cu  
+					inner join HDContables a 
+							inner join HEContables b 
+							on b.IDcontable = a.IDcontable
+					on  a.Ccuenta   = cu.ccuenta
+					and a.Eperiodo  = cu.periodo
+				   <cfif MesIni EQ MesFin>and a.Emes = cu.mesini<cfelse>and a.Emes >= cu.mesini and a.Emes <= cu.mesfin</cfif>
+				where <cfif MesIni EQ MesFin>and a.Emes = #MesIni#<cfelse>and a.Emes >= #MesIni# and a.Emes <= #MesFin#</cfif>
+				<cfif len(trim(ListaOficinas)) GT 0>and a.Ocodigo in (#ListaOficinas#)</cfif>
+				  and b.ECtipo <> 1
+				<cfif isdefined("MISO4217") and  len(trim(MISO4217))>
+					and a.Mcodigo in (select m.Mcodigo from Monedas m where m.Miso4217  = '#trim(MISO4217)#')		
+				</cfif>	
+				group by a.Emes, a.Ocodigo, a.Cconcepto
+				order by a.Emes, a.Ocodigo, a.Cconcepto	
+			</cfquery>
+		</cfcase>
+		<cfcase value="5"><!--- *******  Movimientos asiento consecutivo del mes    ******* --->
+			<cfset fnPreparaCuentas(Arguments.conexion, Arguments.LvarCicloCuenta, Periodo, MesIni, MesFin )>					
+			<cfquery name="rsCuentasContables" datasource="#Arguments.conexion#" >
+				select #Periodo# as Eperiodo, a.Emes, a.Ocodigo, a.Cconcepto, a.Edocumento, 
+				min(( 
+					select min(Oficodigo) 
+					from Oficinas o 
+					where o.Ecodigo = a.Ecodigo
+					  and o.Ocodigo = a.Ocodigo
+				)) as Oficodigo,
+				0.00 as Inicial,
+				<cfif isdefined("Mcodigo") and  len(trim(Mcodigo))>
+					sum(case Dmovimiento when 'D'  then Doriginal  else 0 end ) as debitos, 
+					sum(case Dmovimiento when 'C'  then Doriginal  else 0 end ) as creditos 								
+				<cfelse>
+					sum(case Dmovimiento when 'D'  then Dlocal  else 0 end ) as debitos, 
+					sum(case Dmovimiento when 'C'  then Dlocal  else 0 end ) as creditos 								
+				</cfif>
+				from #ctas# cu  
+					inner join HDContables a 
+							inner join HEContables b 
+							on b.IDcontable = a.IDcontable
+					on  a.Ccuenta   = cu.ccuenta
+					and a.Eperiodo  = cu.periodo
+				   <cfif MesIni EQ MesFin>and a.Emes = cu.mesini<cfelse>and a.Emes >= cu.mesini and a.Emes <= cu.mesfin</cfif>
+				where <cfif MesIni EQ MesFin>and a.Emes = #MesIni#<cfelse>and a.Emes >= #MesIni# and a.Emes <= #MesFin#</cfif>
+				  <cfif len(trim(ListaOficinas)) GT 0>and a.Ocodigo in (#ListaOficinas#)</cfif>
+				  and b.ECtipo <> 1
+				<cfif isdefined("MISO4217") and  len(trim(MISO4217))>
+					and a.Mcodigo in (select m.Mcodigo from Monedas m where m.Miso4217  = '#trim(MISO4217)#')		
+				</cfif>	
+				group by a.Emes, a.Ocodigo, a.Cconcepto, a.Edocumento
+				order by a.Emes, a.Ocodigo, a.Cconcepto, a.Edocumento
+			</cfquery>
+		</cfcase>
+		</cfswitch>
+	</cffunction>
+
+	<cffunction name="fnPreparaOficinas" access="private" output="no" hint="Prepara Oficinas">
+		<cfargument name="Conexion" type="string" required="yes">
+		<cfargument name="Ofi_Emp"  type="any" required="yes">
+		<cfset LarrUbicacion = ListToarray(Arguments.Ofi_Emp)>
+		<cfif len(trim(LarrUbicacion[1])) and LarrUbicacion[1] eq 'ge'><!--- GRUPO DE EMPRESAS --->
+			<cfset Oficina  = false>
+			<cfset POficinas = "Todas">
+			<cfquery name="rsGE" datasource="#Arguments.conexion#">
+				select gd.Ecodigo,em.Enombre
+				from AnexoGEmpresa ge
+					join AnexoGEmpresaDet gd
+						on ge.GEid = gd.GEid
+					join Empresa em
+						on em.Ecodigo = gd.Ecodigo	
+				where ge.CEcodigo = #LvarCEcodigo#
+				  and ge.GEid     = #LarrUbicacion[2]#
+				order by ge.GEnombre
+			 </cfquery>
+			<cfif rsGE.recordcount gt 0>
+				<cfset ListaEmpresas ="">
+				<cfset PEmpresas ="">
+				<cfloop query="rsGE" ><cfsilent>
+					<cfset ListaEmpresas  = ListaEmpresas & rsGE.Ecodigo>
+					<cfset PEmpresas  = PEmpresas & rsGE.Enombre>
+					<cfif rsGE.currentRow neq rsGE.recordcount>
+						<cfset ListaEmpresas = ListaEmpresas & ",">
+						<cfset PEmpresas = PEmpresas & "<br>">
+					</cfif>	
+				</cfsilent></cfloop>
+			</cfif>
+		<cfelseif    len(trim(LarrUbicacion[1])) and LarrUbicacion[1] eq 'go'><!--- GRUPO DE OFICINAS --->
+			<cfset Empresa  = false>
+			<cfset Oficina  = true>
+			<cfquery name="rsGO" datasource="#Arguments.conexion#">
+				select gd.Ocodigo ,Oficodigo 
+				from AnexoGOficina ge
+					join AnexoGOficinaDet  gd
+						on ge.GOid= gd.GOid
+					join Oficinas ofi
+						on gd.Ocodigo= ofi.Ocodigo	
+						and gd.Ecodigo= ofi.Ecodigo
+				where ge.GOid = #LarrUbicacion[2]#
+			</cfquery>	
+			<cfif rsGO.recordcount gt 0>
+				<cfloop query="rsGO" ><cfsilent>
+					<cfset ListaOficinas  = ListaOficinas & rsGO.Ocodigo>
+					<cfset POficinas      = POficinas & rsGO.Oficodigo>
+					<cfif rsGO.currentRow neq rsGO.recordcount>
+						<cfset ListaOficinas = ListaOficinas & ",">
+						<cfset POficinas     = POficinas & "<br>">
+					</cfif>	
+				</cfsilent></cfloop>
+			</cfif>					
+		<cfelseif   len(trim(LarrUbicacion[1])) and LarrUbicacion[1] eq 'of'><!--- UNA OFICINA --->
+			<cfset Empresa  = false>
+			<cfset Oficina  = true>
+			<cfset ListaOficinas  = LarrUbicacion[2]>
+			<cfquery name="rsGO" datasource="#Arguments.conexion#">
+				select Oficodigo  from Oficinas 
+				where Ecodigo =  #LvarEmpresa#
+				and  Ocodigo  =  #LarrUbicacion[2]#
+			</cfquery>
+			<cfset POficinas      = POficinas & rsGO.Oficodigo>
+		</cfif>
+	</cffunction>
+</cfcomponent>

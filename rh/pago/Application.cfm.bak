@@ -1,0 +1,39 @@
+﻿<!--- <cfinclude template="../../Application.cfm"> --->
+<!--- Cambio de módulo  --->
+<cfparam name="session.modulo" default="Pago">
+<cfset session.modulo = 'Pago'>
+
+<!--- Define valor de RHPARAM7 tomandolo de RHParametros
+		Este parámetro afectará todo el comportamiento de este submódulo de Pago de Nómina.
+		Existirán 4 Comportamientos:
+			1.  RH sin Banco Virtual
+				-No existirá opción de Autorización de Nómina, sino que se pasará de Verificación a Registro de Pago de Nómina.
+				-No se utilizará el EJB de Pago del Banco Virtual.
+				
+			2.  RH con Banco Virtual
+				-Existirá opción de Autorización de Nómina. 
+				-Se pasará de Verificación a Autorización.
+				-No Existirá opción de Registro Manual de Pago de Nómina.
+				-Se utilizará el EJB de Pago del Banco Virtual.
+				
+			3.  sin RH sin Banco Virtual
+				-No existirá opción de Autorización de Nómina, sino que se pasará de Verificación a Registro de Pago de Nómina.
+				-No se utilizará el EJB de Pago del Banco Virtual.
+				
+			4.  sin RH con Banco Virtual
+				-Existirá opción de Autorización de Nómina. 
+				-Se pasará de Verificación a Autorización.
+				-No Existirá opción de Registro Manual de Pago de Nómina.
+				-Se utilizará el EJB de Pago del Banco Virtual.
+--->
+<cfquery name="rsRHParametros" datasource="#Session.DSN#">
+	Select Pvalor as RHPARAM7
+	From RHParametros
+	Where Pcodigo = 7
+	and Ecodigo = <cfqueryparam cfsqltype="cf_sql_numeric" value="#Session.Ecodigo#">
+</cfquery>
+<cfset Session.RHParams.RHPARAM7 = rsRHParametros.RHPARAM7>
+<cfset Session.RHParams.RH_sin_Banco_Virtual = 1>
+<cfset Session.RHParams.RH_con_Banco_Virtual = 2>
+<cfset Session.RHParams.sin_RH_sin_Banco_Virtual = 3>
+<cfset Session.RHParams.sin_RH_con_Banco_Virtual = 4>

@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_SolicitudAnticipo>Advance Request</LB_SolicitudAnticipo>
+		<LB_AutorizacionComision>Authorization of Commission</LB_AutorizacionComision>
+		<LB_FechaSolicitud>Request Date</LB_FechaSolicitud>
+		<LB_Referencia>Reference</LB_Referencia>
+		<LB_Comisionado>Commissioner</LB_Comisionado>
+		<LB_Tipo>Type</LB_Tipo>
+		<LB_Destino>Destination</LB_Destino>
+		<LB_Arrendamiento>Lease</LB_Arrendamiento>
+		<LB_Periodo>Period</LB_Periodo>
+		<LB_Gastos>Expenses</LB_Gastos>
+		<LB_Descripcion>Description</LB_Descripcion>
+		<LB_CategoriaDestino>Category Destination</LB_CategoriaDestino>
+		<LB_Motivo>Reason</LB_Motivo>
+		<LB_Observaciones>Comments</LB_Observaciones>
+		<LB_MotivoArrendamiento>Lease Reason</LB_MotivoArrendamiento>
+		<LB_Reservaciones>Reservations</LB_Reservaciones>
+		<LB_Anticipo>Advance</LB_Anticipo>
+		<LB_CiudadOrigen>Origin City</LB_CiudadOrigen>
+		<LB_CiudadDestino>Destination City</LB_CiudadDestino>
+		<LB_FechaSalida>Departure Date</LB_FechaSalida>
+		<LB_HoraInicio>Start Date</LB_HoraInicio>
+		<LB_HoraFin>End Date</LB_HoraFin>
+		<LB_LineaAerea>Airline</LB_LineaAerea>
+		<LB_NumeroVuelo>Flight Number</LB_NumeroVuelo>
+		<LB_Horario>Schedule</LB_Horario>
+		<LB_DatosMontoAutorizar>Amount Detail to Authorize</LB_DatosMontoAutorizar>
+		<LB_FechaPago>Payment Date</LB_FechaPago>
+		<LB_Rubro>Item</LB_Rubro>
+		<LB_Subrubro>Subitem</LB_Subrubro>
+		<LB_Moneda>Currency</LB_Moneda>
+		<LB_Importe>Amount</LB_Importe>
+		<LB_CentroFuncional>Funtional Center</LB_CentroFuncional>
+		<LB_UnidadEjecutora>Functional Center</LB_UnidadEjecutora>
+		<LB_Periodo>Period</LB_Periodo>
+		<LB_Autoriza>Authorizes</LB_Autoriza>
+		<LB_Aprueba>Approve</LB_Aprueba>
+		<LB_Mensaje>Message</LB_Mensaje>
+		<LB_UsoTesoreria>For Treasury use</LB_UsoTesoreria>
+		<LB_Banco>Bank</LB_Banco>
+		<LB_Cuenta>Account</LB_Cuenta>
+		<LB_Cheque>Check</LB_Cheque>
+		<LB_Elabora>Elaborated</LB_Elabora>
+		<LB_FechaFirmaRecibido>Date of Received Signature</LB_FechaFirmaRecibido>
+		<LB_Fecha>Date</LB_Fecha>
+	</Idioma>
+</Etiquetas>

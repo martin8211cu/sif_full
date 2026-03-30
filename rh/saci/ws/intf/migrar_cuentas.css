@@ -1,0 +1,6 @@
+﻿/* CSS Document */
+
+body,td { font-family:Georgia, "Times New Roman", Times, serif; font-size:10px; }
+td { background-color:#CCCCCC; }
+table  {background-color:white;}
+.err { font-weight:bold; color:red; }

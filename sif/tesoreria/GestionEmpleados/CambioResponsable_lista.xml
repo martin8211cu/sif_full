@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Etiquetas>
+	<Idioma id="en">
+		<LB_Codigo>Code</LB_Codigo>
+		<LB_Responsable>Person in Charge</LB_Responsable>
+		<LB_Moneda>Currency</LB_Moneda>
+		<BTN_Filtrar>Filter</BTN_Filtrar>
+		<LB_Descripcion>Description</LB_Descripcion>
+		<LB_Estado>Status</LB_Estado>
+	</Idioma>
+</Etiquetas>

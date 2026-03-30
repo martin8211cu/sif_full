@@ -1,0 +1,36 @@
+/****************************************************
+ RESULTADO DE LA EJECUCION DE SCRIPT DE BASE DE DATOS
+ ****************************************************/
+
+/*
+SCRIPT DE BASE DE DATOS ASP PARA:
+	SCHEMA:  SISTEMAS
+	MODELO:  SIF Sistemas.pdm
+	VERSION: 102 - DBM 211: DatosEmpleadoSalvador
+
+	         PARCHE:  Parche023_130_RH _LegislacionSalvador
+
+GENERADO EN:
+	SERVER:  http://mxpapp36:8300
+	DSN:     sifcim
+	FECHA:   21/07/2011 17:43:01
+*/
+
+/* INI_SCRIPT */
+
+/* ======================================================================================== */
+/* CHG_TABLE DatosEmpleado: Datos Empleado */
+/* ======================================================================================== */
+/* ADD_COLUMN OP=(NUEVO): NIT - Identificador Tributario */
+ALTER TABLE DatosEmpleado ADD NIT varchar(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* ADD_COLUMN OP=(NUEVO): NUP - Identificador Penciones */
+ALTER TABLE DatosEmpleado ADD NUP varchar(18) NULL
+go
+EJECUCION EN BASE DE DATOS OK
+
+
+/* END_SCRIPT */
