@@ -1,0 +1,189 @@
+openapi: 3.0.3
+info:
+  title: Mi Crédito Full - Webhook SIF (Event Hook)
+  description: |
+    API para recibir eventos en tiempo real desde el Sistema de Información Financiera (SIF).
+    El endpoint responde 200 OK de forma inmediata y procesa el evento en background.
+  version: 1.0.0
+  contact:
+    name: Equipo AlaTeamTech
+
+servers:
+  - url: https://micredito.alateamtech.com/api
+    description: Producción
+  - url: http://localhost:3001/api
+    description: Desarrollo local
+
+tags:
+  - name: webhooks
+    description: Event Hook desde SIF
+
+paths:
+  /webhooks/sif:
+    post:
+      tags:
+        - webhooks
+      summary: Recibir evento SIF
+      description: |
+        Recibe un evento desde SIF. La autenticación es por **HMAC** (header `X-SIF-Signature`)
+        o por **Bearer token** (header `Authorization`). El servidor responde 200 de inmediato
+        y procesa el evento de forma asíncrona. Eventos duplicados (mismo `eventId`) reciben
+        200 con mensaje "Event already processed".
+      operationId: receiveSIFWebhook
+      security:
+        - SignatureAuth: []
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SIFEvent'
+            examples:
+              transaction_created:
+                summary: Nueva transacción
+                value:
+                  event: "transaction.created"
+                  eventId: "evt_1234567890"
+                  timestamp: "2024-12-01T10:30:00Z"
+                  data:
+                    transactionId: 12345
+                    accountId: 67890
+                    accountNumber: "TC-001234"
+                    clientId: 111
+                    type: "PG"
+                    amount: 1500.0
+                    movementType: "D"
+                    description: "Pago recibido"
+                    date: "2024-12-01T10:30:00Z"
+              voucher_created:
+                summary: Voucher creado
+                value:
+                  event: "voucher.created"
+                  eventId: "evt_1234567895"
+                  timestamp: "2024-12-01T11:00:00Z"
+                  data:
+                    voucherNumber: 123456
+                    clientId: 111
+                    accountId: 67890
+                    amount: 5000.0
+                    status: "active"
+      responses:
+        '200':
+          description: Evento aceptado o ya procesado (idempotente)
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/WebhookAccepted'
+                  - $ref: '#/components/schemas/WebhookAlreadyProcessed'
+        '400':
+          description: Body inválido, schema incorrecto o evento demasiado antiguo
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Autenticación inválida (firma HMAC o token)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Error interno del servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Webhook deshabilitado (SIF_WEBHOOK_ENABLED=false)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+components:
+  securitySchemes:
+    SignatureAuth:
+      type: apiKey
+      in: header
+      name: X-SIF-Signature
+      description: Firma HMAC-SHA256 del body en hexadecimal. Se usa cuando está configurado SIF_WEBHOOK_SECRET.
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: Token configurado en SIF_WEBHOOK_TOKEN. Header Authorization Bearer &lt;token&gt;.
+
+  schemas:
+    SIFEvent:
+      type: object
+      required:
+        - event
+        - eventId
+        - timestamp
+        - data
+      properties:
+        event:
+          type: string
+          description: Tipo de evento (ej. transaction.created, voucher.created)
+          example: "transaction.created"
+        eventId:
+          type: string
+          description: ID único del evento para idempotencia
+          example: "evt_1234567890"
+        timestamp:
+          type: string
+          format: date-time
+          description: Fecha/hora del evento en ISO 8601. Eventos más antiguos que SIF_WEBHOOK_MAX_EVENT_AGE son rechazados.
+          example: "2024-12-01T10:30:00Z"
+        data:
+          type: object
+          additionalProperties: true
+          description: Datos específicos del evento
+        signature:
+          type: string
+          description: "(Opcional) Firma en el payload; la validación principal es por header X-SIF-Signature o Bearer."
+
+    WebhookAccepted:
+      type: object
+      required:
+        - success
+        - message
+        - eventId
+      properties:
+        success:
+          type: boolean
+          example: true
+        message:
+          type: string
+          example: "Event accepted"
+        eventId:
+          type: string
+          example: "evt_1234567890"
+
+    WebhookAlreadyProcessed:
+      type: object
+      required:
+        - success
+        - message
+      properties:
+        success:
+          type: boolean
+          example: true
+        message:
+          type: string
+          example: "Event already processed"
+
+    ErrorResponse:
+      type: object
+      required:
+        - success
+        - error
+      properties:
+        success:
+          type: boolean
+          example: false
+        error:
+          type: string
+          example: "Invalid signature"
