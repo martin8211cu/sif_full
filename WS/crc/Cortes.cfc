@@ -58,6 +58,24 @@
         <cfcontent type="application/pdf" file="#filePath#" deletefile="false" reset="true">
     </cffunction>
     
+    <cffunction name="detalleCorte" restPath="/detalle/{cuentaid}/{corte}" access="remote"   httpMethod="GET" returntype="struct" returnformat="JSON" produces="application/json">
+        <cfargument name="cuentaid"  required="true"  type="string" restArgName="cuentaid"  restArgSource="path">
+        <cfargument name="corte"  required="true"  type="string" restArgName="corte"  restArgSource="path">
+
+        <cfset result = structNew()>
+        <cfset Cuentas = createObject("component","crc.Componentes.web.Cuenta") >
+        <cfset Cuentas.init(dsn, ecodigo)>
+        <cfset Cortes = createObject("component","crc.Componentes.web.Corte")>
+        <cfset Cortes.init(dsn, ecodigo)>
+        <cfset result.corte = Cortes.obtenerDetalleCorte(arguments.corte)>
+        <cfset datosProcesados = Cortes.obtenerMovimientos(arguments.corte, arguments.cuentaid)>
+        <cfset arrayAppend(datosProcesados.ARRAYMOVCUENTA, datosProcesados.ARRAYMOVCUENTASG, true)>
+        <cfset result.movimientos = datosProcesados.ARRAYMOVCUENTA>
+        <cfset result.totales = datosProcesados.TOTALES>
+
+        <cfreturn result>
+    </cffunction>
+    
     <cffunction name="recibosPagos" restPath="/recibos/{corte}/{cuentaid}" access="remote"   httpMethod="GET" returntype="struct" returnformat="JSON" produces="application/json">
         <cfargument name="corte"  required="true"  type="string" restArgName="corte"  restArgSource="path">
         <cfargument name="cuentaid"  required="true"  type="string" restArgName="cuentaid"  restArgSource="path">
