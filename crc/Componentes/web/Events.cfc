@@ -8,7 +8,7 @@
 	<cfset this.webhookSecret = "">
 	<cfset this.webhookToken = "">
 	<cfset this.timeout = 30>
-	<cfset this.logFile = "events_mi_credito_web_hook">
+	<cfset this.logFile = "Events">
 	<cfset this.maxEventAge = 86400> <!--- 24 horas en segundos --->
 
 	<!--- Constructor --->
@@ -22,7 +22,6 @@
         <cfset this.ecodigo = arguments.ecodigo>
 		<cfset this.timeout = arguments.timeout>
 		<cfset this.maxEventAge = arguments.maxEventAge>
-
         <cfset configureWebhook()>
 
 		<cfreturn this>
@@ -32,10 +31,10 @@
 	<cffunction name="configureWebhook" access="public" returntype="void" hint="Configura la URL, secret y token del webhook">
 
         <cfset objParams = createObject("component", "crc.Componentes.CRCParametros")>
-        <cfset webhookEnabled = objParams.getParametroInfo(codigo='30900001', conexion=this.dsn, ecodigo=this.ecodigo)>
-        <cfset webhookUrl = objParams.getParametroInfo(codigo='30900002', conexion=this.dsn, ecodigo=this.ecodigo)>
-        <cfset webhookSecret = objParams.getParametroInfo(codigo='30900003', conexion=this.dsn, ecodigo=this.ecodigo)>
-        <cfset webhookToken = objParams.getParametroInfo(codigo='30900004', conexion=this.dsn, ecodigo=this.ecodigo)>
+        <cfset webhookEnabled = objParams.getParametroInfo(codigo='30900001', conexion=this.dsn, ecodigo=this.ecodigo).Valor>
+        <cfset webhookUrl = objParams.getParametroInfo(codigo='30900002', conexion=this.dsn, ecodigo=this.ecodigo).Valor>
+        <cfset webhookSecret = objParams.getParametroInfo(codigo='30900003', conexion=this.dsn, ecodigo=this.ecodigo).Valor>
+        <cfset webhookToken = objParams.getParametroInfo(codigo='30900004', conexion=this.dsn, ecodigo=this.ecodigo).Valor>
 
 		<cfset this.webhookEnabled = webhookEnabled eq "S">
 		<cfset this.webhookUrl = webhookUrl>
@@ -74,6 +73,67 @@
 		<cfreturn "evt_" & createUUID()>
 	</cffunction>
 
+	<!--- Normaliza keys de un struct/array a minusculas (recursivo) --->
+	<cffunction name="normalizeKeysLower" access="private" returntype="any" hint="Normaliza recursivamente las keys de struct a minúsculas para JSON exacto">
+		<cfargument name="value" required="true">
+		<cfif isStruct(arguments.value)>
+			<cfset var normalized = {}>
+			<cfloop collection="#arguments.value#" item="k">
+				<cfset var v = arguments.value[k]>
+				<cfset var keyLower = lcase(k)>
+				<cfset normalized[keyLower] = normalizeKeysLower(v)>
+			</cfloop>
+			<cfreturn normalized>
+		<cfelseif isArray(arguments.value)>
+			<cfset var normalized = []>
+			<cfloop array="#arguments.value#" index="item">
+				<cfset arrayAppend(normalized, normalizeKeysLower(item))>
+			</cfloop>
+			<cfreturn normalized>
+		<cfelse>
+			<cfreturn arguments.value>
+		</cfif>
+	</cffunction>
+
+	<!--- Validar SIFEvent schema --->
+	<cffunction name="validateSIFEvent" access="private" returntype="struct" hint="Valida esquema SIFEvent (event, eventId, timestamp, data, signature opcional)">
+		<cfargument name="eventPayload" type="struct" required="true">
+
+		<cfset var validation = {valid:true,message:"OK"}>
+
+		<cfif not structKeyExists(arguments.eventPayload, 'event') or trim(arguments.eventPayload.event) eq "">
+			<cfset validation.valid = false>
+			<cfset validation.message = "event es requerido">
+			<cfreturn validation>
+		</cfif>
+
+		<cfif not structKeyExists(arguments.eventPayload, 'eventId') or trim(arguments.eventPayload.eventId) eq "">
+			<cfset validation.valid = false>
+			<cfset validation.message = "eventId es requerido">
+			<cfreturn validation>
+		</cfif>
+
+		<cfif not structKeyExists(arguments.eventPayload, 'timestamp') or trim(arguments.eventPayload.timestamp) eq "">
+			<cfset validation.valid = false>
+			<cfset validation.message = "timestamp es requerido">
+			<cfreturn validation>
+		</cfif>
+
+		<cfif not structKeyExists(arguments.eventPayload, 'data') or not isStruct(arguments.eventPayload.data)>
+			<cfset validation.valid = false>
+			<cfset validation.message = "data es requerido y debe ser struct">
+			<cfreturn validation>
+		</cfif>
+
+		<cfif structKeyExists(arguments.eventPayload, 'signature') and not isSimpleValue(arguments.eventPayload.signature)>
+			<cfset validation.valid = false>
+			<cfset validation.message = "signature debe ser string opcional">
+			<cfreturn validation>
+		</cfif>
+
+		<cfreturn validation>
+	</cffunction>
+
 	<!--- Enviar evento SIF --->
 	<cffunction name="sendEvent" access="public" returntype="struct" hint="Envía un evento SIF al webhook según especificación OpenAPI">
 		<cfargument name="eventType" type="string" required="true">
@@ -98,31 +158,51 @@
 		<cfset result.eventId = generateEventId()>
 
 		<!--- Preparar payload según especificación SIFEvent --->
+		<cfset var nowDate = now()>
+		<cfset timestampValue = dateDiff("s", createDateTime(1970,1,1,0,0,0), now())>
 		<cfset var payload = {
 			event: arguments.eventType,
 			eventId: result.eventId,
-			timestamp: dateFormat(now(), "yyyy-mm-dd") & "T" & timeFormat(now(), "HH:mm:ss") & "Z",
-			data: arguments.eventData
+			timestamp: timestampValue,
+			data: normalizeKeysLower(arguments.eventData)
 		}>
 
-		<!--- Agregar firma si hay secret --->
-		<cfif this.webhookSecret neq "">
-			<cfset var jsonPayload = serializeJSON(payload)>
-			<cfset payload.signature = generateHMACSignature(jsonPayload)>
+		<!--- Validar SIFEvent schema --->
+		<cfset var val = validateSIFEvent(payload)>
+		<cfif not val.valid>
+			<cfset result.message = "Payload inválido: #val.message#">
+			<cfset logEvent("ERROR", result.message, payload)>
+			<cfreturn result>
 		</cfif>
 
-		<!--- Convertir a JSON --->
-		<cfset var jsonPayload = serializeJSON(payload)>
+		<!--- Preparar JSON y firma ---
+		   Top-level keys se mantienen castead exacto (event, eventId, timestamp, data, signature opcional) --->
+		<cfset var bodyToSend = {
+			event: payload.event,
+			eventId: payload.eventId,
+			timestamp: payload.timestamp,
+			data: payload.data
+		}>
+
+		<cfset var signature = "">
+		<cfset var jsonToSign = serializeJSON(bodyToSend, true)>
+		<cfif this.webhookSecret neq "">
+			<cfset signature = generateHMACSignature(jsonToSign)>
+		</cfif>
+
+		<!--- Convertir a JSON usando serializador custom para mantener minúsculas exactas --->
+		<cfset var jsonPayload = jsonToSign>
+		<cfset logEvent("INFO", "Ready to send #jsonPayload#", bodyToSend)>
 
 		<!--- Enviar solicitud HTTP --->
 		<cftry>
-			<cfhttp url="#this.webhookUrl#" method="post" timeout="#this.timeout#" result="httpResult">
+			<cfhttp url="#this.webhookUrl#/api/webhooks/sif" method="post" timeout="#this.timeout#" result="httpResult">
 				<cfhttpparam type="header" name="Content-Type" value="application/json">
 				<cfif this.webhookToken neq "">
 					<cfhttpparam type="header" name="Authorization" value="Bearer #this.webhookToken#">
 				</cfif>
 				<cfif this.webhookSecret neq "">
-					<cfhttpparam type="header" name="X-SIF-Signature" value="#generateHMACSignature(jsonPayload)#">
+				<cfhttpparam type="header" name="X-SIF-Signature" value="#signature#">
 				</cfif>
 				<cfhttpparam type="body" value="#jsonPayload#">
 			</cfhttp>
@@ -136,7 +216,7 @@
 				<cfset logEvent("SUCCESS", "Evento '#arguments.eventType#' enviado", arguments)>
 			<cfelse>
 				<cfset result.message = "Error al enviar evento: #httpResult.statusCode# - #httpResult.fileContent#">
-				<cfset logEvent("ERROR", result.message, arguments)>
+				<cfset logEvent("ERROR", result.message, payload)>
 			</cfif>
 
 		<cfcatch type="any">
@@ -156,9 +236,9 @@
 
 		<cfset var logEntry = "#dateFormat(now(), 'yyyy-mm-dd HH:mm:ss')# [#arguments.level#] #arguments.message#">
 		<cfif not structIsEmpty(arguments.data)>
-			<cfset logEntry &= " Data: #serializeJSON(arguments.data)#">
+			<cfset logEntry &= " Data: #serializeJSON(arguments.data, true)#">
 		</cfif>
-        <cflog file="#this.logFile#" text="#logEntry#" log="Application" type="#arguments.level#">
+        <cflog file="#this.logFile#" text="#logEntry#" log="Application" type="information">
 	</cffunction>
 
 	<!--- Obtener configuración actual --->
