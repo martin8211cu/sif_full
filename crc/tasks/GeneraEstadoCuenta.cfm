@@ -18,7 +18,7 @@
     <cfloop query="rscaches">
 
         <cfquery name="qCortesACerrar" datasource="#rscaches.Ccache#">
-            select id, Codigo, FechaInicio, FechaFin, status, FechaInicioSV, FechaFinSV,cerrado
+            select id, Codigo, FechaInicio, FechaFin, status, FechaInicioSV, FechaFinSV,cerrado, Tipo
             from CRCCortes 
             where Ecodigo  = #rscaches.Ecodigo#
             and (Tipo <> 'TM' and status = '1' and Cerrado = 1)
@@ -36,16 +36,31 @@
                     <cfset crcParametros = createobject("component","crc.Componentes.CRCParametros")> 
                     <cfset countEstadosCuenta=''>
                     <cfset countEstadosCuenta=GeneraEstadoCuenta.obtenerEdosCuenta(
-                            codCorte = qCortesACerrar.Codigo,
-                            dsn = rscaches.Ccache,
-                            ecodigo = rscaches.Ecodigo
-                        )>
+                        codCorte = qCortesACerrar.Codigo,
+                        dsn = rscaches.Ccache,
+                        ecodigo = rscaches.Ecodigo
+                    )>
                     
                     Estados de Cuenta Generados Para : <cfoutput>#qCortesACerrar.Codigo#</cfoutput><br>
                     <cfif countEstadosCuenta neq ''>
                         <cfset EnvioCorreo = createObject("component", "EnvioCorreo")>
                         <cfset EnvioCorreo.envioCorreo(codCorte=qCortesACerrar.Codigo,fileCount=countEstadosCuenta,contenido="",dsn=rscaches.Ccache,ecodigo=rscaches.ecodigo,plantilla="EstadoCuenta-correo.cfm",subject="Estado de cuenta generado")>
                     </cfif>
+                    
+                    <!--- Envio de Notificacion a webhook --->
+                    <!--- Nuevo Estado de cuenta disponible --->
+                    <cfset eventsService = createObject("component","crc.Componentes.web.Events").init(dsn=rscaches.Ccache, ecodigo=rscaches.Ecodigo)>
+                    <cfset eventsService.sendStatementAvailable(
+                        statement = qCortesACerrar.Codigo,
+                        statementType = qCortesACerrar.Tipo,
+                        statementStartDate = qCortesACerrar.FechaInicio
+                    )>
+                    <cfset eventsService.sendPrizeAvailable(
+                        statement = qCortesACerrar.Codigo,
+                        statementType = qCortesACerrar.Tipo,
+                        statementStartDate = qCortesACerrar.FechaInicio
+                    )>
+
                     <!--- Envio de Correo--->
                     <cfset paramInfo = crcParametros.GetParametroInfo(codigo="30300108",conexion="#rscaches.Ccache#",ecodigo=#rscaches.Ecodigo#,descripcion="Envio automatico de Estados de Cuenta" )>
                     <cfset emailInfo = crcParametros.GetParametroInfo(codigo="30300109",conexion="#rscaches.Ccache#",ecodigo=#rscaches.Ecodigo#,descripcion="Direccion email para envios de correo" )>
@@ -104,7 +119,7 @@
                                 <!--- <cfset dir = CheckDir("#vsPath_R#DocCortes\#qCortesACerrar.Codigo#")> --->
                                 <cfset dirPath="#vsPath_R#DocCortes\#qCortesACerrar.Codigo#\">
                             </cfif>
-                            
+
                             <cfloop query="#qCuentasCorte#">
                                 <cfset fileName="#qCortesACerrar.Codigo#_#qCuentasCorte.Numero#_E">
                                 <cfset fileNameTotal="#qCortesACerrar.Codigo#_E.pdf">

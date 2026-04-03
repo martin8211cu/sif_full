@@ -144,13 +144,13 @@
 		<!--- Validar configuración --->
         <cfif not this.webhookEnabled>
             <cfset result.message = "Webhook deshabilitado por configuración">
-            <cfset logEvent("INFO", "Webhook deshabilitado", arguments)>
+            <cfset logEvent("WARNING", "Webhook deshabilitado")>
             <cfreturn result>
         </cfif>
 
 		<cfif this.webhookUrl eq "">
 			<cfset result.message = "Webhook URL no configurada">
-			<cfset logEvent("ERROR", "Webhook URL no configurada", arguments)>
+			<cfset logEvent("WARNING", "Webhook URL no configurada")>
 			<cfreturn result>
 		</cfif>
 
@@ -171,7 +171,7 @@
 		<cfset var val = validateSIFEvent(payload)>
 		<cfif not val.valid>
 			<cfset result.message = "Payload inválido: #val.message#">
-			<cfset logEvent("ERROR", result.message, payload)>
+			<cfset logEvent("ERROR", result.message)>
 			<cfreturn result>
 		</cfif>
 
@@ -192,7 +192,6 @@
 
 		<!--- Convertir a JSON usando serializador custom para mantener minúsculas exactas --->
 		<cfset var jsonPayload = jsonToSign>
-		<cfset logEvent("INFO", "Ready to send #jsonPayload#", bodyToSend)>
 
 		<!--- Enviar solicitud HTTP --->
 		<cftry>
@@ -213,15 +212,15 @@
 			<cfif httpResult.statusCode eq "200 OK">
 				<cfset result.success = true>
 				<cfset result.message = "Evento SIF enviado exitosamente">
-				<cfset logEvent("SUCCESS", "Evento '#arguments.eventType#' enviado", arguments)>
+				<cfset logEvent("SUCCESS", "Evento '#arguments.eventType#' enviado")>
 			<cfelse>
 				<cfset result.message = "Error al enviar evento: #httpResult.statusCode# - #httpResult.fileContent#">
-				<cfset logEvent("ERROR", result.message, payload)>
+				<cfset logEvent("ERROR", result.message)>
 			</cfif>
 
 		<cfcatch type="any">
 			<cfset result.message = "Error de conexión: #cfcatch.message#">
-			<cfset logEvent("ERROR", result.message, arguments)>
+			<cfset logEvent("ERROR", result.message)>
 		</cfcatch>
 		</cftry>
 
@@ -229,7 +228,7 @@
 	</cffunction>
 
 	<!--- Logging interno --->
-	<cffunction name="logEvent" access="private" returntype="void" hint="Registra eventos en el log">
+	<cffunction name="logEvent" access="public" returntype="void" hint="Registra eventos en el log">
 		<cfargument name="level" type="string" required="true">
 		<cfargument name="message" type="string" required="true">
 		<cfargument name="data" type="struct" required="false" default="#{}#">
@@ -251,6 +250,173 @@
 			maxEventAge: this.maxEventAge,
 			logFile: this.logFile
 		}>
+	</cffunction>
+
+	<cffunction name="sendStatementAvailable" access="public" returntype="struct" hint="Envía evento statement.available">
+		<cfargument name="statement" type="string" required="true">
+		<cfargument name="statementType" type="string" required="true">
+		<cfargument name="statementStartDate" type="date" required="true">
+
+		<cfset var result = {success: false, message: "", responseCode: 0, responseData: "", eventId: ""}>
+
+		<cftry>
+			<cfquery name="cuentasAEnviar" datasource="#this.dsn#">
+				select
+				co.Codigo Corte, 
+				ct.Numero Cuenta, 
+				co.Tipo tipoCorte, 
+				ct.Tipo tipoCuenta,
+				ct.id idCuenta,
+				ct.Numero, 
+				ct.SNegociosSNid SNid,
+				sn.SNnombre,
+				sn.SNemail,
+				sn.SNenviarEmail,
+				ec.Descripcion estado
+				from CRCCuentas ct
+				inner join CRCCortes co
+				on ct.Tipo = co.Tipo
+				inner join SNegocios sn on sn.SNid = ct.SNegociosSNid
+				inner join CRCMovimientoCuentaCorte mcc
+				on ct.id = mcc.CRCCuentasId
+				and co.Codigo = mcc.Corte
+				inner join CRCEstatusCuentas ec on ec.id = ct.CRCEstatusCuentasid
+				where ec.Orden < ( select id 
+						from CRCEstatusCuentas
+						where Orden = (select Pvalor 
+										from CRCParametros 
+										where Pcodigo = '30300110' and Ecodigo = #this.ecodigo#)
+				)
+					and co.Codigo = '#arguments.statement#'
+					and ct.TIpo = '#arguments.statementType#'
+				order by Cuenta
+	
+			</cfquery>
+			<cfset accounts = arrayNew(1)>
+			<cfloop query="cuentasAEnviar">
+					<cfset account = structNew()>
+					<cfset account["statement"] = arguments.statement>
+					<cfset account["snid"] = cuentasAEnviar.SNid>
+					<cfset account["account_type"] = trim(cuentasAEnviar.tipoCuenta)>
+					<cfset account["account_id"] = cuentasAEnviar.idCuenta>
+					<cfset account["account_status"] = trim(cuentasAEnviar.estado)>
+					<cfset account["account_number"] = cuentasAEnviar.Numero>
+					<cfset account["month"] = dateformat(arguments.statementStartDate, "yyyy-mm")>
+					<cfset arrayAppend(accounts, account)>
+			</cfloop>
+			<cfset result = sendEvent(
+				eventType = "statement.available",
+				eventData = {
+					statement_id = arguments.statement,
+					accounts: accounts
+				}
+			)>
+		<cfcatch>
+			<cfset logEvent("ERROR", "Error al enviar evento [statement.available]: #cfcatch.message#")>
+			<cfset result.message = "Error al enviar evento [statement.available]: #cfcatch.message#">
+			<cfset result.responseCode = 0>
+			<cfset result.responseData = "">
+			<cfset result.eventId = "">
+			<cfreturn result>
+		</cfcatch>
+		</cftry>
+		<cfreturn result>
+	</cffunction>
+	
+	<cffunction name="sendPrizeAvailable" access="public" returntype="struct" hint="Envía evento prize.available">
+		<cfargument name="statement" type="string" required="true">
+		<cfargument name="statementType" type="string" required="true">
+		<cfargument name="statementStartDate" type="date" required="true">
+
+		<cfset var result = {success: false, message: "", responseCode: 0, responseData: "", eventId: ""}>
+		
+		<cfif trim(arguments.statementType) neq "D">
+			<cfset result.message = "Tipo de corte no válido: #arguments.statementType#">
+			<cfset result.responseCode = 0>
+			<cfset result.responseData = "">
+			<cfset result.eventId = "">
+			<cfreturn result>
+		</cfif>
+		<cfset corteNum = right(arguments.statement,1)>
+		<cfif corteNum neq "1">
+			<cfset result.message = "Corte no válido: #arguments.statement#">
+			<cfset result.responseCode = 0>
+			<cfset result.responseData = "">
+			<cfset result.eventId = "">
+			<cfreturn result>
+		</cfif>
+		<cftry>
+			<cfquery name="cuentasAEnviar" datasource="#this.dsn#">
+				select
+					co.Codigo Corte, 
+					ct.Numero Cuenta, 
+					co.Tipo tipoCorte, 
+					ct.Tipo tipoCuenta,
+					ct.id idCuenta,
+					ct.Numero, 
+					ct.SNegociosSNid SNid,
+					sn.SNnombre,
+					sn.SNemail,
+					sn.SNenviarEmail,
+					ec.Descripcion estado,
+					bonos.Bono Bono,
+					bonos.Mes_Venta Mes_Venta
+				from CRCCuentas ct
+				inner join CRCCortes co
+				on ct.Tipo = co.Tipo
+				inner join SNegocios sn on sn.SNid = ct.SNegociosSNid
+				inner join CRCMovimientoCuentaCorte mcc
+				on ct.id = mcc.CRCCuentasId
+				and co.Codigo = mcc.Corte
+				inner join CRCEstatusCuentas ec on ec.id = ct.CRCEstatusCuentasid
+				inner join (												
+					SELECT Cuenta, SUM(Bono) AS Bono, Mes_Venta 
+					FROM CRC_ReporteBonos
+					WHERE Mes_Venta = '#DateFormat(arguments.statementStartDate, "yyyy-MM")#'
+					GROUP BY Cuenta, Mes_Venta
+				) as bonos
+				on ct.Numero = bonos.Cuenta
+				where ec.Orden < ( select id 
+						from CRCEstatusCuentas
+						where Orden = (select Pvalor 
+										from CRCParametros 
+										where Pcodigo = '30300110' and Ecodigo = #this.ecodigo#)
+				)
+					and co.Codigo = '#arguments.statement#'
+					and ct.TIpo = '#arguments.statementType#'
+				order by Cuenta	
+			</cfquery>
+			<cfset accounts = arrayNew(1)>
+			<cfloop query="cuentasAEnviar">
+					<cfset account = structNew()>
+					<cfset account["statement"] = arguments.statement>
+					<cfset account["snid"] = cuentasAEnviar.SNid>
+					<cfset account["account_type"] = trim(cuentasAEnviar.tipoCuenta)>
+					<cfset account["account_id"] = cuentasAEnviar.idCuenta>
+					<cfset account["account_status"] = trim(cuentasAEnviar.estado)>
+					<cfset account["account_number"] = cuentasAEnviar.Numero>
+					<cfset account["month"] = dateformat(cuentasAEnviar.Mes_Venta, "yyyy-mm")>
+					<cfset account["amount"] = cuentasAEnviar.Bono>
+					<cfset arrayAppend(accounts, account)>
+			</cfloop>
+			
+			<cfset result = sendEvent(
+				eventType = "prize.available",
+				eventData = {
+					statement_id = arguments.statement,
+					accounts: accounts
+				}
+			)>
+		<cfcatch>
+			<cfset logEvent("ERROR", "Error al enviar evento [prize.available]: #cfcatch.message#")>
+			<cfset result.message = "Error al enviar evento [prize.available]: #cfcatch.message#">
+			<cfset result.responseCode = 0>
+			<cfset result.responseData = "">
+			<cfset result.eventId = "">
+			<cfreturn result>
+		</cfcatch>
+		</cftry>
+		<cfreturn result>
 	</cffunction>
 
 </cfcomponent>

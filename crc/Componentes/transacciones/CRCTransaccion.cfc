@@ -227,7 +227,7 @@
 		<cfif rsTipoTransaccion.TipoMov eq "C" and AfectaMovCuenta>
 			
 			<cfquery name="rsCuenta" datasource="#THIS.DSN#">
-				select id, SNegociosSNid, Tipo as TipoProducto 
+				select id, SNegociosSNid, Tipo as TipoProducto, Numero 
 				from CRCCuentas where id = #arguments.CuentaID#
 			</cfquery>
 
@@ -248,6 +248,29 @@
 									CuentaID              = rsCuenta.id ,
 									CodigoTipoTransaccion = rsTipoTransaccion.Tipo_Transaccion ,
 									TipoMovimiento        = rsTipoTransaccion.TipoMov )>
+
+			<!--- Notificar a webhook --->
+
+			<cfset eventsService = createObject("component","crc.Componentes.web.Events").init(dsn=This.DSN, ecodigo=This.Ecodigo)>
+			<cftry>
+				<cfif rsTipoTransaccion.Tipo_Transaccion eq "VC">
+					<cfset eventsService.sendEvent(
+						eventType = "voucher.used",
+						eventData = {
+							transaccion_id = loct.idTransaccion,
+							voucher_number = arguments.Num_Folio,
+							client = arguments.Cliente,
+							snid = rsCuenta.SNegociosSNid,
+							amount = arguments.Monto,
+							account_id = rsCuenta.id,
+							account_number = rsCuenta.Numero
+						}
+					)>
+				</cfif>
+			<cfcatch>
+				<cfset eventsService.logEvent("ERROR", "Error al enviar evento #transaction.created#: #cfcatch.message#")>
+			</cfcatch>
+			</cftry>
  		
 		</cfif>
  		 
