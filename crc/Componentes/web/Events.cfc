@@ -68,6 +68,26 @@
 		<cfreturn sb.toString()>
 	</cffunction>
 
+	<!--- Escribe texto UTF-8 sin BOM (cffile utf-8 puede anteponer BOM y invalidar HMAC del body) --->
+	<cffunction name="writeUtf8FileNoBom" access="private" returntype="void" hint="Escribe bytes UTF-8 exactos al disco">
+		<cfargument name="absolutePath" type="string" required="true">
+		<cfargument name="content" type="string" required="true">
+		<cfset var fos = "">
+		<cftry>
+			<cfset fos = createObject("java", "java.io.FileOutputStream").init(arguments.absolutePath)>
+			<cfset fos.write(arguments.content.getBytes("UTF-8"))>
+			<cfset fos.flush()>
+		<cfcatch type="any">
+			<cfrethrow>
+		</cfcatch>
+		<cffinally>
+			<cfif isObject(fos)>
+				<cfset fos.close()>
+			</cfif>
+		</cffinally>
+		</cftry>
+	</cffunction>
+
 	<!--- Generar eventId único --->
 	<cffunction name="generateEventId" access="private" returntype="string" hint="Genera ID único para evento">
 		<cfreturn "evt_" & createUUID()>
@@ -157,13 +177,13 @@
 		<!--- Generar eventId único --->
 		<cfset result.eventId = generateEventId()>
 
-		<!--- Preparar payload según especificación SIFEvent --->
+		<!--- Preparar payload según especificación SIFEvent (timestamp ISO 8601 string, ver openapi-webhook.yaml) --->
 		<cfset var nowDate = now()>
-		<cfset timestampValue = dateDiff("s", createDateTime(1970,1,1,0,0,0), now())>
+		<cfset var timestampIso = dateFormat(nowDate, "yyyy-mm-dd") & "T" & timeFormat(nowDate, "HH:mm:ss") & "Z">
 		<cfset var payload = {
 			event: arguments.eventType,
 			eventId: result.eventId,
-			timestamp: timestampValue,
+			timestamp: timestampIso,
 			data: normalizeKeysLower(arguments.eventData)
 		}>
 
@@ -193,35 +213,84 @@
 		<!--- Convertir a JSON usando serializador custom para mantener minúsculas exactas --->
 		<cfset var jsonPayload = jsonToSign>
 
-		<!--- Enviar solicitud HTTP --->
+		<!--- Enviar solicitud HTTP via curl (cuerpo en archivo; JSON sin re-serializar; keys sin cambio a mayúsculas) --->
+		<cfset var bodyFile = "">
+		<cfset var respFile = "">
 		<cftry>
-			<cfhttp url="#this.webhookUrl#/api/webhooks/sif" method="post" timeout="#this.timeout#" result="httpResult">
-				<cfhttpparam type="header" name="Content-Type" value="application/json">
-				<cfif this.webhookToken neq "">
-					<cfhttpparam type="header" name="Authorization" value="Bearer #this.webhookToken#">
-				</cfif>
-				<cfif this.webhookSecret neq "">
-				<cfhttpparam type="header" name="X-SIF-Signature" value="#signature#">
-				</cfif>
-				<cfhttpparam type="body" value="#jsonPayload#">
-			</cfhttp>
+			<cfset bodyFile = getTempDirectory() & "sif_wh_" & replace(createUUID(), "-", "", "all") & ".json">
+			<cfset respFile = getTempDirectory() & "sif_wh_" & replace(createUUID(), "-", "", "all") & ".out">
+			<cfset writeUtf8FileNoBom(bodyFile, jsonPayload)>
 
-			<cfset result.responseCode = httpResult.statusCode>
-			<cfset result.responseData = httpResult.fileContent>
+			<cfset var cmd = createObject("java", "java.util.ArrayList").init()>
+			<cfset cmd.add("curl")>
+			<cfset cmd.add("-s")>
+			<cfset cmd.add("-S")>
+			<cfset cmd.add("--max-time")>
+			<cfset cmd.add(javaCast("string", int(this.timeout)))>
+			<cfset cmd.add("-X")>
+			<cfset cmd.add("POST")>
+			<cfset cmd.add("-H")>
+			<cfset cmd.add("Content-Type: application/json")>
+			<cfif this.webhookToken neq "">
+				<cfset cmd.add("-H")>
+				<cfset cmd.add("Authorization: Bearer " & this.webhookToken)>
+			</cfif>
+			<cfif this.webhookSecret neq "">
+				<cfset cmd.add("-H")>
+				<cfset cmd.add("X-SIF-Signature: " & signature)>
+			</cfif>
+			<cfset cmd.add("--data-binary")>
+			<cfset cmd.add("@" & bodyFile)>
+			<cfset cmd.add("-o")>
+			<cfset cmd.add(respFile)>
+			<cfset cmd.add("-w")>
+			<cfset cmd.add("%{http_code}")>
+			<cfset cmd.add(trim(this.webhookUrl) & "/api/webhooks/sif")>
 
-			<cfif httpResult.statusCode eq "200 OK">
+			<cfset var pb = createObject("java", "java.lang.ProcessBuilder").init(cmd)>
+			<cfset var proc = pb.start()>
+			<cfset var isr = createObject("java", "java.io.InputStreamReader").init(proc.getInputStream(), "UTF-8")>
+			<cfset var br = createObject("java", "java.io.BufferedReader").init(isr)>
+			<cfset var httpCodeStr = "">
+			<cfset var codeLine = br.readLine()>
+			<cfif len(trim(codeLine & ""))>
+				<cfset httpCodeStr = trim(codeLine)>
+			</cfif>
+			<cfset proc.waitFor()>
+			<cfset br.close()>
+
+			<cfset var respBody = "">
+			<cfif fileExists(respFile)>
+				<cffile action="read" file="#respFile#" variable="respBody" charset="utf-8">
+			</cfif>
+			<cfset result.responseData = respBody>
+
+			<cfif httpCodeStr eq "200">
+				<cfset result.responseCode = "200 OK">
 				<cfset result.success = true>
 				<cfset result.message = "Evento SIF enviado exitosamente">
 				<cfset logEvent("SUCCESS", "Evento '#arguments.eventType#' enviado")>
 			<cfelse>
-				<cfset result.message = "Error al enviar evento: #httpResult.statusCode# - #httpResult.fileContent#">
+				<cfif len(httpCodeStr)>
+					<cfset result.responseCode = httpCodeStr & " HTTP">
+				<cfelse>
+					<cfset result.responseCode = "0 ERROR">
+				</cfif>
+				<cfset result.message = "Error al enviar evento: #result.responseCode# - #respBody#">
 				<cfset logEvent("ERROR", result.message)>
 			</cfif>
-
 		<cfcatch type="any">
 			<cfset result.message = "Error de conexión: #cfcatch.message#">
 			<cfset logEvent("ERROR", result.message)>
 		</cfcatch>
+		<cffinally>
+			<cfif len(bodyFile) and fileExists(bodyFile)>
+				<cffile action="delete" file="#bodyFile#">
+			</cfif>
+			<cfif len(respFile) and fileExists(respFile)>
+				<cffile action="delete" file="#respFile#">
+			</cfif>
+		</cffinally>
 		</cftry>
 
 		<cfreturn result>
