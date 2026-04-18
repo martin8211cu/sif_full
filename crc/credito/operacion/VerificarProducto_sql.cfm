@@ -98,24 +98,24 @@ Creado por Jose Gutierrez
 											<cfswitch expression="#Trim(rsChequearProducto)#"> 
 
 												<cfcase value="EstadoCuenta"> 
-													<td nowrap align="left" width="10%"></strong>#LB_EdoCuenta#</td>
+													<td nowrap align="left" width="10%"><strong>#LB_EdoCuenta#</strong></td>
 													<td align="right">#trim(resultado[rsChequearProducto])#</td>
 												</cfcase>
 												<cfcase value="FechaExpiracion"> 
 													<cfif tipoTran eq "VC">
-														<td nowrap align="left" width="10%">#LB_FechExp#</td>
+														<td nowrap align="left" width="10%"><strong>#LB_FechExp#</strong></td>
 														<td align="right">#trim(resultado[rsChequearProducto])#</td>
 													</cfif>
 												</cfcase>
 												<cfcase value="ValorChequeBlanco"> 
 													<cfif tipoTran eq "VC">
-														<td nowrap align="left" width="10%">#LB_ValCheqBlanco#</td>
+														<td nowrap align="left" width="10%"><strong>#LB_ValCheqBlanco#</strong></td>
 														<td align="right">#NumberFormat(resultado[rsChequearProducto],"00.00")#</td>
 													</cfif>
 												</cfcase>
 												<cfcase value="PermiteContraVale"> 
 													<cfif tipoTran eq "VC">
-														<td nowrap align="left" width="10%">#LB_PermiteContraVale#</td>
+														<td nowrap align="left" width="10%"><strong>#LB_PermiteContraVale#</strong></td>
 														<td align="right">
 															<cfif #trim(resultado[rsChequearProducto])# eq 'S'>
 																SI
@@ -138,20 +138,20 @@ Creado por Jose Gutierrez
 													</cfif>
 												</cfcase>
 												<cfcase value="NombreTA"> 
-													<td nowrap align="left" width="10%">#LB_ClienteTA#</td>
+													<td nowrap align="left" width="10%"><strong>#LB_ClienteTA#</strong></td>
 													<td align="right">#trim(resultado[rsChequearProducto])#</td>
 												</cfcase>
 												 <cfcase value="MontoAprobadoTA"> 
-													<td nowrap align="left" width="10%">#LB_MntAprobTA#</td>
+													<td nowrap align="left" width="10%"><strong>#LB_MntAprobTA#</strong></td>
 													<td align="right">#trim(resultado[rsChequearProducto])#</td>
 												</cfcase>
 												<cfcase value="DISPONIBLE"> 
-													<td nowrap align="left" width="10%"></strong>#LB_Disponible#</td>
+													<td nowrap align="left" width="10%"><strong>#LB_Disponible#</strong></td>
 													<td align="right">#NumberFormat(resultado[rsChequearProducto],"00.00")#</td>
 												</cfcase>
 												<cfcase value="CODIGO"></cfcase>
 												<cfcase value="ANOTACIONES">
-													<td nowrap align="left" width="10%"></strong>ANOTACIONES</td>
+													<td nowrap align="left" width="10%"><strong>ANOTACIONES</strong></td>
 													<td align="left">
 														<cfset arrAnotaciones = ListToArray(resultado[rsChequearProducto],"|")>
 														<ul>
@@ -161,9 +161,25 @@ Creado por Jose Gutierrez
 														</ul>
 													</td>
 												</cfcase>
+												<cfcase value="RESERVADO">
+													<td nowrap align="left" width="10%">
+														<strong>
+															<cfif #trim(resultado[rsChequearProducto])# neq ''><span style="color:red;"></cfif>
+																RESERVADO
+															<cfif #trim(resultado[rsChequearProducto])# neq ''></span></cfif>
+														</strong>
+													</td>
+													<td align="right">
+														<cfif #trim(resultado[rsChequearProducto])# eq ''>
+															NO
+														<cfelse>
+															<span style="color:red;">SI</span>
+														</cfif>
+													</td>
+												</cfcase>
 												<cfcase value="FIRMA">
 													<cfif tipoTran eq "VC" and resultado[rsChequearProducto] neq "" and 1 eq 2> 
-														<td nowrap align="left" width="10%"></strong>FIRMA</td>
+														<td nowrap align="left" width="10%"><strong>FIRMA</strong></td>
 														<td align="right">
 															<cfset myImage = ImageReadBase64(resultado[rsChequearProducto])> 
 															<cfimage source="#myImage#" destination="signImage.png" action="writeToBrowser" height="75">

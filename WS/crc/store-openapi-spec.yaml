@@ -1,0 +1,211 @@
+openapi: 3.0.0
+info:
+  title: Store API
+  version: 1.0.0
+  description: API for voucher validation and checkout
+
+servers:
+  - url: http://localhost:8500/rest/crc/store
+    description: Local development server
+
+security:
+  - ApiKeyAuth: []
+  - SignatureAuth: []  # Optional
+
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+    SignatureAuth:
+      type: apiKey
+      in: header
+      name: X-Signature
+
+  schemas:
+    ValidateRequest:
+      type: object
+      required:
+        - voucher
+        - curp
+      properties:
+        voucher:
+          type: string
+          description: Voucher number
+        curp:
+          type: string
+          description: CURP identifier
+        amount:
+          type: number
+          description: Amount to validate (optional)
+
+    CheckoutRequest:
+      type: object
+      required:
+        - date
+        - amount
+        - voucher
+        - client
+        - partials
+        - curp
+      properties:
+        date:
+          type: string
+          format: date
+          description: Transaction date
+        amount:
+          type: number
+          description: Transaction amount
+        voucher:
+          type: string
+          description: Voucher number
+        client:
+          type: string
+          description: Client name
+        partials:
+          type: string
+          description: Partial payments
+        payment_date:
+          type: string
+          format: date
+          description: Payment start date (optional)
+        curp:
+          type: string
+          description: CURP identifier
+
+    ApiResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          type: object
+          description: Response data (present if success is true)
+        message:
+          type: string
+          description: Error message (present if success is false)
+
+    CheckoutResponse:
+      type: object
+      properties:
+        distribuidor:
+          type: string
+          description: Distributor name
+        cuenta:
+          type: string
+          description: Account number
+        cliente:
+          type: string
+          description: Client name
+        curp:
+          type: string
+          description: CURP identifier
+        folio:
+          type: string
+          description: Folio number
+        monto:
+          type: number
+          description: Amount
+        fecha:
+          type: string
+          format: date
+          description: Transaction date
+        parciales:
+          type: string
+          description: Partial payments configuration
+        fecha_inicio_pago:
+          type: string
+          format: date
+          description: Payment start date
+
+    ValidateResponse:
+      type: object
+      properties:
+        distribuidor:
+          type: string
+          description: Distributor name
+        cuenta:
+          type: string
+          description: Account number
+        cliente:
+          type: string
+          description: Client name
+        curp:
+          type: string
+          description: CURP identifier
+        folio:
+          type: string
+          description: Folio number
+        monto:
+          type: number
+          description: Amount
+        digital:
+          type: boolean
+          description: Whether it's a digital voucher
+        reservado:
+          type: boolean
+          description: Whether the voucher is already reserved
+
+paths:
+  /voucher/validate:
+    post:
+      summary: Validate a voucher
+      description: Validates a voucher with CURP and optional amount
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ValidateRequest'
+      responses:
+        '200':
+          description: Successful validation or validation error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    $ref: '#/components/schemas/ValidateResponse'
+                  message:
+                    type: string
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+
+  /voucher/checkout:
+    post:
+      summary: Checkout a voucher
+      description: Reserves a voucher for checkout
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CheckoutRequest'
+      responses:
+        '200':
+          description: Successful checkout or validation error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    $ref: '#/components/schemas/CheckoutResponse'
+                  message:
+                    type: string
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'

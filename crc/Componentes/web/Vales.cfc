@@ -164,4 +164,81 @@
         <cfset data = this.db.queryRowToStruct(qFolio, 1)>
         <cfreturn data>
     </cffunction>
+
+    <cffunction name="validaVale" access="public" returntype="struct">
+        <cfargument name="voucher"      required="true"  type="string">
+		<cfargument name="curp"         required="true"  type="string">
+		<cfargument name="digital"      required="false"  type="boolean" default=false>
+		<cfargument name="amount"      required="false"  type="numeric" default="0">     
+        
+        <cfset CRCChequearProducto = createObject("component","crc.Componentes.compra.CRCChequearProducto")>
+        <cfset CRCChequearProducto.init(this.dsn,this.ecodigo)>
+        <cfset qVale = CRCChequearProducto.chequearProducto(
+            Tipo_Transaccion="VC",
+            Num_Folio=arguments.voucher, 
+            digital=arguments.digital,
+            Monto=arguments.amount,
+            ChequearMonto=arguments.amount gt 0
+        )>
+        
+        <cfif isDefined("qVale.error")>
+            <cfthrow message="#qVale.mensaje#"/>
+        </cfif>
+        <cfif arguments.digital and UCASE(TRIM(qVale.CURP)) neq UCASE(TRIM(arguments.curp))>
+            <cfthrow message="CURP no coincide con el vale"/>
+        </cfif>
+        <cfif TRIM(qVale.Reservado) neq "">
+            <cfthrow message="Vale ya reservado"/>
+        </cfif>
+        <cfset result = structNew()>
+        <cfset result["distribuidor"] = qVale.Cliente>
+        <cfset result["cuenta"] = qVale.Cuenta>
+        <cfset result["cliente"] = qVale.ClienteVale>
+        <cfset result["curp"] = qVale.CURP>
+        <cfset result["folio"] = qVale.Folio>
+        <cfset result["monto"] = qVale.Monto>
+        <cfset result["digital"] = left(UCASE(TRIM(qVale.Lote)), 1) eq "W">
+        <cfset result["reservado"] = TRIM(qVale.Reservado) neq "">
+        <cfreturn result>
+    </cffunction>
+    
+    <cffunction name="reservaVale" access="public" returntype="struct">
+        <cfargument name="voucher"      required="true"  type="string">
+		<cfargument name="curp"         required="true"  type="string">
+		<cfargument name="date"         required="true"  type="string">
+		<cfargument name="partials"     required="true"  type="string">
+		<cfargument name="client"       required="true"  type="string">
+		<cfargument name="amount"       required="true"  type="numeric">     
+		<cfargument name="payment_date" required="false"  type="string">
+		<cfargument name="digital"      required="false"  type="boolean" default=false>
+        
+        <cfset qVale = this.validaVale(
+            voucher=arguments.voucher, 
+            curp=arguments.curp,
+            digital=arguments.digital,
+            amount=arguments.amount
+        )>
+
+        <cfset result = structNew()>
+        <cfset result["distribuidor"] = qVale.distribuidor>
+        <cfset result["cuenta"] = qVale.cuenta>
+        <cfset result["cliente"] = qVale.cliente>
+        <cfset result["curp"] = qVale.curp>
+        <cfset result["folio"] = qVale.folio>
+        <cfset result["monto"] = arguments.amount>
+        <cfset result["fecha"] = arguments.date>
+        <cfset result["parciales"] = arguments.partials>
+        <cfset result["fecha_inicio_pago"] = arguments.payment_date>
+        
+        <cfset reservado = serializeJSON(result)>
+
+        <cfquery name="qReserva" datasource="#this.DSN#">
+            update CRCControlFolio
+            set Reservado = '#reservado#'
+            where Ecodigo = '#this.ecodigo#' 
+                and Numero like '%#arguments.voucher#%'
+        </cfquery>
+
+        <cfreturn result>
+    </cffunction>
 </cfcomponent>

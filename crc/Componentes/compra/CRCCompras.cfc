@@ -43,6 +43,7 @@
 		<cfargument name="Cod_Tienda" 		required="false"  type="string">
 		<cfargument name="Num_Folio" 		required="false"  type="string">
 		<cfargument name="Num_Tarjeta"  	required="false"  type="string"> 
+		<cfargument name="digital"			required="false"  type="boolean" default=false>
 
 
 		<!-- buscar el identificador de la cuenta -->
@@ -63,7 +64,7 @@
 	 		<cfelse>
 
 	 			<!---  vale de un distribuidor de la tienda --->
-	 			<cfset rsCuenta =obCuentaVale(Num_Folio=arguments.Num_Folio)>
+	 			<cfset rsCuenta =obCuentaVale(Num_Folio=arguments.Num_Folio, digital=arguments.digital)>
 
 	 		</cfif>
 
@@ -174,11 +175,16 @@
 
 
 	<cffunction name="obCuentaVale" returntype="query"  hint="obtener cuenta por folio de un distribuidor interno o de la tienda">
-		<cfargument name="Num_Folio" required="yes"   type="string" >	
+		<cfargument name="Num_Folio" 	required="yes"   type="string" >	
+		<cfargument name="digital" 		required="false"   type="boolean" default=false>	
 
 		<cfquery name="rsCuenta" datasource="#This.DSN#">
 			SELECT c.ID, c.CRCEstatusCuentasid, ec.Orden, isnull(c.SaldoActual,0) as SaldoActual, c.MontoAprobado,
-				   c.SNegociosSNid, null AS TarjetaID, c.Tipo as TipoProducto ,f.Estado as EstadoFolio, sn.SNnombre, concat(sn.SNtelefono,isnull( concat(', ',sn.SNFax),0)) SNtelefono, ec.Descripcion EstatusCuenta, c.Numero as NumeroCuenta, f.FechaExpiracion, 0 as MontoTarjetaAdicional, sn.SNcodigo
+				   c.SNegociosSNid, null AS TarjetaID, c.Tipo as TipoProducto,
+				   f.Lote, f.Numero as Folio, f.Estado as EstadoFolio, f.Monto, f.Cliente as ClienteVale, f.CURP, f.Reservado,
+				   sn.SNnombre, concat(sn.SNtelefono,isnull( concat(', ',sn.SNFax),0)) SNtelefono,
+				   ec.Descripcion EstatusCuenta, c.Numero as NumeroCuenta, f.FechaExpiracion,
+				   0 as MontoTarjetaAdicional, sn.SNcodigo
 			FROM   CRCCuentas c 
 			INNER JOIN CRCEstatusCuentas ec
 			ON c.CRCEstatusCuentasid = ec.id
@@ -188,6 +194,9 @@
 			ON    sn.SNid  = c.SNegociosSNid
 			WHERE f.Numero = '#arguments.Num_Folio#'
 			and  c.Tipo = '#This.C_TP_DISTRIBUIDOR#'
+			<cfif arguments.digital>
+				and f.Lote like 'W%'
+			</cfif>
 		</cfquery>
 
 		<cfif rsCuenta.RecordCount eq 0>
@@ -259,6 +268,7 @@
 		<cfargument name="mensaje" type="string">
 
 		<cfset result = structNew()>
+		<cfset result.error  = true> 
 		<cfset result.codigo  = #arguments.codigo#> 
 		<cfset result.mensaje = #arguments.mensaje#> 
 		<cfreturn  result>

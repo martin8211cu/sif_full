@@ -53,6 +53,7 @@
 		<cfargument name="Monto" 			required="no"  type="string"  default="0">
 		<cfargument name="ChequearMonto"    required="no"  type="boolean" default=true>  
 		<cfargument name="incluirInfoTA"    required="no"  type="boolean" default=true>  
+		<cfargument name="digital"			required="no"  type="boolean" default=false>  
 
 
 			<cftry>
@@ -78,7 +79,9 @@
 		  										CodExtDist=#arguments.CodExtDist#,
 		  										Cod_Tienda=#arguments.Cod_Tienda#,
 		  										Num_Folio=#arguments.Num_Folio#,
-		  										Num_Tarjeta=#arguments.Num_Tarjeta#)>	
+		  										Num_Tarjeta=#arguments.Num_Tarjeta#,
+												digital=arguments.digital
+										)>	
 	  								 
 		 		<cfset validarCuenta(orden=#rsCuenta.orden#)> 
 		 		<cfset validarCuentaActivaParaCompra(orden=#rsCuenta.orden#)>  
@@ -175,6 +178,12 @@
 		 		<cfset result.porcientoSobreGiro = loc.cporcientoSobreGiro> 
 		 		<cfset result.Codigo      		 = This.C_CHEQUEO_OK>
 		 		<cfset result.Anotaciones        = anotaciones>
+				<cfif isDefined("rsCuenta.Reservado")><cfset result.Reservado = rsCuenta.Reservado></cfif>
+				<cfif isDefined("rsCuenta.ClienteVale")><cfset result.ClienteVale = rsCuenta.ClienteVale></cfif>
+				<cfif isDefined("rsCuenta.CURP")><cfset result.CURP = rsCuenta.CURP></cfif>
+				<cfif isDefined("rsCuenta.Lote")><cfset result.Lote = rsCuenta.Lote></cfif>
+				<cfif isDefined("rsCuenta.Folio")><cfset result.Folio = rsCuenta.Folio></cfif>
+				<cfif isDefined("rsCuenta.Monto")><cfset result.Monto = rsCuenta.Monto></cfif>
 		 		<cfset result.Mensaje    		 = "Operacion exitosa">
 
  
