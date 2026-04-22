@@ -226,7 +226,7 @@
                 <cfset articuloId = trim(arguments.articulo_id)>
             </cfif>
 
-            <cfquery name="qryPaymentPlans" datasource="#dsn#">
+            <cfquery name="qryPaymentPlans" datasource="ldcom">
                 SELECT
                     Rango_Id,
                     Vale_Id,
