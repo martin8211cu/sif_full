@@ -96,7 +96,6 @@
         <cftry>
             
             <cfif NOT validateApiKey()>
-                <cfheader statuscode="401">
                 <cfreturn {success: false, message: "Unauthorized: Invalid or missing X-API-Key"}>
             </cfif>
     
@@ -105,7 +104,6 @@
             <cfif structKeyExists(headers, "X-Signature")>
                 <cfset var payload = this.canonicalizePayload(arguments)>
                 <cfif NOT this.verifySignature(payload, headers["X-Signature"])>
-                    <cfheader statuscode="401">
                     <cfreturn {success: false, message: "Unauthorized: Invalid signature"}>
                 </cfif>
             </cfif>
@@ -141,7 +139,6 @@
         <cftry>
             
             <cfif NOT validateApiKey()>
-                <cfheader statuscode="401">
                 <cfreturn {success: false, message: "Unauthorized: Invalid or missing X-API-Key"}>
             </cfif>
     
@@ -150,7 +147,6 @@
             <cfif structKeyExists(headers, "X-Signature")>
                 <cfset var payload = canonicalizePayload(arguments.body)>
                 <cfif NOT verifySignature(payload, headers["X-Signature"])>
-                    <cfheader statuscode="401">
                     <cfreturn {success: false, message: "Unauthorized: Invalid signature"}>
                 </cfif>
             </cfif>
@@ -177,6 +173,106 @@
             )>
             
     
+            <cfreturn {success: true, data: data}>
+        <cfcatch>
+            <cfreturn {success: false, message: cfcatch.message}>
+        </cfcatch>
+        </cftry>
+	</cffunction>
+	
+	<cffunction name="paymentPlans" restPath="/payment-plans" access="remote" returnformat="JSON"  produces="application/json" httpMethod="GET" returntype="struct">
+        <cfargument name="monto" type="string" required="true" restArgSource="query">
+        <cfargument name="vale_id" type="string" required="false" default="" restArgSource="query">
+        <cfargument name="articulo_id" type="string" required="false" default="" restArgSource="query">
+        
+        <cftry>
+            <cfset var data = ArrayNew(1)>
+            <cfset var headers = getHTTPRequestData().headers>
+            <cfset var payloadData = structNew()>
+            <cfset var qryPaymentPlans = "">
+            <cfset var valeId = "">
+            <cfset var articuloId = "">
+            
+            <cfif NOT validateApiKey()>
+                <cfreturn {success: false, message: "Unauthorized: Invalid or missing X-API-Key"}>
+            </cfif>
+    
+            <!--- Verify signature (optional) --->
+            <cfset payloadData.monto = arguments.monto>
+            <cfif len(trim(arguments.vale_id))>
+                <cfset payloadData.vale_id = arguments.vale_id>
+            </cfif>
+            <cfif len(trim(arguments.articulo_id))>
+                <cfset payloadData.articulo_id = arguments.articulo_id>
+            </cfif>
+            <cfif structKeyExists(headers, "X-Signature")>
+                <cfset var payload = canonicalizePayload(payloadData)>
+                <cfif NOT verifySignature(payload, headers["X-Signature"])>
+                    <cfreturn {success: false, message: "Unauthorized: Invalid signature"}>
+                </cfif>
+            </cfif>
+
+            <cfif NOT len(trim(arguments.monto)) OR NOT isNumeric(arguments.monto)>
+                <cfreturn {success: false, message: "Invalid amount: 'monto' must be numeric"}>
+            </cfif>
+
+            <cfif len(trim(arguments.vale_id))>
+                <cfif NOT isNumeric(arguments.vale_id)>
+                    <cfreturn {success: false, message: "Invalid value: 'vale_id' must be numeric"}>
+                </cfif>
+                <cfset valeId = val(arguments.vale_id)>
+            </cfif>
+            <cfif len(trim(arguments.articulo_id))>
+                <cfset articuloId = trim(arguments.articulo_id)>
+            </cfif>
+
+            <cfquery name="qryPaymentPlans" datasource="#dsn#">
+                SELECT
+                    Rango_Id,
+                    Vale_Id,
+                    Vale_Inicio,
+                    Vale_Final,
+                    Vale_Numero_Pago,
+                    Vale_Porc_Interes,
+                    Vale_Fec_Actualizacion,
+                    Usuario_Id,
+                    Rango_Nombre,
+                    Rango_Fecha_Inicio,
+                    Rango_Fecha_Final,
+                    Rango_Siguente_Pago,
+                    Articulo_Id,
+                    Rango_Descuento
+                FROM Vale_Credito_Rango
+                WHERE 1 = 1
+                  AND <cfqueryparam value="#val(arguments.monto)#" cfsqltype="cf_sql_money"> BETWEEN Vale_Inicio AND Vale_Final
+                  <cfif len(valeId)>
+                    AND Vale_Id = <cfqueryparam value="#valeId#" cfsqltype="cf_sql_integer">
+                  </cfif>
+                  <cfif len(articuloId)>
+                    AND Articulo_Id = <cfqueryparam value="#articuloId#" cfsqltype="cf_sql_varchar">
+                  </cfif>
+                ORDER BY Vale_Id, Vale_Inicio, Vale_Numero_Pago
+            </cfquery>
+
+            <cfloop query="qryPaymentPlans">
+                <cfset var item = structNew()>
+                <cfset item["rango_id"] = qryPaymentPlans.Rango_Id>
+                <cfset item["vale_id"] = qryPaymentPlans.Vale_Id>
+                <cfset item["vale_inicio"] = qryPaymentPlans.Vale_Inicio>
+                <cfset item["vale_final"] = qryPaymentPlans.Vale_Final>
+                <cfset item["vale_numero_pago"] = qryPaymentPlans.Vale_Numero_Pago>
+                <cfset item["vale_porc_interes"] = qryPaymentPlans.Vale_Porc_Interes>
+                <cfset item["vale_fec_actualizacion"] = qryPaymentPlans.Vale_Fec_Actualizacion>
+                <cfset item["usuario_id"] = qryPaymentPlans.Usuario_Id>
+                <cfset item["rango_nombre"] = qryPaymentPlans.Rango_Nombre>
+                <cfset item["rango_fecha_inicio"] = qryPaymentPlans.Rango_Fecha_Inicio>
+                <cfset item["rango_fecha_final"] = qryPaymentPlans.Rango_Fecha_Final>
+                <cfset item["rango_siguente_pago"] = qryPaymentPlans.Rango_Siguente_Pago>
+                <cfset item["articulo_id"] = qryPaymentPlans.Articulo_Id>
+                <cfset item["rango_descuento"] = qryPaymentPlans.Rango_Descuento>
+                <cfset arrayAppend(data, item)>
+            </cfloop>
+
             <cfreturn {success: true, data: data}>
         <cfcatch>
             <cfreturn {success: false, message: cfcatch.message}>

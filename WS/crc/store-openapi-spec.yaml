@@ -2,7 +2,7 @@ openapi: 3.0.0
 info:
   title: Store API
   version: 1.0.0
-  description: API for voucher validation and checkout
+  description: API for voucher validation, checkout, and payment plans
 
 servers:
   - url: http://localhost:8500/rest/crc/store
@@ -147,6 +147,54 @@ components:
           type: boolean
           description: Whether the voucher is already reserved
 
+    PaymentPlanItem:
+      type: object
+      properties:
+        rango_id:
+          type: integer
+        vale_id:
+          type: integer
+        vale_inicio:
+          type: number
+        vale_final:
+          type: number
+        vale_numero_pago:
+          type: integer
+        vale_porc_interes:
+          type: number
+        vale_fec_actualizacion:
+          type: string
+          format: date-time
+        usuario_id:
+          type: integer
+        rango_nombre:
+          type: string
+        rango_fecha_inicio:
+          type: string
+          format: date-time
+        rango_fecha_final:
+          type: string
+          format: date-time
+        rango_siguente_pago:
+          type: string
+          format: date-time
+        articulo_id:
+          type: string
+        rango_descuento:
+          type: number
+
+    PaymentPlansResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/PaymentPlanItem'
+        message:
+          type: string
+
 paths:
   /voucher/validate:
     post:
@@ -203,6 +251,43 @@ paths:
                     $ref: '#/components/schemas/CheckoutResponse'
                   message:
                     type: string
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+
+  /payment-plans:
+    get:
+      summary: Get payment plans by amount
+      description: Returns payment plans from Vale_Credito_Rango filtered by amount and optional filters
+      parameters:
+        - name: monto
+          in: query
+          required: true
+          description: Amount used to match Vale_Inicio/Vale_Final ranges
+          schema:
+            type: number
+        - name: vale_id
+          in: query
+          required: false
+          description: Optional voucher type identifier
+          schema:
+            type: integer
+        - name: articulo_id
+          in: query
+          required: false
+          description: Optional article identifier
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful query
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentPlansResponse'
         '500':
           description: Internal server error
           content:
