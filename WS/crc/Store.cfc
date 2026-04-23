@@ -1,9 +1,29 @@
 <cfcomponent displayname="Tienda" rest="true" restPath="/store" produces="application/json">
     <cfset dsn     = "minisif">
 	<cfset ecodigo = 2>
-	<cfset apiKey  = "sk_YYP0H1isEXOOD8hkoKwqTjXzjyNhxPgo">
-	<cfset signatureSecret = "2VLNParYNDICJ8dwKUWUt6GvKbLoCNi5">
+	<cfset apiKey  = "">
+	<cfset signatureSecret = "">
 	
+
+    <cffunction name="getConfig" access="public" returntype="void" hint="Obtiene la configuración de la tienda">
+
+        <cfset objParams = createObject("component", "crc.Componentes.CRCParametros")>
+        <cfset enabled = objParams.getParametroInfo(codigo='30910001', conexion=dsn, ecodigo=ecodigo).Valor>
+        <cfset signatureSecret = objParams.getParametroInfo(codigo='30910002', conexion=dsn, ecodigo=ecodigo).Valor>
+        <cfset apiKey = objParams.getParametroInfo(codigo='30910003', conexion=dsn, ecodigo=ecodigo).Valor>
+
+		<cfif enabled neq "S">
+            <cfthrow message="Tienda deshabilitada">
+        </cfif>
+        <cfif signatureSecret eq "">
+            <cfthrow message="Secreto no configurado">
+        </cfif>
+        <cfif apiKey eq "">
+            <cfthrow message="API Key no configurada">
+        </cfif>
+        
+	</cffunction>
+
 	<cfset validateVoucherSchema = {
 		"required": ["voucher", "curp"],
 		"properties": {
@@ -95,6 +115,8 @@
         <cfargument name="body" type="struct" required="true">
         <cftry>
             
+            <cfset getConfig()>
+
             <cfif NOT validateApiKey()>
                 <cfreturn {success: false, message: "Unauthorized: Invalid or missing X-API-Key"}>
             </cfif>
@@ -138,6 +160,8 @@
         
         <cftry>
             
+            <cfset getConfig()>
+
             <cfif NOT validateApiKey()>
                 <cfreturn {success: false, message: "Unauthorized: Invalid or missing X-API-Key"}>
             </cfif>
@@ -193,6 +217,8 @@
             <cfset var valeId = "">
             <cfset var articuloId = "">
             
+            <cfset getConfig()>
+
             <cfif NOT validateApiKey()>
                 <cfreturn {success: false, message: "Unauthorized: Invalid or missing X-API-Key"}>
             </cfif>
