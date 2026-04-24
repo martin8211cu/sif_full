@@ -208,10 +208,11 @@
 		<cfargument name="date"         required="true"  type="string">
 		<cfargument name="partials"     required="true"  type="string">
 		<cfargument name="client"       required="true"  type="string">
+		<cfargument name="address"      required="true"  type="string">
 		<cfargument name="amount"       required="true"  type="numeric">     
 		<cfargument name="payment_date" required="false"  type="string">
 		<cfargument name="digital"      required="false"  type="boolean" default=false>
-        
+        <cfargument name="notes"        required="false"  type="string">
         <cfset qVale = this.validaVale(
             voucher=arguments.voucher, 
             curp=arguments.curp,
@@ -229,7 +230,8 @@
         <cfset result["fecha"] = arguments.date>
         <cfset result["parciales"] = arguments.partials>
         <cfset result["fecha_inicio_pago"] = arguments.payment_date>
-        
+        <cfset result["direccion"] = arguments.address>
+        <cfset result["notas"] = arguments.notes>
         <cfset reservado = serializeJSON(result)>
 
         <cfquery name="qReserva" datasource="#this.DSN#">

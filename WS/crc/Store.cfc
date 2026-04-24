@@ -34,15 +34,17 @@
 	}>
 	
 	<cfset checkoutVoucherSchema = {
-		"required": ["date", "amount", "voucher", "client", "partials", "payment_date", "curp"],
+		"required": ["date", "amount", "voucher", "client", "address","partials", "payment_date", "curp"],
 		"properties": {
 			"date": {"type": "string"},
 			"amount": {"type": "string"},
 			"voucher": {"type": "string"},
 			"client": {"type": "string"},
+			"address": {"type": "string"},
 			"partials": {"type": "string"},
 			"payment_date": {"type": "string"},
-			"curp": {"type": "string"}
+			"curp": {"type": "string"},
+            "notes": {"type": "string"}
 		}
 	}>
 
@@ -191,6 +193,8 @@
                 date=arguments.body.date,
                 partials=arguments.body.partials,
                 client=arguments.body.client,
+                address=arguments.body.address,
+                notes=arguments.body.notes,
                 amount=arguments.body.amount,
                 payment_date=arguments.body.payment_date,
                 digital=true
@@ -206,16 +210,12 @@
 	
 	<cffunction name="paymentPlans" restPath="/payment-plans" access="remote" returnformat="JSON"  produces="application/json" httpMethod="GET" returntype="struct">
         <cfargument name="monto" type="string" required="true" restArgSource="query">
-        <cfargument name="vale_id" type="string" required="false" default="" restArgSource="query">
-        <cfargument name="articulo_id" type="string" required="false" default="" restArgSource="query">
         
         <cftry>
             <cfset var data = ArrayNew(1)>
             <cfset var headers = getHTTPRequestData().headers>
             <cfset var payloadData = structNew()>
             <cfset var qryPaymentPlans = "">
-            <cfset var valeId = "">
-            <cfset var articuloId = "">
             
             <cfset getConfig()>
 
@@ -225,12 +225,6 @@
     
             <!--- Verify signature (optional) --->
             <cfset payloadData.monto = arguments.monto>
-            <cfif len(trim(arguments.vale_id))>
-                <cfset payloadData.vale_id = arguments.vale_id>
-            </cfif>
-            <cfif len(trim(arguments.articulo_id))>
-                <cfset payloadData.articulo_id = arguments.articulo_id>
-            </cfif>
             <cfif structKeyExists(headers, "X-Signature")>
                 <cfset var payload = canonicalizePayload(payloadData)>
                 <cfif NOT verifySignature(payload, headers["X-Signature"])>
@@ -248,11 +242,8 @@
                 </cfif>
                 <cfset valeId = val(arguments.vale_id)>
             </cfif>
-            <cfif len(trim(arguments.articulo_id))>
-                <cfset articuloId = trim(arguments.articulo_id)>
-            </cfif>
 
-            <cfquery name="qryPaymentPlans" datasource="ldcom">
+            <cfquery name="qryPaymentPlans" datasource="#dsn#">
                 SELECT
                     Rango_Id,
                     Vale_Id,
@@ -269,15 +260,11 @@
                     Articulo_Id,
                     Rango_Descuento
                 FROM Vale_Credito_Rango
-                WHERE 1 = 1
-                  AND <cfqueryparam value="#val(arguments.monto)#" cfsqltype="cf_sql_money"> BETWEEN Vale_Inicio AND Vale_Final
-                  <cfif len(valeId)>
-                    AND Vale_Id = <cfqueryparam value="#valeId#" cfsqltype="cf_sql_integer">
-                  </cfif>
-                  <cfif len(articuloId)>
-                    AND Articulo_Id = <cfqueryparam value="#articuloId#" cfsqltype="cf_sql_varchar">
-                  </cfif>
-                ORDER BY Vale_Id, Vale_Inicio, Vale_Numero_Pago
+                WHERE getdate() between Rango_Fecha_inicio and Rango_Fecha_final
+                  AND Vale_Inicio <= <cfqueryparam value="#val(arguments.monto)#" cfsqltype="cf_sql_money"> 
+                  AND Vale_final >=<cfqueryparam value="#val(arguments.monto)#" cfsqltype="cf_sql_money">
+                  AND Vale_Id = 1
+                ORDER BY Vale_Numero_Pago
             </cfquery>
 
             <cfloop query="qryPaymentPlans">
