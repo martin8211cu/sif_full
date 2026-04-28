@@ -162,18 +162,56 @@ Creado por Jose Gutierrez
 													</td>
 												</cfcase>
 												<cfcase value="RESERVADO">
-													<td nowrap align="left" width="10%">
+													<cfset reservadoRaw = trim(resultado[rsChequearProducto])>
+													<td nowrap align="left" valign="top" width="10%">
 														<strong>
-															<cfif #trim(resultado[rsChequearProducto])# neq ''><span style="color:red;"></cfif>
+															<cfif reservadoRaw neq ''><span style="color:red;"></cfif>
 																RESERVADO
-															<cfif #trim(resultado[rsChequearProducto])# neq ''></span></cfif>
+															<cfif reservadoRaw neq ''></span></cfif>
 														</strong>
 													</td>
-													<td align="right">
-														<cfif #trim(resultado[rsChequearProducto])# eq ''>
+													<td align="left">
+														<cfif reservadoRaw eq ''>
 															NO
 														<cfelse>
-															<span style="color:red;">SI</span>
+															<cfset reservadoObj = "">
+															<cfset reservadoIsJson = false>
+															<cftry>
+																<cfset reservadoObj = DeserializeJSON(reservadoRaw)>
+																<cfset reservadoIsJson = true>
+																<cfcatch>
+																	<cfset reservadoIsJson = false>
+																</cfcatch>
+															</cftry>
+
+															<cfif reservadoIsJson and isStruct(reservadoObj)>
+																<ul style="margin:0; padding-left:18px;">
+																	<cfloop collection="#reservadoObj#" item="reservadoKey">
+																		<cfset reservadoLabel = reReplace(reservadoKey, "([a-z0-9])([A-Z])", "\1 \2", "all")>
+																		<cfset reservadoLabel = replace(reservadoLabel, "_", " ", "all")>
+																		<cfset reservadoLabel = replace(reservadoLabel, "-", " ", "all")>
+																		<cfset reservadoLabel = reReplace(reservadoLabel, "\s+", " ", "all")>
+																		<cfset reservadoLabel = trim(reservadoLabel)>
+																		<cfset reservadoLabelWords = ListToArray(lCase(reservadoLabel), " ")>
+																		<cfset reservadoLabel = "">
+																		<cfloop array="#reservadoLabelWords#" index="reservadoLabelWord">
+																			<cfif reservadoLabelWord neq "">
+																				<cfset reservadoLabelWord = uCase(left(reservadoLabelWord, 1)) & mid(reservadoLabelWord, 2, len(reservadoLabelWord))>
+																				<cfset reservadoLabel = listAppend(reservadoLabel, reservadoLabelWord, " ")>
+																			</cfif>
+																		</cfloop>
+																		<li><strong>#HTMLEditFormat(reservadoLabel)#:</strong> #HTMLEditFormat(toString(reservadoObj[reservadoKey]))#</li>
+																	</cfloop>
+																</ul>
+															<cfelseif reservadoIsJson and isArray(reservadoObj)>
+																<ul style="margin:0; padding-left:18px;">
+																	<cfloop array="#reservadoObj#" index="reservadoItem">
+																		<li>#toString(reservadoItem)#</li>
+																	</cfloop>
+																</ul>
+															<cfelse>
+																<pre style="margin:0; white-space:pre-wrap; word-break:break-word;">#HTMLEditFormat(reservadoRaw)#</pre>
+															</cfif>
 														</cfif>
 													</td>
 												</cfcase>
