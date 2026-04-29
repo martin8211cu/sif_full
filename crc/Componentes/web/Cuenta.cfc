@@ -266,7 +266,7 @@
             <cfset datosPagos.CONVENIO = convenio>
 	        <cfset objBarcode = createObject("component","crc.Componentes.CRCBarcodeGenerator")>
             <cfset _ref = objBarcode.CreateRefBBVAD(NumCuenta="#q_infoCuenta.Numero#", FechaLimite=q_CortePago.fechafin -1)>
-            <cfset datosPagos.REFERENCIA = "#_ref#">
+            <cfset datosPagos.REFERENCIA = "REF-#_ref#">
             <cfset datosPagos.EMISOR_DEPOSITO = "#EmisorDeposito#">
             <cfset datosPagos.OXXO_BARRCODE_URL = "/crc/images/#q_infoCuenta.Numero#.jpg">
             <cfset corteData.OPCIONES_PAGO = datosPagos>
